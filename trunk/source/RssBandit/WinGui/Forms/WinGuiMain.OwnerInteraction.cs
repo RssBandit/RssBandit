@@ -1403,7 +1403,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase selectedNode = CurrentSelectedFeedsNode;
             if (selectedNode == null) return;
 
-			owner.BeginRefreshCategoryFeeds(FeedSourceOf(selectedNode), selectedNode.CategoryStoreName, forceRefresh);
+			owner.BeginRefreshCategoryFeeds(FeedSourceEntryOf(selectedNode), selectedNode.CategoryStoreName, forceRefresh);
         }
 
 
@@ -1503,7 +1503,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     case FeedNodeType.Feed:
                         {
-							INewsFeed f = owner.GetFeed(FeedSourceOf(tn), tn.DataKey);
+							INewsFeed f = owner.GetFeed(FeedSourceEntryOf(tn), tn.DataKey);
                             if (f != null)
                             {
                                 return f.category;
@@ -2190,7 +2190,7 @@ namespace RssBandit.WinGui.Forms
             if (CurrentSelectedFeedsNode != null && CurrentSelectedFeedsNode.AllowedChild(FeedNodeType.Category))
             {
                 TreeFeedsNodeBase curFeedsNode = CurrentSelectedFeedsNode;
-                FeedSourceEntry entry = FeedSourceOf(curFeedsNode); 
+                FeedSourceEntry entry = FeedSourceEntryOf(curFeedsNode); 
 
                 int i = 1;
                 string s = SR.GeneralNewItemText;
@@ -2251,7 +2251,7 @@ namespace RssBandit.WinGui.Forms
             TreeFeedsNodeBase selectedNode = startNode ?? CurrentSelectedFeedsNode;
 
             if (selectedNode == null) return;
-            FeedSourceEntry entry = FeedSourceOf(selectedNode); 
+            FeedSourceEntry entry = FeedSourceEntryOf(selectedNode); 
             INewsFeed f = null;
             if (selectedNode.Type == FeedNodeType.Feed)
             {
@@ -2953,7 +2953,7 @@ namespace RssBandit.WinGui.Forms
         public void SwitchPage(string pageType, bool go2nextPage)
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
-            FeedSourceEntry entry = FeedSourceOf(tn); 
+            FeedSourceEntry entry = FeedSourceEntryOf(tn); 
             if (tn == null || entry == null)
                 return;
 
@@ -3250,7 +3250,7 @@ namespace RssBandit.WinGui.Forms
                     TreeFeedsNodeBase refNode = lookupItem != null ? lookupItem.Node : null;
                     if (refNode == null)
                     {
-                        FeedSourceEntry entry = FeedSourceOf(feedurl); 
+                        FeedSourceEntry entry = FeedSourceEntryOf(feedurl); 
 
                         // corresponding node can be at any hierarchy level, or temporary (if commentRss)
                         if (entry != null)
@@ -3308,7 +3308,7 @@ namespace RssBandit.WinGui.Forms
 
             NewsFeedProperty changes = NewsFeedProperty.None;
 
-            FeedSourceEntry entry = FeedSourceOf(theNode); 
+            FeedSourceEntry entry = FeedSourceEntryOf(theNode); 
 
             if (theNode.Type == FeedNodeType.Feed)
             {
@@ -3483,7 +3483,7 @@ namespace RssBandit.WinGui.Forms
 			else
 				feedUrl = feedUri.AbsoluteUri; */
 
-            FeedSourceEntry entry = FeedSourceOf(feedUrl);
+            FeedSourceEntry entry = FeedSourceEntryOf(feedUrl);
 
             if (entry == null) //we couldn't find it's feed source
                 return; 
@@ -3513,7 +3513,7 @@ namespace RssBandit.WinGui.Forms
 
             string feedUrl = e.WebRequest.RequestUri.CanonicalizedUri();
 
-            FeedSourceEntry entry = FeedSourceOf(feedUrl);
+            FeedSourceEntry entry = FeedSourceEntryOf(feedUrl);
 
             if (entry == null) //we couldn't find it's feed source
                 return; 
