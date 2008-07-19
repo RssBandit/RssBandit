@@ -529,6 +529,7 @@ namespace NewsComponents
                 {
                     case DownloadTaskState.DownloadError:
                     case DownloadTaskState.Downloading:
+                    case DownloadTaskState.Pending:
                         task.Init(task.DownloadItem, this);
                         SubmitTaskAsync(task);
                         break;
@@ -665,6 +666,7 @@ namespace NewsComponents
                         }
                     case DownloadTaskState.DownloadError:
                     case DownloadTaskState.Downloading:
+                    case DownloadTaskState.Pending:
                         {
                             EndTask(task);
                           //  DownloadRegistryManager.Current.UnRegisterTask(task);
@@ -743,6 +745,7 @@ namespace NewsComponents
                 /* Move file to TargetFolder from temporary download location*/
                 FileHelper.MoveFile(fileLocation, finalLocation, MoveFileFlag.CopyAllowed | MoveFileFlag.ReplaceExisting);
 
+                e.Task.FileName = finalLocation;
                 /* Initiate callback to waiting callers */
                 if (DownloadCompleted != null)
                 {

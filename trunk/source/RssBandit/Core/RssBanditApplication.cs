@@ -3182,9 +3182,6 @@ namespace RssBandit
 						LoadFeedSourceSubscriptions(fs, false);
 					}
 
-					//resume pending enclosure downloads
-					fs.Source.ResumePendingDownloads();
-
 					RaiseFeedSourceSubscriptionsLoaded(fs);
 				
 				}//foreach
@@ -3196,6 +3193,13 @@ namespace RssBandit
 			} 
 			else
 			{
+                // Resume pending enclosure downloads
+
+                foreach(var fs in sourceManager.Sources)
+                {
+                    fs.Source.ResumePendingDownloads();
+                }
+
 				BeginLoadAllFeedSourcesSubscriptions();
 			}
 

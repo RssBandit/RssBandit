@@ -38,6 +38,11 @@ namespace NewsComponents.Net
 		/// <summary>
 		/// A new download was cancelled.
 		/// </summary>
-		Cancelled
+		Cancelled,
+
+        /// <summary>
+        /// Waiting to download
+        /// </summary>
+        Pending
 	}
 }
