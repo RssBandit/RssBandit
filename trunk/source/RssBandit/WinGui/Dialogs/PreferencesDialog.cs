@@ -37,9 +37,8 @@ namespace RssBandit.WinGui.Forms {
 	
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PreferencesDialog));
 		
-		private const string NgosDefaultLocation = "NewsGator Web Edition"; 
+		//private const string NgosDefaultLocation = "NewsGator Web Edition"; 
 
-		private readonly IServiceProvider serviceProvider;
 		private readonly Hashtable imageIndexMap = new Hashtable();
 		internal List<SearchEngine> searchEngines;
 		internal bool searchEnginesModified;
@@ -64,16 +63,12 @@ namespace RssBandit.WinGui.Forms {
 			this.linkLabel1.LinkClicked += OnAnyLinkLabel_LinkClicked;
 		}
 
-		internal PreferencesDialog(IServiceProvider provider):this() {
-			serviceProvider = provider;
-		}
-
-		internal PreferencesDialog(IServiceProvider provider, 
+		internal PreferencesDialog( 
 			int refreshRate, 
 			RssBanditPreferences prefs, 
 			SearchEngineHandler seHandler, 
 			IdentityNewsServerManager identityManager): 
-			this(provider) 
+			this() 
 		{
 		
 			this.identityManager = identityManager;
@@ -127,7 +122,7 @@ namespace RssBandit.WinGui.Forms {
 			this.comboFormatters.Items.Clear();
 				
 			if (Directory.Exists(tmplFolder)) {
-				ICoreApplication coreApp = (ICoreApplication)serviceProvider.GetService(typeof(ICoreApplication));
+				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 				IList tmplFiles = coreApp.GetItemFormatterStylesheets();
 				
 				if (tmplFiles.Count > 0) {	
@@ -236,7 +231,7 @@ namespace RssBandit.WinGui.Forms {
 			checkBrowserImagesAllowed.Checked = prefs.BrowserImagesAllowed;
 			
 			//set enclosure related settings 
-			ICoreApplication rssBanditApp = (ICoreApplication)serviceProvider.GetService(typeof(ICoreApplication));
+			ICoreApplication rssBanditApp = IoC.Resolve<ICoreApplication>();
 			textEnclosureDirectory.Text = rssBanditApp.EnclosureFolder; 
 			checkDownloadCreateFolderPerFeed.Checked = rssBanditApp.DownloadCreateFolderPerFeed;			
 			checkEnableEnclosureAlerts.Checked = rssBanditApp.EnableEnclosureAlerts;
@@ -433,21 +428,6 @@ namespace RssBandit.WinGui.Forms {
 
 		private void RefreshFontFamilySizeSample() {
 			this.lblUsedFontNameSize.Text = String.Format("{0}, {1} pt",  this.DefaultStateFont.Name, this.DefaultStateFont.Size);
-		}
-
-		public new object GetService(Type serviceType) {
-			
-			object srv = null;
-
-			if (serviceProvider != null) {
-				srv = serviceProvider.GetService(serviceType);
-				if (srv != null)
-					return srv;
-			}
-
-			//TODO: own services...?
-
-			return srv;
 		}
 
 		private void PopulateComboUserIdentityForComments(IDictionary<string, UserIdentity> identities, string defaultIdentity) {
@@ -1171,7 +1151,7 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		private void OnPodcastOptionsButtonClick(object sender, EventArgs e) {
-			ICoreApplication coreApp = (ICoreApplication)serviceProvider.GetService(typeof(ICoreApplication));
+			ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 			coreApp.ShowPodcastOptionsDialog(this, null);
 		}
 

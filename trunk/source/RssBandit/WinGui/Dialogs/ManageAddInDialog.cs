@@ -1,11 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
+
 
 using System;
 using System.Windows.Forms;
@@ -23,8 +25,7 @@ namespace RssBandit.WinGui.Dialogs
 	{
 
 		private readonly IAddInManager manager;
-		private readonly IServiceProvider serviceProvider;
-
+		
 		private System.Windows.Forms.Label lblAddInListCaption;
 		private System.Windows.Forms.ListView lstLoadedAddIns;
 		private System.Windows.Forms.ColumnHeader colName;
@@ -37,9 +38,9 @@ namespace RssBandit.WinGui.Dialogs
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private System.ComponentModel.Container components;
 
-		public ManageAddInDialog(IServiceProvider serviceProvider)
+		public ManageAddInDialog()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -50,8 +51,7 @@ namespace RssBandit.WinGui.Dialogs
 			// the IAddInPackageConfiguration interface
 			this.btnConfigure.Enabled = false;
 
-			this.serviceProvider = serviceProvider;
-			this.manager = (IAddInManager)serviceProvider.GetService(typeof(IAddInManager));
+			this.manager = IoC.Resolve<IAddInManager>();
 			this.PopulateAddInList(manager.AddIns);
 			
 			OnAddInListItemActivate(this, EventArgs.Empty);
@@ -339,7 +339,7 @@ namespace RssBandit.WinGui.Dialogs
 					IAddIn addIn = manager.Load(openFileDialog.FileName);
 					if (addIn != null) {
 						foreach (IAddInPackage package in addIn.AddInPackages) {
-							package.Load(this.serviceProvider);
+							package.Load(IoC.Resolve<IServiceProvider>());
 						}
 						ListViewItem item = this.lstLoadedAddIns.Items.Add(new ListViewItem(new string[]{addIn.Name, addIn.Location}));
 						item.Tag = addIn;
