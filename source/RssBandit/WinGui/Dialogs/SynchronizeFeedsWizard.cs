@@ -1,23 +1,25 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 using System;
-using System.Drawing;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using System.Windows.Forms;
 
 using Divelements.WizardFramework;
-using NewsComponents.Net;
 using RssBandit;
 using RssBandit.AppServices;
-using RssBandit.Common;
 using RssBandit.Resources;
-using RssBandit.WebSearch;
 using RssBandit.WinGui.Controls;
-using RssBandit.WinGui.Utility;
+
 
 using NewsComponents;
-using NewsComponents.Feed;
-using NewsComponents.Utils;
+
 
 namespace RssBandit.WinGui.Forms
 {
@@ -25,31 +27,12 @@ namespace RssBandit.WinGui.Forms
     /// <summary>
     /// SynchronizeFeedsWizard handles adding new FeedSources including Google Reader, Windows RSS platform and NewsGator Online.
     /// </summary>
-    internal class SynchronizeFeedsWizard : Form, IServiceProvider
+    internal class SynchronizeFeedsWizard : Form
     {
-        private enum WizardValidationTask
-        {
-            None,
-            InProgress,
-            Pending,
-            Success,
-            Failed,
-        }
 
-        /// <summary>
-        /// The new subscription - feed, if not null it is ready to be subscribed.
-        /// </summary>
-        internal NewsFeed Feed = null;
-
-        private readonly IServiceProvider serviceProvider;
         private readonly WindowSerializer windowSerializer;
         private IInternetService internetService;
-        private readonly ICoreApplication coreApplication;
-
-        private TimeSpan timeout = TimeSpan.Zero;	// no timeout
-        private DialogResult operationResult;
-        private AutoResetEvent waitHandle;
-      
+        
         #region Designer Form variables
 
         private CheckBox chkDisplayWelcome;
@@ -114,56 +97,27 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #region ctor's
-        private SynchronizeFeedsWizard()
+       
+        public SynchronizeFeedsWizard()
         {
-            //
-            // Required for Windows Form Designer support
-            //
-            InitializeComponent();           
-        }
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();    
 
-        public SynchronizeFeedsWizard(IServiceProvider provider): this()
-        {
-            //initialize wizard state
-            serviceProvider = provider;
-           
             // form location management:
             windowSerializer = new WindowSerializer(this);
             windowSerializer.SaveOnlyLocation = true;
             windowSerializer.SaveNoWindowState = true;
           
             // to get notified, if the inet connection state changes:
-            internetService = (IInternetService)this.GetService(typeof(IInternetService));
+            internetService = IoC.Resolve<IInternetService>();
             if (internetService != null)
             {
                 internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
             }
-            // to checkout the defaults to be used for the new feed:
-            IUserPreferences preferencesService = (IUserPreferences)this.GetService(typeof(IUserPreferences));
-            coreApplication = (ICoreApplication)this.GetService(typeof(ICoreApplication));         
-
+            
             this.wizard.SelectedPage = this.pageStartImport;
-        }
-
-        #endregion
-
-        #region IServiceProvider Members
-
-        public new object GetService(Type serviceType)
-        {
-
-            object srv = null;
-
-            if (serviceProvider != null)
-            {
-                srv = serviceProvider.GetService(serviceType);
-                if (srv != null)
-                    return srv;
-            }
-
-            //TODO: own services...?
-
-            return srv;
         }
 
         #endregion
@@ -382,17 +336,6 @@ namespace RssBandit.WinGui.Forms
         }
         #endregion
 
-   
-
-        private Image GetWizardTaskImage(WizardValidationTask task)
-        {
-            if (task == WizardValidationTask.None)
-                return null;
-            return Resource.LoadBitmap("Resources.WizardTask." + task.ToString() + ".png");
-        }
-          
-      
-
         /// <summary>
         /// Gets the feed credential user.
         /// </summary>
@@ -425,7 +368,6 @@ namespace RssBandit.WinGui.Forms
             }
             else
             {
-                this.operationResult = DialogResult.Cancel;
                 this.DialogResult = System.Windows.Forms.DialogResult.None;
             }
         }
@@ -437,19 +379,6 @@ namespace RssBandit.WinGui.Forms
         }
        
 
-        private void OnPageWelcome_BeforeDisplay(object sender, EventArgs e)
-        {
-          
-            // get the check value: display this page?
-            if (false == this.chkDisplayWelcome.Checked)
-            {
-                // move to next wizard page 
-                wizard.GoNext();
-            }
-        }
-
-     
-
         private void OnInternetServiceInternetConnectionStateChange(object sender, InternetConnectionStateChangeEventArgs e)
         {
             bool internetConnected = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
@@ -460,16 +389,6 @@ namespace RssBandit.WinGui.Forms
             this.DialogResult = DialogResult.OK;
             Close();
         }
-
-        private void OnFinishPage_BeforeDisplay(object sender, EventArgs e)
-        {
-            this._btnImmediateFinish.Visible = false;
-        }
-
-        private void OnFinishPage_BeforeMoveBack(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            this._btnImmediateFinish.Visible = true;
-        }       
 
         private void radioNewsGator_CheckedChanged(object sender, EventArgs e)
         {

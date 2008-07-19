@@ -3527,16 +3527,16 @@ namespace RssBandit.WinGui.Forms
 
             var temp = new Hashtable();
 
-            foreach (NewsItem item in items)
+            foreach (INewsItem item in items)
             {
-                FeedInfo fi;
+                IFeedDetails fi;
                 if (temp.ContainsKey(item.Feed.link))
                 {
-                    fi = (FeedInfo) temp[item.Feed.link];
+					fi = (IFeedDetails)temp[item.Feed.link];
                 }
                 else
                 {
-                    fi = (FeedInfo) item.FeedDetails.Clone();
+					fi = (IFeedDetails)item.FeedDetails.Clone();
                     fi.ItemsList.Clear();
                     temp.Add(item.Feed.link, fi);
                 }
@@ -3546,7 +3546,7 @@ namespace RssBandit.WinGui.Forms
             string category = feedsNode.CategoryStoreName;
             var redispItems = new FeedInfoList(category);
 
-            foreach (FeedInfo fi in temp.Values)
+			foreach (IFeedDetails fi in temp.Values)
             {
                 if (fi.ItemsList.Count > 0)
                     redispItems.Add(fi);

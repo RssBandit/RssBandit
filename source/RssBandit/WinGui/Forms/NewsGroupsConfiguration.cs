@@ -1,25 +1,10 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
- */
-#endregion
-
-#region CVS Version Log
-/*
- * $Log: NewsGroupsConfiguration.cs,v $
- * Revision 1.34  2007/05/15 21:37:04  carnage4life
- * Fixed issue where username and password for previous newsgroup was shown when browsing from a newsgroup with auth information to one without in Server Settings
- *
- * Revision 1.33  2007/01/11 15:07:54  t_rendelmann
- * IG assemblies replaced by hotfix versions; migrated last Sandbar toolbar usage to IG ultratoolbar
- *
- * Revision 1.32  2006/08/08 10:21:40  t_rendelmann
- * fixed: on explorer bar active bar changes the active view was not always active/populated with the selected subitem
- * fixed: on remove of a identity the assigned nntp server default identities are not touched (cleared, if it was the deleted identity)
- *
  */
 #endregion
 
@@ -58,7 +43,7 @@ namespace RssBandit.WinGui.Forms
 	/// <summary>
 	/// Summary description for NewsgroupsConfiguration.
 	/// </summary>
-	public class NewsgroupsConfiguration : System.Windows.Forms.Form
+	public class NewsgroupsConfiguration : Form
 	{
 		public event EventHandler DefinitionsModified;
 
@@ -2565,7 +2550,7 @@ namespace RssBandit.WinGui.Forms
 				NntpServerDefinition sd = GetSelectedNntpServerDefinition();
 				if (sd != null) 
 				{
-					ICoreApplication coreApp = (ICoreApplication)this.application.GetService(typeof(ICoreApplication));
+					ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 			
 					if (coreApp != null) 
 					{
