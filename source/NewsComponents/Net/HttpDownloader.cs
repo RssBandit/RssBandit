@@ -211,7 +211,7 @@ namespace NewsComponents.Net
         {
             if (isDisposing)
             {
-                if (currentTask.State == DownloadTaskState.Downloading)
+                if (currentTask.State == DownloadTaskState.Downloading || currentTask.State == DownloadTaskState.Pending)
                 {
                     try
                     {

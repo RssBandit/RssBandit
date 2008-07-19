@@ -33,10 +33,12 @@ namespace NewsComponents.Net
 
         private readonly DateTime _createDate;
 
+        private string _fileName;
+
         /// <summary>
         /// The status of the download task.
         /// </summary>
-        private DownloadTaskState state = DownloadTaskState.None;
+        private DownloadTaskState state = DownloadTaskState.Pending;
 
         #endregion
 
@@ -78,7 +80,9 @@ namespace NewsComponents.Net
                 DownloadFilesBase = info.InitialDownloadLocation;
                 DownloadItem.Init(info);
 
-                RaisePropertyChanged("FileName");
+                // Set a default name
+                if(FileName == null)
+                    FileName = Path.Combine(DownloadItem.TargetFolder, DownloadItem.File.LocalName);
             }
         }
 
@@ -131,7 +135,12 @@ namespace NewsComponents.Net
         {
             get
             {
-                return Path.Combine(DownloadItem.TargetFolder, DownloadItem.File.LocalName);
+                return _fileName;
+            }
+            set
+            {
+                _fileName = value;
+                RaisePropertyChanged("FileName");
             }
         }
 
@@ -239,6 +248,7 @@ namespace NewsComponents.Net
             TransferredSize = (long) reader.GetValue("_transferSize", typeof(long), 0);
             FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
             _createDate = TimeZoneInfo.ConvertTime((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
+            _fileName = (string)reader.GetValue("_fileName", typeof(string), null);
 
             if (reader.Contains("_downloadFilesBase"))
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
@@ -262,6 +272,7 @@ namespace NewsComponents.Net
             info.AddValue("_transferSize", TransferredSize);
             info.AddValue("_fileSize", FileSize);
             info.AddValue("_createDate", TimeZoneInfo.ConvertTimeToUtc(_createDate));
+            info.AddValue("_fileName", _fileName);
         }
 
         #endregion

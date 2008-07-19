@@ -59,6 +59,7 @@ namespace NewsComponents.Net
         private readonly Dictionary<string, DownloadTask> registry = new Dictionary<string, DownloadTask>();
 
         private readonly ObservableCollection<DownloadTask> _tasks = new ObservableCollection<DownloadTask>();
+        private readonly ReadOnlyObservableCollection<DownloadTask> _tasksRo;
 
         /// <summary>
         /// Indicates if the list of tasks is loaded
@@ -82,7 +83,7 @@ namespace NewsComponents.Net
         /// </summary>
         private DownloadRegistryManager()
         {
-            Tasks = new ReadOnlyObservableCollection<DownloadTask>(_tasks);
+            _tasksRo = new ReadOnlyObservableCollection<DownloadTask>(_tasks);
         }
 
         #endregion
@@ -117,9 +118,14 @@ namespace NewsComponents.Net
         /// </summary>
         public void Load()
         {
-            foreach (var fi in RootDir.GetFiles())
+            if (!loaded)
             {
-                LoadTask(fi.FullName);
+                foreach (var fi in RootDir.GetFiles())
+                {
+                    LoadTask(fi.FullName);
+                }
+
+                loaded = true;
             }
         }
 
@@ -145,7 +151,7 @@ namespace NewsComponents.Net
                 if (TasksDictionary.ContainsKey(task.DownloadItem.Enclosure.Url))
                 {
                     DownloadTask existingTask = TasksDictionary[task.DownloadItem.Enclosure.Url];
-                    return existingTask.State == DownloadTaskState.Downloading; 
+                    return existingTask.State == DownloadTaskState.Downloading || existingTask.State == DownloadTaskState.Pending; 
                 }
                 return false; 
             }
@@ -166,7 +172,7 @@ namespace NewsComponents.Net
                 }
                 else //change state to downloading because we are reattempting
                 {
-                    TasksDictionary[task.DownloadItem.Enclosure.Url].State = DownloadTaskState.Downloading; 
+                    TasksDictionary[task.DownloadItem.Enclosure.Url].State = DownloadTaskState.Pending; 
                 }
             }
             SaveTask(task);
@@ -184,6 +190,11 @@ namespace NewsComponents.Net
                 {
                     TasksDictionary.Remove(task.DownloadItem.Enclosure.Url);
                     RemoveTask(task);
+                    var disposable = task.Downloader as IDisposable;
+                    if (disposable != null)
+                    {
+                        disposable.Dispose();
+                    }
                 }
             }
             string fileName = Path.Combine(RootDir.FullName, task.TaskId + ".task");
@@ -289,9 +300,9 @@ namespace NewsComponents.Net
                         //always load all tasks. 
                         if (!registry.ContainsKey(task.DownloadItem.Enclosure.Url))
                         {
-                            // Revert to error if it was in a downloading state
+                            // Revert to pending if it was in a downloading state
                             if (task.State == DownloadTaskState.Downloading)
-                                task.State = DownloadTaskState.DownloadError; 
+                                task.State = DownloadTaskState.Pending; 
 
                             registry.Add(task.DownloadItem.Enclosure.Url, task);
                             AddTask(task);
@@ -356,19 +367,18 @@ namespace NewsComponents.Net
         {
             get
             {
-                if (!loaded)
-                {
-                    Load();
-                    loaded = true;
-                }
+                Load();
                 return registry;
             }
         }
 
         public ReadOnlyObservableCollection<DownloadTask> Tasks
         {
-            get;
-            private set;
+            get
+            {
+                Load();
+                return _tasksRo;
+            }
         }
 
         #endregion
