@@ -380,7 +380,7 @@ namespace RssBandit
 
             //make sure we have a direct access feed source
 			//DISCUSS: should we do so in the final release?
-			if (!sourceManager.Contains(SR.FeedNodeMyFeedsCaption))
+			if (BanditFeedSourceEntry == null)
 			{
 				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
 				// save the test enviroment:
@@ -388,7 +388,7 @@ namespace RssBandit
 			}
 
 			//TODO: remove, if all references got replaced:
-        	feedHandler = sourceManager[SR.FeedNodeMyFeedsCaption].Source;
+			feedHandler = BanditFeedSourceEntry.Source;
             
             commentFeedsHandler = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
