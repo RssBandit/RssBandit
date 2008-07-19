@@ -106,7 +106,8 @@ namespace RssBandit.WinGui.Forms
             navigatorHeaderHelper.ImageClick += OnNavigatorCollapseClick;
             Navigator.GroupClick += OnNavigatorGroupClick;
             Navigator.SelectedGroupChanging += OnNavigatorSelectedGroupChanging;
-			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;          
+			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;
+            Navigator.ShowDefaultContextMenu = false;  
 			if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
             {
                 //ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
