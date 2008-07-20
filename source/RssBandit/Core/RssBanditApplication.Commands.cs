@@ -979,23 +979,31 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdExportFeeds(ICommand sender)
         {
+            var sourcesNnodes = new Dictionary<FeedSourceEntry, TreeFeedsNodeBase>();
+
+            foreach (FeedSourceEntry entry in sourceManager.GetOrderedFeedSources())
+            {
+                sourcesNnodes.Add(entry, guiMain.GetSubscriptionRootNode(entry)); 
+            }
+            
             ExportFeedsDialog dialog =
-                new ExportFeedsDialog(guiMain.GetRoot(RootFolderType.MyFeeds), Preferences.NormalFont,
+                new ExportFeedsDialog(sourcesNnodes, guiMain.CurrentSelectedFeedSource,  Preferences.NormalFont,
                                       guiMain.TreeImageList);
             if (DialogResult.OK == dialog.ShowDialog(guiMain))
             {
                 SaveFileDialog sfd = new SaveFileDialog();
 
+                FeedSourceEntry entry = sourceManager[dialog.FeedSource]; 
                 ArrayList selections = dialog.GetSelectedFeedUrls();
                 IDictionary<string, INewsFeed> fc = new SortedDictionary<string, INewsFeed>();
                 foreach (string url in selections)
                 {
-                    if (feedHandler.IsSubscribed(url))
-                        fc.Add(url, feedHandler.GetFeeds()[url]);
+                    if (entry.Source.IsSubscribed(url))
+                        fc.Add(url, entry.Source.GetFeeds()[url]);
                 }
 
                 if (fc.Count == 0)
-                    fc = feedHandler.GetFeeds();
+                    fc = entry.Source.GetFeeds();
 
                 bool includeEmptyCategories = false;
                 FeedListFormat format = FeedListFormat.OPML;
@@ -1029,7 +1037,7 @@ namespace RssBandit
                     {
 						using (Stream myStream = sfd.OpenFile())
                         {
-                            feedHandler.SaveFeedList(myStream, format, fc, includeEmptyCategories);
+                            entry.Source.SaveFeedList(myStream, format, fc, includeEmptyCategories);
                             myStream.Close();
                         }
                     }
