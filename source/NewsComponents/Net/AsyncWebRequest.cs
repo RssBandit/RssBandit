@@ -328,7 +328,13 @@ namespace NewsComponents.Net
                     httpRequest.Credentials = requestParameter.Credentials;
                 }
 
-                if (requestParameter.SetCookies)
+				if (requestParameter.ClientCertificate != null)
+				{
+					httpRequest.ClientCertificates.Add(requestParameter.ClientCertificate);
+					httpRequest.Timeout *= 2;	// double the timeout (SSL && Client Certs used!)
+				}
+
+            	if (requestParameter.SetCookies)
                 {
                     HttpCookieManager.SetCookies(httpRequest);
                 }
@@ -777,14 +783,21 @@ namespace NewsComponents.Net
                             }
                         }
                     }
+					else if (IsAccessForbidden(httpResponse.StatusCode) &&
+						state.InitialRequestUri.Scheme == "https")
+					{
+						throw new ClientCertificateRequiredException();
+					}
                     else if (httpResponse.StatusCode == HttpStatusCode.Gone)
                     {
                         throw new ResourceGoneException();
                     }
                     else
                     {
-                        string statusCode = httpResponse.StatusCode.ToString();
-                        
+						string statusCode = httpResponse.StatusDescription;
+						if (String.IsNullOrEmpty(statusCode))
+							statusCode = httpResponse.StatusCode.ToString();
+
                         string statusMessage = null;
                         try { 
                             statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd(); 
@@ -1114,6 +1127,21 @@ namespace NewsComponents.Net
                 return true;
             return false;
         }
+
+		/// <summary>
+		/// Helper method determines whether the response requires a client certificate.
+		/// </summary>
+		/// <param name="statusCode">The status code.</param>
+		/// <returns>
+		/// 	<c>true</c> if a client certificate is required for the specified response; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsAccessForbidden(HttpStatusCode statusCode)
+		{
+			if (statusCode == HttpStatusCode.Forbidden)
+					return true;
+			
+			return false;
+		}
 
         /// <summary>
         /// Can be called synchronized to get a HttpWebResponse.
@@ -1512,7 +1540,7 @@ namespace NewsComponents.Net
 
             newAddress = null;
 
-            send_request:
+send_request:
 
             string requestUri = address;
             if (useDefaultCred)
@@ -1572,14 +1600,21 @@ namespace NewsComponents.Net
             			goto send_request;
             		}
             	}
-            	else if (response.StatusCode == HttpStatusCode.Gone)
+				else if (IsAccessForbidden(response.StatusCode) &&
+						requestUri.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+				{
+					throw new ClientCertificateRequiredException();
+				}
+				else if (response.StatusCode == HttpStatusCode.Gone)
             	{
             		throw new ResourceGoneException();
             	}
             	else
             	{
-            		string statusCode = response.StatusCode.ToString();
-            		response.Close();
+					string statusCode = response.StatusDescription;
+					if (String.IsNullOrEmpty(statusCode))
+						statusCode = response.StatusCode.ToString();
+					response.Close();
             		throw new WebException(String.Format("Request of '{0}' gets unexpected HTTP response: {1}" , requestUri, statusCode));
             	}
 
@@ -1591,8 +1626,10 @@ namespace NewsComponents.Net
                 }
 
                 //we got a moved, redirect more than MaxRetries
-                string returnCode = response.StatusCode.ToString();
-                response.Close();
+				string returnCode = response.StatusDescription;
+				if (String.IsNullOrEmpty(returnCode))
+					returnCode = response.StatusCode.ToString(); 
+				response.Close();
 				throw new WebException(String.Format("Request of '{0}' gets repeated HTTP response: {1}", requestUri, returnCode));
             }
         	

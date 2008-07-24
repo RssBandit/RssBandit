@@ -8,6 +8,20 @@ using NewsComponents.Resources;
 namespace NewsComponents.Net
 {
 	/// <summary>
+	/// ClientCertificateRequiredException is raised if a HTTPS request results in a statuscode 403.
+	/// </summary>
+	[ComVisible(false)]
+	public class ClientCertificateRequiredException : WebException
+	{
+		/// <summary></summary>
+		public ClientCertificateRequiredException() : base(ComponentsText.ExceptionClientCertificateRequired) { }
+		/// <summary></summary>
+		public ClientCertificateRequiredException(string message) : base(message) { }
+		/// <summary></summary>
+		public ClientCertificateRequiredException(string message, Exception innerException) : base(message, innerException) { }
+	}
+
+	/// <summary>
 	/// ResourceAuthorizationException is raised if a HTTP request results in a statuscode 401.
 	/// </summary>
 	[ComVisible(false)]
