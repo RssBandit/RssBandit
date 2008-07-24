@@ -96,154 +96,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-<data name="button2.Text">
-    <value>취소</value>
+<data name="label2.Text">
+    <value>&amp;URL 혹은 파일</value>
   </data>
-	<data name="button1.Text">
+	<data name="textUrlOrFile.ToolTip">
+    <value>지원되는 포멧은 OCS, OPML, Bandit feedlist... 등등 입니다</value>
+  </data>
+	<data name="btnOk.Text">
     <value>&amp;확인</value>
   </data>
-	<data name="label2.Text">
-    <value>&amp;웹 주소(Url)</value>
+	<data name="btnOk.ToolTip">
+    <value>완료. 현재 가져오는 중입니다...</value>
   </data>
-	<data name="label1.Text">
-    <value>&amp;제목</value>
+	<data name="btnCancel.Text">
+    <value>취소</value>
   </data>
-	<data name="label5.Text">
-    <value>&amp;카테고리</value>
+	<data name="btnSelectFile.Text">
+    <value>열람하기 ...</value>
   </data>
-	<data name="comboMaxItemAge.Items">
-    <value>1 일</value>
+	<data name="btnSelectFile.ToolTip">
+    <value>파일시스템에 있는 파일을 검색 하기 </value>
   </data>
-	<data name="comboMaxItemAge.Items1">
-    <value>2 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items2">
-    <value>3 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items3">
-    <value>4 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items4">
-    <value>5 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items5">
-    <value>6 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items6">
-    <value>7 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items7">
-    <value>2 주</value>
-  </data>
-	<data name="comboMaxItemAge.Items8">
-    <value>3 주</value>
-  </data>
-	<data name="comboMaxItemAge.Items9">
-    <value>1 달</value>
-  </data>
-	<data name="comboMaxItemAge.Items10">
-    <value>2 달</value>
-  </data>
-	<data name="comboMaxItemAge.Items11">
-    <value>3 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items12">
-    <value>6 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items13">
-    <value>9 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items14">
-    <value>1 년</value>
-  </data>
-	<data name="comboMaxItemAge.Items15">
-    <value>무제한</value>
-  </data>
-	<data name="comboMaxItemAge.ToolTip">
-    <value>케쉬된 아이템을 저장하기 위해서 최대 아이템 기간을 선택해 주세요</value>
-  </data>
-	<data name="tabItemControl.Text">
-    <value>아이템 제어</value>
-  </data>
-	<data name="label4.Text">
-    <value>업데이트  &amp;빈도수:</value>
+	<data name="comboCategory.ToolTip">
+    <value>카테고리 하나를 선택 하거나 여러분의 예약 구독들중에 있는 새로운 피드(feeds)중 새로운 것으로 제공합니다.</value>
   </data>
 	<data name="label3.Text">
-    <value>분</value>
-  </data>
-	<data name="comboBox1.Items">
-    <value>0</value>
-  </data>
-	<data name="comboBox1.Items1">
-    <value>15</value>
-  </data>
-	<data name="comboBox1.Items2">
-    <value>30</value>
-  </data>
-	<data name="comboBox1.Items3">
-    <value>45</value>
-  </data>
-	<data name="comboBox1.Items4">
-    <value>60</value>
-  </data>
-	<data name="comboBox1.Items5">
-    <value>75</value>
-  </data>
-	<data name="comboBox1.Items6">
-    <value>90</value>
-  </data>
-	<data name="comboBox1.Items7">
-    <value>105</value>
-  </data>
-	<data name="comboBox1.Items8">
-    <value>120</value>
-  </data>
-	<data name="label15.Text">
-    <value>아래 보다 오래된 아이템 제거:</value>
-  </data>
-	<data name="tabAuthentication.Text">
-    <value>인증</value>
-  </data>
-	<data name="label7.Text">
-    <value>&amp;비밀번호</value>
-  </data>
-	<data name="label6.Text">
-    <value>사용자&amp;이름</value>
-  </data>
-	<data name="tabDisplay.Text">
-    <value>디스플레이</value>
-  </data>
-	<data name="comboFormatters.ToolTip">
-    <value>스타일시트 포멧터(formatter)를 선택 해 주세요</value>
-  </data>
-	<data name="checkCustomFormatter.Text">
-    <value>&amp;원하시는 포멧터(formatter)를 사용하기</value>
-  </data>
-	<data name="checkCustomFormatter.ToolTip">
-    <value>원하시는 포멧터(formatter) 사용하시려면 이 옵션을 선택하여 주세요</value>
-  </data>
-	<data name="labelFormatters.Text">
-    <value>&amp;스타일시트 포멧터(Formatter):</value>
-  </data>
-	<data name="label9.Text">
-    <value>디폴트 형식을 사용하시거나 임의의 XSLT 포멧터(formatter)를 사용해 주세요.</value>
-  </data>
-	<data name="tabAttachments.Text">
-    <value>첨부파일/팟케스트(Attachments/Podcasts)</value>
-  </data>
-	<data name="checkDownloadEnclosures.Text">
-    <value>자동으로 새로 다운 받은 첨부 파일과 팟케스트를 다운로드 합니다</value>
-  </data>
-	<data name="checkEnableEnclosureA다rts.Text">
-    <value>&amp;자동으로 새롭게 다운로드한 첨부파일과 팟케스트를 윈도우 알림 기능을 시작 합니다</value>
-  </data>
-	<data name="checkEnableAlerts.Text">
-    <value>&amp;새로운 아이템을 위해서 윈도우에 알림을 시작합니다</value>
-  </data>
-	<data name="checkMarkItemsReadOnExit.Text">
-    <value>&amp;기존에 존재하는 피드(Feed)를 이미 읽음으로 표시 합니다 </value>
+    <value>&amp;카테고리로</value>
   </data>
 	<data name="$this.Text">
-    <value>피드(Feed) 설정</value>
+    <value>피드(Feed)를 다음의 장소로 부터 가져 오기</value>
+  </data>
+	<data name="comboFeedSource.ToolTip" space="preserve">
+    <value>카테고리 하나를 선택 하거나 여러분의 예약 구독들중에 있는 새로운 피드(feeds)중 새로운 것으로 제공합니다s</value>
+  </data>
+	<data name="label1.Text" space="preserve">
+    <value>&amp;피드(Feed) 소스에는</value>
   </data>
 	</root>
