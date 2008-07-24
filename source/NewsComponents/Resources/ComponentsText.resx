@@ -180,4 +180,7 @@
   <data name="ExceptionResourceGone" xml:space="preserve">
     <value>The requested resource is not longer available (HTTP status 410)</value>
   </data>
+  <data name="ExceptionClientCertificateRequired" xml:space="preserve">
+    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
+  </data>
 </root>

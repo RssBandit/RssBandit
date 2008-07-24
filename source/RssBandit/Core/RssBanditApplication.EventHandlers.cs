@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
@@ -324,7 +325,24 @@ namespace RssBandit
 			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
 			InvokeOnGui(delegate
                             {
-                                WebException webex = e.ExceptionThrown as WebException;
+                                if (e.ExceptionThrown.InnerException is ClientCertificateRequiredException)
+                                {
+									//TODO: (code here just for debugging), but should be moved to FeedProperties dialog:
+                                	X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                                	store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadWrite);
+                                	X509Certificate2Collection fcollection = store.Certificates;
+                                	X509Certificate2Collection collection =
+                                		X509Certificate2UI.SelectFromCollection(
+                                			fcollection, "Select an X509 Certificate", String.Format("The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.", e.FeedUri),
+                                			X509SelectionFlag.SingleSelection);
+									if (collection.Count > 0)
+									{
+										GetFeed(entry, e.FeedUri).certificateId = collection[0].Thumbprint;
+										SubscriptionModified(entry, NewsFeedProperty.FeedCredentials);
+									}
+                                }
+
+								WebException webex = e.ExceptionThrown as WebException;
                                 if (webex != null)
                                 {
                                     // yes, WebException

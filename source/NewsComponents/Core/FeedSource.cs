@@ -45,6 +45,7 @@ using NewsComponents.Utils;
 using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
+using System.Security.Cryptography.X509Certificates;
 
 #endregion
 
@@ -444,6 +445,12 @@ namespace NewsComponents
         /// </summary>
         protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
 
+		/// <summary>
+		/// Client certificates cache for feeds
+		/// </summary>
+		protected IDictionary<string, X509Certificate2> certCache = new Dictionary<string, X509Certificate2>(3); 
+		
+		//TODO: move that to BanditFeedSource:
         /// <summary>
         /// Collection contains UserIdentity objects.
         /// Keys are the UserIdentity.Name's
@@ -4382,6 +4389,8 @@ namespace NewsComponents
                     RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = SetCookies;
+				// assign any client certificate attached to a feed:
+            	reqParam.ClientCertificate = GetClientCertificate(theFeed);
 
                 AsyncWebRequest.QueueRequest(reqParam,
                                              null,
@@ -4400,10 +4409,90 @@ namespace NewsComponents
             return requestQueued;
         }
 
-        //no really used,...:
-        //		private void OnRequestQueued(Uri requestUri, int priority) {
-        //			//Trace.WriteLineIf(TraceMode, "Queued: '"+ requestUri.ToString() + "', with Priority '" + priority.ToString()+ "'...", "AsyncRequest");
-        //		}
+		/// <summary>
+		/// Gets the client certificate for a feed.
+		/// </summary>
+		/// <param name="feed">The feed.</param>
+		/// <returns></returns>
+		public X509Certificate2 GetClientCertificate(INewsFeed feed)
+		{
+			if (feed == null || string.IsNullOrEmpty(feed.certificateId))
+				return null;
+			X509Certificate2 cert;
+			if (certCache.TryGetValue(feed.certificateId, out cert))
+				return cert;
+			
+			X509Store store = null;
+			try
+			{
+				store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+				store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+				cert = store.Certificates.Cast<X509Certificate2>().FirstOrDefault(
+					c =>
+					{
+						return c.Thumbprint ==
+							   feed.certificateId;
+					});
+
+				store.Close();
+
+				if (cert != null && !certCache.ContainsKey(feed.certificateId))
+					lock (certCache)
+					{
+						if (!certCache.ContainsKey(feed.certificateId))
+							certCache.Add(feed.certificateId, cert);
+					}
+
+				return cert;
+			}
+			catch (Exception ex)
+			{
+				_log.Error("Error reading X509Store", ex);
+			}
+			finally
+			{
+				if (store != null)
+					store.Close();
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Sets the client certificate at a feed.
+		/// </summary>
+		/// <param name="feed">The feed.</param>
+		/// <param name="certificate">The certificate.</param>
+		public void SetClientCertificate(INewsFeed feed, X509Certificate2 certificate)
+		{
+			if (feed == null )
+				return;
+
+			if (!string.IsNullOrEmpty(feed.certificateId))
+			{
+				// always remove and reset:
+				if (certCache.ContainsKey(feed.certificateId))
+					lock (certCache)
+					{
+						if (certCache.ContainsKey(feed.certificateId))
+							certCache.Remove(feed.certificateId);
+					}
+				feed.certificateId = null;
+			}
+
+			if (certificate != null)
+			{
+				// assign new:
+				feed.certificateId = certificate.Thumbprint;
+				if (!certCache.ContainsKey(feed.certificateId))
+					lock (certCache)
+					{
+						if (!certCache.ContainsKey(feed.certificateId))
+							certCache.Add(feed.certificateId, certificate);
+					}
+			}
+
+		}
 
         /// <summary>
         /// Called when a network request has been made to start downloading a feed. 

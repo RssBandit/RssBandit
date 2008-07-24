@@ -52,7 +52,18 @@ namespace NewsComponents.Feed
 
         DateTime lastmodified { get; set; }
         bool lastmodifiedSpecified { get; set; }
-        string authUser { get; set; }
+
+		/// <summary>
+		/// Gets or sets the certificate id.
+		/// </summary>
+		/// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
+		/// <value>The certificate id.</value>
+		string certificateId { get; set; }
+		/// <summary>
+		/// Gets or sets the auth user.
+		/// </summary>
+		/// <value>The auth user.</value>
+		string authUser { get; set; }
         Byte[] authPassword { get; set; }
 		//string listviewlayout { get; set; }
 
