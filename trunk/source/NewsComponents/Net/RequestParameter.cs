@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NewsComponents.Net
 {
@@ -218,7 +219,12 @@ namespace NewsComponents.Net
         /// Additional HTTP headers that should be sent. 
         /// </summary>
         public WebHeaderCollection Headers { get; set; }
-		
+
+		/// <summary>
+		/// Gets or sets the client certificate.
+		/// </summary>
+		/// <value>The client certificate.</value>
+		public X509Certificate2 ClientCertificate { get; set; }
 		#endregion
 	}
 }

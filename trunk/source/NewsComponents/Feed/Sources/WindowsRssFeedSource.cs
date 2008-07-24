@@ -2943,6 +2943,10 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public bool lastmodifiedSpecified { get { return true; } set { } }
 
+		/// <remarks>Not supported by this object</remarks>
+		[XmlElement("certificate-id")]
+		public string certificateId { get { return null; } set { } }
+
         /// <remarks>Not supported by this object</remarks>
         [XmlElement("auth-user")]
         public string authUser { get { return null; } set { } }

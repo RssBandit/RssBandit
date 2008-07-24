@@ -850,8 +850,10 @@ namespace NewsComponents.Feed
                 this.enclosurealertSpecified = feedtoclone.enclosurealertSpecified;
                 this.alertEnabled = feedtoclone.alertEnabled;
                 this.alertEnabledSpecified = feedtoclone.alertEnabledSpecified;
-                this.Any = feedtoclone.Any;
-                this.AnyAttr = feedtoclone.AnyAttr;
+				this.Any = new XmlElement[feedtoclone.Any.Length];
+				feedtoclone.Any.CopyTo(this.Any, 0);
+				this.AnyAttr = new XmlAttribute[feedtoclone.AnyAttr.Length];
+				feedtoclone.AnyAttr.CopyTo(this.AnyAttr, 0);
             }
         }
 
@@ -859,7 +861,7 @@ namespace NewsComponents.Feed
 
         #region INewsFeed implementation
 
-        protected string _title = null; 
+        protected string _title; 
         /// <remarks/>
         public virtual string title {
             get
@@ -877,7 +879,7 @@ namespace NewsComponents.Feed
             }
         }
 
-        protected string _link = null; 
+        protected string _link; 
         /// <remarks/>
         [XmlElement(DataType = "anyURI")]
         public virtual string link
@@ -1012,7 +1014,11 @@ namespace NewsComponents.Feed
         /// <remarks/>
         [XmlIgnore]
         public virtual bool lastmodifiedSpecified { get; set; }
-        
+
+		/// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
+		[XmlElement("certificate-id")]
+		public virtual string certificateId { get; set; }
+
         /// <remarks/>
         [XmlElement("auth-user")]
         public virtual string authUser { get; set; }
@@ -1162,17 +1168,14 @@ namespace NewsComponents.Feed
             
             get
             {
-                if (this.categories != null && this.categories.Count > 0)
+            	if (this.categories != null && this.categories.Count > 0)
                 {
                     return categories[0]; 
                 }
-                else
-                {
-                    return null;
-                }
+            	return null;
             }
 
-            set
+        	set
             {
                 this.categories.Clear(); 
 
