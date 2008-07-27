@@ -1,13 +1,13 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
+
 
 using System;
 using System.Collections;
@@ -17,6 +17,7 @@ using System.Text;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
+using RssBandit.AppServices;
 using RssBandit.SpecialFeeds;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
@@ -55,8 +56,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
+			if (p_popup != null)
+				p_popup.TrackPopup(screenPos);
 			*/
         }
 
@@ -104,8 +105,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
+			if (p_popup != null)
+				p_popup.TrackPopup(screenPos);
 			*/
         }
 
@@ -154,8 +155,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			if (_popup != null)
-				_popup.TrackPopup(screenPos);
+			if (p_popup != null)
+				p_popup.TrackPopup(screenPos);
 			*/
         }
 
@@ -203,8 +204,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
@@ -261,7 +262,7 @@ namespace RssBandit.WinGui.Controls
         {
         }
 
-        public override void Remove(INewsItem item)
+        protected override void Remove(INewsItem item)
         {
             base.Remove(item);
             UpdateCommentStatus(this, -1);
@@ -284,7 +285,7 @@ namespace RssBandit.WinGui.Controls
 
         #region Overrides of ISmartFolder to delegate item handling to ExceptionManager instance
 
-        public override void MarkItemRead(INewsItem item)
+        protected override void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
             foreach (NewsItem ri in ExceptionManager.GetInstance().Items)
@@ -298,7 +299,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override void MarkItemUnread(INewsItem item)
+		protected override void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
             foreach (NewsItem ri in ExceptionManager.GetInstance().Items)
@@ -311,7 +312,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override bool ContainsNewMessages
+		protected override bool ContainsNewMessages
         {
             get
             {
@@ -323,7 +324,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override int NewMessagesCount
+		protected override int NewMessagesCount
         {
             get
             {
@@ -336,23 +337,23 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override IList<INewsItem> Items
+		protected override IList<INewsItem> Items
         {
             get { return ExceptionManager.GetInstance().Items as List<INewsItem>; }
         }
 
-        public override void Add(INewsItem item)
+		protected override void Add(INewsItem item)
         {
             // not the preferred way to add exceptions, but impl. the interface
             ExceptionManager.GetInstance().Add(item);
         }
 
-        public override void Remove(INewsItem item)
+		protected override void Remove(INewsItem item)
         {
             ExceptionManager.GetInstance().Remove(item);
         }
 
-        public override bool Modified
+		protected override bool Modified
         {
             get { return ExceptionManager.GetInstance().Modified; }
             set { ExceptionManager.GetInstance().Modified = value; }
@@ -386,7 +387,7 @@ namespace RssBandit.WinGui.Controls
 
         #region Some Overrides of ISmartFolder to filter items by flags
 
-        public override void MarkItemRead(INewsItem item)
+		protected override void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
             foreach (var ri in itemsFeed.Items)
@@ -400,7 +401,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override void MarkItemUnread(INewsItem item)
+		protected override void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
             foreach (var ri in itemsFeed.Items)
@@ -413,7 +414,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override bool ContainsNewMessages
+		protected override bool ContainsNewMessages
         {
             get
             {
@@ -425,7 +426,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override int NewMessagesCount
+		protected override int NewMessagesCount
         {
             get
             {
@@ -438,7 +439,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public override IList<INewsItem> Items
+		protected override IList<INewsItem> Items
         {
             get
             {
@@ -478,8 +479,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
@@ -501,40 +502,224 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class UnreadItemsNode : SmartFolderNodeBase
     {
-        public UnreadItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
-            base(itemStore, imageIndex, selectedImageIndex, menu)
-        {
-        }
+    	private readonly RssBanditApplication app;
+		private readonly Dictionary<int, UnreadItemsNodePerSource> childrenBySourceID = new Dictionary<int, UnreadItemsNodePerSource>(3);
+    	
+		#region ctor's
 
-        public override void MarkItemRead(INewsItem item)
-        {
-            if (item == null) return;
-            int idx = itemsFeed.Items.IndexOf(item);
-            if (idx >= 0)
-            {
-                itemsFeed.Items.RemoveAt(idx);
-                UpdateReadStatus(this, -1);
-            }
-        }
+    	public UnreadItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+    		base(itemStore, imageIndex, selectedImageIndex, menu)
+    	{
+			// TODO: we should extend the interface ICoreApplication
+    		app = (RssBanditApplication)IoC.Resolve<ICoreApplication>();
 
-        public override void MarkItemUnread(INewsItem item)
-        {
-            if (item == null) return;
-            int idx = itemsFeed.Items.IndexOf(item);
-            if (idx < 0)
-            {
-                itemsFeed.Items.Add(item);
-                UpdateReadStatus(this, 1);
-            }
-            else
-            {
-                // should not happen, just if we get called this way:
-                (itemsFeed.Items[idx]).BeenRead = false;
-                UpdateReadStatus(this, 1);
-            }
-        }
+			app.FeedSourceAdded += app_FeedSourceAdded;
+			app.FeedSourceChanged += app_FeedSourceChanged;
+			app.FeedSourceDeleted += app_FeedSourceDeleted;
+			
+			if (app.FeedSources.Count > 1)
+    			foreach (FeedSourceEntry e in app.FeedSources.Sources)
+    			{
+    				UnreadItemsNodePerSource child = new UnreadItemsNodePerSource(
+    					e, itemStore, imageIndex, selectedImageIndex, menu);
+    				this.Nodes.Add(child);
+					childrenBySourceID.Add(e.ID, child);
+    			}
+    	}
+		
+    	protected UnreadItemsNode(LocalFeedsFeed itemStore, string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+    		base(itemStore, text, imageIndex, selectedImageIndex, menu)
+    	{
+    	}
+
+    	#endregion
+
+    	#region base class overrides
+
+    	protected override void MarkItemRead(INewsItem item)
+    	{
+    		if (item == null) return;
+    		int idx = itemsFeed.Items.IndexOf(item);
+    		if (idx >= 0)
+    		{
+    			itemsFeed.Items.RemoveAt(idx);
+					
+    			if (HasNodes)
+    			{
+    				// child handle this:
+    				FeedSourceEntry entry = app.FeedSources.SourceOf(item.Feed);
+    				UnreadItemsNodePerSource child;
+					if (childrenBySourceID.TryGetValue(entry.ID, out child))
+						child.UpdateReadStatus(child, -1);
+    			}
+    			else
+    			{
+    				// handle by myself:
+    				UpdateReadStatus(this, -1);
+    			}
+    		}
+    	}
+
+    	protected override void MarkItemUnread(INewsItem item)
+    	{
+    		if (item == null) return;
+    		int idx = itemsFeed.Items.IndexOf(item);
+    		if (idx < 0)
+    		{
+    			itemsFeed.Items.Add(item);
+    		}
+    		else
+    		{
+    			// should not happen, just if we get called this way:
+    			(itemsFeed.Items[idx]).BeenRead = false;
+    		}
+			
+    		if (HasNodes)
+    		{
+    			// child handle this:
+    			FeedSourceEntry entry = app.FeedSources.SourceOf(item.Feed);
+				UnreadItemsNodePerSource child;
+				if (childrenBySourceID.TryGetValue(entry.ID, out child))
+					child.UpdateReadStatus(child, 1);
+    		}
+    		else
+    		{
+    			// handle by myself:
+    			UpdateReadStatus(this, 1);
+    		}
+
+    	}
+
+    	public override void UpdateReadStatus()
+    	{
+    		if (HasNodes)
+    		{
+    			foreach (UnreadItemsNodePerSource child in Nodes)
+    			{
+    				child.UpdateReadStatus();
+    			}
+    		} 
+    		else
+    		{
+    			base.UpdateReadStatus();
+    		}
+    	}
+
+    	#endregion
+
+    	#region app events (feed source related)
+
+    	void app_FeedSourceDeleted(object sender, FeedSourceEventArgs e)
+    	{
+    		UnreadItemsNodePerSource child;
+    		if (childrenBySourceID.TryGetValue(e.Entry.ID, out child))
+    		{
+    			child.UpdateReadStatus(child, 0);
+    			Nodes.Remove(child);
+    			childrenBySourceID.Remove(e.Entry.ID);
+    		}
+    	}
+
+    	void app_FeedSourceChanged(object sender, FeedSourceEventArgs e)
+    	{
+    		UnreadItemsNodePerSource child;
+    		if (childrenBySourceID.TryGetValue(e.Entry.ID, out child))
+    		{
+    			child.Text = e.Entry.Name;
+    		}
+    	}
+
+    	void app_FeedSourceAdded(object sender, FeedSourceEventArgs e)
+    	{
+    		UnreadItemsNodePerSource child = new UnreadItemsNodePerSource(
+    			e.Entry, itemsFeed, ImageIndex, SelectedImageIndex, p_popup);
+    		this.Nodes.Add(child);
+    		childrenBySourceID.Add(e.Entry.ID, child);
+    	}
+
+    	#endregion
+
+
+		/// <summary>
+		/// Called by child nodes to filter the items by source entry ID.
+		/// </summary>
+		/// <param name="entryID">The entry ID.</param>
+		/// <returns></returns>
+		protected internal IList<INewsItem> FilteredItems(int entryID)
+		{
+			return itemsFeed.Items.FindAll(
+				item =>
+				{
+					return app.FeedSources.SourceOf(item.Feed).ID == entryID;
+				});
+		}
     }
+	
+	internal class UnreadItemsNodePerSource : UnreadItemsNode
+	{
+		private readonly int entryID;
+		public UnreadItemsNodePerSource(FeedSourceEntry entry, LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
+			base(itemStore, entry.Name, imageIndex, selectedImageIndex, menu)
+		{
+			Text = entry.Name;
+			entryID = entry.ID;
+			DataKey = itemStore.link + "#" + entryID;
+		}
 
+		internal int SourceID { get { return entryID; } }
+			
+		protected override void MarkItemRead(INewsItem item)
+		{
+			if (item == null) return;
+			int idx = itemsFeed.Items.IndexOf(item);
+			if (idx >= 0)
+			{
+				itemsFeed.Items.RemoveAt(idx);
+				UpdateReadStatus(this, -1);
+			}
+		}
+
+		protected override void MarkItemUnread(INewsItem item)
+		{
+			if (item == null) return;
+			int idx = itemsFeed.Items.IndexOf(item);
+			if (idx < 0)
+			{
+				itemsFeed.Items.Add(item);
+				UpdateReadStatus(this, 1);
+			}
+			else
+			{
+				// should not happen, just if we get called this way:
+				(itemsFeed.Items[idx]).BeenRead = false;
+				UpdateReadStatus(this, 1);
+			}
+		}
+
+		protected override IList<INewsItem> Items
+		{
+			get
+			{
+				UnreadItemsNode parent = (UnreadItemsNode)this.Parent;
+				return parent.FilteredItems(entryID);
+			}
+		}
+
+		protected override int NewMessagesCount
+		{
+			get
+			{
+				int count = 0;
+				IList<INewsItem> items = Items;
+				for (int i = 0; i < items.Count; i++)
+				{
+					INewsItem ri = items[i];
+					if (!ri.BeenRead) count++;
+				}
+				return count;
+			}
+		}
+	}
     #endregion
 
     #region FinderRootNode
@@ -629,8 +814,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
@@ -672,8 +857,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
@@ -746,8 +931,8 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
@@ -929,40 +1114,3 @@ namespace RssBandit.WinGui.Controls
 
     #endregion
 }
-
-#region CVS Version Log
-
-/*
- * $Log: TreeFeedsNodeImplementations.cs,v $
- * Revision 1.12  2007/05/18 11:46:45  t_rendelmann
- * fixed: no category context menus displayed after OPML import or remote sync.
- *
- * Revision 1.11  2007/02/17 12:35:28  t_rendelmann
- * new: "Show item full texts" is now a context menu option on search folders
- *
- * Revision 1.10  2007/01/14 19:30:47  t_rendelmann
- * cont. SearchPanel: first main form integration and search working (scope/populate search scope tree is still a TODO)
- *
- * Revision 1.9  2006/12/05 04:06:25  carnage4life
- * Made changes so that when comments for an item are viewed from Watched Items folder, the actual feed is updated and vice versa
- *
- * Revision 1.8  2006/12/03 01:20:14  carnage4life
- * Made changes to support Watched Items feed showing when new comments found
- *
- * Revision 1.7  2006/10/27 19:14:14  t_rendelmann
- * fixed: sorting of root node was again language dependent;
- * changed: added the UnreadItemsNode
- *
- * Revision 1.6  2006/09/29 18:14:36  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.5  2006/09/22 15:35:44  t_rendelmann
- * added CVS header and change history
- *
- */
-
-#endregion
