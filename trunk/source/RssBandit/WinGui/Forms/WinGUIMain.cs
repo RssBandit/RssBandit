@@ -2478,21 +2478,27 @@ namespace RssBandit.WinGui.Forms
 
 		private void OnNavigatorSelectedGroupChanged(object sender, GroupEventArgs e)
 		{
-			//TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
-			//if (myRoot != null)
-			//{
-			//    ShowSubscriptionRootNodes(false);
-			//    myRoot.Visible = true;
-			//}
+			if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
+			{
+				owner.Mediator.SetEnabled("-cmdFeedSourceProperties");
+				owner.Mediator.SetEnabled("-cmdDeleteFeedSource");
+			}
+			else
+			{
+				SubscriptionRootNode myRoot = GetSubscriptionRootNode(e.Group.Text);
+				if (myRoot != null)
+				{
+					owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
+					owner.Mediator.SetEnabled(FeedSourceType.DirectAccess != owner.FeedSources[myRoot.SourceID].SourceType,
+						"cmdDeleteFeedSource");
+				}
+			}
 		}
 
         private void OnNavigatorGroupClick(object sender, GroupEventArgs e)
         {
             if (Navigator.Visible)
             {
-                owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
-                owner.Mediator.SetEnabled("+cmdDeleteFeedSource");
-            	
                 // also raised by OnNavigatorCollapseClick (via GroupHeaderClick)!
                 if (Navigator.SelectedGroup.Key == Resource.NavigatorGroup.Subscriptions)
                 {
@@ -2503,8 +2509,6 @@ namespace RssBandit.WinGui.Forms
                 {
                     owner.Mediator.SetChecked("-cmdToggleTreeViewState");
                     owner.Mediator.SetChecked("+cmdToggleRssSearchTabState");
-                    owner.Mediator.SetEnabled("-cmdFeedSourceProperties");
-                    owner.Mediator.SetEnabled("-cmdDeleteFeedSource");
                 }
             }
         }

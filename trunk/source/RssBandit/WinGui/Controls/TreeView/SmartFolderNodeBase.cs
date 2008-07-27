@@ -43,7 +43,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     public class SmartFolderNodeBase : TreeFeedsNodeBase, ISmartFolder
     {
-        private readonly ContextMenu _popup;
+		protected ContextMenu p_popup;
         protected LocalFeedsFeed itemsFeed;
 
         public SmartFolderNodeBase(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
@@ -55,7 +55,7 @@ namespace RssBandit.WinGui.Controls
                                    ContextMenu menu) :
                                        base(text, FeedNodeType.SmartFolder, false, imageIndex, selectedImageIndex)
         {
-            _popup = menu;
+            p_popup = menu;
             itemsFeed = itemStore;
         }
 
@@ -69,22 +69,22 @@ namespace RssBandit.WinGui.Controls
         public override void PopupMenu(Point screenPos)
         {
             /*
-			  if (_popup != null)
-				  _popup.TrackPopup(screenPos);
+			  if (p_popup != null)
+				  p_popup.TrackPopup(screenPos);
 			  */
         }
 
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenu = p_popup;
         }
 
         #endregion
 
         #region ISmartFolder Members
 
-        public virtual bool ContainsNewMessages
+        protected virtual bool ContainsNewMessages
         {
             get
             {
@@ -97,7 +97,7 @@ namespace RssBandit.WinGui.Controls
         }
 
 
-        public virtual int NewMessagesCount
+		protected virtual int NewMessagesCount
         {
             get
             {
@@ -111,7 +111,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public virtual bool HasNewComments
+		protected virtual bool HasNewComments
         {
             get
             {
@@ -124,7 +124,7 @@ namespace RssBandit.WinGui.Controls
         }
 
 
-        public virtual int NewCommentsCount
+		protected virtual int NewCommentsCount
         {
             get
             {
@@ -138,7 +138,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public virtual void MarkItemRead(INewsItem item)
+		protected virtual void MarkItemRead(INewsItem item)
         {
             if (item == null) return;
             int index = itemsFeed.Items.IndexOf(item);
@@ -150,7 +150,7 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public virtual void MarkItemUnread(INewsItem item)
+		protected virtual void MarkItemUnread(INewsItem item)
         {
             if (item == null) return;
             int index = itemsFeed.Items.IndexOf(item);
@@ -161,17 +161,17 @@ namespace RssBandit.WinGui.Controls
             }
         }
 
-        public virtual IList<INewsItem> Items
+		protected virtual IList<INewsItem> Items
         {
             get { return itemsFeed.Items; }
         }
 
-        public virtual void Add(INewsItem item)
+		protected virtual void Add(INewsItem item)
         {
             itemsFeed.Add(item);
         }
 
-        public virtual void Remove(INewsItem item)
+		protected virtual void Remove(INewsItem item)
         {
             itemsFeed.Remove(item);
         }
@@ -181,17 +181,82 @@ namespace RssBandit.WinGui.Controls
             UpdateReadStatus(this, NewMessagesCount);
         }
 
-        public virtual void UpdateCommentStatus()
+		protected virtual void UpdateCommentStatus()
         {
             UpdateCommentStatus(this, NewCommentsCount);
         }
 
-        public virtual bool Modified
+		protected virtual bool Modified
         {
             get { return itemsFeed.Modified; }
             set { itemsFeed.Modified = value; }
         }
 
         #endregion
-    }
+
+		#region ISmartFolder Members
+
+		bool ISmartFolder.ContainsNewMessages
+		{
+			get { return this.ContainsNewMessages; }
+		}
+
+		bool ISmartFolder.HasNewComments
+		{
+			get { return this.HasNewComments; }
+		}
+
+		int ISmartFolder.NewMessagesCount
+		{
+			get { return this.NewMessagesCount; }
+		}
+
+		int ISmartFolder.NewCommentsCount
+		{
+			get { return this.NewCommentsCount; }
+		}
+
+		void ISmartFolder.MarkItemRead(INewsItem item)
+		{
+			this.MarkItemRead(item);
+		}
+
+		void ISmartFolder.MarkItemUnread(INewsItem item)
+		{
+			this.MarkItemUnread(item);
+		}
+
+		IList<INewsItem> ISmartFolder.Items
+		{
+			get { return this.Items; }
+		}
+
+		void ISmartFolder.Add(INewsItem item)
+		{
+			this.Add(item);
+		}
+
+		void ISmartFolder.Remove(INewsItem item)
+		{
+			this.Remove(item);
+		}
+
+		void ISmartFolder.UpdateReadStatus()
+		{
+			this.UpdateReadStatus();
+		}
+
+		void ISmartFolder.UpdateCommentStatus()
+		{
+			this.UpdateCommentStatus();
+		}
+
+		bool ISmartFolder.Modified
+		{
+			get { return this.Modified; }
+			set { this.Modified = value; }
+		}
+
+		#endregion
+	}
 }
