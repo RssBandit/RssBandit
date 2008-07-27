@@ -59,7 +59,6 @@ using NewsComponents.Feed;
 using NewsComponents.Net;
 using NewsComponents.News;
 using NewsComponents.Search;
-using NewsComponents.Storage;
 using NewsComponents.Utils;
 using RssBandit.AppServices;
 using RssBandit.Common;
@@ -108,8 +107,7 @@ namespace RssBandit
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
         private static Settings guiSettings;
-        private static readonly ServiceContainer Services = new ServiceContainer( /* no other parent, we are at top */);
-
+        
         internal const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
         private CommandMediator cmdMediator;
@@ -235,9 +233,13 @@ namespace RssBandit
         public event EventHandler PreferencesChanged;
 
 		public event EventHandler AllFeedSourcesLoaded;
-		public event EventHandler<FeedSourceEventArgs> FeedSourceLoaded;
 		public event EventHandler AllFeedSourceSubscriptionsLoaded;
+		
 		public event EventHandler<FeedSourceEventArgs> FeedSourceSubscriptionsLoaded;
+		public event EventHandler<FeedSourceEventArgs> FeedSourceChanged;
+		public event EventHandler<FeedSourceEventArgs> FeedSourceDeleted;
+		public event EventHandler<FeedSourceEventArgs> FeedSourceAdded;
+		
 		public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
         
 		// old:
@@ -3202,7 +3204,9 @@ namespace RssBandit
                     var creds = new NetworkCredential(Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword);
                     var loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), creds);
 					FeedSource fs = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.NewsGator, loc);
-                    FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);                   
+                    FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
+					if (FeedSourceAdded != null)
+						FeedSourceAdded(this, new FeedSourceEventArgs(entry));
                 }
                 Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.UNC; //default 
                 Preferences.RemoteStorageUserName = Preferences.RemoteStoragePassword = Preferences.RemoteStorageLocation = null;
@@ -3462,6 +3466,8 @@ namespace RssBandit
 					if (entry != null)
 					{
 						AddFeedSourceToUserInterface(entry);
+						if (FeedSourceAdded != null)
+							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
 					}
 				}
 			}
@@ -3496,7 +3502,39 @@ namespace RssBandit
 			}
 		}
 
-		public void RemoveFeedSource(FeedSourceEntry entry)
+		public FeedSourceEntry ChangeFeedSource(FeedSourceEntry entry, string newName, string credentialUser, string credentialPwd)
+		{
+			if (entry == null)
+				return null;
+
+			bool anyChange = false;
+			if (!string.IsNullOrEmpty(newName))
+			{
+				if (entry.Name != newName)
+				{
+					entry.Name = newName;
+					anyChange = true;
+				}
+			}
+			if (entry.Source.SubscriptionLocation.CredentialsSupported &&
+				!string.IsNullOrEmpty(credentialUser) &&
+				!string.IsNullOrEmpty(credentialPwd))
+			{
+				entry.Source.SubscriptionLocation.Credentials =
+					FeedSource.CreateCredentialsFrom(credentialUser, credentialPwd);
+				anyChange = true;
+			}
+
+			if (anyChange)
+			{
+				SaveFeedSources();
+				if (FeedSourceChanged != null)
+					FeedSourceChanged(this, new FeedSourceEventArgs(entry));
+			}
+			return entry;
+		}
+
+    	public void RemoveFeedSource(FeedSourceEntry entry)
 		{
 			if (entry == null)
 				return;
@@ -3505,7 +3543,10 @@ namespace RssBandit
 			sourceManager.Remove(entry);
 			SaveFeedSources();
 
-            entry.Source.DeleteAllFeedsAndCategories(false); 
+            entry.Source.DeleteAllFeedsAndCategories(false);
+
+			if (FeedSourceDeleted != null)
+				FeedSourceDeleted(this, new FeedSourceEventArgs(entry));
 
 			//TODO: handle case where all sources removed!
             if (sourceManager.Count > 0)

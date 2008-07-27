@@ -823,17 +823,12 @@ namespace RssBandit.WinGui.Forms
 				{
 					if (DialogResult.Cancel != dialog.ShowDialog(this))
 					{
-						entry.Name = dialog.FeedSoureName;
-						if (entry.Source.SubscriptionLocation.CredentialsSupported)
-						{
-							entry.Source.SubscriptionLocation.Credentials =
-								FeedSource.CreateCredentialsFrom(dialog.Username, dialog.Password);
-						}
+						entry = owner.ChangeFeedSource(entry, dialog.FeedSoureName, dialog.Username, dialog.Password);
 						
                         SubscriptionRootNode root = this.GetSubscriptionRootNode(entry);
                         root.Text = entry.Name;
 						Navigator.SelectedGroup.Text = entry.Name;
-						owner.SaveFeedSources();
+						
 					}
 				}
 			}
@@ -2687,9 +2682,8 @@ namespace RssBandit.WinGui.Forms
 			{
 				// subscription node (feed source)
 				FeedSourceEntry entry = FeedSourceEntryOf(editedNode);
-				entry.Name = newLabel;
+				owner.ChangeFeedSource(entry, newLabel, null, null);
 				Navigator.SelectedGroup.Text = newLabel;
-				owner.SaveFeedSources();
 			} 
 			else if (editedNode.Type == FeedNodeType.Feed)
             {
