@@ -1702,7 +1702,8 @@ namespace RssBandit.WinGui.Forms
         /// <param name="unread">The unread item list.</param>
         private void UnreadItemsNodeRemoveItems(IList<INewsItem> unread)
         {
-            if (unread == null) return;
+			if (unread == null || unread.Count == 0) 
+				return;
             for (int i = 0; i < unread.Count; i++)
                 UnreadItemsNode.Remove(unread[i]);
             UnreadItemsNode.UpdateReadStatus();
@@ -2133,10 +2134,7 @@ namespace RssBandit.WinGui.Forms
 
                         //we use a clone of the FeedInfo because it isn't 
                         //necessarily true that everything in the main FeedInfo is being rendered
-                        var fi2 = new FeedInfo(fi);
-                        fi2.ItemsList.Clear();
-
-                        fi2.ItemsList.AddRange(unread);
+						var fi2 = new FeedInfo(fi, unread);
 
                         //sort news items
                         //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
@@ -2352,8 +2350,7 @@ namespace RssBandit.WinGui.Forms
                                     if (ifd == null) // with with an error, and the like: ignore
                                         continue;
 
-                                    fi = new FeedInfo(ifd);
-                                    fi.ItemsList.Clear();
+                                    fi = new FeedInfo(ifd, new List<INewsItem>());
                                 }
                                 else
                                 {

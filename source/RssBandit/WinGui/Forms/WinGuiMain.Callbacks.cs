@@ -581,6 +581,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="sender"></param>
         private void CmdMarkFinderItemsRead(ICommand sender)
         {
+			//TODO: this have to be changed!
             SetFeedItemsReadState(listFeedItems.Items, true);
             UpdateTreeStatus(owner.FeedHandler.GetFeeds());
         }
@@ -2498,10 +2499,15 @@ namespace RssBandit.WinGui.Forms
                                 if (isf != null)
                                     PopulateSmartFolder(tn, true);
 
-                                if (tn is UnreadItemsNode && UnreadItemsNode.Items.Count > 0)
+								if (tn is UnreadItemsNode && isf != null)
                                 {
-                                    FeedInfoList fiList = CreateFeedInfoList(tn.Text, UnreadItemsNode.Items);
-                                    BeginTransformFeedList(fiList, tn, owner.Stylesheet);
+									// UnreadItemsNode is a SmartFolder:
+                                	IList<INewsItem> items = isf.Items;
+									if (items.Count > 0)
+									{
+										FeedInfoList fiList = CreateFeedInfoList(tn.Text, items);
+										BeginTransformFeedList(fiList, tn, owner.Stylesheet);
+									}
                                 }
                             }
                             catch (Exception ex)
@@ -2597,7 +2603,7 @@ namespace RssBandit.WinGui.Forms
                         IFeedDetails fd =  owner.GetFeedDetails(entry, feedUrl);
                         if (fd != null)
                         {
-                            fi = new FeedInfo(fd);
+                            fi = new FeedInfo(fd, new List<INewsItem>());
                         }
                     }
 
@@ -3546,8 +3552,8 @@ namespace RssBandit.WinGui.Forms
                     redispItems.Add(fi);
             }
             FeedSource source = FeedSourceOf(feedsNode); 
-            BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode,
-                                   source.GetCategoryStyleSheet(category));
+            BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode, source != null ?
+				source.GetCategoryStyleSheet(category): String.Empty);
         }
 
         private void OnFeedListMouseDown(object sender, MouseEventArgs e)
