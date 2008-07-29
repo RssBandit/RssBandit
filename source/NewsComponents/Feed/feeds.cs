@@ -850,10 +850,18 @@ namespace NewsComponents.Feed
                 this.enclosurealertSpecified = feedtoclone.enclosurealertSpecified;
                 this.alertEnabled = feedtoclone.alertEnabled;
                 this.alertEnabledSpecified = feedtoclone.alertEnabledSpecified;
-				this.Any = new XmlElement[feedtoclone.Any.Length];
-				feedtoclone.Any.CopyTo(this.Any, 0);
-				this.AnyAttr = new XmlAttribute[feedtoclone.AnyAttr.Length];
-				feedtoclone.AnyAttr.CopyTo(this.AnyAttr, 0);
+				
+				if (feedtoclone.Any != null)
+				{
+					this.Any = new XmlElement[feedtoclone.Any.Length];
+					feedtoclone.Any.CopyTo(this.Any, 0);
+				}
+				
+				if (feedtoclone.AnyAttr != null)
+				{
+					this.AnyAttr = new XmlAttribute[feedtoclone.AnyAttr.Length];
+					feedtoclone.AnyAttr.CopyTo(this.AnyAttr, 0);
+				}
             }
         }
 
