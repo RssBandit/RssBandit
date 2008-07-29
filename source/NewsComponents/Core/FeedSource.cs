@@ -4812,7 +4812,7 @@ namespace NewsComponents
                 string key = requestUri.CanonicalizedUri();
                 if (feedsTable.ContainsKey(key))
                 {
-                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
+					Trace("AsyncRequest.OnRequestComplete('{0}') Exception: {1}", key, e.ToDescriptiveString());
                     INewsFeed f = feedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
@@ -4821,8 +4821,8 @@ namespace NewsComponents
                 }
                 else
                 {
-                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception on feed not contained in FeedsTable: ",
-                          requestUri.ToString(), e.StackTrace);
+                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception on feed not contained in FeedsTable: {1}",
+						  key, e.ToDescriptiveString());
                 }
 
                 RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
