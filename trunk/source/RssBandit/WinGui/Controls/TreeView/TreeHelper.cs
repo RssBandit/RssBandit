@@ -1130,7 +1130,7 @@ namespace RssBandit.WinGui.Controls
         /// <param name="node">The node.</param>
         public void Restore(TreeFeedsNodeBase node)
         {
-            if (node == null || node.Nodes.Count == 0 ||
+            if (node == null || !node.HasNodes ||
                 expandedNodes == null || expandedNodes.Count == 0)
                 return;
             if (node.Control == null)
