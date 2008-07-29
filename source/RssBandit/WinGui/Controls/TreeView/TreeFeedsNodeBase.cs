@@ -451,7 +451,7 @@ namespace RssBandit.WinGui.Controls
 
 				// traverse tree: upwards, one by one. On each parent
 				// mark it unread (bold font state), go on upwards
-				if (thisNode.Nodes.Count == 0  /*thisNode.Type != FeedNodeType.Root && thisNode.Type != FeedNodeType.Category */) { 
+				if (!thisNode.HasNodes  /*thisNode.Type != FeedNodeType.Root && thisNode.Type != FeedNodeType.Category */) { 
 					
 					// this can happen only once. 
 					// A Feed can only have category/root as parents
@@ -535,7 +535,7 @@ namespace RssBandit.WinGui.Controls
 
 				// traverse tree: upwards, one by one. On each parent
 				// mark it unread (bold font state), go on upwards
-				if (thisNode.Nodes.Count == 0  /*thisNode.Type != FeedNodeType.Root && thisNode.Type != FeedNodeType.Category */) { 
+				if (!thisNode.HasNodes  /*thisNode.Type != FeedNodeType.Root && thisNode.Type != FeedNodeType.Category */) { 
 					
 					// this can happen only once. 
 					// A Feed can only have category/root as parents

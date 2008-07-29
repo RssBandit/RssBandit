@@ -71,15 +71,26 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-        /// Creates a FeedInfo initialized from the specified IFeedDetails object
+        /// Creates a FeedInfo initialized from the specified IFeedDetails object.
+		/// It also take over the IFeedDetails.ItemsList entries.
         /// </summary>
         /// <param name="ifd">The object to copy from</param>
         public FeedInfo(IFeedDetails ifd)
-            : this(ifd.Id, String.Empty, new List<INewsItem>(ifd.ItemsList),
-                   ifd.Title, ifd.Link, ifd.Description,
-                   new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
+            : this(ifd, ifd.ItemsList)
         {
         }
+
+		/// <summary>
+		/// Creates a FeedInfo initialized from the specified IFeedDetails object
+		/// </summary>
+		/// <param name="ifd">The object to copy from</param>
+		/// <param name="itemsList">The items list to use.</param>
+		public FeedInfo(IFeedDetails ifd, IEnumerable<INewsItem> itemsList)
+			: this(ifd.Id, String.Empty, new List<INewsItem>(itemsList),
+				   ifd.Title, ifd.Link, ifd.Description,
+				   new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
+		{
+		}
 
         /// <summary>
         /// Overloaded. Initializer

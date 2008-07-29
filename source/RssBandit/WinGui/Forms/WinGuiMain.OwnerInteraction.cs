@@ -2265,38 +2265,18 @@ namespace RssBandit.WinGui.Forms
                     UpdateTreeNodeUnreadStatus(selectedNode, 0);
                 }
             }
-            else if (selectedNode.Type == FeedNodeType.Category)
-            {
-                INewsFeedCategory c;
-				entry.Source.GetCategories().TryGetValue(selectedNode.CategoryStoreName, out c);
-                if (c != null)
-                {
-					foreach (var feed in entry.Source.GetDescendantFeeds(c))
-                    {
-                        UnreadItemsNodeRemoveItems(feed); // BEFORE they get marked read by:
-						entry.Source.MarkAllCachedItemsAsRead(feed);
-                        owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
-                    }
-                    UpdateTreeNodeUnreadStatus(selectedNode, 0);
-                }
-            }
-            else if (selectedNode.Type == FeedNodeType.Root)
-            {
-                UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
-				entry.Source.MarkAllCachedItemsAsRead();
-                owner.SubscriptionModified(entry, NewsFeedProperty.FeedMarkItemsReadOnExit);
-                UpdateTreeNodeUnreadStatus(selectedNode, 0);
-            }
 
             bool selectedIsChild = NodeIsChildOf(TreeSelectedFeedsNode, selectedNode);
             bool isSmartOrAggregated = (selectedNode.Type == FeedNodeType.Finder ||
                                         selectedNode.Type == FeedNodeType.SmartFolder);
 
-            //mark all viewed stories as read 
+			//mark all viewed stories as read 
             // May be we are wrong here: how about a threaded item reference
             // with an ownerfeed, that is not a child of the current selectedNode?
             if (listFeedItems.Items.Count > 0)
             {
+				List<INewsItem> unread = new List<INewsItem>(listFeedItems.Items.Count);
+            
                 listFeedItems.BeginUpdate();
 
                 for (int i = 0; i < listFeedItems.Items.Count; i++)
@@ -2318,7 +2298,8 @@ namespace RssBandit.WinGui.Forms
                         if (!newsItem.BeenRead)
                         {
                             newsItem.BeenRead = true;
-                            UnreadItemsNode.Remove(newsItem);
+							unread.Add(newsItem);
+							//UnreadItemsNode.Remove(newsItem);
 
                             // now update tree state of rss items from different
                             // feeds (or also: category selected)
@@ -2328,7 +2309,7 @@ namespace RssBandit.WinGui.Forms
                                 selectedNode.UpdateReadStatus(
                                     TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), newsItem), -1);
                             }
-                            else if (selectedNode.Type != FeedNodeType.Feed)
+							else if (selectedNode.Type != FeedNodeType.Feed && !(selectedNode is UnreadItemsNode))
                             {
                                 // can only be a child node, or SmartFolder
                                 if (newsItem.Feed.containsNewMessages)
@@ -2350,22 +2331,40 @@ namespace RssBandit.WinGui.Forms
                 } //for (i=0...
 
                 listFeedItems.EndUpdate();
+            	
+				UnreadItemsNodeRemoveItems(unread);
             }
 
             if (selectedNode.Type == FeedNodeType.Root)
             {
                 // all
+				UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
 				entry.Source.MarkAllCachedItemsAsRead();
-				UpdateTreeStatus(entry.Source.GetFeeds());
-                ResetFindersReadStatus();
-                UnreadItemsNode.Items.Clear();
-                UnreadItemsNode.UpdateReadStatus();
-                SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
+				owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
+				UpdateTreeNodeUnreadStatus(selectedNode, 0);
+                
+				//ResetFindersReadStatus();
+                //SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
             }
             else if (selectedNode.Type == FeedNodeType.Category)
             {
+				INewsFeedCategory c;
+				entry.Source.GetCategories().TryGetValue(selectedNode.CategoryStoreName, out c);
+				if (c != null)
+				{
+					foreach (var feed in entry.Source.GetDescendantFeeds(c))
+					{
+						TreeFeedsNodeBase ownerNode = feed.Tag as TreeFeedsNodeBase;
+						UnreadItemsNodeRemoveItems(feed); // BEFORE they get marked read by:
+						entry.Source.MarkAllCachedItemsAsRead(feed);
+						owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
+						UpdateTreeNodeUnreadStatus(ownerNode, 0);
+					}
+					//UpdateTreeNodeUnreadStatus(selectedNode, 0);
+				}
+
                 // category and childs
-                WalkdownAndCatchupCategory(selectedNode);
+                //WalkdownAndCatchupCategory(selectedNode);
             }
             if (isSmartOrAggregated)
             {

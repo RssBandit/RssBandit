@@ -1242,7 +1242,7 @@ namespace RssBandit.WinGui.Utility {
 		private void GetFinders(TreeFeedsNodeBase startNode) {
 			if (startNode == null)
 				return;
-			if (startNode.Nodes.Count == 0) {
+			if (!startNode.HasNodes) {
 				FinderNode agn = startNode as FinderNode;
 				if (agn != null)
 					this.RssFinderNodes.Add(agn.Finder);
