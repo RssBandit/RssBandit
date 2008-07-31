@@ -1,54 +1,20 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: TreeFeedsNodeBase.cs,v $
- * Revision 1.10  2007/02/13 16:23:45  t_rendelmann
- * changed: treestate save/restore is now I18N aware
- *
- * Revision 1.9  2007/02/09 14:54:09  t_rendelmann
- * fixed: added missing configuration option for newComments font style and color;
- * changed: some refactoring in FontColorHelper;
- *
- * Revision 1.8  2006/09/29 18:14:36  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.7  2006/09/07 16:47:44  carnage4life
- * Fixed two issues
- * 1. Added SelectedImageIndex and ImageIndex to FeedsTreeNodeBase
- * 2. Fixed issue where watched comments always were treated as having new comments on HTTP 304
- *
- * Revision 1.6  2006/09/06 02:11:56  carnage4life
- * Fixed some bugs with favicon support
- *
- * Revision 1.5  2006/09/03 19:08:50  carnage4life
- * Added support for favicons
- *
- * Revision 1.4  2006/08/08 14:24:45  t_rendelmann
- * fixed: nullref. exception on "Move to next unread" (if it turns back to treeview top node)
- * fixed: nullref. exception (assertion) on delete feeds/category node
- * changed: refactored usage of node.Tag (object type) to use node.DataKey (string type)
- *
- */
-#endregion
-
 using System;
-using System.Collections;
 using System.Drawing;
 using Infragistics.Win.UltraWinTree;
+using log4net;
 using NewsComponents;
 using NewsComponents.Utils;
+using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
@@ -79,13 +45,16 @@ namespace RssBandit.WinGui.Controls
 		private int             _itemsWithNewCommentsCount; 
 		private int				_highlightCount;
 		private object			_initialImage, _initialExpandedImage;
-		private int             _imageIndex, _selectedImageIndex; 
+		private int             _imageIndex, _selectedImageIndex;
+
+		private static readonly ILog _log = Log.GetLogger(typeof(TreeFeedsNodeBase));
 
 		private static Image	_clickableAreaExtenderImage;
 		#region ctor's
 
-		static TreeFeedsNodeBase() {
-			_clickableAreaExtenderImage = new Bitmap(1,1);
+		static TreeFeedsNodeBase()
+		{
+			_clickableAreaExtenderImage = new Bitmap(1, 1);
 		}
 		protected TreeFeedsNodeBase() {}	// not anymore allowed
 		protected TreeFeedsNodeBase(string text, FeedNodeType nodeType):
@@ -99,8 +68,7 @@ namespace RssBandit.WinGui.Controls
 			this(text, nodeType, editable, imageIndex, expandedNodeImageIndex, null){
 		}
 
-		protected TreeFeedsNodeBase(string text, FeedNodeType nodeType, bool editable, int imageIndex, int expandedNodeImageIndex, Image image):
-			base() 
+		protected TreeFeedsNodeBase(string text, FeedNodeType nodeType, bool editable, int imageIndex, int expandedNodeImageIndex, Image image)
 		{
 			this.RightImages.Add(_clickableAreaExtenderImage);
 
@@ -111,15 +79,15 @@ namespace RssBandit.WinGui.Controls
 			_initialImage = _initialExpandedImage = null;
 
 			if(image != null){
-				_initialImage = _initialExpandedImage = base.Override.NodeAppearance.Image = base.Override.ExpandedNodeAppearance.Image = image;
+				_initialImage = _initialExpandedImage = Override.NodeAppearance.Image = Override.ExpandedNodeAppearance.Image = image;
 				m_hasCustomIcon = true; 
 			}else{
 				if (imageIndex >= 0) {
-					base.Override.NodeAppearance.Image = imageIndex;
+					Override.NodeAppearance.Image = imageIndex;
 					_imageIndex = imageIndex;
 				}
 				if (expandedNodeImageIndex >= 0) {
-					base.Override.ExpandedNodeAppearance.Image = expandedNodeImageIndex;
+					Override.ExpandedNodeAppearance.Image = expandedNodeImageIndex;
 					_selectedImageIndex = expandedNodeImageIndex;
 				}
 			}
@@ -155,10 +123,9 @@ namespace RssBandit.WinGui.Controls
 				if (this.Override.NodeAppearance.Image != null) {
 					if (this.Override.NodeAppearance.Image.GetType().Equals(typeof(Image))) {
 						return (Image)this.Override.NodeAppearance.Image;
-					} else {	// imagelist (index) based:
-						if (this.Control != null && this.Control.ImageList != null)
-							return this.Override.NodeAppearance.GetImage(this.Control.ImageList);
-					}
+					} // imagelist (index) based:
+					if (this.Control != null && this.Control.ImageList != null)
+						return this.Override.NodeAppearance.GetImage(this.Control.ImageList);
 				}
 				return null;
 			}
@@ -207,20 +174,20 @@ namespace RssBandit.WinGui.Controls
 		public virtual bool Editable { get { return _editable; } set { _editable = value; } }
 
 		public virtual Color ForeColor { 
-			get { return base.Override.NodeAppearance.ForeColor; } 
+			get { return Override.NodeAppearance.ForeColor; } 
 			set { 
-				if (base.Override.NodeAppearance.ForeColor != value)
-					base.Override.NodeAppearance.ForeColor = value; 
+				if (Override.NodeAppearance.ForeColor != value)
+					Override.NodeAppearance.ForeColor = value; 
 			} 
 		}
 
 		// override some methods so we do not always have to cast explicitly
 		public virtual TreeFeedsNodeBase FirstNode	{
-			get {
-				if(base.Nodes.Count==0)
+			get
+			{
+				if(Nodes.Count==0)
 					return null;
-				else
-					return (TreeFeedsNodeBase)base.Nodes[0];
+				return (TreeFeedsNodeBase)Nodes[0];
 			}
 		}
 		public virtual TreeFeedsNodeBase NextNode	{
@@ -234,11 +201,11 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 		public virtual TreeFeedsNodeBase LastNode	{
-			get {
-				if(base.Nodes.Count==0)
+			get
+			{
+				if(Nodes.Count==0)
 					return null;
-				else
-					return (TreeFeedsNodeBase)base.Nodes[Nodes.Count-1];
+				return (TreeFeedsNodeBase)Nodes[Nodes.Count-1];
 			}
 		}
 		public virtual new TreeFeedsNodeBase Parent	{
@@ -504,7 +471,10 @@ namespace RssBandit.WinGui.Controls
 		}
 
 
-		public void UpdateReadStatus(TreeFeedsNodeBase thisNode, int readCounter) {
+		public void UpdateReadStatus(TreeFeedsNodeBase thisNode, int readCounter) 
+		{
+			//_log.DebugFormat("called at node {0}, with thisNode = {1}, readCounter = {2}", this.FullPath, thisNode == null ? "null" : thisNode.Text, readCounter);
+			
 			if (thisNode == null) return;
 			
 			if (readCounter <= 0) {			// mark read
@@ -602,26 +572,6 @@ namespace RssBandit.WinGui.Controls
 				return null;
 
 			return String.Join(FeedSource.CategorySeparator, catArray);
-
-			#region Old impl. (kept for ref/check the new impl. for regressions)
-//			string pathSep = @"\";
-//			if (node.Control != null)
-//				pathSep = node.Control.PathSeparator;
-//
-//			string s = node.FullPath.Trim();
-//			string[] a = s.Split(pathSep.ToCharArray());
-//
-//			if (node.Type == FeedNodeType.Feed || node.Type == FeedNodeType.Finder) {
-//				if (a.Length > 2)
-//					return String.Join(@"\",a, 1, a.Length-2);
-//			}
-//			else {
-//				if (a.Length > 1)
-//					return String.Join(@"\",a, 1, a.Length-1);
-//			}
-//			
-//			return null;	// default category (none)
-			#endregion
 		}
 		
 		/// <summary>
@@ -636,38 +586,17 @@ namespace RssBandit.WinGui.Controls
 			
 			if (node.Type == FeedNodeType.Feed || node.Type == FeedNodeType.Finder) {
 				return TreeHelper.BuildCategoryStoreNameArray(node.FullPath, true);
-			} else {
-				return TreeHelper.BuildCategoryStoreNameArray(node.FullPath, false);
 			}
-
-//			string s = node.FullPath.Trim();
-//			ArrayList a = new ArrayList(s.Split(FeedSource.CategorySeparator.ToCharArray()));
-//
-//			if (node.Type == FeedNodeType.Feed || node.Type == FeedNodeType.Finder) {
-//				if (a.Count > 2) {
-//					string[] ret = new string[a.Count-2];
-//					a.CopyTo(1, ret, 0, a.Count-2);
-//					return ret;
-//				}
-//			}
-//			else {
-//				if (a.Count > 1) {
-//					string[] ret = new string[a.Count-1];
-//					a.CopyTo(1, ret, 0, a.Count-1);
-//					return ret;
-//				}
-//			}
-//			
-//			return new string[]{};	// default category (none)
+			return TreeHelper.BuildCategoryStoreNameArray(node.FullPath, false);
 		}
 
 		/// <summary>
-		/// Gets the tpyed root full path of the node.
+		/// Gets the typed root full path of the node.
 		/// The root node is represented by it's FeedNodeType.
 		/// As such the returned path is I18N aware (root node captions
 		/// are localized!)
 		/// </summary>
-		/// <value>The tpyed root full path.</value>
+		/// <value>The typed root full path.</value>
 		public string TypedRootFullPath {
 			get {
 				string[] a = this.FullPath.Split(FeedSource.CategorySeparator.ToCharArray());
@@ -679,7 +608,7 @@ namespace RssBandit.WinGui.Controls
 		}
 		
 		public abstract bool AllowedChild(FeedNodeType nsType);
-		public abstract void PopupMenu(System.Drawing.Point screenPos);
+		public abstract void PopupMenu(Point screenPos);
 		public abstract void UpdateContextMenu();
 	}
 

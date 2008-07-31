@@ -1182,10 +1182,11 @@ namespace NewsComponents
                 return true;
             }
 
-            if (ReferenceEquals(other, null))
+            if (other == null)
                 return false;
 
-            if (Id.Equals(other.Id))
+			if (string.Equals(FeedLink, other.FeedLink, StringComparison.OrdinalIgnoreCase) &&
+				string.Equals(Id, other.Id, StringComparison.Ordinal))
             {
                 return true;
             }
