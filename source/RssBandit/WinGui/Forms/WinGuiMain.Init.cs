@@ -363,21 +363,10 @@ namespace RssBandit.WinGui.Forms
 			// types at one place:
 			treeFeeds.Override.SortComparer = new TreeNodesSortHelper(System.Windows.Forms.SortOrder.Ascending);
         	treeFeeds.Override.Sort = SortType.Ascending;
-			// do not sort the root entries:
-			//treeFeeds.Nodes.Override.Sort = SortType.None; 
-            
+			
 			treeFeeds.HideSelection = false;
-
-			//// create RootFolderType.MyFeeds:
-			//TreeFeedsNodeBase root =
-			//    new SubscriptionRootNode(SR.FeedNodeMyFeedsCaption, Resource.SubscriptionTreeImage.AllSubscriptions,
-			//                 Resource.SubscriptionTreeImage.AllSubscriptionsExpanded, _treeRootContextMenu);
-			//treeFeeds.Nodes.Add(root);
-			//root.ReadCounterZero += OnTreeNodeFeedsRootReadCounterZero;
-            //_roots[(int) RootFolderType.MyFeeds] = root;
-
-            // add the root as the first history entry:
-            //AddHistoryEntry(root, null);
+			// grow the expansion indicator clickable image:
+			treeFeeds.ExpansionIndicatorSize = new Size(16, 16);
 
             // create RootFolderType.Finder:
 			TreeFeedsNodeBase root =
