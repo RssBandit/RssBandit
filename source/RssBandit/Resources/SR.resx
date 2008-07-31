@@ -2467,4 +2467,31 @@ Error: {1}</value>
   <data name="ExceptionFeedlistCredentials" xml:space="preserve">
     <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}</value>
   </data>
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
+    <value>Category folder</value>
+  </data>
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
+    <value>Feed</value>
+  </data>
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
+    <value>Finder</value>
+  </data>
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
+    <value>Finder category</value>
+  </data>
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
+    <value>Subscription root</value>
+  </data>
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
+    <value>Smart folder</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
+    <value>Contains {0} unread items</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
+    <value>Contains 1 unread item</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
+    <value>Contains no unread items</value>
+  </data>
 </root>
