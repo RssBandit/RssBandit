@@ -349,9 +349,13 @@ namespace RssBandit.WinGui.Forms
 
         private void InitFeedTreeView()
         {
-            // enable native info tips support:
-            //Win32.ModifyWindowStyle(treeFeeds.Handle, 0, Win32.TVS_INFOTIP);
-            treeFeeds.PathSeparator = FeedSource.CategorySeparator;
+			if (!Win32.IsOSAtLeastWindowsVista)
+				treeFeeds.TextRenderingMode = TextRenderingMode.GDI;
+
+            // enable extended info tips support:
+			treeNodesTooltipHelper = new UltraToolTipContextHelperForTreeNodes(treeFeeds, ultraToolTipManager);
+        	
+			treeFeeds.PathSeparator = FeedSource.CategorySeparator;
             treeFeeds.ImageList = _treeImages;
             
 			treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;

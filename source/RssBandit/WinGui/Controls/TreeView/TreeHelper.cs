@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Infragistics.Win;
+using Infragistics.Win.UltraWinToolTip;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
 using NewsComponents.Feed;
@@ -30,6 +31,7 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 using RssBandit.Xml;
 using SortOrder=System.Windows.Forms.SortOrder;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Controls
 {
@@ -869,9 +871,139 @@ namespace RssBandit.WinGui.Controls
 
     #endregion
 
-    #region TreeFeedsNodeUIElementCreationFilter
+	#region NodeTooltips 
+	internal class UltraToolTipContextHelperForTreeNodes : UltraToolTipContextHelperBase
+	{
+		#region Constructor
+		public UltraToolTipContextHelperForTreeNodes(UltraTree tree, UltraToolTipManager toolTipManager) :
+			base(tree, toolTipManager)
+		{		
+		}
+		#endregion Constructor
 
-    /// <summary> 
+		#region Overrides
+
+		#region PrepareToolTip
+		protected override bool PrepareToolTip(object element, UltraToolTipInfo toolTipInfo) {
+			// See if this is a UiElement. 
+			if (this.PrepareNodeToolTip(element, toolTipInfo))
+				return true;
+
+			// Since the element was not one of the types being checked for, 
+			// return false so no tooltip will be shown.
+			return false;
+		}
+		#endregion PrepareToolTip
+
+		#region ElementFromPoint
+
+		protected override object ElementFromPoint(Point p) {
+			UltraTree tree = (UltraTree)this.Control;
+			return tree.GetNodeFromPoint(p.X, p.Y);
+		}
+
+		#endregion
+
+		#endregion Overrides
+
+		#region Private Methods
+
+		#region PrepareNodeToolTip
+		private bool PrepareNodeToolTip(object element, UltraToolTipInfo toolTipInfo) {
+
+			TreeNodeUIElement e = element as TreeNodeUIElement;
+			if (e == null) return false;
+
+			// See if the element is a UltraTreeNode (TreeFeedsNodeBase is inherited)
+			TreeFeedsNodeBase node = ElementFromPoint(e.ControlElement.CurrentMousePosition) as TreeFeedsNodeBase;
+
+			// If it's not, return false.
+			if (node == null)
+				return false;
+
+			string text = SR.TreeNodeTooltip_UnreadCountZeroHint;
+
+			if (node.UnreadCount == 1)
+				text = String.Format(SR.TreeNodeTooltip_UnreadCountSingleHint, MarkupAsBold(node.UnreadCount));
+			else if (node.UnreadCount > 1)
+				text = String.Format(SR.TreeNodeTooltip_UnreadCountMultipleHint, MarkupAsBold(node.UnreadCount));
+
+			// If there is info text, display the tooltip.
+			if (!string.IsNullOrEmpty(text)) {
+				toolTipInfo.ToolTipText = text;
+				toolTipInfo.ToolTipTextFormatted = MarkupWithFont(node.Override.NodeAppearance.FontData.Name, text);
+				toolTipInfo.ToolTipTitle = node.Text;
+				toolTipInfo.ToolTipImage = ToolTipImage.Info;
+
+				// directly assign to the UiElement:
+				e.ToolTipItem = new NodeToolTip(toolTipInfo, node.Control.Font);
+			
+				// Return true to indicate that a tooltip should be displayed when the
+				// mouse is over this element.
+
+				// we return false to indicate, the tooltipManager should not
+				// display tooltip for this element, because we already assigned
+				// the tipinfo directly to the node UiElement:
+				return false;
+			}
+
+			return false;
+		}
+
+		static string MarkupAsBold(int counter)
+		{
+			return String.Format("<span style=\"font-weight:bold;\">{0}</span>", counter);
+		}
+
+		static string MarkupWithFont(string fontName, string content)
+		{
+			return String.Format("<span style=\"font-family:{0};\">{1}</span>", fontName, content);
+		}
+
+		#endregion PrepareNodeToolTip
+
+		#endregion Private Methods
+
+		struct NodeToolTip : IToolTipItem
+		{
+			private ToolTipInfo tti;
+			
+			public NodeToolTip(UltraToolTipInfo initializer, Font ownerFont)
+			{
+				tti = new ToolTipInfo();
+				tti.Font = ownerFont;
+				tti.TitleFont = new Font(ownerFont, FontStyle.Bold);
+				tti.DisplayStyle = ToolTipDisplayStyle.Office2007;
+				tti.ToolTipTextStyle = ToolTipTextStyle.Formatted;
+				tti.ToolTipText = initializer.ToolTipTextFormatted;
+				tti.Title = initializer.ToolTipTitle;
+				tti.ToolTipImage = initializer.ToolTipImage;
+			}
+
+			#region IToolTipItem Members
+
+			public ToolTipInfo GetToolTipInfo(Point mousePosition, UIElement element, UIElement previousToolTipElement, ToolTipInfo toolTipInfoDefault)
+			{
+				// fill the default from the template:
+				toolTipInfoDefault.DisplayStyle = tti.DisplayStyle;
+				toolTipInfoDefault.ToolTipTextStyle = tti.ToolTipTextStyle;
+				toolTipInfoDefault.ToolTipText = tti.ToolTipText;
+				toolTipInfoDefault.Title = tti.Title;
+				toolTipInfoDefault.ToolTipImage = tti.ToolTipImage;
+				return toolTipInfoDefault;
+			}
+
+			#endregion
+
+		}
+
+
+	}
+	#endregion
+
+	#region TreeFeedsNodeUIElementCreationFilter
+
+	/// <summary> 
     /// Users of Infragistics controls normally don't need an understanding of how UIElements are implemented and most
     /// often have no need for using a UIElement creation filter. This advanced extensibility mechanism is exposed for
     /// developers who want to modify, add to and/or replace the UIElements of a control. 
@@ -1348,60 +1480,3 @@ namespace RssBandit.WinGui.Controls
 
     #endregion
 }
-
-#region CVS Version Log
-
-/*
- * $Log: TreeHelper.cs,v $
- * Revision 1.16  2007/07/21 12:26:55  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.15  2007/05/18 15:10:26  t_rendelmann
- * fixed: node selection after feed/category deletion behavior. Now the new node to select after a deletion is controlled by the new method TreeHelper.GetNewNodeToActivate()
- *
- * Revision 1.14  2007/02/13 16:23:45  t_rendelmann
- * changed: treestate save/restore is now I18N aware
- *
- * Revision 1.13  2007/02/07 15:23:05  t_rendelmann
- * fixed: open web browser in background grab focus;
- * fixed: System.ObjectDisposedException: Cannot access a disposed object named "ParkingWindow" in Genghis.Windows.Forms.AniForm
- * fixed: System.InvalidOperationException: Cross-thread operation not valid: Control 'ToastNotify' accessed from a thread other than the thread it was created on in Genghis.Windows.Forms.AniForm
- *
- * Revision 1.12  2007/01/30 14:19:13  t_rendelmann
- * fixed: mouse wheel support for treeview re-activated;
- * feature: drag multiple urls separated by Environment.Newline to the treeview to "batch" subscribe
- *
- * Revision 1.11  2007/01/16 19:43:40  t_rendelmann
- * cont.: now we populate the rss search tree;
- * fixed: treeview images are now correct (not using the favicons)
- *
- * Revision 1.10  2006/10/27 19:05:33  t_rendelmann
- * added support functions
- *
- * Revision 1.9  2006/10/05 17:58:32  t_rendelmann
- * fixed: last selected node activated on startup after restore the treestate did not populated the listview/detail pane
- *
- * Revision 1.8  2006/10/05 14:45:04  t_rendelmann
- * added usage of the XmlSerializerCache to prevent the Xml Serializer leak for the new
- * feature: persist the subscription tree state (expansion, selection)
- *
- * Revision 1.7  2006/09/29 18:14:36  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.6  2006/09/07 16:47:44  carnage4life
- * Fixed two issues
- * 1. Added SelectedImageIndex and ImageIndex to FeedsTreeNodeBase
- * 2. Fixed issue where watched comments always were treated as having new comments on HTTP 304
- *
- * Revision 1.5  2006/08/08 14:24:45  t_rendelmann
- * fixed: nullref. exception on "Move to next unread" (if it turns back to treeview top node)
- * fixed: nullref. exception (assertion) on delete feeds/category node
- * changed: refactored usage of node.Tag (object type) to use node.DataKey (string type)
- *
- */
-
-#endregion
