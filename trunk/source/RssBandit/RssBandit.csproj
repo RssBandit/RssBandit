@@ -1936,6 +1936,7 @@
     <Compile Include="WinGui\Controls\TreeView\UltraTreeExtended.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WinGui\Controls\UltraToolTipContextHelperBase.cs" />
     <Compile Include="WinGui\Controls\VerticalHeaderLabel.cs">
       <SubType>Component</SubType>
     </Compile>

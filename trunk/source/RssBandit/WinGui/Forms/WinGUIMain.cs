@@ -117,6 +117,7 @@ namespace RssBandit.WinGui.Forms
         private NavigatorHeaderHelper navigatorHeaderHelper;
         private ToolbarHelper toolbarHelper;
         internal HistoryMenuManager historyMenuManager;
+		private UltraToolTipContextHelperForTreeNodes treeNodesTooltipHelper;
 
         //private readonly List<TreeFeedsNodeBase> _roots = new List<TreeFeedsNodeBase>(3);
 		
@@ -1016,6 +1017,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.ultraToolTipManager.ContainingControl = this;
 			this.ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
+        	this.ultraToolTipManager.ToolTipTextStyle = Infragistics.Win.ToolTipTextStyle.Formatted;
 			// 
 			// panelFeedDetails
 			// 
