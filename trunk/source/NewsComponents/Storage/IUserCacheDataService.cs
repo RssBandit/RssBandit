@@ -16,15 +16,24 @@ using NewsComponents.Feed;
 namespace NewsComponents.Storage
 {
 
+	/// <summary>
+	/// Defines used entity names
+	/// </summary>
 	public enum DataEntityName
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		None,
+		/// <summary>
+		/// 
+		/// </summary>
 		NntpServerDefinitions,
 	}
 
 	/// <summary>
 	/// News Components Data Service interface.
-	/// Inherits IDisposable interface to cleanup any used database
+	/// Inherits <see cref="IDisposable"/> interface to cleanup any used database
 	/// connection or other resource(s)
 	/// </summary>
 	internal interface IUserCacheDataService: IDisposable
