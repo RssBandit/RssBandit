@@ -7423,8 +7423,22 @@ namespace NewsComponents
         void WriteTo(XmlWriter writer);
         void WriteTo(XmlWriter writer, bool noDescriptions); */
 
+		/// <summary>
+		/// Gets or sets the feed location.
+		/// </summary>
+		/// <value>The feed location.</value>
         string FeedLocation { get; set; }
+		/// <summary>
+		/// Writes the item contents.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="writer">The writer.</param>
         void WriteItemContents(BinaryReader reader, BinaryWriter writer);
+		/// <summary>
+		/// Writes to a XmlWriter instance.
+		/// </summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="noDescriptions">if set to <c>true</c> [no descriptions].</param>
         void WriteTo(XmlWriter writer, bool noDescriptions);
     }
 

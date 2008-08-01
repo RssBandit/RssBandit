@@ -154,36 +154,7 @@ namespace RssBandit.WinGui.Utility
 				throw new InvalidOperationException("RetryTimes and RetryDelay must be greater/equal to 0 (zero).");
 			try
 			{
-
-#if CLR_20
 				Clipboard.SetDataObject(data, copy, RetryTimes, RetryDelay);
-#else
-			int attempt = RetryTimes;
-			Exception catched;
-			do
-			{
-				try
-				{
-					Clipboard.SetDataObject(data, copy);
-					// if we get here, the setdataobject call worked, which means we can exit the do loop
-					catched = null;
-					break;
-				}
-				catch (System.Runtime.InteropServices.ExternalException ex)
-				{
-					catched = ex;
-					System.Threading.Thread.Sleep(RetryDelay);
-					--attempt;
-
-				}
-
-			} while (attempt != 0);
-
-			// unknown ErrorCode or we have exceeded our attempts, so let the outer try/catch deal with it.
-			if (catched != null)
-				throw catched;
-
-#endif
 			}
 			catch (Exception ex)
 			{

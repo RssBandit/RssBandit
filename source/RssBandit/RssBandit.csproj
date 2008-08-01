@@ -53,7 +53,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CLR_20</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -77,7 +77,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;CLR_20</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>doc\RssBandit.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
@@ -126,7 +126,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-AltPath\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLR_20;IG2007_1;ALT_CONFIG_PATH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;IG2007_1;ALT_CONFIG_PATH</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
