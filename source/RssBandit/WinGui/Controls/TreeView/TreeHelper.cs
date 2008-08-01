@@ -182,7 +182,7 @@ namespace RssBandit.WinGui.Controls
         }
 
         /// <summary>
-        /// Determines whether nodeToTest is a child node of the specified parent.
+        /// Determines whether <paramref name="nodeToTest"/> is a child node of the specified parent.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="nodeToTest">The node to test.</param>
@@ -899,7 +899,7 @@ namespace RssBandit.WinGui.Controls
 
 		protected override object ElementFromPoint(Point p) {
 			UltraTree tree = (UltraTree)this.Control;
-			return tree.GetNodeFromPoint(p.X, p.Y);
+			return tree.GetNodeFromPoint(p);
 		}
 
 		#endregion
@@ -918,7 +918,7 @@ namespace RssBandit.WinGui.Controls
 			TreeFeedsNodeBase node = ElementFromPoint(e.ControlElement.CurrentMousePosition) as TreeFeedsNodeBase;
 
 			// If it's not, return false.
-			if (node == null)
+			if (node == null || !node.Visible)
 				return false;
 
 			string text = SR.TreeNodeTooltip_UnreadCountZeroHint;
@@ -935,16 +935,17 @@ namespace RssBandit.WinGui.Controls
 				toolTipInfo.ToolTipTitle = node.Text;
 				toolTipInfo.ToolTipImage = ToolTipImage.Info;
 
-				// directly assign to the UiElement:
-				e.ToolTipItem = new NodeToolTip(toolTipInfo, node.Control.Font);
+				// directly assign to the UiElement (class imlements IToolTipItem) would be
+				// an alternative, but uses more resources:
+				//e.ToolTipItem = new NodeToolTip(toolTipInfo, node.Control.Font);
 			
 				// Return true to indicate that a tooltip should be displayed when the
-				// mouse is over this element.
-
+				// mouse is over this element:
+				return true;
 				// we return false to indicate, the tooltipManager should not
 				// display tooltip for this element, because we already assigned
 				// the tipinfo directly to the node UiElement:
-				return false;
+				//return false;
 			}
 
 			return false;
@@ -964,38 +965,38 @@ namespace RssBandit.WinGui.Controls
 
 		#endregion Private Methods
 
-		struct NodeToolTip : IToolTipItem
-		{
-			private ToolTipInfo tti;
+		//struct NodeToolTip : IToolTipItem
+		//{
+		//    private ToolTipInfo tti;
 			
-			public NodeToolTip(UltraToolTipInfo initializer, Font ownerFont)
-			{
-				tti = new ToolTipInfo();
-				tti.Font = ownerFont;
-				tti.TitleFont = new Font(ownerFont, FontStyle.Bold);
-				tti.DisplayStyle = ToolTipDisplayStyle.Office2007;
-				tti.ToolTipTextStyle = ToolTipTextStyle.Formatted;
-				tti.ToolTipText = initializer.ToolTipTextFormatted;
-				tti.Title = initializer.ToolTipTitle;
-				tti.ToolTipImage = initializer.ToolTipImage;
-			}
+		//    public NodeToolTip(UltraToolTipInfo initializer, Font ownerFont)
+		//    {
+		//        tti = new ToolTipInfo();
+		//        tti.Font = ownerFont;
+		//        tti.TitleFont = new Font(ownerFont, FontStyle.Bold);
+		//        tti.DisplayStyle = ToolTipDisplayStyle.Office2007;
+		//        tti.ToolTipTextStyle = ToolTipTextStyle.Formatted;
+		//        tti.ToolTipText = initializer.ToolTipTextFormatted;
+		//        tti.Title = initializer.ToolTipTitle;
+		//        tti.ToolTipImage = initializer.ToolTipImage;
+		//    }
 
-			#region IToolTipItem Members
+		//    #region IToolTipItem Members
 
-			public ToolTipInfo GetToolTipInfo(Point mousePosition, UIElement element, UIElement previousToolTipElement, ToolTipInfo toolTipInfoDefault)
-			{
-				// fill the default from the template:
-				toolTipInfoDefault.DisplayStyle = tti.DisplayStyle;
-				toolTipInfoDefault.ToolTipTextStyle = tti.ToolTipTextStyle;
-				toolTipInfoDefault.ToolTipText = tti.ToolTipText;
-				toolTipInfoDefault.Title = tti.Title;
-				toolTipInfoDefault.ToolTipImage = tti.ToolTipImage;
-				return toolTipInfoDefault;
-			}
+		//    public ToolTipInfo GetToolTipInfo(Point mousePosition, UIElement element, UIElement previousToolTipElement, ToolTipInfo toolTipInfoDefault)
+		//    {
+		//        // fill the default from the template:
+		//        toolTipInfoDefault.DisplayStyle = tti.DisplayStyle;
+		//        toolTipInfoDefault.ToolTipTextStyle = tti.ToolTipTextStyle;
+		//        toolTipInfoDefault.ToolTipText = tti.ToolTipText;
+		//        toolTipInfoDefault.Title = tti.Title;
+		//        toolTipInfoDefault.ToolTipImage = tti.ToolTipImage;
+		//        return toolTipInfoDefault;
+		//    }
 
-			#endregion
+		//    #endregion
 
-		}
+		//}
 
 
 	}
@@ -1093,7 +1094,7 @@ namespace RssBandit.WinGui.Controls
     #region UltraTreeNodeExpansionMemento
 
     /// <summary>
-    /// Class to store and restore UltraTree nodes expansion states
+    /// Class to store and restore <see cref="UltraTree"/> nodes expansion states
     /// </summary>
     [Serializable]
     [XmlType(Namespace = RssBanditNamespace.TreeState)]

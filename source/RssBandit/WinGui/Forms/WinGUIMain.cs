@@ -27,6 +27,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using IEControl;
+using Infragistics.Win;
 using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
@@ -54,7 +55,7 @@ using TD.SandDock;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using K = RssBandit.Utility.Keyboard;
 using RssBandit.WinGui.Controls.ThListView;
-
+using ToolTip=System.Windows.Forms.ToolTip;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -508,6 +509,7 @@ namespace RssBandit.WinGui.Forms
             ResetTreeViewFontAndColor();
             ResetListViewFontAndColor();
             ResetListViewOutlookFontAndColor();
+        	ResetUltraTooltipDisplay();
         }
 
         // helper
@@ -647,6 +649,14 @@ namespace RssBandit.WinGui.Forms
             }
             listFeedItemsO.EndUpdate();
         }
+
+		void ResetUltraTooltipDisplay()
+		{
+			FontColorHelper.CopyFromFont(
+				ultraToolTipManager.ToolTipTitleAppearance.FontData, 
+				FontColorHelper.NormalFont);
+			ultraToolTipManager.ToolTipTitleAppearance.FontData.Bold = DefaultableBoolean.True;
+		}
 
         public void CmdExecuteSearchEngine(ICommand sender)
         {
