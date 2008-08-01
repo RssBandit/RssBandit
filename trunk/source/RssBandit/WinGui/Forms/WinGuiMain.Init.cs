@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
-using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
@@ -89,6 +88,7 @@ namespace RssBandit.WinGui.Forms
 
         private void InitWidgets()
         {
+        	InitTooltipManager();
             InitFeedTreeView();
             InitFeedDetailsCaption();
             InitListView();
@@ -99,6 +99,21 @@ namespace RssBandit.WinGui.Forms
             InitOutlookNavigator();
             InitNavigatorHiddenCaption();
         }
+
+		private void InitTooltipManager()
+		{
+			ultraToolTipManager.ToolTipTextStyle = ToolTipTextStyle.Formatted;
+
+			if (Win32.IsOSAtLeastWindowsVista)
+			{
+				ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.WindowsVista;
+			}
+			else
+			{
+				ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
+				//ultraToolTipManager.TextRenderingMode = TextRenderingMode.GDI;
+			}
+		}
 
         private void InitOutlookNavigator()
         {
@@ -349,10 +364,16 @@ namespace RssBandit.WinGui.Forms
 
         private void InitFeedTreeView()
         {
-			if (!Win32.IsOSAtLeastWindowsVista)
+			if (Win32.IsOSAtLeastWindowsVista)
+			{
+				treeFeeds.DisplayStyle = UltraTreeDisplayStyle.WindowsVista;
+			} 
+			else
+			{
 				treeFeeds.TextRenderingMode = TextRenderingMode.GDI;
+			}
 
-            // enable extended info tips support:
+        	// enable extended info tips support:
 			treeNodesTooltipHelper = new UltraToolTipContextHelperForTreeNodes(treeFeeds, ultraToolTipManager);
         	
 			treeFeeds.PathSeparator = FeedSource.CategorySeparator;
