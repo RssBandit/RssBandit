@@ -107,6 +107,12 @@ namespace NewsComponents.Storage
 		/// <returns></returns>
 		public abstract string[] GetUserDataFileNames();
 
+		/// <summary>
+		/// Sets the content for data file.
+		/// </summary>
+		/// <param name="dataFileName">Name of the data file.</param>
+		/// <param name="content">The content.</param>
+		/// <returns></returns>
 		public abstract DataEntityName SetContentForDataFile(string dataFileName, Stream content);
 		
 		#endregion

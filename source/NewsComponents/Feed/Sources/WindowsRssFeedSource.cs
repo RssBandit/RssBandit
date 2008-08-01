@@ -317,7 +317,7 @@ namespace NewsComponents.Feed
 
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
 
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
                 if (!StringHelper.EmptyTrimOrNull(path))
                 {
@@ -340,7 +340,7 @@ namespace NewsComponents.Feed
                     }
                 }// if (!StringHelper.EmptyTrimOrNull(category))           
 
-                WindowsRssFeedSource.event_caused_by_rssbandit = true;
+                event_caused_by_rssbandit = true;
             }
             return folder;
         }
@@ -631,10 +631,10 @@ namespace NewsComponents.Feed
 
                 if (folder != null)
                 {
-                    int n_index = newName.LastIndexOf(FeedSource.CategorySeparator) == -1 ?
-                        0 : newName.LastIndexOf(FeedSource.CategorySeparator) + 1;
+                    int n_index = newName.LastIndexOf(CategorySeparator) == -1 ?
+                        0 : newName.LastIndexOf(CategorySeparator) + 1;
                     folder.Rename(newName.Substring(n_index));
-                    WindowsRssFeedSource.folder_renamed_event_caused_by_rssbandit = true;
+                    folder_renamed_event_caused_by_rssbandit = true;
                     c.SetIFeedFolder(folder);
 
                     this.categories.Remove(oldName);                     
@@ -644,7 +644,7 @@ namespace NewsComponents.Feed
                     foreach (string str in oldCategories)
                     {
                         WindowsRssNewsFeedCategory movedCat = this.categories[str] as WindowsRssNewsFeedCategory;
-                        string name = newName + FeedSource.CategorySeparator + str.Substring(oldName.Length + 1);
+                        string name = newName + CategorySeparator + str.Substring(oldName.Length + 1);
                         movedCat.SetIFeedFolder(feedManager.GetFolder(name) as IFeedFolder);
                         this.categories.Remove(str);
                         this.categories.Add(name, movedCat);
@@ -1119,11 +1119,11 @@ namespace NewsComponents.Feed
         /// <param name="Path"></param>
         public void FeedAdded(string Path)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return; 
                 }
             }
@@ -1147,17 +1147,17 @@ namespace NewsComponents.Feed
         /// <param name="Path"></param>
         public void FeedDeleted(string Path)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
 
-            int index = Path.LastIndexOf(FeedSource.CategorySeparator);
-            string categoryName = null, title = null;
+            int index = Path.LastIndexOf(CategorySeparator);
+            string categoryName = null, title;
 
             if (index == -1)
             {
@@ -1198,17 +1198,17 @@ namespace NewsComponents.Feed
         /// <param name="oldPath"></param>
         public void FeedRenamed(string Path, string oldPath)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
 
-            int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
-            string categoryName = null, title = null;
+            int index = oldPath.LastIndexOf(CategorySeparator);
+            string categoryName = null, title;
 
             if (index == -1)
             {
@@ -1229,9 +1229,9 @@ namespace NewsComponents.Feed
 
                 if (f != null)
                 {
-                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    if (f.title.Equals(title) && (Equals(f.category, categoryName)))
                     {
-                        index = Path.LastIndexOf(FeedSource.CategorySeparator);
+                        index = Path.LastIndexOf(CategorySeparator);
                         string newTitle = (index == -1 ? Path : Path.Substring(index + 1));
 
                         RaiseOnRenamedFeed(new FeedRenamedEventArgs(f.link, newTitle));
@@ -1259,17 +1259,17 @@ namespace NewsComponents.Feed
         /// <param name="oldPath"></param>
         public void FeedMovedTo(string Path, string oldPath)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
             
-            int index = oldPath.LastIndexOf(FeedSource.CategorySeparator);
-            string categoryName = null, title = null;
+            int index = oldPath.LastIndexOf(CategorySeparator);
+            string categoryName = null, title;
 
             if (index == -1)
             {
@@ -1285,12 +1285,12 @@ namespace NewsComponents.Feed
 
             for (int i = 0; i < keys.Length; i++)
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
 
                 if (f != null)
                 {
-                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    if (f.title.Equals(title) && (Equals(f.category, categoryName)))
                     {
                         //we need to get the new IFeed instance for the moved feed
                         ((WindowsRssNewsFeed)f).SetIFeed(feedManager.GetFeed(Path) as IFeed); 
@@ -1308,18 +1308,18 @@ namespace NewsComponents.Feed
         /// <param name="Path"></param>
         public void FeedUrlChanged(string Path)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
 
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
-            int index = Path.LastIndexOf(FeedSource.CategorySeparator);
-            string categoryName = null, title = null;
+            int index = Path.LastIndexOf(CategorySeparator);
+            string categoryName = null, title;
 
             if (index == -1)
             {
@@ -1335,12 +1335,12 @@ namespace NewsComponents.Feed
 
             for (int i = 0; i < keys.Length; i++)
             {
-                INewsFeed f = null;
+                INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
 
                 if (f != null)
                 {
-                    if (f.title.Equals(title) && (Object.Equals(f.category, categoryName)))
+                    if (f.title.Equals(title) && (Equals(f.category, categoryName)))
                     {
                         Uri requestUri = new Uri(f.link);
                         Uri newUri = new Uri(ifeed.DownloadUrl);
@@ -1387,11 +1387,11 @@ namespace NewsComponents.Feed
         /// <param name="Path"></param>
         public void FeedDownloading(string Path)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
@@ -1414,11 +1414,11 @@ namespace NewsComponents.Feed
         /// <param name="Error"></param>
         public void FeedDownloadCompleted(string Path, FEEDS_DOWNLOAD_ERROR Error)
         {
-            lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
+            lock (event_caused_by_rssbandit_syncroot)
             {
-                if (WindowsRssFeedSource.event_caused_by_rssbandit)
+                if (event_caused_by_rssbandit)
                 {
-                    WindowsRssFeedSource.event_caused_by_rssbandit = false;
+                    event_caused_by_rssbandit = false;
                     return;
                 }
             }
