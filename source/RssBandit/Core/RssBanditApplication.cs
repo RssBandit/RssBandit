@@ -2961,34 +2961,38 @@ namespace RssBandit
         /// </summary>
         /// <param name="feedUrl"></param>
         /// <returns>FeedColumnLayout</returns>
-        public FeedColumnLayout GetFeedColumnLayout(string feedUrl)
+        public FeedColumnLayout GetFeedColumnLayout(int sourceId, string feedUrl)
         {
             if (feedUrl == null)
                 return null;
 
-            string layout = feedHandler.GetFeedColumnLayout(feedUrl);
+            FeedSource source = sourceManager[sourceId].Source;
+
+            string layout = source.GetFeedColumnLayout(feedUrl);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalFeedColumnLayout;
 
-            if (feedHandler.ColumnLayouts.ContainsKey(layout))
-                return feedHandler.ColumnLayouts.GetByKey(layout);
+            if (source.ColumnLayouts.ContainsKey(layout))
+                return source.ColumnLayouts.GetByKey(layout);
 
             // invalid key: cleanup
-            feedHandler.SetFeedColumnLayout(feedUrl, null);
+            source.SetFeedColumnLayout(feedUrl, null);
             feedlistModified = true;
             return GlobalFeedColumnLayout;
         }
 
-        public void SetFeedColumnLayout(string feedUrl, FeedColumnLayout layout)
-        {
+        public void SetFeedColumnLayout(int sourceId, string feedUrl, FeedColumnLayout layout)
+        {            
             if (string.IsNullOrEmpty(feedUrl))
                 return;
+            
+            FeedSource source = sourceManager[sourceId].Source; 
 
             if (layout == null)
             {
                 // reset
-                feedHandler.SetFeedColumnLayout(feedUrl, null);
+                source.SetFeedColumnLayout(feedUrl, null);
                 feedlistModified = true;
                 return;
             }
@@ -2996,23 +3000,23 @@ namespace RssBandit
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalFeedLayout)
                 return; // not a layout format we have to store for a feed
 
-            string key = feedHandler.GetFeedColumnLayout(feedUrl);
+            string key = source.GetFeedColumnLayout(feedUrl);
             FeedColumnLayout global = GlobalFeedColumnLayout;
 
-            if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == source.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
-                    int known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                    int known = source.ColumnLayouts.IndexOfSimilar(layout);
                     if (known >= 0)
                     {
-                        feedHandler.SetFeedColumnLayout(feedUrl, feedHandler.ColumnLayouts.GetKey(known));
+                        source.SetFeedColumnLayout(feedUrl, source.ColumnLayouts.GetKey(known));
                     }
                     else
                     {
                         key = Guid.NewGuid().ToString("N");
-                        feedHandler.ColumnLayouts.Add(key, layout);
-                        feedHandler.SetFeedColumnLayout(feedUrl, key);
+                        source.ColumnLayouts.Add(key, layout);
+                        source.SetFeedColumnLayout(feedUrl, key);
                     }
                     feedlistModified = true;
                 }
@@ -3024,46 +3028,46 @@ namespace RssBandit
             }
             else
             {
-                int known = feedHandler.ColumnLayouts.IndexOfKey(key);
-                if (!feedHandler.ColumnLayouts[known].Value.Equals(layout))
+                int known = source.ColumnLayouts.IndexOfKey(key);
+                if (!source.ColumnLayouts[known].Value.Equals(layout))
                 {
                     // check if layout modified
-                    if (!feedHandler.ColumnLayouts[known].Value.Equals(layout, true))
+                    if (!source.ColumnLayouts[known].Value.Equals(layout, true))
                     {
                         // check if just a simple resizing of columns						
 
                         if (!layout.Equals(global, true))
                         {
                             //check if new layout is equivalent to current default
-                            int otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                            int otherKnownSimilar = source.ColumnLayouts.IndexOfSimilar(layout);
 
                             if (otherKnownSimilar >= 0)
                             {
                                 //check if this layout is similar to an existing layout
-                                //feedHandler.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);	// refresh layout info
-                                feedHandler.SetFeedColumnLayout(feedUrl,
-                                                                feedHandler.ColumnLayouts.GetKey(otherKnownSimilar));
+                                //source.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);	// refresh layout info
+                                source.SetFeedColumnLayout(feedUrl,
+                                                                source.ColumnLayouts.GetKey(otherKnownSimilar));
                                 // set new key
                             }
                             else
                             {
                                 //this is a brand new layout
                                 key = Guid.NewGuid().ToString("N");
-                                feedHandler.ColumnLayouts.Add(key, layout);
-                                feedHandler.SetFeedColumnLayout(feedUrl, key);
+                                source.ColumnLayouts.Add(key, layout);
+                                source.SetFeedColumnLayout(feedUrl, key);
                             }
                         }
                         else
                         {
                             //new layout is equivalent to the current default
-                            feedHandler.SetFeedColumnLayout(feedUrl, null);
-                            feedHandler.ColumnLayouts.RemoveAt(known);
+                            source.SetFeedColumnLayout(feedUrl, null);
+                            source.ColumnLayouts.RemoveAt(known);
                         }
                     }
                     else
                     {
                         // this was a simple column resizing
-                        feedHandler.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
+                        source.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
                         // refresh layout info
                     }
                     feedlistModified = true;
@@ -3076,30 +3080,33 @@ namespace RssBandit
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public FeedColumnLayout GetCategoryColumnLayout(string category)
+        public FeedColumnLayout GetCategoryColumnLayout(int sourceId, string category)
         {
-            string layout = feedHandler.GetCategoryFeedColumnLayout(category);
+            FeedSource source = sourceManager[sourceId].Source;
+            string layout = source.GetCategoryFeedColumnLayout(category);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalCategoryColumnLayout;
-            if (feedHandler.ColumnLayouts.ContainsKey(layout))
-                return feedHandler.ColumnLayouts.GetByKey(layout);
+            if (source.ColumnLayouts.ContainsKey(layout))
+                return source.ColumnLayouts.GetByKey(layout);
 
             // invalid key: cleanup
-            feedHandler.SetCategoryFeedColumnLayout(category, null);
+            source.SetCategoryFeedColumnLayout(category, null);
             feedlistModified = true;
             return GlobalCategoryColumnLayout;
         }
 
-        public void SetCategoryColumnLayout(string category, FeedColumnLayout layout)
+        public void SetCategoryColumnLayout(int sourceId, string category, FeedColumnLayout layout)
         {
             if (string.IsNullOrEmpty(category))
                 return;
 
+            FeedSource source = sourceManager[sourceId].Source; 
+
             if (layout == null)
             {
                 // reset
-                feedHandler.SetCategoryFeedColumnLayout(category, null);
+                source.SetCategoryFeedColumnLayout(category, null);
                 feedlistModified = true;
                 return;
             }
@@ -3107,23 +3114,23 @@ namespace RssBandit
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalCategoryLayout)
                 return; // not a layout format we have to store for a category
 
-            string key = feedHandler.GetCategoryFeedColumnLayout(category);
+            string key = source.GetCategoryFeedColumnLayout(category);
             FeedColumnLayout global = GlobalCategoryColumnLayout;
 
-            if (string.IsNullOrEmpty(key) || false == feedHandler.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == source.ColumnLayouts.ContainsKey(key))
             {
                 if (!layout.Equals(global, true))
                 {
-                    int known = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                    int known = source.ColumnLayouts.IndexOfSimilar(layout);
                     if (known >= 0)
                     {
-                        feedHandler.SetCategoryFeedColumnLayout(category, feedHandler.ColumnLayouts.GetKey(known));
+                        source.SetCategoryFeedColumnLayout(category, source.ColumnLayouts.GetKey(known));
                     }
                     else
                     {
                         key = Guid.NewGuid().ToString("N");
-                        feedHandler.ColumnLayouts.Add(key, layout);
-                        feedHandler.SetCategoryFeedColumnLayout(category, key);
+                        source.ColumnLayouts.Add(key, layout);
+                        source.SetCategoryFeedColumnLayout(category, key);
                     }
                     feedlistModified = true;
                 }
@@ -3134,38 +3141,38 @@ namespace RssBandit
             }
             else
             {
-                int known = feedHandler.ColumnLayouts.IndexOfKey(key);
-                if (!feedHandler.ColumnLayouts[known].Value.Equals(layout))
+                int known = source.ColumnLayouts.IndexOfKey(key);
+                if (!source.ColumnLayouts[known].Value.Equals(layout))
                 {
                     // modified
-                    if (!feedHandler.ColumnLayouts[known].Value.Equals(layout, true))
+                    if (!source.ColumnLayouts[known].Value.Equals(layout, true))
                     {
                         // not anymore similar
-                        feedHandler.SetCategoryFeedColumnLayout(category, null);
-                        feedHandler.ColumnLayouts.RemoveAt(known);
+                        source.SetCategoryFeedColumnLayout(category, null);
+                        source.ColumnLayouts.RemoveAt(known);
                         if (!layout.Equals(global, true))
                         {
-                            int otherKnownSimilar = feedHandler.ColumnLayouts.IndexOfSimilar(layout);
+                            int otherKnownSimilar = source.ColumnLayouts.IndexOfSimilar(layout);
                             if (otherKnownSimilar >= 0)
                             {
-                                feedHandler.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);
+                                source.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);
                                 // refresh layout info
-                                feedHandler.SetCategoryFeedColumnLayout(category,
-                                                                        feedHandler.ColumnLayouts.GetKey(
+                                source.SetCategoryFeedColumnLayout(category,
+                                                                        source.ColumnLayouts.GetKey(
                                                                             otherKnownSimilar)); // set new key
                             }
                             else
                             {
                                 key = Guid.NewGuid().ToString("N");
-                                feedHandler.ColumnLayouts.Add(key, layout);
-                                feedHandler.SetCategoryFeedColumnLayout(category, key);
+                                source.ColumnLayouts.Add(key, layout);
+                                source.SetCategoryFeedColumnLayout(category, key);
                             }
                         }
                     }
                     else
                     {
                         // still similar:
-                        feedHandler.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
+                        source.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
                         // refresh layout info
                     }
                     feedlistModified = true;
