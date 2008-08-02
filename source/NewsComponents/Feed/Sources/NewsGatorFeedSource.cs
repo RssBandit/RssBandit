@@ -805,7 +805,7 @@ namespace NewsComponents.Feed
                     //Update our recently read stories. This is very necessary for 
                     //dynamically generated feeds which always return 200(OK) even if unchanged							
 
-                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, response, false);
+                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, response, false /* cachedStream */, false /* markitemsread */);
                     IInternalFeedDetails fiFromCache = null;
 
                     // Sometimes we may not have loaded feed from cache. So ensure it is 
