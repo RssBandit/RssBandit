@@ -739,7 +739,7 @@ namespace RssBandit.WinGui.Forms
 
         internal void CmdColumnChooserResetToDefault(ICommand sender)
         {
-            SetFeedHandlerFeedColumnLayout(CurrentSelectedFeedsNode, null);
+            SetFeedColumnLayout(CurrentSelectedFeedsNode, null);
             listFeedItems.ApplyLayoutModifications(); // do not save temp. changes to the node
             IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items);
             listFeedItems.FeedColumnLayout = GetFeedColumnLayout(CurrentSelectedFeedsNode); // also clear's the listview
@@ -3501,7 +3501,7 @@ namespace RssBandit.WinGui.Forms
         private void OnFeedListLayoutModified(object sender, ListLayoutEventArgs e)
         {
             if (TreeSelectedFeedsNode != null)
-                SetFeedHandlerFeedColumnLayout(TreeSelectedFeedsNode, e.Layout);
+                SetFeedColumnLayout(TreeSelectedFeedsNode, e.Layout);
         }
 
         private void OnFeedListItemsColumnClick(object sender, ColumnClickEventArgs e)

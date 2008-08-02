@@ -2501,11 +2501,11 @@ namespace RssBandit.WinGui.Forms
             FeedColumnLayout layout = listFeedItems.FeedColumnLayout;
             if (startNode.Type == FeedNodeType.Feed)
             {
-                layout = owner.GetFeedColumnLayout(startNode.DataKey) ?? owner.GlobalFeedColumnLayout;
+                layout = owner.GetFeedColumnLayout(FeedSourceEntryOf(startNode).ID, startNode.DataKey) ?? owner.GlobalFeedColumnLayout;
             }
             else if (startNode.Type == FeedNodeType.Category)
             {
-                layout = owner.GetCategoryColumnLayout(startNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
+                layout = owner.GetCategoryColumnLayout(FeedSourceEntryOf(startNode).ID, startNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
             }
             else if (startNode.Type == FeedNodeType.Finder)
             {
@@ -2523,18 +2523,20 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         /// <param name="feedsNode">The feeds node.</param>
         /// <param name="layout">The layout.</param>
-        private void SetFeedHandlerFeedColumnLayout(TreeFeedsNodeBase feedsNode, FeedColumnLayout layout)
+        private void SetFeedColumnLayout(TreeFeedsNodeBase feedsNode, FeedColumnLayout layout)
         {
             if (feedsNode == null) feedsNode = CurrentSelectedFeedsNode;
-            if (feedsNode != null)
-            {
+            FeedSourceEntry entry = FeedSourceEntryOf(feedsNode); 
+
+            if (feedsNode != null && entry != null)
+            {               
                 if (feedsNode.Type == FeedNodeType.Feed)
                 {
-                    owner.SetFeedColumnLayout(feedsNode.DataKey, layout);
+                    owner.SetFeedColumnLayout(entry.ID, feedsNode.DataKey, layout);
                 }
                 else if (feedsNode.Type == FeedNodeType.Category)
                 {
-                    owner.SetCategoryColumnLayout(feedsNode.CategoryStoreName, layout);
+                    owner.SetCategoryColumnLayout(entry.ID, feedsNode.CategoryStoreName, layout);
                 }
                 else if (feedsNode.Type == FeedNodeType.Finder)
                 {
