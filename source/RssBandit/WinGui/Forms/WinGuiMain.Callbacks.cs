@@ -1079,6 +1079,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         browser.Tag = null; // remove ref to containing doc
                     	DetachEvents(browser, true);
+                        browser.Navigate("about:blank"); /* prevents media from continuing to play */ 
 						// browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
                         System.Reflection.FieldInfo fi = typeof(System.Windows.Forms.AxHost).GetField("oleSite", 
                             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
