@@ -1460,7 +1460,6 @@ namespace NewsComponents.Feed
         }
 
 
-        /// <summary>
         /// Reads the RSS feed from the stream then caches and returns the feed items 
         /// in an array list.
         /// </summary>
@@ -1477,7 +1476,32 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
+       
         public static FeedInfo GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream)
+        {
+            return GetItemsForFeed(f, feedReader, cachedStream, true /* markitemsread */ ); 
+        }
+
+        /// <summary>
+        /// Reads the RSS feed from the stream then caches and returns the feed items 
+        /// in an array list.
+        /// </summary>
+        /// <remarks>If the feedUrl is currently not stored in this object's internal table 
+        ///	then it is added/</remarks>		
+        /// <param name="f">Information about the feed. This information is updated based
+        /// on the results of processing the feed. </param>
+        /// <param name="feedReader">A reader containing an RSS feed.</param>				
+        /// <param name="cachedStream">Flag states update last retrieved date on feed only 
+        /// if the item was not cached. Indicates whether the lastretrieved date is updated
+        /// on the NewsFeed object passed in. </param>
+        /// <param name="markitemsread">indicates whether news items should be marked as read based on appearance in the 
+        /// storiesrecentlyviewed collection of the INewsFeed instance</param>
+        /// <returns>A FeedInfo object which represents the feed</returns>
+        /// <exception cref="RssParserException">If the RSS feed is not 
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the 
+        /// RSS feed</exception>	
+        public static FeedInfo GetItemsForFeed(INewsFeed f, XmlReader feedReader, bool cachedStream, bool markitemsread)
         {
             List<INewsItem> items = new List<INewsItem>();
             Dictionary<XmlQualifiedName, string> optionalElements = new Dictionary<XmlQualifiedName, string>();
@@ -1611,16 +1635,22 @@ namespace NewsComponents.Feed
             for (int i = 0, count = items.Count; i < count; i++)
             {
                 INewsItem ri = items[i];
-                if ((f.storiesrecentlyviewed != null) && f.storiesrecentlyviewed.Contains(ri.Id))
-                {
-                    ri.BeenRead = true;
-                    readItems++;
-                }
 
-                if (ri.HasNewComments)
+                if (markitemsread)
                 {
-                    newComments = true;
-                }
+
+                    if ((f.storiesrecentlyviewed != null) && f.storiesrecentlyviewed.Contains(ri.Id))
+                    {
+                        ri.BeenRead = true;
+                        readItems++;
+                    }
+
+                    if (ri.HasNewComments)
+                    {
+                        newComments = true;
+                    }
+
+                }//if (markitemsread)
 
                 //iSize += ri.GetSize();
 
@@ -1775,7 +1805,7 @@ namespace NewsComponents.Feed
         }
 
 
-        /// <summary>
+         /// <summary>
         /// Reads the RSS feed from the stream then caches and returns the feed items 
         /// in an array list.
         /// </summary>
@@ -1795,6 +1825,31 @@ namespace NewsComponents.Feed
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public static FeedInfo GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream)
         {
+            return GetItemsForFeed(f, feedStream, cachedStream, true /* markitemsread */ ); 
+        }
+
+        /// <summary>
+        /// Reads the RSS feed from the stream then caches and returns the feed items 
+        /// in an array list.
+        /// </summary>
+        /// <remarks>If the feedUrl is currently not stored in this object's internal table 
+        ///	then it is added/</remarks>		
+        /// <param name="f">Information about the feed. This information is updated based
+        /// on the results of processing the feed. </param>
+        /// <param name="feedStream">A stream containing an RSS feed.</param>				
+        /// <param name="cachedStream">Flag states update last retrieved date on feed only 
+        /// if the item was not cached. Indicates whether the lastretrieved date is updated
+        /// on the NewsFeed object passed in. </param>
+        /// <param name="markitemsread">indicates whether news items should be marked as read based on appearance in the 
+        /// storiesrecentlyviewed collection of the INewsFeed instance</param>       
+        /// <returns>A FeedInfo object which represents the feed</returns>
+        /// <exception cref="RssParserException">If the RSS feed is not 
+        /// version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the 
+        /// RSS feed</exception>	
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public static FeedInfo GetItemsForFeed(INewsFeed f, Stream feedStream, bool cachedStream, bool markitemsread)
+        {
             if (f == null || f.link == null)
                 return null;
 
@@ -1810,7 +1865,7 @@ namespace NewsComponents.Feed
             vr.ValidationType = ValidationType.None;
             vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
 
-            return GetItemsForFeed(f, vr, cachedStream);
+            return GetItemsForFeed(f, vr, cachedStream, markitemsread);
         }
 
 
