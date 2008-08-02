@@ -329,7 +329,7 @@ namespace NewsComponents.Feed
             this.GoogleUserId = temp.Replace("/state/com.google/starred", "").Substring(5);
 
             var taglist = from XmlNode node in doc.SelectNodes("/object/list[@name='tags']/object/string[@name='id']")
-                          where node.InnerText.IndexOf("/com.google/") == -1
+                          where node.InnerText.IndexOf("/com.google/") == -1 && node.InnerText.IndexOf("/com.blogger/") == -1
                           select node.InnerText.Replace("user/" + this.GoogleUserId + "/label/", ""); 
 
             return taglist;          
