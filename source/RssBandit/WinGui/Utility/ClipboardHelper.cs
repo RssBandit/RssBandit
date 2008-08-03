@@ -131,6 +131,7 @@ namespace RssBandit.WinGui.Utility
 		public static void SetStringAndHtml(string data, string html, bool copy)
 		{
 			IDataObject o = new DataObject();
+            o.SetData(DataFormats.Text, data); 
 			o.SetData(DataFormats.UnicodeText, data);
 			o.SetData(DataFormats.Html, html);
 			InternalSetDataObject(o, true);
