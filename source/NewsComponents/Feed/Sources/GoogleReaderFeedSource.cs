@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
@@ -22,6 +23,7 @@ using log4net;
 
 using NewsComponents.Collections;
 using NewsComponents.Net;
+using NewsComponents.Threading;
 using NewsComponents.Utils;
 
 using RssBandit.Common;
@@ -646,11 +648,23 @@ namespace NewsComponents.Feed
             {
                 try
                 {
-                    this.UpdateFeedList();
+                    var eventX = new System.Threading.ManualResetEvent(false);
+                    //perform task in background thread and timeout because for some reason sync HTTP web request hangs in certain cases
+                    PriorityThreadPool.QueueUserWorkItem(
+                                delegate
+                                {
+                                    this.UpdateFeedList();
+                                    eventX.Set();
+                                }
+                                ,(int)ThreadPriority.Normal
+                                );                    
+
+                    //wait 2 minutes for above task to complete then move on
+                    eventX.WaitOne(120000, true); 
                 }
                 catch (WebException we)
                 {
-                    _log.Error(we.Message, we); 
+                    _log.Error(we.Message, we);
                 }
             }
             base.RefreshFeeds(force_download); 
