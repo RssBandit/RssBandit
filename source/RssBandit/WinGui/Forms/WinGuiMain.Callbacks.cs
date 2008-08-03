@@ -421,9 +421,8 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(link))
                 {
-                    ClipboardHelper.SetStringAndHtml(link,
-                                                     String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title,
-                                                                   feedsNode.Text), true);
+                    string data = String.Format("<a href=\"{0}\" title=\"{1}\">{2}</a>", link, title,feedsNode.Text);
+                    ClipboardHelper.SetStringAndHtml(data, data, true);
                 }
             }
             if (sender is AppContextMenuCommand) // needed at the treeview
@@ -493,7 +492,7 @@ namespace RssBandit.WinGui.Forms
             }
 
             if (data.Length > 0)
-                ClipboardHelper.SetStringAndHtml(links.ToString(), data.ToString(), true);
+                ClipboardHelper.SetStringAndHtml(data.ToString(), data.ToString(), true);
         }
 
         private void CmdCopyNewsItemContentToClipboard(ICommand sender)
