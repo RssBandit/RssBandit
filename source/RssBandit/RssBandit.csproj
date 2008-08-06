@@ -310,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Converters\BytesToMegabytesConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
