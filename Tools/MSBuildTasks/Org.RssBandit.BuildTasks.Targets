@@ -8,5 +8,5 @@
 
   <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.BuildDay" />
   <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.VersionInfo" />
-  
+  <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.SvnRepositoryPath" />
 </Project>
