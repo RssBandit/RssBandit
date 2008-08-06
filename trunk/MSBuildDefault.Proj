@@ -39,7 +39,7 @@
 
         <InstallerZipFiles Include="source\RssBandit Installer\$(Configuration)\**\*.*" Exclude="*.zip" />
         <DaylyZipFiles Include="source\RssBandit\bin\x86\$(Configuration)\**\*.*" Exclude="RssBandit.vshost.exe;RssBandit.vshost.exe.config;RssBandit.exe.user.config" />
-        <SourceZipFiles Include="SvnExport\Source\Rev.$(Revision)\**\*.*" />
+        <SourceZipFiles Include="SvnExport\Source\**\*.*" />
         <PluginOutputFiles Include="source\RssBandit\plugins\bin\$(Configuration)\**\*.*" />
      </ItemGroup>
 
@@ -107,7 +107,7 @@
 			ZipFileName="RssBandit.$(Major).$(Minor).$(Build).$(Revision).Bin.zip" />
 	</Target>
 	
-	<Target Name="Source" DependsOnTargets="Source_Export;Version_Make">		
+	<Target Name="Source" DependsOnTargets="Version_Make;Source_Export">		
 		<Zip  Files="@(SourceZipFiles)" 
 			WorkingDirectory="SvnExport" 
 			ZipFileName="RssBandit.$(Major).$(Minor).$(Build).$(Revision).Src.zip" />
@@ -146,7 +146,7 @@
 		
 		<RemoveDir Directories="$(MSBuildProjectDirectory)\SvnExport\Source" />
         <MakeDir Directories="$(MSBuildProjectDirectory)\SvnExport\Source" />
-        <SvnExport RepositoryPath="./source" 
+        <SvnExport RepositoryPath="source" 
                 LocalPath="$(MSBuildProjectDirectory)\SvnExport\Source\Rev.$(Revision)">
         </SvnExport>
         <Message Text="SVN Exported revision: $(Revision)"/>
