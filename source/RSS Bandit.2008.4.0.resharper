@@ -299,4 +299,9 @@
       <LocalVariable prefix="" suffix="" />
     </Naming>
   </CodeStyleSettings>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates />
+    <Surrounds />
+    <FileTemplates />
+  </SharedSolutionTemplateManager>
 </Configuration>
