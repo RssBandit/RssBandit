@@ -38,7 +38,7 @@
         <PluginProjectToBuild Include="source\RssBandit\plugins\OneNote\OneNote.csproj"></PluginProjectToBuild>  
 
         <InstallerZipFiles Include="source\RssBandit Installer\$(Configuration)\**\*.*" Exclude="*.zip" />
-        <DaylyZipFiles Include="source\RssBandit\bin\x86\$(Configuration)\**\*.*" Exclude="RssBandit.vshost.exe;RssBandit.vshost.exe.config;RssBandit.exe.user.config" />
+        <DailyZipFiles Include="source\RssBandit\bin\x86\$(Configuration)\**\*.*" Exclude="RssBandit.vshost.exe;RssBandit.vshost.exe.config;RssBandit.exe.user.config" />
         <SourceZipFiles Include="SvnExport\Source\**\*.*" />
         <PluginOutputFiles Include="source\RssBandit\plugins\bin\$(Configuration)\**\*.*" />
      </ItemGroup>
@@ -100,9 +100,9 @@
 		  ZipFileName="RssBandit$(Major).$(Minor).$(Build).$(Revision)_Installer.zip" />
 	</Target>
 	
-	<Target Name="Dayly" DependsOnTargets="Compile;Version_Make">		
+	<Target Name="Daily" DependsOnTargets="Compile;Version_Make">		
 		<Delete Files="source\RssBandit\bin\x86\$(Configuration)\*.vshost.*" />
-		<Zip  Files="@(DaylyZipFiles)" 
+		<Zip  Files="@(DailyZipFiles)" 
 			WorkingDirectory="source\RssBandit\bin" 
 			ZipFileName="RssBandit.$(Major).$(Minor).$(Build).$(Revision).Bin.zip" />
 	</Target>
