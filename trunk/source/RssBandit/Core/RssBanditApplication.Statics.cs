@@ -312,41 +312,57 @@ namespace RssBandit
                     if (!string.IsNullOrEmpty(appDataFolderPath))
                     {
                         appDataFolderPath = Environment.ExpandEnvironmentVariables(appDataFolderPath);
-                    }
+						
+						if (!Path.IsPathRooted(appDataFolderPath))
+						{
+							// expand a relative path to be relative to the executable:
+							appDataFolderPath = Path.Combine(
+								Path.GetDirectoryName(Application.ExecutablePath), appDataFolderPath);
+						}
+						else
+						{
+							// here we can get "\folder", or also "\\server\shared\folder" or "D:\data\folder"
+							// for portable app support we resolve "\folder" to AppExe root drive + folder:
+							if (appDataFolderPath.StartsWith(@"\") && 
+								!appDataFolderPath.StartsWith(@"\\"))
+								// we have to cut the leading slash off (Path.Combine don't like it):
+								appDataFolderPath =
+									Path.Combine(Path.GetPathRoot(Application.ExecutablePath), 
+									appDataFolderPath.Substring(1));
+						}
+					}
                     else
                     {
                         try
                         {
                             // once
-                            appDataFolderPath =
-                                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Name);
-                            if (!Directory.Exists(appDataFolderPath))
-                                Directory.CreateDirectory(appDataFolderPath);
+                            appDataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Name);
                         }
                         catch (SecurityException secEx)
                         {
                             MessageBox.Show(
                                 "Cannot query for Environment.SpecialFolder.ApplicationData:\n" + secEx.Message,
-                                "Security violation");
+                                "Critical security violation");
                             Application.Exit();
                         }
                     }
-
-                    // expand a relative path to be relative to the executable:
-                    if (!Path.IsPathRooted(appDataFolderPath))
-                        appDataFolderPath =
-                            Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), appDataFolderPath);
-                    if (-1 == Path.GetPathRoot(appDataFolderPath).IndexOf(":"))
-                        // we have to cut the leading slash off (Path.Combine don't like it):
-                        appDataFolderPath =
-                            Path.Combine(Path.GetPathRoot(Application.ExecutablePath), appDataFolderPath.Substring(1));
 
 #if ALT_CONFIG_PATH
     // Keep debug path separate
                     appDataFolderPath = Path.Combine(appDataFolderPath, "Debug");
 #endif
-                    if (!Directory.Exists(appDataFolderPath))
-                        Directory.CreateDirectory(appDataFolderPath);
+					try
+					{
+						if (!Directory.Exists(appDataFolderPath))
+							Directory.CreateDirectory(appDataFolderPath);
+					}
+					catch (IOException ioEx)
+					{
+						MessageBox.Show(String.Format(
+							"Cannot access/create data directory:\r\n{0}\r\n\r\nError was: \n{1}", appDataFolderPath, ioEx.Message),
+							"Critical IO error");
+						Application.Exit();
+					}
                 }
 
                 return appDataFolderPath;
