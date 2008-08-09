@@ -3159,7 +3159,7 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // if there is a self-reference thread, we also have to switch the Gui state for them
                                 ThreadedListViewItem th = listFeedItems.Items[j];
-                                var selfRef = th.Key as NewsItem;
+                                var selfRef = th.Key as INewsItem;
                                 if (item.Equals(selfRef) && (th.ImageIndex%2) != 0)
                                 {
                                     // unread-state images always odd index numbers
@@ -3236,9 +3236,9 @@ namespace RssBandit.WinGui.Forms
 
 
 		///// <summary>
-		///// Returns the URL of the original feed for this NewsItem. 
+		///// Returns the URL of the original feed for this INewsItem. 
 		///// </summary>
-		///// <remarks>Assumes the NewsItem is in the flagged or watched items smart folder</remarks>
+		///// <remarks>Assumes the INewsItem is in the flagged or watched items smart folder</remarks>
 		///// <param name="currentNewsItem"></param>
 		///// <returns>The feed URL of the source feed if  a pointer to it exists and NULL otherwise.</returns>
 		//private static string GetOriginalFeedUrl(INewsItem currentNewsItem)
@@ -3267,7 +3267,7 @@ namespace RssBandit.WinGui.Forms
 		//}
 
         /// <summary>
-        /// Marks the comments for a NewsItem as read in a given feed node and across any other feed nodes 
+        /// Marks the comments for a INewsItem as read in a given feed node and across any other feed nodes 
         /// in which it appears. 
         /// </summary>
         /// <param name="tn">The feed node</param>
@@ -3315,7 +3315,7 @@ namespace RssBandit.WinGui.Forms
 							source = FeedSourceOf(tn); 
                         
 						/* 
-						 * now, locate NewsItem in actual feed and mark comments as viewed 
+						 * now, locate INewsItem in actual feed and mark comments as viewed 
 						 * then update tree node comment status. 							 
 						 */
 						if (feedUrl != null && source != null && source.GetFeeds().TryGetValue(feedUrl, out feed))
@@ -3336,7 +3336,7 @@ namespace RssBandit.WinGui.Forms
                     }
 
                     /* if (refNode != null) {
-								this.DelayTask(DelayedTasks.RefreshTreeCommentStatus, new object[]{refNode, new ArrayList(new NewsItem[]{currentNewsItem}), true});
+								this.DelayTask(DelayedTasks.RefreshTreeCommentStatus, new object[]{refNode, new ArrayList(new INewsItem[]{currentNewsItem}), true});
 							} */
 
 
@@ -3377,7 +3377,7 @@ namespace RssBandit.WinGui.Forms
 
                 try
                 {
-                    foreach (NewsItem o in outGoingItems)
+                    foreach (INewsItem o in outGoingItems)
                     {
                         bool hasRelations = NewsItemHasRelations(o, itemKeyPath, source);
                         newListItem =
@@ -3396,7 +3396,7 @@ namespace RssBandit.WinGui.Forms
 
                 try
                 {
-                    foreach (NewsItem o in inComingItems)
+                    foreach (INewsItem o in inComingItems)
                     {
                         bool hasRelations = NewsItemHasRelations(o, itemKeyPath, source);
                         newListItem =
@@ -3441,8 +3441,8 @@ namespace RssBandit.WinGui.Forms
                         // they are sorted as we requested them, so we do not sort again here
                         //currentNewsItem.GetExternalRelations();
 
-                        //List<NewsItem> commentItems 
-                        //  = new List<RelationBase>(currentNewsItem.GetExternalRelations()).ConvertAll<NewsItem>(RssBandit.Common.Utils.TypeConverter.DownCast<RelationBase, NewsItem>());
+                        //List<INewsItem> commentItems 
+                        //  = new List<RelationBase>(currentNewsItem.GetExternalRelations()).ConvertAll<INewsItem>(RssBandit.Common.Utils.TypeConverter.DownCast<RelationBase, INewsItem>());
                         //commentItems.Sort(RssHelper.GetComparer(false, NewsItemSortField.Date));
 
                         foreach (INewsItem o in currentNewsItem.GetExternalRelations())

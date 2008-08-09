@@ -1042,7 +1042,7 @@ namespace NewsComponents.Feed
 												: DefaultNumEnclosuresToDownloadOnNewFeed);
 
                         if (newReceivedItems != null)
-                            foreach (NewsItem ni in newReceivedItems)
+                            foreach (INewsItem ni in newReceivedItems)
                             {
                                 //ensure that we don't attempt to download these enclosures at a later date
                                 if (numDownloaded >= maxDownloads)

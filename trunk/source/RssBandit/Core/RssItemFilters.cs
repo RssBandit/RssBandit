@@ -80,11 +80,11 @@ namespace RssBandit.Filter
         }
 
         /// <summary>
-        /// Apply all filters to the specified NewsItem.
+        /// Apply all filters to the specified INewsItem.
         /// </summary>
-        public bool Apply( /*NewsItem item */ ThreadedListViewItem lvItem)
+        public bool Apply(ThreadedListViewItem lvItem)
         {
-            NewsItem item = lvItem.Key as NewsItem;
+            INewsItem item = lvItem.Key as INewsItem;
             if (item == null)
                 return false;
 
@@ -106,11 +106,11 @@ namespace RssBandit.Filter
         }
 
         /// <summary>
-        /// Apply a specific filter to the specified NewsItem.
+        /// Apply a specific filter to the specified INewsItem.
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="item">The NewsItem instance</param>
-        public bool Apply(string key, NewsItem item)
+        /// <param name="item">The INewsItem instance</param>
+        public bool Apply(string key, INewsItem item)
         {
             bool anyApplied = false;
             if (!filters.ContainsKey(key))
@@ -212,19 +212,19 @@ namespace RssBandit.Filter
 
         private void InitWith(IUserIdentity ui)
         {
-            if (ui != null && ui.ReferrerUrl != null && ui.ReferrerUrl.Length > 0)
+            if (ui != null && !string.IsNullOrEmpty(ui.ReferrerUrl))
                 _referrer = ui.ReferrerUrl;
         }
 
         #region Implementation of INewsItemFilter
 
         /// <summary>
-        /// Returns true if the NewsItem has an outgoing link to the default user's identity 
+        /// Returns true if the INewsItem has an outgoing link to the default user's identity 
         /// referer url
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Match(NewsItem item)
+        public bool Match(INewsItem item)
         {
             if (_referrer != null && item != null)
             {
@@ -244,7 +244,7 @@ namespace RssBandit.Filter
         /// </summary>
         /// <param name="item"></param>
         /// <param name="lvItem"></param>
-        public void ApplyAction(NewsItem item, ThreadedListViewItem lvItem)
+        public void ApplyAction(INewsItem item, ThreadedListViewItem lvItem)
         {
             if (lvItem != null)
             {
@@ -261,11 +261,11 @@ namespace RssBandit.Filter
         #region Implementation of INewsItemFilter
 
         /// <summary>
-        /// Returns true if the NewsItem has a flag
+        /// Returns true if the INewsItem has a flag
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Match(NewsItem item)
+        public bool Match(INewsItem item)
         {
             if (item != null && item.FlagStatus != Flagged.None)
                 return true;
@@ -279,7 +279,7 @@ namespace RssBandit.Filter
         /// </summary>
         /// <param name="item"></param>
         /// <param name="lvItem"></param>
-        public void ApplyAction(NewsItem item, ThreadedListViewItem lvItem)
+        public void ApplyAction(INewsItem item, ThreadedListViewItem lvItem)
         {
             if (lvItem != null && item != null)
             {
