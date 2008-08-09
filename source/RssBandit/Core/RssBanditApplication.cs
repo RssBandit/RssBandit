@@ -1015,9 +1015,9 @@ namespace RssBandit
 
             if (feed == null)
                 return;
-
-            HandleFeedCacheRelevantChange(sourceManager.SourceOf(feed.owner as FeedSource), feed.link, property);
-            HandleIndexRelevantChange(feed, property);
+        	FeedSourceEntry entry = sourceManager.SourceOf(feed.owner as FeedSource);
+			HandleFeedCacheRelevantChange(entry, feed.link, property);
+			HandleIndexRelevantChange(entry, feed, property);
         }
 
         /// <summary>
@@ -1033,7 +1033,7 @@ namespace RssBandit
                 return;
 
             HandleFeedCacheRelevantChange(entry, feedUrl, property);
-            HandleIndexRelevantChange(feedUrl, property);
+            HandleIndexRelevantChange(entry, feedUrl, property);
         }
 
         private void HandleSubscriptionRelevantChange(NewsFeedProperty property)
@@ -1068,15 +1068,14 @@ namespace RssBandit
             }
         }
 
-        private void HandleIndexRelevantChange(string feedUrl, NewsFeedProperty property)
+		private void HandleIndexRelevantChange(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            if (FeedSource.SearchHandler.IsIndexRelevantChange(property))
-                HandleIndexRelevantChange(GetFeed(feedUrl), property);
+			HandleIndexRelevantChange(entry, GetFeed(entry, feedUrl), property);
         }
 
-        private void HandleIndexRelevantChange(INewsFeed feed, NewsFeedProperty property)
+		private static void HandleIndexRelevantChange(FeedSourceEntry entry, INewsFeed feed, NewsFeedProperty property)
         {
             if (feed == null)
                 return;

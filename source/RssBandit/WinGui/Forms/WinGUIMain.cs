@@ -1938,8 +1938,11 @@ namespace RssBandit.WinGui.Forms
 
             if (feedsNode != null && feedsNode.Control != null)
             {
+            	FeedSourceEntry entry = FeedSourceEntryOf(feedsNode);
+            	if (entry != null) SelectFeedSource(entry);
                 SelectNode(feedsNode);
-                // populates listview items:
+                
+				// populates listview items:
                 OnTreeFeedAfterSelectManually(feedsNode); //??
                 MoveFeedDetailsToFront();
 
@@ -1986,13 +1989,17 @@ namespace RssBandit.WinGui.Forms
         }
 
         internal void NavigateToFeed(INewsFeed f)
-        {
-            NavigateToNode(TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), f));
-        }
+		{
+			NavigateToNode(TreeHelper.FindNode(
+				GetAllSubscriptionRootNodes().ConvertAll(
+				n => {
+					return (TreeFeedsNodeBase)n;
+				}), f));
+		}
 
         private void NavigateToFeedNewsItem(INewsItem item)
         {
-            NavigateToNode(TreeHelper.FindNode(GetRoot(RootFolderType.MyFeeds), item), item);
+            NavigateToFeed(item.Feed);
         }
 
         private void NavigateToHistoryEntry(HistoryEntry historyEntry)
