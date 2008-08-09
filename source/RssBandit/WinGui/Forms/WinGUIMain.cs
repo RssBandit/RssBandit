@@ -634,7 +634,7 @@ namespace RssBandit.WinGui.Forms
             for (int i = 0; i < listFeedItemsO.Nodes.Count; i++)
             {
                 listFeedItemsO.Nodes[i].Override.ItemHeight = UltraTreeExtended.DATETIME_GROUP_HEIGHT;
-                //NewsItem Nodes
+                //INewsItem Nodes
                 for (int j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
                 {
                     //Already done
@@ -805,12 +805,16 @@ namespace RssBandit.WinGui.Forms
             {
                 if (treeFeeds.SelectedNodes.Count == 0)
                     return null;
-
-                return (TreeFeedsNodeBase) treeFeeds.SelectedNodes[0];
+            	FeedSourceEntry currentSource = FeedSourceEntryOf(GetRoot(RootFolderType.MyFeeds));
+                foreach (TreeFeedsNodeBase selected in treeFeeds.SelectedNodes)
+					if (selected.Visible && FeedSourceEntryOf(selected) == currentSource) 
+						return selected;
+				
+				return null;
             }
             set
             {
-                if (value.Control != null)
+                if (value != null && value.Control != null)
                 {
                     listFeedItems.CheckForLayoutModifications();
                     treeFeeds.BeforeSelect -= OnTreeFeedBeforeSelect;
@@ -843,10 +847,10 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Gets or sets the current internal selected feed story item (NewsItem)
+        /// Gets or sets the current internal selected feed story item (INewsItem)
         /// </summary>
-        /// <value>an NewsItem instance</value>
-        /// <remarks>If the internal current NewsItem is null, it
+        /// <value>an INewsItem instance</value>
+        /// <remarks>If the internal current INewsItem is null, it
         /// try to return the first item found on the ListView selctedItems list.
         /// If it is not null, it will be returned not regarding the current ListView
         /// selection. This behavior enables to have a context menu related to the current
@@ -2192,7 +2196,7 @@ namespace RssBandit.WinGui.Forms
 
                                 if (Visible)
                                 {
-                                    // initiate a refresh of the NewsItem detail pane
+                                    // initiate a refresh of the INewsItem detail pane
                                     OnFeedListItemActivate(this, EventArgs.Empty);
 
                                     if (CurrentSelectedFeedsNode != null)
@@ -2477,7 +2481,12 @@ namespace RssBandit.WinGui.Forms
 			TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
 			if (myRoot != null)
 			{
+				// remember subscription node selection:
+				if (Navigator.SelectedGroup.Key != Resource.NavigatorGroup.RssSearch) 
+					Navigator.SelectedGroup.Tag = TreeSelectedFeedsNode;
+				// hide all other root nodes:
 				ShowSubscriptionRootNodes(false);
+				// make my root node visible:
 				myRoot.Visible = true;
 				_lastVisualFeedSource = myRoot.Text;
 				treeFeeds.Parent.Controls.Remove(treeFeeds);
@@ -2502,6 +2511,13 @@ namespace RssBandit.WinGui.Forms
 				SubscriptionRootNode myRoot = GetSubscriptionRootNode(e.Group.Text);
 				if (myRoot != null)
 				{
+					// restore node selection:
+					TreeFeedsNodeBase groupSelectedNode = e.Group.Tag as TreeFeedsNodeBase;
+					if (groupSelectedNode != null)
+					{
+						TreeSelectedFeedsNode = groupSelectedNode;
+						OnTreeFeedAfterSelectManually(groupSelectedNode);
+					}
 					owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
 					owner.Mediator.SetEnabled(FeedSourceType.DirectAccess != owner.FeedSources[myRoot.SourceID].SourceType,
 						"cmdDeleteFeedSource");

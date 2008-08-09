@@ -646,12 +646,12 @@ namespace NewsComponents
             /// <summary>
             /// Initializer
             /// </summary>
-            /// <remarks>This modifies the input FeedInfoList by replacing its NewsItem contents 
+            /// <remarks>This modifies the input FeedInfoList by replacing its INewsItem contents 
             /// with SearchHitNewsItems</remarks>
             /// <param name="tag">Object used by caller</param>
             /// <param name="matchingFeeds"></param>
             /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
+            /// <param name="matchingItemsCount">integer stores the count of matching INewsItem's (over all feeds)</param>
             public SearchFinishedEventArgs(
                 object tag, FeedInfoList matchingFeeds, int matchingFeedsCount, int matchingItemsCount) :
                 this(tag, matchingFeeds, new List<INewsItem>(), matchingFeedsCount, matchingItemsCount)
@@ -681,7 +681,7 @@ namespace NewsComponents
             /// <param name="matchingFeeds">The matching feeds.</param>
             /// <param name="matchingNewsItems">The matching news items.</param>
             /// <param name="matchingFeedsCount">integer stores the count of matching feeds</param>
-            /// <param name="matchingItemsCount">integer stores the count of matching NewsItem's (over all feeds)</param>
+            /// <param name="matchingItemsCount">integer stores the count of matching INewsItem's (over all feeds)</param>
             public SearchFinishedEventArgs(
                 object tag, FeedInfoList matchingFeeds, IEnumerable<INewsItem> matchingNewsItems, int matchingFeedsCount,
                 int matchingItemsCount)

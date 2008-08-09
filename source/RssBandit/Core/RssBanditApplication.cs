@@ -3786,7 +3786,7 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Removes a NewsItem from a SmartFolder.
+        /// Removes a INewsItem from a SmartFolder.
         /// </summary>
         /// <param name="folder"></param>
         /// <param name="item"></param>
@@ -3858,16 +3858,16 @@ namespace RssBandit
                 {
                     _log.Error("ClearFlaggedItems() exception", e);
                 }
-            } //foreach(NewsItem ri...)
+            } //foreach(INewsItem ri...)
 
             flaggedItemsFeed.Items.Clear();
         }
 
         /// <summary>
-        /// Get a NewsItem to re-flag: usually called on a already flagged item. It try to
+        /// Get a INewsItem to re-flag: usually called on a already flagged item. It try to
         /// find the corresponding feed containing the item and re-flag them.
         /// </summary>
-        /// <param name="theItem">NewsItem to re-flag</param>
+        /// <param name="theItem">INewsItem to re-flag</param>
         public void ReFlagNewsItem(INewsItem theItem)
         {
             if (theItem == null)
@@ -3939,10 +3939,10 @@ namespace RssBandit
 
 
         /// <summary>
-        /// Get a NewsItem to unwatch: usually called on an already watched item. It try to
+        /// Get a INewsItem to unwatch: usually called on an already watched item. It try to
         /// find the corresponding feed containing the item and unwatches them.
         /// </summary>
-        /// <param name="theItem">NewsItem to re-flag</param>
+        /// <param name="theItem">INewsItem to re-flag</param>
         public void ReWatchNewsItem(INewsItem theItem)
         {
             if (theItem == null)
@@ -4005,9 +4005,9 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Get a NewsItem to flag and add them (Clone) to the flagged item node collection
+        /// Get a INewsItem to flag and add them (Clone) to the flagged item node collection
         /// </summary>
-        /// <param name="theItem">NewsItem to flag</param>
+        /// <param name="theItem">INewsItem to flag</param>
         public void FlagNewsItem(INewsItem theItem)
         {
             if (theItem == null)
@@ -4101,14 +4101,14 @@ namespace RssBandit
 					{
 						// still there, so we can update the item.
 						
-						watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
+						watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
 						FeedSourceEntry entry = FeedSources[sourceID];
 						INewsItem watchedItem = entry.Source.CopyNewsItemTo(ni, watchedItemsFeed);
 						OptionalItemElement.AddOrReplaceOriginalFeedReference(watchedItem, ni.Feed.link, sourceID);
 						watchedItemsFeed.Add(watchedItem);
 					}
 
-					//watchedItemsFeed.Items.Remove(ni); //remove old copy of the NewsItem 
+					//watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
 
 					//XmlElement originalFeed = RssHelper.CreateXmlElement(
 					//    OptionalItemElement.Prefix,
@@ -4131,9 +4131,9 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Gets a NewsItem to Watch and adds it (Clone) to the watched item node
+        /// Gets a INewsItem to Watch and adds it (Clone) to the watched item node
         /// </summary>
-        /// <param name="theItem">NewsItem to watch</param>
+        /// <param name="theItem">INewsItem to watch</param>
         public void WatchNewsItem(INewsItem theItem)
         {
             if (theItem == null)
@@ -4257,7 +4257,7 @@ namespace RssBandit
             if (inResponse2item != null && replyItem != null)
             {
                 // create a new one, because we could not modify the replyItem.link :(
-                var newItem =
+				INewsItem newItem =
                     new NewsItem(sentItemsFeed, replyItem.Title, inResponse2item.Link, replyItem.Content,
                                  replyItem.Date, inResponse2item.Feed.title)
                         {
@@ -4309,7 +4309,7 @@ namespace RssBandit
             if (postTarget != null && replyItem != null)
             {
                 // create a new one, because we could not modify the replyItem.link :(
-                var newItem =
+				INewsItem newItem =
                     new NewsItem(sentItemsFeed, replyItem.Title, Guid.NewGuid().ToString(), replyItem.Content,
                                  replyItem.Date, postTarget.title)
                         {
@@ -4333,9 +4333,9 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Gets a NewsItem to delete and add them to the deleted items feed
+        /// Gets a INewsItem to delete and add them to the deleted items feed
         /// </summary>
-        /// <param name="theItem">NewsItem to delete</param>
+        /// <param name="theItem">INewsItem to delete</param>
         public void DeleteNewsItem(INewsItem theItem)
         {
             if (theItem == null)
@@ -4388,11 +4388,11 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Gets a NewsItem and restore it. It will be removed from the deleted items feed
+        /// Gets a INewsItem and restore it. It will be removed from the deleted items feed
         /// and added back to the original container feed. 
         /// It returns the original container tree node if found and restored, else null.
         /// </summary>
-        /// <param name="item">NewsItem</param>
+        /// <param name="item">INewsItem</param>
         /// <returns>FeedTreeNodeBase</returns>
         public TreeFeedsNodeBase RestoreNewsItem(INewsItem item)
         {
@@ -4574,11 +4574,11 @@ namespace RssBandit
 //        /// </summary>
 //        public void InitializeFlaggedItems()
 //        {
-//            // as long the FlagStatus of NewsItem's wasn't persisted all the time, 
+//            // as long the FlagStatus of INewsItem's wasn't persisted all the time, 
 //            // we have to re-init the feed item's FlagStatus from the flagged items collection:
 //            bool runSelfHealingFlagStatus = GuiSettings.GetBoolean("RunSelfHealing.FlagStatus", true);
 
-//            foreach (NewsItem ri in flaggedItemsFeed.Items)
+//            foreach (INewsItem ri in flaggedItemsFeed.Items)
 //            {
 //                if (ri.FlagStatus == Flagged.None)
 //                {
@@ -4632,7 +4632,7 @@ namespace RssBandit
 //                        }
 //                    }
 //                } //if(this.feedHan...)
-//            } //foreach(NewsItem ri...)
+//            } //foreach(INewsItem ri...)
 
 //            if (runSelfHealingFlagStatus)
 //            {
@@ -5230,9 +5230,9 @@ namespace RssBandit
         /// format the item to HTML.
         /// </summary>
         /// <param name="stylesheet">The stylesheet.</param>
-        /// <param name="item">The NewsItem</param>
+        /// <param name="item">The INewsItem</param>
         /// <param name="toHighlight">To highlight.</param>
-        /// <returns>The NewsItem formatted as a HTML string</returns>
+        /// <returns>The INewsItem formatted as a HTML string</returns>
         public string FormatNewsItem(string stylesheet, INewsItem item, SearchCriteriaCollection toHighlight)
         {
             if (!NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
@@ -5261,7 +5261,7 @@ namespace RssBandit
             if (criterias.Count > 0)
             {
                 //SearchHitNewsItem shitem = item as SearchHitNewsItem; 
-                var clone = new NewsItem(item.Feed, item.Title, item.Link,
+				INewsItem clone = new NewsItem(item.Feed, item.Title, item.Link,
                                          ApplyHighlightingTo(item.Content, criterias), item.Date,
                                          item.Subject,
                                          item.ContentType, item.OptionalElements, item.Id, item.ParentId)
