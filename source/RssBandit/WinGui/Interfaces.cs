@@ -65,8 +65,8 @@ namespace RssBandit.WinGui.Interfaces
 
     public interface INewsItemFilter
     {
-        bool Match(NewsItem item);
-        void ApplyAction(NewsItem item, ThreadedListViewItem lvItem);
+        bool Match(INewsItem item);
+        void ApplyAction(INewsItem item, ThreadedListViewItem lvItem);
     }
 
     public interface ISmartFolder

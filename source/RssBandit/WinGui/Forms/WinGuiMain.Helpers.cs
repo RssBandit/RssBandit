@@ -551,7 +551,7 @@ namespace RssBandit.WinGui.Forms
             if (listFeedItems.Items.Count == 0)
                 return null;
 
-            NewsItem compareItem = null;
+            INewsItem compareItem = null;
             ThreadedListViewItem foundLVItem = null;
 
             int pos = 0, incrementor = 1;
@@ -567,7 +567,7 @@ namespace RssBandit.WinGui.Forms
                 // in correct range
 
                 ThreadedListViewItem lvi = listFeedItems.Items[pos];
-                var item = lvi.Key as NewsItem;
+                var item = lvi.Key as INewsItem;
 
                 // find the oldest unread item
                 if (item != null && !item.BeenRead)
@@ -972,7 +972,7 @@ namespace RssBandit.WinGui.Forms
 
             foreach (var lvi in items)
             {
-                var item = lvi.Key as NewsItem;
+                var item = lvi.Key as INewsItem;
                 if (item == null) continue;
                 if (applyFlags && item.FlagStatus != Flagged.None)
                     ApplyFlagStateTo(lvi, item.FlagStatus, indexMap);
@@ -1091,10 +1091,10 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Populates the list view with NewsItem's from the ArrayList. 
+        /// Populates the list view with INewsItem's from the ArrayList. 
         /// </summary>
         /// <param name="associatedFeedsNode">The accociated tree Node</param>
-        /// <param name="list">A list of NewsItem objects.</param>
+        /// <param name="list">A list of INewsItem objects.</param>
         /// <param name="forceReload">Force reload of the listview</param>
         private void PopulateListView(TreeFeedsNodeBase associatedFeedsNode, IList<INewsItem> list, bool forceReload)
         {
@@ -1102,10 +1102,10 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Populates the list view with NewsItem's from the ArrayList. 
+        /// Populates the list view with INewsItem's from the ArrayList. 
         /// </summary>
         /// <param name="associatedFeedsNode">The accociated tree Node to populate</param>
-        /// <param name="list">A list of NewsItem objects.</param>
+        /// <param name="list">A list of INewsItem objects.</param>
         /// <param name="forceReload">Force reload of the listview</param>
         /// <param name="categorizedView">True, if the feed title should be appended to
         /// each RSS Item title: "...rss item title... (feed title)"</param>
@@ -1221,10 +1221,10 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Fully populates the list view with NewsItem's from the ArrayList 
+        /// Fully populates the list view with INewsItem's from the ArrayList 
         /// (forced reload).
         /// </summary>
-        /// <param name="list">A list of NewsItem objects.</param>
+        /// <param name="list">A list of INewsItem objects.</param>
         /// <returns>unread items</returns>
         private IList<INewsItem> PopulateFullListView(IList<INewsItem> list)
         {
@@ -1295,14 +1295,14 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Add NewsItem's from the ArrayList to the current displayed ListView. 
+        /// Add INewsItem's from the ArrayList to the current displayed ListView. 
         /// This contains usually some items, so we have to insert the new items 
         /// at the correct position(s).
         /// </summary>
-        /// <param name="list">A list of NewsItem objects.</param>
+        /// <param name="list">A list of INewsItem objects.</param>
         /// <param name="categorizedView">True, if the feed title should be appended to
         /// each RSS Item title: "...rss item title... (feed title)"</param>
-        /// <param name="checkDuplicates">If true, we check if a NewsItem is allready populated.
+        /// <param name="checkDuplicates">If true, we check if a INewsItem is allready populated.
         /// This has a perf. impact, if true!</param>
         /// <returns>unread items</returns>
         public IList<INewsItem> PopulateSmartListView(IList<INewsItem> list, bool categorizedView, bool checkDuplicates)
@@ -2575,12 +2575,12 @@ namespace RssBandit.WinGui.Forms
 
         /// <summary>
         /// A helper method that locates the ThreadedListViewItem representing
-        /// the NewsItem object. 
+        /// the INewsItem object. 
         /// </summary>
         /// <param name="item">The RSS item</param>
         /// <returns>The ThreadedListViewItem or null if 
         /// it can't be found</returns>
-        public ThreadedListViewItem GetListViewItem(NewsItem item)
+        public ThreadedListViewItem GetListViewItem(INewsItem item)
         {
             ThreadedListViewItem theItem = null;
             for (int i = 0; i < listFeedItems.Items.Count; i++)
@@ -2597,7 +2597,7 @@ namespace RssBandit.WinGui.Forms
 
         /// <summary>
         /// A helper method that locates the ThreadedListViewItem representing
-        /// the NewsItem object with the given ID. 
+        /// the INewsItem object with the given ID. 
         /// </summary>
         /// <param name="id">The RSS item's ID</param>
         /// <returns>The ThreadedListViewItem or null if 
