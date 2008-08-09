@@ -32,6 +32,7 @@ using RssBandit.WinGui.Utility;
 using RssBandit.Xml;
 using SortOrder=System.Windows.Forms.SortOrder;
 using RssBandit.Resources;
+using System.Collections.Generic;
 
 namespace RssBandit.WinGui.Controls
 {
@@ -198,9 +199,30 @@ namespace RssBandit.WinGui.Controls
             return false;
         }
 
+		/// <summary>
+		/// Finds the node.
+		/// </summary>
+		/// <param name="startNodes">The start nodes.</param>
+		/// <param name="f">The f.</param>
+		/// <returns></returns>
+		public static TreeFeedsNodeBase FindNode(IEnumerable<TreeFeedsNodeBase> startNodes, INewsFeed f)
+		{
+			if (f == null) return null;
+			TreeFeedsNodeBase assocFeedsNode = f.Tag as TreeFeedsNodeBase;
+			if (assocFeedsNode != null)
+				return assocFeedsNode;
+			foreach (TreeFeedsNodeBase node in startNodes)
+			{
+				assocFeedsNode = FindNode(node, f);
+				if (assocFeedsNode != null)
+					return assocFeedsNode;
+			}
+			return null;
+		}
+
         /// <summary>
         /// A helper method that locates the tree node containing the feed 
-        /// that an NewsItem object belongs to. 
+        /// that an INewsItem object belongs to. 
         /// </summary>
         /// <param name="startNode"></param>
         /// <param name="item">The RSS item</param>
