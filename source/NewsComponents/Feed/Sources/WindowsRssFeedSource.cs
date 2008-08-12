@@ -1578,17 +1578,14 @@ namespace NewsComponents.Feed
         {
             get
             {
-                if (myitem.Enclosure != null)
+            	if (myitem.Enclosure != null)
                 {
                     IEnclosure enc = new WindowsRssEnclosure(myitem.Enclosure as IFeedEnclosure);
                     return new List<IEnclosure>() { enc };
                 }
-                else
-                {
-                    return GetList<IEnclosure>.Empty;
-                }
+            	return GetList<IEnclosure>.Empty;
             }
-            set
+        	set
             {
                 /* Can't set IFeedItem.Enclosure */ 
             }
@@ -1825,7 +1822,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <remarks>This property is read only</remarks>
        public string Title { 
-            get { return myitem.Title; }
+            get { return Access.Get(myitem, m => { return m.Title; }); }
             set { /* Can't set IFeedItem.Title */ } 
        }
 
@@ -2392,6 +2389,56 @@ namespace NewsComponents.Feed
 
     }
 
+
+	/// <summary>
+	/// Helper to access a IFeedItem instance and handle/ignore
+	/// some of the wired exceptions.
+	/// </summary>
+	static class Access
+	{
+		/// <summary>
+		/// Applies the action to the specified item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <param name="action">The action.</param>
+		public static void Apply(IFeedItem item, Action action)
+		{
+			if (action == null)
+				throw new ArgumentNullException("action");
+
+			if (item == null)
+				return;
+
+			try
+			{
+				action();
+			}
+			catch (FileNotFoundException) { /* ignore */ }
+		}
+
+		/// <summary>
+		/// Gets anything out of the specified item using the <paramref name="actionWithResult"/> delegate.
+		/// </summary>
+		/// <typeparam name="TResult">The type of the result.</typeparam>
+		/// <param name="item">The item.</param>
+		/// <param name="actionWithResult">The action with result.</param>
+		/// <returns></returns>
+		public static TResult Get<TResult>(IFeedItem item, Func<IFeedItem, TResult> actionWithResult)
+		{
+			if (actionWithResult == null)
+				throw new ArgumentNullException("actionWithResult");
+
+			if (item == null)
+				return default(TResult); 
+
+			try
+			{
+				return actionWithResult(item);
+			}
+			catch (FileNotFoundException) {/* ignore */ }
+			return default(TResult);
+		}
+	}
     #endregion 
 
     #region WindowsRssEnclosure
