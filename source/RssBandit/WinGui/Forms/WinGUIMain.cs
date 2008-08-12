@@ -809,8 +809,8 @@ namespace RssBandit.WinGui.Forms
                 foreach (TreeFeedsNodeBase selected in treeFeeds.SelectedNodes)
 					if (selected.Visible && FeedSourceEntryOf(selected) == currentSource) 
 						return selected;
-				
-				return null;
+
+				return treeFeeds.ActiveNode as TreeFeedsNodeBase;
             }
             set
             {
