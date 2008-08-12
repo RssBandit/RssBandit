@@ -4480,60 +4480,35 @@ namespace RssBandit
         /// <summary>
         /// Publish an XML Feed error.
         /// </summary>
-        /// <param name="e">XmlException to publish</param>
+        /// <param name="e">Xml failure to publish</param>
         /// <param name="feedLink">The errornous feed url</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
         /// <param name="entry">The feed source the feed belongs to</param>
         public void PublishXmlFeedError(Exception e, string feedLink, bool updateNodeIcon, FeedSourceEntry entry)
-        {
-            if (feedLink != null)
-            {
-                /*	Uri uri = null;
-				try {
-					uri = new Uri(feedLink);
-				} catch (UriFormatException) {} */
-                UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, feedLink), feedLink, updateNodeIcon, entry);
-            }
+        { 
+                UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, feedLink, entry), 
+					feedLink, updateNodeIcon, entry);
         }
 
         /// <summary>
         /// Publish an XML Feed error.
         /// </summary>
-        /// <param name="e">XmlException to publish</param>
-        /// <param name="f">The errornous NewsFeed</param>
+		/// <param name="e">Xml failure to publish</param>
+        /// <param name="f">The erroneous NewsFeed</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
-        /// <param name="entry">The feed source the NewsFeed belongs to</param>
-        public void PublishXmlFeedError(Exception e, NewsFeed f, bool updateNodeIcon, FeedSourceEntry entry)
+        /// <param name="entry">The feed source the INewsFeed belongs to</param>
+        public void PublishXmlFeedError(Exception e, INewsFeed f, bool updateNodeIcon, FeedSourceEntry entry)
         {
-            if (f != null && !string.IsNullOrEmpty(f.link))
+			if (f != null && !string.IsNullOrEmpty(f.link))
             {
-                PublishXmlFeedError(e, f.link, updateNodeIcon, entry);
+				UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, f, entry),
+					f.link, updateNodeIcon, entry);
+            	return;
             }
+			_log.Error("XML Feed error called with now feed or ne feed url", e);
         }
 
-        /// <summary>
-        /// Helper to create a wrapped Exception, that provides more error infos for a feed
-        /// </summary>
-        /// <param name="e">Exception</param>
-        /// <param name="feedUrl">feed Url</param>
-        /// <returns></returns>
-        private FeedRequestException CreateLocalFeedRequestException(Exception e, string feedUrl)
-        {
-            if (feedUrl != null)
-            {
-                Uri uri = null;
-                try
-                {
-                    uri = new Uri(feedUrl);
-                }
-                catch (UriFormatException)
-                {
-                }
-                return new FeedRequestException(e.Message, e, feedHandler.GetFailureContext(uri));
-            }
-
-            return new FeedRequestException(e.Message, e, new Hashtable());
-        }
+		
 
         /// <summary>
         /// Add the exception to the local feedError feed. 

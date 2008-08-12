@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
@@ -905,11 +906,39 @@ namespace RssBandit
         /// <param name="f">NewsFeed</param>
         /// <param name="fi">IFeedDetails</param>
         /// <returns></returns>
-        public static FeedRequestException CreateLocalFeedRequestException(Exception e, NewsFeed f, IFeedDetails fi)
+        internal static FeedRequestException CreateLocalFeedRequestException(Exception e, INewsFeed f, IFeedDetails fi)
         {
             return new FeedRequestException(e.Message, e, FeedSource.CreateFailureContext(f, fi));
         }
 
+		/// <summary>
+		/// Helper to create a wrapped Exception, that provides more error infos for a feed
+		/// </summary>
+		/// <param name="e">The exception.</param>
+		/// <param name="f">The feed.</param>
+		/// <param name="entry">The entry.</param>
+		/// <returns></returns>
+		static FeedRequestException CreateLocalFeedRequestException(Exception e, INewsFeed f, FeedSourceEntry entry)
+		{
+			if (entry != null)
+				return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(f));
+			return new FeedRequestException(e.Message, e, new Hashtable());
+		}
+
+		/// <summary>
+		/// Helper to create a wrapped Exception, that provides more error infos for a feed
+		/// </summary>
+		/// <param name="e">Exception</param>
+		/// <param name="feedUrl">feed Url</param>
+		/// <param name="entry">The entry.</param>
+		/// <returns></returns>
+		private static FeedRequestException CreateLocalFeedRequestException(Exception e, string feedUrl, FeedSourceEntry entry)
+		{
+			if (!string.IsNullOrEmpty(feedUrl) && entry != null)
+				return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(feedUrl));
+
+			return new FeedRequestException(e.Message, e, new Hashtable());
+		}
 		/// <summary>
 		/// Reads an app settings entry. Can be used to init the command line
 		/// ivars with settings from a App.config or User.App.config.

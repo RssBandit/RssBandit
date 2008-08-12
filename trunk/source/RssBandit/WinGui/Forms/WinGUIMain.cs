@@ -2118,7 +2118,7 @@ namespace RssBandit.WinGui.Forms
                                 }
                                 catch (Exception e)
                                 {
-                                    owner.PublishXmlFeedError(e, f.link, true, entry);
+                                    owner.PublishXmlFeedError(e, f, true, entry);
                                 }
 
                                 if (!multipleSubscriptions)

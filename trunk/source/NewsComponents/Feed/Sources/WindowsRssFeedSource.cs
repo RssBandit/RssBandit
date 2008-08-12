@@ -1791,7 +1791,10 @@ namespace NewsComponents.Feed
                 lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
                     WindowsRssFeedSource.event_caused_by_rssbandit = true;
-                    myitem.IsRead = value;
+					Access.Apply(myitem, delegate
+					{
+						myitem.IsRead = value;
+					});
                 }
             }
         }
@@ -2414,6 +2417,12 @@ namespace NewsComponents.Feed
 				action();
 			}
 			catch (FileNotFoundException) { /* ignore */ }
+			catch (COMException comEx)
+			{
+				if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
+					return;
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -2436,6 +2445,12 @@ namespace NewsComponents.Feed
 				return actionWithResult(item);
 			}
 			catch (FileNotFoundException) {/* ignore */ }
+			catch (COMException comEx)
+			{
+				if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
+					return default(TResult);
+				throw;
+			} 
 			return default(TResult);
 		}
 	}
