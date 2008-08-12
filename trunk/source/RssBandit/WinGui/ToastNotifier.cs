@@ -172,8 +172,6 @@ namespace RssBandit.WinGui
 		#region private members
 		
 		private ToastNotify GetToastWindow(object toastObject) {
-			
-			ToastNotify tn = null;
 			int windowIndex = GetFreeToastWindowOffset();
 			if (windowIndex < 0)
 				return null;
@@ -185,27 +183,23 @@ namespace RssBandit.WinGui
 			int newX = (rPrimeScreen.Height - TOASTWINDOW_OFFSET) - (windowIndex * TOASTWINDOW_HEIGHT);
 			
 			if (newX < (rPrimeScreen.Top + TOASTWINDOW_HEIGHT)) {
-				tn = null;	// do not display toast flooding screen area (all open/used)
-			} else {
-				if (tn == null) {
-					ToastNotify tnNew = null; 
-					if(toastObject is NewsItem){
-						tnNew = new NewsItemToastNotify(_itemActivateCallback, _displayFeedPropertiesCallback, _feedActivateCallback);
-					}else {
-						tnNew = new EnclosureToastNotify(_enclosureActivateCallback,  _displayFeedPropertiesCallback, _feedActivateCallback);
-					}
-					tnNew.AutoDispose = true;
-					tnNew.Tag = windowIndex;
-					tnNew.AnimatingDone += new EventHandler(this.OnToastAnimatingDone);
-					//_toastWindows.Add(tnNew);
-					tn = tnNew;
-				}
-				// We use now the Genghis-build-in stacking instead.
-				// But keep the calc to prevent flooting the screen.
-				//tn.StartLocation = new Point(rPrimeScreen.Width - tn.Width - TOASTWINDOW_OFFSET, newX);
+				return null;	// do not display toast flooding screen area (all open/used)
 			}
+
+			ToastNotify tnNew;
+			if (toastObject is INewsItem)
+			{
+				tnNew = new NewsItemToastNotify(_itemActivateCallback, _displayFeedPropertiesCallback, _feedActivateCallback);
+			}
+			else
+			{
+				tnNew = new EnclosureToastNotify(_enclosureActivateCallback, _displayFeedPropertiesCallback, _feedActivateCallback);
+			}
+			tnNew.AutoDispose = true;
+			tnNew.Tag = windowIndex;
+			tnNew.AnimatingDone += this.OnToastAnimatingDone;
 			
-			return tn;
+			return tnNew;
 		}
 
 
@@ -213,14 +207,9 @@ namespace RssBandit.WinGui
 			ToastNotify n = sender as ToastNotify;
 			// detach event:
 			if (n != null) {
-				n.AnimatingDone -= new EventHandler(this.OnToastAnimatingDone);
+				n.AnimatingDone -= this.OnToastAnimatingDone;
 				MarkToastWindowOffsetFree((int)n.Tag);
 			}
-			//if (_openWindowsCount > 0) {
-			//    if (--_openWindowsCount == 0 && _disposing) {
-			//        this.CleanupForms();
-			//    }
-			//}
 		}
 
 		/// <summary>
