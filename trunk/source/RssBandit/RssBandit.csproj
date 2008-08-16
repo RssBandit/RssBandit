@@ -488,6 +488,10 @@
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ko.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.nl-NL.resx">
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
@@ -913,6 +917,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ja.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ko.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1612,6 +1620,10 @@
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ko.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.nl-NL.resx">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1681,6 +1693,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\ToastNotify.ja.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ko.resx">
       <DependentUpon>ToastNotify.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
