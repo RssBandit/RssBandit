@@ -228,6 +228,7 @@ namespace NewsComponents
                     headers.Add("Content-Length", response.ContentLength.ToString(CultureInfo.InvariantCulture));
                     headers.Add("Content-Disposition", response.Headers["Content-Disposition"]);
                     headers.Add("Content-Type", response.ContentType);
+                    headers.Add("Accept-Ranges", response.Headers["Accept-Ranges"]); 
                     response.Close();
                 }
             }
@@ -325,10 +326,11 @@ namespace NewsComponents
         /// request on the file to download. 
         /// </summary>
         /// <param name="task">The download task to update</param>
-        /// <returns>True if the Content-Length header was specified</returns>
+        /// <returns>True if the Content-Length header was specified and the server supports the Range HTTP header</returns>
         private static bool UpdateTaskFromHttpHeaders(DownloadTask task)
         {
             long contentLength = task.DownloadItem.Enclosure.Length;
+            bool supportsRange = false; 
 
             /* 
 			 * 	1. Set filename using Content-Disposition header value if it exists
@@ -352,6 +354,11 @@ namespace NewsComponents
                     task.DownloadItem.File.SuggestedType = new MimeType(headers["Content-Type"]);
                 }
 
+                if (!string.IsNullOrEmpty(headers["Accept-Ranges"]))
+                {
+                    supportsRange = true;
+                }
+
                 if (!string.IsNullOrEmpty(headers["Content-Disposition"]))
                 {
                     string[] components = headers["Content-Disposition"].Split(new[] {';'});
@@ -371,7 +378,7 @@ namespace NewsComponents
             {
             }
 
-            return (contentLength > 0);
+            return (contentLength > 0) && supportsRange;
         }
 
 
