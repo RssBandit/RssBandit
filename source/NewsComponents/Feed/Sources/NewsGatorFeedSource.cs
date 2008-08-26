@@ -343,6 +343,13 @@ namespace NewsComponents.Feed
                 {
                     _log.Debug(String.Format("Error occured when creating location in NewsGator Online: {0}-{1}", response.StatusCode, response.StatusDescription));
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
             catch (Exception e)
             {
@@ -1106,6 +1113,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
 
         }
@@ -1215,6 +1229,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }            
 
         }
@@ -1249,7 +1270,14 @@ namespace NewsComponents.Feed
              if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new WebException(response.StatusDescription);
-                } 
+                }
+
+             /* close the response stream to prevent threadpool deadlocks and resource leaks */
+             try
+             {
+                 response.Close();
+             }
+             catch { }
             }
         }
 
@@ -1273,7 +1301,14 @@ namespace NewsComponents.Feed
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new WebException(response.StatusDescription);
-                }              
+                }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
 
         }
@@ -1383,6 +1418,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
         }
 
@@ -1403,6 +1445,12 @@ namespace NewsComponents.Feed
                 throw new WebException(response.StatusDescription);
             }
 
+            /* close the response stream to prevent threadpool deadlocks and resource leaks */
+            try
+            {
+                response.Close();
+            }
+            catch { }
         }
 
           /// <summary>
@@ -1445,6 +1493,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
 
         }
@@ -1556,33 +1611,45 @@ namespace NewsComponents.Feed
 
             string folderCreateUrl = FolderApiUrl + "/create";
             string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value) 
-                + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF"; 
+                + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF";            
+           
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(response.GetResponseStream());
-
-                XmlElement outlineElem = doc.SelectSingleNode("//outline[@text=" + buildXPathString(folderName) + "]") as XmlElement;
-
-                if (outlineElem != null)
+                try
                 {
-                    cat.AnyAttr = new XmlAttribute[1]; 
-
-                    XmlAttribute idNode = outlineElem.Attributes["id", NewsGatorOpmlNS];
-                    if (idNode != null)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        cat.AnyAttr[0] = idNode;
-                    }                  
-                }              
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(response.GetResponseStream());
 
-            }
-            else
-            {
-                throw new WebException(response.StatusDescription);
-            }
+                        XmlElement outlineElem = doc.SelectSingleNode("//outline[@text=" + buildXPathString(folderName) + "]") as XmlElement;
+
+                        if (outlineElem != null)
+                        {
+                            cat.AnyAttr = new XmlAttribute[1];
+
+                            XmlAttribute idNode = outlineElem.Attributes["id", NewsGatorOpmlNS];
+                            if (idNode != null)
+                            {
+                                cat.AnyAttr[0] = idNode;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        throw new WebException(response.StatusDescription);
+                    }
+                }
+                finally
+                {
+                    /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                    try
+                    {
+                        response.Close();
+                    }
+                    catch { }
+                }        
         }
         #endregion 
 
@@ -1642,6 +1709,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
 
         }
@@ -1667,10 +1741,22 @@ namespace NewsComponents.Feed
                 string body = "tofolderid=" + folderId;
 
                 HttpWebResponse response = AsyncWebRequest.PostSyncResponse(moveApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
-
-                if (response.StatusCode != HttpStatusCode.OK)
+                
+                try
                 {
-                    throw new WebException(response.StatusDescription);
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new WebException(response.StatusDescription);
+                    }
+                }
+                finally
+                {
+                    /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                    try
+                    {
+                        response.Close();
+                    }
+                    catch { }
                 }
 
                 //update NewsGator folder ID of feed
@@ -1764,37 +1850,51 @@ namespace NewsComponents.Feed
 
                     HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    try
                     {
-                        XmlDocument doc = new XmlDocument();
-                        doc.Load(response.GetResponseStream());
 
-                        XmlElement outlineElem = doc.SelectSingleNode("//outline[@xmlUrl='" + f.link + "']") as XmlElement;
-                        
-                        if (outlineElem != null)
+                        if (response.StatusCode == HttpStatusCode.OK)
                         {
-                            f.Any = new XmlElement[2];
+                            XmlDocument doc = new XmlDocument();
+                            doc.Load(response.GetResponseStream());
 
-                            string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
-                            if (!StringHelper.EmptyTrimOrNull(id))
+                            XmlElement outlineElem = doc.SelectSingleNode("//outline[@xmlUrl='" + f.link + "']") as XmlElement;
+
+                            if (outlineElem != null)
                             {
-                                XmlElement idNode = doc.CreateElement("ng", "id", NewsGatorRssNS);
-                                idNode.InnerText = id;
-                                f.Any[0] = idNode; 
+                                f.Any = new XmlElement[2];
+
+                                string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
+                                if (!StringHelper.EmptyTrimOrNull(id))
+                                {
+                                    XmlElement idNode = doc.CreateElement("ng", "id", NewsGatorRssNS);
+                                    idNode.InnerText = id;
+                                    f.Any[0] = idNode;
+                                }
+
+                                string syncXmlUrl = outlineElem.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
+                                if (!StringHelper.EmptyTrimOrNull(syncXmlUrl))
+                                {
+                                    XmlElement syncXmlUrlNode = doc.CreateElement("ng", "syncXmlUrl", NewsGatorRssNS);
+                                    syncXmlUrlNode.InnerText = syncXmlUrl;
+                                    f.Any[1] = syncXmlUrlNode;
+                                }
                             }
 
-                            string syncXmlUrl = outlineElem.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
-                            if (!StringHelper.EmptyTrimOrNull(syncXmlUrl))
-                            {
-                                XmlElement syncXmlUrlNode = doc.CreateElement("ng", "syncXmlUrl", NewsGatorRssNS);
-                                syncXmlUrlNode.InnerText = syncXmlUrl;
-                                f.Any[1] = syncXmlUrlNode;
-                            }
-                        }                                              
-
-                    }else
+                        }
+                        else
+                        {
+                            throw new WebException(response.StatusDescription);
+                        }
+                    }
+                    finally
                     {
-                        throw new WebException(response.StatusDescription);
+                        /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                        try
+                        {
+                            response.Close();
+                        }
+                        catch { }
                     }
                 
             }//if(StringHelper...)
@@ -1857,6 +1957,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
 
                 base.DeleteFeed(feedUrl); 
             }

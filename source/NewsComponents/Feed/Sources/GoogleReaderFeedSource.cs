@@ -1192,6 +1192,13 @@ namespace NewsComponents.Feed
 
 
                 base.DeleteFeed(feedUrl);
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */ 
+                try 
+                {
+                    response.Close();
+                }
+                catch { }
             }
         }
 
@@ -1280,6 +1287,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }      
         
         }
@@ -1356,6 +1370,13 @@ namespace NewsComponents.Feed
                     {
                         throw new WebException(response.StatusDescription); 
                     }
+
+                    /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                    try
+                    {
+                        response.Close();
+                    }
+                    catch { }
                 }
 
             }// if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
@@ -1495,6 +1516,13 @@ namespace NewsComponents.Feed
             {
                 throw new WebException(response.StatusDescription);
             }
+
+            /* close the response stream to prevent threadpool deadlocks and resource leaks */
+            try
+            {
+                response.Close();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -1517,6 +1545,13 @@ namespace NewsComponents.Feed
             {
                 throw new WebException(response.StatusDescription);
             }
+
+            /* close the response stream to prevent threadpool deadlocks and resource leaks */
+            try
+            {
+                response.Close();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -1539,6 +1574,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
 
         }
@@ -1728,6 +1770,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
         }
 
@@ -1801,6 +1850,13 @@ namespace NewsComponents.Feed
                 {
                     throw new WebException(response.StatusDescription);
                 }
+
+                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                try
+                {
+                    response.Close();
+                }
+                catch { }
             }
         }           
 
