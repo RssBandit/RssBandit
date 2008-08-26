@@ -911,17 +911,17 @@ namespace NewsComponents.Feed
             LoadFolder(root, bootstrapFeeds, bootstrapCategories);
 
             /* copy over list view layouts */
-            if (feedlist.listviewLayouts != null)
-            {
-                foreach (listviewLayout layout in feedlist.listviewLayouts)
-                {
-                    string layout_trimmed = layout.ID.Trim();
-                    if (!this.layouts.ContainsKey(layout_trimmed))
-                    {
-                        this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-                    }
-                }
-            }             
+			//if (feedlist.listviewLayouts != null)
+			//{
+			//    foreach (listviewLayout layout in feedlist.listviewLayouts)
+			//    {
+			//        string layout_trimmed = layout.ID.Trim();
+			//        if (!this.layouts.ContainsKey(layout_trimmed))
+			//        {
+			//            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+			//        }
+			//    }
+			//}             
         }
 
 

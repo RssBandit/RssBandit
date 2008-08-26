@@ -435,6 +435,18 @@ namespace RssBandit
         {
             return ApplicationDataFolderFromEnv;
         }
+		
+		public static string GetLocalUserPath()
+		{
+			return ApplicationLocalDataFolderFromEnv;
+		}
+
+		public static string GetUserPersonalPath()
+		{
+			string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			string s = Path.Combine(mydocs, applicationName);
+			return s;
+		}
 
         public static string GetSearchesPath()
         {
@@ -453,8 +465,8 @@ namespace RssBandit
 
         public static string GetDefaultEnclosuresPath()
         {
-            string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string s = Path.Combine(mydocs, "RSS Bandit\\My Downloaded Files");
+			string mydocs = GetUserPersonalPath();
+            string s = Path.Combine(mydocs, "My Downloaded Files");
             return s;
         }
 		

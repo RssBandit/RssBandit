@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NewsComponents.Collections;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage
@@ -19,7 +20,7 @@ namespace NewsComponents.Storage
 	/// <summary>
 	/// Defines used entity names
 	/// </summary>
-	public enum DataEntityName
+	internal enum DataEntityName
 	{
 		/// <summary>
 		/// 
@@ -125,6 +126,8 @@ namespace NewsComponents.Storage
 		/// </summary>
 		/// <returns></returns>
 		List<NntpServerDefinition> LoadNntpServerDefinitions();
+		
+		#endregion
 
 		/// <summary>
 		/// Gets the used user data file names.
@@ -133,7 +136,7 @@ namespace NewsComponents.Storage
 		string[] GetUserDataFileNames();
 
 		DataEntityName SetContentForDataFile(string dataFileName, Stream content);
-		#endregion
+		
 	}
 
 	/// <summary>

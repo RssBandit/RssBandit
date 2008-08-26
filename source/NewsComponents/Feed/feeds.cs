@@ -11,16 +11,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-using NewsComponents.Collections;
 using NewsComponents.Utils;
 using RssBandit.AppServices.Core;
 
@@ -40,10 +35,10 @@ namespace NewsComponents.Feed
         [XmlArrayItem("category", Type = typeof (category), IsNullable = false)]
         public List<category> categories = new List<category>();
 
-        /// <remarks/>
-        [XmlArray("listview-layouts")]
-        [XmlArrayItem("listview-layout", Type = typeof (listviewLayout), IsNullable = false)]
-        public List<listviewLayout> listviewLayouts = new List<listviewLayout>();
+		///// <remarks/>
+		//[XmlArray("listview-layouts")]
+		//[XmlArrayItem("listview-layout", Type = typeof (listviewLayout), IsNullable = false)]
+		//public List<listviewLayout> listviewLayouts = new List<listviewLayout>();
 
         /// <remarks/>
         [XmlArrayItem("server", Type = typeof (NntpServerDefinition), IsNullable = false)]
@@ -148,450 +143,450 @@ namespace NewsComponents.Feed
     }
 
 
-    /// <remarks/>
-    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class listviewLayout
-    {
-        public listviewLayout()
-        {
-        }
+	///// <remarks/>
+	//[XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+	//public class listviewLayout
+	//{
+	//    public listviewLayout()
+	//    {
+	//    }
 
-        public listviewLayout(string id, FeedColumnLayout layout)
-        {
-            ID = id;
-            FeedColumnLayout = layout;
-        }
+	//    public listviewLayout(string id, IFeedColumnLayout layout)
+	//    {
+	//        ID = id;
+	//        FeedColumnLayout = (FeedColumnLayout)layout;
+	//    }
 
-        /// <remarks/>
-        [XmlAttribute]
-        public string ID;
+	//    /// <remarks/>
+	//    [XmlAttribute]
+	//    public string ID;
 
-        /// <remarks/>
-        [XmlAnyAttribute]
-        public XmlAttribute[] AnyAttr;
+	//    /// <remarks/>
+	//    [XmlAnyAttribute]
+	//    public XmlAttribute[] AnyAttr;
 
-        /// <remarks/>
-        [XmlElement] //?
-            public FeedColumnLayout FeedColumnLayout;
-    }
-
-
-    /// <summary>
-    /// Summary description for IFeedColumnLayout.
-    /// </summary>
-    public interface IFeedColumnLayout
-    {
-		/// <summary>
-		/// Gets the sort by column.
-		/// </summary>
-		/// <value>The sort by column.</value>
-        string SortByColumn { get; }
-		/// <summary>
-		/// Gets the sort order.
-		/// </summary>
-		/// <value>The sort order.</value>
-        SortOrder SortOrder { get; }
-		/// <summary>
-		/// Gets the arrange by column.
-		/// </summary>
-		/// <value>The arrange by column.</value>
-        string ArrangeByColumn { get; }
-		/// <summary>
-		/// Gets the columns.
-		/// </summary>
-		/// <value>The columns.</value>
-        IList<string> Columns { get; }
-		/// <summary>
-		/// Gets the column widths.
-		/// </summary>
-		/// <value>The column widths.</value>
-        IList<int> ColumnWidths { get; }
-    }
-
-	/// <summary>
-	/// A feed column layout container
-	/// </summary>
-    [Serializable]
-    [XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
-    public class FeedColumnLayout : IFeedColumnLayout, ICloneable, ISerializable
-    {
-        private string _sortByColumn;
-        private SortOrder _sortOrder;
-        private LayoutType _layoutType;
-        private string _arrangeByColumn;
-        internal List<string> _columns;
-        internal List<int> _columnWidths;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
-		/// </summary>
-        public FeedColumnLayout() :
-            this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null)
-        {
-        }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
-		/// </summary>
-		/// <param name="columns">The columns.</param>
-		/// <param name="columnWidths">The column widths.</param>
-		/// <param name="sortByColumn">The sort by column.</param>
-		/// <param name="sortOrder">The sort order.</param>
-		/// <param name="layoutType">Type of the layout.</param>
-        public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
-                                SortOrder sortOrder, LayoutType layoutType) :
-                                    this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null)
-        {
-        }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
-		/// </summary>
-		/// <param name="columns">The columns.</param>
-		/// <param name="columnWidths">The column widths.</param>
-		/// <param name="sortByColumn">The sort by column.</param>
-		/// <param name="sortOrder">The sort order.</param>
-		/// <param name="layoutType">Type of the layout.</param>
-		/// <param name="arrangeByColumn">The arrange by column.</param>
-        public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
-                                SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn)
-        {
-            if (columns != null)
-                _columns = new List<string>(columns);
-            else
-                _columns = new List<string>();
-            if (columnWidths != null)
-                _columnWidths = new List<int>(columnWidths);
-            else
-                _columnWidths = new List<int>();
-
-            _sortOrder = SortOrder.None;
-            if (sortByColumn != null && _columns.IndexOf(sortByColumn) >= 0)
-            {
-                _sortByColumn = sortByColumn;
-                _sortOrder = sortOrder;
-            }
-            if (arrangeByColumn != null && _columns.IndexOf(arrangeByColumn) >= 0)
-            {
-                _arrangeByColumn = arrangeByColumn;
-            }
-            _layoutType = layoutType;
-        }
-
-		/// <summary>
-		/// Creates from XML.
-		/// </summary>
-		/// <param name="xmlString">The XML string.</param>
-		/// <returns></returns>
-        public static FeedColumnLayout CreateFromXML(string xmlString)
-        {
-            if (xmlString != null && xmlString.Length > 0)
-            {
-                XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
-                StringReader reader = new StringReader(xmlString);
-                return (FeedColumnLayout) formatter.Deserialize(reader);
-            }
-            return null;
-        }
-
-		/// <summary>
-		/// Saves as XML.
-		/// </summary>
-		/// <param name="layout">The layout.</param>
-		/// <returns></returns>
-        public static string SaveAsXML(FeedColumnLayout layout)
-        {
-            if (layout == null)
-                return null;
-            try
-            {
-                XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
-                StringWriter writer = new StringWriter();
-                formatter.Serialize(writer, layout);
-                return writer.ToString();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("SaveAsXML() failed.", ex.Message);
-            }
-            return null;
-        }
-
-        #region IFeedColumnLayout Members
-
-        public LayoutType LayoutType
-        {
-            get
-            {
-                return _layoutType;
-            }
-            set
-            {
-                _layoutType = value;
-            }
-        }
+	//    /// <remarks/>
+	//    [XmlElement] //?
+	//        public FeedColumnLayout FeedColumnLayout;
+	//}
 
 
-        public string SortByColumn
-        {
-            get
-            {
-                return _sortByColumn;
-            }
-            set
-            {
-                _sortByColumn = value;
-            }
-        }
+	///// <summary>
+	///// Summary description for IFeedColumnLayout.
+	///// </summary>
+	//public interface IFeedColumnLayout
+	//{
+	//    /// <summary>
+	//    /// Gets the sort by column.
+	//    /// </summary>
+	//    /// <value>The sort by column.</value>
+	//    string SortByColumn { get; }
+	//    /// <summary>
+	//    /// Gets the sort order.
+	//    /// </summary>
+	//    /// <value>The sort order.</value>
+	//    SortOrder SortOrder { get; }
+	//    /// <summary>
+	//    /// Gets the arrange by column.
+	//    /// </summary>
+	//    /// <value>The arrange by column.</value>
+	//    string ArrangeByColumn { get; }
+	//    /// <summary>
+	//    /// Gets the columns.
+	//    /// </summary>
+	//    /// <value>The columns.</value>
+	//    IList<string> Columns { get; }
+	//    /// <summary>
+	//    /// Gets the column widths.
+	//    /// </summary>
+	//    /// <value>The column widths.</value>
+	//    IList<int> ColumnWidths { get; }
+	//}
 
-        public SortOrder SortOrder
-        {
-            get
-            {
-                return _sortOrder;
-            }
-            set
-            {
-                _sortOrder = value;
-            }
-        }
+	///// <summary>
+	///// A feed column layout container
+	///// </summary>
+	//[Serializable]
+	//[XmlType(Namespace=NamespaceCore.Feeds_vCurrent)]
+	//public class FeedColumnLayout : IFeedColumnLayout, ICloneable, ISerializable
+	//{
+	//    private string _sortByColumn;
+	//    private SortOrder _sortOrder;
+	//    private LayoutType _layoutType;
+	//    private string _arrangeByColumn;
+	//    internal List<string> _columns;
+	//    internal List<int> _columnWidths;
 
-        public string ArrangeByColumn
-        {
-            get
-            {
-                return _arrangeByColumn;
-            }
-            set
-            {
-                _arrangeByColumn = value;
-            }
-        }
+	//    /// <summary>
+	//    /// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+	//    /// </summary>
+	//    public FeedColumnLayout() :
+	//        this(null, null, null, SortOrder.None, LayoutType.IndividualLayout, null)
+	//    {
+	//    }
 
-        [XmlIgnore]
-        public IList<string> Columns
-        {
-            get
-            {
-                return _columns;
-            }
-            set
-            {
-                if (value != null)
-                    _columns = new List<string>(value);
-                else
-                    _columns = new List<string>();
-            }
-        }
+	//    /// <summary>
+	//    /// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+	//    /// </summary>
+	//    /// <param name="columns">The columns.</param>
+	//    /// <param name="columnWidths">The column widths.</param>
+	//    /// <param name="sortByColumn">The sort by column.</param>
+	//    /// <param name="sortOrder">The sort order.</param>
+	//    /// <param name="layoutType">Type of the layout.</param>
+	//    public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+	//                            SortOrder sortOrder, LayoutType layoutType) :
+	//                                this(columns, columnWidths, sortByColumn, sortOrder, layoutType, null)
+	//    {
+	//    }
 
-        [XmlIgnore]
-        public IList<int> ColumnWidths
-        {
-            get
-            {
-                return _columnWidths;
-            }
-            set
-            {
-                if (value != null)
-                    _columnWidths = new List<int>(value);
-                else
-                    _columnWidths = new List<int>();
-            }
-        }
+	//    /// <summary>
+	//    /// Initializes a new instance of the <see cref="FeedColumnLayout"/> class.
+	//    /// </summary>
+	//    /// <param name="columns">The columns.</param>
+	//    /// <param name="columnWidths">The column widths.</param>
+	//    /// <param name="sortByColumn">The sort by column.</param>
+	//    /// <param name="sortOrder">The sort order.</param>
+	//    /// <param name="layoutType">Type of the layout.</param>
+	//    /// <param name="arrangeByColumn">The arrange by column.</param>
+	//    public FeedColumnLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+	//                            SortOrder sortOrder, LayoutType layoutType, string arrangeByColumn)
+	//    {
+	//        if (columns != null)
+	//            _columns = new List<string>(columns);
+	//        else
+	//            _columns = new List<string>();
+	//        if (columnWidths != null)
+	//            _columnWidths = new List<int>(columnWidths);
+	//        else
+	//            _columnWidths = new List<int>();
 
-        #endregion
+	//        _sortOrder = SortOrder.None;
+	//        if (sortByColumn != null && _columns.IndexOf(sortByColumn) >= 0)
+	//        {
+	//            _sortByColumn = sortByColumn;
+	//            _sortOrder = sortOrder;
+	//        }
+	//        if (arrangeByColumn != null && _columns.IndexOf(arrangeByColumn) >= 0)
+	//        {
+	//            _arrangeByColumn = arrangeByColumn;
+	//        }
+	//        _layoutType = layoutType;
+	//    }
 
-		/// <summary>
-		/// Gets or sets the column list.
-		/// </summary>
-		/// <value>The column list.</value>
-        [XmlArrayItem(typeof (string))]
-        public List<string> ColumnList
-        {
-            get
-            {
-                return _columns;
-            }
-            set
-            {
-                if (value != null)
-                    _columns = value;
-                else
-                    _columns = new List<string>();
-            }
-        }
+	//    /// <summary>
+	//    /// Creates from XML.
+	//    /// </summary>
+	//    /// <param name="xmlString">The XML string.</param>
+	//    /// <returns></returns>
+	//    public static FeedColumnLayout CreateFromXML(string xmlString)
+	//    {
+	//        if (xmlString != null && xmlString.Length > 0)
+	//        {
+	//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
+	//            StringReader reader = new StringReader(xmlString);
+	//            return (FeedColumnLayout) formatter.Deserialize(reader);
+	//        }
+	//        return null;
+	//    }
 
-		/// <summary>
-		/// Gets or sets the column width list.
-		/// </summary>
-		/// <value>The column width list.</value>
-        [XmlArrayItem(typeof (int))]
-        public List<int> ColumnWidthList
-        {
-            get
-            {
-                return _columnWidths;
-            }
-            set
-            {
-                if (value != null)
-                    _columnWidths = value;
-                else
-                    _columnWidths = new List<int>();
-            }
-        }
+	//    /// <summary>
+	//    /// Saves as XML.
+	//    /// </summary>
+	//    /// <param name="layout">The layout.</param>
+	//    /// <returns></returns>
+	//    public static string SaveAsXML(FeedColumnLayout layout)
+	//    {
+	//        if (layout == null)
+	//            return null;
+	//        try
+	//        {
+	//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (FeedColumnLayout));
+	//            StringWriter writer = new StringWriter();
+	//            formatter.Serialize(writer, layout);
+	//            return writer.ToString();
+	//        }
+	//        catch (Exception ex)
+	//        {
+	//            Trace.WriteLine("SaveAsXML() failed.", ex.Message);
+	//        }
+	//        return null;
+	//    }
 
-        /// <summary>
-        /// Compares two layouts for equality. This method also compares the column widths 
-        /// when determining equality. 
-        /// </summary>
-        /// <param name="obj">the object to compare</param>
-        /// <returns>true if they are equal</returns>
-        public override bool Equals(Object obj)
-        {
-            return Equals(obj, false);
-        }
+	//    #region IFeedColumnLayout Members
 
-        /// <summary>
-        /// Compares  two layouts for equality.
-        /// </summary>
-        /// <param name="obj">the objects to compare</param>
-        /// <param name="ignoreColumnWidths">indicates whether column widths should be ignored</param>
-        /// <returns>true if they are equal</returns>
-        public bool Equals(object obj, bool ignoreColumnWidths)
-        {
-            if (obj == null)
-                return false;
-            FeedColumnLayout o = obj as FeedColumnLayout;
-            if (o == null)
-                return false;
-            if (SortOrder != o.SortOrder)
-                return false;
-            if (SortByColumn != o.SortByColumn)
-                return false;
-            if (_columns == null && o._columns == null)
-                return true;
-            if (_columns == null || o._columns == null)
-                return false;
-            if (_columns.Count != o._columns.Count)
-                return false;
-
-            if (ignoreColumnWidths)
-            {
-                for (int i = 0; i < _columns.Count; i++)
-                {
-                    if (String.Compare(_columns[i], o._columns[i]) != 0)
-                        return false;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _columns.Count; i++)
-                {
-                    if (String.Compare(_columns[i], o._columns[i]) != 0 ||
-                        _columnWidths[i] != o._columnWidths[i])
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Returns true, if the layout is a kind of a feed layout (global, individual) and
-        /// they are equal except for column widhts.
-        /// </summary>
-        /// <param name="layout"></param>
-        /// <returns>bool</returns>
-        public bool IsSimilarFeedLayout(FeedColumnLayout layout)
-        {
-            if (layout == null)
-                return false;
-
-            if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalFeedLayout) &&
-                (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
-                return Equals(layout, true);
-            return false;
-        }
-
-        /// <summary>
-        /// Returns true, if the layout is a kind of a category layout (global, individual) and
-        /// they are equal except for column widhts.
-        /// </summary>
-        /// <param name="layout"></param>
-        /// <returns>bool</returns>
-        public bool IsSimilarCategoryLayout(FeedColumnLayout layout)
-        {
-            if (layout == null)
-                return false;
-
-            if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalCategoryLayout) &&
-                (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
-                return Equals(layout, true);
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            StringBuilder sb = new StringBuilder();
-            if (_columns != null && _columns.Count > 0)
-            {
-                for (int i = 0; i < _columns.Count; i++)
-                {
-                    sb.AppendFormat("{0};", _columns[i]);
-                }
-            }
-            if (_columnWidths != null && _columnWidths.Count > 0)
-            {
-                for (int i = 0; i < _columnWidths.Count; i++)
-                {
-                    sb.AppendFormat("{0};", _columnWidths[i]);
-                }
-            }
-            sb.AppendFormat("{0};", _sortByColumn);
-            sb.AppendFormat("{0};", _sortOrder);
-            sb.AppendFormat("{0};", _arrangeByColumn);
-            sb.AppendFormat("{0};", _layoutType);
-
-            return sb.ToString().GetHashCode();
-        }
-
-        #region ICloneable Members
-
-        public object Clone()
-        {
-            return
-                new FeedColumnLayout(_columns, _columnWidths, _sortByColumn, _sortOrder, _layoutType, _arrangeByColumn);
-        }
-
-        #endregion
-
-        #region ISerializable Members
-
-        protected FeedColumnLayout(SerializationInfo info, StreamingContext context)
-        {
-            //int version = info.GetInt32("version");
-            _columns = (List<string>) info.GetValue("ColumnList", typeof (List<string>));
-            _columnWidths = (List<int>) info.GetValue("ColumnWidthList", typeof (List<int>));
-            _sortByColumn = info.GetString("SortByColumn");
-            _sortOrder = (SortOrder) info.GetValue("SortOrder", typeof (SortOrder));
-            _arrangeByColumn = info.GetString("ArrangeByColumn");
-        }
+	//    public LayoutType LayoutType
+	//    {
+	//        get
+	//        {
+	//            return _layoutType;
+	//        }
+	//        set
+	//        {
+	//            _layoutType = value;
+	//        }
+	//    }
 
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("version", 1);
-            info.AddValue("ColumnList", _columns);
-            info.AddValue("ColumnWidthList", _columnWidths);
-            info.AddValue("SortByColumn", _sortByColumn);
-            info.AddValue("SortOrder", _sortOrder);
-            info.AddValue("ArrangeByColumn", _arrangeByColumn);
-        }
+	//    public string SortByColumn
+	//    {
+	//        get
+	//        {
+	//            return _sortByColumn;
+	//        }
+	//        set
+	//        {
+	//            _sortByColumn = value;
+	//        }
+	//    }
 
-        #endregion
-    }
+	//    public SortOrder SortOrder
+	//    {
+	//        get
+	//        {
+	//            return _sortOrder;
+	//        }
+	//        set
+	//        {
+	//            _sortOrder = value;
+	//        }
+	//    }
+
+	//    public string ArrangeByColumn
+	//    {
+	//        get
+	//        {
+	//            return _arrangeByColumn;
+	//        }
+	//        set
+	//        {
+	//            _arrangeByColumn = value;
+	//        }
+	//    }
+
+	//    [XmlIgnore]
+	//    public IList<string> Columns
+	//    {
+	//        get
+	//        {
+	//            return _columns;
+	//        }
+	//        set
+	//        {
+	//            if (value != null)
+	//                _columns = new List<string>(value);
+	//            else
+	//                _columns = new List<string>();
+	//        }
+	//    }
+
+	//    [XmlIgnore]
+	//    public IList<int> ColumnWidths
+	//    {
+	//        get
+	//        {
+	//            return _columnWidths;
+	//        }
+	//        set
+	//        {
+	//            if (value != null)
+	//                _columnWidths = new List<int>(value);
+	//            else
+	//                _columnWidths = new List<int>();
+	//        }
+	//    }
+
+	//    #endregion
+
+	//    /// <summary>
+	//    /// Gets or sets the column list.
+	//    /// </summary>
+	//    /// <value>The column list.</value>
+	//    [XmlArrayItem(typeof (string))]
+	//    public List<string> ColumnList
+	//    {
+	//        get
+	//        {
+	//            return _columns;
+	//        }
+	//        set
+	//        {
+	//            if (value != null)
+	//                _columns = value;
+	//            else
+	//                _columns = new List<string>();
+	//        }
+	//    }
+
+	//    /// <summary>
+	//    /// Gets or sets the column width list.
+	//    /// </summary>
+	//    /// <value>The column width list.</value>
+	//    [XmlArrayItem(typeof (int))]
+	//    public List<int> ColumnWidthList
+	//    {
+	//        get
+	//        {
+	//            return _columnWidths;
+	//        }
+	//        set
+	//        {
+	//            if (value != null)
+	//                _columnWidths = value;
+	//            else
+	//                _columnWidths = new List<int>();
+	//        }
+	//    }
+
+	//    /// <summary>
+	//    /// Compares two layouts for equality. This method also compares the column widths 
+	//    /// when determining equality. 
+	//    /// </summary>
+	//    /// <param name="obj">the object to compare</param>
+	//    /// <returns>true if they are equal</returns>
+	//    public override bool Equals(Object obj)
+	//    {
+	//        return Equals(obj, false);
+	//    }
+
+	//    /// <summary>
+	//    /// Compares  two layouts for equality.
+	//    /// </summary>
+	//    /// <param name="obj">the objects to compare</param>
+	//    /// <param name="ignoreColumnWidths">indicates whether column widths should be ignored</param>
+	//    /// <returns>true if they are equal</returns>
+	//    public bool Equals(object obj, bool ignoreColumnWidths)
+	//    {
+	//        if (obj == null)
+	//            return false;
+	//        FeedColumnLayout o = obj as FeedColumnLayout;
+	//        if (o == null)
+	//            return false;
+	//        if (SortOrder != o.SortOrder)
+	//            return false;
+	//        if (SortByColumn != o.SortByColumn)
+	//            return false;
+	//        if (_columns == null && o._columns == null)
+	//            return true;
+	//        if (_columns == null || o._columns == null)
+	//            return false;
+	//        if (_columns.Count != o._columns.Count)
+	//            return false;
+
+	//        if (ignoreColumnWidths)
+	//        {
+	//            for (int i = 0; i < _columns.Count; i++)
+	//            {
+	//                if (String.Compare(_columns[i], o._columns[i]) != 0)
+	//                    return false;
+	//            }
+	//        }
+	//        else
+	//        {
+	//            for (int i = 0; i < _columns.Count; i++)
+	//            {
+	//                if (String.Compare(_columns[i], o._columns[i]) != 0 ||
+	//                    _columnWidths[i] != o._columnWidths[i])
+	//                    return false;
+	//            }
+	//        }
+
+	//        return true;
+	//    }
+
+	//    /// <summary>
+	//    /// Returns true, if the layout is a kind of a feed layout (global, individual) and
+	//    /// they are equal except for column widhts.
+	//    /// </summary>
+	//    /// <param name="layout"></param>
+	//    /// <returns>bool</returns>
+	//    public bool IsSimilarFeedLayout(FeedColumnLayout layout)
+	//    {
+	//        if (layout == null)
+	//            return false;
+
+	//        if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalFeedLayout) &&
+	//            (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
+	//            return Equals(layout, true);
+	//        return false;
+	//    }
+
+	//    /// <summary>
+	//    /// Returns true, if the layout is a kind of a category layout (global, individual) and
+	//    /// they are equal except for column widhts.
+	//    /// </summary>
+	//    /// <param name="layout"></param>
+	//    /// <returns>bool</returns>
+	//    public bool IsSimilarCategoryLayout(FeedColumnLayout layout)
+	//    {
+	//        if (layout == null)
+	//            return false;
+
+	//        if ((_layoutType == LayoutType.IndividualLayout || _layoutType == LayoutType.GlobalCategoryLayout) &&
+	//            (layout._layoutType == LayoutType.IndividualLayout || layout._layoutType == LayoutType.GlobalFeedLayout))
+	//            return Equals(layout, true);
+	//        return false;
+	//    }
+
+	//    public override int GetHashCode()
+	//    {
+	//        StringBuilder sb = new StringBuilder();
+	//        if (_columns != null && _columns.Count > 0)
+	//        {
+	//            for (int i = 0; i < _columns.Count; i++)
+	//            {
+	//                sb.AppendFormat("{0};", _columns[i]);
+	//            }
+	//        }
+	//        if (_columnWidths != null && _columnWidths.Count > 0)
+	//        {
+	//            for (int i = 0; i < _columnWidths.Count; i++)
+	//            {
+	//                sb.AppendFormat("{0};", _columnWidths[i]);
+	//            }
+	//        }
+	//        sb.AppendFormat("{0};", _sortByColumn);
+	//        sb.AppendFormat("{0};", _sortOrder);
+	//        sb.AppendFormat("{0};", _arrangeByColumn);
+	//        sb.AppendFormat("{0};", _layoutType);
+
+	//        return sb.ToString().GetHashCode();
+	//    }
+
+	//    #region ICloneable Members
+
+	//    public object Clone()
+	//    {
+	//        return
+	//            new FeedColumnLayout(_columns, _columnWidths, _sortByColumn, _sortOrder, _layoutType, _arrangeByColumn);
+	//    }
+
+	//    #endregion
+
+	//    #region ISerializable Members
+
+	//    protected FeedColumnLayout(SerializationInfo info, StreamingContext context)
+	//    {
+	//        //int version = info.GetInt32("version");
+	//        _columns = (List<string>) info.GetValue("ColumnList", typeof (List<string>));
+	//        _columnWidths = (List<int>) info.GetValue("ColumnWidthList", typeof (List<int>));
+	//        _sortByColumn = info.GetString("SortByColumn");
+	//        _sortOrder = (SortOrder) info.GetValue("SortOrder", typeof (SortOrder));
+	//        _arrangeByColumn = info.GetString("ArrangeByColumn");
+	//    }
+
+
+	//    public void GetObjectData(SerializationInfo info, StreamingContext context)
+	//    {
+	//        info.AddValue("version", 1);
+	//        info.AddValue("ColumnList", _columns);
+	//        info.AddValue("ColumnWidthList", _columnWidths);
+	//        info.AddValue("SortByColumn", _sortByColumn);
+	//        info.AddValue("SortOrder", _sortOrder);
+	//        info.AddValue("ArrangeByColumn", _arrangeByColumn);
+	//    }
+
+	//    #endregion
+	//}
 
 
     public interface INewsFeedCategory : ISharedProperty, IEquatable<INewsFeedCategory>

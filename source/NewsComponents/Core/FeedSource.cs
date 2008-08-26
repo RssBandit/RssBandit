@@ -462,10 +462,10 @@ namespace NewsComponents
         /// </summary>
         protected static bool isOffline;
 
-        /// <summary>
-        /// Represents the list of available feed column layouts for feeds. 
-        /// </summary>
-        protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
+		///// <summary>
+		///// Represents the list of available feed column layouts for feeds. 
+		///// </summary>
+		//protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
 
         /// <summary>
         /// Gets the location of the feed
@@ -1500,26 +1500,26 @@ namespace NewsComponents
         /// </summary>
         public static bool EnclosureAlert { get; set; }
 
-        /// <summary>
-        /// Gets or sets wwhich properties of a NewsItem should be made columns in the RSS Bandit listview
-        /// </summary>
-        public string FeedColumnLayout { get; set; }
+		///// <summary>
+		///// Gets or sets which properties of a NewsItem should be made columns in the RSS Bandit listview
+		///// </summary>
+		//public string FeedColumnLayout { get; set; }
 
-        /// <summary>
-        /// Accesses the list of user specified layouts (currently listview only) 
-        /// </summary>
-        public FeedColumnLayoutCollection ColumnLayouts
-        {
-            get
-            {
-                if (layouts == null)
-                {
-                    layouts = new FeedColumnLayoutCollection();
-                }
+		///// <summary>
+		///// Accesses the list of user specified layouts (currently listview only) 
+		///// </summary>
+		//public FeedColumnLayoutCollection ColumnLayouts
+		//{
+		//    get
+		//    {
+		//        if (layouts == null)
+		//        {
+		//            layouts = new FeedColumnLayoutCollection();
+		//        }
 
-                return layouts;
-            }
-        }
+		//        return layouts;
+		//    }
+		//}
 
         /// <summary>
         /// Accesses the list of UserIdentity objects.
@@ -2061,8 +2061,8 @@ namespace NewsComponents
         /// <value>The listview layout.</value>
         string ISharedProperty.listviewlayout
         {
-            get { return FeedColumnLayout; }
-            set { FeedColumnLayout = value; }
+            get { return null; }
+            set {  }
         }
 
         /// <summary>
@@ -2987,22 +2987,22 @@ namespace NewsComponents
         }
 
 
-        /// <summary>
-        /// Helper function that gets the listview layout with the specified ID from the
-        /// Arraylist
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="layouts"></param>
-        /// <returns></returns>
-        private static listviewLayout FindLayout(IEquatable<string> id, IEnumerable<listviewLayout> layouts)
-        {
-            foreach (var layout in layouts)
-            {
-                if (id.Equals(layout.ID))
-                    return layout;
-            }
-            return null;
-        }
+		///// <summary>
+		///// Helper function that gets the listview layout with the specified ID from the
+		///// Arraylist
+		///// </summary>
+		///// <param name="id"></param>
+		///// <param name="layouts"></param>
+		///// <returns></returns>
+		//private static listviewLayout FindLayout(IEquatable<string> id, IEnumerable<listviewLayout> layouts)
+		//{
+		//    foreach (var layout in layouts)
+		//    {
+		//        if (id.Equals(layout.ID))
+		//            return layout;
+		//    }
+		//    return null;
+		//}
 
         /// <summary>
         /// Helper function breaks up a string containing quote characters into 
@@ -3135,7 +3135,7 @@ namespace NewsComponents
                     feedlist.enclosurecachesizeSpecified = true;
 */
                     //feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
-                    feedlist.listviewlayout = FeedColumnLayout;
+                    //feedlist.listviewlayout = FeedColumnLayout;
                     /* not anymore required to store that in feedlist/now provided static:
                     feedlist.stylesheet = this.stylesheet;
 					feedlist.enclosurefolder = this.EnclosureFolder;
@@ -3203,33 +3203,37 @@ namespace NewsComponents
                 feedlist.categories = c.Count == 0 ? null : c;
 
 
-                var lvl = new List<listviewLayout>(layouts.Count);
-                /* sometimes we get nulls in the arraylist, remove them */
-                for (int i = 0; i < layouts.Count; i++)
-                {
-                    FeedColumnLayoutEntry s = layouts[i];
-                    if (s.Value == null)
-                    {
-                        layouts.RemoveAt(i);
-                        i--;
-                    }
-                    else
-                    {
-                        lvl.Add(new listviewLayout(s.Key, s.Value));
-                    }
-                }
+				//var lvl = new List<listviewLayout>(layouts.Count);
+				///* sometimes we get nulls in the arraylist, remove them */
+				//List<string> toRemove = new List<string>();
+				//foreach (string k in layouts.Keys)
+				//{
+				//    var s = layouts[k];
+				//    if (s == null)
+				//        toRemove.Add(k);
+				//    else
+				//        lvl.Add(new listviewLayout(k, s));
+				//}
+				//for (int i = 0; i < layouts.Count; i++)
+				//{
+					
+				//    FeedColumnLayoutEntry s = layouts[i];
+				//    if (s.Value == null)
+				//    {
+				//        layouts.RemoveAt(i);
+				//        i--;
+				//    }
+				//    else
+				//    {
+				//        lvl.Add(new listviewLayout(s.Key, s.Value));
+				//    }
+				//}
 
                 //we don't want to write out empty <listview-layouts /> into the schema. 				
-                feedlist.listviewLayouts = lvl.Count == 0 ? null : lvl;
+                //feedlist.listviewLayouts = lvl.Count == 0 ? null : lvl;
 
-
-				//var nntps = new List<NntpServerDefinition>(nntpServers.Values.Count);
-				//foreach (var val in nntpServers.Values)
-				//    nntps.Add((NntpServerDefinition) val);
-
-				////we don't want to write out empty <nntp-servers /> into the schema. 				
-				//feedlist.nntpservers = nntps.Count == 0 ? null : nntps;
-            	feedlist.nntpservers = null;
+				// NNTP is saved now separately:
+				feedlist.nntpservers = null;
 
                 var ids = new List<UserIdentity>(identities.Values);
 
@@ -3665,21 +3669,21 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// Sets the listview layout for a feed
+        /// Sets the listview layout ID for a feed
         /// </summary>
         /// <param name="feedUrl">the URL of the feed</param>
         /// <param name="layout">the new listview layout </param>
-        public void SetFeedColumnLayout(string feedUrl, string layout)
+        public void SetFeedColumnLayoutID(string feedUrl, string layout)
         {
             SetFeedProperty(feedUrl, "listviewlayout", layout);
         }
 
         /// <summary>
-        /// Gets the listview layout for a feed
+        /// Gets the listview layout ID for a feed
         /// </summary>
         /// <param name="feedUrl">the URL of the feed</param>
         /// <returns>the listview layout</returns>
-        public string GetFeedColumnLayout(string feedUrl)
+        public string GetFeedColumnLayoutID(string feedUrl)
         {
             return (string) GetFeedProperty(feedUrl, "listviewlayout");
         }
@@ -3927,7 +3931,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="category">the name of the category</param>
         /// <param name="layout">the new listview layout </param>
-        public void SetCategoryFeedColumnLayout(string category, string layout)
+        public void SetCategoryFeedColumnLayoutID(string category, string layout)
         {
             SetCategoryProperty(category, "listviewlayout", layout);
         }
@@ -3937,7 +3941,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="category">the name of the category</param>
         /// <returns>the listview layout</returns>
-        public string GetCategoryFeedColumnLayout(string category)
+        public string GetCategoryFeedColumnLayoutID(string category)
         {
             return (string) GetCategoryProperty(category, "listviewlayout");
         }
@@ -5817,7 +5821,7 @@ namespace NewsComponents
             /* TODO: Sync category settings */
 
             IDictionary<string, INewsFeedCategory> cats = new Dictionary<string, INewsFeedCategory>();
-            var colLayouts = new FeedColumnLayoutCollection();
+            //var colLayouts = new FeedColumnLayoutCollection();
 
             IDictionary<string, INewsFeed> syncedfeeds = new SortedDictionary<string, INewsFeed>();
 
@@ -5863,17 +5867,17 @@ namespace NewsComponents
                             cats.Add(f2.category, new category(f2.category));
                         }
 
-                        //copy listview layout information over
-                        if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
-                        {
-                            listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
+						////copy listview layout information over
+						//if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
+						//{
+						//    listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
-                            if (layout != null)
-                                colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
-                            else
-                                f1.listviewlayout = null;
-                        }
-                        f2.listviewlayout = (f1.listviewlayout ?? f2.listviewlayout);
+						//    if (layout != null)
+						//        colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
+						//    else
+						//        f1.listviewlayout = null;
+						//}
+						//f2.listviewlayout = (f1.listviewlayout ?? f2.listviewlayout);
 
 
                         //copy title information over 
@@ -5945,15 +5949,15 @@ namespace NewsComponents
                             cats.Add(f1.category, new category(f1.category));
                         }
 
-                        if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
-                        {
-                            listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
+						//if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
+						//{
+						//    listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
-                            if (layout != null)
-                                colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
-                            else
-                                f1.listviewlayout = null;
-                        }
+						//    if (layout != null)
+						//        colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
+						//    else
+						//        f1.listviewlayout = null;
+						//}
 
                         if (!syncedfeeds.ContainsKey(f1.link))
                         {
@@ -6011,27 +6015,27 @@ namespace NewsComponents
 			//    }
 			//}
 
-            // copy over layout information 
-            foreach (var layout in myFeeds.listviewLayouts)
-            {
-                if (replace)
-                {
-                    if (layout.FeedColumnLayout.LayoutType == LayoutType.GlobalFeedLayout ||
-                        layout.FeedColumnLayout.LayoutType == LayoutType.GlobalCategoryLayout ||
-                        layout.FeedColumnLayout.LayoutType == LayoutType.SearchFolderLayout ||
-                        layout.FeedColumnLayout.LayoutType == LayoutType.SpecialFeedsLayout)
-                        colLayouts.Add(layout.ID, layout.FeedColumnLayout);
-                }
-                else if (!layouts.ContainsKey(layout.ID))
-                {
-                    //don't replace layouts on import
-                    if (layout.FeedColumnLayout.LayoutType != LayoutType.GlobalFeedLayout ||
-                        layout.FeedColumnLayout.LayoutType != LayoutType.GlobalCategoryLayout ||
-                        layout.FeedColumnLayout.LayoutType != LayoutType.SearchFolderLayout ||
-                        layout.FeedColumnLayout.LayoutType != LayoutType.SpecialFeedsLayout)
-                        layouts.Add(layout.ID, layout.FeedColumnLayout);
-                }
-            }
+			//// copy over layout information 
+			//foreach (var layout in myFeeds.listviewLayouts)
+			//{
+			//    if (replace)
+			//    {
+			//        if (layout.FeedColumnLayout.LayoutType == LayoutType.GlobalFeedLayout ||
+			//            layout.FeedColumnLayout.LayoutType == LayoutType.GlobalCategoryLayout ||
+			//            layout.FeedColumnLayout.LayoutType == LayoutType.SearchFolderLayout ||
+			//            layout.FeedColumnLayout.LayoutType == LayoutType.SpecialFeedsLayout)
+			//            colLayouts.Add(layout.ID, layout.FeedColumnLayout);
+			//    }
+			//    else if (!layouts.ContainsKey(layout.ID))
+			//    {
+			//        //don't replace layouts on import
+			//        if (layout.FeedColumnLayout.LayoutType != LayoutType.GlobalFeedLayout ||
+			//            layout.FeedColumnLayout.LayoutType != LayoutType.GlobalCategoryLayout ||
+			//            layout.FeedColumnLayout.LayoutType != LayoutType.SearchFolderLayout ||
+			//            layout.FeedColumnLayout.LayoutType != LayoutType.SpecialFeedsLayout)
+			//            layouts.Add(layout.ID, layout.FeedColumnLayout);
+			//    }
+			//}
 
 
             if (replace)
@@ -6045,7 +6049,7 @@ namespace NewsComponents
                 /* update servers */
                 //nntpServers = serverList;
                 /* update layouts */
-                layouts = colLayouts;
+                //layouts = colLayouts;
             }
             else
             {
