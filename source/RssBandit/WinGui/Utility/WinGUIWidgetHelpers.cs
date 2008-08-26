@@ -173,7 +173,9 @@ namespace RssBandit.WinGui.Utility {
 	}
 	#endregion
 
+    
 	#region UrlFormatter
+    /*
 	/// <summary>
 	/// Supports Url encoded formatting of parameters, that can contain 
 	/// encoding directives: {0:&lt;encoding&gt;}
@@ -200,22 +202,25 @@ namespace RssBandit.WinGui.Utility {
 			if (s == null) {
 				return String.Empty;
 			}
-			if (format == null) {
-				return String.Format("{0}", System.Web.HttpUtility.UrlEncode(s));
-			}
-			try {
-				Encoding encoding = Encoding.GetEncoding(format);
-				return String.Format("{0}", System.Web.HttpUtility.UrlEncode(s, encoding));
-			}
-			catch (NotSupportedException) {
-				return String.Format("{0}", System.Web.HttpUtility.UrlEncode(s));
-			}
+
+            return Uri.EscapeUriString(s);
+            return String.Format("{0}", Uri.EscapeUriString(s));
+            //if (format == null) {
+            //    return String.Format("{0}", Uri.EscapeUriString(s));
+            //}
+            //try {
+            //    Encoding encoding = Encoding.GetEncoding(format);
+            //    return String.Format("{0}", System.Web.HttpUtility.UrlEncode(s, encoding));
+            //}
+            //catch (NotSupportedException) {
+            //    return String.Format("{0}", Uri.EscapeUriString(s));
+            //}
 		}
 
 		#endregion
-	}
+	} */
 	#endregion
-
+    
 	#region EventsHelper
 	/// <summary>
 	/// When publishing events in C#, you need to test that the delegate has targets. 

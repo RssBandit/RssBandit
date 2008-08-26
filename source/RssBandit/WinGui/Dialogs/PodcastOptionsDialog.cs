@@ -358,12 +358,14 @@ namespace RssBandit.WinGui.Dialogs
 		#endregion
 
 		private void btnSelectCopyPodcastToFolder_Click(object sender, System.EventArgs e) {
-			DirectoryBrowser folderDialog = new DirectoryBrowser(); 	 
-			folderDialog.Description = SR.BrowseForFolderEnclosureDownloadLocation; 	 
-			DialogResult result = folderDialog.ShowDialog(); 	 
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
+             
+			DialogResult result = dlg.ShowDialog(); 	 
 			 	  	 
-			if(result == DialogResult.OK) { 	 
-				this.txtCopyPodcastToFolder.Text = folderDialog.ReturnPath; 	 
+			if(result == DialogResult.OK) {
+                this.txtCopyPodcastToFolder.Text = dlg.SelectedPath;	 
 			}
 
 			//clear any error messages that may have previously occured

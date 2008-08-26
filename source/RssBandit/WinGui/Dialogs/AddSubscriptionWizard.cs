@@ -1367,7 +1367,10 @@ namespace RssBandit.WinGui.Forms
 				string engineTitle = cboNewBySearchEngines.Text;
 				foreach (ISearchEngine engine in coreApplication.WebSearchEngines) {
 					if (engineTitle.Equals(engine.Title)) {
-						return String.Format(new UrlFormatter(), engine.SearchLink, searchTerm);
+					    {
+                            return string.Format(engine.SearchLink, Uri.EscapeUriString(searchTerm));
+                            //return String.Format(new UrlFormatter(), engine.SearchLink, searchTerm);   
+					    }
 					}
 				}
 			}

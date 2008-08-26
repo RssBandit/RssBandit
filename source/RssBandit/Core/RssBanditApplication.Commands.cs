@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Web;
 using System.Windows.Forms;
 using NewsComponents;
 using NewsComponents.Feed;
@@ -900,7 +899,7 @@ namespace RssBandit
         {
             if (!string.IsNullOrEmpty(feedLink))
             {
-                NavigateToUrlAsUserPreferred(validationUrlBase + HttpUtility.UrlEncode(feedLink),
+                NavigateToUrlAsUserPreferred(validationUrlBase + Uri.EscapeUriString(feedLink),
                                              SR.TabValidationResultCaption, true, true);
             }
         }
@@ -965,7 +964,7 @@ namespace RssBandit
                 IFeedDetails feedInfo = entry.Source.GetFeedDetails(feedLink);
                 if (feedInfo != null)
                 {
-                    NavigateToUrlAsUserPreferred(linkCosmosUrlBase + HttpUtility.UrlEncode(feedInfo.Link),
+                    NavigateToUrlAsUserPreferred(linkCosmosUrlBase + Uri.EscapeUriString(feedInfo.Link),
                                                  String.Format(SR.TabLinkCosmosCaption,feedInfo.Title), true, true);
                 }
             }
