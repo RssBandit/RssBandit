@@ -37,6 +37,8 @@ namespace NewsComponents.Feed
 	/// </summary>
 	public interface IBanditFeedSource
 	{
+		#region NNTP Support
+
 		/// <summary>
 		/// Gets the NNTP server definitions.
 		/// </summary>
@@ -54,6 +56,8 @@ namespace NewsComponents.Feed
 		/// <param name="sd">The sd.</param>
 		/// <returns></returns>
 		ICredentials GetFeedCredentials(INntpServerDefinition sd);
+
+		#endregion
 	}
 
 	#endregion
@@ -234,18 +238,18 @@ namespace NewsComponents.Feed
             }
 
 
-            //copy over layout info if we are importing a new feed
-            if (myFeeds.listviewLayouts != null)
-            {
-                foreach (var layout in myFeeds.listviewLayouts)
-                {
-                    string layout_trimmed = layout.ID.Trim();
-                    if (!layouts.ContainsKey(layout_trimmed))
-                    {
-                        layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-                    }
-                }
-            }
+			////copy over layout info if we are importing a new feed
+			//if (myFeeds.listviewLayouts != null)
+			//{
+			//    foreach (var layout in myFeeds.listviewLayouts)
+			//    {
+			//        string layout_trimmed = layout.ID.Trim();
+			//        if (!layouts.ContainsKey(layout_trimmed))
+			//        {
+			//            layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+			//        }
+			//    }
+			//}
 
             //copy user-identities over if we are importing  
             if (myFeeds.identities != null)
@@ -351,11 +355,11 @@ namespace NewsComponents.Feed
 					MigrationProperties.Add("PodcastFileExtensions", myFeeds.podcastfileexts);
                 }
 
-                //if listview layout specified in imported feed then use that
-                if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
-                {
-                    FeedColumnLayout = myFeeds.listviewlayout;
-                }
+				////if listview layout specified in imported feed then use that
+				//if (!string.IsNullOrEmpty(myFeeds.listviewlayout))
+				//{
+				//    FeedColumnLayout = myFeeds.listviewlayout;
+				//}
 
                 //if max item age in imported feed then use that
                 try

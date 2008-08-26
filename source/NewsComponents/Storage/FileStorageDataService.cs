@@ -16,7 +16,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using NewsComponents.Feed;
-using NewsComponents.Resources;
 using NewsComponents.Utils;
 
 namespace NewsComponents.Storage {	
@@ -24,17 +23,10 @@ namespace NewsComponents.Storage {
 	/// <summary>
 	/// An implementation of the DataService that uses the file system as a cache. 
 	/// </summary>
-	public class FileStorageDataService : DataServiceBase
+	internal class FileStorageDataService : DataServiceBase
 	{		
 
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(FileStorageDataService));
-
-		/// <summary>
-		/// Constructor initializes class
-		/// </summary>
-		internal FileStorageDataService()
-		{
-		}
 
 		/// <summary>
 		/// Returns the location of the cache. The format of the location is dependent 
@@ -78,7 +70,7 @@ namespace NewsComponents.Storage {
 			if(File.Exists(cachelocation)){
 				
 				using (Stream feedStream = FileHelper.OpenForRead(cachelocation)) {
-					fi = RssParser.GetItemsForFeed(feed, feedStream, true) as IInternalFeedDetails; 
+					fi = RssParser.GetItemsForFeed(feed, feedStream, true); 
 				}				  			  				
 				this.LoadItemContent(fi); 
 			}
@@ -401,7 +393,7 @@ namespace NewsComponents.Storage {
 		#region NntpServerDefinitions
 
 		/// <summary>
-		/// Feed sources serializable root class
+		/// NNTP Server Definition serializable root class
 		/// </summary>
 		[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
 		[XmlRoot("nntp-servers", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
@@ -454,6 +446,17 @@ namespace NewsComponents.Storage {
 			}
 			return null;
 		}
+		
+		private string NntpServerDefsFileName
+		{
+			get
+			{
+				return Path.Combine(CacheLocation,
+					"nntp-server-definitions.xml");
+			}
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Gets the used user data file names.
@@ -484,16 +487,6 @@ namespace NewsComponents.Storage {
 			}
 
 			return DataEntityName.None;
-		}
-		#endregion
-
-		private string NntpServerDefsFileName
-		{
-			get
-			{
-				return Path.Combine(CacheLocation,
-					"nntp-server-definitions.xml");
-			}
 		}
 
 		/// <summary>

@@ -475,9 +475,9 @@ namespace RssBandit.WinGui.Controls.ThListView
                         // enable re-build of columns:
                         RaiseFeedColumnLayoutChangedEvent(newLayout);
                         //TODO: safety - ensure, some columns are added. 
-                        if (newLayout.SortOrder != NewsComponents.SortOrder.None)
+                        if (newLayout.SortOrder != SortOrder.None)
                             _sorter.Sort(Columns.GetIndexByKey(newLayout.SortByColumn),
-                                         ConvertSortOrder(newLayout.SortOrder));
+                                         newLayout.SortOrder);
                     }
                 }
             }
@@ -763,7 +763,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             FeedColumnLayout layout = _layout;
             if (layout != null)
             {
-                GuiInvoker.InvokeAsync(this, delegate
+                GuiInvoker.Invoke(this, delegate
                                                  {
                                                      FeedColumnLayout current = FeedColumnLayoutFromCurrentSettings();
 
@@ -794,7 +794,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     if (_sorter.SortColumnIndex >= 0 && _sorter.SortColumnIndex < Columns.Count)
                     {
                         layout.SortByColumn = Columns[_sorter.SortColumnIndex].Key;
-                        layout.SortOrder = ConvertSortOrder(_sorter.SortOrder);
+                        layout.SortOrder = _sorter.SortOrder;
                     }
                     int[] colOrder = GetColumnOrderArray();
                     var aCols = new List<string>(Columns.Count);
@@ -1286,31 +1286,31 @@ namespace RssBandit.WinGui.Controls.ThListView
             }
         }
 
-        private static SortOrder ConvertSortOrder(NewsComponents.SortOrder sortOrder)
-        {
-            switch (sortOrder)
-            {
-                case NewsComponents.SortOrder.Ascending:
-                    return SortOrder.Ascending;
-                case NewsComponents.SortOrder.Descending:
-                    return SortOrder.Descending;
-                default:
-                    return SortOrder.None;
-            }
-        }
+		//private static SortOrder ConvertSortOrder(NewsComponents.SortOrder sortOrder)
+		//{
+		//    switch (sortOrder)
+		//    {
+		//        case NewsComponents.SortOrder.Ascending:
+		//            return SortOrder.Ascending;
+		//        case NewsComponents.SortOrder.Descending:
+		//            return SortOrder.Descending;
+		//        default:
+		//            return SortOrder.None;
+		//    }
+		//}
 
-        private static NewsComponents.SortOrder ConvertSortOrder(SortOrder sortOrder)
-        {
-            switch (sortOrder)
-            {
-                case SortOrder.Ascending:
-                    return NewsComponents.SortOrder.Ascending;
-                case SortOrder.Descending:
-                    return NewsComponents.SortOrder.Descending;
-                default:
-                    return NewsComponents.SortOrder.None;
-            }
-        }
+		//private static NewsComponents.SortOrder ConvertSortOrder(SortOrder sortOrder)
+		//{
+		//    switch (sortOrder)
+		//    {
+		//        case SortOrder.Ascending:
+		//            return NewsComponents.SortOrder.Ascending;
+		//        case SortOrder.Descending:
+		//            return NewsComponents.SortOrder.Descending;
+		//        default:
+		//            return NewsComponents.SortOrder.None;
+		//    }
+		//}
     }
 }
 

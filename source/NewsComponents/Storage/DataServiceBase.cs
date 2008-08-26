@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NewsComponents.Collections;
 using NewsComponents.Feed;
 
 namespace NewsComponents.Storage 
@@ -20,7 +21,7 @@ namespace NewsComponents.Storage
 	/// A storage can be managed by any backing store.  A file based 
 	/// data store manager is included as <see cref="FileStorageDataService"/>
 	/// </summary>
-	public abstract class DataServiceBase : IUserCacheDataService, IInitDataService,
+	internal abstract class DataServiceBase : IUserCacheDataService, IInitDataService,
 		IUserDataService, IUserRoamingDataService
 	{
 
@@ -100,7 +101,7 @@ namespace NewsComponents.Storage
 		/// </summary>
 		/// <returns></returns>
 		public abstract List<NntpServerDefinition> LoadNntpServerDefinitions();
-		
+
 		/// <summary>
 		/// Gets the used data file names.
 		/// </summary>

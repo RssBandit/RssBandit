@@ -63,14 +63,14 @@ namespace NewsComponents
 		Descending, 
 	}
 	
-	/// <summary>
-	/// Indicates whether a column layout is global, category-wide or feed specific.
-	/// </summary>
-	public enum LayoutType {
-		IndividualLayout, 
-		GlobalFeedLayout, 
-		GlobalCategoryLayout, 
-		SearchFolderLayout, 
-		SpecialFeedsLayout, 
-	}
+	///// <summary>
+	///// Indicates whether a column layout is global, category-wide or feed specific.
+	///// </summary>
+	//public enum LayoutType {
+	//    IndividualLayout, 
+	//    GlobalFeedLayout, 
+	//    GlobalCategoryLayout, 
+	//    SearchFolderLayout, 
+	//    SpecialFeedsLayout, 
+	//}
 }

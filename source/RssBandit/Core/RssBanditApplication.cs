@@ -82,6 +82,7 @@ using Timer=System.Threading.Timer;
 using System.Windows.Threading;
 using System.Windows.Forms.Integration;
 using System.Configuration;
+using RssBandit.Core.Storage;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -122,6 +123,7 @@ namespace RssBandit
         private ThreadResultManager threadResultManager;
         private IdentityNewsServerManager identityNewsServerManager;
         private IAddInManager addInManager;
+    	private ColumnLayoutManager columnLayoutManager;
 
         /// <summary>
         /// Manage the channel processors working on displaying items and feeds
@@ -139,27 +141,27 @@ namespace RssBandit
         /// </summary>
         private static CultureInfo sharedCulture;
 
-        private static readonly FeedColumnLayout DefaultFeedColumnLayout =
-            new FeedColumnLayout(new[] {"Title", "Flag", "Enclosure", "Date", "Subject"},
-                                 new[] {250, 22, 22, 100, 120}, "Date", SortOrder.Descending,
-                                 LayoutType.GlobalFeedLayout);
+		//private static readonly FeedColumnLayout DefaultFeedColumnLayout =
+		//    new FeedColumnLayout(new[] {"Title", "Flag", "Enclosure", "Date", "Subject"},
+		//                         new[] {250, 22, 22, 100, 120}, "Date", SortOrder.Descending,
+		//                         LayoutType.GlobalFeedLayout);
 
-        private static readonly FeedColumnLayout DefaultCategoryColumnLayout =
-            new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-                                 "Date", SortOrder.Descending, LayoutType.GlobalCategoryLayout);
+		//private static readonly FeedColumnLayout DefaultCategoryColumnLayout =
+		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
+		//                         "Date", SortOrder.Descending, LayoutType.GlobalCategoryLayout);
 
-        private static readonly FeedColumnLayout DefaultSearchFolderColumnLayout =
-            new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-                                 "Date", SortOrder.Descending, LayoutType.SearchFolderLayout);
+		//private static readonly FeedColumnLayout DefaultSearchFolderColumnLayout =
+		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
+		//                         "Date", SortOrder.Descending, LayoutType.SearchFolderLayout);
 
-        private static readonly FeedColumnLayout DefaultSpecialFolderColumnLayout =
-            new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-                                 "Date", SortOrder.Descending, LayoutType.SpecialFeedsLayout);
+		//private static readonly FeedColumnLayout DefaultSpecialFolderColumnLayout =
+		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
+		//                         "Date", SortOrder.Descending, LayoutType.SpecialFeedsLayout);
 
-        private static string defaultFeedColumnLayoutKey;
-        private static string defaultCategoryColumnLayoutKey;
-        private static string defaultSearchFolderColumnLayoutKey;
-        private static string defaultSpecialFolderColumnLayoutKey;
+		//private static string defaultFeedColumnLayoutKey;
+		//private static string defaultCategoryColumnLayoutKey;
+		//private static string defaultSearchFolderColumnLayoutKey;
+		//private static string defaultSpecialFolderColumnLayoutKey;
 
         private Timer autoSaveTimer;
         private bool feedlistModified;
@@ -408,6 +410,7 @@ namespace RssBandit
             searchEngines = new SearchEngineHandler();
             identityNewsServerManager = new IdentityNewsServerManager(this);
             addInManager = new ServiceManager();
+			columnLayoutManager = new ColumnLayoutManager();
 
             // Gui command handling
             cmdMediator = new CommandMediator();
@@ -547,8 +550,15 @@ namespace RssBandit
 			container.Register<IInternetService>(this);
 			container.Register<IUserPreferences>(Preferences);
 			container.Register<IAddInManager>(addInManager);
-			
-            //TODO: add all the other services we provide...
+
+			container.Register<IUserCacheDataService>(
+			    DataServiceFactory.GetService(StorageDomain.UserCacheData));
+			container.Register<IUserDataService>(
+				DataServiceFactory.GetService(StorageDomain.UserData));
+			container.Register<IUserRoamingDataService>(
+				 DataServiceFactory.GetService(StorageDomain.UserRoamingData));
+           
+			//TODO: add all the other services we provide...
         }
 
         /// <summary>
@@ -1321,277 +1331,277 @@ namespace RssBandit
             }
         }
 
-        private void CheckAndMigrateListViewLayouts()
-        {
-            // check, if any migration task have to be applied:
+		//private void CheckAndMigrateListViewLayouts()
+		//{
+		//    // check, if any migration task have to be applied:
 
-            // v.1.3.x beta to 1.3.x.release:
-            // layouts was serialized directly to feed/category elements
-            // now they live in a separate collection
+		//    // v.1.3.x beta to 1.3.x.release:
+		//    // layouts was serialized directly to feed/category elements
+		//    // now they live in a separate collection
 
-            // we assume we should have always at least the default layouts:
-            if (this.BanditFeedSource.ColumnLayouts.Count == 0)
-            {
-                ListViewLayout oldLayout;
-                foreach (var f in this.BanditFeedSource.GetFeeds().Values)
-                {
-                    if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
-                        continue;
-                    try
-                    {
-                        oldLayout = ListViewLayout.CreateFromXML(f.listviewlayout);
-                        var fc = new FeedColumnLayout(oldLayout.ColumnList,
-                                                      oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-                                                      oldLayout.SortOrder, LayoutType.IndividualLayout);
+		//    // we assume we should have always at least the default layouts:
+		//    if (this.BanditFeedSource.ColumnLayouts.Count == 0)
+		//    {
+		//        ListViewLayout oldLayout;
+		//        foreach (var f in this.BanditFeedSource.GetFeeds().Values)
+		//        {
+		//            if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
+		//                continue;
+		//            try
+		//            {
+		//                oldLayout = ListViewLayout.CreateFromXML(f.listviewlayout);
+		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-                        if (!fc.Equals(DefaultFeedColumnLayout, true))
-                        {
-                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
-                            if (found >= 0)
-                            {
-                                // assign key
-                                f.listviewlayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
-                            }
-                            else
-                            {
-                                // add and assign key
-                                f.listviewlayout = Guid.NewGuid().ToString("N");
-                                this.BanditFeedSource.ColumnLayouts.Add(f.listviewlayout, fc);
-                            }
-                        }
-                        else
-                        {
-                            f.listviewlayout = null; // same as default: reset
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex.Message, ex); /* ignore deserialization failures */
-                    }
-                }
+		//                if (!fc.Equals(DefaultFeedColumnLayout, true))
+		//                {
+		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+		//                    if (found != null)
+		//                    {
+		//                        // assign key
+		//                        f.listviewlayout = found;
+		//                    }
+		//                    else
+		//                    {
+		//                        // add and assign key
+		//                        f.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
+		//                        this.BanditFeedSource.ColumnLayouts.Add(f.listviewlayout, fc);
+		//                    }
+		//                }
+		//                else
+		//                {
+		//                    f.listviewlayout = null; // same as default: reset
+		//                }
+		//            }
+		//            catch (Exception ex)
+		//            {
+		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+		//            }
+		//        }
 
-                foreach (var c in this.BanditFeedSource.GetCategories().Values)
-                {
-                    if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
-                        continue;
-                    try
-                    {
-                        oldLayout = ListViewLayout.CreateFromXML(c.listviewlayout);
-                        var fc = new FeedColumnLayout(oldLayout.ColumnList,
-                                                      oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-                                                      oldLayout.SortOrder, LayoutType.IndividualLayout);
+		//        foreach (var c in this.BanditFeedSource.GetCategories().Values)
+		//        {
+		//            if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
+		//                continue;
+		//            try
+		//            {
+		//                oldLayout = ListViewLayout.CreateFromXML(c.listviewlayout);
+		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-                        if (!fc.Equals(DefaultCategoryColumnLayout, true))
-                        {
-                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
-                            if (found >= 0)
-                            {
-                                // assign key
-                                c.listviewlayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
-                            }
-                            else
-                            {
-                                // add and assign key
-                                c.listviewlayout = Guid.NewGuid().ToString("N");
-                                this.BanditFeedSource.ColumnLayouts.Add(c.listviewlayout, fc);
-                            }
-                        }
-                        else
-                        {
-                            c.listviewlayout = null; // same as default: reset
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex.Message, ex); /* ignore deserialization failures */
-                    }
-                }
+		//                if (!fc.Equals(DefaultCategoryColumnLayout, true))
+		//                {
+		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+		//                    if (found != null)
+		//                    {
+		//                        // assign key
+		//                        c.listviewlayout = found;
+		//                    }
+		//                    else
+		//                    {
+		//                        // add and assign key
+		//                        c.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
+		//                        this.BanditFeedSource.ColumnLayouts.Add(c.listviewlayout, fc);
+		//                    }
+		//                }
+		//                else
+		//                {
+		//                    c.listviewlayout = null; // same as default: reset
+		//                }
+		//            }
+		//            catch (Exception ex)
+		//            {
+		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+		//            }
+		//        }
 
-                // now add the default layouts
-                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
-                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
-                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
-                this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
+		//        // now add the default layouts
+		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
+		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
+		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
+		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
 
-                if (!string.IsNullOrEmpty(this.BanditFeedSource.FeedColumnLayout))
-                    try
-                    {
-                        oldLayout = ListViewLayout.CreateFromXML(this.BanditFeedSource.FeedColumnLayout);
-                        var fc = new FeedColumnLayout(oldLayout.ColumnList,
-                                                      oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-                                                      oldLayout.SortOrder, LayoutType.IndividualLayout);
+		//        if (!string.IsNullOrEmpty(this.BanditFeedSource.FeedColumnLayout))
+		//            try
+		//            {
+		//                oldLayout = ListViewLayout.CreateFromXML(this.BanditFeedSource.FeedColumnLayout);
+		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-                        if (!fc.Equals(DefaultCategoryColumnLayout, true))
-                        {
-                            int found = this.BanditFeedSource.ColumnLayouts.IndexOfSimilar(fc);
-                            if (found >= 0)
-                            {
-                                // assign key
-                                this.BanditFeedSource.FeedColumnLayout = this.BanditFeedSource.ColumnLayouts.GetKey(found);
-                            }
-                            else
-                            {
-                                // add and assign key
-                                this.BanditFeedSource.FeedColumnLayout = Guid.NewGuid().ToString("N");
-                                this.BanditFeedSource.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
-                            }
-                        }
-                        else
-                        {
-                            this.BanditFeedSource.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex.Message, ex); /* ignore deserialization failures */
-                    }
+		//                if (!fc.Equals(DefaultCategoryColumnLayout, true))
+		//                {
+		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+		//                    if (found != null)
+		//                    {
+		//                        // assign key
+		//                        this.BanditFeedSource.FeedColumnLayout = found;
+		//                    }
+		//                    else
+		//                    {
+		//                        // add and assign key
+		//                        this.BanditFeedSource.FeedColumnLayout = FeedColumnLayoutCollection.CreateNewKey();
+		//                        this.BanditFeedSource.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
+		//                    }
+		//                }
+		//                else
+		//                {
+		//                    this.BanditFeedSource.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
+		//                }
+		//            }
+		//            catch (Exception ex)
+		//            {
+		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+		//            }
 
-                feedlistModified = true; // trigger auto-save
-            }
-        }
+		//        feedlistModified = true; // trigger auto-save
+		//    }
+        //}
 
-        #region class kept for migration purpose:
+		//#region class kept for migration purpose:
 
-        [Serializable]
-        public class ListViewLayout : ICloneable
-        {
-            private string _sortByColumn;
-            private SortOrder _sortOrder;
-            internal List<string> _columns;
-            internal List<int> _columnWidths;
+		//[Serializable]
+		//public class ListViewLayout : ICloneable
+		//{
+		//    private string _sortByColumn;
+		//    private SortOrder _sortOrder;
+		//    internal List<string> _columns;
+		//    internal List<int> _columnWidths;
 
-            public ListViewLayout() : this(null, null, null, SortOrder.None)
-            {
-            }
+		//    public ListViewLayout() : this(null, null, null, SortOrder.None)
+		//    {
+		//    }
 
-            public ListViewLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
-                                  SortOrder sortOrder)
-            {
-                _columns = columns != null ? new List<string>(columns) : new List<string>();
-                _columnWidths = columnWidths != null ? new List<int>(columnWidths) : new List<int>();
-                _sortByColumn = sortByColumn;
-                _sortOrder = sortOrder;
-            }
+		//    public ListViewLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+		//                          SortOrder sortOrder)
+		//    {
+		//        _columns = columns != null ? new List<string>(columns) : new List<string>();
+		//        _columnWidths = columnWidths != null ? new List<int>(columnWidths) : new List<int>();
+		//        _sortByColumn = sortByColumn;
+		//        _sortOrder = sortOrder;
+		//    }
 
-            public static ListViewLayout CreateFromXML(string xmlString)
-            {
-                if (!string.IsNullOrEmpty(xmlString))
-                {
-                    XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
-                    var reader = new StringReader(xmlString);
-                    return (ListViewLayout) formatter.Deserialize(reader);
-                }
-                return null;
-            }
+		//    public static ListViewLayout CreateFromXML(string xmlString)
+		//    {
+		//        if (!string.IsNullOrEmpty(xmlString))
+		//        {
+		//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+		//            var reader = new StringReader(xmlString);
+		//            return (ListViewLayout) formatter.Deserialize(reader);
+		//        }
+		//        return null;
+		//    }
 
-            public static string SaveAsXML(ListViewLayout layout)
-            {
-                if (layout == null)
-                    return null;
-                try
-                {
-                    XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
-                    var writer = new StringWriter();
-                    formatter.Serialize(writer, layout);
-                    return writer.ToString();
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine("SaveAsXML() failed.", ex.Message);
-                }
-                return null;
-            }
+		//    public static string SaveAsXML(ListViewLayout layout)
+		//    {
+		//        if (layout == null)
+		//            return null;
+		//        try
+		//        {
+		//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+		//            var writer = new StringWriter();
+		//            formatter.Serialize(writer, layout);
+		//            return writer.ToString();
+		//        }
+		//        catch (Exception ex)
+		//        {
+		//            Trace.WriteLine("SaveAsXML() failed.", ex.Message);
+		//        }
+		//        return null;
+		//    }
 
-            #region IListViewLayout Members
+		//    #region IListViewLayout Members
 
-            public string SortByColumn
-            {
-                get { return _sortByColumn; }
-                set { _sortByColumn = value; }
-            }
+		//    public string SortByColumn
+		//    {
+		//        get { return _sortByColumn; }
+		//        set { _sortByColumn = value; }
+		//    }
 
-            public SortOrder SortOrder
-            {
-                get { return _sortOrder; }
-                set { _sortOrder = value; }
-            }
+		//    public SortOrder SortOrder
+		//    {
+		//        get { return _sortOrder; }
+		//        set { _sortOrder = value; }
+		//    }
 
-            [XmlIgnore]
-            public IList<string> Columns
-            {
-                get { return _columns; }
-                set { _columns = value != null ? new List<string>(value) : new List<string>(); }
-            }
+		//    [XmlIgnore]
+		//    public IList<string> Columns
+		//    {
+		//        get { return _columns; }
+		//        set { _columns = value != null ? new List<string>(value) : new List<string>(); }
+		//    }
 
-            [XmlIgnore]
-            public IList<int> ColumnWidths
-            {
-                get { return _columnWidths; }
-                set { _columnWidths = value != null ? new List<int>(value) : new List<int>(); }
-            }
+		//    [XmlIgnore]
+		//    public IList<int> ColumnWidths
+		//    {
+		//        get { return _columnWidths; }
+		//        set { _columnWidths = value != null ? new List<int>(value) : new List<int>(); }
+		//    }
 
-            [XmlIgnore]
-            public bool Modified { get; set; }
+		//    [XmlIgnore]
+		//    public bool Modified { get; set; }
 
-            #endregion
+		//    #endregion
 
-            [XmlArrayItem(typeof (string))]
-            public List<string> ColumnList
-            {
-                get { return _columns; }
-                set { _columns = value ?? new List<string>(); }
-            }
+		//    [XmlArrayItem(typeof (string))]
+		//    public List<string> ColumnList
+		//    {
+		//        get { return _columns; }
+		//        set { _columns = value ?? new List<string>(); }
+		//    }
 
-            [XmlArrayItem(typeof (int))]
-            public List<int> ColumnWidthList
-            {
-                get { return _columnWidths; }
-                set { _columnWidths = value ?? new List<int>(); }
-            }
+		//    [XmlArrayItem(typeof (int))]
+		//    public List<int> ColumnWidthList
+		//    {
+		//        get { return _columnWidths; }
+		//        set { _columnWidths = value ?? new List<int>(); }
+		//    }
 
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                    return false;
-                var o = obj as ListViewLayout;
-                if (o == null)
-                    return false;
-                if (SortOrder != o.SortOrder)
-                    return false;
-                if (SortByColumn != o.SortByColumn)
-                    return false;
-                if (_columns == null && o._columns == null)
-                    return true;
-                if (_columns == null || o._columns == null)
-                    return false;
-                if (_columns.Count != o._columns.Count)
-                    return false;
-                for (int i = 0; i < _columns.Count; i++)
-                {
-                    if (String.Compare(_columns[i], o._columns[i]) != 0 ||
-                        _columnWidths[i] != o._columnWidths[i])
-                        return false;
-                }
-                return true;
-            }
+		//    public override bool Equals(object obj)
+		//    {
+		//        if (obj == null)
+		//            return false;
+		//        var o = obj as ListViewLayout;
+		//        if (o == null)
+		//            return false;
+		//        if (SortOrder != o.SortOrder)
+		//            return false;
+		//        if (SortByColumn != o.SortByColumn)
+		//            return false;
+		//        if (_columns == null && o._columns == null)
+		//            return true;
+		//        if (_columns == null || o._columns == null)
+		//            return false;
+		//        if (_columns.Count != o._columns.Count)
+		//            return false;
+		//        for (int i = 0; i < _columns.Count; i++)
+		//        {
+		//            if (String.Compare(_columns[i], o._columns[i]) != 0 ||
+		//                _columnWidths[i] != o._columnWidths[i])
+		//                return false;
+		//        }
+		//        return true;
+		//    }
 
-            public override int GetHashCode()
-            {
-                // just to hide the compiler warning
-                return base.GetHashCode();
-            }
+		//    public override int GetHashCode()
+		//    {
+		//        // just to hide the compiler warning
+		//        return base.GetHashCode();
+		//    }
 
-            #region ICloneable Members
+		//    #region ICloneable Members
 
-            public object Clone()
-            {
-                return new ListViewLayout(_columns, _columnWidths, _sortByColumn, _sortOrder);
-            }
+		//    public object Clone()
+		//    {
+		//        return new ListViewLayout(_columns, _columnWidths, _sortByColumn, _sortOrder);
+		//    }
 
-            #endregion
-        }
+		//    #endregion
+		//}
 
-        #endregion
+		//#endregion
 
         #region MessageQuestion()/-Info()/-Error()
 
@@ -2753,269 +2763,165 @@ namespace RssBandit
         #endregion
 
         #region Manage FeedColumnLayouts
+		//private string ValidateFeedColumnLayout(LayoutType type, FeedColumnLayout defaultLayout)
+		//{
+		//    foreach (var key in feedHandler.ColumnLayouts.Keys)
+		//    {
+		//        if (feedHandler.ColumnLayouts[key].LayoutType == type)
+		//        {
+		//            return key;
+		//        }
+		//    }
 
-        private void ValidateGlobalFeedColumnLayout()
-        {
-            if (!feedHandler.FeedsListOK)
-                return;
+		//    string newkey = FeedColumnLayoutCollection.CreateNewKey();
+		//    feedHandler.ColumnLayouts.Add(newkey, defaultLayout);
+		//    // feedHandler.SaveColumLayouts();
+		//    return newkey;
+		//}
 
-            if (defaultFeedColumnLayoutKey == null)
-            {
-                foreach (var e in feedHandler.ColumnLayouts)
-                {
-                    if (e.Value.LayoutType == LayoutType.GlobalFeedLayout)
-                    {
-                        defaultFeedColumnLayoutKey = e.Key;
-                        break;
-                    }
-                }
-                if (defaultFeedColumnLayoutKey == null)
-                {
-                    defaultFeedColumnLayoutKey = Guid.NewGuid().ToString("N");
-                    feedHandler.ColumnLayouts.Add(defaultFeedColumnLayoutKey, DefaultFeedColumnLayout);
-                    feedlistModified = true;
-                }
-            }
-        }
+		//private void ValidateGlobalFeedColumnLayout()
+		//{
+		//    if (defaultFeedColumnLayoutKey == null)
+		//    {
+		//        defaultFeedColumnLayoutKey = ValidateFeedColumnLayout(
+		//            LayoutType.GlobalFeedLayout, DefaultFeedColumnLayout);
+		//    }
+		//}
 
-        private void ValidateGlobalCategoryColumnLayout()
-        {
-            if (!feedHandler.FeedsListOK)
-                return;
+		//private void ValidateGlobalCategoryColumnLayout()
+		//{
+		//    if (defaultCategoryColumnLayoutKey == null)
+		//    {
+		//        defaultCategoryColumnLayoutKey = ValidateFeedColumnLayout(
+		//            LayoutType.GlobalCategoryLayout, DefaultCategoryColumnLayout);
+		//    }
+		//}
 
-            if (defaultCategoryColumnLayoutKey == null)
-            {
-                foreach (var e in feedHandler.ColumnLayouts)
-                {
-                    if (e.Value.LayoutType == LayoutType.GlobalCategoryLayout)
-                    {
-                        defaultCategoryColumnLayoutKey = e.Key;
-                        break;
-                    }
-                }
-                if (defaultCategoryColumnLayoutKey == null)
-                {
-                    defaultCategoryColumnLayoutKey = Guid.NewGuid().ToString("N");
-                    feedHandler.ColumnLayouts.Add(defaultCategoryColumnLayoutKey, DefaultCategoryColumnLayout);
-                    feedlistModified = true;
-                }
-            }
-        }
+		//private void ValidateGlobalSearchFolderColumnLayout()
+		//{
+		//    if (defaultSearchFolderColumnLayoutKey == null)
+		//    {
+		//        defaultSearchFolderColumnLayoutKey = ValidateFeedColumnLayout(
+		//            LayoutType.SearchFolderLayout, DefaultSearchFolderColumnLayout);
+		//    }
+		//}
 
-        private void ValidateGlobalSearchFolderColumnLayout()
-        {
-            if (!feedHandler.FeedsListOK)
-                return;
+		//private void ValidateGlobalSpecialFolderColumnLayout()
+		//{
+		//    if (defaultSpecialFolderColumnLayoutKey == null)
+		//    {
+		//        defaultSpecialFolderColumnLayoutKey = ValidateFeedColumnLayout(
+		//            LayoutType.SpecialFeedsLayout, DefaultSpecialFolderColumnLayout);
+		//    }
+		//}
 
-            if (defaultSearchFolderColumnLayoutKey == null)
-            {
-                foreach (var e in feedHandler.ColumnLayouts)
-                {
-                    if (e.Value.LayoutType == LayoutType.SearchFolderLayout)
-                    {
-                        defaultSearchFolderColumnLayoutKey = e.Key;
-                        break;
-                    }
-                }
-                if (defaultSearchFolderColumnLayoutKey == null)
-                {
-                    defaultSearchFolderColumnLayoutKey = Guid.NewGuid().ToString("N");
-                    feedHandler.ColumnLayouts.Add(defaultSearchFolderColumnLayoutKey, DefaultSearchFolderColumnLayout);
-                    feedlistModified = true;
-                }
-            }
-        }
-
-        private void ValidateGlobalSpecialFolderColumnLayout()
-        {
-            if (!feedHandler.FeedsListOK)
-                return;
-
-            if (defaultSpecialFolderColumnLayoutKey == null)
-            {
-                foreach (var e in feedHandler.ColumnLayouts)
-                {
-                    if (e.Value.LayoutType == LayoutType.SpecialFeedsLayout)
-                    {
-                        defaultSpecialFolderColumnLayoutKey = e.Key;
-                        break;
-                    }
-                }
-                if (defaultSpecialFolderColumnLayoutKey == null)
-                {
-                    defaultSpecialFolderColumnLayoutKey = Guid.NewGuid().ToString("N");
-                    feedHandler.ColumnLayouts.Add(defaultSpecialFolderColumnLayoutKey, DefaultSpecialFolderColumnLayout);
-                    feedlistModified = true;
-                }
-            }
-        }
-
-        private void RemoveSimilarColumnLayouts(FeedColumnLayout layout)
-        {
-            if (layout == null) return;
-            for (int i = 0; i < feedHandler.ColumnLayouts.Count; i++)
-            {
-                if (feedHandler.ColumnLayouts[i].Value.LayoutType == LayoutType.IndividualLayout)
-                {
-                    if (feedHandler.ColumnLayouts[i].Value.Equals(layout, true))
-                    {
-                        feedHandler.ColumnLayouts.RemoveAt(i);
-                        i--;
-                    }
-                }
-            }
-        }
+		//private void RemoveSimilarColumnLayouts(FeedColumnLayout layout)
+		//{
+		//    if (layout == null) return;
+		//    feedHandler.ColumnLayouts.RemoveSimilarLayouts(layout);
+		//}
 
         public FeedColumnLayout GlobalFeedColumnLayout
         {
-            get
-            {
-                ValidateGlobalFeedColumnLayout();
-                return feedHandler.ColumnLayouts.GetByKey(defaultFeedColumnLayoutKey);
-            }
-            set
-            {
-                ValidateGlobalFeedColumnLayout();
-                if (value == null) return;
-                value.LayoutType = LayoutType.GlobalFeedLayout;
-                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultFeedColumnLayoutKey);
-                if ((index == -1) || (!feedHandler.ColumnLayouts[index].Value.Equals(value)))
-                {
-                    feedHandler.ColumnLayouts[index] = new FeedColumnLayoutEntry(defaultFeedColumnLayoutKey, value);
-                    RemoveSimilarColumnLayouts(value);
-                    feedlistModified = true;
-                }
-            }
+            get { return columnLayoutManager.GlobalFeedColumnLayout; }
+            set { columnLayoutManager.GlobalFeedColumnLayout = value; }
         }
 
         public FeedColumnLayout GlobalCategoryColumnLayout
         {
-            get
-            {
-                ValidateGlobalCategoryColumnLayout();
-                return feedHandler.ColumnLayouts.GetByKey(defaultCategoryColumnLayoutKey);
-            }
-            set
-            {
-                ValidateGlobalCategoryColumnLayout();
-                if (value == null) return;
-                value.LayoutType = LayoutType.GlobalCategoryLayout;
-                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultCategoryColumnLayoutKey);
-                if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
-                {
-                    feedHandler.ColumnLayouts[index] = new FeedColumnLayoutEntry(defaultCategoryColumnLayoutKey, value);
-                    RemoveSimilarColumnLayouts(value);
-                    feedlistModified = true;
-                }
-            }
+            get { return columnLayoutManager.GlobalCategoryColumnLayout; }
+            set { columnLayoutManager.GlobalCategoryColumnLayout = value; }
         }
 
         public FeedColumnLayout GlobalSearchFolderColumnLayout
         {
-            get
-            {
-                ValidateGlobalSearchFolderColumnLayout();
-                return feedHandler.ColumnLayouts.GetByKey(defaultSearchFolderColumnLayoutKey);
-            }
-            set
-            {
-                ValidateGlobalSearchFolderColumnLayout();
-                if (value == null) return;
-                value.LayoutType = LayoutType.SearchFolderLayout;
-                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultSearchFolderColumnLayoutKey);
-                if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
-                {
-                    feedHandler.ColumnLayouts[index] =
-                        new FeedColumnLayoutEntry(defaultSearchFolderColumnLayoutKey, value);
-                    feedlistModified = true;
-                }
-            }
+			get { return columnLayoutManager.GlobalSearchFolderColumnLayout; }
+			set { columnLayoutManager.GlobalSearchFolderColumnLayout = value; }
         }
 
         public FeedColumnLayout GlobalSpecialFolderColumnLayout
         {
-            get
-            {
-                ValidateGlobalSpecialFolderColumnLayout();
-                return feedHandler.ColumnLayouts.GetByKey(defaultSpecialFolderColumnLayoutKey);
-            }
-            set
-            {
-                ValidateGlobalSpecialFolderColumnLayout();
-                if (value == null) return;
-                value.LayoutType = LayoutType.SpecialFeedsLayout;
-                int index = feedHandler.ColumnLayouts.IndexOfKey(defaultSpecialFolderColumnLayoutKey);
-                if (!feedHandler.ColumnLayouts[index].Value.Equals(value))
-                {
-                    feedHandler.ColumnLayouts[index] =
-                        new FeedColumnLayoutEntry(defaultSpecialFolderColumnLayoutKey, value);
-                    feedlistModified = true;
-                }
-            }
-        }
+			get { return columnLayoutManager.GlobalSpecialFolderColumnLayout; }
+			set { columnLayoutManager.GlobalSpecialFolderColumnLayout = value; }
+		}
 
-        /// <summary>
-        /// Returns the individual FeedColumnLayout for a feed, or
-        /// the global one.
-        /// </summary>
-        /// <param name="feedUrl"></param>
-        /// <returns>FeedColumnLayout</returns>
-        public FeedColumnLayout GetFeedColumnLayout(int sourceId, string feedUrl)
+		/// <summary>
+		/// Returns the individual FeedColumnLayout for a feed, or
+		/// the global one.
+		/// </summary>
+		/// <param name="sourceEntry">The source entry.</param>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <returns>FeedColumnLayout</returns>
+		public FeedColumnLayout GetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl)
         {
             if (feedUrl == null)
                 return null;
 
-            FeedSource source = sourceManager[sourceId].Source;
 
-            string layout = source.GetFeedColumnLayout(feedUrl);
+            string layout = null;
+			if (sourceEntry != null)
+				layout = sourceEntry.Source.GetFeedColumnLayoutID(feedUrl);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalFeedColumnLayout;
 
-            if (source.ColumnLayouts.ContainsKey(layout))
-                return source.ColumnLayouts.GetByKey(layout);
+        	FeedColumnLayout found;
+            if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out found))
+                return found;
 
             // invalid key: cleanup
-            source.SetFeedColumnLayout(feedUrl, null);
-            feedlistModified = true;
-            return GlobalFeedColumnLayout;
+			if (sourceEntry != null)
+			{
+				sourceEntry.Source.SetFeedColumnLayoutID(feedUrl, null);
+				feedlistModified = true;
+			}
+
+			return GlobalFeedColumnLayout;
         }
 
-        public void SetFeedColumnLayout(int sourceId, string feedUrl, FeedColumnLayout layout)
+		public void SetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl, FeedColumnLayout layout)
         {            
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-            
-            FeedSource source = sourceManager[sourceId].Source; 
+
+			FeedSource source = null;
+			if (sourceEntry != null)
+				source = sourceEntry.Source; 
 
             if (layout == null)
             {
                 // reset
-                source.SetFeedColumnLayout(feedUrl, null);
-                feedlistModified = true;
-                return;
+				if (source != null)
+				{
+					source.SetFeedColumnLayoutID(feedUrl, null);
+					feedlistModified = true;
+				}
+            	return;
             }
 
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalFeedLayout)
                 return; // not a layout format we have to store for a feed
 
-            string key = source.GetFeedColumnLayout(feedUrl);
-            FeedColumnLayout global = GlobalFeedColumnLayout;
+			string key = null;
+			if (source != null) 
+				key = source.GetFeedColumnLayoutID(feedUrl);
+            
+			FeedColumnLayout global = GlobalFeedColumnLayout;
 
-            if (string.IsNullOrEmpty(key) || false == source.ColumnLayouts.ContainsKey(key))
+			if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
             {
-                if (!layout.Equals(global, true))
+                if (source != null && !layout.Equals(global, true))
                 {
-                    int known = source.ColumnLayouts.IndexOfSimilar(layout);
-                    if (known >= 0)
+					string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                    if (known != null)
                     {
-                        source.SetFeedColumnLayout(feedUrl, source.ColumnLayouts.GetKey(known));
+                        source.SetFeedColumnLayoutID(feedUrl, known);
                     }
                     else
                     {
-                        key = Guid.NewGuid().ToString("N");
-                        source.ColumnLayouts.Add(key, layout);
-                        source.SetFeedColumnLayout(feedUrl, key);
+                        key = FeedColumnLayoutCollection.CreateNewKey();
+						columnLayoutManager.ColumnLayouts.Add(key, layout);
+                        source.SetFeedColumnLayoutID(feedUrl, key);
                     }
                     feedlistModified = true;
                 }
@@ -3027,46 +2933,44 @@ namespace RssBandit
             }
             else
             {
-                int known = source.ColumnLayouts.IndexOfKey(key);
-                if (!source.ColumnLayouts[known].Value.Equals(layout))
+				if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
                 {
                     // check if layout modified
-                    if (!source.ColumnLayouts[known].Value.Equals(layout, true))
+					if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
                     {
                         // check if just a simple resizing of columns						
 
                         if (!layout.Equals(global, true))
                         {
                             //check if new layout is equivalent to current default
-                            int otherKnownSimilar = source.ColumnLayouts.IndexOfSimilar(layout);
+							string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
 
-                            if (otherKnownSimilar >= 0)
+                            if (otherKnownSimilar != null)
                             {
                                 //check if this layout is similar to an existing layout
                                 //source.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);	// refresh layout info
-                                source.SetFeedColumnLayout(feedUrl,
-                                                                source.ColumnLayouts.GetKey(otherKnownSimilar));
+                                source.SetFeedColumnLayoutID(feedUrl, otherKnownSimilar);
                                 // set new key
                             }
                             else
                             {
                                 //this is a brand new layout
-                                key = Guid.NewGuid().ToString("N");
-                                source.ColumnLayouts.Add(key, layout);
-                                source.SetFeedColumnLayout(feedUrl, key);
+                                key = FeedColumnLayoutCollection.CreateNewKey();
+								columnLayoutManager.ColumnLayouts.Add(key, layout);
+                                source.SetFeedColumnLayoutID(feedUrl, key);
                             }
                         }
                         else
                         {
                             //new layout is equivalent to the current default
-                            source.SetFeedColumnLayout(feedUrl, null);
-                            source.ColumnLayouts.RemoveAt(known);
+                            source.SetFeedColumnLayoutID(feedUrl, null);
+							columnLayoutManager.ColumnLayouts.Remove(key);
                         }
                     }
                     else
                     {
                         // this was a simple column resizing
-                        source.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
+						columnLayoutManager.ColumnLayouts[key] = layout;
                         // refresh layout info
                     }
                     feedlistModified = true;
@@ -3074,62 +2978,76 @@ namespace RssBandit
             }
         }
 
-        /// <summary>
-        /// Returns the FeedColumnLayout
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        public FeedColumnLayout GetCategoryColumnLayout(int sourceId, string category)
+		/// <summary>
+		/// Returns the FeedColumnLayout
+		/// </summary>
+		/// <param name="sourceEntry">The source entry.</param>
+		/// <param name="category">The category.</param>
+		/// <returns></returns>
+		public FeedColumnLayout GetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category)
         {
-            FeedSource source = sourceManager[sourceId].Source;
-            string layout = source.GetCategoryFeedColumnLayout(category);
+			string layout = null;
+			if (sourceEntry != null)
+				layout = sourceEntry.Source.GetCategoryFeedColumnLayoutID(category);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalCategoryColumnLayout;
-            if (source.ColumnLayouts.ContainsKey(layout))
-                return source.ColumnLayouts.GetByKey(layout);
+        	FeedColumnLayout colLayout;
+			if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out colLayout))
+				return colLayout;
 
             // invalid key: cleanup
-            source.SetCategoryFeedColumnLayout(category, null);
-            feedlistModified = true;
-            return GlobalCategoryColumnLayout;
+			if (sourceEntry != null)
+			{
+				sourceEntry.Source.SetCategoryFeedColumnLayoutID(category, null);
+				feedlistModified = true;
+			}
+			return GlobalCategoryColumnLayout;
         }
 
-        public void SetCategoryColumnLayout(int sourceId, string category, FeedColumnLayout layout)
+		public void SetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category, FeedColumnLayout layout)
         {
             if (string.IsNullOrEmpty(category))
                 return;
 
-            FeedSource source = sourceManager[sourceId].Source; 
+			FeedSource source = null;
+			if (sourceEntry != null)
+				source = sourceEntry.Source; 
 
             if (layout == null)
             {
                 // reset
-                source.SetCategoryFeedColumnLayout(category, null);
-                feedlistModified = true;
-                return;
+				if (source != null)
+				{
+					source.SetCategoryFeedColumnLayoutID(category, null);
+					feedlistModified = true;
+				}
+            	return;
             }
 
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalCategoryLayout)
                 return; // not a layout format we have to store for a category
 
-            string key = source.GetCategoryFeedColumnLayout(category);
-            FeedColumnLayout global = GlobalCategoryColumnLayout;
+			string key = null;
+			if (source != null) 
+				key = source.GetCategoryFeedColumnLayoutID(category);
+            
+			FeedColumnLayout global = GlobalCategoryColumnLayout;
 
-            if (string.IsNullOrEmpty(key) || false == source.ColumnLayouts.ContainsKey(key))
+			if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
             {
-                if (!layout.Equals(global, true))
+				if (source != null && !layout.Equals(global, true))
                 {
-                    int known = source.ColumnLayouts.IndexOfSimilar(layout);
-                    if (known >= 0)
+					string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                    if (known != null)
                     {
-                        source.SetCategoryFeedColumnLayout(category, source.ColumnLayouts.GetKey(known));
+                        source.SetCategoryFeedColumnLayoutID(category, known);
                     }
                     else
                     {
-                        key = Guid.NewGuid().ToString("N");
-                        source.ColumnLayouts.Add(key, layout);
-                        source.SetCategoryFeedColumnLayout(category, key);
+						key = FeedColumnLayoutCollection.CreateNewKey();
+						columnLayoutManager.ColumnLayouts.Add(key, layout);
+                        source.SetCategoryFeedColumnLayoutID(category, key);
                     }
                     feedlistModified = true;
                 }
@@ -3140,38 +3058,35 @@ namespace RssBandit
             }
             else
             {
-                int known = source.ColumnLayouts.IndexOfKey(key);
-                if (!source.ColumnLayouts[known].Value.Equals(layout))
+				if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
                 {
                     // modified
-                    if (!source.ColumnLayouts[known].Value.Equals(layout, true))
+					if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
                     {
                         // not anymore similar
-                        source.SetCategoryFeedColumnLayout(category, null);
-                        source.ColumnLayouts.RemoveAt(known);
+                        source.SetCategoryFeedColumnLayoutID(category, null);
+						columnLayoutManager.ColumnLayouts.Remove(key);
                         if (!layout.Equals(global, true))
                         {
-                            int otherKnownSimilar = source.ColumnLayouts.IndexOfSimilar(layout);
-                            if (otherKnownSimilar >= 0)
+							string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                            if (otherKnownSimilar != null)
                             {
-                                source.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);
+								columnLayoutManager.ColumnLayouts[otherKnownSimilar] = layout;
                                 // refresh layout info
-                                source.SetCategoryFeedColumnLayout(category,
-                                                                        source.ColumnLayouts.GetKey(
-                                                                            otherKnownSimilar)); // set new key
+                                source.SetCategoryFeedColumnLayoutID(category, otherKnownSimilar); // set new key
                             }
                             else
                             {
-                                key = Guid.NewGuid().ToString("N");
-                                source.ColumnLayouts.Add(key, layout);
-                                source.SetCategoryFeedColumnLayout(category, key);
+								key = FeedColumnLayoutCollection.CreateNewKey();
+								columnLayoutManager.ColumnLayouts.Add(key, layout);
+                                source.SetCategoryFeedColumnLayoutID(category, key);
                             }
                         }
                     }
                     else
                     {
                         // still similar:
-                        source.ColumnLayouts[known] = new FeedColumnLayoutEntry(key, layout);
+						columnLayoutManager.ColumnLayouts[key] = layout;
                         // refresh layout info
                     }
                     feedlistModified = true;
@@ -3242,7 +3157,7 @@ namespace RssBandit
 						LoadFeedSourceSubscriptions(fs, false);
 						// needs the feedlist to be loaded:
 						CheckAndMigrateSettingsAndPreferences();
-						CheckAndMigrateListViewLayouts();
+						//CheckAndMigrateListViewLayouts();
 					}
 					else
 					{
@@ -4893,6 +4808,8 @@ namespace RssBandit
 
                 //save search folders
                 SaveSearchFolders();
+
+            	columnLayoutManager.Save();
 
                 if (FeedSource.TopStoriesModified)
                     FeedSource.SaveCachedTopStoryTitles();

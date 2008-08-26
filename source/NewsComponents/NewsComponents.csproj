@@ -163,9 +163,6 @@
       <Link>UriHelper.cs</Link>
     </Compile>
     <Compile Include="Collections\DisposableItemCollection.cs" />
-    <Compile Include="Collections\FeedColumnLayoutCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Collections\FeedsCollection.cs">
       <SubType>Code</SubType>
     </Compile>
