@@ -215,13 +215,17 @@ namespace RssBandit.WinGui.Forms
             }
         	this.FeedSourceName = this.cboFeedSources.Items[0] as string;
 
-            //initialize category combo box			
-            foreach (string category in this.Sources[this.FeedSourceName].Source.GetCategories().Keys)
+            //this may have already been populated by cboFeedSources_SelectedIndexChanged in some cases
+            if (this.cboFeedCategory.Items.Count == 0)
             {
-                if (!string.IsNullOrEmpty(category))
-                    this.cboFeedCategory.Items.Add(category);
+                //initialize category combo box			
+                foreach (string category in this.Sources[this.FeedSourceName].Source.GetCategories().Keys)
+                {
+                    if (!string.IsNullOrEmpty(category))
+                        this.cboFeedCategory.Items.Add(category);
+                }
+                this.FeedCategory = coreApplication.DefaultCategory;
             }
-            this.FeedCategory = coreApplication.DefaultCategory;
 
 			this.WireStepsForMode(this.wizardMode);
 			this.wizard.SelectedPage = this.pageWelcome;
