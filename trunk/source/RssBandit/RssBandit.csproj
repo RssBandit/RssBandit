@@ -1797,6 +1797,11 @@
     <Compile Include="Core\SpecialLocalFeeds.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\Storage\DataServiceBase.cs" />
+    <Compile Include="Core\Storage\DataServiceFactory.cs" />
+    <Compile Include="Core\Storage\DataServiceInterfaces.cs" />
+    <Compile Include="Core\Storage\FileStorageDataService.cs" />
+    <Compile Include="Core\Storage\IInitDataService.cs" />
     <Compile Include="Core\ThreadWorker.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1838,6 +1843,7 @@
     <Compile Include="WinGui\AutoDiscoverFeedsThreadHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\ColumnLayoutManager.cs" />
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
