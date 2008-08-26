@@ -16,7 +16,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml;
 using log4net;
 using NewsComponents.Collections;
@@ -298,6 +297,67 @@ namespace NewsComponents.Utils
             return HtmlDecode(s, _htmlEntities);
         }
 
+        // code from http://blog.domaindotnet.com/2007/01/25/htmlencode-woesfixed-thank-you-mono/
+        public static string HtmlEncode(string strDataToEncode)
+        {
+            if (!string.IsNullOrEmpty(strDataToEncode))
+            {
+                const int CONST_BEYOND_7BIT_CHAR = 127;
+
+                var output = new StringBuilder();
+
+                foreach (char c in strDataToEncode)
+                {
+                    switch (c)
+                    {
+
+                            // I had to add this section for the Euro
+                        case '€':
+                            output.Append("&euro;");
+                            break;
+
+                        case '&':
+                            output.Append("&amp;");
+                            break;
+
+                        case '>':
+                            output.Append("&gt;");
+                            break;
+
+                        case '<':
+                            output.Append("&lt;");
+                            break;
+
+                        case '"':
+                            output.Append("&quot;");
+                            break;
+
+                        default:
+
+                            int iCharValue = Convert.ToInt32(c);
+
+                            if (iCharValue > CONST_BEYOND_7BIT_CHAR)
+                            {
+                                output.Append("&#");
+                                output.Append(iCharValue.ToString());
+                                output.Append(";");
+                            }
+                            else
+                                output.Append(c);
+
+                            break;
+
+
+                    }
+                }
+
+                return output.ToString();
+            }
+            
+            return "";
+        }
+
+
         private static string HtmlDecode(string s, IDictionary<string, string> map)
         {
             Match m = RegExAnyEntity.Match(s);
@@ -525,7 +585,9 @@ namespace NewsComponents.Utils
                 return null;
             // this just safe on more replacement op. after calling CLR function:
             string result = value.Replace("+", "%2b");
-            return HttpUtility.UrlDecode(result);
+            return Uri.UnescapeDataString(result);
+
+            
         }
 
         #region ctor's

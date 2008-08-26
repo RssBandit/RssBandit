@@ -81,7 +81,7 @@ namespace RssBandit.WinGui.Controls
 	/// A custom collapsible splitter that can resize, hide and show associated form controls
 	/// </summary>
 	[ToolboxBitmap(typeof(CollapsibleSplitter))]
-	[DesignerAttribute(typeof(CollapsibleSplitterDesigner))]
+	//[DesignerAttribute(typeof(CollapsibleSplitterDesigner))]
 	public class CollapsibleSplitter : System.Windows.Forms.Splitter
 	{
 		#region Private Properties
@@ -118,6 +118,7 @@ namespace RssBandit.WinGui.Controls
 		/// </summary>
 		[Bindable(true), Category("Collapsing Options"), DefaultValue("False"),
 		Description("The initial state of the Splitter. Set to True if the control to hide is not visible by default")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsCollapsed
 		{
 			get
@@ -214,6 +215,32 @@ namespace RssBandit.WinGui.Controls
 			}
 		}
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	    public new BorderStyle BorderStyle
+	    {
+	        get
+	        {
+                return base.BorderStyle;
+	        }
+            set
+            {
+                base.BorderStyle = value;
+            }
+	    }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	    public new Size Size
+	    {
+	        get
+	        {
+                return base.Size;
+	        }
+            set
+            {
+                base.Size = value;
+            }
+	    }
+
 		#endregion
 
 		#region Public Methods
@@ -221,6 +248,7 @@ namespace RssBandit.WinGui.Controls
 		public void ToggleState()
 		{
 			this.ToggleSplitter();
+            
 		}
 
 		#endregion
@@ -929,6 +957,10 @@ namespace RssBandit.WinGui.Controls
 		#endregion
 	}
 
+    /*
+     * The [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)] values should fix this
+     * instead of needing a *.Design reference
+     * 
 	/// <summary>
 	/// A simple designer class for the CollapsibleSplitter control to remove 
 	/// unwanted properties at design time.
@@ -946,5 +978,6 @@ namespace RssBandit.WinGui.Controls
 			properties.Remove("Size");
 		}
 	}
+     * */
 }
 

@@ -163,8 +163,8 @@ namespace NewsComponents.Feed {
 
 			// first look for localhost
 			if (url.IsLoopback) {
-
-				string urlQuery = System.Web.HttpUtility.UrlDecode(url.Query);
+                
+				string urlQuery = HtmlHelper.UrlDecode(url.Query);
 				string urlQueryLowerCase = urlQuery.ToLower(CultureInfo.InvariantCulture);
 
 				if (url.Port == 8888) 

@@ -1156,12 +1156,15 @@ namespace RssBandit.WinGui.Forms {
 		}
 
 		private void btnSelectEnclosureFolder2_Click(object sender, EventArgs e) {
-			DirectoryBrowser folderDialog = new DirectoryBrowser(); 	 
-			folderDialog.Description = SR.BrowseForFolderEnclosureDownloadLocation; 	 
-			DialogResult result = folderDialog.ShowDialog(); 	 
+
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.RootFolder = Environment.SpecialFolder.MyComputer;
+            dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
+            
+			DialogResult result = dlg.ShowDialog(); 	 
 			 	  	 
 			if(result == DialogResult.OK) { 	 
-				this.textEnclosureDirectory.Text = folderDialog.ReturnPath; 	 
+				this.textEnclosureDirectory.Text = dlg.SelectedPath; 	 
 			}
 		}
 
