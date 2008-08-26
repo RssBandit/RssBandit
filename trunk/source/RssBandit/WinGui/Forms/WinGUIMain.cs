@@ -694,7 +694,8 @@ namespace RssBandit.WinGui.Forms
                     {
                         try
                         {
-                            s = String.Format(new UrlFormatter(), s, phrase);
+                            //s = String.Format(new UrlFormatter(), s, phrase);
+                            s = string.Format(s, Uri.EscapeUriString(phrase));
                         }
                         catch (Exception fmtEx)
                         {
@@ -728,7 +729,8 @@ namespace RssBandit.WinGui.Forms
                             {
                                 try
                                 {
-                                    s = String.Format(new UrlFormatter(), s, phrase);
+                                    //s = String.Format(new UrlFormatter(), s, phrase);
+                                    s = string.Format(s, Uri.EscapeUriString(phrase));
                                 }
                                 catch (Exception fmtEx)
                                 {

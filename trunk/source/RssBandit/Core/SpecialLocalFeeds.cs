@@ -643,7 +643,7 @@ namespace RssBandit.SpecialFeeds
 
 				if (msg.IndexOf("<") >= 0)
 				{
-					msg = HttpUtility.HtmlEncode(msg);
+					msg = HtmlHelper.HtmlEncode(msg);
 				}
 
 				writer.WriteStartElement("p");

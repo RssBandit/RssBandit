@@ -13,19 +13,28 @@ using System.ComponentModel.Design.Serialization;
 
 namespace RssBandit.WinGui.Controls.ThListView
 {
-	internal class ThreadedListViewItemCollectionEditor : System.ComponentModel.Design.CollectionEditor { 
+    /*
+     * We don't currently design this in the IDE and it puts an un-needed dependency on System.Design
+    internal class ThreadedListViewItemCollectionEditor : System.ComponentModel.Design.CollectionEditor
+    {
 
-		public ThreadedListViewItemCollectionEditor() : base(typeof(ThreadedListViewItemCollection)) { 
-		} 
+        public ThreadedListViewItemCollectionEditor()
+            : base(typeof(ThreadedListViewItemCollection))
+        {
+        }
 
-		protected override object CreateInstance(System.Type itemType) { 
-			return new ThreadedListViewItem(); 
-		} 
+        protected override object CreateInstance(System.Type itemType)
+        {
+            return new ThreadedListViewItem();
+        }
 
-		protected override System.Type CreateCollectionItemType() { 
-			return typeof(ThreadedListViewItem); 
-		} 
-	} 
+        protected override System.Type CreateCollectionItemType()
+        {
+            return typeof(ThreadedListViewItem);
+        }
+    } 
+    */
+
 	internal class ThreadedListViewItemConverter : ExpandableObjectConverter { 
 
 		public override bool CanConvertTo(System.ComponentModel.ITypeDescriptorContext context, System.Type destinationType) { 

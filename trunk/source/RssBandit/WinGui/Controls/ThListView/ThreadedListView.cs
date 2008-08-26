@@ -247,7 +247,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
          Description("the items collection of this view"),
-         Editor(typeof (ThreadedListViewItemCollectionEditor), typeof (UITypeEditor)),
+         /* Editor(typeof (ThreadedListViewItemCollectionEditor), typeof (UITypeEditor)), */
          Category("Behavior")]
         public new ThreadedListViewItemCollection Items
         {
@@ -266,7 +266,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
          Description("collection of available groups (manually added)"),
-         Editor(typeof (CollectionEditor), typeof (UITypeEditor)),
+         //Editor(typeof (CollectionEditor), typeof (UITypeEditor)), // We don't design this
          Category("Grouping")]
         public new ThreadedListViewGroupCollection Groups
         {
