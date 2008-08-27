@@ -1255,46 +1255,66 @@ namespace NewsComponents.Feed
         private void AddFeedInGoogleReader(string feedUrl, string title, string label)
         {
             if (!StringHelper.EmptyTrimOrNull(feedUrl) && (feedsTable.ContainsKey(feedUrl) || label != null))
-            {
-                
+            {               
+
+                /* first add the feed */
+                string subscribeUrl = apiUrlPrefix + "subscription/quickadd";
+               
+                string body = "quickadd=" + Uri.EscapeDataString(feedUrl) + "&T=" + GetGoogleEditToken(this.SID);
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
+                try
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new WebException(response.StatusDescription);
+                    }
+                }
+                finally
+                {
+
+                    /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                    response.Close();
+                }
+
+                /* specify the title and label */
                 INewsFeed f = null;
+                string editUrl = apiUrlPrefix + "subscription/edit";
+                string feedId = "feed/" + feedUrl;
+                string labelParam = String.Empty;
 
                 if (label == null)
                 {
                     f = feedsTable[feedUrl];
-                }
 
-                string subscribeUrl = apiUrlPrefix + "subscription/edit";
-                string feedId = "feed/" + feedUrl;
-                string labelParam = String.Empty;
-              
-                if (label == null)
-                {
                     foreach (string category in f.categories)
                     {
-                        GoogleReaderLabel grl = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);                      
+                        GoogleReaderLabel grl = new GoogleReaderLabel(category, "user/" + this.GoogleUserId + "/label/" + category);
                         labelParam += "&a=" + Uri.EscapeDataString(grl.Id);
                     }
 
-                }else{
-                    labelParam = "&a=" + Uri.EscapeDataString("user/" + this.GoogleUserId + "/label/" + label); 
                 }
-
-                string body = "s=" + Uri.EscapeDataString(feedId) + "&t=" + Uri.EscapeDataString(title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=subscribe" + labelParam;
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
-
-                if (response.StatusCode != HttpStatusCode.OK)
+                else
                 {
-                    throw new WebException(response.StatusDescription);
+                    labelParam = "&a=" + Uri.EscapeDataString("user/" + this.GoogleUserId + "/label/" + label);
                 }
 
-                /* close the response stream to prevent threadpool deadlocks and resource leaks */
+                body = "s=" + Uri.EscapeDataString(feedId) + "&t=" + Uri.EscapeDataString(title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=edit" + labelParam;
+                response = AsyncWebRequest.PostSyncResponse(editUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+
                 try
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new WebException(response.StatusDescription);
+                    }
+                }
+                finally
                 {
                     response.Close();
                 }
-                catch { }
-            }      
+
+            }   
         
         }
 
