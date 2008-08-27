@@ -109,6 +109,10 @@
       <Name>ICSharpCode.SharpZipLib</Name>
       <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.Msfeeds, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Interop.Msfeeds.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
       <HintPath>..\Common\Libraries\log4net.dll</HintPath>
@@ -495,16 +499,6 @@
       <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
       <Name>RssBandit.AppServices</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="Microsoft.Feeds.Interop">
-      <Guid>{9CDCD9C9-BC40-41C6-89C5-230466DB0BD0}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
