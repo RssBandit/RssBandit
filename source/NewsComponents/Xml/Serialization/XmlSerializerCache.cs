@@ -91,7 +91,7 @@ namespace NewsComponents.Xml.Serialization {
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public System.Xml.Serialization.XmlSerializer GetSerializer(Type type
+		public XmlSerializer GetSerializer(Type type
 			) {
 			return GetSerializer(type, null, new Type[0], null, null);
 		}
@@ -106,7 +106,7 @@ namespace NewsComponents.Xml.Serialization {
 		/// <param name="type"></param>
 		/// <param name="defaultNamespace"></param>
 		/// <returns></returns>
-		public System.Xml.Serialization.XmlSerializer GetSerializer(Type type
+		public XmlSerializer GetSerializer(Type type
 			, String defaultNamespace) {
 			return GetSerializer(type, null, new Type[0], null, defaultNamespace);
 		}
@@ -121,7 +121,7 @@ namespace NewsComponents.Xml.Serialization {
 		/// <param name="type"></param>
 		/// <param name="root"></param>
 		/// <returns></returns>
-		public System.Xml.Serialization.XmlSerializer GetSerializer(Type type
+		public XmlSerializer GetSerializer(Type type
 			, XmlRootAttribute root) {
 			return GetSerializer(type, null, new Type[0], root, null);
 		}
@@ -188,7 +188,7 @@ namespace NewsComponents.Xml.Serialization {
 				, root
 				, defaultNamespace);
 
-			System.Xml.Serialization.XmlSerializer serializer = null;
+			XmlSerializer serializer;
             if (false == Serializers.ContainsKey(key))
             {
 				lock (SyncRoot) {
@@ -197,7 +197,7 @@ namespace NewsComponents.Xml.Serialization {
 #if USE_PERF_COUNTER
 						stats.IncrementInstanceCount();
 #endif
-                        serializer = new System.Xml.Serialization.XmlSerializer(type
+                        serializer = new XmlSerializer(type
                             , overrides
                             , types
                             , root
@@ -213,12 +213,12 @@ namespace NewsComponents.Xml.Serialization {
                                 , defaultNamespace);
                         }
                     }else{
-                        serializer = Serializers[key] as XmlSerializer;
+                        serializer = Serializers[key];
                     }
 				} // lock
 			} // if( null == Serializers[key] )
 			else {
-				serializer = Serializers[key] as XmlSerializer;
+				serializer = Serializers[key];
 #if USE_PERF_COUNTER
 				stats.IncrementHitCount();
 #endif

@@ -393,19 +393,6 @@ namespace NewsComponents.Storage {
 		#region NntpServerDefinitions
 
 		/// <summary>
-		/// NNTP Server Definition serializable root class
-		/// </summary>
-		[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
-		[XmlRoot("nntp-servers", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
-		public class SerializableNntpServerDefinitions
-		{
-			/// <remarks/>
-			[XmlElement("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
-			//public ArrayList List = new ArrayList();
-			public List<NntpServerDefinition> List = new List<NntpServerDefinition>();
-		}
-
-		/// <summary>
 		/// Saves the NNTP server definitions.
 		/// </summary>
 		/// <param name="nntpServerDefinitions">The NNTP server definitions.</param>
@@ -504,7 +491,23 @@ namespace NewsComponents.Storage {
 			}
 			return path.Replace("-","");
 		}
-	
+
 	}
+
+	#region SerializableNntpServerDefinitions
+
+	/// <summary>
+	/// NNTP Server Definition serializable root class
+	/// </summary>
+	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
+	[XmlRoot("nntp-servers", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
+	public class SerializableNntpServerDefinitions
+	{
+		/// <remarks/>
+		[XmlElement("server", Type = typeof(NntpServerDefinition), IsNullable = false)]
+		//public ArrayList List = new ArrayList();
+		public List<NntpServerDefinition> List = new List<NntpServerDefinition>();
+	}
+	#endregion
 
 }
