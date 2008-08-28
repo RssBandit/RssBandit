@@ -1973,6 +1973,9 @@
     <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinGui\Dialogs\FeedProperties.Designer.cs">
+      <DependentUpon>FeedProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\FeedSourceProperties.cs">
       <SubType>Form</SubType>
     </Compile>
