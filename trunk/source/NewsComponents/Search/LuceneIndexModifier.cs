@@ -670,7 +670,17 @@ namespace NewsComponents.Search
 			{
 				AssureOpen();
 				CreateIndexReader();
-				return indexReader.DeleteDocuments(term);
+                int deleted = 0;
+                try
+                {
+                    deleted = indexReader.DeleteDocuments(term);
+                }
+                catch(IOException ioe)
+                {
+                    _log.Error("IOException deleting document from the index", ioe);
+                }
+
+                return deleted; 
 			}
 		}
 
