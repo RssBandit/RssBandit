@@ -137,54 +137,6 @@
   <data name="label5.Text">
     <value />
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 Gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 Ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 Ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>3 Ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>6 Ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>9 Ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 Yıl</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Sınırsız</value>
-  </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>Ne kadar yeni nesnelerin hafızada tutulacağını seçiniz.</value>
   </data>

@@ -235,4 +235,52 @@
 	<data name="FeedSourceProperties_Title" space="preserve">
     <value>피드(Feed) 소스 설정</value>
   </data>
-	</root>
+	<data name="ComboMaxItemAge_Item">
+		<value>1 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item1">
+		<value>2 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item2">
+		<value>3 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item3">
+		<value>4 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item4">
+		<value>5 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item5">
+		<value>6 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item6">
+		<value>7 일</value>
+	</data>
+	<data name="ComboMaxItemAge_Item7">
+		<value>2 주</value>
+	</data>
+	<data name="ComboMaxItemAge_Item8">
+		<value>3 주</value>
+	</data>
+	<data name="ComboMaxItemAge_Item9">
+		<value>1 달</value>
+	</data>
+	<data name="ComboMaxItemAge_Item10">
+		<value>2 달</value>
+	</data>
+	<data name="ComboMaxItemAge_Item11">
+		<value>3 개월</value>
+	</data>
+	<data name="ComboMaxItemAge_Item12">
+		<value>6 개월</value>
+	</data>
+	<data name="ComboMaxItemAge_Item13">
+		<value>9 개월</value>
+	</data>
+	<data name="ComboMaxItemAge_Item14">
+		<value>1 년</value>
+	</data>
+	<data name="ComboMaxItemAge_Item15">
+		<value>무제한</value>
+	</data>
+</root>

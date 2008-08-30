@@ -107,15 +107,6 @@
   <data name="checkCustomFormatter.Text">
     <value>Usar un formateador &amp;personalizado</value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Ilimitado</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 trimestre</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 trimestres</value>
-  </data>
   <data name="comboFormatters.ToolTip">
     <value>Seleccione una hoja de estilo para el formateador</value>
   </data>
@@ -164,36 +155,6 @@
   <data name="checkCustomFormatter.ToolTip">
     <value>Marque esta opción para usar un formateador personalizado</value>
   </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 meses</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 meses</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 días</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 días</value>
-  </data>
   <data name="tabDisplay.Text">
     <value>Categoría</value>
   </data>
@@ -202,15 +163,6 @@
   </data>
   <data name="label9.Text">
     <value>Usa el formateo por defecto del elemento o selecciona un formateador XSLT personalizado.</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 día</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 año</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 trimestres</value>
   </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>Seleccione la edad máxima del elemento para mantenerlo en la caché</value>

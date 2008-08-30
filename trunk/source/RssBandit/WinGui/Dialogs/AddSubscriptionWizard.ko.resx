@@ -334,54 +334,6 @@
 	<data name="pageFeedItemControl.Text">
 		<value>피드(Feed)/아이템 컨트롤</value>
 	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>하루</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>이틀</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>삼일</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>사일</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>오일</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>육일</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>칠일</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>이주</value>
-	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>이십일</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1개월</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2개월</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>4개월</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>8개월</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>12개월</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1년</value>
-	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value> 무제한</value>
-	</data>
 	<data name="cboUpdateFrequency.Items">
 		<value>0</value>
 	</data>

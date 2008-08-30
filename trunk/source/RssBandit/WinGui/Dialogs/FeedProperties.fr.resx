@@ -109,54 +109,6 @@
   <data name="label5.Text">
     <value>&amp;Catégorie</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 jour</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 jours</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 mois</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 mois</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 trimestre</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 trimestres</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 trimestres</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 an</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Illimité</value>
-  </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>Choisir l'âge maximum des messages à conserver dans le cache</value>
   </data>

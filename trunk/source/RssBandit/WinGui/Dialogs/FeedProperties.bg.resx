@@ -114,9 +114,6 @@
     <data name="label9.Text">
         <value>Използвайте форматиране по подразбиране или изберете XSLT формат.</value>
     </data>
-    <data name="comboMaxItemAge.Items1">
-        <value>2 дни</value>
-    </data>
     <data name="comboMaxItemAge.ToolTip">
         <value>Изберете максимална "възраст" на съобщенията, които ще се пазят</value>
     </data>
@@ -129,32 +126,8 @@
     <data name="checkEnableAlerts.Text">
         <value>&amp;Разреши подсещане при нови съобщения(новини)</value>
     </data>
-    <data name="comboMaxItemAge.Items8">
-        <value>21 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items9">
-        <value>1 месец</value>
-    </data>
-    <data name="comboMaxItemAge.Items4">
-        <value>5 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items5">
-        <value>6 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items6">
-        <value>7 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items7">
-        <value>14 дни</value>
-    </data>
     <data name="label2.Text">
         <value>&amp;Url</value>
-    </data>
-    <data name="comboMaxItemAge.Items2">
-        <value>3 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items3">
-        <value>4 дни</value>
     </data>
     <data name="comboFormatters.ToolTip">
         <value>Изберете стил на форматиране</value>
@@ -164,9 +137,6 @@
     </data>
     <data name="checkCustomFormatter.ToolTip">
         <value>Изберете за използване на форматиране по подразбиране</value>
-    </data>
-    <data name="comboMaxItemAge.Items">
-        <value>1 ден</value>
     </data>
     <data name="comboBox1.Items8">
         <value>120</value>
@@ -201,9 +171,6 @@
     <data name="label6.Text">
         <value>Име на потребител</value>
     </data>
-    <data name="comboMaxItemAge.Items15">
-        <value>Неограничено</value>
-    </data>
     <data name="labelFormatters.Text">
         <value>Форматиране:</value>
     </data>
@@ -218,21 +185,6 @@
     </data>
     <data name="label15.Text">
         <value>Изтрий новини по-стари от:</value>
-    </data>
-    <data name="comboMaxItemAge.Items14">
-        <value>1 година</value>
-    </data>
-    <data name="comboMaxItemAge.Items11">
-        <value>4 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items10">
-        <value>2 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items13">
-        <value>8 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items12">
-        <value>6 месеца</value>
     </data>
     <data name="tabDisplay.Text">
         <value>Покажи</value>

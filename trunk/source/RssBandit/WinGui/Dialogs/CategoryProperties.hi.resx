@@ -166,54 +166,6 @@
   <data name="labelFormatters.Text" xml:space="preserve">
     <value>Formatter &amp;Stylesheet:</value>
   </data>
-  <data name="comboMaxItemAge.Items" xml:space="preserve">
-    <value>१ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items1" xml:space="preserve">
-    <value>२ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items2" xml:space="preserve">
-    <value>३ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items3" xml:space="preserve">
-    <value>४ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items4" xml:space="preserve">
-    <value>४ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items5" xml:space="preserve">
-    <value>६ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items6" xml:space="preserve">
-    <value>७ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items7" xml:space="preserve">
-    <value>१४ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items8" xml:space="preserve">
-    <value>२१ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items9" xml:space="preserve">
-    <value>१ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items10" xml:space="preserve">
-    <value>२ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items11" xml:space="preserve">
-    <value>३ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items12" xml:space="preserve">
-    <value>६ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items13" xml:space="preserve">
-    <value>९ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items14" xml:space="preserve">
-    <value>१ वर्ष</value>
-  </data>
-  <data name="comboMaxItemAge.Items15" xml:space="preserve">
-    <value>असीमित</value>
-  </data>
   <data name="comboBox1.ToolTip" xml:space="preserve">
     <value />
   </data>

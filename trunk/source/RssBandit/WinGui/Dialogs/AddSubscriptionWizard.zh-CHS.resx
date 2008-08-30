@@ -266,27 +266,6 @@
   <data name="lblPassword.Text">
     <value>密码(&amp;P)：</value>
   </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 个月</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 天</value>
-  </data>
   <data name="pageFoundMultipleFeeds.Text">
     <value>发现多个feeds</value>
   </data>
@@ -314,9 +293,6 @@
   </data>
   <data name="btnManageSearchEngines.Text">
     <value>管理...</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 天</value>
   </data>
   <data name="lblWelcomeInfoBox.Text">
     <value>本向导要求在一些步骤上你已经连接到互联网！如果没有，确保现在你的电脑已经连接。</value>
@@ -371,24 +347,6 @@
   </data>
   <data name="lblNewBySearchEngines.Text">
     <value>搜索引擎：</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>无限制</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 年</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 个月</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 季度</value>
   </data>
   <data name="wizard.Text">
     <value>向导</value>
@@ -470,12 +428,6 @@
   </data>
   <data name="checkMarkItemsReadOnExiting.Text">
     <value>在现存的feed上标记条目为已读(&amp;M)</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 天</value>
   </data>
   <data name="$this.Text">
     <value>添加订阅向导</value>

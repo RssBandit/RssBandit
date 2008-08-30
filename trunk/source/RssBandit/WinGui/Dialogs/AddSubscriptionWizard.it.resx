@@ -132,27 +132,6 @@
 	<data name="lblPassword.Text">
 		<value>&amp;Password:</value>
 	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 mese</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 giorni</value>
-	</data>
 	<data name="pageFoundMultipleFeeds.Text">
 		<value>Trovati più feed</value>
 	</data>
@@ -179,9 +158,6 @@
 	</data>
 	<data name="btnManageSearchEngines.Text">
 		<value>Gestisci...</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 giorno</value>
 	</data>
 	<data name="lblWelcomeInfoBox.Text">
 		<value>Questo wizard richiede in alcuni passi di essere connessi a Internet! Se non lo sei già, assicurati di connetterti ora.</value>
@@ -236,24 +212,6 @@
 	</data>
 	<data name="lblNewBySearchEngines.Text">
 		<value>Motore di ricerca:</value>
-	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Illimitato</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 anno</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>1 quadrimestre</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 mesi</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>3 quadrimestri</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>2 quadrimestri</value>
 	</data>
 	<data name="wizard.Text">
 		<value>wizard</value>
@@ -335,12 +293,6 @@
 	</data>
 	<data name="checkMarkItemsReadOnExiting.Text">
 		<value>&amp;Imposta gli item come letti uscendo dal feed</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 giorni</value>
 	</data>
 	<data name="$this.Text">
 		<value>Wizard aggiunta sottoscrizione</value>

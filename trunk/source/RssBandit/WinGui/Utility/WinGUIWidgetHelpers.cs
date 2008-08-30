@@ -25,6 +25,7 @@ using System.Text;
 using NewsComponents;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 using RssBandit.Xml;
@@ -1041,6 +1042,43 @@ namespace RssBandit.WinGui.Utility {
 		}
 
 
+		private static List<string> _maxItemAgeStrings;
+		/// <summary>
+		/// Gets the max. item age resource captions as a list.
+		/// </summary>
+		/// <value>The max. item age strings.</value>
+		public static List<string> MaxItemAgeStrings
+		{
+			get
+			{
+				if (_maxItemAgeStrings == null)
+				{
+					_maxItemAgeStrings = new List<string>(25);
+					_maxItemAgeStrings.AddRange(
+						new[]
+						{
+							DR.ComboMaxItemAge_Item,
+							DR.ComboMaxItemAge_Item1,
+							DR.ComboMaxItemAge_Item2,
+							DR.ComboMaxItemAge_Item3,
+							DR.ComboMaxItemAge_Item4,
+							DR.ComboMaxItemAge_Item5,
+							DR.ComboMaxItemAge_Item6,
+							DR.ComboMaxItemAge_Item7,
+							DR.ComboMaxItemAge_Item8,
+							DR.ComboMaxItemAge_Item9,
+							DR.ComboMaxItemAge_Item10,
+							DR.ComboMaxItemAge_Item11,
+							DR.ComboMaxItemAge_Item12,
+							DR.ComboMaxItemAge_Item13,
+							DR.ComboMaxItemAge_Item14,
+							DR.ComboMaxItemAge_Item15,
+						});
+				}
+				return _maxItemAgeStrings;
+			}
+		}
+			
 		private static int[] dayIndexMap = new int[]{1,2,3,4,5,6,7,14,21,30,60,90,180,270,365};
 		
 		public static TimeSpan MaxItemAgeFromIndex(int index)
@@ -1183,7 +1221,7 @@ namespace RssBandit.WinGui.Utility {
 		/// </summary>
 		/// <param name="age">The age.</param>
 		/// <returns></returns>
-		public static int MapRssSearchItemAgeToIndex(TimeSpan age) {
+		public static int RssSearchItemAgeToIndex(TimeSpan age) {
 			switch ((int)age.TotalHours) {	// returns the index used within the comboBox
 				case 1: return 0;	// 1 hour
 				case 2: return 1;	// 2 hours

@@ -113,54 +113,6 @@
   <data name="label5.Text">
     <value>&amp;Kategoria</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 dzień</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 dni</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 miesiąc</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 miesiące</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 kwartał</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 kwartały</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 kwartały</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 rok</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Nie usuwaj</value>
-  </data>
   
   <data name="comboMaxItemAge.ToolTip">
     <value>Określ maksymalny okres przechowywania wiadomości.</value>

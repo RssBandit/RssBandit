@@ -149,44 +149,14 @@
   <data name="label9.Text">
     <value>使用缺省条目格式或者选择定制的XSLT格式。</value>
   </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 天</value>
-  </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>选择最大条目时限以保持条目被缓存</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 月</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 天</value>
   </data>
   <data name="comboFormatters.ToolTip">
     <value>选择格式化风格页</value>
   </data>
   <data name="checkCustomFormatter.ToolTip">
     <value>选中该选项以使用定制的格式</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 天</value>
   </data>
   <data name="comboBox1.Items8">
     <value>120</value>
@@ -215,29 +185,11 @@
   <data name="comboBox1.Items5">
     <value>75</value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>无限制</value>
-  </data>
   <data name="labelFormatters.Text">
     <value>格式化风格页(&amp;S)：</value>
   </data>
   <data name="checkMarkItemsReadOnExit.Text">
     <value>在现有的feed上标记条目为已读(&amp;M)</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 年</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 月</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 季度</value>
   </data>
   <data name="tabDisplay.Text">
     <value>显示</value>

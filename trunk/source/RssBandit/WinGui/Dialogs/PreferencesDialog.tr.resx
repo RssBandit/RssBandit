@@ -317,54 +317,6 @@
   <data name="label4.Text">
     <value>&amp;Güncelleme sıklığı:</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 gün</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>3 ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>6 ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>9 ay</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 yıl</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Sonsuz</value>
-  </data>
   <data name="label3.Text">
     <value>Abonesi olduğunuz kaynakların güncellenme aralığını belirtiniz. Yenileme oranı bu aralık içinde olan her kaynak tekrar istenecektir (Conditional Get). Bakınız...</value>
   </data>

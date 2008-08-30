@@ -109,54 +109,6 @@
   <data name="label5.Text">
     <value>Категория</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 день</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 дня</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 дня</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 дня</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 дней</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 дней</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 дней</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 дней</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 день</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 месяц</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 месяца</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 квартал</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 квартала</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 квартала</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 год</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Без ограничений</value>
-  </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>Выберите максимальный возраст сообщения для кэширования</value>
   </data>

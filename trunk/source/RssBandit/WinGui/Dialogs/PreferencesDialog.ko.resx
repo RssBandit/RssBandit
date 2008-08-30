@@ -342,54 +342,6 @@
 	<data name="label4.Text">
     <value>&amp;다음과 같은 주기로 피드를 항상 업데이트 합니다</value>
   </data>
-	<data name="comboMaxItemAge.Items">
-    <value>1 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items1">
-    <value>2 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items2">
-    <value>3 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items3">
-    <value>4 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items4">
-    <value>5 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items5">
-    <value>6 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items6">
-    <value>7 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items7">
-    <value>14 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items8">
-    <value>21 일</value>
-  </data>
-	<data name="comboMaxItemAge.Items9">
-    <value>1 달</value>
-  </data>
-	<data name="comboMaxItemAge.Items10">
-    <value>2 달</value>
-  </data>
-	<data name="comboMaxItemAge.Items11">
-    <value>3 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items12">
-    <value>6 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items13">
-    <value>9 개월</value>
-  </data>
-	<data name="comboMaxItemAge.Items14">
-    <value>1 년</value>
-  </data>
-	<data name="comboMaxItemAge.Items15">
-    <value>무제한</value>
-  </data>
 	<data name="label3.Text">
     <value>여러분의 예약 구독 피드들이 업데이트 되어지는 기간을 표기 합니다.각 피드는 정해진 기간 안에서, 새롭게 하는 비율로 다시 구성되어 집니다(Conditional Get).</value>
   </data>

@@ -781,23 +781,6 @@ namespace RssBandit.WinGui.Forms
 			this.comboMaxItemAge.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.errorProvider1.SetIconAlignment(this.comboMaxItemAge, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("comboMaxItemAge.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.comboMaxItemAge, ((int)(resources.GetObject("comboMaxItemAge.IconPadding"))));
-			this.comboMaxItemAge.Items.AddRange(new object[] {
-            resources.GetString("comboMaxItemAge.Items"),
-            resources.GetString("comboMaxItemAge.Items1"),
-            resources.GetString("comboMaxItemAge.Items2"),
-            resources.GetString("comboMaxItemAge.Items3"),
-            resources.GetString("comboMaxItemAge.Items4"),
-            resources.GetString("comboMaxItemAge.Items5"),
-            resources.GetString("comboMaxItemAge.Items6"),
-            resources.GetString("comboMaxItemAge.Items7"),
-            resources.GetString("comboMaxItemAge.Items8"),
-            resources.GetString("comboMaxItemAge.Items9"),
-            resources.GetString("comboMaxItemAge.Items10"),
-            resources.GetString("comboMaxItemAge.Items11"),
-            resources.GetString("comboMaxItemAge.Items12"),
-            resources.GetString("comboMaxItemAge.Items13"),
-            resources.GetString("comboMaxItemAge.Items14"),
-            resources.GetString("comboMaxItemAge.Items15")});
 			this.comboMaxItemAge.Name = "comboMaxItemAge";
 			this.toolTip1.SetToolTip(this.comboMaxItemAge, resources.GetString("comboMaxItemAge.ToolTip"));
 			this.comboMaxItemAge.SelectionChangeCommitted += new System.EventHandler(this.OnAnyComboSelectionChangeCommitted);

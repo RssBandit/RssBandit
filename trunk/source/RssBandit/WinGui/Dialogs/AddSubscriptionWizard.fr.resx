@@ -266,27 +266,6 @@
 	<data name="lblPassword.Text">
 		<value>&amp;Mot de passe:</value>
 	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 mois</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 jours</value>
-	</data>
 	<data name="pageFoundMultipleFeeds.Text">
 		<value>Plusieurs flux ont été découverts</value>
 	</data>
@@ -313,9 +292,6 @@
 	</data>
 	<data name="btnManageSearchEngines.Text">
 		<value>Gèrer...</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 jour</value>
 	</data>
 	<data name="lblWelcomeInfoBox.Text">
 		<value>L'assistant requiert à certaines étapes que vous soyez connecté à l'Internet. Si vous ne l'êtes pas, connectez votre ordinateur maintenant.</value>
@@ -370,24 +346,6 @@
 	</data>
 	<data name="lblNewBySearchEngines.Text">
 		<value>Moteur de recherche:</value>
-	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Illimité</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 année</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>1 trimestre</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 moirs</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>3 trimestres</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>2 trimestres</value>
 	</data>
 	<data name="wizard.Text">
 		<value>assistant</value>
@@ -469,12 +427,6 @@
 	</data>
 	<data name="checkMarkItemsReadOnExiting.Text">
 		<value>&amp;Marquer les entrées comme lues sur les flux existants</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 jours</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 jours</value>
 	</data>
 	<data name="$this.Text">
 		<value>Assistant d'ajout d'inscription</value>
