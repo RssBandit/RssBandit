@@ -112,54 +112,6 @@
   <data name="label5.Text">
     <value>&amp;Categorie</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 dag</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 dagen</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 maand</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 maanden</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>3 maanden</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>6 maanden</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>9 maanden</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 jaar</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Onbeperkt</value>
-  </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>Selecteer de maximale bewaartermijn van feeditems</value>
   </data>

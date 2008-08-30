@@ -266,27 +266,6 @@
   <data name="lblPassword.Text">
     <value>&amp;Senha:</value>
   </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 mês</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 dias</value>
-  </data>
   <data name="pageFoundMultipleFeeds.Text">
     <value>Multiplos canais encontrados</value>
   </data>
@@ -313,9 +292,6 @@
   </data>
   <data name="btnManageSearchEngines.Text">
     <value>Gerenciar...</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 dia</value>
   </data>
   <data name="lblWelcomeInfoBox.Text">
     <value>O Assistente requer em alguns passos que você esteja conectado à Internet! Se não, certifique-se de conectar seu computador à internet agora.</value>
@@ -370,24 +346,6 @@
   </data>
   <data name="lblNewBySearchEngines.Text">
     <value>Mecânismo de pesquisa:</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Sem limite</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 ano</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 quadrimestre</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 meses</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 quadrimestres</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 quadrimestres</value>
   </data>
   <data name="wizard.Text">
     <value>assistente</value>
@@ -469,12 +427,6 @@
   </data>
   <data name="checkMarkItemsReadOnExiting.Text">
     <value>&amp;Marque ítens como lidos ao sair do canal</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 dias</value>
   </data>
   <data name="$this.Text">
     <value>Assistente para inclusão de inscrição</value>

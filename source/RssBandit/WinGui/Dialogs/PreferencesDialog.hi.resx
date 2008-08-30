@@ -128,27 +128,6 @@
   <data name="sectionPanelWebBrowserSecurity.Text">
     <value>सुरक्षा, सीमाएँ</value>
   </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>१ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>६ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>७ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>१४ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>२ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>३ दिन</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>४ दिन</value>
-  </data>
   <data name="btnSEProperties.Text">
     <value>गुण...</value>
   </data>
@@ -260,9 +239,6 @@
   <data name="label2.Text">
     <value>साधारण पद संरूप इस्तेमाल करें या विशेष XSLT formatter चुनें.</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>१ दिन</value>
-  </data>
   <data name="checkBrowserJavascriptAllowed.Text">
     <value>Javascript execution</value>
   </data>
@@ -296,24 +272,6 @@
   <data name="label17.Text">
     <value>Select the search engine(s), that should be active if you press the toolbar 'Search Web' command by the checkboxes on the list below. </value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>असीमित</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>१ वर्ष</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>३ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>२ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>९ माह</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>६ माह</value>
-  </data>
   <data name="btnSEMoveUp.Text">
     <value>ऊपर करें</value>
   </data>
@@ -337,9 +295,6 @@
   </data>
   <data name="columnHeader2.Text">
     <value>विवरण</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>२१ दिन</value>
   </data>
   <data name="btnApply.Text">
     <value>लागू करें</value>
@@ -463,9 +418,6 @@
   </data>
   <data name="linkCommentAPI.ToolTip">
     <value>'CommentAPI' के बारे में और पढ़ें...</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>५ दिन</value>
   </data>
   <data name="label3.Text">
     <value>Specify the interval your subscribed feeds should be updated. Each feed with a refresh rate within this interval will be requested again (Conditional Get). See also</value>

@@ -106,15 +106,6 @@
 	<data name="checkCustomFormatter.Text">
 		<value>Utilizza un &amp;custom formatter</value>
 	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Illimitato</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>1 quadrimestre</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>2 quadrimestri</value>
-	</data>
 	<data name="comboFormatters.ToolTip">
 		<value>Seleziona una form</value>
 	</data>
@@ -163,36 +154,6 @@
 	<data name="checkCustomFormatter.ToolTip">
 		<value>Seleziona questa opzione per utilizzare un formattatore custom</value>
 	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 mesi</value>
-	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 mese</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 giorni</value>
-	</data>
 	<data name="tabDisplay.Text">
 		<value>Categoria</value>
 	</data>
@@ -201,15 +162,6 @@
 	</data>
 	<data name="label9.Text">
 		<value>Usa la formattazione degli item di default o seleziona un formattatore XSLT custom.</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 giorno</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 anno</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>3 quadrimestri</value>
 	</data>
 	<data name="comboMaxItemAge.ToolTip">
 		<value>Seleziona l'età massima degli item per cui verranno tenuti nella cache</value>

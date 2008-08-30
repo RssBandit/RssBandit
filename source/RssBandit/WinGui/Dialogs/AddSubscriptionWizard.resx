@@ -121,8 +121,8 @@
   <data name="wizard.BannerImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAxCAYAAABznEEcAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
         Ihx6ryK9hC5dehMUkCq9KCAoiHQUhcNp+79zbyNPTEyMmDHePWPMwV6btTfzW/Ofc5WDDADef/2Hhfhv
         tzEDBAUFycTHx49jB6K2tlamsrJStqKiQoZtX758WaakpIS7LiwslGGNvc7NzZW5ePHihL8yeDVSTDD1
         uL7YMaRvc0Q+nn/42TFDFBQUjCfHJxDA+KqqKhZChiBky8rKxrEQD/+x/Px8mby8PJlfITjwJ7FmBi8c
@@ -232,7 +232,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;_btnImmediateFinish.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblFeedSources.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -603,56 +603,11 @@
   <data name="pageFeedCredentials.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 73</value>
   </data>
+  <data name="comboMaxItemAge.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="comboMaxItemAge.ItemHeight" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="comboMaxItemAge.Items" xml:space="preserve">
-    <value>1 day</value>
-  </data>
-  <data name="comboMaxItemAge.Items1" xml:space="preserve">
-    <value>2 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items2" xml:space="preserve">
-    <value>3 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items3" xml:space="preserve">
-    <value>4 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items4" xml:space="preserve">
-    <value>5 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items5" xml:space="preserve">
-    <value>6 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items6" xml:space="preserve">
-    <value>7 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items7" xml:space="preserve">
-    <value>14 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items8" xml:space="preserve">
-    <value>21 days</value>
-  </data>
-  <data name="comboMaxItemAge.Items9" xml:space="preserve">
-    <value>1 month</value>
-  </data>
-  <data name="comboMaxItemAge.Items10" xml:space="preserve">
-    <value>2 months</value>
-  </data>
-  <data name="comboMaxItemAge.Items11" xml:space="preserve">
-    <value>1 quarter</value>
-  </data>
-  <data name="comboMaxItemAge.Items12" xml:space="preserve">
-    <value>2 quarters</value>
-  </data>
-  <data name="comboMaxItemAge.Items13" xml:space="preserve">
-    <value>3 quarters</value>
-  </data>
-  <data name="comboMaxItemAge.Items14" xml:space="preserve">
-    <value>1 year</value>
-  </data>
-  <data name="comboMaxItemAge.Items15" xml:space="preserve">
-    <value>Unlimited</value>
   </data>
   <data name="comboMaxItemAge.Location" type="System.Drawing.Point, System.Drawing">
     <value>204, 168</value>
@@ -674,6 +629,9 @@
   </data>
   <data name="&gt;&gt;comboMaxItemAge.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="cboUpdateFrequency.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
   </data>
   <data name="cboUpdateFrequency.ItemHeight" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1153,7 +1111,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;finishPage.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
@@ -1177,7 +1135,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageFeedItemDisplay.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
@@ -1201,7 +1159,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageFeedItemControl.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
     <value>Please click "Next" to enter or change Feed/Item control settings...</value>
@@ -1350,8 +1308,8 @@
   <data name="pictureHelpSyndic8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
         q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
         93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
         63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
@@ -1828,7 +1786,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageValidateUrl.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="radioNewByNNTPGroup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -2001,8 +1959,8 @@
   <data name="pictureHelpAutodiscover.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
         q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
         93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
         63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
@@ -2222,7 +2180,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageNewByURL.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="chkDisplayWelcome.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>System</value>
@@ -2369,7 +2327,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageWelcome.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="pageHowToSelection.Size" type="System.Drawing.Size, System.Drawing">
     <value>457, 225</value>
@@ -2390,7 +2348,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageHowToSelection.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="pageNewBySearchTopic.Size" type="System.Drawing.Size, System.Drawing">
     <value>457, 225</value>
@@ -2411,7 +2369,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageNewBySearchTopic.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="pageFoundMultipleFeeds.Size" type="System.Drawing.Size, System.Drawing">
     <value>457, 225</value>
@@ -2432,7 +2390,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageFoundMultipleFeeds.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="pageTitleCategory.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
@@ -2456,7 +2414,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageTitleCategory.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="lstNNTPGroups.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -2521,8 +2479,8 @@
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAAAjRJREFUOE+lk89qE1EUxvUN8gjzCEXBhassXQ7aQJYRXHShElxIEMShIASDGpGiwdIZ
         q2IjaZ1N7RitHdFWS5EOrdXYhsmkRE2baXp1qvSP5vPcO2nGqejGC4d77nC+3/nuyc1+APv+a3HA3pic
         93CnuIr03Qp6BxbRVyhj9OVHKvuzNiSeszeRn2hCLa7AaWzjy8YOmLdN+RYu50tIqxaKr5ZDoA6Aix+Y
         63C/tWBagDIEyGk/eG5aDPZ6Cxf6pjD6vNyBdAC889r3FjQTiKYAzQDYJq8DHAYkb/JvDBWCnMk8DQMm
@@ -2772,7 +2730,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageNewByNNTPGroup.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="wizard.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -2783,8 +2741,8 @@
   <data name="wizard.MarginImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAKQAAAE5CAYAAAAeOotoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
+        Cw4BQL7hQQAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
         WzJKBpmZmRI7cZg5mQzj7kxS7/equ09m9vNLcqf79OnTOqf76quqrqq6+9+mJkw1/inxb/9WosQPJazE
         z4wV/ccGsx+1yj//VuJH3vt/SvxMb7BWooT97N/Y13zdP/ez/1Pi3/U5tv3sZz9jf33s30r8u44QPlbi
         Rzb+TMf6Nz7Ffvqw9v03Xv/Ae3wL/tXn/SMlfuS7aPkPtv7sR3bWlwmHCwfkO+jvGfv9yHfV65+xXYdn

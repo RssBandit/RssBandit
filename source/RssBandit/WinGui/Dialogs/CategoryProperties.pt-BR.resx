@@ -142,15 +142,6 @@
   <data name="$this.Text">
     <value>Propriedades da Categoria</value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Ilimitado</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 trimestre</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 trimestres</value>
-  </data>
   <data name="comboFormatters.ToolTip">
     <value>Selecione uma folha de estilo de formatação</value>
   </data>
@@ -178,47 +169,8 @@
   <data name="comboBox1.Items5">
     <value>75</value>
   </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 meses</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 mês</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 dias</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 dias</value>
-  </data>
   <data name="button1.Text">
     <value>&amp;OK</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 dia</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 ano</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 trimestres</value>
   </data>
   <data name="comboBox1.Items">
     <value>0</value>

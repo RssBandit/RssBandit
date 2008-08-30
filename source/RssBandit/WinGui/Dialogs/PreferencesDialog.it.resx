@@ -171,9 +171,6 @@
 	<data name="btnSERemove.Text">
 		<value>Rimuovi</value>
 	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 giorno</value>
-	</data>
 	<data name="sectionPanelGeneralStartup.Text">
 		<value>Avvio</value>
 	</data>
@@ -279,24 +276,6 @@
 	<data name="labelCheckToAllow.Text">
 		<value>Seleziona per permettere:</value>
 	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Illimitato</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 anno</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>1 quadrimestre</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 months</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>3 quadrimestri</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>2 quadrimestri</value>
-	</data>
 	<data name="labelProxyCredentialUserName.Text">
 		<value>&amp;Nome utente:</value>
 	</data>
@@ -323,24 +302,6 @@
 	</data>
 	<data name="checkUseProxy.Text">
 		<value>Utilizza impostazioni private del &amp;proxy server:</value>
-	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 mese</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 giorni</value>
 	</data>
 	<data name="lstItemStates.Items">
 		<value>Leggi (normale)</value>
@@ -564,17 +525,8 @@
 	<data name="label17.Text">
 		<value>Seleziona il(i) motore(i) di ricerca, questo deve essere attivo se premi il comando 'Ricerca Web' della toolbar con i checkboxes nella lista sotto</value>
 	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 giorni</value>
-	</data>
 	<data name="columnHeader2.Text">
 		<value>Descrizione</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 giorni</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 giorni</value>
 	</data>
 	<data name="sectionPanelDisplayGeneral.Text">
 		<value>Generale</value>

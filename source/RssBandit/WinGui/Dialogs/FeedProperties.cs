@@ -122,8 +122,15 @@ namespace RssBandit.WinGui.Dialogs
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			ApplyComponentTranslations();
+			this.Load += this.OnForm_Load;
+		}
 
-			this.Load += new EventHandler(this.OnFeedProperties_Load);
+		void ApplyComponentTranslations()
+		{
+
+			this.comboMaxItemAge.Items.Clear();
+			this.comboMaxItemAge.DataSource = Utils.MaxItemAgeStrings;
 		}
 
 		/// <summary>
@@ -162,7 +169,7 @@ namespace RssBandit.WinGui.Dialogs
 			panelItemControl.SetBounds(0,0, tabControl.Width - 2*panelItemControl.Location.X, 0, BoundsSpecified.Width);
 		}
 
-		private void OnFeedProperties_Load(object sender, EventArgs e) {
+		private void OnForm_Load(object sender, EventArgs e) {
 		 	// fix the wide screen Tab Control issue by resize ourselfs the panels at the first Tab:
 			OnTabControl_Resize(this, EventArgs.Empty);
 		}

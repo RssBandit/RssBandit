@@ -235,4 +235,52 @@
 	<data name="FeedSourceProperties_Title" space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	</root>
+	<data name="ComboMaxItemAge_Item">
+		<value>1 день</value>
+	</data>
+	<data name="ComboMaxItemAge_Item1">
+		<value>2 дня</value>
+	</data>
+	<data name="ComboMaxItemAge_Item2">
+		<value>3 дня</value>
+	</data>
+	<data name="ComboMaxItemAge_Item3">
+		<value>4 дня</value>
+	</data>
+	<data name="ComboMaxItemAge_Item4">
+		<value>5 дней</value>
+	</data>
+	<data name="ComboMaxItemAge_Item5">
+		<value>6 дней</value>
+	</data>
+	<data name="ComboMaxItemAge_Item6">
+		<value>7 дней</value>
+	</data>
+	<data name="ComboMaxItemAge_Item7">
+		<value>14 дней</value>
+	</data>
+	<data name="ComboMaxItemAge_Item8">
+		<value>21 день</value>
+	</data>
+	<data name="ComboMaxItemAge_Item9">
+		<value>1 месяц</value>
+	</data>
+	<data name="ComboMaxItemAge_Item10">
+		<value>2 месяца</value>
+	</data>
+	<data name="ComboMaxItemAge_Item11">
+		<value>1 квартал</value>
+	</data>
+	<data name="ComboMaxItemAge_Item12">
+		<value>2 квартала</value>
+	</data>
+	<data name="ComboMaxItemAge_Item13">
+		<value>3 квартала</value>
+	</data>
+	<data name="ComboMaxItemAge_Item14">
+		<value>1 год</value>
+	</data>
+	<data name="ComboMaxItemAge_Item15">
+		<value>Без ограничений</value>
+	</data>
+</root>

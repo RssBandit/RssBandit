@@ -129,27 +129,6 @@
 	<data name="lblPassword.Text">
     <value>&amp;Password:</value>
   </data>
-	<data name="comboMaxItemAge.Items8">
-    <value>21 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items9">
-    <value>1 month</value>
-  </data>
-	<data name="comboMaxItemAge.Items4">
-    <value>5 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items6">
-    <value>7 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items7">
-    <value>14 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items1">
-    <value>2 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items3">
-    <value>4 days</value>
-  </data>
 	<data name="pageFoundMultipleFeeds.Text">
     <value>Multiple feeds found</value>
   </data>
@@ -176,9 +155,6 @@
   </data>
 	<data name="btnManageSearchEngines.Text">
     <value>Manage...</value>
-  </data>
-	<data name="comboMaxItemAge.Items">
-    <value>1 day</value>
   </data>
 	<data name="lblWelcomeInfoBox.Text">
     <value>The wizard requires at some steps you are connected to the Internet! If not, ensure to connect your computer now.</value>
@@ -233,24 +209,6 @@
   </data>
 	<data name="lblNewBySearchEngines.Text">
     <value>Search engine:</value>
-  </data>
-	<data name="comboMaxItemAge.Items15">
-    <value>Unlimited</value>
-  </data>
-	<data name="comboMaxItemAge.Items14">
-    <value>1 year</value>
-  </data>
-	<data name="comboMaxItemAge.Items11">
-    <value>1 quarter</value>
-  </data>
-	<data name="comboMaxItemAge.Items10">
-    <value>2 months</value>
-  </data>
-	<data name="comboMaxItemAge.Items13">
-    <value>3 quarters</value>
-  </data>
-	<data name="comboMaxItemAge.Items12">
-    <value>2 quarters</value>
   </data>
 	<data name="wizard.Text">
     <value>wizard</value>
@@ -332,12 +290,6 @@
   </data>
 	<data name="checkMarkItemsReadOnExiting.Text">
     <value>&amp;Mark items as read on exiting feed</value>
-  </data>
-	<data name="comboMaxItemAge.Items5">
-    <value>6 days</value>
-  </data>
-	<data name="comboMaxItemAge.Items2">
-    <value>3 days</value>
   </data>
 	<data name="$this.Text">
     <value>Add Subscription Wizard</value>

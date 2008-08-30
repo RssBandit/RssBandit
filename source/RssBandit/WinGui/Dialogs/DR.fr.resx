@@ -246,4 +246,52 @@
 	<data name="FeedSourceProperties_Title" space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	</root>
+	<data name="ComboMaxItemAge_Item">
+		<value>1 jour</value>
+	</data>
+	<data name="ComboMaxItemAge_Item1">
+		<value>2 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item2">
+		<value>3 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item3">
+		<value>4 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item4">
+		<value>5 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item5">
+		<value>6 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item6">
+		<value>7 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item7">
+		<value>14 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item8">
+		<value>21 jours</value>
+	</data>
+	<data name="ComboMaxItemAge_Item9">
+		<value>1 mois</value>
+	</data>
+	<data name="ComboMaxItemAge_Item10">
+		<value>2 mois</value>
+	</data>
+	<data name="ComboMaxItemAge_Item11">
+		<value>1 trimestre</value>
+	</data>
+	<data name="ComboMaxItemAge_Item12">
+		<value>2 trimestres</value>
+	</data>
+	<data name="ComboMaxItemAge_Item13">
+		<value>3 trimestres</value>
+	</data>
+	<data name="ComboMaxItemAge_Item14">
+		<value>1 an</value>
+	</data>
+	<data name="ComboMaxItemAge_Item15">
+		<value>Illimité</value>
+	</data>
+</root>

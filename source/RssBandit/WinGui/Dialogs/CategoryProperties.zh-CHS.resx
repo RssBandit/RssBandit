@@ -124,15 +124,6 @@
   <data name="checkCustomFormatter.Text">
     <value>使用定制格式(&amp;c)</value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>无限制</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 季度</value>
-  </data>
   <data name="comboFormatters.ToolTip">
     <value>选择一个格式化的风格页</value>
   </data>
@@ -169,50 +160,11 @@
   <data name="checkCustomFormatter.ToolTip">
     <value>选择该选项以使用定制的格式</value>
   </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 个月</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 个月</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 天</value>
-  </data>
   <data name="tabDisplay.Text">
     <value>分类</value>
   </data>
   <data name="label9.Text">
     <value>使用缺省的条目格式或者选择一个定制的 XSLT 格式。</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 年</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 季度</value>
   </data>
   <data name="comboMaxItemAge.ToolTip">
     <value>选择保留一个条目缓存的最高时限</value>

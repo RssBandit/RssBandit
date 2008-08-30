@@ -367,9 +367,6 @@
   <data name="textProxyBypassList.ToolTip">
     <value>异常地址列表</value>
   </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 天</value>
-  </data>
   <data name="comboRefreshRate.Items7">
     <value>120</value>
   </data>
@@ -418,24 +415,6 @@
   <data name="labelCheckToAllow.Text">
     <value>选择以允许：</value>
   </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>无限制</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 年</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 月</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 季度</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 季度</value>
-  </data>
   <data name="labelProxyCredentialUserName.ToolTip">
     <value>代理证书的用户名称。可以指定为 '域\用户名'</value>
   </data>
@@ -450,24 +429,6 @@
   </data>
   <data name="labelFontsSubscriptionsSummery.Text">
     <value>设置用于高亮或标记订阅和新闻条目状态的字体，风格和颜色。</value>
-  </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 月</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 天</value>
   </data>
   <data name="lstItemStates.Items">
     <value>读 (常规)</value>
@@ -588,15 +549,6 @@
   </data>
   <data name="radioTrayActionMinimize.ToolTip">
     <value>应用程序将在任务栏上不可见</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 天</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 天</value>
   </data>
   <data name="sectionPanelDisplayGeneral.Text">
     <value>常规</value>

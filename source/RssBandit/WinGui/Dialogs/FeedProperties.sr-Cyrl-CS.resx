@@ -116,9 +116,6 @@
 	<data name="label9.Text">
 		<value>Користите основно форматирање или изаберите прилагођени XSLT форматер.</value>
 	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 дана</value>
-	</data>
 	<data name="comboMaxItemAge.ToolTip">
 		<value>Изаберите максимално време трајања предмета у кешу</value>
 	</data>
@@ -131,32 +128,8 @@
 	<data name="checkEnableAlerts.Text">
 		<value>&amp;Омогући прозор упозорења за нове предмете</value>
 	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 дан</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 месец</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 дана</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 дана</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 дана</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 дана</value>
-	</data>
 	<data name="label2.Text">
 		<value>&amp;Url</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 дана</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 дана</value>
 	</data>
 	<data name="comboFormatters.ToolTip">
 		<value>Изаберите каскадни стил форматера</value>
@@ -166,9 +139,6 @@
 	</data>
 	<data name="checkCustomFormatter.ToolTip">
 		<value>Селектујте ову опцију да користите прилагођени форматер</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 дан</value>
 	</data>
 	<data name="comboBox1.Items8">
 		<value>120</value>
@@ -203,9 +173,6 @@
 	<data name="label6.Text">
 		<value>Корисничко &amp;име</value>
 	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>Неограничено</value>
-	</data>
 	<data name="labelFormatters.Text">
 		<value>&amp;Каскадни стил форматера:</value>
 	</data>
@@ -220,21 +187,6 @@
 	</data>
 	<data name="label15.Text">
 		<value>Уклони предмете старије од:</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 година</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>1 квартал</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 месеца</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>3 квартала</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>2 квартала</value>
 	</data>
 	<data name="tabDisplay.Text">
 		<value>Прикажи</value>

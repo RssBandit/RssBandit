@@ -432,7 +432,7 @@ namespace RssBandit.WinGui.Controls
 							this.optionSetItemAge.CheckedIndex = 0;
 						else
 							this.optionSetItemAge.CheckedIndex = 1;
-						this.comboRssSearchItemAge.SelectedIndex = Utils.MapRssSearchItemAgeToIndex(age.WhatRelativeToToday);
+						this.comboRssSearchItemAge.SelectedIndex = Utils.RssSearchItemAgeToIndex(age.WhatRelativeToToday);
 					} 
 					else {
 						// absolute item age or range specified, queue for later handling

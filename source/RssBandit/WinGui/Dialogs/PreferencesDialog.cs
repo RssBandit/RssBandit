@@ -51,6 +51,7 @@ namespace RssBandit.WinGui.Forms {
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			ApplyComponentTranslations();
 
 			itemStateFonts = new Font[lstItemStates.Items.Count];
 			itemStateColors = new Color[lstItemStates.Items.Count];
@@ -256,6 +257,13 @@ namespace RssBandit.WinGui.Forms {
 			this.SetElevatedOptionIndicators();
 			
 			this.btnApply.Enabled = false;
+		}
+
+		void ApplyComponentTranslations()
+		{
+
+			this.comboMaxItemAge.Items.Clear();
+			this.comboMaxItemAge.DataSource = Utils.MaxItemAgeStrings;
 		}
 
 		/// <summary>
