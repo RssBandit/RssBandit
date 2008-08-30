@@ -1965,11 +1965,17 @@
     <Compile Include="WinGui\Dialogs\AddSubscriptionWizard.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinGui\Dialogs\AddSubscriptionWizard.Designer.cs">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\AskForDefaultAggregator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Dialogs\CategoryProperties.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\CategoryProperties.Designer.cs">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Dialogs\DownloadManagerWindow.xaml.cs">
       <DependentUpon>DownloadManagerWindow.xaml</DependentUpon>

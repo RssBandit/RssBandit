@@ -171,9 +171,6 @@
 	<data name="btnSERemove.Text">
     <value>Премахни</value>
   </data>
-	<data name="comboMaxItemAge.Items">
-    <value>1 ден</value>
-  </data>
 	<data name="sectionPanelGeneralStartup.Text">
     <value>Начало</value>
   </data>
@@ -279,24 +276,6 @@
 	<data name="labelCheckToAllow.Text">
     <value>Отметни за "разрешено":</value>
   </data>
-	<data name="comboMaxItemAge.Items15">
-    <value>Неограничен</value>
-  </data>
-	<data name="comboMaxItemAge.Items14">
-    <value>1 година</value>
-  </data>
-	<data name="comboMaxItemAge.Items11">
-    <value>3 месеца</value>
-  </data>
-	<data name="comboMaxItemAge.Items10">
-    <value>2 месеца</value>
-  </data>
-	<data name="comboMaxItemAge.Items13">
-    <value>9 месеца</value>
-  </data>
-	<data name="comboMaxItemAge.Items12">
-    <value>6 месеца</value>
-  </data>
 	<data name="labelProxyCredentialUserName.Text">
     <value>Потребителско име:</value>
   </data>
@@ -323,24 +302,6 @@
   </data>
 	<data name="checkUseProxy.Text">
     <value>Използване на лични прокси настройки:</value>
-  </data>
-	<data name="comboMaxItemAge.Items8">
-    <value>21 дни</value>
-  </data>
-	<data name="comboMaxItemAge.Items9">
-    <value>1 месец</value>
-  </data>
-	<data name="comboMaxItemAge.Items5">
-    <value>6 дни</value>
-  </data>
-	<data name="comboMaxItemAge.Items6">
-    <value>7 дни</value>
-  </data>
-	<data name="comboMaxItemAge.Items1">
-    <value>2 дни</value>
-  </data>
-	<data name="comboMaxItemAge.Items2">
-    <value>3 дни</value>
   </data>
 	<data name="lstItemStates.Items">
     <value>Прочетени (обикновен)</value>
@@ -564,17 +525,8 @@
 	<data name="label17.Text">
     <value>Изберете търсачка от списъка по-долу, която ще е активна когато натиснете Търси</value>
   </data>
-	<data name="comboMaxItemAge.Items4">
-    <value>5 дни</value>
-  </data>
 	<data name="columnHeader2.Text">
     <value>Описание</value>
-  </data>
-	<data name="comboMaxItemAge.Items7">
-    <value>14 дни</value>
-  </data>
-	<data name="comboMaxItemAge.Items3">
-    <value>4 дни</value>
   </data>
 	<data name="sectionPanelDisplayGeneral.Text">
     <value>Общи</value>

@@ -129,27 +129,6 @@
     <data name="lblPassword.Text">
         <value>&amp;Парола:</value>
     </data>
-    <data name="comboMaxItemAge.Items8">
-        <value>21 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items9">
-        <value>1 месец</value>
-    </data>
-    <data name="comboMaxItemAge.Items4">
-        <value>5 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items6">
-        <value>7 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items7">
-        <value>14 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items1">
-        <value>2 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items3">
-        <value>4 дни</value>
-    </data>
     <data name="pageFoundMultipleFeeds.Text">
         <value>Открити са няколко канала с новини</value>
     </data>
@@ -176,9 +155,6 @@
     </data>
     <data name="btnManageSearchEngines.Text">
         <value>Настройки...</value>
-    </data>
-    <data name="comboMaxItemAge.Items">
-        <value>1 ден</value>
     </data>
     <data name="lblWelcomeInfoBox.Text">
         <value>Помощникът изисква да сте свързан към Интернет в момента.</value>
@@ -233,24 +209,6 @@
     </data>
     <data name="lblNewBySearchEngines.Text">
         <value>Търсене с помощта на:</value>
-    </data>
-    <data name="comboMaxItemAge.Items15">
-        <value>Неограничено</value>
-    </data>
-    <data name="comboMaxItemAge.Items14">
-        <value>1 година</value>
-    </data>
-    <data name="comboMaxItemAge.Items11">
-        <value>3 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items10">
-        <value>2 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items13">
-        <value>9 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items12">
-        <value>6 месеца</value>
     </data>
     <data name="wizard.Text">
         <value>Помощник</value>
@@ -335,12 +293,6 @@
     </data>
     <data name="checkMarkItemsReadOnExiting.Text">
         <value>&amp;Маркирай като прочетени при затваряне на програмата</value>
-    </data>
-    <data name="comboMaxItemAge.Items5">
-        <value>6 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items2">
-        <value>3 дни</value>
     </data>
     <data name="$this.Text">
         <value>Помощник за добавяне на абонаменти</value>

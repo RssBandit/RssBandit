@@ -160,44 +160,14 @@
 	<data name="comboBox1.Items">
 		<value>0</value>
 	</data>
-	<data name="comboMaxItemAge.Items1">
-		<value>2 日</value>
-	</data>
 	<data name="comboMaxItemAge.ToolTip">
 		<value>キャッシュしたアイテムの保存する期間を指定します</value>
-	</data>
-	<data name="comboMaxItemAge.Items8">
-		<value>21 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items9">
-		<value>1 ヵ月</value>
-	</data>
-	<data name="comboMaxItemAge.Items4">
-		<value>5 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items5">
-		<value>6 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items6">
-		<value>7 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items7">
-		<value>14 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items2">
-		<value>3 日</value>
-	</data>
-	<data name="comboMaxItemAge.Items3">
-		<value>4 日</value>
 	</data>
 	<data name="comboFormatters.ToolTip">
 		<value>フォーマット用スタイルシートを選択します</value>
 	</data>
 	<data name="checkCustomFormatter.ToolTip">
 		<value>カスタム XSLT フォーマットを使う場合、チェックします</value>
-	</data>
-	<data name="comboMaxItemAge.Items">
-		<value>1 日</value>
 	</data>
 	<data name="comboBox1.Items8">
 		<value>120</value>
@@ -222,24 +192,6 @@
 	</data>
 	<data name="comboBox1.Items5">
 		<value>75</value>
-	</data>
-	<data name="comboMaxItemAge.Items15">
-		<value>無制限</value>
-	</data>
-	<data name="comboMaxItemAge.Items14">
-		<value>1 年</value>
-	</data>
-	<data name="comboMaxItemAge.Items11">
-		<value>3 ヵ月</value>
-	</data>
-	<data name="comboMaxItemAge.Items10">
-		<value>2 ヵ月</value>
-	</data>
-	<data name="comboMaxItemAge.Items13">
-		<value>9 ヵ月</value>
-	</data>
-	<data name="comboMaxItemAge.Items12">
-		<value>6 ヵ月</value>
 	</data>
 <data name="tabAttachments.Text">
     <value>Attachments/Podcasts</value>

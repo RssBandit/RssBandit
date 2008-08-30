@@ -144,54 +144,6 @@
 	<data name="checkCustomFormatter.Text">
     <value>使用自訂格式器&amp;c</value>
   </data>
-	<data name="comboMaxItemAge.Items">
-    <value>1 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items1">
-    <value>2 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items2">
-    <value>3 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items3">
-    <value>4 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items4">
-    <value>5 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items5">
-    <value>6 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items6">
-    <value>7 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items7">
-    <value>14 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items8">
-    <value>21 天</value>
-  </data>
-	<data name="comboMaxItemAge.Items9">
-    <value>1 月</value>
-  </data>
-	<data name="comboMaxItemAge.Items10">
-    <value>2 月</value>
-  </data>
-	<data name="comboMaxItemAge.Items11">
-    <value>1 季</value>
-  </data>
-	<data name="comboMaxItemAge.Items12">
-    <value>2 季</value>
-  </data>
-	<data name="comboMaxItemAge.Items13">
-    <value>3 季</value>
-  </data>
-	<data name="comboMaxItemAge.Items14">
-    <value>1 年</value>
-  </data>
-	<data name="comboMaxItemAge.Items15">
-    <value>無限期</value>
-  </data>
   <data name="comboBox1.Items">
     <value>0</value>
   </data>

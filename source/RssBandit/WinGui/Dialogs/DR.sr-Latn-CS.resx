@@ -235,4 +235,52 @@
 	<data name="FeedSourceProperties_Title" space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	</root>
+	<data name="ComboMaxItemAge_Item">
+		<value>1 dan</value>
+	</data>
+	<data name="ComboMaxItemAge_Item1">
+		<value>2 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item2">
+		<value>3 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item3">
+		<value>4 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item8">
+		<value>21 dan</value>
+	</data>
+	<data name="ComboMaxItemAge_Item9">
+		<value>1 mesec</value>
+	</data>
+	<data name="ComboMaxItemAge_Item4">
+		<value>5 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item5">
+		<value>6 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item6">
+		<value>7 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item7">
+		<value>14 dana</value>
+	</data>
+	<data name="ComboMaxItemAge_Item14">
+		<value>1 godina</value>
+	</data>
+	<data name="ComboMaxItemAge_Item11">
+		<value>1 kvartal</value>
+	</data>
+	<data name="ComboMaxItemAge_Item10">
+		<value>2 meseca</value>
+	</data>
+	<data name="ComboMaxItemAge_Item13">
+		<value>3 kvartala</value>
+	</data>
+	<data name="ComboMaxItemAge_Item12">
+		<value>2 kvartala</value>
+	</data>
+	<data name="ComboMaxItemAge_Item15">
+		<value>Neograničeno</value>
+	</data>
+</root>

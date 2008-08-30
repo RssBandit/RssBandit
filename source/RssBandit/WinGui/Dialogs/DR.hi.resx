@@ -235,4 +235,52 @@
 	<data name="FeedSourceProperties_Title" space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	</root>
+	<data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>२ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>३ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>४ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>२१ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>१ माह</value>
+  </data>
+	<data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>५ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>६ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>७ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>१४ दिन</value>
+  </data>
+	<data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>१ वर्ष</value>
+  </data>
+	<data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>३ माह</value>
+  </data>
+	<data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>२ माह</value>
+  </data>
+	<data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>९ माह</value>
+  </data>
+	<data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>६ माह</value>
+  </data>
+	<data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>असीमित</value>
+  </data>
+</root>

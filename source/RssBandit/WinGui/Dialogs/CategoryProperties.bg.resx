@@ -106,15 +106,6 @@
     <data name="checkCustomFormatter.Text">
         <value>Използвай друг формат</value>
     </data>
-    <data name="comboMaxItemAge.Items15">
-        <value>Неограничено</value>
-    </data>
-    <data name="comboMaxItemAge.Items11">
-        <value>1/4</value>
-    </data>
-    <data name="comboMaxItemAge.Items12">
-        <value>1/2</value>
-    </data>
     <data name="comboFormatters.ToolTip">
         <value>Избери стил</value>
     </data>
@@ -163,36 +154,6 @@
     <data name="checkCustomFormatter.ToolTip">
         <value>Натиснете тук за да изберете друг формат</value>
     </data>
-    <data name="comboMaxItemAge.Items10">
-        <value>2 месеца</value>
-    </data>
-    <data name="comboMaxItemAge.Items8">
-        <value>21 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items9">
-        <value>1 месец</value>
-    </data>
-    <data name="comboMaxItemAge.Items4">
-        <value>5 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items5">
-        <value>6 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items6">
-        <value>7 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items7">
-        <value>14 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items1">
-        <value>2 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items2">
-        <value>3 дни</value>
-    </data>
-    <data name="comboMaxItemAge.Items3">
-        <value>4 дни</value>
-    </data>
     <data name="tabDisplay.Text">
         <value>Категория</value>
     </data>
@@ -201,15 +162,6 @@
     </data>
     <data name="label9.Text">
         <value>Използвай по подразбиране форматирането на новината или избери XSLT за форматиране.</value>
-    </data>
-    <data name="comboMaxItemAge.Items">
-        <value>1 ден</value>
-    </data>
-    <data name="comboMaxItemAge.Items14">
-        <value>1 година</value>
-    </data>
-    <data name="comboMaxItemAge.Items13">
-        <value>3/4</value>
     </data>
     <data name="comboMaxItemAge.ToolTip">
         <value>Избери максимален период, през който ще се пазят новините</value>

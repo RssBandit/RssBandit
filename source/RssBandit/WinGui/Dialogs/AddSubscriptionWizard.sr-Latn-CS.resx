@@ -130,27 +130,6 @@
   <data name="lblPassword.Text">
     <value>&amp;Lozinka:</value>
   </data>
-  <data name="comboMaxItemAge.Items8">
-    <value>21 dan</value>
-  </data>
-  <data name="comboMaxItemAge.Items9">
-    <value>1 mesec</value>
-  </data>
-  <data name="comboMaxItemAge.Items4">
-    <value>5 dana</value>
-  </data>
-  <data name="comboMaxItemAge.Items6">
-    <value>7 dana</value>
-  </data>
-  <data name="comboMaxItemAge.Items7">
-    <value>14 dana</value>
-  </data>
-  <data name="comboMaxItemAge.Items1">
-    <value>2 dana</value>
-  </data>
-  <data name="comboMaxItemAge.Items3">
-    <value>4 dana</value>
-  </data>
   <data name="pageFoundMultipleFeeds.Text">
     <value>Pronađeno više izvora</value>
   </data>
@@ -177,9 +156,6 @@
   </data>
   <data name="btnManageSearchEngines.Text">
     <value>Upravljaj</value>
-  </data>
-  <data name="comboMaxItemAge.Items">
-    <value>1 dan</value>
   </data>
   <data name="lblWelcomeInfoBox.Text">
     <value>Čarobnjak zahteva konekciju sa internetom na nekim delovima! Ako već niste konektovani konektujte se sad.</value>
@@ -234,24 +210,6 @@
   </data>
   <data name="lblNewBySearchEngines.Text">
     <value>Pretraživač:</value>
-  </data>
-  <data name="comboMaxItemAge.Items15">
-    <value>Neograničeno</value>
-  </data>
-  <data name="comboMaxItemAge.Items14">
-    <value>1 godina</value>
-  </data>
-  <data name="comboMaxItemAge.Items11">
-    <value>1 kvarter</value>
-  </data>
-  <data name="comboMaxItemAge.Items10">
-    <value>2 meseca</value>
-  </data>
-  <data name="comboMaxItemAge.Items13">
-    <value>3 kvartera</value>
-  </data>
-  <data name="comboMaxItemAge.Items12">
-    <value>2 kvartera</value>
   </data>
   <data name="wizard.Text">
     <value>čarobnjak</value>
@@ -333,12 +291,6 @@
   </data>
   <data name="checkMarkItemsReadOnExiting.Text">
     <value>&amp;Markiraj predmete pročitanim napuštanjem izvora</value>
-  </data>
-  <data name="comboMaxItemAge.Items5">
-    <value>6 dana</value>
-  </data>
-  <data name="comboMaxItemAge.Items2">
-    <value>3 dana</value>
   </data>
   <data name="$this.Text">
     <value>Čarobnjak za dodavanje </value>
