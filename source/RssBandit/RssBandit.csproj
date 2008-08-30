@@ -1874,6 +1874,9 @@
     <Compile Include="WinGui\Controls\SearchPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WinGui\Controls\SearchPanel.Designer.cs">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Controls\SmoothLabelDrawFilter.cs">
       <SubType>Code</SubType>
     </Compile>

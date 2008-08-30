@@ -9,6 +9,7 @@
 
 #region usings
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -1092,39 +1093,59 @@ namespace RssBandit.WinGui.Utility {
 			return   9;	// 30 days, one month
 		}
 
-		public static string MapRssSearchItemAgeString(int index) {
-			switch (index) {
-				case 0: return SR.SearchPanel_comboRssSearchItemAge_1_hour;
-				case 1: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2);
-				case 2: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,3);
-				case 3: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,4);
-				case 4: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,5);
-				case 5: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,6);
-				case 6: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,12);
-				case 7: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,18);
-				case 8: return SR.SearchPanel_comboRssSearchItemAge_1_day;
-				case 9: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,2);
-				case 10: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,3);
-				case 11: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,4);
-				case 12: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,5);
-				case 13: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,6);
-				case 14: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,7);
-				case 15: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,14);
-				case 16: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,21);
-				case 17: return SR.SearchPanel_comboRssSearchItemAge_1_month;
-				case 18: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_months,2);
-				case 19: return SR.SearchPanel_comboRssSearchItemAge_1_quarter;
-				case 20: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,2);
-				case 21: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,3);
-				case 22: return SR.SearchPanel_comboRssSearchItemAge_1_year;
-				case 23: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,2);
-				case 24: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,3);
-				case 25: return String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,5);
-				default: return String.Empty;
+		private static List<string> _rssSearchItemAgeStrings;
+		/// <summary>
+		/// Gets the RSS search item age resource captions as a list.
+		/// </summary>
+		/// <value>The RSS search item age strings.</value>
+		public static List<string> RssSearchItemAgeStrings
+		{
+			get
+			{
+				if (_rssSearchItemAgeStrings == null)
+				{
+					_rssSearchItemAgeStrings = new List<string>(25);
+					_rssSearchItemAgeStrings.AddRange(new[]
+					{
+						SR.SearchPanel_comboRssSearchItemAge_1_hour,
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,3),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,4),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,5),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,6),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,12),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,18),
+						SR.SearchPanel_comboRssSearchItemAge_1_day,
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,2),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,3),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,4),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,5),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,6),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,7),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,14),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,21),
+						SR.SearchPanel_comboRssSearchItemAge_1_month,
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_months,2),
+						SR.SearchPanel_comboRssSearchItemAge_1_quarter,
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,2),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,3),
+						SR.SearchPanel_comboRssSearchItemAge_1_year,
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,2),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,3),
+						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,5)
+					});
+				}
+				return _rssSearchItemAgeStrings;
 			}
 		}
-		
-		public static TimeSpan MapRssSearchItemAge(int index) {
+
+		/// <summary>
+		/// Maps the RSS search item age list index to a TimeSpan.
+		/// </summary>
+		/// <param name="index">The index.</param>
+		/// <returns></returns>
+		public static TimeSpan RssSearchItemAgeToTimeSpan(int index) {
 			switch (index) {
 				case 0: return new TimeSpan(1,0,0);	// 1 hour
 				case 1: return new TimeSpan(2,0,0);	// 2 hours
@@ -1157,7 +1178,12 @@ namespace RssBandit.WinGui.Utility {
 			}
 		}
 
-		public static int MapRssSearchItemAge(TimeSpan age) {
+		/// <summary>
+		/// Maps the RSS search item age TimeSpan to a list index.
+		/// </summary>
+		/// <param name="age">The age.</param>
+		/// <returns></returns>
+		public static int MapRssSearchItemAgeToIndex(TimeSpan age) {
 			switch ((int)age.TotalHours) {	// returns the index used within the comboBox
 				case 1: return 0;	// 1 hour
 				case 2: return 1;	// 2 hours
