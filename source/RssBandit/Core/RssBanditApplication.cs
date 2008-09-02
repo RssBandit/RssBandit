@@ -6037,7 +6037,7 @@ namespace RssBandit
 
             // set properties the backend requires the feed yet added
             if (wiz.RefreshRate != CurrentGlobalRefreshRateMinutes)
-				entry.Source.SetRefreshRate(f.link, wiz.RefreshRate);
+				entry.Source.SetRefreshRate(f.link, wiz.RefreshRate * MilliSecsMultiplier);
 			entry.Source.SetMaxItemAge(f.link, wiz.MaxItemAge);
 			entry.Source.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
 

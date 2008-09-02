@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,410 +60,412 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="btnOK.Text">
+  <data name="btnOK.Text" xml:space="preserve">
     <value>&amp;U redu</value>
   </data>
-  <data name="btnCancel.Text">
+  <data name="btnCancel.Text" xml:space="preserve">
     <value>Otkaži</value>
   </data>
-  <data name="tabGeneral.Text">
+  <data name="tabGeneral.Text" xml:space="preserve">
     <value>Generalno</value>
   </data>
-  <data name="sectionPanelGeneralStartup.Text">
+  <data name="sectionPanelGeneralStartup.Text" xml:space="preserve">
     <value>Početak</value>
   </data>
-  <data name="checkRefreshFeedsOnStartup.Text">
+  <data name="checkRefreshFeedsOnStartup.Text" xml:space="preserve">
     <value>Forsiraj skidanje izvora prilikom startovanja</value>
   </data>
-  <data name="btnMakeDefaultAggregator.Text">
+  <data name="btnMakeDefaultAggregator.Text" xml:space="preserve">
     <value>Podesi RSS Bandit kao osnovni agregator</value>
   </data>
-  <data name="btnMakeDefaultAggregator.ToolTip">
+  <data name="btnMakeDefaultAggregator.ToolTip" xml:space="preserve">
     <value>Napravi RSS Bandit osnovnom aplikacijom koja oslupkuje za 'izvor:' Url protokola...</value>
   </data>
-  <data name="label12.Text">
+  <data name="label12.Text" xml:space="preserve">
     <value>Ako je dugme onemogućeno, RSS Bandit je vaš osnovni agregator. Ako je omogućeno, možete ga napraviti svojim osnovinim agregatorom pritisnuvši dugme.</value>
   </data>
-  <data name="radioTrayActionNone.Text">
+  <data name="radioTrayActionNone.Text" xml:space="preserve">
     <value>Nijed&amp;na</value>
   </data>
-  <data name="radioTrayActionNone.ToolTip">
+  <data name="radioTrayActionNone.ToolTip" xml:space="preserve">
     <value>Aplikacija će uvek biti vidljiva unutar radnog bara</value>
   </data>
-  <data name="label1.Text">
+  <data name="label1.Text" xml:space="preserve">
     <value>Izaberite opciju kako bi odredili prilikom koje akcije aplikacija treba da se 'Minimize to Tray'.</value>
   </data>
-  <data name="radioTrayActionClose.Text">
+  <data name="radioTrayActionClose.Text" xml:space="preserve">
     <value>Kad se aplikacija &amp;zatvori</value>
   </data>
-  <data name="radioTrayActionClose.ToolTip">
+  <data name="radioTrayActionClose.ToolTip" xml:space="preserve">
     <value>Aplikacija neće biti vidljiva unutar bara aplikacija</value>
   </data>
-  <data name="radioTrayActionMinimize.Text">
+  <data name="radioTrayActionMinimize.Text" xml:space="preserve">
     <value>Kad se aplikacija M&amp;inimizira (preporučljivo)</value>
   </data>
-  <data name="radioTrayActionMinimize.ToolTip">
+  <data name="radioTrayActionMinimize.ToolTip" xml:space="preserve">
     <value>Aplikacija neće biti vidljiva unutar radnoe trake</value>
   </data>
-  <data name="labelCheckForUpdates.Text">
+  <data name="labelCheckForUpdates.Text" xml:space="preserve">
     <value>Selektujte za &amp;nadogradnje:</value>
   </data>
-  <data name="comboAppUpdateFrequency.Items">
+  <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
     <value>Ručno</value>
   </data>
-  <data name="comboAppUpdateFrequency.Items1">
+  <data name="comboAppUpdateFrequency.Items1" xml:space="preserve">
     <value>Svaku put kad se aplikacija startuje</value>
   </data>
-  <data name="comboAppUpdateFrequency.Items2">
+  <data name="comboAppUpdateFrequency.Items2" xml:space="preserve">
     <value>Jednom u 14 dana</value>
   </data>
-  <data name="comboAppUpdateFrequency.Items3">
+  <data name="comboAppUpdateFrequency.Items3" xml:space="preserve">
     <value>Jednom mesečno</value>
   </data>
-  <data name="tabRemoteStorage.Text">
+  <data name="tabRemoteStorage.Text" xml:space="preserve">
     <value>Udaljeni smeštaj</value>
   </data>
-  <data name="sectionPanelRemoteStorageFeedlist.Text">
+  <data name="sectionPanelRemoteStorageFeedlist.Text" xml:space="preserve">
     <value>Udaljeni smeštaj liste izvora</value>
   </data>
-  <data name="textRemoteStorageUserName.ToolTip">
+  <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
     <value>Akreditiva korisničko ime. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
   </data>
-  <data name="comboRemoteStorageProtocol.Items">
+  <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
     <value>Deljenje fajlova</value>
   </data>
-  
-  <data name="checkUseRemoteStorage.Text">
+  <data name="checkUseRemoteStorage.Text" xml:space="preserve">
     <value>Koristi &amp;udaljeni smeštaj</value>
   </data>
-  <data name="label10.Text">
+  <data name="label10.Text" xml:space="preserve">
     <value>Ova opcija vam omogućava da smestite vaše liste izvora na udaljene lokacije, kako bi mogle biti deljene između više računara.</value>
   </data>
-  <data name="labelRemoteStorageLocation.Text">
+  <data name="labelRemoteStorageLocation.Text" xml:space="preserve">
     <value>&amp;URL servisa smeštaja:</value>
   </data>
-  <data name="labelRemoteStorageLocation.ToolTip">
+  <data name="labelRemoteStorageLocation.ToolTip" xml:space="preserve">
     <value>Lozinka Proxy akreditiva</value>
   </data>
-  <data name="labelRemoteStoragePassword.Text">
+  <data name="labelRemoteStoragePassword.Text" xml:space="preserve">
     <value>Korisničko &amp;ime:</value>
   </data>
-  <data name="labelRemoteStoragePassword.ToolTip">
+  <data name="labelRemoteStoragePassword.ToolTip" xml:space="preserve">
     <value>Proxy akreditiva lozinka</value>
   </data>
-  <data name="labelRemoteStorageUserName.Text">
+  <data name="labelRemoteStorageUserName.Text" xml:space="preserve">
     <value>Korisničko &amp;ime:</value>
   </data>
-  <data name="labelRemoteStorageUserName.ToolTip">
+  <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
     <value>Korisničko ime Proxy akreditiva. Može biti navedeno kao 'Domain\Username'.</value>
   </data>
-  <data name="labelRemoteStorageProtocol.Text">
+  <data name="labelRemoteStorageProtocol.Text" xml:space="preserve">
     <value>Protokol:</value>
   </data>
-  <data name="labelRemoteStorageProtocol.ToolTip">
+  <data name="labelRemoteStorageProtocol.ToolTip" xml:space="preserve">
     <value>Proxy akreditiva lozinka</value>
   </data>
-  <data name="tabNewsItems.Text">
+  <data name="tabNewsItems.Text" xml:space="preserve">
     <value>Prikaži</value>
   </data>
-  <data name="sectionPanelDisplayGeneral.Text">
+  <data name="sectionPanelDisplayGeneral.Text" xml:space="preserve">
     <value>Generalno</value>
   </data>
-  
-  
-  <data name="checkMarkItemsReadOnExit.Text">
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
     <value>Markiraj sve predmete pročitanim na izlasku izvora ili kategorije</value>
   </data>
-  <data name="chkNewsItemOpenLinkInDetailWindow.Text">
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
     <value>Uako nema opisa otvori link u panelu za čitanje</value>
   </data>
-  <data name="sectionPanelDisplayItemFormatting.Text">
+  <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
     <value>Formatiranje predmeta</value>
   </data>
-  <data name="comboFormatters.ToolTip">
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
     <value>Izaerite stylesheet formatera</value>
   </data>
-  <data name="label2.Text">
+  <data name="label2.Text" xml:space="preserve">
     <value>Koristite osvnovno formatiranje predmeta ili izaberite prilagođeni XSLT formater.</value>
   </data>
-  <data name="checkCustomFormatter.Text">
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
     <value>Koristi &amp;prilagođeni formater</value>
   </data>
-  <data name="checkCustomFormatter.ToolTip">
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
     <value>Selektujte ovu opciju za prilagođeni formater</value>
   </data>
-  
-  
-  <data name="labelFormatters.Text">
+  <data name="labelFormatters.Text" xml:space="preserve">
     <value>&amp;Kaskadni stil formatera</value>
   </data>
-  <data name="tabFeeds.Text">
+  <data name="tabFeeds.Text" xml:space="preserve">
     <value>Izvori</value>
   </data>
-  <data name="sectionPanelFeedsCommentDefs.Text">
+  <data name="sectionPanelFeedsCommentDefs.Text" xml:space="preserve">
     <value>Osnovno komentara</value>
   </data>
-  <data name="btnManageIdentities.Text">
+  <data name="btnManageIdentities.Text" xml:space="preserve">
     <value>Identiteti...</value>
   </data>
-  <data name="linkCommentAPI.ToolTip">
+  <data name="linkCommentAPI.ToolTip" xml:space="preserve">
     <value>Čitajte više o 'CommentAPI'...</value>
   </data>
-  
-  <data name="lblIdentityDropdownCaption.Text">
+  <data name="lblIdentityDropdownCaption.Text" xml:space="preserve">
     <value>Korisnički identitet za komentare</value>
   </data>
-  <data name="label6.Text">
+  <data name="label6.Text" xml:space="preserve">
     <value>Navedite vaše lične osnovne paramtetre za postiranje odgovora na predmete izvora. Ova opcija je moguća samo na izvorima koji podržavaju CommentAPI. Vidi isto</value>
   </data>
-  <data name="sectionPanelFeedsTimings.Text">
+  <data name="sectionPanelFeedsTimings.Text" xml:space="preserve">
     <value>Izvori, tajming</value>
   </data>
-  
-  <data name="label15.Text">
+  <data name="label15.Text" xml:space="preserve">
     <value>Ukloni predmete &amp;starije od:</value>
   </data>
-  <data name="linkLabel1.ToolTip">
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
     <value>Pročitajte više o 'kondicionalno uzmi'...</value>
   </data>
-  
-  
-  <data name="label5.Text">
+  <data name="label5.Text" xml:space="preserve">
     <value>minuta</value>
   </data>
-  <data name="label4.Text">
+  <data name="label4.Text" xml:space="preserve">
     <value>&amp;Ažuriraj izvore svakih</value>
   </data>
-  
-  <data name="label3.Text">
+  <data name="label3.Text" xml:space="preserve">
     <value>Navedite interval u kojem bi izvori na koje ste potpisani trebali biti ažurirani. Svaki izvor sa određenim osvežavanjem unutar ovog intervala će biti tražen opet (kondicionalno uzmi). Vidi isto</value>
   </data>
-  <data name="tabNetConnection.Text">
+  <data name="tabNetConnection.Text" xml:space="preserve">
     <value>Mrežna konekcija</value>
   </data>
-  <data name="sectionPanelNetworkConnectionProxy.Text">
+  <data name="sectionPanelNetworkConnectionProxy.Text" xml:space="preserve">
     <value>Proxy server</value>
   </data>
-  <data name="textProxyBypassList.ToolTip">
+  <data name="textProxyBypassList.ToolTip" xml:space="preserve">
     <value>Lista iznimki adresa</value>
   </data>
-  <data name="checkNoProxy.Text">
+  <data name="checkNoProxy.Text" xml:space="preserve">
     <value>&amp;Ne koristi proxy server</value>
   </data>
-  <data name="labelProxyCredentialPassword.Text">
+  <data name="labelProxyCredentialPassword.Text" xml:space="preserve">
     <value>&amp;Lozinka:</value>
   </data>
-  <data name="labelProxyCredentialPassword.ToolTip">
+  <data name="labelProxyCredentialPassword.ToolTip" xml:space="preserve">
     <value>Proxy akreditiva lozinka</value>
   </data>
-  <data name="labelProxyCredentialUserName.Text">
+  <data name="labelProxyCredentialUserName.Text" xml:space="preserve">
     <value>Korisničko &amp;ime:</value>
   </data>
-  <data name="labelProxyCredentialUserName.ToolTip">
+  <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
     <value>Korisničko ime Proxy akredatia. Mođe biti navedeno kao 'Domain\KorisničkoIme'.</value>
   </data>
-  <data name="textProxyCredentialUser.ToolTip">
+  <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
     <value>Korisničko ime akreditiva. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
   </data>
-  <data name="checkProxyAuth.Text">
+  <data name="checkProxyAuth.Text" xml:space="preserve">
     <value>Proxy zahteva &amp;autorizaciju</value>
   </data>
-  <data name="labelProxyBypassListHint.Text">
+  <data name="labelProxyBypassListHint.Text" xml:space="preserve">
     <value>Koristi tačkazarez( ; ) za odvajanje unosa.</value>
   </data>
-  <data name="labelProxyBypassList.Text">
+  <data name="labelProxyBypassList.Text" xml:space="preserve">
     <value>N&amp;e koristi proxy za adrese koje počinju sa:</value>
   </data>
-  <data name="checkUseProxy.Text">
+  <data name="checkUseProxy.Text" xml:space="preserve">
     <value>Koristi privatne paramtetre &amp;proxy servera</value>
   </data>
-  <data name="checkUseIEProxySettings.Text">
+  <data name="checkUseIEProxySettings.Text" xml:space="preserve">
     <value>Uzmi proxy server paramtetre iz &amp;Internet Explorer-a</value>
   </data>
-  <data name="labelProxyServerSummery.Text">
+  <data name="labelProxyServerSummery.Text" xml:space="preserve">
     <value>Proxy server se ponaša kao posrednik između vaše mašine i Interneta, skidajući stranice sa udaljenih Web servera.</value>
   </data>
-  <data name="textProxyPort.ToolTip">
+  <data name="textProxyPort.ToolTip" xml:space="preserve">
     <value>Broj Proxy porta</value>
   </data>
-  <data name="labelProxyPort.Text">
+  <data name="labelProxyPort.Text" xml:space="preserve">
     <value>Por&amp;t: </value>
   </data>
-  <data name="labelProxyAddress.Text">
+  <data name="labelProxyAddress.Text" xml:space="preserve">
     <value>Adr&amp;resa: </value>
   </data>
-  <data name="textProxyAddress.ToolTip">
+  <data name="textProxyAddress.ToolTip" xml:space="preserve">
     <value>Proxy adresa</value>
   </data>
-  <data name="checkProxyBypassLocal.Text">
+  <data name="checkProxyBypassLocal.Text" xml:space="preserve">
     <value>&amp;Zaobiđi proxy server za lokalne adrese</value>
   </data>
-  <data name="tabFonts.Text">
+  <data name="tabFonts.Text" xml:space="preserve">
     <value>fontovi</value>
   </data>
-  <data name="sectionPanelFontsSubscriptions.Text">
+  <data name="sectionPanelFontsSubscriptions.Text" xml:space="preserve">
     <value>Potpisi, Novi predmete</value>
   </data>
-  <data name="labelFontsSubscriptionsSummery.Text">
+  <data name="labelFontsSubscriptionsSummery.Text" xml:space="preserve">
     <value>Konfigurišite font, stilove i boje korištene da se označe stanja potpisa i predmeta vesti.</value>
   </data>
-  <data name="btnChangeFont.Text">
+  <data name="btnChangeFont.Text" xml:space="preserve">
     <value>&amp;Izmeni</value>
   </data>
-  <data name="chkFontItalic.Text">
+  <data name="chkFontItalic.Text" xml:space="preserve">
     <value>N&amp;akošeno</value>
   </data>
-  <data name="btnChangeColor.Text">
+  <data name="btnChangeColor.Text" xml:space="preserve">
     <value>B&amp;oja...</value>
   </data>
-  <data name="lblItemStates.Text">
+  <data name="lblItemStates.Text" xml:space="preserve">
     <value>&amp;Stanje predmeta:</value>
   </data>
-  <data name="lstItemStates.Items">
+  <data name="lstItemStates.Items" xml:space="preserve">
     <value>Čitaj (normalno)</value>
   </data>
-  <data name="lstItemStates.Items1">
+  <data name="lstItemStates.Items1" xml:space="preserve">
     <value>Nepročitano</value>
   </data>
-  <data name="lstItemStates.Items2">
+  <data name="lstItemStates.Items2" xml:space="preserve">
     <value>Zastava</value>
   </data>
-  <data name="lstItemStates.Items4">
+  <data name="lstItemStates.Items4" xml:space="preserve">
     <value>Greška</value>
   </data>
-  <data name="lstItemStates.ToolTip">
+  <data name="lstItemStates.ToolTip" xml:space="preserve">
     <value>Izaberite stanje nekog predmeta da izmenite parametre...</value>
   </data>
-  <data name="chkFontUnderline.Text">
+  <data name="chkFontUnderline.Text" xml:space="preserve">
     <value>&amp;Podvučeno</value>
   </data>
-  <data name="lblFontSampleCaption.Text">
+  <data name="lblFontSampleCaption.Text" xml:space="preserve">
     <value>Primer:</value>
   </data>
-  <data name="sectionPanelWebBrowserSecurity.Text">
+  <data name="sectionPanelWebBrowserSecurity.Text" xml:space="preserve">
     <value>Sigurnost, Zabrane</value>
   </data>
-  
-  
-  <data name="labelCheckToAllow.Text">
+  <data name="labelCheckToAllow.Text" xml:space="preserve">
     <value>Selektujte da dozvolite:</value>
   </data>
-  
-  <data name="checkBrowserActiveXAllowed.Text">
+  <data name="checkBrowserActiveXAllowed.Text" xml:space="preserve">
     <value>ActiveX kontrole</value>
   </data>
-  
-  <data name="checkBrowserJavascriptAllowed.Text">
+  <data name="checkBrowserJavascriptAllowed.Text" xml:space="preserve">
     <value>Javascript izvršavanje</value>
   </data>
-  
-  
-  <data name="checkBrowserBGSoundAllowed.Text">
+  <data name="checkBrowserBGSoundAllowed.Text" xml:space="preserve">
     <value>Zvuk pozadine</value>
   </data>
-  
-  <data name="checkBrowserVideoAllowed.Text">
+  <data name="checkBrowserVideoAllowed.Text" xml:space="preserve">
     <value>Video</value>
   </data>
-  
-  <data name="checkBrowserImagesAllowed.Text">
+  <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
     <value>Skidanje slika</value>
   </data>
-  <data name="label19.Text">
+  <data name="label19.Text" xml:space="preserve">
     <value>Ako promenite bilo koje parametre sigurnosti, podešavanja će biti aktivna trenutno samo u novom odeljku pretraživača, ili bilo kojem odeljku pretraživača nakon što restartujete aplikaciju! Ovi parametri nemaju nikakav efekt na panel za čitanje!</value>
   </data>
-  <data name="sectionPanelWebBrowserOnNewWindow.Text">
+  <data name="sectionPanelWebBrowserOnNewWindow.Text" xml:space="preserve">
     <value>Na kliknut link i na novi prozor</value>
   </data>
-  <data name="optNewWindowCustomExec.Text">
+  <data name="optNewWindowCustomExec.Text" xml:space="preserve">
     <value>Startuj ovaj I&amp;zvršni fajl:</value>
   </data>
-  <data name="optNewWindowDefaultWebBrowser.Text">
+  <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
     <value>Otvori konfigurisani &amp;Osnovni Web Browser</value>
   </data>
-  <data name="optNewWindowOnTab.Text">
+  <data name="optNewWindowOnTab.Text" xml:space="preserve">
     <value>Otvori novi &amp;Odeljak (osnovno)</value>
   </data>
-  <data name="checkReuseFirstBrowserTab.Text">
+  <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Iskoristi otvorene odeljke pretraživača</value>
   </data>
-  <data name="labelBrowserStartExecutable.Text">
+  <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
     <value>&amp;Fajl programa:</value>
   </data>
-  <data name="label16.Text">
+  <data name="label16.Text" xml:space="preserve">
     <value>Izaberite opciju da odredite ponašanje koje treba da reši interni pretraživač prilikom klika na HTML link ili otvaranjem novog prozora.</value>
   </data>
-  <data name="tabWebSearch.Text">
+  <data name="tabWebSearch.Text" xml:space="preserve">
     <value>Web pretraga</value>
   </data>
-  <data name="sectionPanelWebSearchEngines.Text">
+  <data name="sectionPanelWebSearchEngines.Text" xml:space="preserve">
     <value>Pretraživači</value>
   </data>
-  <data name="btnSERemove.Text">
+  <data name="btnSERemove.Text" xml:space="preserve">
     <value>Ukloni</value>
   </data>
-  <data name="btnSERemove.ToolTip">
+  <data name="btnSERemove.ToolTip" xml:space="preserve">
     <value>Ukloni izabrani pretraživač</value>
   </data>
-  <data name="btnSEAdd.Text">
+  <data name="btnSEAdd.Text" xml:space="preserve">
     <value>Dodaj...</value>
   </data>
-  <data name="btnSEAdd.ToolTip">
+  <data name="btnSEAdd.ToolTip" xml:space="preserve">
     <value>Dodaj novi pretraživač</value>
   </data>
-  <data name="btnSEProperties.Text">
+  <data name="btnSEProperties.Text" xml:space="preserve">
     <value>Parametri...</value>
   </data>
-  <data name="btnSEProperties.ToolTip">
+  <data name="btnSEProperties.ToolTip" xml:space="preserve">
     <value>Otvori dijalog parametara pretraživača</value>
   </data>
-  <data name="btnSEMoveDown.Text">
+  <data name="btnSEMoveDown.Text" xml:space="preserve">
     <value>Pomeri dole</value>
   </data>
-  <data name="btnSEMoveDown.ToolTip">
+  <data name="btnSEMoveDown.ToolTip" xml:space="preserve">
     <value>Pomeri predmet gore</value>
   </data>
-  <data name="btnSEMoveUp.Text">
+  <data name="btnSEMoveUp.Text" xml:space="preserve">
     <value>Pomeri gore</value>
   </data>
-  <data name="btnSEMoveUp.ToolTip">
+  <data name="btnSEMoveUp.ToolTip" xml:space="preserve">
     <value>Pomeri predmet gore</value>
   </data>
   <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -488,222 +491,187 @@
         LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
 </value>
   </data>
-  <data name="columnHeader1.Text">
+  <data name="columnHeader1.Text" xml:space="preserve">
     <value>Naslov</value>
   </data>
-  <data name="columnHeader2.Text">
+  <data name="columnHeader2.Text" xml:space="preserve">
     <value>Opis</value>
   </data>
-  <data name="label17.Text">
+  <data name="label17.Text" xml:space="preserve">
     <value>Izaberite pretraživač(e), koji bi trebali biti aktivni ako pritisnete 'Pretražuj Web' komandu pored polja za selektovanje u listi ispod. </value>
   </data>
-  <data name="btnApply.Text">
+  <data name="btnApply.Text" xml:space="preserve">
     <value>Primeni</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Inherit</value>
   </data>
-  <data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>Opcije</value>
   </data>
-<data name="sectionPanelGeneralBehavior.Text">
+  <data name="sectionPanelGeneralBehavior.Text" xml:space="preserve">
     <value>Ponašanje aplikacije</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items1">
+  <data name="comboRemoteStorageProtocol.Items1" xml:space="preserve">
     <value>FTP</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items2">
+  <data name="comboRemoteStorageProtocol.Items2" xml:space="preserve">
     <value>dasBlog</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items3">
+  <data name="comboRemoteStorageProtocol.Items3" xml:space="preserve">
     <value>Newsgator Online</value>
   </data>
-	<data name="comboRemoteStorageProtocol.Items4">
+  <data name="comboRemoteStorageProtocol.Items4" xml:space="preserve">
     <value>WebDAV</value>
   </data>
-	<data name="linkCommentAPI.Text">
+  <data name="linkCommentAPI.Text" xml:space="preserve">
     <value>http://wellformedweb.org/story/9</value>
   </data>
-	<data name="linkLabel1.Text">
+  <data name="linkLabel1.Text" xml:space="preserve">
     <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
   </data>
-	<data name="comboRefreshRate.Items">
-    <value>15</value>
-  </data>
-	<data name="comboRefreshRate.Items1">
-    <value>30</value>
-  </data>
-	<data name="comboRefreshRate.Items2">
-    <value>45</value>
-  </data>
-	<data name="comboRefreshRate.Items3">
-    <value>60</value>
-  </data>
-	<data name="comboRefreshRate.Items4">
-    <value>75</value>
-  </data>
-	<data name="comboRefreshRate.Items5">
-    <value>90</value>
-  </data>
-	<data name="comboRefreshRate.Items6">
-    <value>105</value>
-  </data>
-	<data name="comboRefreshRate.Items7">
-    <value>120</value>
-  </data>
-	<data name="comboRefreshRate.Items8">
-    <value>240</value>
-  </data>
-	<data name="comboRefreshRate.Items9">
-    <value>480</value>
-  </data>
-	<data name="comboRefreshRate.Items10">
-    <value>720</value>
-  </data>
-	<data name="comboRefreshRate.Items11">
-    <value>1440</value>
-  </data>
-	<data name="lblUsedFontNameSize.Text">
+  <data name="lblUsedFontNameSize.Text" xml:space="preserve">
     <value>Tahoma, 8pt</value>
   </data>
-	<data name="chkFontBold.Text">
+  <data name="chkFontBold.Text" xml:space="preserve">
     <value>&amp;Bold</value>
   </data>
-	<data name="lstItemStates.Items3">
+  <data name="lstItemStates.Items3" xml:space="preserve">
     <value>Referrer</value>
   </data>
-	<data name="chkFontStrikeout.Text">
+  <data name="chkFontStrikeout.Text" xml:space="preserve">
     <value>&amp;Strikeout</value>
   </data>
-	<data name="lblFontSampleABC.Text">
+  <data name="lblFontSampleABC.Text" xml:space="preserve">
     <value>AaBbCcXxYyZz</value>
   </data>
-	<data name="tabWebBrowser.Text">
+  <data name="tabWebBrowser.Text" xml:space="preserve">
     <value>Web Browser</value>
   </data>
-	<data name="checkBrowserJavaAllowed.Text">
+  <data name="checkBrowserJavaAllowed.Text" xml:space="preserve">
     <value>Java Applets</value>
   </data>
-	<data name="btnSelectExecutable.Text">
+  <data name="btnSelectExecutable.Text" xml:space="preserve">
     <value>...</value>
   </data>
-	<data name="checkBuildRelationCosmos.Text">
+  <data name="checkBuildRelationCosmos.Text" xml:space="preserve">
     <value>Prikaži vezane predmete kao niti diskusije</value>
   </data>
-	<data name="checkBuildRelationCosmos.ToolTip">
+  <data name="checkBuildRelationCosmos.ToolTip" xml:space="preserve">
     <value>Ako je selektovano, predmeti sa linkovima prema drugim poznatzim predmetima će biti prikazani u nitima diskusije</value>
   </data>
-	<data name="tabGeneral.ToolTipText">
+  <data name="tabGeneral.ToolTipText" xml:space="preserve">
     <value>Generalna podešavanja aplikacije</value>
   </data>
-	<data name="optionSectionPanel1.Text">
+  <data name="optionSectionPanel1.Text" xml:space="preserve">
     <value>Zvuci</value>
   </data>
-	<data name="checkAllowAppEventSounds.Text">
+  <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
     <value>Omogući zvukove u aplikaciji</value>
   </data>
-	<data name="btnConfigureAppSounds.Text">
+  <data name="btnConfigureAppSounds.Text" xml:space="preserve">
     <value>Konfiguriši...</value>
   </data>
-	<data name="btnConfigureAppSounds.ToolTip">
+  <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
     <value>Otvara prozor sa panelom za konfiguraciju zvukova koji omogućuje RSS Bandit aplikacije zvučnu konfiguraciju...</value>
-	<comment>IZMENjENO</comment>
+    <comment>IZMENjENO</comment>
   </data>
-	<data name="checkRunAtStartup.Text">
+  <data name="checkRunAtStartup.Text" xml:space="preserve">
     <value>Startuj aplikaciju posle prijave na Windows</value>
   </data>
-	<data name="checkUseFavicons.Text">
+  <data name="checkUseFavicons.Text" xml:space="preserve">
     <value>Koristi favicons kao ikonu feed-a u stablu Feed Subscriptions</value>
   </data>
-	<data name="checkUseFavicons.ToolTip">
+  <data name="checkUseFavicons.ToolTip" xml:space="preserve">
     <value>Ako je selektovano, potpisani feed-ovi će prikazivati favicons kao simbol feed-a</value>
     <comment>CHANGED</comment>
   </data>
-	<data name="checkOpenTabsInBackground.Text">
+  <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
     <value>Učitaj nove odeljke u pozadini</value>
   </data>
-	<data name="tabEnclosures.Text">
+  <data name="tabEnclosures.Text" xml:space="preserve">
     <value>Dodatak/Podkast</value>
   </data>
-	<data name="sectionPanelEnclosurePodcasts.Text">
+  <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
     <value>Podcasts</value>
   </data>
-	<data name="btnPodcastOptions.Text">
+  <data name="btnPodcastOptions.Text" xml:space="preserve">
     <value>Napredne opcije...</value>
   </data>
-	<data name="lblSectionPanelPodcastOptions.Text">
+  <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
     <value>Kliknite na dugme ispod da konfigurišete opcije podkasta:</value>
   </data>
-	<data name="sectionPanelEnclosureGeneral.Text">
+  <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
     <value>Generalno</value>
   </data>
-	<data name="btnSelectEnclosureFolder2.Text">
+  <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
     <value>...</value>
   </data>
-	<data name="btnSelectEnclosureFolder2.ToolTip">
+  <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
     <value>Pogledaj folder u sistemu fajlova...</value>
   </data>
-	<data name="lblDownloadAttachmentsSmallerThanPostfix.Text">
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
     <value>MB</value>
   </data>
-	<data name="checkEnclosureSizeOnDiskLimited.Text">
+  <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
     <value>Ne sme se preći ukupan prostor na disku</value>
   </data>
-	<data name="lblDownloadXAttachmentsPostfix.Text">
+  <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
     <value>Dodatak</value>
   </data>
-	<data name="checkOnlyDownloadLastXAttachments.Text">
+  <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
     <value>Na inicijalan potpis: samo preuzmi poslednje</value>
   </data>
-	<data name="checkDownloadCreateFolderPerFeed.Text">
+  <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
     <value>Smesti preuzete dodatke u podfoldere imenovane imenom feed-a</value>
   </data>
-	<data name="textEnclosureDirectory.ToolTip">
+  <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
     <value>Ogradi putanju preuzetih fajlova</value>
   </data>
-	<data name="labelEnclosureDirectory.Text">
+  <data name="labelEnclosureDirectory.Text" xml:space="preserve">
     <value>Preuzmi dodatke u:</value>
   </data>
-	<data name="checkDownloadEnclosures.Text">
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
     <value>Automatski preuzmi dodatke</value>
   </data>
-	<data name="checkEnableEnclosureAlerts.Text">
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
     <value>&amp;Omogući prozor upozorenja za nove preuzete dodatke</value>
   </data>
-	<data name="lblSectionPanelEnclosureGeneral.Text">
+  <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
     <value>Konfiguriši ponašanje preuzimanja i generalnu lokaciju za preuzete dodatke.</value>
   </data>
-	<data name="lstItemStates.Items5">
+  <data name="lstItemStates.Items5" xml:space="preserve">
     <value>Novi komentari (Posmatrano)</value>
   </data>
-	<data name="checkMarkItemsAsReadWhenViewed.Text">
+  <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
     <value>Automatically mark news items as read when viewed</value>
   </data>
-	<data name="checkMarkItemsAsReadWhenViewed.ToolTip">
+  <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
     <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
   </data>
-	<data name="label8.Text">
+  <data name="label8.Text" xml:space="preserve">
     <value>news items per page</value>
   </data>
-	<data name="numNewsItemsPerPage.ToolTip">
+  <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
     <value>The number of news items that should be shown in the reading pane per page</value>
   </data>
-	<data name="checkLimitNewsItemsPerPage.Text">
+  <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
     <value>Show only </value>
   </data>
-	<data name="checkLimitNewsItemsPerPage.ToolTip">
+  <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
     <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
   </data>
-	<data name="checkClearFeedCategoryItemAgeSettings.Text" space="preserve">
+  <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
     <value>Clear all individual feed and category Item Age settings</value>
   </data>
-	<data name="checkResetIndividualRefreshRates.Text" space="preserve">
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
     <value>Reset all individual feed and category Refresh Rate settings</value>
   </data>
-	<data name="comboRefreshRate.ToolTip" space="preserve">
+  <data name="comboRefreshRate.ToolTip" xml:space="preserve">
     <value>Changes refresh rate setting for all feeds</value>
   </data>
-	<data name="comboMaxItemAge.ToolTip" space="preserve">
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
     <value>Changes default item age setting for all feeds</value>
   </data>
-	</root>
+</root>

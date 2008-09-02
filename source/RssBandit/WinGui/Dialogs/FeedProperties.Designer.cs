@@ -27,6 +27,8 @@ namespace RssBandit.WinGui.Dialogs
 			this.label5 = new System.Windows.Forms.Label();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.comboMaxItemAge = new System.Windows.Forms.ComboBox();
+			this.comboFormatters = new System.Windows.Forms.ComboBox();
+			this.checkCustomFormatter = new System.Windows.Forms.CheckBox();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabItemControl = new System.Windows.Forms.TabPage();
 			this.panelItemControl = new System.Windows.Forms.Panel();
@@ -40,8 +42,6 @@ namespace RssBandit.WinGui.Dialogs
 			this.textUser = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabDisplay = new System.Windows.Forms.TabPage();
-			this.comboFormatters = new System.Windows.Forms.ComboBox();
-			this.checkCustomFormatter = new System.Windows.Forms.CheckBox();
 			this.labelFormatters = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.tabAttachments = new System.Windows.Forms.TabPage();
@@ -114,6 +114,21 @@ namespace RssBandit.WinGui.Dialogs
 			this.comboMaxItemAge.Name = "comboMaxItemAge";
 			this.toolTip1.SetToolTip(this.comboMaxItemAge, resources.GetString("comboMaxItemAge.ToolTip"));
 			// 
+			// comboFormatters
+			// 
+			resources.ApplyResources(this.comboFormatters, "comboFormatters");
+			this.comboFormatters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboFormatters.Name = "comboFormatters";
+			this.comboFormatters.Sorted = true;
+			this.toolTip1.SetToolTip(this.comboFormatters, resources.GetString("comboFormatters.ToolTip"));
+			// 
+			// checkCustomFormatter
+			// 
+			resources.ApplyResources(this.checkCustomFormatter, "checkCustomFormatter");
+			this.checkCustomFormatter.Name = "checkCustomFormatter";
+			this.toolTip1.SetToolTip(this.checkCustomFormatter, resources.GetString("checkCustomFormatter.ToolTip"));
+			this.checkCustomFormatter.CheckedChanged += new System.EventHandler(this.checkCustomFormatter_CheckedChanged);
+			// 
 			// tabControl
 			// 
 			resources.ApplyResources(this.tabControl, "tabControl");
@@ -155,16 +170,6 @@ namespace RssBandit.WinGui.Dialogs
 			// comboBox1
 			// 
 			resources.ApplyResources(this.comboBox1, "comboBox1");
-			this.comboBox1.Items.AddRange(new object[] {
-            resources.GetString("comboBox1.Items"),
-            resources.GetString("comboBox1.Items1"),
-            resources.GetString("comboBox1.Items2"),
-            resources.GetString("comboBox1.Items3"),
-            resources.GetString("comboBox1.Items4"),
-            resources.GetString("comboBox1.Items5"),
-            resources.GetString("comboBox1.Items6"),
-            resources.GetString("comboBox1.Items7"),
-            resources.GetString("comboBox1.Items8")});
 			this.comboBox1.Name = "comboBox1";
 			// 
 			// label15
@@ -211,21 +216,6 @@ namespace RssBandit.WinGui.Dialogs
 			this.tabDisplay.Controls.Add(this.label9);
 			resources.ApplyResources(this.tabDisplay, "tabDisplay");
 			this.tabDisplay.Name = "tabDisplay";
-			// 
-			// comboFormatters
-			// 
-			resources.ApplyResources(this.comboFormatters, "comboFormatters");
-			this.comboFormatters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboFormatters.Name = "comboFormatters";
-			this.comboFormatters.Sorted = true;
-			this.toolTip1.SetToolTip(this.comboFormatters, resources.GetString("comboFormatters.ToolTip"));
-			// 
-			// checkCustomFormatter
-			// 
-			resources.ApplyResources(this.checkCustomFormatter, "checkCustomFormatter");
-			this.checkCustomFormatter.Name = "checkCustomFormatter";
-			this.toolTip1.SetToolTip(this.checkCustomFormatter, resources.GetString("checkCustomFormatter.ToolTip"));
-			this.checkCustomFormatter.CheckedChanged += new System.EventHandler(this.checkCustomFormatter_CheckedChanged);
 			// 
 			// labelFormatters
 			// 
@@ -314,6 +304,7 @@ namespace RssBandit.WinGui.Dialogs
 			this.tabAuthentication.PerformLayout();
 			this.tabDisplay.ResumeLayout(false);
 			this.tabAttachments.ResumeLayout(false);
+			this.tabAttachments.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -3897,42 +3897,6 @@
   <data name="comboRefreshRate.ItemHeight" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="comboRefreshRate.Items" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="comboRefreshRate.Items1" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="comboRefreshRate.Items2" xml:space="preserve">
-    <value>45</value>
-  </data>
-  <data name="comboRefreshRate.Items3" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="comboRefreshRate.Items4" xml:space="preserve">
-    <value>75</value>
-  </data>
-  <data name="comboRefreshRate.Items5" xml:space="preserve">
-    <value>90</value>
-  </data>
-  <data name="comboRefreshRate.Items6" xml:space="preserve">
-    <value>105</value>
-  </data>
-  <data name="comboRefreshRate.Items7" xml:space="preserve">
-    <value>120</value>
-  </data>
-  <data name="comboRefreshRate.Items8" xml:space="preserve">
-    <value>240</value>
-  </data>
-  <data name="comboRefreshRate.Items9" xml:space="preserve">
-    <value>480</value>
-  </data>
-  <data name="comboRefreshRate.Items10" xml:space="preserve">
-    <value>720</value>
-  </data>
-  <data name="comboRefreshRate.Items11" xml:space="preserve">
-    <value>1440</value>
-  </data>
   <data name="comboRefreshRate.Location" type="System.Drawing.Point, System.Drawing">
     <value>190, 95</value>
   </data>
