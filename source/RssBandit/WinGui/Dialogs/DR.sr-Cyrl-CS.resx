@@ -220,67 +220,136 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Outline Processor Markup Language) формат</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 дан</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 дан</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 месец</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 дана</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 година</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>1 квартал</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 месеца</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>3 квартала</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>2 квартала</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>Неограничено</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 дан</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 дан</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 месец</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 дана</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 година</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 квартал</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 месеца</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 квартала</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 квартала</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Неограничено</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>Користи &amp;прилагођени форматер</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Селектујте ову опцију да користите прилагођени форматер</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Аутоматски преузми додатке и подкасте</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Омогући прозор упозорења за нове предмете</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Омогући прозор упозорења за нове преузете додатке и подкасте</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Маркирај предмете као прочитане на постојећим пољима</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Изаберите каскадни стил форматера</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Изаберите максимално време трајања предмета у кешу</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>Уклони предмете старије од:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Наслов</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>минута</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>&amp;Фреквенција ажурирања</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Категорија</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Корисничко &amp;име</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Лозинка</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Користите основно форматирање или изаберите прилагођени XSLT форматер.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>&amp;Каскадни стил форматера:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Додатак/Подкаст</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Аутентификација</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Прикажи</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Контрола предмета</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Параметри извора</value>
+  </data>
 </root>

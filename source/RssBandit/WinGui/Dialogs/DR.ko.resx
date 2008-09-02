@@ -168,119 +168,188 @@
   <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
     <value>플레이리스트의 이름을 제공 합니다.</value>
   </data>
-<data name="DialogBase_CancelButtonCaption" space="preserve">
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
     <value>취소</value>
   </data>
-	<data name="DialogBase_CancelButtonCaptionTip" space="preserve">
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
     <value>모든 변경한 것을 취소하고 창을 닫습니다</value>
   </data>
-	<data name="DialogBase_SubmitButtonCaption" space="preserve">
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
     <value>확인</value>
     <comment> DialogBase control captions</comment>
   </data>
-	<data name="DialogBase_SubmitButtonCaptionTip" space="preserve">
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
     <value>모든 변경을 확인하고 창을 닫습니다</value>
   </data>
-	<data name="DialogBase_UACShieldedHint" space="preserve">
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
     <value>이 옵션을 적용하시려면, 더 높은 사용자 권한(Administrator)이 필요합니다...</value>
   </data>
-	<data name="ExportFeedsDialog_btnOK_Text" space="preserve">
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
     <value>&amp;저장</value>
   </data>
-	<data name="ExportFeedsDialog_btnOK_Tip" space="preserve">
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
     <value>완료. 지금 익스포트하는 중...</value>
   </data>
-	<data name="ExportFeedsDialog_labelForCheckedTree_Text" space="preserve">
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
     <value>피드(feed(s))를 &amp;익스포드 하기 위해서 선택 하기:</value>
   </data>
-	<data name="ExportFeedsDialog_checkFormatNativeFull_Text" space="preserve">
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
     <value>&amp;읽은 상태로 아이템을 지정 하기</value>
   </data>
-	<data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" space="preserve">
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
     <value>비어있는 &amp;카타고리로 지정 하기</value>
   </data>
-	<data name="ExportFeedsDialog_labelFormats_Text" space="preserve">
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
     <value>포멧</value>
   </data>
-	<data name="ExportFeedsDialog_radioFormatNative_Text" space="preserve">
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
     <value>Native</value>
   </data>
-	<data name="ExportFeedsDialog_radioFormatOPML_Text" space="preserve">
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
     <value>OPML</value>
   </data>
-	<data name="ExportFeedsDialog_grpFromFeedSource_Text" space="preserve">
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
     <value>피드(Feed) 소스로 부터</value>
   </data>
-	<data name="ExportFeedsDialog_Text" space="preserve">
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
     <value>피드(Feeds)를 익스포트 하기</value>
   </data>
-	<data name="ExportFeedsDialog_radioFormatNative_Tip" space="preserve">
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
     <value> 내부적으로 이 애플리케이션에 의한 형식이 사용 되었습니다</value>
   </data>
-	<data name="ExportFeedsDialog_radioFormatOPML_Tip" space="preserve">
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>온라인 형식 마크업 언어(Outline Processor Markup Language) 형식</value>
   </data>
-	<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>인증</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>피드(Feed) 소스 이름:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>비밀번호:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>사용자 이름:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>피드(Feed) 소스 설정</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 일</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>2 주</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>3 주</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 달</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 달</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>3 개월</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>6 개월</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>9 개월</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 년</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>무제한</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 일</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>2 주</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>3 주</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 달</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 달</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>3 개월</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>6 개월</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>9 개월</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 년</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>무제한</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>&amp;원하시는 포멧터(formatter)를 사용하기</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>원하시는 포멧터(formatter) 사용하시려면 이 옵션을 선택하여 주세요</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>자동으로 새로 다운 받은 첨부 파일과 팟케스트를 다운로드 합니다</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;새로운 아이템을 위해서 윈도우에 알림을 시작합니다</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;자동으로 새롭게 다운로드한 첨부파일과 팟케스트를 윈도우 알림 기능을 시작 합니다</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;기존에 존재하는 피드(Feed)를 이미 읽음으로 표시 합니다 </value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>스타일시트 포멧터(formatter)를 선택 해 주세요</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>케쉬된 아이템을 저장하기 위해서 최대 아이템 기간을 선택해 주세요</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>아래 보다 오래된 아이템 제거:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;제목</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;웹 주소(Url)</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>분</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>업데이트  &amp;빈도수:</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;카테고리</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>사용자&amp;이름</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;비밀번호</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>디폴트 형식을 사용하시거나 임의의 XSLT 포멧터(formatter)를 사용해 주세요.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>&amp;스타일시트 포멧터(Formatter):</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>첨부파일/팟케스트(Attachments/Podcasts)</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>인증</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>디스플레이</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>아이템 제어</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>피드(Feed) 설정</value>
+  </data>
 </root>

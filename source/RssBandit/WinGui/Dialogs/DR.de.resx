@@ -282,4 +282,88 @@
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 Tag</value>
   </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>&amp;Eigene XSLT-Formatierung verwenden</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Aktivieren Sie diese Option, um eine eigene Formatierung zu ermöglichen</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Anhänge/Podcasts automatisch laden</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Benachrichtigung einblenden, wenn neue Nachrichten eintreffen</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>B&amp;enachrichtigung für neu geladene Anhänge anzeigen</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>Beim Verlassen des Feed &amp;Nachrichten als gelesen markieren</value>
+  </data>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Wählen Sie einen Zeitabstand aus, nach dessen Ablauf dieser Feed wieder auf neue Nachrichten geprüft werden soll</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Wählen Sie einen XSLT-stylesheet für die Formatierung</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Wählen Sie das max. Alter der Nachrichten, bis zu dem Sie noch nicht gelöscht werden sollen</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>Max. Nachrichten-&amp;Alter</value>
+  </data>
+  <data name="FeedProperties_label15_ToolTip" xml:space="preserve">
+    <value>Nachrichten, die älter als das angegebene Alter sind, werden automatisch gelöscht</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>Feed &amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>Minuten</value>
+  </data>
+  <data name="FeedProperties_label4_ToolTip" xml:space="preserve">
+    <value>Die Updatefrequenz 0 (null) führt dazu, dass dieser Feed deaktiviert wird. Dieser Feed wird dann so lange nicht auf neue Nachrichten geprüft, bis Sie wieder eine von 0 abweichende Frequenz einstellen</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Kategorie</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Benutzer&amp;name</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Passwort</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Verwenden Sie die Standardformatierung für Nachrichten, oder wählen Sie eine eigne XSLT-Formatierung.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>&amp;Formatierung mit:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Anhänge/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentifizierung</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_ToolTip" xml:space="preserve">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_ToolTipText" xml:space="preserve">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Anzeige</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Nachrichten</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Feed Eigenschaften</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Updatefrequenz</value>
+  </data>
 </root>

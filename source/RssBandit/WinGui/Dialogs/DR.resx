@@ -283,4 +283,88 @@
   <data name="ComboMaxItemAge_Item15" xml:space="preserve">
     <value>Unlimited</value>
   </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>Use a &amp;custom formatter</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Check this option to use a custom formatter</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Automatically download attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for new items</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Mark items as read on exiting feed</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Select a formatter stylesheet</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Select the maximum item age to keep an item cached</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>Remove Items Older Than:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Title</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>Update &amp;frequency:</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Category</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>User&amp;name</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Password</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Use the default item formatting or select a custom XSLT formatter.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Formatter &amp;Stylesheet:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Attachments/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Item Control</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Feed Properties</value>
+  </data>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  </data>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>Remove an assigned client certificate...</value>
+  </data>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>Select a client certificate...</value>
+  </data>
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
+    <value>Client Certificate</value>
+  </data>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>View the assigned client certificate...</value>
+  </data>
 </root>

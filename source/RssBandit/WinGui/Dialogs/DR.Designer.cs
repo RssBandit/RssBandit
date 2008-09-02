@@ -358,6 +358,258 @@ namespace RssBandit.WinGui.Dialogs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove an assigned client certificate....
+        /// </summary>
+        internal static string FeedProperties_btnRemoveClientCertificate_Tooltip {
+            get {
+                return ResourceManager.GetString("FeedProperties_btnRemoveClientCertificate_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a client certificate....
+        /// </summary>
+        internal static string FeedProperties_btnSelectClientCertificate_Tooltip {
+            get {
+                return ResourceManager.GetString("FeedProperties_btnSelectClientCertificate_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View the assigned client certificate....
+        /// </summary>
+        internal static string FeedProperties_btnViewClientCertificate_Tooltip {
+            get {
+                return ResourceManager.GetString("FeedProperties_btnViewClientCertificate_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use a &amp;custom formatter.
+        /// </summary>
+        internal static string FeedProperties_checkCustomFormatter_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkCustomFormatter_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this option to use a custom formatter.
+        /// </summary>
+        internal static string FeedProperties_checkCustomFormatter_ToolTip {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkCustomFormatter_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically download attachments and podcasts.
+        /// </summary>
+        internal static string FeedProperties_checkDownloadEnclosures_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkDownloadEnclosures_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Enable alert windows for new items.
+        /// </summary>
+        internal static string FeedProperties_checkEnableAlerts_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkEnableAlerts_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Enable alert windows for newly downloaded attachments and podcasts.
+        /// </summary>
+        internal static string FeedProperties_checkEnableEnclosureAlerts_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkEnableEnclosureAlerts_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Mark items as read on exiting feed.
+        /// </summary>
+        internal static string FeedProperties_checkMarkItemsReadOnExit_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_checkMarkItemsReadOnExit_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set or choose a limit in minutes this feed should be checked for new items again.
+        /// </summary>
+        internal static string FeedProperties_comboBox1_ToolTip {
+            get {
+                return ResourceManager.GetString("FeedProperties_comboBox1_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a formatter stylesheet.
+        /// </summary>
+        internal static string FeedProperties_comboFormatters_ToolTip {
+            get {
+                return ResourceManager.GetString("FeedProperties_comboFormatters_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the maximum item age to keep an item cached.
+        /// </summary>
+        internal static string FeedProperties_comboMaxItemAge_ToolTip {
+            get {
+                return ResourceManager.GetString("FeedProperties_comboMaxItemAge_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Title.
+        /// </summary>
+        internal static string FeedProperties_label1_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label1_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Items Older Than:.
+        /// </summary>
+        internal static string FeedProperties_label15_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label15_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Url.
+        /// </summary>
+        internal static string FeedProperties_label2_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label2_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to minutes.
+        /// </summary>
+        internal static string FeedProperties_label3_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label3_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update &amp;frequency:.
+        /// </summary>
+        internal static string FeedProperties_label4_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label4_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Category.
+        /// </summary>
+        internal static string FeedProperties_label5_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label5_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User&amp;name.
+        /// </summary>
+        internal static string FeedProperties_label6_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label6_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Password.
+        /// </summary>
+        internal static string FeedProperties_label7_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label7_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the default item formatting or select a custom XSLT formatter..
+        /// </summary>
+        internal static string FeedProperties_label9_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_label9_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client Certificate.
+        /// </summary>
+        internal static string FeedProperties_labelClientCertificate_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_labelClientCertificate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Formatter &amp;Stylesheet:.
+        /// </summary>
+        internal static string FeedProperties_labelFormatters_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_labelFormatters_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attachments/Podcasts.
+        /// </summary>
+        internal static string FeedProperties_tabAttachments_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_tabAttachments_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication.
+        /// </summary>
+        internal static string FeedProperties_tabAuthentication_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_tabAuthentication_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display.
+        /// </summary>
+        internal static string FeedProperties_tabDisplay_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_tabDisplay_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item Control.
+        /// </summary>
+        internal static string FeedProperties_tabItemControl_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_tabItemControl_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feed Properties.
+        /// </summary>
+        internal static string FeedProperties_Text {
+            get {
+                return ResourceManager.GetString("FeedProperties_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credentials.
         /// </summary>
         internal static string FeedSourceProperties_groupCredentials_Text {

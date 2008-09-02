@@ -175,7 +175,7 @@
     <value>Dismiss any changes and close</value>
   </data>
   <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
-    <value>OK</value>
+    <value>確定&amp;O</value>
     <comment>DialogBase OK button caption</comment>
   </data>
   <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
@@ -220,67 +220,136 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Outline Processor Markup Language) 格式</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 天</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>1 季</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>2 季</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>3 季</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 年</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>無限期</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 季</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 季</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 季</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>無限期</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>使用自定格式器&amp;c</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>選擇這選項採用自訂格式器</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Automatically download attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>啟動當有新到新聞時出現提醒視窗&amp;E</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>把現有新聞標記為已閱讀&amp;M</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Select a formatter stylesheet</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>選擇最舊的新聞資訊來保留</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>移除過時新聞當超過:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>標題&amp;T</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;URL網址</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>更新頻率&amp;f:</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>分類&amp;C</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>使用者名稱&amp;n</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>密碼&amp;P</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>使用預設新聞格式或選擇自定XSLT格式</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>格式器&amp;Stylesheet:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Attachments/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>新聞控制</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>新聞屬性</value>
+  </data>
 </root>
