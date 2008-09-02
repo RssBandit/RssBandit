@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,323 +60,317 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMinutes.Text">
+  <data name="lblMinutes.Text" xml:space="preserve">
     <value>minutes</value>
   </data>
-	<data name="pageValidateUrl.Text">
+  <data name="pageValidateUrl.Text" xml:space="preserve">
     <value>Please wait...</value>
   </data>
-	<data name="cboUpdateFrequency.Items8">
-    <value>120</value>
-  </data>
-	<data name="cboUpdateFrequency.Items3">
-    <value>45</value>
-  </data>
-	<data name="cboUpdateFrequency.Items5">
-    <value>75</value>
-  </data>
-	<data name="cboUpdateFrequency.Items6">
-    <value>90</value>
-  </data>
-	<data name="pageWelcome.Text">
+  <data name="pageWelcome.Text" xml:space="preserve">
     <value>Welcome to the Add Subscription Wizard!</value>
   </data>
-	<data name="cboUpdateFrequency.Items">
-    <value>0</value>
-  </data>
-	<data name="lblNewByURL.Text">
+  <data name="lblNewByURL.Text" xml:space="preserve">
     <value>URL:</value>
   </data>
-	<data name="lblPassword.Text">
+  <data name="lblPassword.Text" xml:space="preserve">
     <value>&amp;Password:</value>
   </data>
-	<data name="pageFoundMultipleFeeds.Text">
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
     <value>Multiple feeds found</value>
   </data>
-	<data name="lblNewByNNTPGroupIntro.Text">
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
     <value>To be able to subscribe to a NNTP news group, you must have defined at least one NNTP server. You can click "Manage..." to create a new one or change the settings.</value>
   </data>
-	<data name="lblFeedCategory.Text">
+  <data name="lblFeedCategory.Text" xml:space="preserve">
     <value>Category:</value>
   </data>
-	<data name="pageNewByURL.Text">
+  <data name="pageNewByURL.Text" xml:space="preserve">
     <value>New subscription by URL</value>
   </data>
-	<data name="pageFeedCredentials.Text">
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
     <value>Subscription Credentials</value>
   </data>
-	<data name="chkDisplayWelcome.Text">
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
     <value>Always display this Wizard Welcome Page</value>
   </data>
-	<data name="lblWaitStepIntro.Text">
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
     <value>This step applies the following task(s):</value>
   </data>
-	<data name="lblCompletionMessage.Text">
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
     <value>The subscription is ready to be added to your subscriptions list.</value>
   </data>
-	<data name="btnManageSearchEngines.Text">
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
     <value>Manage...</value>
   </data>
-	<data name="lblWelcomeInfoBox.Text">
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
     <value>The wizard requires at some steps you are connected to the Internet! If not, ensure to connect your computer now.</value>
   </data>
-	<data name="pageFeedItemDisplay.Text">
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
     <value>Feed/Item Display</value>
   </data>
-	<data name="lblFeedItemDisplayIntro.Text">
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
     <value>Use the default feed/item formatting or select a custom XSLT formatter.</value>
   </data>
-	<data name="lblMultipleFeedsFoundHint2.Text">
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
     <value>If the required feed cannot be found in the list, please click Back to initiate a new search.</value>
   </data>
-	<data name="lblUsername.Text">
+  <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;Username:</value>
   </data>
-	<data name="lblPageTitleCredentialsIntro.Text">
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
     <value>Here you can specify the title for the subscription and add it to a new or existing category</value>
   </data>
-	<data name="lblNewBySearchWords.Text">
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
     <value>Key word(s) or topic:</value>
   </data>
-	<data name="pageNewBySearchTopic.Text">
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
     <value>New subscription by Search</value>
   </data>
-	<data name="pageFeedItemControl.Text">
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
     <value>Feed/Item Control</value>
   </data>
-	<data name="checkUseCustomFormatter.Text">
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
     <value>Use a &amp;custom formatter</value>
   </data>
-	<data name="pageNewByNNTPGroup.Text">
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
     <value>New subscription of a NNTP group</value>
   </data>
-	<data name="lblNNTPServer.Text">
+  <data name="lblNNTPServer.Text" xml:space="preserve">
     <value>NNTP Server:</value>
   </data>
-	<data name="pageHowToSelection.Text">
+  <data name="pageHowToSelection.Text" xml:space="preserve">
     <value>New Subscription</value>
   </data>
-	<data name="btnManageNNTPServer.Text">
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
     <value>Manage...</value>
   </data>
-	<data name="lblFeedCredentialsIntro.Text">
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
     <value>Here you can specify the username and password need to access the subscription (if any)</value>
   </data>
-	<data name="lblHowToSubscribeIntro.Text">
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
     <value>Please select one of the options below you like to add a new subscription:</value>
   </data>
-	<data name="lblValidationTask1.Text">
+  <data name="lblValidationTask1.Text" xml:space="preserve">
     <value>InProgress</value>
   </data>
-	<data name="lblNewBySearchEngines.Text">
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
     <value>Search engine:</value>
   </data>
-	<data name="wizard.Text">
+  <data name="wizard.Text" xml:space="preserve">
     <value>wizard</value>
   </data>
-	<data name="checkEnableAlertOnNewItems.Text">
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
     <value>&amp;Enable alert windows on received items</value>
   </data>
-	<data name="lblFeedItemControlIntro.Text">
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
     <value>Here you can change the application behavior for the "New Items received" event, the maximum item age to control the time items get automatically purged and the update request frequency.</value>
   </data>
-	<data name="lblNNTPGroups.Text">
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
     <value>Groups:</value>
   </data>
-	<data name="lblNewByURLIntro.Text">
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
     <value>If you are not sure about the web feed's URL, enter the web browser address of the web site or page and RSS Bandit will try to autodiscover the feed.</value>
   </data>
-	<data name="cboUpdateFrequency.Items1">
-    <value>15</value>
-  </data>
-	<data name="cboUpdateFrequency.Items2">
-    <value>30</value>
-  </data>
-	<data name="cboUpdateFrequency.Items4">
-    <value>60</value>
-  </data>
-	<data name="cboUpdateFrequency.Items7">
-    <value>105</value>
-  </data>
-	<data name="lblWelcomeHelpMessage2.Text">
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
     <value>• Validating the subscription source and manage additional properties maybe required for a successful request (e.g. credentials).</value>
   </data>
-	<data name="radioNewByURL.Text">
+  <data name="radioNewByURL.Text" xml:space="preserve">
     <value>I will enter the URL of the web feed or page</value>
   </data>
-	<data name="lblMultipleFeedsFound.Text">
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
     <value>Feeds found:</value>
   </data>
-	<data name="finishPage.Text">
+  <data name="finishPage.Text" xml:space="preserve">
     <value>Complete!</value>
   </data>
-	<data name="_btnImmediateFinish.Text">
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
     <value>Finish</value>
   </data>
-	<data name="lblMultipleFeedsFoundHint1.Text">
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
     <value>From the list below, select a feed, and then click Next to specify the details about the new subscription.</value>
   </data>
-	<data name="lblValidationTask2.Text">
+  <data name="lblValidationTask2.Text" xml:space="preserve">
     <value>Pending</value>
   </data>
-	<data name="lblNewBySearchIntro.Text">
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
     <value>The result depends on the used search engine. Some of them are online Feed search services that are able to find related web feeds you can directly subscribe to (Syndic8). Other may simply provide the search result as a web feed.</value>
   </data>
-	<data name="lblFormatterStylesheet.Text">
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
     <value>Formatter &amp;Stylesheet:</value>
   </data>
-	<data name="radioNewByNNTPGroup.Text">
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
     <value>I want to subscribe to a NNTP newsgroup</value>
   </data>
-	<data name="checkNewByURLValidate.Text">
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
     <value>Autodiscover and verify the feed</value>
   </data>
-	<data name="lblUpdateFrequency.Text">
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
     <value>Update frequency:</value>
   </data>
-	<data name="pageTitleCategory.Text">
+  <data name="pageTitleCategory.Text" xml:space="preserve">
     <value>Title and Category</value>
   </data>
-	<data name="lblWelcomeHelpMessage1.Text">
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
     <value>• Examining an HTML page for available feeds or find feeds by specific key words.</value>
   </data>
-	<data name="lblFeedTitle.Text">
+  <data name="lblFeedTitle.Text" xml:space="preserve">
     <value>&amp;Title:</value>
   </data>
-	<data name="lblRemoveItemsOlderThan.Text">
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
     <value>Remove items older than:</value>
   </data>
-	<data name="radioNewByTopicSearch.Text">
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
     <value>I want to search for subscriptions by key word(s)</value>
   </data>
-	<data name="checkMarkItemsReadOnExiting.Text">
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
     <value>&amp;Mark items as read on exiting feed</value>
   </data>
-	<data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>Add Subscription Wizard</value>
   </data>
-	<data name="lblReloadNntpListOfGroups.Text">
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
     <value>Reload list of groups</value>
   </data>
-	<data name="wizard.CancelText">
+  <data name="wizard.CancelText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-	<data name="wizard.FinishText">
+  <data name="wizard.FinishText" xml:space="preserve">
     <value>Finish</value>
   </data>
-	<data name="wizard.HelpText">
+  <data name="wizard.HelpText" xml:space="preserve">
     <value>&amp;Help</value>
   </data>
-	<data name="wizard.NextText">
+  <data name="wizard.NextText" xml:space="preserve">
     <value>&amp;Next &gt;</value>
   </data>
-	<data name="wizard.PreviousText">
+  <data name="wizard.PreviousText" xml:space="preserve">
     <value>&lt; &amp;Back</value>
   </data>
-	<data name="pageWelcome.IntroductionText">
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
     <value>This wizard helps you:</value>
   </data>
-	<data name="pageWelcome.ProceedText">
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
     <value>To continue, click Next.</value>
   </data>
-	<data name="pageTitleCategory.ProceedText">
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
   </data>
-	<data name="pageFeedCredentials.ProceedText">
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
     <value>Please click "Next" to enter or change Feed/Item control settings...</value>
   </data>
-	<data name="pageFeedItemControl.ProceedText">
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
   </data>
-	<data name="pageFeedItemDisplay.ProceedText">
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
     <value>Please click "Next" to continue to the next step or "Finish" to add your new subscription</value>
   </data>
-	<data name="finishPage.FinishText">
+  <data name="finishPage.FinishText" xml:space="preserve">
     <value>You have almost completed adding a new subscription. Click the "Finish" button to add your new subscription.</value>
   </data>
-	<data name="finishPage.ProceedText">
+  <data name="finishPage.ProceedText" xml:space="preserve">
     <value>To close this wizard, click Finish.</value>
   </data>
-	<data name="pageHowToSelection.Description">
+  <data name="pageHowToSelection.Description" xml:space="preserve">
     <value>A subscription stores news items from specific sources. How would you like to add a new subscription?</value>
   </data>
-	<data name="pageNewByURL.Description">
+  <data name="pageNewByURL.Description" xml:space="preserve">
     <value>Adds a subscription whose web feed can be found at the specified location.</value>
   </data>
-	<data name="pageFoundMultipleFeeds.Description">
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
     <value>Please select the desired feed for subscription</value>
   </data>
-	<data name="pageTitleCategory.Description">
+  <data name="pageTitleCategory.Description" xml:space="preserve">
     <value>Please verify the title and select a category</value>
   </data>
-	<data name="pageFeedCredentials.Description">
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
     <value>Enter credential informations if required.</value>
   </data>
-	<data name="pageFeedItemControl.Description">
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
     <value>Optional Subscription Properties related to the feed and it's items</value>
   </data>
-	<data name="pageFeedItemDisplay.Description">
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
     <value>Optional Properties to control the display of the feed and it's items</value>
   </data>
-	<data name="pageNewBySearchTopic.Description">
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
     <value>Specify the key word(s) or topic to find related web feeds or search results.</value>
   </data>
-	<data name="pageNewByNNTPGroup.Description">
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
     <value>Select a NNTP server and one of the provided groups you want to subscribe.</value>
   </data>
-	<data name="lblUsenetHelp.Text">
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
     <value>Usenet</value>
   </data>
-	<data name="lblAutodiscoverHelp.Text">
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
     <value>Autodiscover</value>
   </data>
-	<data name="lblSyndic8Help.Text">
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
     <value>Syndic8</value>
   </data>
-	<data name="linkLabelCanonicalUrl.ToolTip">
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
     <value>The canonicalized URL we will use</value>
   </data>
-	<data name="lblFeedSources.Text" space="preserve">
+  <data name="lblFeedSources.Text" xml:space="preserve">
     <value>Subscription Source:</value>
   </data>
-	</root>
+</root>

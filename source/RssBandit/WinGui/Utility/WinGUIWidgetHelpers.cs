@@ -1041,6 +1041,29 @@ namespace RssBandit.WinGui.Utility {
 				IntPtr.Zero, 0);
 		}
 
+		#region RefreshRateStrings 
+		
+		private static List<string> _refreshRateStrings;
+		/// <summary>
+		/// Gets the refresh rate string captions as a list.
+		/// </summary>
+		/// <value>The list of strings.</value>
+		public static List<string> RefreshRateStrings
+		{
+			get
+			{
+				if (_refreshRateStrings == null)
+				{
+					_refreshRateStrings = new List<string>(15);
+					_refreshRateStrings.AddRange(
+						new[]{"0", "15", "30", "45", "60", "75", "90","105", "120", "240", "480", "720", "1440"});
+				}
+				return _refreshRateStrings;
+			}
+		}
+		#endregion
+
+		#region MaxItemAgeStrings
 
 		private static List<string> _maxItemAgeStrings;
 		/// <summary>
@@ -1131,6 +1154,10 @@ namespace RssBandit.WinGui.Utility {
 			return   9;	// 30 days, one month
 		}
 
+		#endregion
+
+		#region RssSearchItemAgeStrings
+
 		private static List<string> _rssSearchItemAgeStrings;
 		/// <summary>
 		/// Gets the RSS search item age resource captions as a list.
@@ -1144,35 +1171,35 @@ namespace RssBandit.WinGui.Utility {
 				{
 					_rssSearchItemAgeStrings = new List<string>(25);
 					_rssSearchItemAgeStrings.AddRange(new[]
-					{
-						SR.SearchPanel_comboRssSearchItemAge_1_hour,
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,3),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,4),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,5),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,6),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,12),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,18),
-						SR.SearchPanel_comboRssSearchItemAge_1_day,
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,2),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,3),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,4),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,5),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,6),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,7),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,14),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,21),
-						SR.SearchPanel_comboRssSearchItemAge_1_month,
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_months,2),
-						SR.SearchPanel_comboRssSearchItemAge_1_quarter,
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,2),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,3),
-						SR.SearchPanel_comboRssSearchItemAge_1_year,
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,2),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,3),
-						String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,5)
-					});
+					                                  {
+					                                  	SR.SearchPanel_comboRssSearchItemAge_1_hour,
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,2),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,3),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,4),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,5),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,6),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,12),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_hours,18),
+					                                  	SR.SearchPanel_comboRssSearchItemAge_1_day,
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,2),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,3),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,4),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,5),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,6),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,7),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,14),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_days,21),
+					                                  	SR.SearchPanel_comboRssSearchItemAge_1_month,
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_months,2),
+					                                  	SR.SearchPanel_comboRssSearchItemAge_1_quarter,
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,2),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_quarters,3),
+					                                  	SR.SearchPanel_comboRssSearchItemAge_1_year,
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,2),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,3),
+					                                  	String.Format(SR.SearchPanel_comboRssSearchItemAge_x_years,5)
+					                                  });
 				}
 				return _rssSearchItemAgeStrings;
 			}
@@ -1255,7 +1282,8 @@ namespace RssBandit.WinGui.Utility {
 
 		}
 
-		
+		#endregion
+
 		/// <summary>
 		/// Returns whether Windows XP Visual Styles are currently enabled
 		/// </summary>

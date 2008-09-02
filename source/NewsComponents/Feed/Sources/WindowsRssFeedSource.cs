@@ -817,7 +817,7 @@ namespace NewsComponents.Feed
         /// <param name="folder2load">The folder to load</param>
         /// <param name="bootstrapFeeds">The RSS Bandit metadata about the feeds being loaded</param>
         /// <param name="bootstrapCategories">The RSS Bandit metadata about the folders/categories being loaded</param>
-        private void LoadFolder(IFeedFolder folder2load, Dictionary<string, NewsFeed> bootstrapFeeds, Dictionary<string, INewsFeedCategory> bootstrapCategories)
+        private void LoadFolder(IFeedFolder folder2load, IDictionary<string, NewsFeed> bootstrapFeeds, Dictionary<string, INewsFeedCategory> bootstrapCategories)
         {
 
             if (folder2load != null)
@@ -829,25 +829,30 @@ namespace NewsComponents.Feed
                 {
                     foreach (IFeed feed in Feeds)
                     {
-                        Uri uri = null;
+                        Uri uri;
+						if (!Uri.TryCreate(feed.DownloadUrl, UriKind.Absolute, out uri) &&
+							!Uri.TryCreate(feed.Url, UriKind.Absolute, out uri))
+							continue;
+						
+						//try
+						//{
+						//    uri = new Uri(feed.DownloadUrl);
+						//}
+						//catch (Exception)
+						//{
+						//    try
+						//    {
+						//        uri = new Uri(feed.Url);
+						//    }
+						//    catch (Exception)
+						//    {
+						//        continue; 
+						//    }
+						//}
 
-                        try
-                        {
-                            uri = new Uri(feed.DownloadUrl);
-                        }
-                        catch (Exception)
-                        {
-                            try
-                            {
-                                uri = new Uri(feed.Url);
-                            }
-                            catch (Exception)
-                            {
-                                continue; 
-                            }
-                        }
                         string feedUrl = uri.CanonicalizedUri();
-                        INewsFeed bootstrapFeed = (bootstrapFeeds.ContainsKey(feedUrl) ? bootstrapFeeds[feedUrl] : null);
+                        NewsFeed bootstrapFeed;
+						bootstrapFeeds.TryGetValue(feedUrl, out bootstrapFeed);
 
                         if (this.feedsTable.ContainsKey(feedUrl)) //duplicate subscription
                         {

@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -58,445 +59,438 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.0.0.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="wizard.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="wizard.CancelText">
-		<value>취소</value>
-	</data>
-	<data name="wizard.FinishText">
-		<value>마침</value>
-	</data>
-	<data name="wizard.HelpText">
-		<value>&amp;도움말</value>
-	</data>
-	<data name="wizard.NextText">
-		<value>&amp;다음 &gt;</value>
-	</data>
-	<data name="wizard.PreviousText">
-		<value>&lt; &amp;이전</value>
-	</data>
-	<data name="wizard.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value>Inherit</value>
-	</data>
-	<data name="wizard.Text">
-		<value>마법사</value>
-	</data>
-	<data name="wizard.ToolTip">
-		<value>툴팁</value>
-	</data>
-	<data name="_btnImmediateFinish.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="_btnImmediateFinish.Text">
-		<value>마침</value>
-	</data>
-	<data name="_btnImmediateFinish.ToolTip">
-		<value />
-	</data>
-	<data name="pageNewBySearchTopic.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="pageNewBySearchTopic.Description">
-		<value>검색 결과를 원하시거나 싶으시거나 웹상에 존재 하는 관련된 피드(Feee)를 원하시면 키워드나 혹은 제목을 명시하셔야 됩니다.</value>
-	</data>
-	<data name="pageNewBySearchTopic.Text">
-		<value>검색으로 새로운 예약 구독하기</value>
-	</data>
-	<data name="pageNewBySearchTopic.ToolTip">
-		<value />
-	</data>
-	<data name="pictureHelpSyndic8.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="pictureHelpSyndic8.ToolTip">
-		<value />
-	</data>
-	<data name="lblSyndic8Help.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblSyndic8Help.Text">
-		<value>Syndic8</value>
-	</data>
-	<data name="lblSyndic8Help.ToolTip">
-		<value />
-	</data>
-	<data name="btnManageSearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="btnManageSearchEngines.Text">
-		<value>관리...</value>
-	</data>
-	<data name="btnManageSearchEngines.ToolTip">
-		<value />
-	</data>
-	<data name="lblNewBySearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblNewBySearchEngines.Text">
-		<value>검색 엔진:</value>
-	</data>
-	<data name="lblNewBySearchEngines.ToolTip">
-		<value />
-	</data>
-	<data name="cboNewBySearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="cboNewBySearchEngines.ToolTip">
-		<value />
-	</data>
-	<data name="lblNewBySearchIntro.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblNewBySearchIntro.Text">
-		<value>결과는 사용된 검색 엔진에 따라 다를 수 있습니다.  어떤 검색 결과들은 온라인 피드(Feed) 결과 서버스로 여러분들이 직접 Syndic8 등과 같은 웹 피드(Feed) 결과로 찾으실 수도  있습니다.다른 결과들은 단순히 웹 피드(Feed)에서 검색된 결과 입니다.</value>
-	</data>
-	<data name="lblNewBySearchIntro.ToolTip">
-		<value />
-	</data>
-	<data name="txtNewBySearchWords.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="txtNewBySearchWords.ToolTip">
-		<value />
-	</data>
-	<data name="lblNewBySearchWords.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblNewBySearchWords.Text">
-		<value>키워드 혹은 제목:</value>
-	</data>
-	<data name="lblNewBySearchWords.ToolTip">
-		<value />
-	</data>
-	<data name="pageValidateUrl.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="pageValidateUrl.Description">
-		<value />
-	</data>
-	<data name="pageValidateUrl.ProceedText">
-		<value />
-	</data>
-	<data name="pageValidateUrl.Text">
-		<value>진행중....</value>
-	</data>
-	<data name="pageValidateUrl.ToolTip">
-		<value />
-	</data>
-	<data name="lblValidationTask2.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblValidationTask2.Text">
-		<value>계류중</value>
-	</data>
-	<data name="lblValidationTask2.ToolTip">
-		<value />
-	</data>
-	<data name="lblValidationTask1.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblValidationTask1.Text">
-		<value>진행중</value>
-	</data>
-	<data name="lblValidationTask1.ToolTip">
-		<value />
-	</data>
-	<data name="pbar.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="pbar.ToolTip">
-		<value />
-	</data>
-	<data name="lblWaitStepIntro.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblWaitStepIntro.Text">
-		<value>현재 아래와 같은 작업을 진행 중입니다: </value>
-	</data>
-	<data name="lblWaitStepIntro.ToolTip">
-		<value />
-	</data>
-	<data name="pageFoundMultipleFeeds.Description">
-		<value>예약 구독을 원하시는 피드(Feed)를 선택해 주세요</value>
-	</data>
-	<data name="pageFoundMultipleFeeds.ProceedText">
-		<value />
-	</data>
-	<data name="pageFoundMultipleFeeds.Text">
-		<value>다중 선택된 피드(Feed)를 찾았습니다.</value>
-	</data>
-	<data name="pageFoundMultipleFeeds.ToolTip">
-		<value />
-	</data>
-	<data name="listFeeds.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="listFeeds.ToolTip">
-		<value />
-	</data>
-	<data name="lblMultipleFeedsFoundHint1.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value />
-	</data>
-	<data name="lblMultipleFeedsFoundHint1.Text">
-		<value>아래의 리스트로 부터 피드(Fee) 하나를 선택 하시고 새로운 예약 구독에 관한 상세한 사항들을 확인하시려면 다음 버튼을 눌러 주세요.</value>
-	</data>
-	<data name="lblMultipleFeedsFoundHint1.ToolTip">
-		<value />
-	</data>
-	<data name="lblMultipleFeedsFoundHint2.Text">
-		<value>만약 원하시는 피드(Feedd)의 검색 결과가 없을 경우 에는 이전 버튼을 누르셔서 새로운 검색을 시작해 주세요.</value>
-	</data>
-	<data name="lblMultipleFeedsFound.Text">
-		<value>아래와 같은 피드(Feed)를 찾았습니다.</value>
-	</data>
-	<data name="pageTitleCategory.Description">
-		<value>제목을 확인해 주시고 해당하는 목록을 선택해 주세요.</value>
-	</data>
-	<data name="pageTitleCategory.ProceedText">
-		<value>다음 단계로 가시려면 다음 버튼을 눌러 주시거나 완료 버튼을 누르셔서 새로운 예약 구독을 더 해 주세요.</value>
-	</data>
-	<data name="pageTitleCategory.Text">
-		<value>제목과 목록</value>
-	</data>
-	<data name="lblFeedCategory.Text">
-		<value>목록:</value>
-	</data>
-	<data name="lblPageTitleCredentialsIntro.Text">
-		<value>여기서 예약 구독을 위해서 제목을 알려 확인해 주실수 있고 새롭거나 기존의 목록을 더하실 수 있습니다</value>
-	</data>
-	<data name="lblFeedTitle.Text">
-		<value>&amp;제목:</value>
-	</data>
-	<data name="pageFeedCredentials.Description">
-		<value>필요시, 인증 정보를 입력해 주세요.</value>
-	</data>
-	<data name="pageFeedCredentials.ProceedText">
-		<value>피드(Feed)나 아이템 컨트롤 설정을 변경하시거나 새로 입력하시려면 다음 버튼을 눌러 주세요</value>
-	</data>
-	<data name="pageFeedCredentials.Text">
-		<value>예약 구독 인증 정보</value>
-	</data>
-	<data name="lblFeedCredentialsIntro.Text">
-		<value> 이곳에 예약 구독에 접속 하실수 있는 사용자 이름과 비밀 번호를 넣으시면 됩니다.</value>
-	</data>
-	<data name="lblUsername.Text">
-		<value>&amp;사용자 이름:</value>
-	</data>
-	<data name="lblPassword.Text">
-		<value>&amp;비밀 번호:</value>
-	</data>
-	<data name="pageFeedItemControl.Description">
-		<value>아래의 특정의 예약 구독 설정 설정은 피드(Feed)와 아이템을 위한 것 입니다.</value>
-	</data>
-	<data name="pageFeedItemControl.ProceedText">
-		<value>다음 단계로 가시기를 원하시면, 다음 버튼을 눌러 주시고, 새로운 예약 구독 더하기를 끝마치시기를 원하시면 마침 버튼을 눌러 주세요.</value>
-	</data>
-	<data name="pageFeedItemControl.Text">
-		<value>피드(Feed)/아이템 컨트롤</value>
-	</data>
-	<data name="cboUpdateFrequency.Items">
-		<value>0</value>
-	</data>
-	<data name="cboUpdateFrequency.Items1">
-		<value>15</value>
-	</data>
-	<data name="cboUpdateFrequency.Items2">
-		<value>30</value>
-	</data>
-	<data name="cboUpdateFrequency.Items3">
-		<value>45</value>
-	</data>
-	<data name="cboUpdateFrequency.Items4">
-		<value>60</value>
-	</data>
-	<data name="cboUpdateFrequency.Items5">
-		<value>75</value>
-	</data>
-	<data name="cboUpdateFrequency.Items6">
-		<value>90</value>
-	</data>
-	<data name="cboUpdateFrequency.Items7">
-		<value>105</value>
-	</data>
-	<data name="cboUpdateFrequency.Items8">
-		<value>120</value>
-	</data>
-	<data name="lblRemoveItemsOlderThan.Text">
-		<value>기존에 더해진 예약 구독 제거:</value>
-	</data>
-	<data name="lblMinutes.Text">
-		<value>분</value>
-	</data>
-	<data name="lblUpdateFrequency.Text">
-		<value>업데이트 빈도 수:</value>
-	</data>
-	<data name="checkMarkItemsReadOnExiting.Text">
-		<value>&amp;기존의 피드(Feed)를 이미 읽은 글로 표시하기</value>
-	</data>
-	<data name="lblFeedItemControlIntro.Text">
-		<value>이곳에서는 원하시는 업데이트 요청 빈도 수와 자동으로 연결되어진 아이템들을 조정하기 위해서 사용 되는 새로운 받은 아이템 이벤트 기능을 변경 하실 수 있습니다. </value>
-	</data>
-	<data name="checkEnableAlertOnNewItems.Text">
-		<value>&amp;새로 받은 아이템들을 윈도우에 알려주는 기능 허락하기</value>
-	</data>
-	<data name="pageFeedItemDisplay.Description">
-		<value>임의의 설정창은 피드(Feed) 나 아이템들을 보여주는 것을 조정 할수 있도록 합니다.</value>
-	</data>
-	<data name="pageFeedItemDisplay.ProceedText">
-		<value>다음 버튼을 눌러서 다음 창으로 계속 진행 하시거나 마침 버튼을 눌러서 새로운 얘약 구독 더하기를 끝냅니다.</value>
-	</data>
-	<data name="pageFeedItemDisplay.Text">
-		<value>피드(Feed)/아이템 디스플레이</value>
-	</data>
-	<data name="lblFormatterStylesheet.Text">
-		<value>&amp;스타일 시트 전체 구성</value>
-	</data>
-	<data name="checkUseCustomFormatter.Text">
-		<value>&amp;맞춤 방식으로 사용하기</value>
-	</data>
-	<data name="lblFeedItemDisplayIntro.Text">
-		<value>디폴트 피드(Feed)나 아이템 형식을 이용하시거나 변형하신 XSLT 형식을 사용하세요</value>
-	</data>
-	<data name="finishPage.FinishText">
-		<value>항상 하나의 예약 구독을 마치셔야 됩니다.  예약 구독을 하시려면, 마침 버튼을 눌러주세요.</value>
-	</data>
-	<data name="finishPage.ProceedText">
-		<value>이 마법사 창을 닫으시려면 마침 버튼을 눌러 주세요.</value>
-	</data>
-	<data name="finishPage.Text">
-		<value>완료!</value>
-	</data>
-	<data name="lblCompletionMessage.Text">
-		<value>선택하신 예약 구독이 예약 구독 리스트에 더해질 준비가 되었습니다.</value>
-	</data>
-	<data name="pageHowToSelection.Description">
-		<value>예약 구독 기능은 특정한 내용들로 부터 뉴스 아이템들을 저정 하실 수 있도록  합니다. 지금 새 예약 구독을 더해 보시는 것을 어떻겠습니까?</value>
-	</data>
-	<data name="pageHowToSelection.Text">
-		<value>새 예약 구독</value>
-	</data>
-	<data name="radioNewByNNTPGroup.Text">
-		<value>NNTP news그룹을 예약 구독 하고 싶습니다.</value>
-	</data>
-	<data name="lblHowToSubscribeIntro.Text">
-		<value>다음 중 하나의 옵션을 선택하셔서 새로운 예약 구독 리스트에 더해 주세요:</value>
-	</data>
-	<data name="radioNewByTopicSearch.Text">
-		<value>키워드를 이용하여서 예약 구독을 검색하고 싶습니다.</value>
-	</data>
-	<data name="radioNewByURL.Text">
-		<value>웹 피드(Feed) 나 웹사이트 URL 을 입력 하고 싶습니다.</value>
-	</data>
-	<data name="pageNewByURL.Description">
-		<value>특별한 곳에서 검색 되어지는 웹 피드(Feed)를 예약 구독에 더하기.</value>
-	</data>
-	<data name="pageNewByURL.Text">
-		<value>URL 을 사용하여 새 예약 구독 더하기</value>
-	</data>
-	<data name="linkLabelCanonicalUrl.ToolTip">
-		<value>불법이 아닌 URL만 사용합니다.</value>
-	</data>
-	<data name="lblAutodiscoverHelp.Text">
-		<value>자동찾기</value>
-	</data>
-	<data name="checkNewByURLValidate.Text">
-		<value>새로운 피드(Feed) 를 자동으로 찾고 확인하기</value>
-	</data>
-	<data name="lblNewByURLIntro.Text">
-		<value>만약 여러분이 웹 피드(Feed) 나 웹 사이트 페이지 URL을 정확히 모르실 경우, RSS Bandit 가 자동 검색 기능으로 찾을 수 있도록 도움을 드립니다.</value>
-	</data>
-	<data name="lblNewByURL.Text">
-		<value>URL:</value>
-	</data>
-	<data name="pageWelcome.IntroductionText">
-		<value>이 마법사는 다음과 같은 도움을 줍니다:</value>
-	</data>
-	<data name="pageWelcome.ProceedText">
-		<value>다음 단계로진행하시려면 다음 버튼을 눌러 주세요.</value>
-	</data>
-	<data name="pageWelcome.Text">
-		<value>예약 구독 넣기 마법사에 오신것을 환영합니다.</value>
-	</data>
-	<data name="chkDisplayWelcome.Text">
-		<value>항상 Welcome Page 로 보여주기</value>
-	</data>
-	<data name="lblWelcomeInfoBox.Text">
-		<value>이 마법사를 사용하시려면 몇 단계를 거치셔서 인터넷트에 접속을 하고 있스셔야 됩니다. 그렇지 않 경우에는, 여러 분의 컴퓨터가 인터넷트에 접속되어 있어야 합니다.</value>
-	</data>
-	<data name="lblWelcomeHelpMessage1.Text">
-		<value>• 이용하실 수 있는 피드(Feed) 나 키워드에 의해서 검색된 특정한 피드(Feed)를 HTML 페이지에서 확인 하실 수 있도록 합니다.</value>
-	</data>
-	<data name="lblWelcomeHelpMessage2.Text">
-		<value>• 예약 구독 출처를 확인하고 완벽한 인증 정보와 같은 추가의 설정들을 관리하실 수 있습니다.</value>
-	</data>
-	<data name="pageNewByNNTPGroup.Description">
-		<value>NNTP 서버 하나를 선택 하시고 원하시는 예약 구독 그룹을 선택해 하십시오</value>
-	</data>
-	<data name="pageNewByNNTPGroup.Text">
-		<value>유스넷 사용자 그룹 뉴스를 새 예약 구독에 더 하기</value>
-	</data>
-	<data name="lblUsenetHelp.Text">
-		<value>유스넷 </value>
-	</data>
-	<data name="lblReloadNntpListOfGroups.Text">
-		<value>그룹의 리스트를 다시 올립니다.</value>
-	</data>
-	<data name="lblNNTPGroups.Text">
-		<value>그룹들:</value>
-	</data>
-	<data name="btnManageNNTPServer.Text">
-		<value>관리...</value>
-	</data>
-	<data name="lblNNTPServer.Text">
-		<value>NNTP 서버:</value>
-	</data>
-	<data name="lblNewByNNTPGroupIntro.Text">
-		<value>유스넷 사용자 모임 소식을 예약 구독 하시기 위해서는 적어도 하나의 NNTP 서버를 입력해 주셔야 합니다. "관리..."버튼을 누루셔서 새로운 환경으로 정보를 업데이트 하시면 됩니다.</value>
-	</data>
-	<data name="$this.Text">
-		<value>예약 구독 마법사에 더하기</value>
-	</data>
-	<data name="lblFeedSources.Text" space="preserve">
-		<value>예약 구독 출처:</value>
-	</data>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="wizard.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="wizard.CancelText" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="wizard.FinishText" xml:space="preserve">
+    <value>마침</value>
+  </data>
+  <data name="wizard.HelpText" xml:space="preserve">
+    <value>&amp;도움말</value>
+  </data>
+  <data name="wizard.NextText" xml:space="preserve">
+    <value>&amp;다음 &gt;</value>
+  </data>
+  <data name="wizard.PreviousText" xml:space="preserve">
+    <value>&lt; &amp;이전</value>
+  </data>
+  <data name="wizard.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="wizard.Text" xml:space="preserve">
+    <value>마법사</value>
+  </data>
+  <data name="wizard.ToolTip" xml:space="preserve">
+    <value>툴팁</value>
+  </data>
+  <data name="_btnImmediateFinish.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
+    <value>마침</value>
+  </data>
+  <data name="_btnImmediateFinish.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageNewBySearchTopic.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
+    <value>검색 결과를 원하시거나 싶으시거나 웹상에 존재 하는 관련된 피드(Feee)를 원하시면 키워드나 혹은 제목을 명시하셔야 됩니다.</value>
+  </data>
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
+    <value>검색으로 새로운 예약 구독하기</value>
+  </data>
+  <data name="pageNewBySearchTopic.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pictureHelpSyndic8.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="pictureHelpSyndic8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblSyndic8Help.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
+    <value>Syndic8</value>
+  </data>
+  <data name="lblSyndic8Help.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnManageSearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
+    <value>관리...</value>
+  </data>
+  <data name="btnManageSearchEngines.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblNewBySearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
+    <value>검색 엔진:</value>
+  </data>
+  <data name="lblNewBySearchEngines.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="cboNewBySearchEngines.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="cboNewBySearchEngines.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblNewBySearchIntro.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
+    <value>결과는 사용된 검색 엔진에 따라 다를 수 있습니다.  어떤 검색 결과들은 온라인 피드(Feed) 결과 서버스로 여러분들이 직접 Syndic8 등과 같은 웹 피드(Feed) 결과로 찾으실 수도  있습니다.다른 결과들은 단순히 웹 피드(Feed)에서 검색된 결과 입니다.</value>
+  </data>
+  <data name="lblNewBySearchIntro.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="txtNewBySearchWords.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="txtNewBySearchWords.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblNewBySearchWords.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
+    <value>키워드 혹은 제목:</value>
+  </data>
+  <data name="lblNewBySearchWords.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageValidateUrl.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="pageValidateUrl.Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageValidateUrl.ProceedText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageValidateUrl.Text" xml:space="preserve">
+    <value>진행중....</value>
+  </data>
+  <data name="pageValidateUrl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblValidationTask2.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblValidationTask2.Text" xml:space="preserve">
+    <value>계류중</value>
+  </data>
+  <data name="lblValidationTask2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblValidationTask1.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblValidationTask1.Text" xml:space="preserve">
+    <value>진행중</value>
+  </data>
+  <data name="lblValidationTask1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pbar.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="pbar.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblWaitStepIntro.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
+    <value>현재 아래와 같은 작업을 진행 중입니다: </value>
+  </data>
+  <data name="lblWaitStepIntro.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
+    <value>예약 구독을 원하시는 피드(Feed)를 선택해 주세요</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.ProceedText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
+    <value>다중 선택된 피드(Feed)를 찾았습니다.</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="listFeeds.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="listFeeds.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
+    <value>아래의 리스트로 부터 피드(Fee) 하나를 선택 하시고 새로운 예약 구독에 관한 상세한 사항들을 확인하시려면 다음 버튼을 눌러 주세요.</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
+    <value>만약 원하시는 피드(Feedd)의 검색 결과가 없을 경우 에는 이전 버튼을 누르셔서 새로운 검색을 시작해 주세요.</value>
+  </data>
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
+    <value>아래와 같은 피드(Feed)를 찾았습니다.</value>
+  </data>
+  <data name="pageTitleCategory.Description" xml:space="preserve">
+    <value>제목을 확인해 주시고 해당하는 목록을 선택해 주세요.</value>
+  </data>
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
+    <value>다음 단계로 가시려면 다음 버튼을 눌러 주시거나 완료 버튼을 누르셔서 새로운 예약 구독을 더 해 주세요.</value>
+  </data>
+  <data name="pageTitleCategory.Text" xml:space="preserve">
+    <value>제목과 목록</value>
+  </data>
+  <data name="lblFeedCategory.Text" xml:space="preserve">
+    <value>목록:</value>
+  </data>
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
+    <value>여기서 예약 구독을 위해서 제목을 알려 확인해 주실수 있고 새롭거나 기존의 목록을 더하실 수 있습니다</value>
+  </data>
+  <data name="lblFeedTitle.Text" xml:space="preserve">
+    <value>&amp;제목:</value>
+  </data>
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
+    <value>필요시, 인증 정보를 입력해 주세요.</value>
+  </data>
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
+    <value>피드(Feed)나 아이템 컨트롤 설정을 변경하시거나 새로 입력하시려면 다음 버튼을 눌러 주세요</value>
+  </data>
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
+    <value>예약 구독 인증 정보</value>
+  </data>
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
+    <value> 이곳에 예약 구독에 접속 하실수 있는 사용자 이름과 비밀 번호를 넣으시면 됩니다.</value>
+  </data>
+  <data name="lblUsername.Text" xml:space="preserve">
+    <value>&amp;사용자 이름:</value>
+  </data>
+  <data name="lblPassword.Text" xml:space="preserve">
+    <value>&amp;비밀 번호:</value>
+  </data>
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
+    <value>아래의 특정의 예약 구독 설정 설정은 피드(Feed)와 아이템을 위한 것 입니다.</value>
+  </data>
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
+    <value>다음 단계로 가시기를 원하시면, 다음 버튼을 눌러 주시고, 새로운 예약 구독 더하기를 끝마치시기를 원하시면 마침 버튼을 눌러 주세요.</value>
+  </data>
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
+    <value>피드(Feed)/아이템 컨트롤</value>
+  </data>
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
+    <value>기존에 더해진 예약 구독 제거:</value>
+  </data>
+  <data name="lblMinutes.Text" xml:space="preserve">
+    <value>분</value>
+  </data>
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
+    <value>업데이트 빈도 수:</value>
+  </data>
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
+    <value>&amp;기존의 피드(Feed)를 이미 읽은 글로 표시하기</value>
+  </data>
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
+    <value>이곳에서는 원하시는 업데이트 요청 빈도 수와 자동으로 연결되어진 아이템들을 조정하기 위해서 사용 되는 새로운 받은 아이템 이벤트 기능을 변경 하실 수 있습니다. </value>
+  </data>
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
+    <value>&amp;새로 받은 아이템들을 윈도우에 알려주는 기능 허락하기</value>
+  </data>
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
+    <value>임의의 설정창은 피드(Feed) 나 아이템들을 보여주는 것을 조정 할수 있도록 합니다.</value>
+  </data>
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
+    <value>다음 버튼을 눌러서 다음 창으로 계속 진행 하시거나 마침 버튼을 눌러서 새로운 얘약 구독 더하기를 끝냅니다.</value>
+  </data>
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
+    <value>피드(Feed)/아이템 디스플레이</value>
+  </data>
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
+    <value>&amp;스타일 시트 전체 구성</value>
+  </data>
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
+    <value>&amp;맞춤 방식으로 사용하기</value>
+  </data>
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
+    <value>디폴트 피드(Feed)나 아이템 형식을 이용하시거나 변형하신 XSLT 형식을 사용하세요</value>
+  </data>
+  <data name="finishPage.FinishText" xml:space="preserve">
+    <value>항상 하나의 예약 구독을 마치셔야 됩니다.  예약 구독을 하시려면, 마침 버튼을 눌러주세요.</value>
+  </data>
+  <data name="finishPage.ProceedText" xml:space="preserve">
+    <value>이 마법사 창을 닫으시려면 마침 버튼을 눌러 주세요.</value>
+  </data>
+  <data name="finishPage.Text" xml:space="preserve">
+    <value>완료!</value>
+  </data>
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
+    <value>선택하신 예약 구독이 예약 구독 리스트에 더해질 준비가 되었습니다.</value>
+  </data>
+  <data name="pageHowToSelection.Description" xml:space="preserve">
+    <value>예약 구독 기능은 특정한 내용들로 부터 뉴스 아이템들을 저정 하실 수 있도록  합니다. 지금 새 예약 구독을 더해 보시는 것을 어떻겠습니까?</value>
+  </data>
+  <data name="pageHowToSelection.Text" xml:space="preserve">
+    <value>새 예약 구독</value>
+  </data>
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
+    <value>NNTP news그룹을 예약 구독 하고 싶습니다.</value>
+  </data>
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
+    <value>다음 중 하나의 옵션을 선택하셔서 새로운 예약 구독 리스트에 더해 주세요:</value>
+  </data>
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
+    <value>키워드를 이용하여서 예약 구독을 검색하고 싶습니다.</value>
+  </data>
+  <data name="radioNewByURL.Text" xml:space="preserve">
+    <value>웹 피드(Feed) 나 웹사이트 URL 을 입력 하고 싶습니다.</value>
+  </data>
+  <data name="pageNewByURL.Description" xml:space="preserve">
+    <value>특별한 곳에서 검색 되어지는 웹 피드(Feed)를 예약 구독에 더하기.</value>
+  </data>
+  <data name="pageNewByURL.Text" xml:space="preserve">
+    <value>URL 을 사용하여 새 예약 구독 더하기</value>
+  </data>
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
+    <value>불법이 아닌 URL만 사용합니다.</value>
+  </data>
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
+    <value>자동찾기</value>
+  </data>
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
+    <value>새로운 피드(Feed) 를 자동으로 찾고 확인하기</value>
+  </data>
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
+    <value>만약 여러분이 웹 피드(Feed) 나 웹 사이트 페이지 URL을 정확히 모르실 경우, RSS Bandit 가 자동 검색 기능으로 찾을 수 있도록 도움을 드립니다.</value>
+  </data>
+  <data name="lblNewByURL.Text" xml:space="preserve">
+    <value>URL:</value>
+  </data>
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
+    <value>이 마법사는 다음과 같은 도움을 줍니다:</value>
+  </data>
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
+    <value>다음 단계로진행하시려면 다음 버튼을 눌러 주세요.</value>
+  </data>
+  <data name="pageWelcome.Text" xml:space="preserve">
+    <value>예약 구독 넣기 마법사에 오신것을 환영합니다.</value>
+  </data>
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
+    <value>항상 Welcome Page 로 보여주기</value>
+  </data>
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
+    <value>이 마법사를 사용하시려면 몇 단계를 거치셔서 인터넷트에 접속을 하고 있스셔야 됩니다. 그렇지 않 경우에는, 여러 분의 컴퓨터가 인터넷트에 접속되어 있어야 합니다.</value>
+  </data>
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
+    <value>• 이용하실 수 있는 피드(Feed) 나 키워드에 의해서 검색된 특정한 피드(Feed)를 HTML 페이지에서 확인 하실 수 있도록 합니다.</value>
+  </data>
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
+    <value>• 예약 구독 출처를 확인하고 완벽한 인증 정보와 같은 추가의 설정들을 관리하실 수 있습니다.</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
+    <value>NNTP 서버 하나를 선택 하시고 원하시는 예약 구독 그룹을 선택해 하십시오</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
+    <value>유스넷 사용자 그룹 뉴스를 새 예약 구독에 더 하기</value>
+  </data>
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
+    <value>유스넷 </value>
+  </data>
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
+    <value>그룹의 리스트를 다시 올립니다.</value>
+  </data>
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
+    <value>그룹들:</value>
+  </data>
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
+    <value>관리...</value>
+  </data>
+  <data name="lblNNTPServer.Text" xml:space="preserve">
+    <value>NNTP 서버:</value>
+  </data>
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
+    <value>유스넷 사용자 모임 소식을 예약 구독 하시기 위해서는 적어도 하나의 NNTP 서버를 입력해 주셔야 합니다. "관리..."버튼을 누루셔서 새로운 환경으로 정보를 업데이트 하시면 됩니다.</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>예약 구독 마법사에 더하기</value>
+  </data>
+  <data name="lblFeedSources.Text" xml:space="preserve">
+    <value>예약 구독 출처:</value>
+  </data>
 </root>

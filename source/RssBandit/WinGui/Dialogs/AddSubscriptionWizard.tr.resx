@@ -60,462 +60,452 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  
-  <data name="_btnImmediateFinish.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_btnImmediateFinish.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnManageSearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="btnManageSearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewBySearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  
-  
-  <data name="lblNewBySearchIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewBySearchWords.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchWords.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTaskImage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTaskImage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTask2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTask2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTaskImage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTaskImage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTask1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTask1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="pbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWaitStepIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWaitStepIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFoundHint1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFoundHint2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedCategory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedCategory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblPageTitleCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblPageTitleCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblUsername.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblUsername.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="textPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="textPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblRemoveItemsOlderThan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblRemoveItemsOlderThan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMinutes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMinutes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblUpdateFrequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblUpdateFrequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkMarkItemsReadOnExiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkMarkItemsReadOnExiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedItemControlIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedItemControlIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkEnableAlertOnNewItems.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkEnableAlertOnNewItems.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  
-  <data name="lblFormatterStylesheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFormatterStylesheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkUseCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkUseCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedItemDisplayIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedItemDisplayIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblCompletionMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblCompletionMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByNNTPGroup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByNNTPGroup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblHowToSubscribeIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblHowToSubscribeIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByTopicSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByTopicSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkDisplayWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="chkDisplayWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWelcomeHelpMessage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWelcomeHelpMessage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWelcomeHelpMessage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWelcomeHelpMessage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNNTPGroups.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNNTPGroups.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnManageNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="btnManageNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByNNTPGroupIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByNNTPGroupIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMinutes.Text">
+  <data name="lblMinutes.Text" xml:space="preserve">
     <value>dakikada bir</value>
   </data>
-  <data name="pageValidateUrl.Text">
+  <data name="pageValidateUrl.Text" xml:space="preserve">
     <value>Lütfen bekleyin...</value>
   </data>
-  <data name="cboUpdateFrequency.Items8">
-    <value>120</value>
-  </data>
-  <data name="cboUpdateFrequency.Items3">
-    <value>45</value>
-  </data>
-  <data name="cboUpdateFrequency.Items5">
-    <value>75</value>
-  </data>
-  <data name="cboUpdateFrequency.Items6">
-    <value>90</value>
-  </data>
-  <data name="pageWelcome.Text">
+  <data name="pageWelcome.Text" xml:space="preserve">
     <value>Abonelik Ekleme Sihirbazı'na hoşgeldiniz!</value>
   </data>
-  <data name="cboUpdateFrequency.Items">
-    <value>0</value>
-  </data>
-  <data name="lblNewByURL.Text">
+  <data name="lblNewByURL.Text" xml:space="preserve">
     <value>Adres:</value>
   </data>
-  <data name="lblPassword.Text">
+  <data name="lblPassword.Text" xml:space="preserve">
     <value>&amp;Parola:</value>
   </data>
-  <data name="pageFoundMultipleFeeds.Text">
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
     <value>Birden çok kaynak bulundu</value>
   </data>
-  <data name="lblNewByNNTPGroupIntro.Text">
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
     <value>Bir NNTP habergrubuna abone olabilmek için en azından bir NNTP sunucusu tanımlamış olmanız gerekiyor. "Düzenle..." düğmesine tıklayarak yeni bir sunucu tanımlayabilir veya varolan bir sunucunun özelliklerini değiştirebilirsiniz.</value>
   </data>
-  <data name="lblFeedCategory.Text">
+  <data name="lblFeedCategory.Text" xml:space="preserve">
     <value>Kategori:</value>
   </data>
-  <data name="pageNewByURL.Text">
+  <data name="pageNewByURL.Text" xml:space="preserve">
     <value>Adres girerek yeni abone olma</value>
   </data>
-  <data name="pageFeedCredentials.Text">
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
     <value>Kimlik Doğrulama</value>
   </data>
-  <data name="chkDisplayWelcome.Text">
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
     <value>Bu Sihirbaz'a Hoşgeldiniz sayfasını herzaman göster</value>
   </data>
-  <data name="lblWaitStepIntro.Text">
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
     <value>Bu aşama aşağıdaki görevleri kapsar:</value>
   </data>
-  <data name="lblCompletionMessage.Text">
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
     <value>Yeni aboneliğiniz abonelik listenize eklenmeye hazır.</value>
   </data>
-  <data name="btnManageSearchEngines.Text">
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
     <value>Düzenle...</value>
   </data>
-  <data name="lblWelcomeInfoBox.Text">
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
     <value>Sihirbazı kullanırken ilerleyen aşamalarda internete bağlı olmanız gerekecektir! Eğer değilseniz, şimdi bağlanmanız yerinde olur.</value>
   </data>
-  <data name="pageFeedItemDisplay.Text">
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
     <value>Kaynak/Mesaj Görünümü</value>
   </data>
-  <data name="lblFeedItemDisplayIntro.Text">
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
     <value>Varsayılan kaynak/mesaj biçimleyicisini kullanın veya özel bir XSLT biçimleyicisi seçin.</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint2.Text">
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
     <value>Eğer istediğiniz kaynak listede yoksa "Geri" düğmesine tıklayarak yeni bir arama başlatın.</value>
   </data>
-  <data name="lblUsername.Text">
+  <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;Kullanıcı Adı:</value>
   </data>
-  <data name="lblPageTitleCredentialsIntro.Text">
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
     <value>Aşağıda abonelik için bir başlık belirleyebilir ve onu yeni yada varolan bir kategoriye ekleyebilirsiniz.</value>
   </data>
-  <data name="lblNewBySearchWords.Text">
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
     <value>Anahtar sözcük(ler) veya konu:</value>
   </data>
-  <data name="pageNewBySearchTopic.Text">
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
     <value>Arama yaparak yeni abone olma</value>
   </data>
-  <data name="pageFeedItemControl.Text">
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
     <value>Kaynak/Mesaj Denetimi</value>
   </data>
-  <data name="checkUseCustomFormatter.Text">
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
     <value>&amp;Özel bir biçimleyici kullan</value>
   </data>
-  <data name="pageNewByNNTPGroup.Text">
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
     <value>Bir NNTP habergrubuna abone olma</value>
   </data>
-  <data name="lblNNTPServer.Text">
+  <data name="lblNNTPServer.Text" xml:space="preserve">
     <value>NNTP Sunucusu:</value>
   </data>
-  <data name="pageHowToSelection.Text">
+  <data name="pageHowToSelection.Text" xml:space="preserve">
     <value>Yeni Abonelik</value>
   </data>
-  <data name="btnManageNNTPServer.Text">
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
     <value>Düzenle...</value>
   </data>
-  <data name="lblFeedCredentialsIntro.Text">
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
     <value>Aşağıda, eğer varsa, haber kaynağına erişim için gereken kullanıcı adı ve parola bilgilerini belirleyebilirsiniz</value>
   </data>
-  <data name="lblHowToSubscribeIntro.Text">
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
     <value>Yeni bir abonelik eklemek için lütfen aşağıdaki yöntemlerden birini seçin:</value>
   </data>
-  <data name="lblValidationTask1.Text">
+  <data name="lblValidationTask1.Text" xml:space="preserve">
     <value>Devam ediyor</value>
   </data>
-  <data name="lblNewBySearchEngines.Text">
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
     <value>Arama motoru:</value>
   </data>
-  <data name="wizard.Text">
+  <data name="wizard.Text" xml:space="preserve">
     <value>sihirbaz</value>
   </data>
-  <data name="checkEnableAlertOnNewItems.Text">
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
     <value>&amp;Yeni mesaj alındığında bilgi penceresini göster</value>
   </data>
-  <data name="lblFeedItemControlIntro.Text">
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
     <value>Aşağıda yeni mesajlar alındığında nasıl bildirim yapılacağını düzenleyebilir, eskiyen mesajların ne kadar zaman sonra otomatik olarak silineceğini belirleyebilir ve güncelleme sıklığını değiştirebilirsiniz.</value>
   </data>
-  <data name="lblNNTPGroups.Text">
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
     <value>Gruplar:</value>
   </data>
-  <data name="lblNewByURLIntro.Text">
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
     <value>Eğer haber kaynağının adresinden emin değilseniz, web sitesinin veya sayfasının tarayıcı adresini girin ve RSS Bandit kaynağı otomatik olarak bulsun.</value>
   </data>
-  <data name="cboUpdateFrequency.Items1">
-    <value>15</value>
-  </data>
-  <data name="cboUpdateFrequency.Items2">
-    <value>30</value>
-  </data>
-  <data name="cboUpdateFrequency.Items4">
-    <value>60</value>
-  </data>
-  <data name="cboUpdateFrequency.Items7">
-    <value>105</value>
-  </data>
-  <data name="lblWelcomeHelpMessage2.Text">
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
     <value>• Abonelik kaynağının geçerliliğini sınamanıza ve başarılı bir erişim için gerekebilecek kimlik bilgilerini (örn: kullanıcı adı) düzenlemenize yardımcı olur.</value>
   </data>
-  <data name="radioNewByURL.Text">
+  <data name="radioNewByURL.Text" xml:space="preserve">
     <value>Web sayfasının veya haber kaynağının adresini gireceğim</value>
   </data>
-  <data name="lblMultipleFeedsFound.Text">
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
     <value>Bulunan kaynaklar:</value>
   </data>
-  <data name="finishPage.Text">
+  <data name="finishPage.Text" xml:space="preserve">
     <value>Bitti!</value>
   </data>
-  <data name="_btnImmediateFinish.Text">
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
     <value>Bitir</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint1.Text">
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
     <value>Aşağıdaki listeden bir kaynak seçin ve "İleri" düğmesine tıklayarak yeni abonelik için detayları belirleyin.</value>
   </data>
-  <data name="lblValidationTask2.Text">
+  <data name="lblValidationTask2.Text" xml:space="preserve">
     <value>Beklemede</value>
   </data>
-  <data name="lblNewBySearchIntro.Text">
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
     <value>Sonuçlar kullanılan arama motoruna bağlıdır. Bazıları doğrudan abone olabileceğiniz haber kaynaklarını bulmanızı sağlayan kaynak arama servisleridir (Syndic8). Diğerleri ise sadece arama sonuçlarını web kaynağı olarak gösterebilir.</value>
   </data>
-  <data name="lblFormatterStylesheet.Text">
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
     <value>Biçimleyici &amp;Şablonu:</value>
   </data>
-  <data name="radioNewByNNTPGroup.Text">
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
     <value>Bir NNTP habergrubuna abone olmak istiyorum</value>
   </data>
-  <data name="checkNewByURLValidate.Text">
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
     <value>Kaynağı otomatik olarak bul ve sına</value>
   </data>
-  <data name="lblUpdateFrequency.Text">
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
     <value>Güncelleme sıklığı:</value>
   </data>
-  <data name="pageTitleCategory.Text">
+  <data name="pageTitleCategory.Text" xml:space="preserve">
     <value>Başlık ve Kategori</value>
   </data>
-  <data name="lblWelcomeHelpMessage1.Text">
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
     <value>• Bir HTML sayfasını olası haber kaynakları için taramanıza veya belirli anahtar sözcükleri içeren haber kaynaklarını bulmanıza yardımcı olur.</value>
   </data>
-  <data name="lblFeedTitle.Text">
+  <data name="lblFeedTitle.Text" xml:space="preserve">
     <value>&amp;Başlık:</value>
   </data>
-  <data name="lblRemoveItemsOlderThan.Text">
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
     <value>Bundan daha eski öğeleri sil:</value>
   </data>
-  <data name="radioNewByTopicSearch.Text">
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
     <value>Abonelikleri anahtar sözcükler girerek aramak istiyorum</value>
   </data>
-  <data name="checkMarkItemsReadOnExiting.Text">
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
     <value>&amp;Haber kaynağından çıkışta tüm mesajları okunmuş olarak işaretle</value>
   </data>
-  <data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>Abonelik Ekleme Sihirbazı</value>
   </data>
-  <data name="lblReloadNntpListOfGroups.Text">
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
     <value>Grup listesini yeniden yükle</value>
   </data>
-  <data name="wizard.CancelText">
+  <data name="wizard.CancelText" xml:space="preserve">
     <value>Vazgeç</value>
   </data>
-  <data name="wizard.FinishText">
+  <data name="wizard.FinishText" xml:space="preserve">
     <value>Bitir</value>
   </data>
-  <data name="wizard.HelpText">
+  <data name="wizard.HelpText" xml:space="preserve">
     <value>&amp;Yardım</value>
   </data>
-  <data name="wizard.NextText">
+  <data name="wizard.NextText" xml:space="preserve">
     <value>&amp;İleri &gt;</value>
   </data>
-  <data name="wizard.PreviousText">
+  <data name="wizard.PreviousText" xml:space="preserve">
     <value>&lt; &amp;Geri</value>
   </data>
-  <data name="pageWelcome.IntroductionText">
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
     <value>Bu sihirbaz:</value>
   </data>
-  <data name="pageWelcome.ProceedText">
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
     <value>Devam etmek için "İleri" düğmesini tıklayın.</value>
   </data>
-  <data name="pageTitleCategory.ProceedText">
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
     <value>Lütfen "İleri" düğmesine tıklayarak bir sonraki aşamaya geçin veya "Bitir" düğmesine tıklayarak yeni aboneliğinizi ekleyin</value>
   </data>
-  <data name="pageFeedCredentials.ProceedText">
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
     <value>Kaynak/Mesaj denetim ayarlarını girmek veya değiştirmek için lütfen "İleri" düğmesine tıklayın...</value>
   </data>
-  <data name="pageFeedItemControl.ProceedText">
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
     <value>Lütfen "İleri" düğmesine tıklayarak bir sonraki aşamaya geçin veya "Bitir" düğmesine tıklayarak yeni aboneliğinizi ekleyin</value>
   </data>
-  <data name="pageFeedItemDisplay.ProceedText">
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
     <value>Lütfen "İleri" düğmesine tıklayarak bir sonraki aşamaya geçin veya "Bitir" düğmesine tıklayarak yeni aboneliğinizi ekleyin</value>
   </data>
-  <data name="finishPage.FinishText">
+  <data name="finishPage.FinishText" xml:space="preserve">
     <value>Yeni abonelik ekleme işlemini nerdeyse tamamladınız. "Bitir" düğmesine tıklayarak yeni aboneliğinizi ekleyin.</value>
   </data>
-  <data name="finishPage.ProceedText">
+  <data name="finishPage.ProceedText" xml:space="preserve">
     <value>Bu sihirbazı kapamak için "Bitir" düğmesine tıklayın.</value>
   </data>
-  <data name="pageHowToSelection.Description">
+  <data name="pageHowToSelection.Description" xml:space="preserve">
     <value>Bir abonelik belirli bir kaynaktan alınan haber öğelerini kapsar. Yeni aboneliğinizi hangi yöntemle eklemek istersiniz?</value>
   </data>
-  <data name="pageNewByURL.Description">
+  <data name="pageNewByURL.Description" xml:space="preserve">
     <value>Belirtilen adreste bulunan haber kaynağına abonelik ekler.</value>
   </data>
-  <data name="pageFoundMultipleFeeds.Description">
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
     <value>Lütfen abone olmak istediğiniz kaynağı seçin</value>
   </data>
-  <data name="pageTitleCategory.Description">
+  <data name="pageTitleCategory.Description" xml:space="preserve">
     <value>Lütfen başlığı kontrol edin ve bir kategori seçin</value>
   </data>
-  <data name="pageFeedCredentials.Description">
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
     <value>Eğer gerekiyorsa kimlik doğrulama bilgilerini girin.</value>
   </data>
-  <data name="pageFeedItemControl.Description">
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
     <value>Haber kaynağının ve içerdiği mesajların isteğe bağlı abonelik özellikleri</value>
   </data>
-  <data name="pageFeedItemDisplay.Description">
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
     <value>Haber kaynağının ve içerdiği mesajların isteğe bağlı görünüm özellikleri</value>
   </data>
-  <data name="pageNewBySearchTopic.Description">
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
     <value>Arama yapmak istediğiniz anahtar sözcükleri ve konuları belirtin.</value>
   </data>
-  <data name="pageNewByNNTPGroup.Description">
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
     <value>Bir NNTP sunucusu seçin ve abone olmak istediğiniz grubu belirleyin.</value>
   </data>
-  <data name="lblUsenetHelp.Text">
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
     <value>Usenet Habergrupları</value>
   </data>
-  <data name="lblAutodiscoverHelp.Text">
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
     <value>Otomatik olarak bul</value>
   </data>
-  <data name="lblSyndic8Help.Text">
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
     <value>Syndic8</value>
   </data>
-<data name="linkLabelCanonicalUrl.ToolTip">
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
     <value>The canonicalized URL we will use</value>
   </data>
-	<data name="lblFeedSources.Text" space="preserve">
+  <data name="lblFeedSources.Text" xml:space="preserve">
     <value>Subscription Source:</value>
   </data>
-	</root>
+</root>

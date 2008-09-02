@@ -172,40 +172,13 @@
   <data name="button2.Text" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
-  <data name="comboBox1.Items" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="comboBox1.Items1" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="comboBox1.Items2" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="comboBox1.Items3" xml:space="preserve">
-    <value>45</value>
-  </data>
-  <data name="comboBox1.Items4" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="comboBox1.Items5" xml:space="preserve">
-    <value>75</value>
-  </data>
-  <data name="comboBox1.Items6" xml:space="preserve">
-    <value>90</value>
-  </data>
-  <data name="comboBox1.Items7" xml:space="preserve">
-    <value>105</value>
-  </data>
-  <data name="comboBox1.Items8" xml:space="preserve">
-    <value>120</value>
-  </data>
-<data name="tabAttachments.Text">
+  <data name="tabAttachments.Text" xml:space="preserve">
     <value>Podcasts\Attachments</value>
   </data>
-	<data name="checkDownloadEnclosures.Text">
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
     <value>Automatically download attachments and podcasts</value>
   </data>
-	<data name="checkEnableEnclosureAlerts.Text">
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
     <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
   </data>
-	</root>
+</root>

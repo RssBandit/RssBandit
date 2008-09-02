@@ -3,7 +3,7 @@
   <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -59,460 +60,452 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="_btnImmediateFinish.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_btnImmediateFinish.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnManageSearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="btnManageSearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewBySearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  
-  <data name="lblNewBySearchIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewBySearchWords.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewBySearchWords.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTaskImage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTaskImage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTask2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTask2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTaskImage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTaskImage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblValidationTask1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblValidationTask1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="pbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWaitStepIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWaitStepIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFoundHint1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFoundHint2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFoundHint2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMultipleFeedsFound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMultipleFeedsFound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedCategory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedCategory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblPageTitleCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblPageTitleCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblUsername.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblUsername.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="textPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="textPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblRemoveItemsOlderThan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblRemoveItemsOlderThan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblMinutes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblMinutes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblUpdateFrequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblUpdateFrequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkMarkItemsReadOnExiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkMarkItemsReadOnExiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedItemControlIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedItemControlIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkEnableAlertOnNewItems.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkEnableAlertOnNewItems.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  
-  <data name="lblFormatterStylesheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFormatterStylesheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkUseCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkUseCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblFeedItemDisplayIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblFeedItemDisplayIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblCompletionMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblCompletionMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByNNTPGroup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByNNTPGroup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblHowToSubscribeIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblHowToSubscribeIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByTopicSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByTopicSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="radioNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="radioNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkDisplayWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="chkDisplayWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWelcomeHelpMessage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWelcomeHelpMessage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblWelcomeHelpMessage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblWelcomeHelpMessage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNNTPGroups.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNNTPGroups.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnManageNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="btnManageNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblNewByNNTPGroupIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="lblNewByNNTPGroupIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-<data name="lblMinutes.Text">
+  <data name="lblMinutes.Text" xml:space="preserve">
     <value>分</value>
   </data>
-	<data name="pageValidateUrl.Text">
+  <data name="pageValidateUrl.Text" xml:space="preserve">
     <value>請稍後...</value>
   </data>
-	<data name="cboUpdateFrequency.Items8">
-    <value>120</value>
-  </data>
-	<data name="cboUpdateFrequency.Items3">
-    <value>45</value>
-  </data>
-	<data name="cboUpdateFrequency.Items5">
-    <value>75</value>
-  </data>
-	<data name="cboUpdateFrequency.Items6">
-    <value>90</value>
-  </data>
-	<data name="pageWelcome.Text">
+  <data name="pageWelcome.Text" xml:space="preserve">
     <value>歡迎使用訂閱新增精靈!</value>
   </data>
-	<data name="cboUpdateFrequency.Items">
-    <value>0</value>
-  </data>
-	<data name="lblNewByURL.Text">
+  <data name="lblNewByURL.Text" xml:space="preserve">
     <value>URL:</value>
   </data>
-	<data name="lblPassword.Text">
-		<value>&amp;P密碼:</value>
-	</data>
-	<data name="pageFoundMultipleFeeds.Text">
+  <data name="lblPassword.Text" xml:space="preserve">
+    <value>&amp;P密碼:</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
     <value>找到多個新聞</value>
   </data>
-	<data name="lblNewByNNTPGroupIntro.Text">
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
     <value>可以訂閱 NNTP 新聞群組, 你必須定義至少一個 NNTP 伺服器. 你可以按下 "管理..." to create a new one or chan來建立新的或變更設定.</value>
   </data>
-	<data name="lblFeedCategory.Text">
+  <data name="lblFeedCategory.Text" xml:space="preserve">
     <value>類別:</value>
   </data>
-	<data name="pageNewByURL.Text">
+  <data name="pageNewByURL.Text" xml:space="preserve">
     <value>由URL新增訂閱</value>
   </data>
-	<data name="pageFeedCredentials.Text">
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
     <value>訂閱認證</value>
   </data>
-	<data name="chkDisplayWelcome.Text">
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
     <value>總是顯示這個精靈歡迎頁面</value>
   </data>
-	<data name="lblWaitStepIntro.Text">
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
     <value>本步驟套用下面工作(s):</value>
   </data>
-	<data name="lblCompletionMessage.Text">
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
     <value>該訂閱已加入到你的訂閱清單中.</value>
   </data>
-	<data name="btnManageSearchEngines.Text">
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
     <value>管理...</value>
   </data>
-	<data name="lblWelcomeInfoBox.Text">
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
     <value>精靈在某些步驟需要連線到網路上! 若沒有, 請確認你的電腦已連上.</value>
   </data>
-	<data name="pageFeedItemDisplay.Text">
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
     <value>新聞/項目 顯示</value>
   </data>
-	<data name="lblFeedItemDisplayIntro.Text">
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
     <value>使用預設新聞/項目 格式或選擇自定的 XSLT 格式器.</value>
   </data>
-	<data name="lblMultipleFeedsFoundHint2.Text">
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
     <value>如果要求的新聞不能夠在清單中找到, 請按上一步重新初使化新的搜尋.</value>
   </data>
-	<data name="lblUsername.Text">
+  <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;U使用者名稱:</value>
   </data>
-	<data name="lblPageTitleCredentialsIntro.Text">
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
     <value>在這你可以指定訂閱的標題並且加入到新的或現有類別中</value>
   </data>
-	<data name="lblNewBySearchWords.Text">
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
     <value>關鍵字 或 標題:</value>
   </data>
-	<data name="pageNewBySearchTopic.Text">
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
     <value>由搜尋中新增訂閱</value>
   </data>
-	<data name="pageFeedItemControl.Text">
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
     <value>新聞/項目 控制</value>
   </data>
-	<data name="checkUseCustomFormatter.Text">
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
     <value>使用自訂格式器&amp;c</value>
   </data>
-	<data name="pageNewByNNTPGroup.Text">
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
     <value>NNTP 群組中新的訂閱</value>
   </data>
-	<data name="lblNNTPServer.Text">
+  <data name="lblNNTPServer.Text" xml:space="preserve">
     <value>NNTP 伺服器:</value>
   </data>
-	<data name="pageHowToSelection.Text">
+  <data name="pageHowToSelection.Text" xml:space="preserve">
     <value>新增訂閱</value>
   </data>
-	<data name="btnManageNNTPServer.Text">
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
     <value>管理...</value>
   </data>
-	<data name="lblFeedCredentialsIntro.Text">
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
     <value>這裡你可以指定使用者名稱及密碼來存取訂閱 (若有指定)</value>
   </data>
-	<data name="lblHowToSubscribeIntro.Text">
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
     <value>請選擇一個選項於你想要加入新的訂閱:</value>
   </data>
-	<data name="lblValidationTask1.Text">
+  <data name="lblValidationTask1.Text" xml:space="preserve">
     <value>處理中</value>
   </data>
-	<data name="lblNewBySearchEngines.Text">
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
     <value>搜尋引擎:</value>
   </data>
-	<data name="wizard.Text">
+  <data name="wizard.Text" xml:space="preserve">
     <value>精靈</value>
   </data>
-	<data name="checkEnableAlertOnNewItems.Text">
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
     <value>&amp;E當收到項目時啟動警告視窗</value>
   </data>
-	<data name="lblFeedItemControlIntro.Text">
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
     <value>你可以變更應用軟體行為於 "收到新項目" 事件, 項目最大時效控制的自動清除且更新頻率.</value>
   </data>
-	<data name="lblNNTPGroups.Text">
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
     <value>群組:</value>
   </data>
-	<data name="lblNewByURLIntro.Text">
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
     <value>如果你不確定有關的網站新聞URL, 輸入瀏覽器中網站的網址或網頁,RSS Bandit將會嚐試自動找出新聞.</value>
   </data>
-	<data name="cboUpdateFrequency.Items1">
-    <value>15</value>
-  </data>
-	<data name="cboUpdateFrequency.Items2">
-    <value>30</value>
-  </data>
-	<data name="cboUpdateFrequency.Items4">
-    <value>60</value>
-  </data>
-	<data name="cboUpdateFrequency.Items7">
-    <value>105</value>
-  </data>
-	<data name="lblWelcomeHelpMessage2.Text">
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
     <value>成功後可能需要認證訂閱來源及管理額外屬性 (例如 憑證).</value>
   </data>
-	<data name="radioNewByURL.Text">
+  <data name="radioNewByURL.Text" xml:space="preserve">
     <value>我將輸入網站或網頁的網址</value>
   </data>
-	<data name="lblMultipleFeedsFound.Text">
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
     <value>找到的新聞:</value>
   </data>
-	<data name="finishPage.Text">
+  <data name="finishPage.Text" xml:space="preserve">
     <value>完成!</value>
   </data>
-	<data name="_btnImmediateFinish.Text">
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
     <value>完畢</value>
   </data>
-	<data name="lblMultipleFeedsFoundHint1.Text">
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
     <value>從清單中, 選擇新聞, 然後按下一步指定新訂閱的詳細資料.</value>
   </data>
-	<data name="lblValidationTask2.Text">
+  <data name="lblValidationTask2.Text" xml:space="preserve">
     <value>被耽擱</value>
   </data>
-	<data name="lblNewBySearchIntro.Text">
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
     <value>這結果根據使用的搜尋引擎. 有些搜尋引擎是線上搜尋服務去搜尋相關網站新聞 (Syndic8). 其他提供搜尋結果作為網站新聞.</value>
   </data>
-	<data name="lblFormatterStylesheet.Text">
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
     <value>格式器格式表&amp;S:</value>
   </data>
-	<data name="radioNewByNNTPGroup.Text">
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
     <value>我想要訂閱 NNTP 新聞群組</value>
   </data>
-	<data name="checkNewByURLValidate.Text">
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
     <value>自動探索且檢查新聞</value>
   </data>
-	<data name="lblUpdateFrequency.Text">
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
     <value>更新頻率:</value>
   </data>
-	<data name="pageTitleCategory.Text">
+  <data name="pageTitleCategory.Text" xml:space="preserve">
     <value>標題及類別</value>
   </data>
-	<data name="lblWelcomeHelpMessage1.Text">
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
     <value>• 根據只指定的關鍵字檢查HTML網頁中可用的新聞.</value>
   </data>
-	<data name="lblFeedTitle.Text">
+  <data name="lblFeedTitle.Text" xml:space="preserve">
     <value>&amp;T標題:</value>
   </data>
-	<data name="lblRemoveItemsOlderThan.Text">
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
     <value>移除項目超過:</value>
   </data>
-	<data name="radioNewByTopicSearch.Text">
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
     <value>我要根據關鍵字搜尋訂閱</value>
   </data>
-	<data name="checkMarkItemsReadOnExiting.Text">
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
     <value>&amp;M標記現有新聞為閱讀</value>
   </data>
-	<data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>新增訂閱精靈</value>
   </data>
-	<data name="lblReloadNntpListOfGroups.Text">
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
     <value>重新載入群組清單</value>
   </data>
-	<data name="wizard.CancelText">
+  <data name="wizard.CancelText" xml:space="preserve">
     <value>取消</value>
   </data>
-	<data name="wizard.FinishText">
+  <data name="wizard.FinishText" xml:space="preserve">
     <value>完成</value>
   </data>
-	<data name="wizard.HelpText">
+  <data name="wizard.HelpText" xml:space="preserve">
     <value>&amp;H幫助</value>
   </data>
-	<data name="wizard.NextText">
+  <data name="wizard.NextText" xml:space="preserve">
     <value>&amp;N下一步 &gt;</value>
   </data>
-	<data name="wizard.PreviousText">
+  <data name="wizard.PreviousText" xml:space="preserve">
     <value>&lt; &amp;B上一步</value>
   </data>
-	<data name="pageWelcome.IntroductionText">
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
     <value>本精靈幫助你:</value>
   </data>
-	<data name="pageWelcome.ProceedText">
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
     <value>繼續, 請按下一步.</value>
   </data>
-	<data name="pageTitleCategory.ProceedText">
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
     <value>請按"下一步"繼續下一個階段或按"完成"加入新的訂閱</value>
   </data>
-	<data name="pageFeedCredentials.ProceedText">
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
     <value>請按"下一步"輸入或變更新聞/項目控制設定...</value>
   </data>
-	<data name="pageFeedItemControl.ProceedText">
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
     <value>請按"下一步"繼續下一個階段或按"完成"加入新的訂閱</value>
   </data>
-	<data name="pageFeedItemDisplay.ProceedText">
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
     <value>請按"下一步"繼續下一個階段或按"完成"加入新的訂閱</value>
   </data>
-	<data name="finishPage.FinishText">
+  <data name="finishPage.FinishText" xml:space="preserve">
     <value>你必須完成加入新的訂閱. 按下"完成"鍵加入你的新訂閱.</value>
   </data>
-	<data name="finishPage.ProceedText">
+  <data name="finishPage.ProceedText" xml:space="preserve">
     <value>關閉這個精靈, 按下"完成"鍵.</value>
   </data>
-	<data name="pageHowToSelection.Description">
+  <data name="pageHowToSelection.Description" xml:space="preserve">
     <value>有新的訂閱清單. 你要加入新的訂閱嗎?</value>
   </data>
-	<data name="pageNewByURL.Description">
+  <data name="pageNewByURL.Description" xml:space="preserve">
     <value>訂閱指定位址的網站新聞中找到新的新聞.</value>
   </data>
-	<data name="pageFoundMultipleFeeds.Description">
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
     <value>請由訂閱中選擇想要的新聞</value>
   </data>
-	<data name="pageTitleCategory.Description">
+  <data name="pageTitleCategory.Description" xml:space="preserve">
     <value>請檢驗標題及選擇一個類別</value>
   </data>
-	<data name="pageFeedCredentials.Description">
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
     <value>必要的話請輸入憑證資訊.</value>
   </data>
-	<data name="pageFeedItemControl.Description">
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
     <value>該新聞及項目中可選擇的訂閱屬性選項</value>
   </data>
-	<data name="pageFeedItemDisplay.Description">
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
     <value>該選項屬性來控制顯示新聞及項目中</value>
   </data>
-	<data name="pageNewBySearchTopic.Description">
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
     <value>給予關鍵字或標題來尋找相關網站新聞或搜尋結果.</value>
   </data>
-	<data name="pageNewByNNTPGroup.Description">
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
     <value>選擇 NNTP 伺服器並從提供的新聞群組清單選擇你要訂閱的新聞群組.</value>
   </data>
-	<data name="lblUsenetHelp.Text">
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
     <value>Usenet</value>
   </data>
-	<data name="lblAutodiscoverHelp.Text">
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
     <value>Autodiscover</value>
   </data>
-	<data name="lblSyndic8Help.Text">
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
     <value>Syndic8</value>
   </data>
-	<data name="linkLabelCanonicalUrl.ToolTip">
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
     <value>The canonicalized URL we will use</value>
   </data>
-	<data name="lblFeedSources.Text" space="preserve">
+  <data name="lblFeedSources.Text" xml:space="preserve">
     <value>Subscription Source:</value>
   </data>
-	</root>
+</root>
