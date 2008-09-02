@@ -10,8 +10,10 @@
 #region usings
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml; 
 using System.Xml.Serialization;
@@ -21,8 +23,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Net;
-using System.Text;
+using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
+using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Dialogs;
@@ -1590,44 +1593,79 @@ namespace RssBandit.WinGui.Utility {
 	}
 
 	#endregion
-}
 
-#region CVS Version Log
-/*
- * $Log: WinGUIWidgetHelpers.cs,v $
- * Revision 1.91  2007/07/21 12:26:57  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.90  2007/03/19 10:43:05  t_rendelmann
- * changed: better handling of favicon's (driven by extension now); we are now looking for the smallest and smoothest icon image to use (if ICO)
- *
- * Revision 1.89  2007/02/17 12:35:28  t_rendelmann
- * new: "Show item full texts" is now a context menu option on search folders
- *
- * Revision 1.88  2007/01/30 21:17:43  carnage4life
- * Added support for remembering browser tab state on restart
- *
- * Revision 1.87  2007/01/12 14:55:26  t_rendelmann
- * cont. SearchPanel: added localization support
- *
- * Revision 1.86  2006/11/23 18:16:23  t_rendelmann
- * give Vista/MS a chance to fix that issue with the next hotfix
- *
- * Revision 1.85  2006/11/22 22:44:20  carnage4life
- * Made change to handle issue where Bandit always thinks it is offline on Windows Vista
- *
- * Revision 1.84  2006/10/28 16:38:27  t_rendelmann
- * added: new "Unread Items" folder, not anymore based on search, but populated directly with the unread items
- *
- * Revision 1.83  2006/09/29 18:14:38  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- * d) fixed: issue [ 1546921 ] Extra Category Folders Created
- * e) fixed: issue [ 1550083 ] Problem when renaming categories
- *
- * Revision 1.82  2006/08/18 14:15:39  t_rendelmann
- * fixed: www.nyi.com is not anymore available (was used as one of the probe Urls)
- *
- */
-#endregion
+	internal static class CertificateHelper
+	{
+		public static void ShowCertificate(X509Certificate2 certificate, IntPtr hwndParent)
+		{
+			if (certificate != null)
+				X509Certificate2UI.DisplayCertificate(certificate);
+		}
+
+		public static void ShowCertificate(X509Certificate certificate)
+		{
+			if (certificate == null)
+				return;
+
+			string certFilename = Path.Combine(Path.GetTempPath(), certificate.GetHashCode() + ".temp.cer");
+
+			try
+			{
+				if (File.Exists(certFilename))
+					File.Delete(certFilename);
+
+				using (Stream stream = FileHelper.OpenForWrite(certFilename))
+				{
+					var writer = new BinaryWriter(stream);
+					writer.Write(certificate.GetRawCertData());
+					writer.Flush();
+					writer.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				ExceptionManager.Publish(ex);
+				return;
+			}
+
+			try
+			{
+				if (File.Exists(certFilename))
+				{
+					Process p = Process.Start(certFilename);
+					p.WaitForExit(); // to enble delete the temp file
+				}
+			}
+			finally
+			{
+				if (File.Exists(certFilename))
+					File.Delete(certFilename);
+			}
+		}
+
+		public static X509Certificate2 SelectCertificate(string message)
+		{
+			try
+			{
+				X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+				store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadWrite);
+				X509Certificate2Collection fcollection = store.Certificates;
+				
+				X509Certificate2Collection collection =
+					X509Certificate2UI.SelectFromCollection(
+						fcollection,
+						SR.Certificate_SelectionDialog_Title, message,
+						X509SelectionFlag.SingleSelection);
+				
+				if (collection.Count > 0)
+					return collection[0];
+				
+			} catch (Exception ex)
+			{
+				Log.Error("Failed to select a client certificate", ex);
+				//RssBanditApplication.S
+			}
+			return null;
+		}
+	}
+}

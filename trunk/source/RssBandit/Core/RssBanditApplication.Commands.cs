@@ -1240,6 +1240,11 @@ namespace RssBandit
                     propertiesDialog.textPwd.Text = p;
                 }
 
+				if (!String.IsNullOrEmpty(f.certificateId))
+				{
+					propertiesDialog.ClientCertificate = entry.Source.GetClientCertificate(f);
+				}
+
                 propertiesDialog.ShowDialog(guiMain);
 
                 if (propertiesDialog.DialogResult == DialogResult.OK)
@@ -1373,6 +1378,8 @@ namespace RssBandit
                         FeedSource.SetFeedCredentials(f, null, null);
                         changes |= NewsFeedProperty.FeedCredentials;
                     }
+
+					entry.Source.SetClientCertificate(f, propertiesDialog.ClientCertificate);
 
                     if (f.alertEnabled != propertiesDialog.checkEnableAlerts.Checked)
                         changes |= NewsFeedProperty.FeedAlertOnNewItemsReceived;

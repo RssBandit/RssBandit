@@ -220,67 +220,142 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Outline Processor Markup Language) Biçimi</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 Gün</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 Ay</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 Ay</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>3 Ay</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>6 Ay</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>9 Ay</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 Yıl</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>Sınırsız</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 Gün</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 Ay</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 Ay</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>3 Ay</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>6 Ay</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>9 Ay</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 Yıl</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Sınırsız</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>&amp;Özel bir biçimleyici kullan</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Özel bir biçimleyici kullanmak için bu seçeneği işaretleyin</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Eklenti ve podcast'leri otomatik olarak indir</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Mesaj alındığında alarm penceresinde görülsün.</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Yeni indirilen eklenti ve podcast'ler olduğunda uyar</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Beslemeden çıkarken mesajları okunmuş olarak işaretle</value>
+  </data>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Kaç dakikada bir güncelleme yapılacağını seçiniz.</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Bir biçemsayfası seçiniz</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Ne kadar yeni nesnelerin hafızada tutulacağını seçiniz.</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>--den eski mesajları kaldır.</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Başlık</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>Besleme &amp;Url si</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>dakikada bir</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>&amp;Güncelleme sıklığı</value>
+  </data>
+  <data name="FeedProperties_label4_ToolTip" xml:space="preserve">
+    <value>Kaç dakikada bir güncelleme yapılacağını seçiniz.</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Kategori</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Kullanıcı &amp;Adı</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Şifre</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Varsayılan mesaj biçimleyicisini kullanın veya özel bir XSLT biçimleyicisi seçin.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Bi&amp;çemsayfası:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Eklentiler/Podcast'ler</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Kimlik Doğrulama</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Görüntü</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Mesaj Denetimi</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Besleme Özellikleri</value>
+  </data>
 </root>

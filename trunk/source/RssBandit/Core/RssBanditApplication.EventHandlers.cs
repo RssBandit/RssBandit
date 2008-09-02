@@ -13,6 +13,7 @@ using RssBandit.WinGui;
 using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Interfaces;
+using RssBandit.WinGui.Utility;
 
 namespace RssBandit
 {
@@ -327,17 +328,12 @@ namespace RssBandit
                             {
                                 if (e.ExceptionThrown.InnerException is ClientCertificateRequiredException)
                                 {
-									//TODO: (code here just for debugging), but should be moved to FeedProperties dialog:
-                                	X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-                                	store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadWrite);
-                                	X509Certificate2Collection fcollection = store.Certificates;
-                                	X509Certificate2Collection collection =
-                                		X509Certificate2UI.SelectFromCollection(
-                                			fcollection, "Select an X509 Certificate", String.Format("The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.", e.FeedUri),
-                                			X509SelectionFlag.SingleSelection);
-									if (collection.Count > 0)
+									X509Certificate2 cert = CertificateHelper.SelectCertificate(
+                                		String.Format(SR.Certificate_ForFeedSiteRequired_Message, e.FeedUri));
+
+									if (cert != null)
 									{
-										GetFeed(entry, e.FeedUri).certificateId = collection[0].Thumbprint;
+										GetFeed(entry, e.FeedUri).certificateId = cert.Thumbprint;
 										SubscriptionModified(entry, NewsFeedProperty.FeedCredentials);
 									}
                                 }
