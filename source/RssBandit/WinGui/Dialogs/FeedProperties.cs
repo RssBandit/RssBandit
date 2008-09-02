@@ -9,27 +9,27 @@
 
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using NewsComponents.Utils;
 using RssBandit.WinGui.Utility;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Dialogs
 {
 	/// <summary>
 	/// Feed Properties dialog.
 	/// </summary>
-	internal partial class FeedProperties : Form
+	internal partial class FeedProperties : DialogBase
 	{
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private X509Certificate2 _clientCertificate;
 		internal System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		internal System.Windows.Forms.TextBox textBox1;
 		internal System.Windows.Forms.ComboBox comboBox2;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.ToolTip toolTip1;
 		internal System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.TabPage tabItemControl;
 		private System.Windows.Forms.TabPage tabAuthentication;
@@ -73,6 +73,7 @@ namespace RssBandit.WinGui.Dialogs
 			this.comboBox1.Text = refreshRate.ToString(); 
 			
 			tabAuthentication.Enabled = !RssHelper.IsNntpUrl(link);
+			ClientCertificate = null;
 
 			//initialize category combo box			
 			foreach(string category in categories){
@@ -111,6 +112,7 @@ namespace RssBandit.WinGui.Dialogs
 				this.comboFormatters.Text = String.Empty; 
 				this.checkCustomFormatter.Checked = false;				
 			}
+
 			this.checkCustomFormatter_CheckedChanged(null, null);
 			this.comboFormatters.Refresh();
 		}
@@ -122,16 +124,55 @@ namespace RssBandit.WinGui.Dialogs
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-			ApplyComponentTranslations();
+			InitializeComponentTranslation();
+			
 			this.Load += this.OnForm_Load;
+			this.btnRemoveCertificate.Click += this.OnButtonRemoveCertificateClick;
+			this.btnSelectCertificate.Click += this.OnButtonSelectCertificateClick;
+			this.btnViewCertificate.Click += this.OnButtonViewCertificateClick;
+			
 		}
 
-		void ApplyComponentTranslations()
+		#region Localization
+
+		protected override void InitializeComponentTranslation()
 		{
-			this.comboMaxItemAge.Items.Clear();
-			this.comboMaxItemAge.DataSource = Utils.MaxItemAgeStrings;
-		}
+			base.InitializeComponentTranslation();
+			
+			Text = DR.FeedProperties_Text;
+			checkCustomFormatter.Text = DR.FeedProperties_checkCustomFormatter_Text;
+			toolTip.SetToolTip(checkCustomFormatter, DR.FeedProperties_checkCustomFormatter_ToolTip);
+			checkDownloadEnclosures.Text = DR.FeedProperties_checkDownloadEnclosures_Text;
+			checkEnableAlerts.Text = DR.FeedProperties_checkEnableAlerts_Text;
+			checkEnableEnclosureAlerts.Text = DR.FeedProperties_checkEnableEnclosureAlerts_Text;
+			checkMarkItemsReadOnExit.Text = DR.FeedProperties_checkMarkItemsReadOnExit_Text;
+			toolTip.SetToolTip(comboBox1, DR.FeedProperties_comboBox1_ToolTip);
+			toolTip.SetToolTip(comboFormatters, DR.FeedProperties_comboFormatters_ToolTip);
+			toolTip.SetToolTip(comboMaxItemAge, DR.FeedProperties_comboMaxItemAge_ToolTip);
+			label1.Text = DR.FeedProperties_label1_Text;
+			label15.Text = DR.FeedProperties_label15_Text;
+			label2.Text = DR.FeedProperties_label2_Text;
+			label3.Text = DR.FeedProperties_label3_Text;
+			label4.Text = DR.FeedProperties_label4_Text;
+			label5.Text = DR.FeedProperties_label5_Text;
+			label6.Text = DR.FeedProperties_label6_Text;
+			label7.Text = DR.FeedProperties_label7_Text;
+			label9.Text = DR.FeedProperties_label9_Text;
+			labelFormatters.Text = DR.FeedProperties_labelFormatters_Text;
+			tabAttachments.Text = DR.FeedProperties_tabAttachments_Text;
+			tabAuthentication.Text = DR.FeedProperties_tabAuthentication_Text;
+			tabDisplay.Text = DR.FeedProperties_tabDisplay_Text;
+			tabItemControl.Text = DR.FeedProperties_tabItemControl_Text;
 
+			labelClientCertificate.Text = DR.FeedProperties_labelClientCertificate_Text;
+			toolTip.SetToolTip(btnSelectCertificate, DR.FeedProperties_btnSelectClientCertificate_Tooltip);
+			toolTip.SetToolTip(btnViewCertificate, DR.FeedProperties_btnViewClientCertificate_Tooltip);
+			toolTip.SetToolTip(btnRemoveCertificate, DR.FeedProperties_btnRemoveClientCertificate_Tooltip);
+			
+			comboMaxItemAge.Items.Clear();
+			comboMaxItemAge.DataSource = Utils.MaxItemAgeStrings;
+		}
+		#endregion
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
@@ -152,7 +193,32 @@ namespace RssBandit.WinGui.Dialogs
 			set { this.comboMaxItemAge.SelectedIndex = Utils.MaxItemAgeToIndex(value);	}
 		}
 
-		private void checkCustomFormatter_CheckedChanged(object sender, System.EventArgs e) {
+		public X509Certificate2 ClientCertificate
+		{
+			get { return _clientCertificate; }
+			set
+			{
+				_clientCertificate = value;
+				if (_clientCertificate != null)
+				{
+					btnRemoveCertificate.Enabled = true;
+					btnViewCertificate.Enabled = true;
+
+					if (!String.IsNullOrEmpty(_clientCertificate.FriendlyName))
+						textCertificate.Text = String.Format("{0} / {1}", _clientCertificate.FriendlyName, _clientCertificate.GetExpirationDateString());
+					else
+						textCertificate.Text = String.Format("{0} / {1}", _clientCertificate.ToString(false), _clientCertificate.GetExpirationDateString());
+				} 
+				else
+				{
+					btnRemoveCertificate.Enabled = false;
+					btnViewCertificate.Enabled = false;
+					textCertificate.Text = String.Empty;
+				}
+			}
+		}
+
+		private void checkCustomFormatter_CheckedChanged(object sender, EventArgs e) {
 			if (checkCustomFormatter.Checked) {
 				labelFormatters.Enabled = comboFormatters.Enabled = true; 				
 			}
@@ -173,7 +239,28 @@ namespace RssBandit.WinGui.Dialogs
 			OnTabControl_Resize(this, EventArgs.Empty);
 		}
 
-	
+		private void OnButtonSelectCertificateClick(object sender, EventArgs e)
+		{
+			X509Certificate2 cert = CertificateHelper.SelectCertificate(
+				SR.Certificate_SelectionDialog_Message);
+
+			if (cert != null)
+			{
+				ClientCertificate = cert;
+			}
+		}
+
+		private void OnButtonViewCertificateClick(object sender, EventArgs e)
+		{
+			if (ClientCertificate != null)
+			{
+				CertificateHelper.ShowCertificate(ClientCertificate, this.Handle);
+			}
+		}
+		private void OnButtonRemoveCertificateClick(object sender, EventArgs e)
+		{
+			ClientCertificate = null;
+		}
 
 
 	}

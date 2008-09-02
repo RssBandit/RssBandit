@@ -220,67 +220,136 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>OPML (Outline Processor Markup Language) 形式</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 ヵ月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 日</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>無制限</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 年</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>3 ヵ月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 ヵ月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>9 ヵ月</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>6 ヵ月</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>無制限</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>3 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>9 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>6 ヵ月</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>カスタム XSLT フォーマットを使う(&amp;C)</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>カスタム XSLT フォーマットを使う場合、チェックします</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Automatically download attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>新着記事のアラート表示を有効にする(&amp;E)</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>フィード終了時に記事を開封済みにする(&amp;M)</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>フォーマット用スタイルシートを選択します</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>キャッシュしたアイテムの保存する期間を指定します</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>対象期間</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>タイトル(&amp;T)</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;URL</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>更新間隔(&amp;F)</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>カテゴリ(&amp;C)</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>ユーザー名(&amp;N)</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>パスワード(&amp;P)</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>デフォルト記事フォーマットか、カスタム XSLT フォーマットを使う</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>スタイルシート(&amp;S)</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Attachments/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>認証</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>記事設定</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>フィード プロパティ</value>
+  </data>
 </root>

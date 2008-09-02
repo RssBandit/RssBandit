@@ -220,67 +220,136 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Outline Processor Markup Language) संरूप</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item1" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
     <value>२ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item2" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
     <value>३ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item3" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
     <value>४ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item8" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
     <value>२१ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item9" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
     <value>१ माह</value>
   </data>
-	<data name="ComboMaxItemAge_Item4" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
     <value>५ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item5" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
     <value>६ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item6" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
     <value>७ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item7" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
     <value>१४ दिन</value>
   </data>
-	<data name="ComboMaxItemAge_Item14" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
     <value>१ वर्ष</value>
   </data>
-	<data name="ComboMaxItemAge_Item11" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
     <value>३ माह</value>
   </data>
-	<data name="ComboMaxItemAge_Item10" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
     <value>२ माह</value>
   </data>
-	<data name="ComboMaxItemAge_Item13" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
     <value>९ माह</value>
   </data>
-	<data name="ComboMaxItemAge_Item12" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
     <value>६ माह</value>
   </data>
-	<data name="ComboMaxItemAge_Item15" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
     <value>असीमित</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>विशेष formatter इस्तेमाल करें</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>विशेष formatter इस्तेमाल करने के लिये यह विकल्प चुनें</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Automatically download attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for new items</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;फीड छोड़ने पर पद पढे हुए चिन्हित करें</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Formatter stylesheet चुनें</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Select the maximum item age to keep an item cached</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>इससे पुराने पद निकालें:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;शीर्षक</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>मिनट</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>नवीनीकरण आवृति:</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;वर्ग</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>User&amp;name</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>कूटशब्द</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>साधारण पद संरूप इस्तेमाल करें या विशेष XSLT formatter चुनें.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Formatter &amp;Stylesheet:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Attachments/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentication</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Item Control</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>फीड गुण</value>
   </data>
 </root>

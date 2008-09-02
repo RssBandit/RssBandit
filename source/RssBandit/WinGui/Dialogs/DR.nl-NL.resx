@@ -220,67 +220,136 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>(Outline Processor Markup Language) opmaak</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 dag</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 dagen</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 maand</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 maanden</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>3 maanden</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>6 maanden</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>9 maanden</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 jaar</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>Onbeperkt</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 dag</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 dagen</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 maand</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 maanden</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>3 maanden</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>6 maanden</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>9 maanden</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 jaar</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Onbeperkt</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>Gebruik dit opmaak-sjabloon</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Vink aan indien je een opmaak-sjabloon wilt gebruiken</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>&amp;Bijlagen en podcasts automatisch downloaden</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Kennisgevingsvenster bij nieuw ontvangen item(s)</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>&amp;Kennisgevingsvenster bij nieuw gedownloade bijlagen en podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Markeer items als gelezen bij verlaten feed</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Selecteer een opmaak-sjabloon</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Selecteer de maximale bewaartermijn van feeditems</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>&amp;Verwijder items ouder dan:</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Webadres</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>minuten</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>&amp;Bijwerken elke:</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Categorie</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Gebruikers&amp;naam</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Wachtwoord</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Items worden weergegeven met het standaard opmaak-sjabloon. Desgewenst kun je hieronder onder uitzondering op deze feed instellen.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Opmaak-&amp;sjabloon:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Bijlagen/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authenticatie</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Weergave</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Feed Eigenschappen</value>
+  </data>
 </root>

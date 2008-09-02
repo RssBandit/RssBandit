@@ -231,67 +231,137 @@
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
     <value>Format (Outline Processor Markup Language)</value>
   </data>
-<data name="FeedSourceProperties_groupCredentials_Text" space="preserve">
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
     <value>Credentials</value>
   </data>
-	<data name="FeedSourceProperties_labelFeedSourceName_Text" space="preserve">
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
     <value>Feed Source Name:</value>
   </data>
-	<data name="FeedSourceProperties_labelPassword_Text" space="preserve">
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
   </data>
-	<data name="FeedSourceProperties_labelUsername_Text" space="preserve">
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
     <value>Username:</value>
   </data>
-	<data name="FeedSourceProperties_Title" space="preserve">
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
     <value>Feed Source Properties</value>
   </data>
-	<data name="ComboMaxItemAge_Item">
-		<value>1 jour</value>
-	</data>
-	<data name="ComboMaxItemAge_Item1">
-		<value>2 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item2">
-		<value>3 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item3">
-		<value>4 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item4">
-		<value>5 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item5">
-		<value>6 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item6">
-		<value>7 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item7">
-		<value>14 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item8">
-		<value>21 jours</value>
-	</data>
-	<data name="ComboMaxItemAge_Item9">
-		<value>1 mois</value>
-	</data>
-	<data name="ComboMaxItemAge_Item10">
-		<value>2 mois</value>
-	</data>
-	<data name="ComboMaxItemAge_Item11">
-		<value>1 trimestre</value>
-	</data>
-	<data name="ComboMaxItemAge_Item12">
-		<value>2 trimestres</value>
-	</data>
-	<data name="ComboMaxItemAge_Item13">
-		<value>3 trimestres</value>
-	</data>
-	<data name="ComboMaxItemAge_Item14">
-		<value>1 an</value>
-	</data>
-	<data name="ComboMaxItemAge_Item15">
-		<value>Illimité</value>
-	</data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 jour</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 jours</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 mois</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 mois</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 trimestre</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 trimestres</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 trimestres</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 an</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Illimité</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>Utiliser une feuille de style &amp;personnalisée</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Cocher cette option pour utiliser une feuille de style personnalisée</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Télécharger automatiquement les fichiers liés et les podcasts</value>
+    <comment>Automatically download attachments and podcasts</comment>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>Activer la &amp;Notification</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>Activ&amp;er les Notifications pour les nouveaux fichiers liés et les podcasts</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Indiquer les éléments comme lus en sortant du flux</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Sélectionner une feuille de style</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Choisir l'âge maximum des messages à conserver dans le cache</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>&amp;Age max.</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Titre</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>&amp;Fréquence</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Catégorie</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>&amp;Nom d'utilisateur</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Mot de passe</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Utiliser la feuille de style par défaut ou sélectionner une feuille de style XSLT personnalisée.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Feuille de &amp;Style:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Fichiers liés/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentification</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Affichage</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Contrôle du message</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Propriétés du flux</value>
+  </data>
 </root>

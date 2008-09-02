@@ -335,6 +335,8 @@
     <None Include="Resources\search_folder_32.png" />
     <None Include="Resources\subscriptions_folder_16.png" />
     <None Include="Resources\subscriptions_folder_32.png" />
+    <None Include="Resources\New_Certificate_16.png" />
+    <None Include="Resources\View_Certificate_16.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -864,10 +866,6 @@
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ko.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedSourceProperties.resx">
       <DependentUpon>FeedSourceProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1106,71 +1104,7 @@
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.bg.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.de.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.es.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.fr.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.hi.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.it.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ja.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.nl-NL.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pl.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.pt-BR.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.ru.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-Cyrl-CS.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.sr-Latn-CS.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.tr.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHS.resx">
-      <DependentUpon>FeedProperties.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.zh-CHT.resx">
       <DependentUpon>FeedProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

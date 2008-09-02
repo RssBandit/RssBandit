@@ -3604,50 +3604,12 @@ namespace RssBandit.WinGui.Forms
         private static void OnSecurityIssueDialogCustomCommandClick(object sender, EventArgs e)
         {
             var cmd = (Button) sender;
-            cmd.Enabled = false;
-
+            
+			cmd.Enabled = false;
             Application.DoEvents();
-
-            var cert = (X509Certificate) cmd.Tag;
-            if (cert == null)
-                return;
-
-            string certFilename = Path.Combine(Path.GetTempPath(), cert.GetHashCode() + ".temp.cer");
-
-            try
-            {
-                if (File.Exists(certFilename))
-                    File.Delete(certFilename);
-
-                using (Stream stream = FileHelper.OpenForWrite(certFilename))
-                {
-                    var writer = new BinaryWriter(stream);
-                    writer.Write(cert.GetRawCertData());
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Microsoft.ApplicationBlocks.ExceptionManagement.ExceptionManager.Publish(ex);
-                cmd.Enabled = false;
-                return;
-            }
-
-            try
-            {
-                if (File.Exists(certFilename))
-                {
-                    Process p = Process.Start(certFilename);
-                    p.WaitForExit(); // to enble delete the temp file
-                }
-            }
-            finally
-            {
-                if (File.Exists(certFilename))
-                    File.Delete(certFilename);
-                cmd.Enabled = true;
-            }
+			CertificateHelper.ShowCertificate((X509Certificate)cmd.Tag);
+			cmd.Enabled = true;
+			
         }
     }
 }
