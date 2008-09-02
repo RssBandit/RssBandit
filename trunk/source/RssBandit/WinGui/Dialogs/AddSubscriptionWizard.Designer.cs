@@ -121,6 +121,7 @@ namespace RssBandit.WinGui.Dialogs
 			// 
 			this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
 			this.wizard.Controls.Add(this._btnImmediateFinish);
+			this.wizard.Controls.Add(this.pageFeedItemControl);
 			this.wizard.Controls.Add(this.pageTitleCategory);
 			this.wizard.Controls.Add(this.pageNewByURL);
 			this.wizard.Controls.Add(this.pageNewBySearchTopic);
@@ -128,7 +129,6 @@ namespace RssBandit.WinGui.Dialogs
 			this.wizard.Controls.Add(this.pageValidateUrl);
 			this.wizard.Controls.Add(this.pageWelcome);
 			this.wizard.Controls.Add(this.pageFoundMultipleFeeds);
-			this.wizard.Controls.Add(this.pageFeedItemControl);
 			this.wizard.Controls.Add(this.pageFeedItemDisplay);
 			this.wizard.Controls.Add(this.pageHowToSelection);
 			this.wizard.Controls.Add(this.finishPage);
@@ -269,16 +269,6 @@ namespace RssBandit.WinGui.Dialogs
 			// cboUpdateFrequency
 			// 
 			resources.ApplyResources(this.cboUpdateFrequency, "cboUpdateFrequency");
-			this.cboUpdateFrequency.Items.AddRange(new object[] {
-            resources.GetString("cboUpdateFrequency.Items"),
-            resources.GetString("cboUpdateFrequency.Items1"),
-            resources.GetString("cboUpdateFrequency.Items2"),
-            resources.GetString("cboUpdateFrequency.Items3"),
-            resources.GetString("cboUpdateFrequency.Items4"),
-            resources.GetString("cboUpdateFrequency.Items5"),
-            resources.GetString("cboUpdateFrequency.Items6"),
-            resources.GetString("cboUpdateFrequency.Items7"),
-            resources.GetString("cboUpdateFrequency.Items8")});
 			this.cboUpdateFrequency.Name = "cboUpdateFrequency";
 			// 
 			// lblRemoveItemsOlderThan

@@ -384,6 +384,72 @@
   <data name="&gt;&gt;comboMaxItemAge.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="comboFormatters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="comboFormatters.ItemHeight" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>128, 60</value>
+  </data>
+  <data name="comboFormatters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 21</value>
+  </data>
+  <data name="comboFormatters.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
+    <value>Select a formatter stylesheet</value>
+  </data>
+  <data name="&gt;&gt;comboFormatters.Name" xml:space="preserve">
+    <value>comboFormatters</value>
+  </data>
+  <data name="&gt;&gt;comboFormatters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboFormatters.Parent" xml:space="preserve">
+    <value>tabDisplay</value>
+  </data>
+  <data name="&gt;&gt;comboFormatters.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkCustomFormatter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="checkCustomFormatter.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
+  <data name="checkCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 35</value>
+  </data>
+  <data name="checkCustomFormatter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>345, 25</value>
+  </data>
+  <data name="checkCustomFormatter.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
+    <value>Use a &amp;custom formatter</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
+    <value>Check this option to use a custom formatter</value>
+  </data>
+  <data name="&gt;&gt;checkCustomFormatter.Name" xml:space="preserve">
+    <value>checkCustomFormatter</value>
+  </data>
+  <data name="&gt;&gt;checkCustomFormatter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkCustomFormatter.Parent" xml:space="preserve">
+    <value>tabDisplay</value>
+  </data>
+  <data name="&gt;&gt;checkCustomFormatter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="tabControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
@@ -458,33 +524,6 @@
   </data>
   <data name="comboBox1.ItemHeight" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="comboBox1.Items" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="comboBox1.Items1" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="comboBox1.Items2" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="comboBox1.Items3" xml:space="preserve">
-    <value>45</value>
-  </data>
-  <data name="comboBox1.Items4" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="comboBox1.Items5" xml:space="preserve">
-    <value>75</value>
-  </data>
-  <data name="comboBox1.Items6" xml:space="preserve">
-    <value>90</value>
-  </data>
-  <data name="comboBox1.Items7" xml:space="preserve">
-    <value>105</value>
-  </data>
-  <data name="comboBox1.Items8" xml:space="preserve">
-    <value>120</value>
   </data>
   <data name="comboBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>145, 10</value>
@@ -720,72 +759,6 @@
   <data name="&gt;&gt;tabAuthentication.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="comboFormatters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="comboFormatters.ItemHeight" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="comboFormatters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>128, 60</value>
-  </data>
-  <data name="comboFormatters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 21</value>
-  </data>
-  <data name="comboFormatters.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="comboFormatters.ToolTip" xml:space="preserve">
-    <value>Select a formatter stylesheet</value>
-  </data>
-  <data name="&gt;&gt;comboFormatters.Name" xml:space="preserve">
-    <value>comboFormatters</value>
-  </data>
-  <data name="&gt;&gt;comboFormatters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;comboFormatters.Parent" xml:space="preserve">
-    <value>tabDisplay</value>
-  </data>
-  <data name="&gt;&gt;comboFormatters.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="checkCustomFormatter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="checkCustomFormatter.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>System</value>
-  </data>
-  <data name="checkCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="checkCustomFormatter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 35</value>
-  </data>
-  <data name="checkCustomFormatter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 25</value>
-  </data>
-  <data name="checkCustomFormatter.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="checkCustomFormatter.Text" xml:space="preserve">
-    <value>Use a &amp;custom formatter</value>
-  </data>
-  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
-    <value>Check this option to use a custom formatter</value>
-  </data>
-  <data name="&gt;&gt;checkCustomFormatter.Name" xml:space="preserve">
-    <value>checkCustomFormatter</value>
-  </data>
-  <data name="&gt;&gt;checkCustomFormatter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkCustomFormatter.Parent" xml:space="preserve">
-    <value>tabDisplay</value>
-  </data>
-  <data name="&gt;&gt;checkCustomFormatter.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="labelFormatters.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -955,7 +928,7 @@
     <value>No</value>
   </data>
   <data name="textBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 21</value>
   </data>
   <data name="textBox3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2743,9 +2716,6 @@
         AAAAAAAAAAAAAPAPAADgBwAAwAMAAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAB
         AADAAwAA4AcAAPAPAAA=
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>400, 350</value>

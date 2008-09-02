@@ -744,19 +744,6 @@ namespace RssBandit.WinGui.Forms
 			resources.ApplyResources(this.comboRefreshRate, "comboRefreshRate");
 			this.errorProvider1.SetIconAlignment(this.comboRefreshRate, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("comboRefreshRate.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.comboRefreshRate, ((int)(resources.GetObject("comboRefreshRate.IconPadding"))));
-			this.comboRefreshRate.Items.AddRange(new object[] {
-            resources.GetString("comboRefreshRate.Items"),
-            resources.GetString("comboRefreshRate.Items1"),
-            resources.GetString("comboRefreshRate.Items2"),
-            resources.GetString("comboRefreshRate.Items3"),
-            resources.GetString("comboRefreshRate.Items4"),
-            resources.GetString("comboRefreshRate.Items5"),
-            resources.GetString("comboRefreshRate.Items6"),
-            resources.GetString("comboRefreshRate.Items7"),
-            resources.GetString("comboRefreshRate.Items8"),
-            resources.GetString("comboRefreshRate.Items9"),
-            resources.GetString("comboRefreshRate.Items10"),
-            resources.GetString("comboRefreshRate.Items11")});
 			this.comboRefreshRate.Name = "comboRefreshRate";
 			this.toolTip1.SetToolTip(this.comboRefreshRate, resources.GetString("comboRefreshRate.ToolTip"));
 			this.comboRefreshRate.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);

@@ -12,11 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using NewsComponents.Utils;
-using RssBandit.Resources;
 using RssBandit.WinGui.Utility;
-using RssBandit.WinGui.Controls;
-
-using NewsComponents.Collections;
 
 namespace RssBandit.WinGui.Dialogs
 {
@@ -68,7 +64,12 @@ namespace RssBandit.WinGui.Dialogs
 		{		
 
 			this.textBox1.Text  = title; 
-			this.textBox2.Text  = link; 
+			this.textBox2.Text  = link;
+
+			this.comboBox1.Items.Clear();
+			if (!Utils.RefreshRateStrings.Contains(refreshRate.ToString()))
+				Utils.RefreshRateStrings.Add(refreshRate.ToString());
+			this.comboBox1.DataSource = Utils.RefreshRateStrings; 
 			this.comboBox1.Text = refreshRate.ToString(); 
 			
 			tabAuthentication.Enabled = !RssHelper.IsNntpUrl(link);
@@ -100,8 +101,7 @@ namespace RssBandit.WinGui.Dialogs
 					}
 				}			
 
-				if (stylesheet != null && 
-					stylesheet.Length > 0 &&
+				if (!string.IsNullOrEmpty(stylesheet) &&
 					File.Exists(Path.Combine(tmplFolder, stylesheet + ".fdxsl"))) {
 					this.comboFormatters.Text = stylesheet; 
 					this.checkCustomFormatter.Checked = true;
@@ -128,7 +128,6 @@ namespace RssBandit.WinGui.Dialogs
 
 		void ApplyComponentTranslations()
 		{
-
 			this.comboMaxItemAge.Items.Clear();
 			this.comboMaxItemAge.DataSource = Utils.MaxItemAgeStrings;
 		}

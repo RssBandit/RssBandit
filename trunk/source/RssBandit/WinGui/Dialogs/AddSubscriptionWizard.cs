@@ -202,9 +202,17 @@ namespace RssBandit.WinGui.Dialogs
 			this.MaxItemAge = preferencesService.MaxItemAge;
 
 			coreApplication = IoC.Resolve<ICoreApplication>();
-			this.cboUpdateFrequency.Text = String.Format("{0}", RssBanditApplication.DefaultGlobalRefreshRateMinutes);
+
+			this.cboUpdateFrequency.Items.Clear();
+			if (!Utils.RefreshRateStrings.Contains(RssBanditApplication.DefaultGlobalRefreshRateMinutes.ToString()))
+				Utils.RefreshRateStrings.Add(RssBanditApplication.DefaultGlobalRefreshRateMinutes.ToString());
+			if (!Utils.RefreshRateStrings.Contains(coreApplication.CurrentGlobalRefreshRate.ToString()))
+				Utils.RefreshRateStrings.Add(coreApplication.CurrentGlobalRefreshRate.ToString());
+			
+			this.cboUpdateFrequency.DataSource = Utils.RefreshRateStrings;
+			this.cboUpdateFrequency.Text = RssBanditApplication.DefaultGlobalRefreshRateMinutes.ToString();
 			if (coreApplication.CurrentGlobalRefreshRate > 0)	// if not disabled refreshing
-				this.cboUpdateFrequency.Text = String.Format("{0}", coreApplication.CurrentGlobalRefreshRate); 					
+				this.cboUpdateFrequency.Text = coreApplication.CurrentGlobalRefreshRate.ToString(); 					
 
 			// init feedsource combo:
 			//TODO: that cast should not be there (extend interface!)

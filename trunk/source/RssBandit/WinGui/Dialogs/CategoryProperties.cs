@@ -51,7 +51,12 @@ namespace RssBandit.WinGui.Dialogs
 
 		public CategoryProperties(string title, int refreshRate, TimeSpan maxItemAge, string stylesheet): this(){		
 			
-			this.textBox2.Text  = title; 
+			this.textBox2.Text  = title;
+			
+			this.comboBox1.Items.Clear();
+			if (!Utils.RefreshRateStrings.Contains(refreshRate.ToString()))
+				Utils.RefreshRateStrings.Add(refreshRate.ToString());
+			this.comboBox1.DataSource = Utils.RefreshRateStrings;
 			this.comboBox1.Text = refreshRate.ToString(); 
 					
 			this.MaxItemAge = maxItemAge;

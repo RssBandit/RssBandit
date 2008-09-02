@@ -111,6 +111,10 @@ namespace RssBandit.WinGui.Forms {
 			this.textProxyCredentialUser.Text = prefs.ProxyUser;
 			this.textProxyCredentialPassword.Text = prefs.ProxyPassword;
 
+			this.comboRefreshRate.Items.Clear();
+			if (!Utils.RefreshRateStrings.Contains(refreshRate.ToString()))
+				Utils.RefreshRateStrings.Add(refreshRate.ToString());
+			this.comboRefreshRate.DataSource = Utils.RefreshRateStrings;
 			this.comboRefreshRate.Text = refreshRate.ToString(); 
 			this.comboRefreshRate.Refresh(); 
 			

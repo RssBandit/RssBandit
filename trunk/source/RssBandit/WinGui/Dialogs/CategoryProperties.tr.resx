@@ -60,141 +60,134 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Inherit</value>
   </data>
-  <data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>Kategori Özellikleri</value>
   </data>
-  <data name="checkCustomFormatter.Text">
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
     <value>&amp;Özel bir biçimleyici kullan</value>
   </data>
-  <data name="checkCustomFormatter.ToolTip">
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
     <value>Özel bir biçimleyici kullanmak için bu seçeneği işaretleyin</value>
   </data>
-  <data name="checkMarkItemsReadOnExit.Text">
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
     <value>Kategoriden çıkarken &amp;mesajları okunmuş olarak işaretle</value>
   </data>
-  <data name="comboFormatters.ToolTip">
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
     <value>Bir biçemsayfası seçiniz</value>
   </data>
-  <data name="label9.Text">
+  <data name="label9.Text" xml:space="preserve">
     <value>Varsayılan mesaj biçimleyiciyi kullanın veya özel bir XSLT biçimleyicisi seçin.</value>
   </data>
-  <data name="labelFormatters.Text">
+  <data name="labelFormatters.Text" xml:space="preserve">
     <value>Biçimleyici Bi&amp;çemsayfası:</value>
   </data>
-  <data name="tabDisplay.Text">
+  <data name="tabDisplay.Text" xml:space="preserve">
     <value>Kategori</value>
   </data>
-  <data name="button2.Text">
+  <data name="button2.Text" xml:space="preserve">
     <value>&amp;Vazgeç</value>
   </data>
-  <data name="button1.Text">
+  <data name="button1.Text" xml:space="preserve">
     <value>&amp;Tamam</value>
   </data>
-  <data name="label2.Text">
+  <data name="label2.Text" xml:space="preserve">
     <value>&amp;Başlık:</value>
   </data>
-  <data name="label5.Text">
+  <data name="label5.Text" xml:space="preserve">
     <value />
   </data>
-  <data name="comboMaxItemAge.ToolTip">
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
     <value>Ne kadar yeni nesnelerin hafızada tutulacağını seçiniz.</value>
   </data>
-  <data name="tabItemControl.Text">
+  <data name="tabItemControl.Text" xml:space="preserve">
     <value>Beslemeler</value>
   </data>
-  <data name="comboBox1.ToolTip">
+  <data name="comboBox1.ToolTip" xml:space="preserve">
     <value>Kaç dakikada bir güncelleme yapılacağını seçiniz.</value>
   </data>
-  <data name="label15.Text">
+  <data name="label15.Text" xml:space="preserve">
     <value>-den eski mesajları kaldır</value>
   </data>
-  <data name="label15.ToolTip">
+  <data name="label15.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="label4.Text">
+  <data name="label4.Text" xml:space="preserve">
     <value>&amp;Güncelleme sıklığı</value>
   </data>
-  <data name="label4.ToolTip">
+  <data name="label4.ToolTip" xml:space="preserve">
     <value>Kaç dakikada bir güncelleme yapılacağını seçiniz.</value>
   </data>
-  <data name="label3.Text">
+  <data name="label3.Text" xml:space="preserve">
     <value>dakikada bir</value>
   </data>
-  <data name="comboBox1.Items">
-    <value>0</value>
-  </data>
-  <data name="comboBox1.Items1">
-    <value>15</value>
-  </data>
-  <data name="comboBox1.Items2">
-    <value>30</value>
-  </data>
-  <data name="comboBox1.Items3">
-    <value>45</value>
-  </data>
-  <data name="comboBox1.Items4">
-    <value>60</value>
-  </data>
-  <data name="comboBox1.Items5">
-    <value>75</value>
-  </data>
-  <data name="comboBox1.Items6">
-    <value>90</value>
-  </data>
-  <data name="comboBox1.Items7">
-    <value>105</value>
-  </data>
-  <data name="comboBox1.Items8">
-    <value>120</value>
-  </data>
-  <data name="tabAttachments.Text">
+  <data name="tabAttachments.Text" xml:space="preserve">
     <value>Podcast'ler\Eklentiler</value>
   </data>
-  <data name="checkDownloadEnclosures.Text">
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
     <value>Eklentileri ve podcast'leri otomatik olarak indir</value>
   </data>
-  <data name="checkEnableEnclosureAlerts.Text">
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
     <value>&amp;Yeni indirilen eklenti ve podcast'ler olduğunda uyar</value>
   </data>
 </root>
