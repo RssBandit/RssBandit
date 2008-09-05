@@ -5475,8 +5475,8 @@ namespace RssBandit
 
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
-
-                prth = new PostReplyThreadHandler(feedHandler, commentUrl, item2post, item2reply);
+            	FeedSourceEntry entry = FeedSources.SourceOf(item2reply);
+				prth = new PostReplyThreadHandler(entry == null ? BanditFeedSource: entry.Source, commentUrl, item2post, item2reply);
                 DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostReplyToItem);
 
                 if (result != DialogResult.OK)
@@ -5999,16 +5999,6 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Unsubscribes the feed by feedUrl.
-        /// </summary>
-        /// <param name="feedUrl">The feed URL.</param>
-        /// <param name="askUser">if set to <c>true</c> [ask user].</param>
-        public void UnsubscribeFeed(string feedUrl, bool askUser)
-        {
-            UnsubscribeFeed(GetFeed(feedUrl), askUser);
-        }
-
-        /// <summary>
         /// Unsubscribes the feed.
         /// </summary>
         /// <param name="feed">The feed.</param>
@@ -6035,15 +6025,43 @@ namespace RssBandit
             }
         }
 
+
+		/// <summary>
+		/// ICoreApplication member. Determines whether the specified address is a subscribed feed.
+		/// </summary>
+		/// <param name="address">The address.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified address is a subscribed feed; otherwise, <c>false</c>.
+		/// </returns>
         public bool ContainsFeed(string address)
         {
-            return feedHandler.IsSubscribed(address);
+			if (StringHelper.EmptyTrimOrNull(address))
+				return false;
+
+			return null != FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(address)); 
         }
 
+		/// <summary>
+		/// ICoreApplication member. Gets true, if the url is a feed subscription and returns
+		/// the category, title and link of the subscribed feed; else false
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="category"></param>
+		/// <param name="title"></param>
+		/// <param name="link"></param>
+		/// <returns></returns>
         public bool TryGetFeedDetails(string url, out string category, out string title, out string link)
         {
+			category = null;
+			title = null;
+			link = null;
+
+			if (StringHelper.EmptyTrimOrNull(url))
+				return false;
+			
+			FeedSourceEntry entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(url));
             INewsFeed f;
-            if (feedHandler.GetFeeds().TryGetValue(url, out f))
+            if (entry != null && entry.Source.GetFeeds().TryGetValue(url, out f))
             {
                 category = f.category ?? string.Empty;
                 title = f.title;
@@ -6051,9 +6069,6 @@ namespace RssBandit
                 return true;
             }
 
-            category = null;
-            title = null;
-            link = null;
             return false;
         }
 
@@ -6184,7 +6199,7 @@ namespace RssBandit
                     if (_downloadManager == null)
                     {
 
-                        _downloadManager = new DownloadManagerWindow() { Visibility = System.Windows.Visibility.Visible };
+                        _downloadManager = new DownloadManagerWindow { Visibility = System.Windows.Visibility.Visible };
                         _downloadManager.Closed += delegate
                                                        {
                                                            _downloadManager = null;
@@ -6220,7 +6235,7 @@ namespace RssBandit
                 return;
             foreach (var channel in channels)
             {
-                feedHandler.RegisterReceivingNewsChannel(channel);
+                FeedSource.RegisterReceivingNewsChannel(channel);
             }
         }
 
@@ -6239,7 +6254,7 @@ namespace RssBandit
                 return;
             foreach (var channel in channels)
             {
-                feedHandler.UnregisterReceivingNewsChannel(channel);
+				FeedSource.UnregisterReceivingNewsChannel(channel);
             }
         }
 

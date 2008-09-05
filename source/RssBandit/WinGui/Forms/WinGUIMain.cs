@@ -38,7 +38,6 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Search;
 using NewsComponents.Utils;
-using RssBandit.AppServices;
 using RssBandit.Common.Logging;
 using RssBandit.Filter;
 using RssBandit.Resources;
@@ -109,7 +108,6 @@ namespace RssBandit.WinGui.Forms
         private readonly History _feedItemImpressionHistory;
         private bool _navigationActionInProgress;
 
-        private bool _faviconsDownloaded;
         private bool _browserTabsRestored;
 
         private ToastNotifier toastNotifier;
@@ -120,8 +118,6 @@ namespace RssBandit.WinGui.Forms
         internal HistoryMenuManager historyMenuManager;
 		private UltraToolTipContextHelperForTreeNodes treeNodesTooltipHelper;
 
-        //private readonly List<TreeFeedsNodeBase> _roots = new List<TreeFeedsNodeBase>(3);
-		
 		// store refs to root folders (they order within the treeview may be resorted depending on the languages)
         private TreeFeedsNodeBase _unreadItemsFeedsNode;
         private TreeFeedsNodeBase _feedExceptionsFeedsNode;
@@ -136,9 +132,6 @@ namespace RssBandit.WinGui.Forms
         private TreeFeedsNodeBase _flaggedFeedsNodeReply;
         private FinderNode _searchResultNode;
 
-        //private TreeFeedsPainter _treeFeedsPainter = null;
-
-        //private ListViewSortHelper _lvSortHelper = null;
         private NewsItemFilterManager _filterManager;
 
         private SearchPanel searchPanel;
