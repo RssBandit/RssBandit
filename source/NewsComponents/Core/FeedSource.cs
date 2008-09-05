@@ -6620,7 +6620,7 @@ namespace NewsComponents
         /// <summary>
         /// Register INewsChannel processing services 
         /// </summary>
-        public void RegisterReceivingNewsChannel(INewsChannel channel)
+        public static void RegisterReceivingNewsChannel(INewsChannel channel)
         {
             // We use an instance method to register services.
             // So we are able to change later the internal processing to a non-static
@@ -6631,7 +6631,7 @@ namespace NewsComponents
         /// <summary>
         /// Unregister INewsChannel processing services 
         /// </summary>
-        public void UnregisterReceivingNewsChannel(INewsChannel channel)
+        public static void UnregisterReceivingNewsChannel(INewsChannel channel)
         {
             // We use an instance method to register services.
             // So we are able to change later the internal processing to a non-static
