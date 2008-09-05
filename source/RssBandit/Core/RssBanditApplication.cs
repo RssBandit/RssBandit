@@ -4457,7 +4457,7 @@ namespace RssBandit
             }
         }
 
-		// code mocved to FlaggedItemsFeed migrate method:
+		// code moved to FlaggedItemsFeed migrate method:
 //        /// <summary>
 //        /// Flags the NewsItems in the regular feeds that are currently in the flagItemList.
 //        /// </summary>
@@ -4954,14 +4954,16 @@ namespace RssBandit
                     else if (webUrl.IndexOf("navigatetofeed") != -1)
                     {
                         string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                        INewsFeed f = GetFeed(normalizedUrl);
+                    	FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
+						INewsFeed f = GetFeed(entry, normalizedUrl);
                         if (f != null)
                             guiMain.NavigateToFeed(f);
                     }
                     else if (webUrl.IndexOf("unsubscribefeed") != -1)
                     {
                         string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                        INewsFeed f = GetFeed(normalizedUrl);
+						FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
+						INewsFeed f = GetFeed(entry, normalizedUrl);
                         if (f != null)
                             UnsubscribeFeed(f, false);
                     }
@@ -5261,66 +5263,6 @@ namespace RssBandit
                     Replace("^", "\\^").Replace("|", "\\|").Replace("?", "\\?").Replace("(", "\\(").Replace(")", "\\)").
                     Replace("[", "\\[").Replace("]", "\\]");
         }
-
-        ///// <summary>
-        ///// Reads an app settings entry.
-        ///// </summary>
-        ///// <param name="name">The name of the entry.</param>
-        ///// <param name="entryType">Expected Type of the entry.</param>
-        ///// <param name="defaultValue">The default value.</param>
-        ///// <returns>Value read or defaultValue</returns>
-        //public static object ReadAppSettingsEntry(string name, Type entryType, object defaultValue)
-        //{
-        //    if (string.IsNullOrEmpty(name))
-        //        return defaultValue;
-
-        //    if (entryType == null)
-        //        throw new ArgumentNullException("entryType");
-
-        //    string value = ConfigurationManager.AppSettings[name];
-        //    if (!string.IsNullOrEmpty(value))
-        //    {
-        //        if (entryType == typeof (bool))
-        //        {
-        //            try
-        //            {
-        //                return Boolean.Parse(value);
-        //            }
-        //            catch (FormatException)
-        //            {
-        //            }
-        //        }
-        //        else if (entryType == typeof (string))
-        //        {
-        //            return value;
-        //        }
-        //        else if (entryType.IsEnum)
-        //        {
-        //            try
-        //            {
-        //                return Enum.Parse(entryType, value, true);
-        //            }
-        //            catch (ArgumentException)
-        //            {
-        //            }
-        //        }
-        //        else if (entryType == typeof (Color))
-        //        {
-        //            Color c = Color.FromName(value);
-        //            // If name is not the valid name of a pre-defined color, 
-        //            // the FromName method creates a Color structure that has
-        //            // an ARGB value of zero (that is, all ARGB components are 0).
-        //            if (c.ToArgb() != 0)
-        //                return c;
-        //        }
-        //        else
-        //        {
-        //            Trace.WriteLine("ReadAppSettingsEntry() unsupported type: " + entryType.FullName);
-        //        }
-        //    }
-        //    return defaultValue;
-        //}
-
 
         /// <summary>
         /// Loads the default stylesheet from disk and returns it as a string
