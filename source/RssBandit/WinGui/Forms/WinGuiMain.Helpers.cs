@@ -2486,35 +2486,35 @@ namespace RssBandit.WinGui.Forms
         //		}
 
 
-        /// <summary>
-        /// Gets the feed column layout.
-        /// </summary>
-        /// <param name="startNode">The start node.</param>
-        /// <returns></returns>
-        private FeedColumnLayout GetFeedColumnLayout(TreeFeedsNodeBase startNode)
+		/// <summary>
+		/// Gets the feed column layout.
+		/// </summary>
+		/// <param name="feedsNode">The feeds node.</param>
+		/// <returns></returns>
+		private FeedColumnLayout GetFeedColumnLayout(TreeFeedsNodeBase feedsNode)
         {
-            if (startNode == null)
-                startNode = TreeSelectedFeedsNode;
-            if (startNode == null)
+			if (feedsNode == null)
+				feedsNode = TreeSelectedFeedsNode;
+			if (feedsNode == null)
                 return listFeedItems.FeedColumnLayout;
 
             FeedColumnLayout layout = listFeedItems.FeedColumnLayout;
-            if (startNode.Type == FeedNodeType.Feed)
-            {
-                layout = owner.GetFeedColumnLayout(FeedSourceEntryOf(startNode), startNode.DataKey) ?? owner.GlobalFeedColumnLayout;
-            }
-            else if (startNode.Type == FeedNodeType.Category)
-            {
-                layout = owner.GetCategoryColumnLayout(FeedSourceEntryOf(startNode), startNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
-            }
-            else if (startNode.Type == FeedNodeType.Finder)
-            {
-                layout = owner.GlobalSearchFolderColumnLayout;
-            }
-            else if (startNode.Type == FeedNodeType.SmartFolder)
-            {
-                layout = owner.GlobalSpecialFolderColumnLayout;
-            }
+			switch (feedsNode.Type)
+			{
+				case FeedNodeType.Feed:
+					layout = owner.GetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey) ?? owner.GlobalFeedColumnLayout;
+					break;
+				case FeedNodeType.Category:
+					layout = owner.GetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
+					break;
+				case FeedNodeType.Finder:
+					layout = owner.GlobalSearchFolderColumnLayout;
+					break;
+				case FeedNodeType.SmartFolder:
+					layout = owner.GlobalSpecialFolderColumnLayout;
+					break;
+			}
+			
             return layout;
         }
 
@@ -2525,27 +2525,26 @@ namespace RssBandit.WinGui.Forms
         /// <param name="layout">The layout.</param>
         private void SetFeedColumnLayout(TreeFeedsNodeBase feedsNode, FeedColumnLayout layout)
         {
-            if (feedsNode == null) feedsNode = CurrentSelectedFeedsNode;
-            FeedSourceEntry entry = FeedSourceEntryOf(feedsNode); 
-
-            if (feedsNode != null && entry != null)
+            if (feedsNode == null) 
+				feedsNode = CurrentSelectedFeedsNode;
+            
+            if (feedsNode != null)
             {               
-                if (feedsNode.Type == FeedNodeType.Feed)
-                {
-                    owner.SetFeedColumnLayout(entry, feedsNode.DataKey, layout);
-                }
-                else if (feedsNode.Type == FeedNodeType.Category)
-                {
-                    owner.SetCategoryColumnLayout(entry, feedsNode.CategoryStoreName, layout);
-                }
-                else if (feedsNode.Type == FeedNodeType.Finder)
-                {
-                    owner.GlobalSearchFolderColumnLayout = layout;
-                }
-                else if (feedsNode.Type == FeedNodeType.SmartFolder)
-                {
-                    owner.GlobalSpecialFolderColumnLayout = layout;
-                }
+				switch (feedsNode.Type)
+				{
+					case FeedNodeType.Feed:
+						owner.SetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey, layout);
+						break;
+					case FeedNodeType.Category:
+						owner.SetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName, layout);
+						break;
+					case FeedNodeType.Finder:
+						owner.GlobalSearchFolderColumnLayout = layout;
+						break;
+					case FeedNodeType.SmartFolder:
+						owner.GlobalSpecialFolderColumnLayout = layout;
+						break;
+				}
             }
         }
 
