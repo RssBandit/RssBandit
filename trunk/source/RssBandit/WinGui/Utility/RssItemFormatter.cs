@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -18,13 +19,15 @@ using System.Collections.Specialized;
 
 using NewsComponents;
 using NewsComponents.Feed;
+using RssBandit.Common.Logging;
 using RssBandit.Exceptions;
 using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Utility
 {
 	/// <summary>
-	/// Summary description for NewsItemFormatter.
+	/// NewsItemFormatter manages stylesheets and news item 
+	/// transformation/formatting to HTML.
 	/// </summary>
 	public class NewsItemFormatter {
 
@@ -32,14 +35,14 @@ namespace RssBandit.WinGui.Utility
 		public event EventHandler<ExceptionEventArgs> StylesheetError;
 		public event EventHandler<ExceptionEventArgs> StylesheetValidationError;
 
-		static private string _defaultTmpl = null;
+		static private readonly string _defaultTmpl;
 
-		static private string _searchTmpl  = null; 
+		static private readonly string _searchTmpl; 
 
 		public const string SearchTemplateId = ":*<>?"; 
 
 		//the table of XSLT transforms
-		private ListDictionary stylesheetTable = new ListDictionary(); 
+		private readonly ListDictionary stylesheetTable = new ListDictionary(); 
 
 		static NewsItemFormatter() {
 			//_defaultTmpl = Resource.Manager["XSLT_DefaultTemplate"];
@@ -85,13 +88,16 @@ namespace RssBandit.WinGui.Utility
 					name = String.Empty;
 				}
 
-				if (stylesheet == null || stylesheet.Length == 0) {
+				if (string.IsNullOrEmpty(stylesheet)) {
 					stylesheet = DefaultNewsItemTemplate;
 				}	
 					
 				//FeedDemon styles use an $IMAGEDIR$ magic variable which we should account for
-				stylesheet = stylesheet.Replace("$IMAGEDIR$", Path.Combine(Application.StartupPath,@"templates\images\")); 
-						
+				//stylesheet = stylesheet.Replace("$IMAGEDIR$", Path.Combine(Application.StartupPath,@"templates\images\")); 
+				Uri toImages;
+				Uri.TryCreate(Path.Combine(Application.StartupPath, @"templates\images\"), UriKind.Absolute, out toImages);
+				stylesheet = stylesheet.Replace("$IMAGEDIR$", toImages.AbsoluteUri); 
+
 				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
 				
 				if(this.stylesheetTable.Contains(name)){
@@ -100,20 +106,21 @@ namespace RssBandit.WinGui.Utility
 
 				this.stylesheetTable.Add(name, transform); 
 				
-			}catch (XsltCompileException e){
-				stylesheet = DefaultNewsItemTemplate;
-				//transform.Load(new XmlTextReader(new StringReader(stylesheet))); 
+			}catch (XsltCompileException e)
+			{
 				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterStylesheetCompile));
-				if(!(e.InnerException is ThreadAbortException)){				
-					RssBanditApplication.PublishException(new BanditApplicationException("Error in AddXslStyleSheet()", e)); 				
-				}
-			}catch (XmlException e){
-				stylesheet = DefaultNewsItemTemplate;
-				//transform.Load(new XmlTextReader(new StringReader(stylesheet))); 				
-				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterStylesheetCompile));
-				if(!(e.InnerException is ThreadAbortException)){
-					RssBanditApplication.PublishException(new BanditApplicationException("Error in AddXslStyleSheet()", e)); 					
-				}
+			}
+			catch (XsltException e)
+			{
+				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterInvalidStylesheet));
+			}
+			catch (XmlException e)
+			{
+				this.OnStylesheetError(this, new ExceptionEventArgs(e, SR.ExceptionNewsItemFormatterStylesheetMessage));
+			}
+			catch (Exception e)
+			{
+				Log.Error("AddXslStyleSheet() caused unexpected error", e);
 			}
 		}
 
@@ -125,9 +132,9 @@ namespace RssBandit.WinGui.Utility
 		/// <param name="transformTarget">The object to transform</param>
 		/// <param name="xslArgs"></param>
 		/// <returns>The results of the transformation</returns>
-		public virtual string ToHtml(string stylesheet, object transformTarget, XsltArgumentList xslArgs) {
+		public virtual string ToHtml(string stylesheet, object transformTarget, XsltArgumentList xslArgs) 
+		{
 
-			NewsItemSerializationFormat format = NewsItemSerializationFormat.NewsPaper;
 			string link = String.Empty, content = String.Empty;
 			
 			if (transformTarget == null) 
@@ -138,17 +145,17 @@ namespace RssBandit.WinGui.Utility
 			StringWriter swr = new StringWriter();
 
 			try	{
-				XPathDocument doc = null; 
+				XPathDocument doc; 
 				
 				if(transformTarget is INewsItem){
 					INewsItem item = (INewsItem) transformTarget;
 					link = item.FeedLink;
 					content = item.Content;
-					doc = new XPathDocument(new XmlTextReader(new StringReader(item.ToString(format, false))), XmlSpace.Preserve);
+					doc = new XPathDocument(new XmlTextReader(new StringReader(item.ToString(NewsItemSerializationFormat.NewsPaper, false))), XmlSpace.Preserve);
                 }else if (transformTarget is IFeedDetails){
 					IFeedDetails feed = (IFeedDetails) transformTarget;
 					link = feed.Link;
-					doc = new XPathDocument(new XmlTextReader(new StringReader(feed.ToString(format, false))), XmlSpace.Preserve);				
+					doc = new XPathDocument(new XmlTextReader(new StringReader(feed.ToString(NewsItemSerializationFormat.NewsPaper, false))), XmlSpace.Preserve);				
 				}else if(transformTarget is FeedInfoList){
 					FeedInfoList feeds = (FeedInfoList) transformTarget;
 					doc = new XPathDocument(new XmlTextReader(new StringReader(feeds.ToString())), XmlSpace.Preserve);				
@@ -156,7 +163,7 @@ namespace RssBandit.WinGui.Utility
 					throw new ArgumentException("transformTarget"); 
 				}
 
-				XslCompiledTransform transform = null; 
+				XslCompiledTransform transform; 
 				
 				if(this.stylesheetTable.Contains(stylesheet)){
                     transform = (XslCompiledTransform)this.stylesheetTable[stylesheet];
