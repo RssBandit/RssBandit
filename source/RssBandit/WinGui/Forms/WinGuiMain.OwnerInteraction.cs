@@ -2918,9 +2918,11 @@ namespace RssBandit.WinGui.Forms
             int numDays = RssBanditApplication.ReadAppSettingsEntry("TopStoriesTimeSpanInDays", SevenDays.Days);
             DateTime since = DateTime.Now - new TimeSpan(numDays, 0, 0, 0, 0);
 
-            IList<INewsItem> affectedItems = owner.FeedHandler.GetItemsWithIncomingLinks(storyId, since);
-            var affectedItemsInListView = new List<ThreadedListViewItem>();
-
+            IList<INewsItem> affectedItems = new List<INewsItem>();
+			foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
+				affectedItems.AddRange(entry.Source.GetItemsWithIncomingLinks(storyId, since));
+            
+			var affectedItemsInListView = new List<ThreadedListViewItem>();
             for (int i = 0; i < affectedItems.Count; i++)
             {
                 ThreadedListViewItem lvItem = GetListViewItem(affectedItems[i].Id);
