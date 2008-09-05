@@ -580,9 +580,9 @@ namespace RssBandit.WinGui.Forms
         /// <param name="sender"></param>
         private void CmdMarkFinderItemsRead(ICommand sender)
         {
-			//TODO: this have to be changed!
-            SetFeedItemsReadState(listFeedItems.Items, true);
-            UpdateTreeStatus(owner.FeedHandler.GetFeeds());
+			SetFeedItemsReadState(listFeedItems.Items, true);
+            foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
+				UpdateTreeStatus(entry.Source.GetFeeds());
         }
 
         /// <summary>
