@@ -389,6 +389,8 @@ namespace RssBandit
 				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
 				// save the test enviroment:
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+				if (BanditFeedSourceEntry != null)
+					BanditFeedSourceEntry.Source.SaveFeedList();
 			}
 
 			//TODO: remove, if all references got replaced:
