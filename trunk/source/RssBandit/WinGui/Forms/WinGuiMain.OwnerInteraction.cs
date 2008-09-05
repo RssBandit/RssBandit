@@ -232,9 +232,7 @@ namespace RssBandit.WinGui.Forms
 				{
 					if (visibleSources.Contains(entry))
 					{
-						PopulateFeedSubscriptions(entry, //.Source.GetCategories().Values,
-												  //entry.Source.GetFeeds(),
-												  RssBanditApplication.DefaultCategory);
+						PopulateFeedSubscriptions(entry, RssBanditApplication.DefaultCategory);
                                 
 					} else
 					{
@@ -252,9 +250,7 @@ namespace RssBandit.WinGui.Forms
 			{
 				if (entry.Source.FeedsListOK)
 				{
-					PopulateFeedSubscriptions(entry, //.Source.GetCategories().Values,
-											  //entry.Source.GetFeeds(),
-											  RssBanditApplication.DefaultCategory);
+					PopulateFeedSubscriptions(entry, RssBanditApplication.DefaultCategory);
 				}
 				else
 				{
@@ -456,8 +452,6 @@ namespace RssBandit.WinGui.Forms
         public void PopulateFeedSubscriptions(FeedSourceEntry entry,
                                               string defaultCategory)
         {
-            //EmptyListView();
-
             TreeFeedsNodeBase root = GetSubscriptionRootNode(entry.Name);
 			try
 			{
@@ -577,10 +571,8 @@ namespace RssBandit.WinGui.Forms
             // also this one:
             DelayTask(DelayedTasks.SyncRssSearchTree);
 
-            //SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
-
             //we'll need to fetch favicons for the newly loaded/imported feeds
-            _faviconsDownloaded = false;
+            entry.FaviconsDownloaded = false;
         }
 
         /// <summary>

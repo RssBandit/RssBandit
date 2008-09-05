@@ -17,7 +17,6 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using NewsComponents;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Search; 
@@ -442,6 +441,17 @@ namespace NewsComponents
 				if (ReferenceEquals(id.Source, newsFeed.owner))
 					return id;
 			return null;
+		}
+		/// <summary>
+		/// Gets the source of a <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsItem">The news item.</param>
+		/// <returns></returns>
+		public FeedSourceEntry SourceOf(INewsItem newsItem)
+		{
+			if (newsItem == null)
+				return null;
+			return SourceOf(newsItem.Feed);
 		}
 
 		/// <summary>
