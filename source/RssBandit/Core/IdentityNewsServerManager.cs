@@ -292,20 +292,6 @@ namespace RssBandit
 				}
 			}
 
-			//lock (app.FeedHandler.NntpServers) {
-			//    app.FeedHandler.NntpServers.Clear();
-			//    if (cfg.ConfiguredNntpServers != null) {
-			//        foreach (NntpServerDefinition sd in cfg.ConfiguredNntpServers.Values) {
-			//            app.FeedHandler.NntpServers.Add(sd.Name, (NntpServerDefinition)sd.Clone());
-			//        }	
-			//    }
-			//}
-
-			//if (!app.FeedlistModified)
-			//	app.FeedlistModified = true;
-			app.SubscriptionModified(NewsFeedProperty.General);
-
-			//TODO: we should differ between the two kinds of general modifications
 			RaiseNewsServerDefinitionsModified();
 			RaiseIdentityDefinitionsModified();
 

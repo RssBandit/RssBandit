@@ -881,6 +881,7 @@ namespace RssBandit
 					{
 						guiMain.SetGuiStateFeedback(SR.GUIStatusAllSubscriptionListsLoaded, ApplicationTrayState.NormalIdle);
 						RaiseAllFeedSourcesSubscriptionsLoaded();
+						LoadWatchedCommentsFeedlist();
 					}
 
 				}, FeedSources.GetOrderedFeedSources());
@@ -3174,6 +3175,7 @@ namespace RssBandit
 				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
 							
 				RaiseAllFeedSourcesSubscriptionsLoaded();
+				LoadWatchedCommentsFeedlist();
 			} 
 			else
 			{
@@ -3187,7 +3189,6 @@ namespace RssBandit
 				BeginLoadAllFeedSourcesSubscriptions();
 			}
 
-            LoadWatchedCommentsFeedlist();
         }
 
         /// <summary>
@@ -3317,13 +3318,26 @@ namespace RssBandit
                     {
                         if ((f.Any != null) && (f.Any.Length > 0))
                         {
-                            XmlElement origin = f.Any[0];
-                            string sourceFeedUrl = origin.InnerText;
-                            INewsFeed sourceFeed;
-                            if (feedHandler.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
+							int entryID;
+                        	string sourceFeedUrl = OptionalItemElement.GetOriginalFeedReference(f, out entryID);
+							
+							FeedSourceEntry entry;
+							if (entryID != -1 && FeedSources.ContainsKey(entryID))
+							{
+								// new Bandit version file:
+								entry = FeedSources[entryID];
+							} 
+							else
+							{
+								// older Bandit version:
+								entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(sourceFeedUrl));
+							}
+							
+							INewsFeed sourceFeed;
+                        	if (entry != null && entry.Source.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
                             {
                                 f.Tag = sourceFeed;
-                            }
+                            } 
                         }
                     }
                 }
@@ -5518,7 +5532,7 @@ namespace RssBandit
 
                 item2post.CommentStyle = SupportedCommentStyle.NNTP;
                 // in case the feed does not yet have downloaded items, we may get null here:
-                item2post.FeedDetails = feedHandler.GetFeedDetails(f.link);
+                item2post.FeedDetails = BanditFeedSource.GetFeedDetails(f.link);
                 if (item2post.FeedDetails == null)
                     item2post.FeedDetails =
                         new FeedInfo(f.id, f.cacheurl, new List<INewsItem>(0), f.title, f.link, f.title);
@@ -5531,7 +5545,7 @@ namespace RssBandit
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
 
-                prth = new PostReplyThreadHandler(feedHandler, item2post, f);
+				prth = new PostReplyThreadHandler(BanditFeedSource, item2post, f);
                 DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostNewFeedItem);
 
                 if (result != DialogResult.OK)

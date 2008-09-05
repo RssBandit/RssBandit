@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using NewsComponents;
+using NewsComponents.Feed;
 using NewsComponents.Utils;
 
 namespace RssBandit
@@ -134,7 +135,7 @@ namespace RssBandit
 					startIndex = startIndex + (OriginalSourceID + "=").Length + 1;
 					endIndex = str.IndexOf("\"", startIndex);
 					string fs = str.Substring(startIndex, endIndex - startIndex);
-					if (String.IsNullOrEmpty(fs))
+					if (!String.IsNullOrEmpty(fs))
 						Int32.TryParse(fs, out sourceID);
 				}
 			}
@@ -142,6 +143,43 @@ namespace RssBandit
 			return feedUrl;
 		}
 
+		/// <summary>
+		/// Returns the feed URL and source ID of the optional feed reference element for this <paramref name="newsItem"/>.
+		/// </summary>
+		/// <param name="newsFeed">The news feed.</param>
+		/// <param name="sourceID">out: The source ID. -1 in case no source ID is available</param>
+		/// <returns>
+		/// The feed URL of the source feed if a pointer to it exists and NULL otherwise.
+		/// </returns>
+		public static string GetOriginalFeedReference(INewsFeed newsFeed, out int sourceID)
+		{
+			if (newsFeed == null)
+				throw new ArgumentNullException("newsFeed");
+
+			sourceID = -1;
+			string feedUrl = null;
+			XmlQualifiedName key = AdditionalElements.GetQualifiedName(OriginalFeedRef);
+			XmlQualifiedName attrKey = AdditionalElements.GetQualifiedName(OriginalSourceID);
+			
+			if (key != null && newsFeed.Any != null && newsFeed.Any.Length > 0)
+			{
+				XmlElement origin = newsFeed.Any[0];
+				feedUrl = origin.InnerText;
+
+				if (origin.Attributes.Count > 0)
+				{
+					XmlNode a = origin.Attributes.GetNamedItem(attrKey.Name, attrKey.Namespace);
+					if (a != null)
+					{
+						string fs = a.InnerText;
+						if (!String.IsNullOrEmpty(fs))
+							Int32.TryParse(fs, out sourceID);
+					}
+				}
+			}
+
+			return feedUrl;
+		}
 		/// <summary>
 		/// Removes the optional feed reference element from <paramref name="newsItem"/>'s optional elements.
 		/// </summary>
