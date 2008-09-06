@@ -831,25 +831,18 @@ namespace NewsComponents.Feed
                     foreach (IFeed feed in Feeds)
                     {
                         Uri uri;
-						if (!Uri.TryCreate(feed.DownloadUrl, UriKind.Absolute, out uri) &&
-							!Uri.TryCreate(feed.Url, UriKind.Absolute, out uri))
-							continue;
-						
-						//try
-						//{
-						//    uri = new Uri(feed.DownloadUrl);
-						//}
-						//catch (Exception)
-						//{
-						//    try
-						//    {
-						//        uri = new Uri(feed.Url);
-						//    }
-						//    catch (Exception)
-						//    {
-						//        continue; 
-						//    }
-						//}
+						bool isBadUrl; 
+
+                        try
+                        {
+                           isBadUrl =  !Uri.TryCreate(feed.DownloadUrl, UriKind.Absolute, out uri);
+                        }
+                        catch (COMException) //DownloadUrl errors if the feed has never been downloaded
+                        {
+                           isBadUrl = !Uri.TryCreate(feed.Url, UriKind.Absolute, out uri);                         
+                        }
+
+                        if(isBadUrl) continue; 
 
                         string feedUrl = uri.CanonicalizedUri();
                         NewsFeed bootstrapFeed;
@@ -1499,7 +1492,9 @@ namespace NewsComponents.Feed
             this.myitem = item;
             this.myfeed = owner;
             /* do this here because COM interop is too slow to check it each time property is accessed */
-            this._id = myitem.LocalId.ToString();
+            this._id = String.IsNullOrEmpty(myitem.Guid)
+                ? (String.IsNullOrEmpty(myitem.Link) ? myitem.Title.GetHashCode().ToString() : myitem.Link)
+                : myitem.Guid; 
             this._beenRead = myitem.IsRead;
 
             //TODO: RelationCosmos and outgoing links processing? 
