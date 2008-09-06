@@ -348,7 +348,8 @@ namespace NewsComponents.Feed
 
         #endregion 
 
-        #region public methods
+        #region public methods      
+
 
          /// <summary>
         /// Resumes pending BITS downloads from a if any exist. 
@@ -2928,14 +2929,6 @@ namespace NewsComponents.Feed
         }
 
 
-        /// <remarks/>
-        [XmlElement("refresh-rate")]
-        public int refreshrate { get; set; }
-     
-        /// <remarks/>
-        [XmlIgnore]
-        public bool refreshrateSpecified { get; set; }
-
         /// <remarks>This property does not apply to this object </remarks>
         public string etag { get { return null; } set { /* not applicable to this type */ } }
 
@@ -3259,6 +3252,36 @@ namespace NewsComponents.Feed
                 {
                     _containsNewComments = value;
                     this.OnPropertyChanged("containsNewComments");
+                }
+            }
+        }
+
+
+        /// <remarks/>
+        [XmlIgnore]
+        public virtual bool refreshrateSpecified { 
+            get { return myfeed.Interval > 0; }
+            set { myfeed.Interval = 0; }
+            }
+
+
+        /// <remarks/>
+        [XmlElement("refresh-rate")]
+        public virtual int refreshrate
+        {
+            get
+            {
+                return myfeed.Interval * 60 * 1000; //convert minutes to milliseconds
+            }
+
+            set
+            {
+                if (value <= 0) return; /* Windows RSS platform doesn't support this */
+                value = value / (60 * 1000); //convert to minutes
+
+                if (!myfeed.Interval.Equals(value))
+                {
+                    myfeed.Interval = value;                  
                 }
             }
         }

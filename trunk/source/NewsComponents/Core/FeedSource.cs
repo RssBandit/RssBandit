@@ -2342,7 +2342,7 @@ namespace NewsComponents
         /// <summary>
         /// Resets all refresh rate settings at feeds and categories.
         /// </summary>
-        public void ResetAllRefreshRateSettings()
+        public virtual void ResetAllRefreshRateSettings()
         {
             string[] keys;
 
@@ -3600,7 +3600,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feedUrl">the URL of the feed</param>
         /// <param name="refreshRate">the new refresh rate</param>
-        public void SetRefreshRate(string feedUrl, int refreshRate)
+        public virtual void SetRefreshRate(string feedUrl, int refreshRate)
         {
             SetFeedProperty(feedUrl, "refreshrate", refreshRate);
         }
@@ -3610,7 +3610,7 @@ namespace NewsComponents
         /// </summary>
         /// <param name="feedUrl">the URL of the feed</param>
         /// <returns>the refresh rate</returns>
-        public int GetRefreshRate(string feedUrl)
+        public virtual int GetRefreshRate(string feedUrl)
         {
             return (int) GetFeedProperty(feedUrl, "refreshrate", true);
         }
