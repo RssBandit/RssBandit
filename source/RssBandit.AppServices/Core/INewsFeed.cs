@@ -30,12 +30,7 @@ namespace NewsComponents.Feed
         bool lastretrievedSpecified { get; set; }
         DateTime lastretrieved { get; set; }
 
-		///// <summary />
-		///// <remarks>Notifies on change. </remarks>
-		//int refreshrate { get; set; }
-
-		//bool refreshrateSpecified { get; set; }
-        string etag { get; set; }
+		string etag { get; set; }
         string cacheurl { get; set; }
 
 		///// <summary />
