@@ -11,12 +11,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Xml;
 using System.Xml.Serialization;
 using NewsComponents;
 
 using NewsComponents.Utils;
+using RssBandit.Core.Storage.Serialization;
 using RssBandit.WinGui;
 
 namespace RssBandit.Core.Storage
@@ -87,9 +86,48 @@ namespace RssBandit.Core.Storage
 			}
 		}
 
+		public override IdentitiesDictionary LoadIdentities()
+		{
+			string fileName = UserIdentitiesFileName;
+			if (File.Exists(fileName))
+			{
+				XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SerializableIdentities));
+				using (Stream s = FileHelper.OpenForRead(fileName))
+				{
+					SerializableIdentities root = (SerializableIdentities)serializer.Deserialize(s);
+					IdentitiesDictionary coll = new IdentitiesDictionary(root.identities.Count);
+					foreach (var identity in root.identities)
+					{
+						coll.Add(identity.Name, identity);
+					}
+					return coll;
+				}
+			}
+			return new IdentitiesDictionary();
+		}
+
+		public override void SaveIdentities(IdentitiesDictionary identities)
+		{
+			string fileName = UserIdentitiesFileName;
+			if (identities == null || identities.Count == 0)
+			{
+				if (File.Exists(fileName))
+					FileHelper.Delete(fileName);
+				return;
+			}
+
+			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SerializableIdentities));
+			using (Stream stream = FileHelper.OpenForWrite(fileName))
+			{
+				SerializableIdentities root = new SerializableIdentities();
+				root.identities = new List<UserIdentity>(identities.Values);
+				serializer.Serialize(stream, root);
+			}
+		}
+
 		public override string[] GetUserDataFileNames()
 		{
-			return new string[] { ColumnLayoutDefsFileName };
+			return new string[] { ColumnLayoutDefsFileName, UserIdentitiesFileName };
 		}
 
 		public override DataEntityName SetContentForDataFile(string dataFileName, Stream content)
@@ -97,18 +135,15 @@ namespace RssBandit.Core.Storage
 			string fileName = Path.GetFileName(ColumnLayoutDefsFileName);
 			if (String.Equals(dataFileName, fileName, StringComparison.OrdinalIgnoreCase))
 			{
-				using (Stream s = FileHelper.OpenForWrite(ColumnLayoutDefsFileName))
-				{
-					byte[] buf = new byte[4096];
-					int offset = 0, bytesRead;
-					while (0 <= (bytesRead = content.Read(buf, offset, 4096)))
-					{
-						s.Write(buf, 0, bytesRead);
-						offset += bytesRead;
-					}
-				}
-
+				FileHelper.WriteStreamWithBackup(ColumnLayoutDefsFileName, content);
 				return DataEntityName.ColumnLayoutDefinitions;
+			}
+			
+			fileName = Path.GetFileName(UserIdentitiesFileName);
+			if (String.Equals(dataFileName, fileName, StringComparison.OrdinalIgnoreCase))
+			{
+				FileHelper.WriteStreamWithBackup(UserIdentitiesFileName, content);
+				return DataEntityName.UserIdentities;
 			}
 
 			return DataEntityName.None;
@@ -125,45 +160,16 @@ namespace RssBandit.Core.Storage
 			}
 		}
 
+		private string UserIdentitiesFileName
+		{
+			get
+			{
+				return Path.Combine(initializationData,
+					"user-identities.xml");
+			}
+		}
 		
 	}
 	
-	/// <summary>
-	/// Column Layout Definitions serializable root class
-	/// </summary>
-	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
-	[XmlRoot("column-layouts", Namespace = NamespaceCore.Feeds_vCurrent, IsNullable = false)]
-	public class SerializableColumnLayoutDefinitions
-	{
-		/// <summary/>
-		[XmlElement("column-layout", Type = typeof(listviewLayout), IsNullable = false)]
-		public List<listviewLayout> ColumnLayouts = new List<listviewLayout>();
-	}
-
-	/// <remarks/>
-	[XmlType(Namespace = NamespaceCore.Feeds_vCurrent)]
-	public class listviewLayout
-	{
-		public listviewLayout()
-		{
-		}
-
-		public listviewLayout(string id, IFeedColumnLayout layout)
-		{
-			ID = id;
-			FeedColumnLayout = (FeedColumnLayout)layout;
-		}
-
-		/// <remarks/>
-		[XmlAttribute]
-		public string ID;
-
-		/// <remarks/>
-		[XmlAnyAttribute]
-		public XmlAttribute[] AnyAttr;
-
-		/// <remarks/>
-		[XmlElement] //?
-		public FeedColumnLayout FeedColumnLayout;
-	}
+	
 }

@@ -171,6 +171,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\KeyItemCollection.cs" />
+    <Compile Include="Collections\ObservableKeyItemCollection.cs" />
     <Compile Include="Collections\ReadOnlyCollections.cs" />
     <Compile Include="Collections\RelationHRefEntry.cs" />
     <Compile Include="Core\BackgroundDownloadManager.cs">

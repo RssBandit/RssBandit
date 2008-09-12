@@ -16,22 +16,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using RssBandit.AppServices;
-using RssBandit.WinGui.Controls;
-using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Utility;
 using RssBandit.WebSearch;
 using RssBandit.Resources;
-using NewsComponents.Feed;
 
 using Logger = RssBandit.Common.Logging;
+using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
-namespace RssBandit.WinGui.Forms {
+namespace RssBandit.WinGui.Dialogs {
 
 	/// <summary>
 	/// PreferencesDialog provides the editing interface
 	/// for all major application options.
 	/// </summary>
-	public partial class PreferencesDialog : Form {
+	internal partial class PreferencesDialog : Form {
 
 		public event EventHandler OnApplyPreferences;
 	
@@ -73,7 +71,7 @@ namespace RssBandit.WinGui.Forms {
 		{
 		
 			this.identityManager = identityManager;
-			this.PopulateComboUserIdentityForComments(identityManager.CurrentIdentities, prefs.UserIdentityForComments);
+			this.PopulateComboUserIdentityForComments(identityManager.Identities, prefs.UserIdentityForComments);
 			
 			//general
 			switch (prefs.HideToTrayAction) {
@@ -334,7 +332,7 @@ namespace RssBandit.WinGui.Forms {
 					case 3: return RemoteStorageProtocolType.NewsgatorOnline;
 					case 4: return RemoteStorageProtocolType.WebDAV;
 					case -1: return RemoteStorageProtocolType.Unknown; // no item selected
-					default: throw new InvalidOperationException("No RemoteStorageProtocolType for selected index: " + comboRemoteStorageProtocol.SelectedIndex.ToString());
+					default: throw new InvalidOperationException("No RemoteStorageProtocolType for selected index: " + comboRemoteStorageProtocol.SelectedIndex);
 				}
 			}
 			set {
@@ -1107,7 +1105,7 @@ namespace RssBandit.WinGui.Forms {
 
 		private void btnManageIdentities_Click(object sender, EventArgs e) {
 			this.identityManager.ShowIdentityDialog(this);
-			this.PopulateComboUserIdentityForComments(this.identityManager.CurrentIdentities, this.cboUserIdentityForComments.Text);
+			this.PopulateComboUserIdentityForComments(this.identityManager.Identities, this.cboUserIdentityForComments.Text);
 		}
 
 		private void btnChangeColor_Click(object sender, EventArgs e) {

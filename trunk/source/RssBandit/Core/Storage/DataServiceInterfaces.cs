@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using RssBandit.WinGui;
 
 namespace RssBandit.Core.Storage
@@ -13,13 +20,17 @@ namespace RssBandit.Core.Storage
 	internal enum DataEntityName
 	{
 		/// <summary>
-		/// 
+		/// No entity name
 		/// </summary>
 		None,
 		/// <summary>
-		/// 
+		/// column layout entity
 		/// </summary>
 		ColumnLayoutDefinitions,
+		/// <summary>
+		/// User identity entity
+		/// </summary>
+		UserIdentities
 	}
 
 	#region IoC resolvable marker data interfaces
@@ -80,6 +91,22 @@ namespace RssBandit.Core.Storage
 		/// </summary>
 		/// <param name="layouts">The layouts.</param>
 		void SaveColumnLayouts(FeedColumnLayoutCollection layouts);
+
+		#endregion
+
+		#region identities
+
+		/// <summary>
+		/// Loads the Identities.
+		/// </summary>
+		/// <returns></returns>
+		IdentitiesDictionary LoadIdentities();
+
+		/// <summary>
+		/// Saves the Identities.
+		/// </summary>
+		/// <param name="identities">The identities.</param>
+		void SaveIdentities(IdentitiesDictionary identities);
 
 		#endregion
 

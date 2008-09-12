@@ -3234,11 +3234,13 @@ namespace NewsComponents
 
 				// NNTP is saved now separately:
 				feedlist.nntpservers = null;
+				// saved separately too:
+            	feedlist.identities = null;
+                
+				//var ids = new List<UserIdentity>(identities.Values);
 
-                var ids = new List<UserIdentity>(identities.Values);
-
-                //we don't want to write out empty <user-identities /> into the schema. 				
-                feedlist.identities = ids.Count == 0 ? null : ids;
+				////we don't want to write out empty <user-identities /> into the schema. 				
+				//feedlist.identities = ids.Count == 0 ? null : ids;
 
 
                 TextWriter writer = new StreamWriter(feedStream);
@@ -5986,20 +5988,20 @@ namespace NewsComponents
 
 
             //IDictionary<string, INntpServerDefinition> serverList = new Dictionary<string, INntpServerDefinition>();
-            IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>();
+            //IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>();
 
             /* copy over user identity information */
-            foreach (var identity in myFeeds.identities)
-            {
-                if (replace)
-                {
-                    identityList.Add(identity.Name, identity);
-                }
-                else if (!identities.ContainsKey(identity.Name))
-                {
-                    identities.Add(identity.Name, identity);
-                }
-            } //foreach
+			//foreach (var identity in myFeeds.identities)
+			//{
+			//    if (replace)
+			//    {
+			//        identityList.Add(identity.Name, identity);
+			//    }
+			//    else if (!identities.ContainsKey(identity.Name))
+			//    {
+			//        identities.Add(identity.Name, identity);
+			//    }
+			//} //foreach
 
 
             /* copy over newsgroup information */
@@ -6045,7 +6047,7 @@ namespace NewsComponents
                 /* update category information */
                 categories = cats;
                 /* update identities */
-                identities = identityList;
+                //identities = identityList;
                 /* update servers */
                 //nntpServers = serverList;
                 /* update layouts */

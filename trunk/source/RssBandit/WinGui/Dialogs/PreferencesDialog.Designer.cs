@@ -13,9 +13,9 @@ using RssBandit.WebSearch;
 using RssBandit.Resources;
 using NewsComponents.Feed;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
-	public partial class PreferencesDialog
+	internal partial class PreferencesDialog
 	{
 
 		#region Windows Form Designer generated code

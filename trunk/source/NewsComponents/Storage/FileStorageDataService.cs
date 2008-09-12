@@ -93,7 +93,7 @@ namespace NewsComponents.Storage {
 
 				lock(this){
 
-					if((feed.FeedLocation == null) || (feed.FeedLocation.Length == 0)){
+					if(string.IsNullOrEmpty(feed.FeedLocation)){
 						feed.FeedLocation = feedLocation = GetCacheUrlName(feed.Id, new Uri(feed.Link)); 
 					}					
 				}				
@@ -459,17 +459,7 @@ namespace NewsComponents.Storage {
 			string fileName = Path.GetFileName(NntpServerDefsFileName);
 			if (String.Equals(dataFileName, fileName, StringComparison.OrdinalIgnoreCase))
 			{
-				using (Stream s = FileHelper.OpenForWrite(NntpServerDefsFileName))
-				{
-					byte[] buf = new byte[4096];
-					int offset = 0, bytesRead;
-					while (0 <= (bytesRead = content.Read(buf, offset, 4096)))
-					{
-						s.Write(buf, 0, bytesRead);
-						offset += bytesRead;
-					}
-				}
-
+				FileHelper.WriteStreamWithBackup(NntpServerDefsFileName, content);
 				return DataEntityName.NntpServerDefinitions;
 			}
 

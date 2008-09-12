@@ -19,9 +19,12 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.News;
 using NewsComponents.Utils;
+using RssBandit.Core.Storage;
+
 using RssBandit.Resources;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Forms;
+using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
 namespace RssBandit
 {
@@ -30,7 +33,7 @@ namespace RssBandit
 	/// <summary>
 	/// Summary description for IdentityNewsServerManager.
 	/// </summary>
-	public class IdentityNewsServerManager
+	internal class IdentityNewsServerManager
 	{
 		public event EventHandler NewsServerDefinitionsModified;
 		public event EventHandler IdentityDefinitionsModified;
@@ -40,35 +43,98 @@ namespace RssBandit
 
 		private static UserIdentity anonymous;
 
+		private IdentitiesDictionary identities;
 		private readonly RssBanditApplication app;
 		private readonly string cachePath;
 
-	    internal IdentityNewsServerManager(RssBanditApplication app) {
+	    internal IdentityNewsServerManager(RssBanditApplication app) 
+		{
 			this.app = app;
 			this.cachePath = RssBanditApplication.GetFeedFileCachePath();
 		}
 
 		#region public methods
 
-		public static UserIdentity AnonymousIdentity {
+		public static UserIdentity AnonymousIdentity 
+		{
 			get {
-				if (anonymous != null)
-					return anonymous;
-
-				anonymous = new UserIdentity();
-				anonymous.Name = anonymous.RealName = "anonymous";
-				anonymous.MailAddress = anonymous.ResponseAddress = String.Empty;
-				anonymous.Organization = anonymous.ReferrerUrl = String.Empty;
-				anonymous.Signature = String.Empty;
-
+				if (anonymous == null)
+				{
+					anonymous = new UserIdentity();
+					anonymous.Name = anonymous.RealName = "anonymous";
+					anonymous.MailAddress = anonymous.ResponseAddress = String.Empty;
+					anonymous.Organization = anonymous.ReferrerUrl = String.Empty;
+					anonymous.Signature = String.Empty;
+				}
 				return anonymous;
 			}
 		}
 
-		public IDictionary<string, UserIdentity> CurrentIdentities {
-			get { return this.app.FeedHandler.UserIdentity; }
+		public IdentitiesDictionary Identities
+		{
+			get
+			{
+				if (identities == null)
+				{
+					identities = LoadIdentities(IoC.Resolve<IUserRoamingDataService>());
+				}
+				return identities;
+			}
+			set
+			{
+				identities = value;
+			}
 		}
-        
+
+		/// <summary>
+		/// Saves the modified objects of this instance.
+		/// </summary>
+		public void Save()
+		{
+			if (Identities.Modified)
+				SaveIdentities(IoC.Resolve<IUserRoamingDataService>(), Identities);
+		}
+
+		public void MigrateOrMergeIdentities(List<NewsComponents.Feed.UserIdentity> oldVersionIdentities, bool replace)
+		{
+			if (oldVersionIdentities != null && oldVersionIdentities.Count > 0)
+			{
+				IdentitiesDictionary migrated = new IdentitiesDictionary(oldVersionIdentities.Count);
+				foreach (NewsComponents.Feed.UserIdentity oldIdent in oldVersionIdentities)
+				{
+					UserIdentity newIdent = new UserIdentity();
+					newIdent.Name = oldIdent.Name;
+					newIdent.MailAddress = oldIdent.MailAddress;
+					newIdent.Organization = oldIdent.Organization;
+					newIdent.RealName = oldIdent.RealName;
+					newIdent.ReferrerUrl = oldIdent.ReferrerUrl;
+					newIdent.ResponseAddress = oldIdent.ResponseAddress;
+					newIdent.Signature = oldIdent.Signature;
+					migrated.Add(newIdent.Name, newIdent);
+				}
+
+				if (replace)
+				{
+					Identities = migrated;
+				} 
+				else
+				{
+					foreach (UserIdentity identity in migrated.Values)
+					{
+						if (Identities.ContainsKey(identity.Name))
+						{
+							Identities[identity.Name] = identity;
+						} else
+						{
+							Identities.Add(identity.Name, identity);
+						}
+					}
+				}
+
+				Save();
+			}
+		}
+
 		public IDictionary<string, INntpServerDefinition> CurrentNntpServers
         {
 			get
@@ -141,6 +207,41 @@ namespace RssBandit
 		#endregion
 
 		#region private methods
+
+		static IdentitiesDictionary LoadIdentities(IClientDataService dataService)
+		{
+			if (dataService == null)
+				throw new ArgumentNullException("dataService");
+			try
+			{
+				return dataService.LoadIdentities();
+			}
+			catch (Exception ex)
+			{
+				_log.Error("Could not load user identities", ex);
+				return new IdentitiesDictionary();
+			}
+		}
+
+		private static void SaveIdentities(IClientDataService dataService, IdentitiesDictionary identitiesDictionary)
+		{
+			if (dataService == null)
+				throw new ArgumentNullException("dataService");
+
+			if (!identitiesDictionary.Modified)
+				return;
+
+			try
+			{
+				dataService.SaveIdentities(identitiesDictionary);
+				identitiesDictionary.Modified = false;
+			}
+			catch (Exception ex)
+			{
+				_log.Error("Could not save user identities", ex);
+			}
+		}
+		
 		private string BuildCacheFileName(INntpServerDefinition sd) {
 			return Path.Combine(cachePath, String.Format("{0}_{1}.xml", sd.Server , sd.Port != 0 ? sd.Port : NntpWebRequest.NntpDefaultServerPort) );
 		}
@@ -238,9 +339,8 @@ namespace RssBandit
 					//TODO: we should differ between the two kinds of general modifications
 					RaiseNewsServerDefinitionsModified();
 					RaiseIdentityDefinitionsModified();
-//					if (!app.FeedlistModified)
-//						app.FeedlistModified = true;
-					app.SubscriptionModified(NewsFeedProperty.General);
+					// notify backend about NNTP server defs changes:
+					app.SubscriptionModified(app.BanditFeedSourceEntry, NewsFeedProperty.General);
 				}
 			} catch (Exception ex) {
 				Trace.WriteLine("Exception in NewsGroupsConfiguration dialog: "+ex.Message);
@@ -266,14 +366,16 @@ namespace RssBandit
 
 			// take over the copies from local userIdentities and nntpServers 
 			// to app.FeedHandler.Identity and app.FeedHandler.NntpServers
-			lock (app.FeedHandler.UserIdentity) {
-				app.FeedHandler.UserIdentity.Clear();
-				if (cfg.ConfiguredIdentities != null) {
-					foreach (UserIdentity ui in cfg.ConfiguredIdentities.Values) {
-						app.FeedHandler.UserIdentity.Add(ui.Name, (UserIdentity)ui.Clone());
-					}
+			Identities.Clear();
+			if (cfg.ConfiguredIdentities != null)
+			{
+				foreach (UserIdentity ui in cfg.ConfiguredIdentities.Values)
+				{
+					Identities.Add(ui.Name, (UserIdentity)ui.Clone());
 				}
 			}
+
+			Save();
 
 			IBanditFeedSource extension = app.BanditFeedSourceExtension;
 			if (extension != null)
@@ -305,11 +407,12 @@ namespace RssBandit
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
 		private readonly INntpServerDefinition serverDef;
-		private RssBanditApplication app;
+		private readonly RssBanditApplication app;
 		public List<string> Newsgroups;
 
 		public FetchNewsgroupsThreadHandler(RssBanditApplication app, INntpServerDefinition sd)
 		{
+			this.app = app;
 			this.serverDef = sd;
             this.Newsgroups = new List<string>(0);
 		}
@@ -332,7 +435,7 @@ namespace RssBandit
 				}
 
 				//TODO: implement proxy support in NntpWebRequest
-				//request.Proxy = app.Proxy;
+				request.Proxy = app.Proxy;
 
 				request.Timeout = 1000 * 60;	// default timeout: 1 minute
                 if (serverDef.Timeout > 0) {
@@ -362,4 +465,25 @@ namespace RssBandit
 	}
 	#endregion
 
+	/// <summary>
+	/// A dictionary of user identities
+	/// </summary>
+	internal class IdentitiesDictionary : Core.Storage.Serialization.StatefullKeyItemCollection<string, UserIdentity>
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IdentitiesDictionary"/> class.
+		/// </summary>
+		public IdentitiesDictionary()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IdentitiesDictionary"/> class.
+		/// </summary>
+		/// <param name="capacity">The capacity.</param>
+		public IdentitiesDictionary(int capacity): base(capacity)
+		{
+			
+		}
+	}
 }

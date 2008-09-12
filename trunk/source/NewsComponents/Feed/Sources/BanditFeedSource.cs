@@ -251,25 +251,21 @@ namespace NewsComponents.Feed
 			//    }
 			//}
 
-            //copy user-identities over if we are importing  
-            if (myFeeds.identities != null)
-            {
-                foreach (var ui in myFeeds.identities)
-                {
-                    if (identities.ContainsKey(ui.Name) == false)
-                    {
-                        identities.Add(ui.Name, ui);
-                    }
-                }
-            }
+            
 
             /* 
 			 * props. set by configuration/static, but required for migration:
 			 */
 
             if (MigrateProperties)
-            {
-				//copy nntp-server defs. over if we are importing  
+			{
+				//copy user-identities over if we are migrating  
+				if (myFeeds.identities != null)
+				{
+					MigrationProperties.Add("UserIdentity", myFeeds.identities);
+				}
+
+				//copy nntp-server defs. over if we are migrating  
 				if (myFeeds.nntpservers != null)
 				{
 					foreach (var sd in myFeeds.nntpservers)

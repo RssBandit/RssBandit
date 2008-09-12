@@ -12,14 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using NewsComponents;
-using NewsComponents.Collections;
 using RssBandit.Common.Logging;
 using RssBandit.Core.Storage;
+using RssBandit.Core.Storage.Serialization;
 using SortOrder=System.Windows.Forms.SortOrder;
 
 namespace RssBandit.WinGui
@@ -65,7 +64,6 @@ namespace RssBandit.WinGui
 		private static string defaultSearchFolderColumnLayoutKey;
 		private static string defaultSpecialFolderColumnLayoutKey;
 		
-		private bool modified;
 		private FeedColumnLayoutCollection _layouts;
 
 
@@ -80,7 +78,6 @@ namespace RssBandit.WinGui
 				if (_layouts == null)
 				{
 					_layouts = LoadLayouts(IoC.Resolve<IUserRoamingDataService>());
-					_layouts.OnCollectionModified += OnLayoutCollectionModified;
 					ValidateAllColumnLayouts();
 				}
 				return _layouts;
@@ -171,13 +168,8 @@ namespace RssBandit.WinGui
 		/// </summary>
 		public void Save()
 		{
-			if (modified)
+			if (_layouts.Modified)
 				SaveLayouts(IoC.Resolve<IUserRoamingDataService>(), _layouts);
-		}
-
-		void OnLayoutCollectionModified(object sender, EventArgs e)
-		{
-			modified = true;
 		}
 
 		private static FeedColumnLayoutCollection LoadLayouts(IClientDataService dataService)
@@ -194,18 +186,18 @@ namespace RssBandit.WinGui
 			}
  		}
 
-		private void SaveLayouts(IClientDataService dataService, FeedColumnLayoutCollection layouts)
+		private static void SaveLayouts(IClientDataService dataService, FeedColumnLayoutCollection layouts)
 		{
 			if (dataService == null)
 				throw new ArgumentNullException("dataService");
-			
-			if (!modified)
+
+			if (!layouts.Modified)
 				return;
 			
 			try
 			{
 				dataService.SaveColumnLayouts(layouts);
-				modified = false;
+				layouts.Modified = false;
 			}
 			catch (Exception ex)
 			{
@@ -266,13 +258,8 @@ namespace RssBandit.WinGui
 	/// pairs that retain their insertion order and are accessible by index and by key.
 	/// </summary>
 	[Serializable]
-	public class FeedColumnLayoutCollection : KeyItemCollection<string, FeedColumnLayout>
+	public class FeedColumnLayoutCollection : StatefullKeyItemCollection<string, FeedColumnLayout>
 	{
-		/// <summary>
-		/// Occurs when the was collection modified.
-		/// </summary>
-		public event EventHandler OnCollectionModified;
-
 		#region ctor's
 
 		/// <summary>
@@ -343,17 +330,6 @@ namespace RssBandit.WinGui
 		#endregion
 
 		/// <summary>
-		/// Called if Collection was the changed.
-		/// </summary>
-		/// <param name="change">The change.</param>
-		/// <param name="position">The position.</param>
-		protected override void CollectionChanged(KeyItemChange change, int position)
-		{
-			if (OnCollectionModified != null)
-				OnCollectionModified(this, EventArgs.Empty);
-		}
-
-		/// <summary>
 		/// Creates the new key.
 		/// </summary>
 		/// <returns></returns>
@@ -364,7 +340,7 @@ namespace RssBandit.WinGui
 
 		class FeedColumnLayoutComparer : IEqualityComparer<FeedColumnLayout>
 		{
-			private bool ignoreColumnWidths;
+			private readonly bool ignoreColumnWidths;
 
 			public FeedColumnLayoutComparer(bool ignoreColumnWidths)
 			{
