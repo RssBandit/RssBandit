@@ -282,7 +282,7 @@ namespace NewsComponents.Utils
                 }
                 try
                 {
-                    int size = 2048;
+					int size = 4096;
                     byte[] writeData = new byte[size];
                     while (true)
                     {

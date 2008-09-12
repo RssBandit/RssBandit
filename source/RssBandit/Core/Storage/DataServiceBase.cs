@@ -63,6 +63,8 @@ namespace RssBandit.Core.Storage
 
 		public abstract FeedColumnLayoutCollection LoadColumnLayouts();
 		public abstract void SaveColumnLayouts(FeedColumnLayoutCollection layouts);
+		public abstract IdentitiesDictionary LoadIdentities();
+		public abstract void SaveIdentities(IdentitiesDictionary identities);
 		public abstract string[] GetUserDataFileNames();
 		public abstract DataEntityName SetContentForDataFile(string dataFileName, Stream content);
 

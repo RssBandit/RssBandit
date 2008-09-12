@@ -1751,6 +1751,7 @@
     <Compile Include="Core\Storage\DataServiceInterfaces.cs" />
     <Compile Include="Core\Storage\FileStorageDataService.cs" />
     <Compile Include="Core\Storage\IInitDataService.cs" />
+    <Compile Include="Core\Storage\SerializableClasses.cs" />
     <Compile Include="Core\ThreadWorker.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1940,6 +1941,9 @@
     <Compile Include="WinGui\Dialogs\FeedSourceProperties.Designer.cs">
       <DependentUpon>FeedSourceProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinGui\Dialogs\PostReplyForm.Designer.cs">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1999,6 +2003,9 @@
     </Compile>
     <Compile Include="WinGui\Forms\ControlHelpers\ToolbarHelper.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\NewsGroupsConfiguration.Designer.cs">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Forms\WinGuiMain.Callbacks.cs">
       <SubType>Form</SubType>

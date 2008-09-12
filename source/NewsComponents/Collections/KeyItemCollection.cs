@@ -117,7 +117,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <param name="change">The change.</param>
 		/// <param name="position">The position.</param>
-		protected virtual void CollectionChanged(KeyItemChange change, int position)
+		protected virtual void CollectionWasChanged(KeyItemChange change, int position)
 		{			
 
 		}
@@ -172,7 +172,7 @@ namespace NewsComponents.Collections
 			int position;
 			if (positions.TryGetValue(key,out position))
 			{
-				CollectionChanged(KeyItemChange.Remove, position);
+				CollectionWasChanged(KeyItemChange.Remove, position);
 				positions.Remove(key);
 				Dictionary<Key, int> newPositions = new Dictionary<Key, int>();
 				foreach(KeyValuePair<Key, int> entry in positions)
@@ -236,7 +236,7 @@ namespace NewsComponents.Collections
 				position = items.Count;
 				items.Add(@object);
 			}
-			CollectionChanged(KeyItemChange.Add, position);
+			CollectionWasChanged(KeyItemChange.Add, position);
 		}
 
 		/// <summary>
@@ -253,7 +253,7 @@ namespace NewsComponents.Collections
 			set
 			{
 				items[position] = value;
-				CollectionChanged(KeyItemChange.Changed, position);
+				CollectionWasChanged(KeyItemChange.Changed, position);
 			}
 		}
 
@@ -277,7 +277,7 @@ namespace NewsComponents.Collections
 			{
 				int position = positions[key];
 				items[position] = value;
-				CollectionChanged(KeyItemChange.Changed, position);
+				CollectionWasChanged(KeyItemChange.Changed, position);
 				
 			}
 		}
@@ -339,7 +339,7 @@ namespace NewsComponents.Collections
 			{
 				positions[arrKeys[iPosition]] = iPosition;
 			}
-			CollectionChanged(KeyItemChange.OrderChanged, -1);
+			CollectionWasChanged(KeyItemChange.OrderChanged, -1);
 		}
 		
 		internal Key[] GetSortedKeys()
@@ -429,11 +429,11 @@ namespace NewsComponents.Collections
 		/// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
 		/// </summary>
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only. </exception>
-		public void Clear()
+		public virtual void Clear()
 		{
 			for (int i = 0; i < Count; i++)
 			{
-				CollectionChanged(KeyItemChange.Remove, i);				
+				CollectionWasChanged(KeyItemChange.Remove, i);				
 			}
 			positions.Clear();
 			items.Clear();			
@@ -479,7 +479,7 @@ namespace NewsComponents.Collections
 			int position;
 			if (positions.TryGetValue(item.Key, out position))
 			{
-				CollectionChanged(KeyItemChange.Remove, position);
+				CollectionWasChanged(KeyItemChange.Remove, position);
 				positions.Remove(item.Key);
 				items.RemoveAt(position);
 			}

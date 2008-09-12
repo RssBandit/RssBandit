@@ -27,7 +27,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -54,7 +53,6 @@ using AppInteropServices;
 using log4net;
 using Microsoft.Win32;
 using NewsComponents;
-using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Net;
 using NewsComponents.News;
@@ -77,12 +75,11 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using Logger = RssBandit.Common.Logging;
-using SortOrder=NewsComponents.SortOrder;
 using Timer=System.Threading.Timer;
 using System.Windows.Threading;
-using System.Windows.Forms.Integration;
 using System.Configuration;
 using RssBandit.Core.Storage;
+using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -141,28 +138,6 @@ namespace RssBandit
         /// </summary>
         private static CultureInfo sharedCulture;
 
-		//private static readonly FeedColumnLayout DefaultFeedColumnLayout =
-		//    new FeedColumnLayout(new[] {"Title", "Flag", "Enclosure", "Date", "Subject"},
-		//                         new[] {250, 22, 22, 100, 120}, "Date", SortOrder.Descending,
-		//                         LayoutType.GlobalFeedLayout);
-
-		//private static readonly FeedColumnLayout DefaultCategoryColumnLayout =
-		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-		//                         "Date", SortOrder.Descending, LayoutType.GlobalCategoryLayout);
-
-		//private static readonly FeedColumnLayout DefaultSearchFolderColumnLayout =
-		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-		//                         "Date", SortOrder.Descending, LayoutType.SearchFolderLayout);
-
-		//private static readonly FeedColumnLayout DefaultSpecialFolderColumnLayout =
-		//    new FeedColumnLayout(new[] {"Title", "Subject", "Date", "FeedTitle"}, new[] {250, 120, 100, 100},
-		//                         "Date", SortOrder.Descending, LayoutType.SpecialFeedsLayout);
-
-		//private static string defaultFeedColumnLayoutKey;
-		//private static string defaultCategoryColumnLayoutKey;
-		//private static string defaultSearchFolderColumnLayoutKey;
-		//private static string defaultSpecialFolderColumnLayoutKey;
-
         private Timer autoSaveTimer;
         private bool feedlistModified;
         private bool commentFeedlistModified;
@@ -171,8 +146,6 @@ namespace RssBandit
 
         private Thread _dispatcherThread;
         private Dispatcher _dispatcher;
-
-        //private INetState connectionState = INetState.Invalid;	// moved to GuiStateManager
 
         internal static readonly int MilliSecsMultiplier = 60*1000;
 
@@ -189,9 +162,6 @@ namespace RssBandit
 
         private readonly CommandLineOptions commandLineOptions;
         private GuiStateManager stateManager;
-
-        //private NewsFeed flagItemsFeed;
-        //private ArrayList flagItemsList;
 
         private FinderSearchNodes findersSearchRoot;
         private NewsItemFormatter NewsItemFormatter;
@@ -2331,23 +2301,17 @@ namespace RssBandit
             if (!string.IsNullOrEmpty(Preferences.UserName) &&
                 string.IsNullOrEmpty(Preferences.UserIdentityForComments))
             {
-				FeedSourceEntry entry4migration = BanditFeedSourceEntry;
-				if (entry4migration != null &&
-					!entry4migration.Source.UserIdentity.ContainsKey(Preferences.UserName))
-                {
+				if (!IdentityManager.Identities.ContainsKey(Preferences.UserName))
+				{
                     //create a UserIdentity from Prefs. properties
                     var ui = new UserIdentity();
                     ui.Name = ui.RealName = Preferences.UserName;
                     ui.ResponseAddress = ui.MailAddress = Preferences.UserMailAddress;
                     ui.ReferrerUrl = Preferences.Referer;
-					entry4migration.Source.UserIdentity.Add(ui.Name, ui);
-                    feedlistModified = true;
+					IdentityManager.Identities.Add(ui.Name, ui);
+                    
                 }
-                else
-                {
-                    // yet contain the ID, nothing to do here
-                }
-
+                
                 // set/reset values:
                 Preferences.UserIdentityForComments = Preferences.UserName;
                 Preferences.UserName = String.Empty;
@@ -2357,6 +2321,14 @@ namespace RssBandit
             }
 
             // 1.6.x migrations to phoenix (2.0):
+
+			// migrate User Identities:
+            if (FeedSource.MigrationProperties.ContainsKey("UserIdentity"))
+            {
+				List<NewsComponents.Feed.UserIdentity> oldVersionIdentities = (List<NewsComponents.Feed.UserIdentity>)
+            		FeedSource.MigrationProperties["UserIdentity"];
+            	IdentityManager.MigrateOrMergeIdentities(oldVersionIdentities, true);
+            }
 
             // migrate stylesheet:
             if (FeedSource.MigrationProperties.ContainsKey("Stylesheet"))
@@ -6090,7 +6062,7 @@ namespace RssBandit
 
         IDictionary ICoreApplication.Identities
         {
-            get { return new ReadOnlyDictionary((IDictionary) IdentityManager.CurrentIdentities); }
+            get { return new ReadOnlyDictionary(IdentityManager.Identities); }
         }
 
         IDictionary<string, INntpServerDefinition> ICoreApplication.NntpServerDefinitions
