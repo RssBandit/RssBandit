@@ -1,13 +1,13 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
+
 
 using System;
 using System.Threading;
@@ -17,19 +17,17 @@ using System.Xml;
 using System.Xml.Xsl;
 using System.Xml.Serialization;
 using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using log4net;
 using RssBandit.CLR20.DasBlog;
 using RssBandit.Common.Logging;
+using RssBandit.Core.Storage;
 using ClrMappedWebReference = RssBandit.CLR20.DasBlog;
 using ICSharpCode.SharpZipLib.Zip;
 using Logger = RssBandit.Common.Logging;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
-using NewsComponents.Threading;
 using RssBandit.SpecialFeeds;
 using RssBandit.WinGui.Utility;
 
@@ -83,13 +81,13 @@ namespace RssBandit.WinGui
         private static readonly ILog _log = Log.GetLogger(typeof (RemoteFeedlistThreadHandler));
 
         private readonly Operation operationToRun = Operation.None;
-        private readonly RssBanditApplication rssBanditApp = null;
+        private readonly RssBanditApplication rssBanditApp;
         private RemoteStorageProtocolType remoteProtocol = RemoteStorageProtocolType.UNC;
-        private string remoteLocation = null;
-        private readonly string credentialUser = null;
-        private readonly string credentialPassword = null;
+        private string remoteLocation;
+        private readonly string credentialUser;
+        private readonly string credentialPassword;
         private string remoteFileName = "rssbandit-state.zip";
-        private readonly Settings settings = null;
+        private readonly Settings settings;
 
         protected override void Run()
         {
@@ -188,7 +186,13 @@ namespace RssBandit.WinGui
                                  RssBanditApplication.GetSentItemsFileName(),
                                  feedlistXml
                              });
+        	
+			// add files managed by Bandit data storage:
+			IUserDataService dataService = IoC.Resolve<IUserDataService>();
+			if (dataService != null)
+				files.AddRange(dataService.GetUserDataFileNames());
 
+			// add files managed by NewComponents feed source data storage:
 			rssBanditApp.FeedSources.ForEach(f =>
 				{
 					files.AddRange(f.GetDataServiceFiles());
@@ -277,15 +281,14 @@ namespace RssBandit.WinGui
                             try
                             {
                                 // The buffer size is set to 2kb
-                                int buffLength = 2048;
+                                const int buffLength = 2048;
                                 byte[] buff = new byte[buffLength];
-                                int contentLen;
 
-                                // Stream to which the file to be upload is written
+                            	// Stream to which the file to be upload is written
                                 Stream strm = ftpRequest.GetRequestStream();
 
                                 // Read from the file stream 2kb at a time
-                                contentLen = tempStream.Read(buff, 0, buffLength);
+                                int contentLen = tempStream.Read(buff, 0, buffLength);
 
                                 // Till Stream content ends
                                 while (contentLen != 0)
@@ -324,7 +327,7 @@ namespace RssBandit.WinGui
 
                             tempStream.Position = 0;
 
-                            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(remoteUri);
+                            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
                             request.Method = "PUT";
                             request.ContentType = "application/zip";
                             request.AllowAutoRedirect = true;
@@ -460,16 +463,14 @@ namespace RssBandit.WinGui
                         try
                         {
                             // The buffer size is set to 2kb
-                            int buffLength = 2048;
+                            const int buffLength = 2048;
                             byte[] buff = new byte[buffLength];
-                            int contentLen;
 
-
-                            // Stream to which the file to be upload is written
+                        	// Stream to which the file to be upload is written
                             Stream strm = ftpRequest.GetResponse().GetResponseStream();
 
                             // Read from the FTP stream 2kb at a time
-                            contentLen = strm.Read(buff, 0, buffLength);
+                            int contentLen = strm.Read(buff, 0, buffLength);
 
                             // Till Stream content ends
                             while (contentLen != 0)
@@ -507,7 +508,7 @@ namespace RssBandit.WinGui
                                                 :
                                                     remoteLocation + "/" + remoteFileName);
 
-                        HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(remoteUri);
+                        HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
                         request.Method = "GET";
                         request.AllowAutoRedirect = true;
                         request.UserAgent = RssBanditApplication.UserAgent;
@@ -645,6 +646,15 @@ namespace RssBandit.WinGui
                     } 
 					else
                     {
+						// set files managed by Bandit data storage:
+						IUserDataService dataService = IoC.Resolve<IUserDataService>();
+						if (dataService != null)
+						{
+							if (DataEntityName.None != dataService.SetContentForDataFile(theEntry.Name, zis))
+								continue;
+						}
+
+						// remaining: set files managed by NewComponents feed source data storage:
 						rssBanditApp.FeedSources.ForEach(
 							f =>
 							{

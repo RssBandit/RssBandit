@@ -12,9 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using RssBandit.Core.Storage.Serialization;
 using RssBandit.WinGui.Controls.ThListView;
 using NewsComponents;
-using RssBandit.AppServices;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 
@@ -140,7 +140,7 @@ namespace RssBandit.Filter
 
         public class FilterActionCancelEventArgs : CancelEventArgs
         {
-            private readonly string filterKey = null;
+            private readonly string filterKey;
 
             public FilterActionCancelEventArgs()
             {
@@ -168,29 +168,12 @@ namespace RssBandit.Filter
 
         public NewsItemReferrerFilter(RssBanditApplication app)
         {
-            _referrer = null;
-            app.PreferencesChanged += OnPreferencesChanged;
-            app.FeedSourceSubscriptionsLoaded += OnFeedlistLoaded;
-        }
+            UserIdentity identity;
+			if (app.IdentityManager.Identities.TryGetValue(app.Preferences.UserIdentityForComments, out identity))
+				InitWith(identity);
 
-        /// <summary>
-        /// Used to init. Identities are stored in the feedlist, so we need
-        /// that to init.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnFeedlistLoaded(object sender, FeedSourceEventArgs e)
-        {
-			if (e.Entry.SourceType == FeedSourceType.DirectAccess)
-			{
-				RssBanditApplication app = sender as RssBanditApplication;
-				if (app != null)
-				{
-					if (e.Entry.Source.UserIdentity != null &&
-					    e.Entry.Source.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
-						InitWith(e.Entry.Source.UserIdentity[app.Preferences.UserIdentityForComments]);
-				}
-			}
+			// get notified, if prefs are changed (new default identity for comments)
+            app.PreferencesChanged += OnPreferencesChanged;
         }
 
         /// <summary>
@@ -201,12 +184,12 @@ namespace RssBandit.Filter
         /// <param name="e"></param>
         private void OnPreferencesChanged(object sender, EventArgs e)
         {
-            RssBanditApplication app = (RssBanditApplication) sender;
+			RssBanditApplication app = sender as RssBanditApplication;
             if (app != null)
             {
-                if (app.FeedHandler.UserIdentity != null &&
-                    app.FeedHandler.UserIdentity.ContainsKey(app.Preferences.UserIdentityForComments))
-                    InitWith(app.FeedHandler.UserIdentity[app.Preferences.UserIdentityForComments]);
+            	UserIdentity identity;
+				if (app.IdentityManager.Identities.TryGetValue(app.Preferences.UserIdentityForComments, out identity))
+					InitWith(identity);
             }
         }
 
