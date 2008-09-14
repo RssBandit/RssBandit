@@ -348,4 +348,19 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>新闻属性</value>
   </data>
-</root>
+<data name="FeedProperties_comboBox1_ToolTip" space="preserve">
+    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  </data>
+	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
+    <value>Remove an assigned client certificate...</value>
+  </data>
+	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
+    <value>Select a client certificate...</value>
+  </data>
+	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+    <value>Client Certificate</value>
+  </data>
+	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
+    <value>View the assigned client certificate...</value>
+  </data>
+	</root>
