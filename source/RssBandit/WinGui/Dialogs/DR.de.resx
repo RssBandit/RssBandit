@@ -261,7 +261,7 @@
   <data name="ComboMaxItemAge_Item3" xml:space="preserve">
     <value>4 Tage</value>
   </data>
-  <data name="ComboMaxItemAge_Items4" xml:space="preserve">
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
     <value>5 Tage</value>
   </data>
   <data name="ComboMaxItemAge_Item5" xml:space="preserve">
@@ -366,4 +366,19 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Updatefrequenz</value>
   </data>
-</root>
+  <data name="FeedProperties_label4_Text" space="preserve">
+    <value>Update &amp;frequency:</value>
+  </data>
+	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
+    <value>Remove an assigned client certificate...</value>
+  </data>
+	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
+    <value>Select a client certificate...</value>
+  </data>
+	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+    <value>Client Certificate</value>
+  </data>
+	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
+    <value>View the assigned client certificate...</value>
+  </data>
+	</root>
