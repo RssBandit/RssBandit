@@ -2396,4 +2396,132 @@ failed with error:
 	<data name="MenuFeedDetailTextSizeLargestDesc" space="preserve" d2p1="http://www.w3.org/XML/1998/namespace">
     <value>Select/Change the feed details text to largest size...</value>
   </data>
+	<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
+    <value>My Google Reader Feeds</value>
+  </data>
+	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in Google Reader</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
+    <value>My NewsGator Feeds</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in NewsGator</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
+    <value>My Common Feed List Feeds</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in Windows RSS platform</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
+    <value>Share or unshare item in Google Reader</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
+    <value>Add or remove item from clippings folder in NewsGator Online</value>
+  </data>
+	<data name="MenuSynchronizeFeedsCaption" space="preserve">
+    <value>&amp;Synchronize Feeds...</value>
+  </data>
+	<data name="MenuSynchronizeFeedsDesc" space="preserve">
+    <value>Launches the Synchronize Feeds Wizard</value>
+  </data>
+	<data name="ExceptionInvalidPlaylistName" space="preserve">
+    <value>Please specify a valid playlist name</value>
+  </data>
+	<data name="NoTopStoriesMessage" space="preserve">
+    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
+  </data>
+	<data name="TopStoriesDescription" space="preserve">
+    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
+  </data>
+	<data name="ExceptionNoFeedSourceName" space="preserve">
+    <value>Please provide a name for this subscription list</value>
+  </data>
+	<data name="ExceptionNoPassword" space="preserve">
+    <value>Please provide a valid password</value>
+  </data>
+	<data name="ExceptionNoUserName" space="preserve">
+    <value>Please provide a valid username</value>
+  </data>
+	<data name="MenuDownloadManager" space="preserve">
+    <value>Download Manager...</value>
+  </data>
+	<data name="MenuDownloadManagerDesc" space="preserve">
+    <value>Launches the download manager</value>
+  </data>
+	<data name="MenuDeleteFeedSourceCaption" space="preserve">
+    <value>Delete Feed Source...</value>
+  </data>
+	<data name="MenuDeleteFeedSourceDesc" space="preserve">
+    <value>Delete this feed source</value>
+  </data>
+	<data name="MenuRenameFeedSourceCaption" space="preserve">
+    <value>Rename Feed Source...</value>
+  </data>
+	<data name="MenuRenameFeedSourceDesc" space="preserve">
+    <value>Rename this feed source</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
+    <value>Remove Synchronization Source</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
+    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+  </data>
+	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
+    <value>{0} of {1} Subscription list(s) loaded</value>
+  </data>
+	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
+    <value>All Subscription list(s) loaded</value>
+  </data>
+	<data name="ExecutableForFileStartupFailure" space="preserve">
+    <value>Failed to start an application for file: {0}.
+
+Error: {1}</value>
+  </data>
+	<data name="MenuShowFeedSourceProperties" space="preserve">
+    <value>Properties...</value>
+  </data>
+	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
+    <value>Show the feed source properties</value>
+  </data>
+	<data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}</value>
+  </data>
+	<data name="TreeFeedNodeType_Category" space="preserve">
+    <value>Category folder</value>
+  </data>
+	<data name="TreeFeedNodeType_Feed" space="preserve">
+    <value>Feed</value>
+  </data>
+	<data name="TreeFeedNodeType_Finder" space="preserve">
+    <value>Finder</value>
+  </data>
+	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
+    <value>Finder category</value>
+  </data>
+	<data name="TreeFeedNodeType_Root" space="preserve">
+    <value>Subscription root</value>
+  </data>
+	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+    <value>Smart folder</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
+    <value>Contains {0} unread items</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
+    <value>Contains 1 unread item</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
+    <value>Contains no unread items</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Title" space="preserve">
+    <value>Select a X509 Client Certificate</value>
+  </data>
+	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
+    <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Message" space="preserve">
+    <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+  </data>
 	</root>
