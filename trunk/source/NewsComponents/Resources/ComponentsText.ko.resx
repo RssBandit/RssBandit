@@ -72,10 +72,9 @@
     <comment>.
  Parameters: 0 - url (string) </comment>
   </data>
-  <data name="ExceptionEnclosureCacheLimitReached" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
-    <value>다운로드 하시려던'{0}' 이 최대 제한 용량 1 매가 (1 MB) 를 넘으셨기에 실행 할실 수가 없습니다. 죄대 제한 용량을 변경하시거나, 이전에 다운 하셨던 파일을 지우셔서, 필요한 공간을 만드세요</value>
-    <comment>.
- Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
+  <data name="ExceptionEnclosureCacheLimitReached" space="preserve">
+    <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
+    <comment>Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
   </data>
   <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
     <value>검색 하시려는 해당 분야가 존재 하지 않습니다.</value>
@@ -129,5 +128,8 @@
   </data>
 	<data name="ExceptionResourceGone">
     <value>요구하신 정보는 더 이상 존재 하지 않습니다 (HTTP status 410)</value>
+  </data>
+	<data name="ExceptionClientCertificateRequired" space="preserve">
+    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
   </data>
 	</root>

@@ -167,4 +167,7 @@
 	<data name="ExceptionResourceGone">
     <value>La ressource demandée n'est plus disponible (erreur HTTP 410)</value>
   </data>
+	<data name="ExceptionClientCertificateRequired" space="preserve">
+    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
+  </data>
 	</root>
