@@ -232,19 +232,24 @@
     <value>Format (Outline Processor Markup Language)</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Identifiant</value>
+    <comment>Credentials</comment>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Nom du flux source</value>
+    <comment>Feed Source Name:</comment>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
-    <value>Password:</value>
+    <value>Mot de passe:</value>
+    <comment>Password:</comment>
   </data>
   <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
-    <value>Username:</value>
+    <value>Nom d'utilisateur:</value>
+    <comment>Username:</comment>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Propriétés du flux</value>
+    <comment>Feed Source Properties</comment>
   </data>
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 jour</value>
@@ -364,19 +369,24 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>Propriétés du flux</value>
   </data>
-<data name="FeedProperties_comboBox1_ToolTip" space="preserve">
-    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Définissez ou choisissez une limite en minute avant la prochaine vérification pour de nouveaux éléments</value>
+    <comment>Set or choose a limit in minutes this feed should be checked for new items again</comment>
   </data>
-	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>Supprimer un certificat client...</value>
+    <comment>Remove an assigned client certificate...</comment>
   </data>
-	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>Sélectionnez un certificat client...</value>
+    <comment>Select a client certificate...</comment>
   </data>
-	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
-    <value>Client Certificate</value>
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
+    <value>Certificat client</value>
+    <comment>Client Certificate</comment>
   </data>
-	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>Voir les certificat client assigné</value>
+    <comment>View the assigned client certificate...</comment>
   </data>
-	</root>
+</root>
