@@ -60,128 +60,162 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RES_MenuEmailThisCaption">
+  <data name="RES_MenuEmailThisCaption" xml:space="preserve">
     <value>Envoyer par mail...</value>
   </data>
-  <data name="RES_MenuDeliciousCaption">
+  <data name="RES_MenuDeliciousCaption" xml:space="preserve">
     <value>Envoyer à del.icio.us</value>
   </data>
-  <data name="RES_MenuWBloggarCaption">
+  <data name="RES_MenuWBloggarCaption" xml:space="preserve">
     <value>Blog avec W::Bloggar...</value>
   </data>
-  <data name="RES_ExceptionWBloggarNotFound">
+  <data name="RES_ExceptionWBloggarNotFound" xml:space="preserve">
     <value>Aucun paramètre de base de registre pour w::bloggar. Veuillez installer w::bloggar à partir de http://www.bloggar.com pour bénéficier de cette fonctionnalité.</value>
   </data>
-  <data name="RES_DeliciousIncompleteSubmissionTitle">
+  <data name="RES_DeliciousIncompleteSubmissionTitle" xml:space="preserve">
     <value>Envoi incomplet</value>
   </data>
-  <data name="RES_DeliciousIncompleteSubmissionMessage">
+  <data name="RES_DeliciousIncompleteSubmissionMessage" xml:space="preserve">
     <value>Un des champs de texte n'a pas été rempli.</value>
   </data>
-  <data name="RES_DeliciousFormTags">
+  <data name="RES_DeliciousFormTags" xml:space="preserve">
     <value>&amp;Tags</value>
   </data>
-  <data name="RES_DeliciousFormUrl">
+  <data name="RES_DeliciousFormUrl" xml:space="preserve">
     <value>&amp;URL</value>
   </data>
-  <data name="RES_DeliciousFormDescription">
+  <data name="RES_DeliciousFormDescription" xml:space="preserve">
     <value>&amp;Description</value>
   </data>
-  <data name="RES_DeliciousFormCancel">
+  <data name="RES_DeliciousFormCancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
-  <data name="RES_DeliciousFormPost">
+  <data name="RES_DeliciousFormPost" xml:space="preserve">
     <value>Envoi</value>
   </data>
-  <data name="RES_DeliciousFormOk">
+  <data name="RES_DeliciousFormOk" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="RES_DeliciousFormAuthentication">
+  <data name="RES_DeliciousFormAuthentication" xml:space="preserve">
     <value>Authentification</value>
   </data>
-  <data name="RES_DeliciousFormPassword">
+  <data name="RES_DeliciousFormPassword" xml:space="preserve">
     <value>&amp;Mot de passe</value>
   </data>
-  <data name="RES_DeliciousFormUsername">
+  <data name="RES_DeliciousFormUsername" xml:space="preserve">
     <value>&amp;Nom utilisateur</value>
   </data>
-  <data name="RES_DeliciousFormApiUrl">
+  <data name="RES_DeliciousFormApiUrl" xml:space="preserve">
     <value>URL d'API &amp;del.icio.us</value>
   </data>
-  <data name="RES_DeliciousFormConfiguration">
+  <data name="RES_DeliciousFormConfiguration" xml:space="preserve">
     <value>Configuration du plugin Del.icio.us</value>
   </data>
-  <data name="RES_MenuSendToOneNoteCaption">
+  <data name="RES_MenuSendToOneNoteCaption" xml:space="preserve">
     <value>Envoyer dans OneNote...</value>
   </data>
-  <data name="RES_MenuSendToOneNoteConfigCaption">
+  <data name="RES_MenuSendToOneNoteConfigCaption" xml:space="preserve">
     <value>Configuration du Plugin OneNote...</value>
   </data>
-  <data name="RES_MenuLiveWriterCaption">
+  <data name="RES_MenuLiveWriterCaption" xml:space="preserve">
     <value>Blogger ceci en utilisant Windows Live Writer...</value>
     <comment>Blog This Using Windows Live Writer...</comment>
   </data>
-  <data name="RES_ExceptionLiveWriterNotFound">
+  <data name="RES_ExceptionLiveWriterNotFound" xml:space="preserve">
     <value>Aucun paramètre de base de registre pour Windows Live Writer. Veuillez installer Windows Live Writer à partir de http://ideas.live.com pour bénéficier de cette fonctionnalité.</value>
   </data>
-<data name="RES_MenuTwitterCaption" space="preserve">
-    <value>Post to Twitter</value>
+  <data name="RES_MenuTwitterCaption" xml:space="preserve">
+    <value>Poster sur Twitter</value>
+    <comment>Post to Twitter</comment>
   </data>
-	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
-    <value>Twitter Plugin Configuration...</value>
+  <data name="RES_MenuTwitterFormConfiguration" xml:space="preserve">
+    <value>Configuration du plugin Twitter...</value>
+    <comment>Twitter Plugin Configuration...</comment>
   </data>
-	<data name="RES_TwitterApiUrl" space="preserve">
-    <value>&amp;Twitter API URL</value>
+  <data name="RES_TwitterApiUrl" xml:space="preserve">
+    <value>Adresse de l'API &amp;Twitter</value>
+    <comment>&amp;Twitter API URL</comment>
   </data>
-	<data name="RES_TwitterFormCount" space="preserve">
+  <data name="RES_TwitterFormCount" xml:space="preserve">
     <value>140</value>
   </data>
-	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
-    <value>Empty Message Body</value>
+  <data name="RES_TwitterIncompleteSubmissionMessage" xml:space="preserve">
+    <value>Corp du message vide</value>
+    <comment>Empty Message Body</comment>
   </data>
-	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
-    <value>There was an error loading configuration from '{0}': 
+  <data name="RES_ExceptionOneNoteBadConfigurationFileFormat" xml:space="preserve">
+    <value>Un erreur est survenue lors du chargement du fichier de configuration '{0}': 
 {1}</value>
-   </data>
-	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
-    <value>There was an error writing configuration file '{0}': 
-{1}</value>
+    <comment>There was an error loading configuration from '{0}': 
+{1}</comment>
   </data>
-	</root>
+  <data name="RES_ExceptionOneNoteWritingConfigurationFile" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'écriture du fichier de configuration '{0}': 
+{1}</value>
+    <comment>There was an error writing configuration file '{0}': 
+{1}</comment>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>There was an error loading configuration from '{0}':</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>{1}</value>
+  </data>
+</root>

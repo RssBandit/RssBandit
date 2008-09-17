@@ -685,6 +685,7 @@
     <value>Clear all individual feed and category Item Age settings</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
-    <value>Reset all individual feed and category Refresh Rate settings</value>
+    <value>Remettre à zero tout les paramètres des flux/catégories concernant les fréquences de mise à jours</value>
+    <comment>Reset all individual feed and category Refresh Rate settings</comment>
   </data>
 </root>
