@@ -117,58 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-<data name="chkDisplayWelcome.Text" space="preserve">
-    <value>Always display this Wizard Welcome Page</value>
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
+    <value>Visualizza sempre qusta pagina di benvenuto del wizard</value>
   </data>
-	<data name="lblFeedCredentialsIntro.Text" space="preserve">
-    <value>Here you can specify the username and password need to access your subscriptions</value>
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
+    <value>Qui puoi specificare lo username e la password necessaria per  accedere alle sottoscrizioni</value>
   </data>
-	<data name="lblUsername.Text" space="preserve">
+  <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;Username:</value>
   </data>
-	<data name="lblPassword.Text" space="preserve">
+  <data name="lblPassword.Text" xml:space="preserve">
     <value>&amp;Password:</value>
   </data>
-	<data name="pageFeedCredentials.Description" space="preserve">
-    <value>Enter credential information so we can download your subscriptions</value>
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
+    <value>Inserisci le informazioni delle credenziali così che possimao scaricare le tue sottoscrizioni</value>
   </data>
-	<data name="label2.Text" space="preserve">
-    <value>Name:</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Nome:</value>
   </data>
-	<data name="pageSourceName.Description" space="preserve">
-    <value>Provide a name for this subscription list</value>
+  <data name="pageSourceName.Description" xml:space="preserve">
+    <value>Inserisci un nome per la lista di sottoscrizione</value>
   </data>
-	<data name="pageSourceName.Text" space="preserve">
-    <value>Subscription Name</value>
+  <data name="pageSourceName.Text" xml:space="preserve">
+    <value>Nome sottoscrizione</value>
   </data>
-	<data name="label1.Text" space="preserve">
-    <value>Synchronize feeds with one of the following sources</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Sincornizza i feed con uno delle seguenti sorgenti</value>
   </data>
-	<data name="radioNewsGator.Text" space="preserve">
+  <data name="radioNewsGator.Text" xml:space="preserve">
     <value>NewsGator Online</value>
   </data>
-	<data name="radioGoogleReader.Text" space="preserve">
+  <data name="radioGoogleReader.Text" xml:space="preserve">
     <value>Google Reader</value>
   </data>
-	<data name="radioCommonFeedlist.Text" space="preserve">
-    <value>Windows Common Feedlist (Internet Explorer and Outlook)</value>
+  <data name="radioCommonFeedlist.Text" xml:space="preserve">
+    <value>Windows Common Feedlist (Internet Explorer e Outlook)</value>
   </data>
-	<data name="pageStartImport.Description" space="preserve">
-    <value>Use the same feeds across RSS Bandit and Internet Explorer/Outlook on your desktop or with an online feed reader</value>
+  <data name="pageStartImport.Description" xml:space="preserve">
+    <value>Usa lo stesso feed tra  RSS Bandit e Internet Explorer/Outlook sul tuo desktop o con un feed reader online.</value>
   </data>
-	<data name="pageStartImport.Text" space="preserve">
-    <value>Select Feed Source</value>
+  <data name="pageStartImport.Text" xml:space="preserve">
+    <value>Seleziona la sorgente del feed</value>
   </data>
-	<data name="pageFeedCredentials.Text" space="preserve">
-    <value>Log-in Credentials</value>
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
+    <value>Credenziali di login</value>
   </data>
-	<data name="_btnImmediateFinish.Text" space="preserve">
-    <value>Finish</value>
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
+    <value>Fine</value>
   </data>
-	<data name="wizard.Text" space="preserve">
+  <data name="wizard.Text" xml:space="preserve">
     <value>wizard</value>
   </data>
-	<data name="$this.Text" space="preserve">
+  <data name="$this.Text" xml:space="preserve">
     <value>Synchronize Feeds Wizard</value>
   </data>
-	</root>
+</root>
