@@ -141,10 +141,10 @@
     <value>Clicka per selezionare la cartella di destinazione dei podcast</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
-    <value>Windows Media Player playlist</value>
+    <value>Playlist Windows Media Player </value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
-    <value>iTunes playlist</value>
+    <value>Playlist iTunes </value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
     <value>Queste cartelle:</value>
@@ -209,7 +209,7 @@
     <value>&amp;OPML</value>
   </data>
   <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
-    <value>From Feed Source</value>
+    <value>Dalla sorgente del Feed</value>
   </data>
   <data name="ExportFeedsDialog_Text" xml:space="preserve">
     <value>Esporta i Feeds</value>
@@ -221,10 +221,10 @@
     <value>(Outline Processor Markup Language) Formato</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Credenziali</value>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Nome del feed sorgente:</value>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
     <value>Password:</value>
@@ -233,7 +233,7 @@
     <value>Username:</value>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Proprietà del feed sorgente</value>
   </data>
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 giorno</value>
@@ -338,7 +338,7 @@
     <value>Foglio di &amp;Stile di formattazione:</value>
   </data>
   <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
-    <value>Attachments/Podcasts</value>
+    <value>Allegati/Podcasts</value>
   </data>
   <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
     <value>Autenticazione</value>
@@ -352,19 +352,19 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>Proprietà del feed</value>
   </data>
-<data name="FeedProperties_comboBox1_ToolTip" space="preserve">
-    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Imposta o selezione un periodo in minuti per verificare se ci sono nuovi elementi per questo feed</value>
   </data>
-	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>Rimuovi un client certificate assegnato...</value>
   </data>
-	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>Seleziona un client certificate...</value>
   </data>
-	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
     <value>Client Certificate</value>
   </data>
-	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>Visualizza il client certificate assegnato...</value>
   </data>
-	</root>
+</root>
