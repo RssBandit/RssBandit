@@ -518,7 +518,7 @@
     <value>Generale</value>
   </data>
   <data name="chkFontStrikeout.Text" xml:space="preserve">
-    <value>&amp;Strikeout</value>
+    <value>&amp;Barrato</value>
   </data>
   <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
     <value>File Share</value>
@@ -558,7 +558,7 @@
     <value>Lancia l'applicazione dopo il logon a Windows</value>
   </data>
   <data name="checkUseFavicons.Text" xml:space="preserve">
-    <value>Usa le favicon come icone dei fees nell'albero di visualizzazione dei feed</value>
+    <value>Usa le favicon come icone dei feeds nell'albero di visualizzazione dei feed</value>
   </data>
   <data name="checkUseFavicons.ToolTip" xml:space="preserve">
     <value>Se selezionato, i feed sottoscritti visualizzeranno favicons come simbolo del feed</value>
