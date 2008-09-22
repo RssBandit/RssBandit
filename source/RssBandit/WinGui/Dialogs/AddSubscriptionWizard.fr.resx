@@ -377,7 +377,7 @@
     <value>Flux trouvés:</value>
   </data>
   <data name="finishPage.Text" xml:space="preserve">
-    <value>Complete!</value>
+    <value>Terminé!</value>
   </data>
   <data name="_btnImmediateFinish.Text" xml:space="preserve">
     <value>Terminer</value>
@@ -506,6 +506,6 @@
     <value>L'URL cannonique sera utilisée</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>Source de souscription:</value>
   </data>
 </root>
