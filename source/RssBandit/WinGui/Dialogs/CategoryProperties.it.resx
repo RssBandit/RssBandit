@@ -122,7 +122,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>minutI</value>
+    <value>minuti</value>
   </data>
   <data name="checkCustomFormatter.Text" xml:space="preserve">
     <value>Utilizza un &amp;custom formatter</value>
@@ -170,7 +170,7 @@
     <value>Foglio di &amp;Stile di formattazione:</value>
   </data>
   <data name="tabAttachments.Text" xml:space="preserve">
-    <value>Podcasts\Attachments</value>
+    <value>Podcasts\Allegati</value>
   </data>
   <data name="checkDownloadEnclosures.Text" xml:space="preserve">
     <value>Scarica automaticamente gli attachments e podcasts</value>

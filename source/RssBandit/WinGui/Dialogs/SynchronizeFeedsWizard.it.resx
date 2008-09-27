@@ -169,6 +169,6 @@
     <value>wizard</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Synchronize Feeds Wizard</value>
+    <value>Wizard di sincronizzazione dei feeds</value>
   </data>
 </root>
