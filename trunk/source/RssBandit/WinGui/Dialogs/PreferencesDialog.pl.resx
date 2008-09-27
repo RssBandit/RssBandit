@@ -587,13 +587,13 @@
     <value>Włącz tą opcję, aby elementy zawierające odnośniki dla innych znanych elementów były wyświetlane w formie wątków dyskusji</value>
   </data>
   <data name="optionSectionPanel1.Text" xml:space="preserve">
-    <value>Dzwięki</value>
+    <value>Dźwięki</value>
   </data>
   <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
-    <value>Włącz dzwięki przy zdarzeniach aplikacji</value>
+    <value>Włącz dźwięki przy zdarzeniach aplikacji</value>
   </data>
   <data name="btnConfigureAppSounds.Text" xml:space="preserve">
-    <value>Konfiuruj...</value>
+    <value>Konfiguruj...</value>
   </data>
   <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
     <value>Otwiera Panel Konfiguracji Dzwięków Windows aby pozwolić na konfigurację dzwięków w RSS Bandit...</value>
@@ -667,33 +667,33 @@
     <value>Nowe komentarze (Obserwowane)</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>Automatycznie zaznaczaj artykuły jako przeczytane po oglądnięciu</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>Jeśli ta opcja jest wybrana, artykuły są automatycznie zaznaczane jako przeczytane podczas przeglądania panelu czytania</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>news items per page</value>
+    <value>artykułów na stronę</value>
   </data>
   <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>Numer artykułów, które mają być pokazane w panelu czytania na każdej stronie</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
-    <value>Show only </value>
+    <value>Tylko pokaż</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>Jeśli ta opcja jest wybrana, panel czytania jest podzielony na osobne strony, każda z podaną ilością artykułów</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
-    <value>Clear all individual feed and category Item Age settings</value>
+    <value>Wyczyść wszystkie ustawienia wieku kanałów i kategorii</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
-    <value>Reset all individual feed and category Refresh Rate settings</value>
+    <value>Zresetuj wszystkie ustawienia Częstotliwości Odświeżania kanałów i kategorii</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
-    <value>Changes refresh rate setting for all feeds</value>
+    <value>Zmienia ustawienie częstotliwości odświeżania dla wszystkich kanałów</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
-    <value>Changes default item age setting for all feeds</value>
+    <value>Zmienia domyślne ustawienie wieku dla wszystkich kanałów</value>
   </data>
 </root>

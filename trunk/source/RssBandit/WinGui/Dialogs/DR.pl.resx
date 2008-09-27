@@ -209,7 +209,7 @@
     <value>&amp;OPML</value>
   </data>
   <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
-    <value>From Feed Source</value>
+    <value>Ze źródła kanałów</value>
   </data>
   <data name="ExportFeedsDialog_Text" xml:space="preserve">
     <value>Eksport kanałów</value>
@@ -218,22 +218,22 @@
     <value>Format używany wewnętrznie przez aplikację</value>
   </data>
   <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
-    <value>Format OPML (Outline Processor Markup Language)</value>
+    <value>Formatuj OPML (Outline Processor Markup Language)</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Dane Użytkownika</value>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Nazwa Źródła Kanałów:</value>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
-    <value>Password:</value>
+    <value>Hasło:</value>
   </data>
   <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
-    <value>Username:</value>
+    <value>Nazwa Użytkownika:</value>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Własności Źródła Kanałów</value>
   </data>
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 dzień</value>
@@ -367,16 +367,16 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>Właściwości kanału</value>
   </data>
-<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>Usuń przydzielony certyfikat klienta...</value>
   </data>
-	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>Wybierz certyfikat klienta...</value>
   </data>
-	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
-    <value>Client Certificate</value>
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
+    <value>Certyfikat Klienta</value>
   </data>
-	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>Obejrzyj przydzielony certyfikat klienta...</value>
   </data>
-	</root>
+</root>
