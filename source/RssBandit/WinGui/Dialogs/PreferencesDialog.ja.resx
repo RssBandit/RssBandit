@@ -122,7 +122,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
-    <value>OK(&amp;O)</value>
+    <value>&amp;OK</value>
   </data>
   <data name="btnOK.ToolTip" xml:space="preserve">
     <value />
@@ -344,7 +344,7 @@
     <value>全般</value>
   </data>
   <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
-    <value>フィードやカテゴリの終了時に記事を開封済みにする</value>
+    <value>フィードやカテゴリの終了時に記事を既読にする</value>
   </data>
   <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
     <value>説明がない場合、リンク先を表示する</value>
@@ -634,113 +634,113 @@
     <value>アプリケーション全般の設定</value>
   </data>
   <data name="optionSectionPanel1.Text" xml:space="preserve">
-    <value>Sounds</value>
+    <value>サウンド</value>
   </data>
   <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
-    <value>Enable application event sounds</value>
+    <value>アプリケーションのイベントサウンドを有効にする</value>
   </data>
   <data name="btnConfigureAppSounds.Text" xml:space="preserve">
-    <value>Configure...</value>
+    <value>設定...</value>
   </data>
   <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
-    <value>Opens the Windows Sounds Configuration Panel to allow RSS Bandit Application Sound configuration...</value>
+    <value>Windows サウンド設定を開いて、RSS Bandit のサウンドを設定する</value>
     <comment>CHANGED</comment>
   </data>
   <data name="checkRunAtStartup.Text" xml:space="preserve">
-    <value>Start application after logon to Windows</value>
+    <value>Windows へのログオン時にアプリケーションを起動する</value>
   </data>
   <data name="checkUseFavicons.Text" xml:space="preserve">
-    <value>Use favicons as feed icons in Feed Subscriptions tree </value>
+    <value>フィードの favicon をフィード一覧に使う</value>
   </data>
   <data name="checkUseFavicons.ToolTip" xml:space="preserve">
-    <value>If checked, subscribed feeds will display favicons as feed symbols</value>
+    <value>フィードのアイコンとして、favicon を使います</value>
     <comment>CHANGED</comment>
   </data>
   <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
-    <value>Load new tabs in the background</value>
+    <value>新しいタブをバックグランドで開く</value>
   </data>
   <data name="tabEnclosures.Text" xml:space="preserve">
-    <value>Attachments/Podcasts</value>
+    <value>添付ファイル/ポッドキャスト</value>
   </data>
   <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
-    <value>Podcasts</value>
+    <value>ポッドキャスト</value>
   </data>
   <data name="btnPodcastOptions.Text" xml:space="preserve">
-    <value>Advanced Options...</value>
+    <value>拡張オプション...</value>
   </data>
   <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
-    <value>Click the button below to configure Podcast options:</value>
+    <value>ポッドキャストの設定をするには、下のボタンをクリックします</value>
   </data>
   <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
-    <value>General</value>
+    <value>全般</value>
   </data>
   <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
     <value>...</value>
   </data>
   <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
-    <value>Lookup for a folder on the filesystem...</value>
+    <value>ファイルシステムからフォルダを探す...</value>
   </data>
   <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
     <value>MB</value>
   </data>
   <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
-    <value>Total disk space used must not exceed</value>
+    <value>合計ディスク容量を超えることはできません</value>
   </data>
   <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
     <value>Attachments</value>
   </data>
   <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
-    <value>On initial subscription: only download last</value>
+    <value>初期購読: 最後のダウンロード</value>
   </data>
   <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
-    <value>Place downloads in subfolders named after the feed</value>
+    <value>ファイルをフィード名をつけたフォルダにダウンロードする</value>
   </data>
   <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
-    <value>Enclosure download path</value>
+    <value>添付ファイルダウンロード先</value>
   </data>
   <data name="labelEnclosureDirectory.Text" xml:space="preserve">
-    <value>Download Attachments to:</value>
+    <value>添付ファイルダウンロード先:</value>
   </data>
   <data name="checkDownloadEnclosures.Text" xml:space="preserve">
-    <value>Automatically download attachments</value>
+    <value>ファイルを自動的にダウンロードする</value>
   </data>
   <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
-    <value>&amp;Enable alert windows for newly downloaded attachments</value>
+    <value>新規にダウンロードした添付ファイルのアラートを有効にする(&amp;E)</value>
   </data>
   <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
-    <value>Configure the download behavior and download location of attachments in general.</value>
+    <value>ダウンロードの動作とファイルのダウンロード先フォルダを設定する</value>
   </data>
   <data name="lstItemStates.Items5" xml:space="preserve">
-    <value>New Comments (Watched)</value>
+    <value>新しいコメント (監視)</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>表示すると自動的に既読にします</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>表示ペインでスクロールすると自動的に既読にします</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>news items per page</value>
+    <value>1ページの記事数</value>
   </data>
   <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>一ページに表示するニュース記事の数</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
-    <value>Show only </value>
+    <value>ページ</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>ニュース記事を複数のページに分割して表示ます。</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
-    <value>Clear all individual feed and category Item Age settings</value>
+    <value>フィード、カテゴリの間違った有効期限設定をクリアする</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
-    <value>Reset all individual feed and category Refresh Rate settings</value>
+    <value>フィードとカテゴリの更新間隔が適切でない場合、クリアする</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
-    <value>Changes refresh rate setting for all feeds</value>
+    <value>フィードの更新間隔を設定</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
-    <value>Changes default item age setting for all feeds</value>
+    <value>フィード記事の有効期限を設定</value>
   </data>
 </root>

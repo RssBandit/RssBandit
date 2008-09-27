@@ -173,9 +173,9 @@
     <value>Podcasts\Attachments</value>
   </data>
   <data name="checkDownloadEnclosures.Text" xml:space="preserve">
-    <value>Automatically download attachments and podcasts</value>
+    <value>添付ファイルとポッドキャストを自動的にダウンロードする</value>
   </data>
   <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
-    <value>&amp;Enable alert windows for newly downloaded attachments and podcasts</value>
+    <value>新規にダウンロードした添付ファイルとポッドキャストのアラートを有効にする(&amp;E)</value>
   </data>
 </root>
