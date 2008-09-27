@@ -60,207 +60,223 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="btnCancel.Text">
+  <data name="btnCancel.Text" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="navigationBar.Text">
+  <data name="navigationBar.Text" xml:space="preserve">
     <value />
   </data>
-  <data name="newsServersPane.Text">
+  <data name="newsServersPane.Text" xml:space="preserve">
     <value>Serwery grup dyskusyjnych</value>
   </data>
-  <data name="accountsPane.Text">
+  <data name="accountsPane.Text" xml:space="preserve">
     <value>Tożsamości</value>
   </data>
-  <data name="accountSettingsPane.Text">
+  <data name="accountSettingsPane.Text" xml:space="preserve">
     <value>Ustawienia konta</value>
   </data>
-  
-  <data name="labelSignature.Text">
+  <data name="labelSignature.Text" xml:space="preserve">
     <value>&amp;Podpis:</value>
   </data>
-  <data name="labelOrganzation.Text">
+  <data name="labelOrganzation.Text" xml:space="preserve">
     <value>&amp;Organizacja:</value>
   </data>
-  <data name="labelResponseAddress.Text">
+  <data name="labelResponseAddress.Text" xml:space="preserve">
     <value>Adres dla &amp;odpowiedzi:</value>
   </data>
-  <data name="labelRefererUrl.Text">
+  <data name="labelRefererUrl.Text" xml:space="preserve">
     <value>&amp;Url polecający:</value>
   </data>
-  <data name="labelMailAddress.Text">
+  <data name="labelMailAddress.Text" xml:space="preserve">
     <value>Adres E-&amp;Mail:</value>
   </data>
-  <data name="labelFullName.Text">
+  <data name="labelFullName.Text" xml:space="preserve">
     <value>&amp;Twoje imę i nazwisko:</value>
   </data>
-  <data name="labelIdentityName.Text">
+  <data name="labelIdentityName.Text" xml:space="preserve">
     <value>&amp;Etykieta tożsamości:</value>
   </data>
-  
-  <data name="toolNewIndentity.Text">
+  <data name="toolNewIndentity.Text" xml:space="preserve">
     <value>Dodaj  tożsamość</value>
   </data>
-  <data name="toolNewIndentity.ToolTipText">
+  <data name="toolNewIndentity.ToolTipText" xml:space="preserve">
     <value>Tworzenie nowej tożsamości</value>
   </data>
-  <data name="toolNewNntpServer.Text">
+  <data name="toolNewNntpServer.Text" xml:space="preserve">
     <value>Dodaj serwer grup dyskusyjnych</value>
   </data>
-  <data name="toolNewNntpServer.ToolTipText">
+  <data name="toolNewNntpServer.ToolTipText" xml:space="preserve">
     <value>Dodanie nowego serwera NNTP</value>
   </data>
-  <data name="toolDelete.Text">
+  <data name="toolDelete.Text" xml:space="preserve">
     <value>Usuń</value>
   </data>
-  <data name="btnApply.Text">
+  <data name="btnApply.Text" xml:space="preserve">
     <value>Zastosuj</value>
   </data>
-  <data name="subscriptionsViewPane.Text">
+  <data name="subscriptionsViewPane.Text" xml:space="preserve">
     <value>Subskrypcje</value>
   </data>
-  <data name="btnRefreshGroupList.Text">
+  <data name="btnRefreshGroupList.Text" xml:space="preserve">
     <value>Odśwież listę</value>
   </data>
-  <data name="btnUnsubscribe.Text">
+  <data name="btnUnsubscribe.Text" xml:space="preserve">
     <value>Nie subskrybuj</value>
   </data>
-  <data name="btnSubscribe.Text">
+  <data name="btnSubscribe.Text" xml:space="preserve">
     <value>Subskrybuj</value>
   </data>
-  <data name="colGroupName.Text">
+  <data name="colGroupName.Text" xml:space="preserve">
     <value>Grupa News</value>
   </data>
-  <data name="colDescription.Text">
+  <data name="colDescription.Text" xml:space="preserve">
     <value>Opis</value>
   </data>
-  <data name="labelNewsgroupsFilter.Text">
+  <data name="labelNewsgroupsFilter.Text" xml:space="preserve">
     <value>Wyświetlaj grupy &amp;News o następującej zawartości:</value>
   </data>
-  <data name="generalViewPane.Text">
+  <data name="generalViewPane.Text" xml:space="preserve">
     <value>Ogólne</value>
   </data>
-  <data name="chkConsiderServerOnRefresh.Text">
+  <data name="chkConsiderServerOnRefresh.Text" xml:space="preserve">
     <value>Uwzględnij to konto przy sprawdzaniu nowych elementów</value>
   </data>
-  <data name="labelDefaultEdentity.Text">
+  <data name="labelDefaultEdentity.Text" xml:space="preserve">
     <value>&amp;Domyślna tożsamość:</value>
   </data>
-  <data name="labelNewsAccount.Text">
+  <data name="labelNewsAccount.Text" xml:space="preserve">
     <value>&amp;Konto serwera &amp;News:</value>
   </data>
-  <data name="serverViewPane.Text">
+  <data name="serverViewPane.Text" xml:space="preserve">
     <value>Serwer</value>
   </data>
-  <data name="labelNewsServerAccountPwd.Text">
+  <data name="labelNewsServerAccountPwd.Text" xml:space="preserve">
     <value>&amp;Hasło:</value>
   </data>
-  <data name="chkUseAuthentication.Text">
+  <data name="chkUseAuthentication.Text" xml:space="preserve">
     <value>Serwer wymaga uwierzytelnienia</value>
   </data>
-  
-  <data name="labelNewsServerAccoutnName.Text">
+  <data name="labelNewsServerAccoutnName.Text" xml:space="preserve">
     <value>Nazwa kon&amp;ta:</value>
   </data>
-  <data name="labelNewsServerName.Text">
+  <data name="labelNewsServerName.Text" xml:space="preserve">
     <value>Nazwa &amp;Serwera:</value>
   </data>
-  <data name="advancedViewPane.Text">
+  <data name="advancedViewPane.Text" xml:space="preserve">
     <value>Zaawansowane</value>
   </data>
-  <data name="labelServerTimeoutSetting.Text">
+  <data name="labelServerTimeoutSetting.Text" xml:space="preserve">
     <value>Limit czasu oczekiwania na serwer (w minutach)</value>
   </data>
-  <data name="lblCurrentTimout.Text">
+  <data name="lblCurrentTimout.Text" xml:space="preserve">
     <value>&lt;Aktualny&gt;</value>
   </data>
-  <data name="btnUseDefaultPort.Text">
+  <data name="btnUseDefaultPort.Text" xml:space="preserve">
     <value>Użyj domyślnego</value>
   </data>
-  
-  <data name="labelHighTimeout.Text">
+  <data name="labelHighTimeout.Text" xml:space="preserve">
     <value>Wysoki</value>
   </data>
-  <data name="chkUseSSL.Text">
+  <data name="chkUseSSL.Text" xml:space="preserve">
     <value>Serwer wymaga bezpiecznego połączenia (SSL)</value>
   </data>
-  <data name="labelLowTimeout.Text">
+  <data name="labelLowTimeout.Text" xml:space="preserve">
     <value>Niski</value>
   </data>
-  <data name="labelServerPort.Text">
+  <data name="labelServerPort.Text" xml:space="preserve">
     <value>&amp;Numer portu serwera:</value>
   </data>
-  <data name="$this.Text">
+  <data name="$this.Text" xml:space="preserve">
     <value>Zarządzanie tożsamościami</value>
   </data>
-  <data name="toolBar.Text">
+  <data name="toolBar.Text" xml:space="preserve">
     <value>Główny pasek narzędzi grup dyskusyjnych</value>
   </data>
-  <data name="topSandBarDock.Text">
-    <value>SandBarDock</value>
+  <data name="topSandBarDock.Text" xml:space="preserve">
+    <value>DokPiaskownicy</value>
   </data>
-  <data name="bottomSandBarDock.Text">
-    <value>SandBarDock</value>
+  <data name="bottomSandBarDock.Text" xml:space="preserve">
+    <value>DokPiaskownicy</value>
   </data>
-  <data name="leftSandBarDock.Text">
-    <value>SandBarDock</value>
+  <data name="leftSandBarDock.Text" xml:space="preserve">
+    <value>DokPiaskownicy</value>
   </data>
-  <data name="btnOK.Text">
+  <data name="btnOK.Text" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="rightSandBarDock.Text">
-    <value>SandBarDock</value>
+  <data name="rightSandBarDock.Text" xml:space="preserve">
+    <value>DokPiaskownicy</value>
   </data>
-  <data name="toolBarFilterNewsgroupList.Text">
+  <data name="toolBarFilterNewsgroupList.Text" xml:space="preserve">
     <value>Filtr listy grup dyskusyjnych</value>
   </data>
-  <data name="labelNGFilter.Text">
+  <data name="labelNGFilter.Text" xml:space="preserve">
     <value>Wyświetlaj grupy dyskusyjne:</value>
   </data>
-  <data name="cmdNGFilterAll.Text">
+  <data name="cmdNGFilterAll.Text" xml:space="preserve">
     <value>Wszystkie</value>
   </data>
-  <data name="cmdNGFilterSubscribed.Text">
+  <data name="cmdNGFilterSubscribed.Text" xml:space="preserve">
     <value>Subskrybowane</value>
   </data>
-  <data name="cmdNGFilterNew.Text">
+  <data name="cmdNGFilterNew.Text" xml:space="preserve">
     <value>Nowe</value>
   </data>
 </root>

@@ -583,7 +583,7 @@ Szczegóły: {1}</value>
     <comment>Caption Postfix on the main window</comment>
   </data>
   <data name="MenuViewOutlookReadingPane" xml:space="preserve">
-    <value>Show Items in Groups</value>
+    <value>Pokaż Artykuły w Grupach</value>
   </data>
   <data name="MenuNewFeedCaption" xml:space="preserve">
     <value>&amp;Subskrypcja kanału informacyjnego...</value>
@@ -1082,7 +1082,7 @@ Szczegóły: {1}</value>
     <comment>Description within tool menu</comment>
   </data>
   <data name="MenuBrowserRefreshCaption" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Odśwież</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuBrowserRefreshDesc" xml:space="preserve">
@@ -1106,7 +1106,7 @@ Szczegóły: {1}</value>
     <comment>Description within tool menu</comment>
   </data>
   <data name="MenuBrowserNewExternalWindowCaption" xml:space="preserve">
-    <value>Open in default Web Browser</value>
+    <value>Otwórz w domyślnej przeglądarce</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuBrowserNewExternalWindowDesc" xml:space="preserve">
@@ -1114,7 +1114,7 @@ Szczegóły: {1}</value>
     <comment>Description within tool menu</comment>
   </data>
   <data name="MenuDoSearchComboBoxCaption" xml:space="preserve">
-    <value>Web Search For</value>
+    <value>Szukanie w sieci dla</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuDoSearchComboBoxDesc" xml:space="preserve">
@@ -1122,7 +1122,7 @@ Szczegóły: {1}</value>
     <comment>Description within tool menu</comment>
   </data>
   <data name="MenuDoSearchWebCaption" xml:space="preserve">
-    <value>Search the Web</value>
+    <value>Szukaj w sieci</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuDoSearchWebDesc" xml:space="preserve">
@@ -1784,9 +1784,9 @@ Kontynuować?</value>
     <comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
   </data>
   <data name="PostReplySentIdentityInfoText" xml:space="preserve">
-    <value>user-name: {0}
+    <value>nazwa-użytkownika: {0}
 e-mail: {1}
-referrer-url: {2}</value>
+referujący-url: {2}</value>
     <comment>Post reply identity infos about properties we provide to the receiver.</comment>
   </data>
   <data name="PostReplySentIdentityInfoTextEmptyValue" xml:space="preserve">
@@ -2631,234 +2631,224 @@ Spróbuj otworzyć Panel ręcznie używając Start Menu &gt; Panel Sterowania.</
     <value>Przełącza pomiędzy podsumowaniem a całym tekstem pozycji</value>
   </data>
   <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
-    <value>&amp;Older than</value>
+    <value>&amp;Starsze Niż</value>
   </data>
   <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
-    <value>What do you want to do now?</value>
+    <value>Co chcesz teraz zrobić?</value>
   </data>
   <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
-    <value>Navigate to the subscription...</value>
+    <value>Nawiguj do subskrypcji...</value>
   </data>
   <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
-    <value>Remove this subscription...</value>
+    <value>Usuń zaznaczoną subskrypcję...</value>
   </data>
   <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Poprzedni</value>
     <comment> Xslt default template language resources</comment>
   </data>
   <data name="XsltDefaultTemplate_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Następny</value>
   </data>
   <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
-    <value>Displaying page</value>
+    <value>Wyświetla stronę</value>
   </data>
   <data name="XsltDefaultTemplate_of" xml:space="preserve">
-    <value>of</value>
+    <value>z</value>
   </data>
   <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
-    <value>Loading of file
-{0}
-failed with error:
-{1}
-
-{2}</value>
+    <value>Ładowanie pliku {0} nie powiodło się z powodu: {1} {2}</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
-    <value>Saving of file
-{0}
-failed with error:
-{1}
-
-{2}</value>
+    <value>Zapisywanie pliku {0} nie powiodło się z powodu: {1} {2}</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
-    <value>Using defaults for the subscription tree folder states.</value>
+    <value>Domyślne ustawienia w użyciu przy wyświetlaniu stanów katalogów subskrypcji</value>
   </data>
   <data name="MenuTopStoriesCaption" xml:space="preserve">
-    <value>Top Stories</value>
+    <value>Najpopularniejsze Artykuły</value>
   </data>
   <data name="MenuTopStoriesDesc" xml:space="preserve">
-    <value>View the most recently popular links in your subscriptions</value>
+    <value>Przejrzyj ostatnie najpopularniejsze linki w twoich subskrypcjach</value>
     <comment>CHANGED</comment>
   </data>
   <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
-    <value>Determining Top Stories, please wait...</value>
+    <value>Szukanie Najpopularniejszych Artykułów, proszę czekać...</value>
     <comment>CHANGED</comment>
   </data>
   <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
-    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <value>{0} Najpopularniesze Artykuły: Najczęściej Linkowane</value>
     <comment>CHANGED.
  Parameters: 0 - appTitle (string) </comment>
   </data>
   <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
-    <value>Discussion:</value>
+    <value>Dyskusja:</value>
   </data>
   <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
-    <value>Text Size</value>
+    <value>Rozmiar Czcionki</value>
   </data>
   <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
-    <value>Select/Change the feed details text size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
-    <value>Smallest</value>
+    <value>Najmniejszy</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smallest size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału na najmniejszy...</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
-    <value>Smaller</value>
+    <value>Mniejszy</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smaller size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału na mniejszy...</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
-    <value>Medium</value>
+    <value>Średni</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to medium size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału na średni...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
-    <value>Larger</value>
+    <value>Większy</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to larger size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału na większy...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
-    <value>Largest</value>
+    <value>Największy</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to largest size...</value>
+    <value>Wybierz/Zmień rozmiar czcionki opisu kanału na największy...</value>
   </data>
-<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
-    <value>My Google Reader Feeds</value>
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
+    <value>Moje Kanały w Google Reader</value>
   </data>
-	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Google Reader</value>
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
+    <value>Zbiór subskybowanych kanałów w Google Reader</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
-    <value>My NewsGator Feeds</value>
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
+    <value>Moje Kanały w NewsGator</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in NewsGator</value>
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
+    <value>Zbiór subskrybowanych kanałów w NewsGator</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
-    <value>My Common Feed List Feeds</value>
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
+    <value>Moje Kanały w Common Feed List</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Windows RSS platform</value>
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
+    <value>Zbiór subskrybowanych kanałów w platformie Windows RSS</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
-    <value>Share or unshare item in Google Reader</value>
+  <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
+    <value>Podziel lub usuń dzielenie artykułu w Google Reader</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
-    <value>Add or remove item from clippings folder in NewsGator Online</value>
+  <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
+    <value>Dodaj lub usuń artykuł z katalogu wycinków w NewsGator Online</value>
   </data>
-	<data name="MenuSynchronizeFeedsCaption" space="preserve">
-    <value>&amp;Synchronize Feeds...</value>
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
+    <value>&amp;Synkronizuj Kanały...</value>
   </data>
-	<data name="MenuSynchronizeFeedsDesc" space="preserve">
-    <value>Launches the Synchronize Feeds Wizard</value>
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
+    <value>Uruchamia Menedżera Synkronizacji Kanałów</value>
   </data>
-	<data name="ExceptionInvalidPlaylistName" space="preserve">
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
     <value>Please specify a valid playlist name</value>
   </data>
-	<data name="NoTopStoriesMessage" space="preserve">
-    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
+  <data name="NoTopStoriesMessage" xml:space="preserve">
+    <value>Nie znaleziono żadnych artykułów połączonych z subskrypcjami w '{0}' w ostatnim tygodniu</value>
   </data>
-	<data name="TopStoriesDescription" space="preserve">
-    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
+  <data name="TopStoriesDescription" xml:space="preserve">
+    <value>Poniżej jest lista najpopulaniejszych linków z twoich subskrypcji w '{0}' w ostatnim tygodniu</value>
   </data>
-	<data name="ExceptionNoFeedSourceName" space="preserve">
-    <value>Please provide a name for this subscription list</value>
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
+    <value>Podaj nazwę dla tej listy subskrypcji</value>
   </data>
-	<data name="ExceptionNoPassword" space="preserve">
-    <value>Please provide a valid password</value>
+  <data name="ExceptionNoPassword" xml:space="preserve">
+    <value>Podaj prawidłowe hasło</value>
   </data>
-	<data name="ExceptionNoUserName" space="preserve">
-    <value>Please provide a valid username</value>
+  <data name="ExceptionNoUserName" xml:space="preserve">
+    <value>Podaj prawidłową nazwę użytkownika</value>
   </data>
-	<data name="MenuDownloadManager" space="preserve">
-    <value>Download Manager...</value>
+  <data name="MenuDownloadManager" xml:space="preserve">
+    <value>Menedżer Pobierania Plików...</value>
   </data>
-	<data name="MenuDownloadManagerDesc" space="preserve">
-    <value>Launches the download manager</value>
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
+    <value>Uruchamia Menedżera Pobierania Plików</value>
   </data>
-	<data name="MenuDeleteFeedSourceCaption" space="preserve">
-    <value>Delete Feed Source...</value>
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
+    <value>Usuń źródło kanałów...</value>
   </data>
-	<data name="MenuDeleteFeedSourceDesc" space="preserve">
-    <value>Delete this feed source</value>
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
+    <value>Usuń zaznaczone źródło kanałów</value>
   </data>
-	<data name="MenuRenameFeedSourceCaption" space="preserve">
-    <value>Rename Feed Source...</value>
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
+    <value>Zmień Nazwę Źródła Kanałów...</value>
   </data>
-	<data name="MenuRenameFeedSourceDesc" space="preserve">
-    <value>Rename this feed source</value>
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
+    <value>Zmień nazwę zaznaczonego źródła kanałów</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
-    <value>Remove Synchronization Source</value>
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
+    <value>Usuń Źródło Synkronizacji</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
-    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć '{0}' z listy źródeł synkronizacji?</value>
   </data>
-	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
-    <value>{0} of {1} Subscription list(s) loaded</value>
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
+    <value>Załadowano {0} z {1} subskrybowanych list</value>
   </data>
-	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
-    <value>All Subscription list(s) loaded</value>
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
+    <value>Wszystkie subskrybowane listy załadowane</value>
   </data>
-	<data name="ExecutableForFileStartupFailure" space="preserve">
-    <value>Failed to start an application for file: {0}.
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
+    <value>Nie udało się otworzyć aplikacji dla pliku: {0}
 
 Error: {1}</value>
   </data>
-	<data name="MenuShowFeedSourceProperties" space="preserve">
-    <value>Properties...</value>
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
+    <value>Właściwości...</value>
   </data>
-	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
-    <value>Show the feed source properties</value>
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
+    <value>Pokaż właściwości źródła kanałów</value>
   </data>
-	<data name="ExceptionFeedlistCredentials" space="preserve">
-    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}</value>
+  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
+    <value>Wystąpił błąd autoryzacji przy próbie ładowania listy kanałów dla '{0}': {1}</value>
   </data>
-	<data name="TreeFeedNodeType_Category" space="preserve">
-    <value>Category folder</value>
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
+    <value>Katalog Kategorii</value>
   </data>
-	<data name="TreeFeedNodeType_Feed" space="preserve">
-    <value>Feed</value>
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
+    <value>Kanał</value>
   </data>
-	<data name="TreeFeedNodeType_Finder" space="preserve">
-    <value>Finder</value>
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
+    <value>Wyszukiwacz</value>
   </data>
-	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
-    <value>Finder category</value>
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
+    <value>Kategoria wyszukiwania</value>
   </data>
-	<data name="TreeFeedNodeType_Root" space="preserve">
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
     <value>Subscription root</value>
   </data>
-	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
     <value>Smart folder</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
-    <value>Contains {0} unread items</value>
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
+    <value>Zawiera {0} nieprzeczytanych artykułów</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
-    <value>Contains 1 unread item</value>
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
+    <value>Zawiera 1 nieprzeczytany artykuł</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
-    <value>Contains no unread items</value>
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
+    <value>Zawiera 0 nieprzeczytanuch artykułów</value>
   </data>
-	<data name="Certificate_SelectionDialog_Title" space="preserve">
-    <value>Select a X509 Client Certificate</value>
+  <data name="Certificate_SelectionDialog_Title" xml:space="preserve">
+    <value>Wybierz Certyfikat Klienta X509</value>
   </data>
-	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
-    <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
+  <data name="Certificate_ForFeedSiteRequired_Message" xml:space="preserve">
+    <value>Strona kanału '{0}' wymaga certyfikatu klienta. Wybierz jeden z zainstalowanych certyfikatów.</value>
   </data>
-	<data name="Certificate_SelectionDialog_Message" space="preserve">
-    <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+  <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
+    <value>Wybierz jeden z wyświetlonych certyfikatów by przydzielić go do aktualnego kanału:</value>
   </data>
-	</root>
+</root>
