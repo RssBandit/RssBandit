@@ -171,7 +171,7 @@
     <value>Fornisce aiuto sugli errori</value>
   </data>
   <data name="ExceptionNntpServerAuthenticationFailed" xml:space="preserve">
-    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <value>Connessione al server NNTP '{0}' con autenticazione fallita: username/password errata</value>
     <comment>.
  Parameters: 0 - nntpServer (string) </comment>
   </data>
