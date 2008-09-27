@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
-    Version 1.3
+    Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
@@ -14,16 +14,17 @@
     
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">1.3</resheader>
+    <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1">this is my long string</data>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
     <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        [base64 mime encoded serialized .NET Framework object]
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        [base64 mime encoded string representing a byte array form of the .NET Framework object]
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
                 
     There are any number of "resheader" rows that contain simple 
@@ -35,7 +36,7 @@
     Classes that don't support this are serialized and stored with the 
     mimetype set.
     
-    The mimetype is used forserialized objects, and tells the 
+    The mimetype is used for serialized objects, and tells the 
     ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
     
@@ -45,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -58,207 +59,228 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.0.0.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-		<value>NoControl</value>
-	</data>
-	<data name="btnCancel.Text">
-		<value>キャンセル</value>
-	</data>
-	<data name="btnOK.Text">
-		<value>OK</value>
-	</data>
-	<data name="navigationBar.Text">
-		<value>ナビゲーション</value>
-	</data>
-	<data name="newsServersPane.Text">
-		<value>ニュースサーバー</value>
-	</data>
-	<data name="accountsPane.Text">
-		<value>アカウント</value>
-	</data>
-	<data name="accountSettingsPane.Text">
-		<value>アカウント設定</value>
-	</data>
-	<data name="labelSignature.Text">
-		<value>署名(&amp;S):</value>
-	</data>
-	<data name="labelOrganzation.Text">
-		<value>組織(&amp;O):</value>
-	</data>
-	<data name="labelResponseAddress.Text">
-		<value>返信アドレス(&amp;R):</value>
-	</data>
-	<data name="labelRefererUrl.Text">
-		<value>リファラ URL (&amp;U):</value>
-	</data>
-	<data name="labelMailAddress.Text">
-		<value>メールアドレス(&amp;M):</value>
-	</data>
-	<data name="labelFullName.Text">
-		<value>名前(&amp;N):</value>
-	</data>
-	<data name="labelIdentityName.Text">
-		<value>アカウント名(&amp;I):</value>
-	</data>
-	<data name="bottomSandBarDock.Text">
-		<value>SandBarDock</value>
-	</data>
-	<data name="toolBar.Text">
-		<value>ニュースグループメイン</value>
-	</data>
-	<data name="toolNewIndentity.Text">
-		<value>アカウント追加</value>
-	</data>
-	<data name="toolNewNntpServer.Text">
-		<value>ニュースサーバー追加</value>
-	</data>
-	<data name="toolDelete.Text">
-		<value>削除</value>
-	</data>
-	<data name="btnApply.Text">
-		<value>適用</value>
-	</data>
-	<data name="subscriptionsViewPane.Text">
-		<value>購読一覧</value>
-	</data>
-	<data name="btnRefreshGroupList.Text">
-		<value>一覧更新</value>
-	</data>
-	<data name="btnUnsubscribe.Text">
-		<value>購読取り消し</value>
-	</data>
-	<data name="btnSubscribe.Text">
-		<value>購読</value>
-	</data>
-	<data name="colGroupName.Text">
-		<value>ニュースグループ</value>
-	</data>
-	<data name="colDescription.Text">
-		<value>説明</value>
-	</data>
-	<data name="labelNewsgroupsFilter.Text">
-		<value>次の文字列を含んでいるニュースグループを表示(&amp;N):</value>
-	</data>
-	<data name="generalViewPane.Text">
-		<value>全般</value>
-	</data>
-	<data name="chkConsiderServerOnRefresh.Text">
-		<value>最新情報に更新するときに、このアカウントを含める</value>
-	</data>
-	<data name="labelDefaultEdentity.Text">
-		<value>デフォルトアカウント(&amp;D):</value>
-	</data>
-	<data name="labelNewsAccount.Text">
-		<value>ニュースアカウント(&amp;N):</value>
-	</data>
-	<data name="serverViewPane.Text">
-		<value>サーバー</value>
-	</data>
-	<data name="labelNewsServerAccountPwd.Text">
-		<value>パスワード(&amp;P):</value>
-	</data>
-	<data name="chkUseAuthentication.Text">
-		<value>サーバーは認証が必要</value>
-	</data>
-	<data name="labelNewsServerAccoutnName.Text">
-		<value>アカウント名(&amp;T):</value>
-	</data>
-	<data name="labelNewsServerName.Text">
-		<value>サーバー名(&amp;S):</value>
-	</data>
-	<data name="advancedViewPane.Text">
-		<value>追加</value>
-	</data>
-	<data name="labelServerTimeoutSetting.Text">
-		<value>サーバータイムアウト(分)</value>
-	</data>
-	<data name="lblCurrentTimout.Text">
-		<value>&lt;タイムアウト&gt;</value>
-	</data>
-	<data name="btnUseDefaultPort.Text">
-		<value>デフォルト値を使う</value>
-	</data>
-	<data name="labelHighTimeout.Text">
-		<value>高</value>
-	</data>
-	<data name="chkUseSSL.Text">
-		<value>サーバーは、SSL 通信が必要</value>
-	</data>
-	<data name="labelLowTimeout.Text">
-		<value>低</value>
-	</data>
-	<data name="labelServerPort.Text">
-		<value>サーバーポート番号(&amp;S):</value>
-	</data>
-	<data name="$this.Text">
-		<value>アカウント管理</value>
-	</data>
-	<data name="topSandBarDock.Text">
-		<value>サンドバードック</value>
-	</data>
-	<data name="leftSandBarDock.Text">
-		<value>サンドバードック</value>
-	</data>
-	<data name="rightSandBarDock.Text">
-		<value>サンドバードック</value>
-	</data>
-	<data name="toolBarFilterNewsgroupList.Text">
-		<value>ニュースグループ一覧フィルタ</value>
-	</data>
-	<data name="labelNGFilter.Text">
-		<value>ニュースグループ表示:</value>
-	</data>
-	<data name="cmdNGFilterAll.Text">
-		<value>すべて</value>
-	</data>
-	<data name="cmdNGFilterSubscribed.Text">
-		<value>購読済み</value>
-	</data>
-	<data name="cmdNGFilterNew.Text">
-		<value>新規</value>
-	</data>
-	<data name="toolNewIndentity.ToolTipText">
-		<value>新しくアカウントを作成します</value>
-	</data>
-	<data name="toolNewNntpServer.ToolTipText">
-		<value>新しくNNTPサーバを追加します</value>
-	</data>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="navigationBar.Text" xml:space="preserve">
+    <value>ナビゲーション</value>
+  </data>
+  <data name="newsServersPane.Text" xml:space="preserve">
+    <value>ニュースサーバー</value>
+  </data>
+  <data name="accountsPane.Text" xml:space="preserve">
+    <value>アカウント</value>
+  </data>
+  <data name="accountSettingsPane.Text" xml:space="preserve">
+    <value>アカウント設定</value>
+  </data>
+  <data name="labelSignature.Text" xml:space="preserve">
+    <value>署名(&amp;S):</value>
+  </data>
+  <data name="labelOrganzation.Text" xml:space="preserve">
+    <value>組織(&amp;O):</value>
+  </data>
+  <data name="labelResponseAddress.Text" xml:space="preserve">
+    <value>返信アドレス(&amp;R):</value>
+  </data>
+  <data name="labelRefererUrl.Text" xml:space="preserve">
+    <value>リファラ URL (&amp;U):</value>
+  </data>
+  <data name="labelMailAddress.Text" xml:space="preserve">
+    <value>メールアドレス(&amp;M):</value>
+  </data>
+  <data name="labelFullName.Text" xml:space="preserve">
+    <value>名前(&amp;N):</value>
+  </data>
+  <data name="labelIdentityName.Text" xml:space="preserve">
+    <value>アカウント名(&amp;I):</value>
+  </data>
+  <data name="bottomSandBarDock.Text" xml:space="preserve">
+    <value>サンドバー ドック</value>
+  </data>
+  <data name="toolBar.Text" xml:space="preserve">
+    <value>ニュースグループメイン</value>
+  </data>
+  <data name="toolNewIndentity.Text" xml:space="preserve">
+    <value>アカウント追加</value>
+  </data>
+  <data name="toolNewNntpServer.Text" xml:space="preserve">
+    <value>ニュースサーバー追加</value>
+  </data>
+  <data name="toolDelete.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="subscriptionsViewPane.Text" xml:space="preserve">
+    <value>購読一覧</value>
+  </data>
+  <data name="btnRefreshGroupList.Text" xml:space="preserve">
+    <value>一覧更新</value>
+  </data>
+  <data name="btnUnsubscribe.Text" xml:space="preserve">
+    <value>購読取り消し</value>
+  </data>
+  <data name="btnSubscribe.Text" xml:space="preserve">
+    <value>購読</value>
+  </data>
+  <data name="colGroupName.Text" xml:space="preserve">
+    <value>ニュースグループ</value>
+  </data>
+  <data name="colDescription.Text" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="labelNewsgroupsFilter.Text" xml:space="preserve">
+    <value>次の文字列を含んでいるニュースグループを表示(&amp;N):</value>
+  </data>
+  <data name="generalViewPane.Text" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="chkConsiderServerOnRefresh.Text" xml:space="preserve">
+    <value>最新情報に更新するときに、このアカウントを含める</value>
+  </data>
+  <data name="labelDefaultEdentity.Text" xml:space="preserve">
+    <value>デフォルトアカウント(&amp;D):</value>
+  </data>
+  <data name="labelNewsAccount.Text" xml:space="preserve">
+    <value>ニュースアカウント(&amp;N):</value>
+  </data>
+  <data name="serverViewPane.Text" xml:space="preserve">
+    <value>サーバー</value>
+  </data>
+  <data name="labelNewsServerAccountPwd.Text" xml:space="preserve">
+    <value>パスワード(&amp;P):</value>
+  </data>
+  <data name="chkUseAuthentication.Text" xml:space="preserve">
+    <value>サーバーは認証が必要</value>
+  </data>
+  <data name="labelNewsServerAccoutnName.Text" xml:space="preserve">
+    <value>アカウント名(&amp;T):</value>
+  </data>
+  <data name="labelNewsServerName.Text" xml:space="preserve">
+    <value>サーバー名(&amp;S):</value>
+  </data>
+  <data name="advancedViewPane.Text" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="labelServerTimeoutSetting.Text" xml:space="preserve">
+    <value>サーバータイムアウト(分)</value>
+  </data>
+  <data name="lblCurrentTimout.Text" xml:space="preserve">
+    <value>&lt;タイムアウト&gt;</value>
+  </data>
+  <data name="btnUseDefaultPort.Text" xml:space="preserve">
+    <value>デフォルト値を使う</value>
+  </data>
+  <data name="labelHighTimeout.Text" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="chkUseSSL.Text" xml:space="preserve">
+    <value>サーバーは、SSL 通信が必要</value>
+  </data>
+  <data name="labelLowTimeout.Text" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="labelServerPort.Text" xml:space="preserve">
+    <value>サーバーポート番号(&amp;S):</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>アカウント管理</value>
+  </data>
+  <data name="topSandBarDock.Text" xml:space="preserve">
+    <value>サンドバードック</value>
+  </data>
+  <data name="leftSandBarDock.Text" xml:space="preserve">
+    <value>サンドバードック</value>
+  </data>
+  <data name="rightSandBarDock.Text" xml:space="preserve">
+    <value>サンドバードック</value>
+  </data>
+  <data name="toolBarFilterNewsgroupList.Text" xml:space="preserve">
+    <value>ニュースグループ一覧フィルタ</value>
+  </data>
+  <data name="labelNGFilter.Text" xml:space="preserve">
+    <value>ニュースグループ表示:</value>
+  </data>
+  <data name="cmdNGFilterAll.Text" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="cmdNGFilterSubscribed.Text" xml:space="preserve">
+    <value>購読済み</value>
+  </data>
+  <data name="cmdNGFilterNew.Text" xml:space="preserve">
+    <value>新規</value>
+  </data>
+  <data name="toolNewIndentity.ToolTipText" xml:space="preserve">
+    <value>新しくアカウントを作成します</value>
+  </data>
+  <data name="toolNewNntpServer.ToolTipText" xml:space="preserve">
+    <value>新しくNNTPサーバを追加します</value>
+  </data>
 </root>
