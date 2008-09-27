@@ -174,33 +174,31 @@
   <data name="RES_MenuSendToOneNoteConfigCaption" xml:space="preserve">
     <value>Konfiguracja wtyczki OneNote...</value>
   </data>
-<data name="RES_MenuLiveWriterCaption">
-		<value>Opisz w blogu za pomocą Windows Live Writer...</value>
-	</data>
-	<data name="RES_ExceptionLiveWriterNotFound">
-		<value>Nie znaleziono wpisu rejestru dla Windows Live Writer. Proszę zainstalować Windows Live Writer z http://ideas.live.com aby używać tej cechy.</value>
-	</data>
-	<data name="RES_MenuTwitterCaption" space="preserve">
-    <value>Post to Twitter</value>
+  <data name="RES_MenuLiveWriterCaption" xml:space="preserve">
+    <value>Opisz w blogu za pomocą Windows Live Writer...</value>
   </data>
-	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
-    <value>Twitter Plugin Configuration...</value>
+  <data name="RES_ExceptionLiveWriterNotFound" xml:space="preserve">
+    <value>Nie znaleziono wpisu rejestru dla Windows Live Writer. Proszę zainstalować Windows Live Writer z http://ideas.live.com aby używać tej cechy.</value>
   </data>
-	<data name="RES_TwitterApiUrl" space="preserve">
+  <data name="RES_MenuTwitterCaption" xml:space="preserve">
+    <value>Wyślij do Twittera</value>
+  </data>
+  <data name="RES_MenuTwitterFormConfiguration" xml:space="preserve">
+    <value>Konfiguracja wtyczki Twitter...</value>
+  </data>
+  <data name="RES_TwitterApiUrl" xml:space="preserve">
     <value>&amp;Twitter API URL</value>
   </data>
-	<data name="RES_TwitterFormCount" space="preserve">
+  <data name="RES_TwitterFormCount" xml:space="preserve">
     <value>140</value>
   </data>
-	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
-    <value>Empty Message Body</value>
+  <data name="RES_TwitterIncompleteSubmissionMessage" xml:space="preserve">
+    <value>Pusta wiadomość</value>
   </data>
-	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
-    <value>There was an error loading configuration from '{0}': 
-{1}</value>
-   </data>
-	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
-    <value>There was an error writing configuration file '{0}': 
-{1}</value>
+  <data name="RES_ExceptionOneNoteBadConfigurationFileFormat" xml:space="preserve">
+    <value>Błąd przy ładowaniu konfiguracji z pliku '{0}': {1}</value>
   </data>
-	</root>
+  <data name="RES_ExceptionOneNoteWritingConfigurationFile" xml:space="preserve">
+    <value>Błąd przy zapisywaniu pliku konfiguracji '{0}': {1}</value>
+  </data>
+</root>

@@ -371,6 +371,6 @@
     <value>Kanioniczny URL którego będziemy używać</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>Źródło subskrypcji:</value>
   </data>
 </root>
