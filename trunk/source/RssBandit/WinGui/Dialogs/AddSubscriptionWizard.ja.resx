@@ -368,9 +368,9 @@
     <value>フィードやアイテムに関連するオプションの購読プロパティ</value>
   </data>
   <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
-    <value>The canonicalized URL we will use</value>
+    <value>正規化した URL</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>購読ソース:</value>
   </data>
 </root>
