@@ -942,7 +942,7 @@ Dettagli: {1}</value>
     <comment>Description within context menu</comment>
   </data>
   <data name="MenuFlagFeedItemReviewCaption" xml:space="preserve">
-    <value>Review</value>
+    <value>Revisione</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuFlagFeedItemReviewDesc" xml:space="preserve">
@@ -1264,7 +1264,7 @@ Dettagli: {1}</value>
     <comment>SmartNode caption</comment>
   </data>
   <data name="FeedNodeFlaggedForReviewCaption" xml:space="preserve">
-    <value>Elementi per Review</value>
+    <value>Elementi per revisione</value>
     <comment>SmartNode caption</comment>
   </data>
   <data name="FeedNodeFlaggedForForwardCaption" xml:space="preserve">
@@ -1340,7 +1340,7 @@ Dettagli: {1}</value>
     <comment>CommandLine Option description</comment>
   </data>
   <data name="MenuUploadFeedsCaption" xml:space="preserve">
-    <value>&amp;Upload Feeds...</value>
+    <value>&amp;Carica feeds...</value>
     <comment>Caption within context menu</comment>
   </data>
   <data name="MenuDownloadFeedsCaption" xml:space="preserve">
@@ -2477,7 +2477,7 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <value>Aggiungi un NNTP server...</value>
   </data>
   <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
-    <value>Delete</value>
+    <value>Cancella</value>
     <comment> NewsGroupConfiguration dialog main tool</comment>
   </data>
   <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
@@ -2515,7 +2515,7 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <comment> SearchPanel control</comment>
   </data>
   <data name="SearchPanel_checkBoxRssSearchInLink_Text" xml:space="preserve">
-    <value>Item &amp;Link</value>
+    <value>&amp;Link elemento</value>
   </data>
   <data name="SearchPanel_checkBoxRssSearchInCategory_Text" xml:space="preserve">
     <value>Arg&amp;omento</value>
@@ -2530,7 +2530,7 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <value>Seleziona tutti i campi che vuoi siano ricercati</value>
   </data>
   <data name="SearchPanel_advancedOptionItemPostedGroup_Text" xml:space="preserve">
-    <value>Item &amp;posted</value>
+    <value>Item &amp;caricato</value>
   </data>
   <data name="SearchPanel_advancedOptionItemAgeGroup_Text" xml:space="preserve">
     <value>Et&amp;à Item</value>
@@ -2639,17 +2639,17 @@ Prova ad aprire il pannello di controllo manualmente usanto il comando di esecut
     <value>Rimuovi questa sottoscrizione...</value>
   </data>
   <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Precedente</value>
     <comment> Xslt default template language resources</comment>
   </data>
   <data name="XsltDefaultTemplate_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Prossimo</value>
   </data>
   <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
-    <value>Displaying page</value>
+    <value>Visualizzazione pagina</value>
   </data>
   <data name="XsltDefaultTemplate_of" xml:space="preserve">
-    <value>of</value>
+    <value>di</value>
   </data>
   <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
     <value>Caricamento del file
@@ -2678,7 +2678,7 @@ fallita con errore:
     <value>Top Stories</value>
   </data>
   <data name="MenuTopStoriesDesc" xml:space="preserve">
-    <value>View the most recently popular links in your subscriptions</value>
+    <value>Visualizza i più recenti link popolari della tua sottoscrizione</value>
     <comment>CHANGED</comment>
   </data>
   <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
@@ -2691,7 +2691,7 @@ fallita con errore:
  Parameters: 0 - appTitle (string) </comment>
   </data>
   <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
-    <value>Discussion:</value>
+    <value>Discussione:</value>
   </data>
   <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
     <value>Dimensione del testo</value>
@@ -2742,22 +2742,22 @@ fallita con errore:
     <value>Contenitore dei feeds sottoscritti in NewsGator</value>
   </data>
   <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
-    <value>My Common Feed List Feeds</value>
+    <value>La lista dei mie feeds comuni</value>
   </data>
   <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
-    <value>Container of subscribed feeds in Windows RSS platform</value>
+    <value>Contenitore dei feeds sottoscritti sulla piattaforma Windows RSS </value>
   </data>
   <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
-    <value>Share or unshare item in Google Reader</value>
+    <value>Condividi o togli condivizione degli elementi in Google Reader</value>
   </data>
   <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
-    <value>Add or remove item from clippings folder in NewsGator Online</value>
+    <value>Aggiungi o rimuovi elementi dalla cartella ritagli in NewsGator Online</value>
   </data>
   <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
-    <value>&amp;Synchronize Feeds...</value>
+    <value>&amp;Sincronizza i feeds...</value>
   </data>
   <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
-    <value>Launches the Synchronize Feeds Wizard</value>
+    <value>Lancia il wizard di sincronizzazione feeds</value>
   </data>
   <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
     <value>Specificare un nome di playlist valido</value>
@@ -2790,13 +2790,13 @@ fallita con errore:
     <value>Cancella questa sorgente del feed</value>
   </data>
   <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
-    <value>Rename Feed Source...</value>
+    <value>Rinomina la sorgente del feed...</value>
   </data>
   <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
-    <value>Rename this feed source</value>
+    <value>Rinomina questa sorgente del feed</value>
   </data>
   <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
-    <value>Remove Synchronization Source</value>
+    <value>Rimuovi la sorgente di sincronizzazione</value>
   </data>
   <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
     <value>Vuoi veramente rimuovere '{0}' dalla lista delle sorgenti di sincronizzazione?</value>
@@ -2816,7 +2816,7 @@ Error: {1}</value>
     <value>Proprietà...</value>
   </data>
   <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
-    <value>Show the feed source properties</value>
+    <value>Visualizza le proprietà della sorgente del feed</value>
   </data>
   <data name="ExceptionFeedlistCredentials" xml:space="preserve">
     <value>Una eccezione di autorizzazione si è verificata tentanto di caricare la lista dei feed per "{0}": {1}</value>

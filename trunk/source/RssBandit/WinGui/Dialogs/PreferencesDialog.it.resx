@@ -595,7 +595,7 @@
     <value>Lo spazio totale su disco non deve superare</value>
   </data>
   <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
-    <value>Attachments</value>
+    <value>Allegati</value>
   </data>
   <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
     <value>Sulle nuove sottoscrizioni: scarica solo l'ultima</value>
@@ -640,15 +640,15 @@
     <value>Se selezionato, il pannello di lettura sarà suddiviso in pagine diverse ognuna contenente il numero specificato di elementi news</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
-    <value>Clear all individual feed and category Item Age settings</value>
+    <value>Azzera le impostazioni dell'età di tutti i singoli feed e categorie</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
     <value>Reset all individual feed and category Refresh Rate settings</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
-    <value>Changes refresh rate setting for all feeds</value>
+    <value>Cambia l'impostazione della velocità di aggiornamento per tutti i feeds</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
-    <value>Changes default item age setting for all feeds</value>
+    <value>Cambia le impostazioni di default per l'età degli elementi di tutti i feed</value>
   </data>
 </root>
