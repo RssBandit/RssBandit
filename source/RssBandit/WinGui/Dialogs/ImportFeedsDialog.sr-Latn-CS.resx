@@ -132,9 +132,9 @@
 		<value>&amp;U redu</value>
 	</data>
 <data name="comboFeedSource.ToolTip" space="preserve">
-    <value>Select a category, or provide a new one where the new feeds should be located within your subscriptions</value>
+    <value>Izaberi kategoriju, ili obezbedi novu u koju će se smeštati novi feed-ovi</value>
   </data>
 	<data name="label1.Text" space="preserve">
-    <value>In &amp;Feed Source</value>
+    <value>U &amp;izvor feed-a</value>
   </data>
 	</root>
