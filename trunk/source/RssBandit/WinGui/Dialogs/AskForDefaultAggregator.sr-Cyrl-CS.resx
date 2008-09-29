@@ -105,7 +105,7 @@
 		<value>Ваш основни агрегатор</value>
 	</data>
 	<data name="label1.Text">
-		<value>RSS Bandit тренутно није ваш основни агрегатор. Да ли желите да га направите вашим основним агрегатором?</value>
+		<value>RSS Bandit тренутно није ваш основни агрегатор. Да ли желите да га подесите као основни агрегатор?</value>
 	</data>
 	<data name="buttonNo.Text">
 		<value>Не</value>

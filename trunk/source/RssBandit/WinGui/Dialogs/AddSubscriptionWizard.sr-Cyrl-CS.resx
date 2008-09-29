@@ -128,7 +128,7 @@
     <value>Молим вас сачекајте...</value>
   </data>
   <data name="pageWelcome.Text" xml:space="preserve">
-    <value>Добро дошли у Чаробњака за додавање потписа!</value>
+    <value>Добро дошли у Чаробњака за додавање feed-а!</value>
   </data>
   <data name="lblNewByURL.Text" xml:space="preserve">
     <value>URL:</value>
@@ -137,7 +137,7 @@
     <value>&amp;Лозинка:</value>
   </data>
   <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
-    <value>Пронађено више извора</value>
+    <value>Пронађено више feed-ова</value>
   </data>
   <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
     <value>Да би се могли потписати за NNTP групу вести, морате дефинисати бар један NNTP сервер. Можете кликнути "Управљај..." да направите један или да промените параметре.</value>
@@ -146,10 +146,10 @@
     <value>Категорија:</value>
   </data>
   <data name="pageNewByURL.Text" xml:space="preserve">
-    <value>Нови потпис кроз URL</value>
+    <value>Нови feed кроз URL</value>
   </data>
   <data name="pageFeedCredentials.Text" xml:space="preserve">
-    <value>Акредитиви потписа</value>
+    <value>Акредитиви feed-а</value>
   </data>
   <data name="chkDisplayWelcome.Text" xml:space="preserve">
     <value>Увек приказуј страницу добродошлице</value>
@@ -167,19 +167,19 @@
     <value>Чаробњак захтева конекцију са интернетом на неким деловима! Ако већ нисте конектовани конектујте се сад.</value>
   </data>
   <data name="pageFeedItemDisplay.Text" xml:space="preserve">
-    <value>Извор/Предмет приказивање</value>
+    <value>Feed/Предмет приказивање</value>
   </data>
   <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
-    <value>Користи основно форматирање за извор/предмет или изабери прилагођени XSLT форматор.</value>
+    <value>Користи основно форматирање за feed/предмет или изабери прилагођени XSLT форматор.</value>
   </data>
   <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
-    <value>Ако тражени извор не може бити пронађен у листи, молим вас кликните Назад да иницирате нову претрагу.</value>
+    <value>Ако тражени feed не може бити пронађен у листи, молим вас кликните Назад да иницирате нову претрагу.</value>
   </data>
   <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;Корисничко име:</value>
   </data>
   <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
-    <value>Овде можете навести наслов за потпис и додати га новој или постојећој категорији</value>
+    <value>Овде можете навести наслов за feed и додати га новој или постојећој категорији</value>
   </data>
   <data name="lblNewBySearchWords.Text" xml:space="preserve">
     <value>Кључне речи или теме:</value>
@@ -188,7 +188,7 @@
     <value>Нови потписи преко Претраге</value>
   </data>
   <data name="pageFeedItemControl.Text" xml:space="preserve">
-    <value>Извор/Предмет контрола</value>
+    <value>Feed/Предмет контрола</value>
   </data>
   <data name="checkUseCustomFormatter.Text" xml:space="preserve">
     <value>Користи &amp;прилагођени форматор</value>
@@ -230,13 +230,13 @@
     <value>Групе:</value>
   </data>
   <data name="lblNewByURLIntro.Text" xml:space="preserve">
-    <value>Ако нисте сигурни који је URL извора, унесите адресу сајта или стране и RSS Bandit ће покушати да аутоматски октрије извор.</value>
+    <value>Ако нисте сигурни који је URL feed-а, унесите адресу сајта или стране и RSS Bandit ће покушати да аутоматски октрије извор.</value>
   </data>
   <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
     <value>• Провера извора потписа и управљање додатним параметрима је можда потребно за успешан захтев (нпр. акредативи).</value>
   </data>
   <data name="radioNewByURL.Text" xml:space="preserve">
-    <value>Ја ћу унети URL извора или стране</value>
+    <value>Ја ћу унети URL feed-а или стране</value>
   </data>
   <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
     <value>Пронађен извор:</value>
@@ -248,13 +248,13 @@
     <value>Заврши</value>
   </data>
   <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
-    <value>Из листе испод, изаберите извор, а затим кликните Даље да наведете детаље новог потписа.</value>
+    <value>Из листе испод, изаберите извор, а затим кликните Даље да наведете детаље новог feed-а.</value>
   </data>
   <data name="lblValidationTask2.Text" xml:space="preserve">
     <value>У обради</value>
   </data>
   <data name="lblNewBySearchIntro.Text" xml:space="preserve">
-    <value>Резултат зависи од кориштеног претраживача. Неки од су online сервиси претраге итвора који могу наћи везане изворе на које се можете директно потписати (Syndic8). Други могу једноставно обезбедити резултат претраге као извор.</value>
+    <value>Резултат зависи од кориштеног претраживача. Од којих су неки online сервиси претраге итвора који могу наћи везане feed-а на које се можете директно потписати (Syndic8). Други могу једноставно обезбедити резултат претраге као feed.</value>
   </data>
   <data name="lblFormatterStylesheet.Text" xml:space="preserve">
     <value>&amp;Stylesheet форматора:</value>
@@ -263,7 +263,7 @@
     <value>Желим да се потпишем за NNTP групу вести</value>
   </data>
   <data name="checkNewByURLValidate.Text" xml:space="preserve">
-    <value>Аутмоатски откриј и верификуј извор</value>
+    <value>Аутоматски откриј и верификуј feed</value>
   </data>
   <data name="lblUpdateFrequency.Text" xml:space="preserve">
     <value>Фреквенција ажурирања:</value>
@@ -272,7 +272,7 @@
     <value>Наслов и категорија</value>
   </data>
   <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
-    <value>• Истраћивање HTML стране за могуће изворе или проналазак извора по кључној речи.</value>
+    <value>• Истраживање HTML стране за могуће feed-ове или проналазак feed-ова по кључној речи.</value>
   </data>
   <data name="lblFeedTitle.Text" xml:space="preserve">
     <value>&amp;Наслов:</value>
@@ -281,10 +281,10 @@
     <value>Уклони предмете старије од:</value>
   </data>
   <data name="radioNewByTopicSearch.Text" xml:space="preserve">
-    <value>Желим да тражим потписе по кључној речи(ма)</value>
+    <value>Желим да тражим feed-ове по кључној речи/речима</value>
   </data>
   <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
-    <value>&amp;Маркирај предмете прочитаним напуштањем извора</value>
+    <value>&amp;Означи предмете прочитаним после напуштањем feed-а</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Чаробњак за додавање </value>
@@ -296,7 +296,7 @@
     <value>Додатни параметри за контролу приказивања feed-а и његових ставки</value>
   </data>
   <data name="pageHowToSelection.Description" xml:space="preserve">
-    <value>Потписивање на вести спрема ставке вести из различитих извора. Како желите да додате нови потпис?</value>
+    <value>Потписивање на вести из различитих извора. Како желите да додате нови потпис?</value>
   </data>
   <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
     <value>Изаберите NNTP сервер и једну од понуђених група на које желите да се потпишете.</value>
@@ -320,13 +320,13 @@
     <value>&lt; &amp;Назад</value>
   </data>
   <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
-    <value>Молим вас кликните "Даље" да унесете или измените контролне параметре Feed/Предмет-а...</value>
+    <value>Молим вас кликните "Даље" да унесете или измените контролне параметре Feed-а/Предмет-а...</value>
   </data>
   <data name="wizard.HelpText" xml:space="preserve">
     <value>&amp;Помоћ</value>
   </data>
   <data name="pageNewByURL.Description" xml:space="preserve">
-    <value>Додаје потписе чији web feed-ови могу бити пронађени на одређеној локацији.</value>
+    <value>Додаје feed чији web feed-ови могу бити пронађени на одређеној локацији.</value>
   </data>
   <data name="wizard.CancelText" xml:space="preserve">
     <value>Откажи</value>
@@ -356,13 +356,13 @@
     <value>&amp;Даље &gt;</value>
   </data>
   <data name="pageFeedCredentials.Description" xml:space="preserve">
-    <value>Унесите акредатив ако је потребно.</value>
+    <value>Унесите акредитив ако је потребно.</value>
   </data>
   <data name="pageWelcome.IntroductionText" xml:space="preserve">
     <value>Овај чаробњак вам помаже:</value>
   </data>
   <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
-    <value>Молим вас кликните "Даље" да наставите или кликните "Заврши"  да додате нови потпис</value>
+    <value>Молим вас кликните "Даље" да наставите или кликните "Заврши"  да додате нови feed</value>
   </data>
   <data name="pageFeedItemControl.Description" xml:space="preserve">
     <value>Опциони параметри потписа везани за feed и његове ставке</value>
@@ -371,6 +371,6 @@
     <value>За правилан URL користићемо</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>Извор: </value>
   </data>
 </root>

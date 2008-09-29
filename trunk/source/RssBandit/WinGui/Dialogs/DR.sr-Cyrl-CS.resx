@@ -182,13 +182,13 @@
     <value>Прихвати све измене и затвори</value>
   </data>
   <data name="DialogBase_UACShieldedHint" xml:space="preserve">
-    <value>Опција захтева вече корисничке привилегије (Administrator)...</value>
+    <value>Опција захтева веће корисничке привилегије (Administrator)...</value>
   </data>
   <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
     <value>&amp;Сачувај</value>
   </data>
   <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
-    <value>Урађено. Сад извозим...</value>
+    <value>Одрађено. Сад извозим...</value>
   </data>
   <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
     <value>Изаберите извор(е) за &amp;извоз:</value>
@@ -221,19 +221,19 @@
     <value>(Outline Processor Markup Language) формат</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Акредитиви</value>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Име feed извора:</value>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
-    <value>Password:</value>
+    <value>Лозинка:</value>
   </data>
   <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
-    <value>Username:</value>
+    <value>Корисничко име:</value>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Параметри feed извора</value>
   </data>
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 дан</value>
@@ -353,18 +353,18 @@
     <value>Параметри извора</value>
   </data>
 <data name="FeedProperties_comboBox1_ToolTip" space="preserve">
-    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+    <value>Подеси или изабери лимит у минутама кад би овај feed урадио упдате</value>
   </data>
 	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+    <value>Уклони додељен сертификат клијента...</value>
   </data>
 	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+    <value>Изабери сертификат клијента...</value>
   </data>
 	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
-    <value>Client Certificate</value>
+    <value>Сертификат клијента</value>
   </data>
 	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+    <value>Види доделјени сертификат клијента...</value>
   </data>
 	</root>
