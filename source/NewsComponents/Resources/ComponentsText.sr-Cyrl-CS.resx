@@ -93,17 +93,17 @@
     <value>Обезбеђује помоћ о грешкама</value>
   </data>
 	<data name="ExceptionNntpServerAuthenticationFailed">
-    <value>Connect to NNTP server '{0}' with authentication failed: invalid username/password</value>
+    <value>Конекција на NNTP сервер '{0}' са аутентификацијом неуспешна: неисправни корисничко име/лозинка</value>
     <comment>.
- Parameters: 0 - nntpServer (string) </comment>
+ Параметри: 0 - nntpServer (string) </comment>
   </data>
 	<data name="ExceptionResourceAuthorization">
-    <value>Unauthorized access, credentials required or invalid credentials (HTTP status 401)</value>
+    <value>Неовлаштен приступ, потребни акредитиви или неисправни акредитиви (HTTP статус 401)</value>
   </data>
 	<data name="ExceptionResourceGone">
-    <value>The requested resource is not longer available (HTTP status 410)</value>
+    <value>Тражени ресурс ниј вишре расположив (HTTP статус 410)</value>
   </data>
 	<data name="ExceptionClientCertificateRequired" space="preserve">
-    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
+    <value>Приступ онемогућен, потребан сертификат клијента или обеѕбеђени сертификат клијента није валидан.</value>
   </data>
 	</root>
