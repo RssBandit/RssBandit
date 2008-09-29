@@ -183,45 +183,45 @@ za više detalja o grešci koja se desila.</value>
     <comment>Poruka iznimke</comment>
   </data>
   <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
-    <value>Greška prilikom učitavanja fajla liste izvora.</value>
+    <value>Greška prilikom učitavanja fajla liste feed-ova.</value>
     <comment>Informacije GUI statusa</comment>
   </data>
   <data name="InvalidFeedlistFileMessage" xml:space="preserve">
-    <value>Fajl izvora je nevalidan. Molim vas da pogledate fajl na  
+    <value>Fajl feed-a je nevalidan. Molim vas da pogledate fajl na  
   '{0}' 
 za detaljnije informacije o grešci koja se desila.</value>
     <comment>Poruka greške validacije</comment>
   </data>
   <data name="GUIStatusDone" xml:space="preserve">
     <value>Urađeno</value>
-    <comment>Informacije GUI statusa</comment>
+    <comment>Informacije statusa grafičkog interfejsa</comment>
   </data>
   <data name="GUIStatusRetriveCommentRssFeed" xml:space="preserve">
     <value>Potražujem komentare Rss izvora, molim vas sačekajte...</value>
-    <comment>Informacije GUI statusa</comment>
+    <comment>Informacije statusa grafičkog interfejsa</comment>
   </data>
   <data name="GUIExceptionRetriveCommentRssFeed" xml:space="preserve">
     <value>Greška prilikom potraživanja komentara Rss izvora: {0}</value>
-    <comment>Informacije GUI statusa</comment>
+    <comment>Informacije statusa grafičkog interfejsa </comment>
   </data>
   <data name="GUIStatusValidationErrorReadingFeedlistFile" xml:space="preserve">
     <value>Greška validacije prilikom učitavanja liste izvora.</value>
-    <comment>Informacije GUI statusa</comment>
+    <comment>Informacije statusa grafičkog interfejsa</comment>
   </data>
   <data name="GUIStatusNoFeedlistFile" xml:space="preserve">
     <value>Nema liste izvora.</value>
-    <comment>Informacije GUI statusa</comment>
+    <comment>Informacije statusa grafičkof interfejsa</comment>
   </data>
   <data name="GUIStatusIdle" xml:space="preserve">
     <value>Neaktivan</value>
     <comment>isto tako se prikazuje kao savet u tray ikoni</comment>
   </data>
   <data name="GUIStatusNewFeedItemsReceived" xml:space="preserve">
-    <value>Novi predmeti izvora primljeni...</value>
+    <value>Novi predmeti feed-a primljeni...</value>
     <comment>isto prikazano kao savet </comment>
   </data>
   <data name="GUIStatusNewFeedItemsReceivedMessage" xml:space="preserve">
-    <value>{0} izvor(a) sa {1} novih poruka</value>
+    <value>{0} feed(a) sa {1} novih poruka</value>
     <comment>isto prikazano kao savet </comment>
   </data>
   <data name="GUIStatusBusyRefresh" xml:space="preserve">
@@ -229,22 +229,22 @@ za detaljnije informacije o grešci koja se desila.</value>
     <comment>isto prikazano kao savet </comment>
   </data>
   <data name="GUIStatusUnreadFeedItemsAvailable" xml:space="preserve">
-    <value>Dostupni nepročitani predmeti izvora...</value>
+    <value>Dostupni nepročitani predmeti feed-a...</value>
   </data>
   <data name="GUIStatusFeedsAreUpdatedMessage" xml:space="preserve">
     <value>{0} Izvor(i) ažuriran(i).</value>
   </data>
   <data name="GUIStatusNoFeedsAreUpdated" xml:space="preserve">
-    <value>Nema ništa za ažuriranje izvor(a).</value>
+    <value>Nema ništa za ažuriranje feed(a).</value>
   </data>
   <data name="GUIStatusUnreadFeedItemsLeftMessage" xml:space="preserve">
-    <value>{0} predmet(a) izvor(a) nepročitano.</value>
+    <value>{0} predmet(a) feed(a) nepročitano.</value>
   </data>
   <data name="GUIStatusNoUnreadFeedItemsLeft" xml:space="preserve">
-    <value>Nema više nepročitanih predmeta izvora.</value>
+    <value>Nema više nepročitanih predmeta feed-ova.</value>
   </data>
   <data name="GUIFieldLinkTitleInvalid" xml:space="preserve">
-    <value>Link i naslov za RSS izvor ne mogu biti prazni!</value>
+    <value>Link i naslov za RSS feed ne mogu biti prazni!</value>
   </data>
   <data name="GUIFieldTitleInvalid" xml:space="preserve">
     <value>Naslov za kategoriju ne može biti prazan!</value>
@@ -268,7 +268,7 @@ za detaljnije informacije o grešci koja se desila.</value>
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessagePrefetchFeed" xml:space="preserve">
-    <value>Potražujem izvor:
+    <value>Potražujem feed:
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessageRequestFile" xml:space="preserve">
@@ -279,14 +279,14 @@ za detaljnije informacije o grešci koja se desila.</value>
     <value>Žao nam je ali RSS ne može biti lociran.</value>
   </data>
   <data name="GUIStatusWaitMessageUpLoadingFeedlist" xml:space="preserve">
-    <value>Dodajem listu izvora ({0}), molim vas sačekajte...</value>
+    <value>Dodajem listu feed-ova ({0}), molim vas sačekajte...</value>
   </data>
   <data name="GUIFeedlistUploadExceptionMessage" xml:space="preserve">
-    <value>Dodavanje liste izvora neuspešno sa greškom:
+    <value>Dodavanje liste feed-ova neuspešno sa greškom:
 {0}</value>
   </data>
   <data name="GUIStatusWaitMessageDownLoadingFeedlist" xml:space="preserve">
-    <value>Skidam listu izvora ({0}), molim vas sačekajte...</value>
+    <value>Skidam listu feed-ova ({0}), molim vas sačekajte...</value>
   </data>
   <data name="GUIFeedlistDownloadExceptionMessage" xml:space="preserve">
     <value>Preuzimanje liste izora neuspešno sa greškom:
@@ -314,13 +314,13 @@ za detaljnije informacije o grešci koja se desila.</value>
     <value>Zahtev URL-a {0} neuspešan: {1}</value>
   </data>
   <data name="GUIAutoDiscoverFeedFailedCaption" xml:space="preserve">
-    <value>Automatsko oktrivanje izvora neuspešno</value>
+    <value>Automatsko oktrivanje feed-a neuspešno</value>
   </data>
   <data name="GUIStatusRefreshFeedsMessage" xml:space="preserve">
-    <value>Osvežavam izvore...</value>
+    <value>Osvežavam feed-ove...</value>
   </data>
   <data name="GUIStatusLoadingFeedlist" xml:space="preserve">
-    <value>Učitavam listu izvora...</value>
+    <value>Učitavam listu feed-ova...</value>
   </data>
   <data name="GUIStatusLoadingChildItems" xml:space="preserve">
     <value>Učitavam, molim vas sačekajte...</value>
@@ -373,13 +373,13 @@ Molim vas pogledajte fajl na  '{0}' za detalje o grešci.</value>
     <value>RSS predmet ne može biti transformisan u HTML.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetCompile" xml:space="preserve">
-    <value>Xslt kaskadni stil ne može biti kompajliran.</value>
+    <value>Xslt CSS ne može biti kompajliran.</value>
   </data>
   <data name="ExceptionNewsItemFormatterInvalidStylesheet" xml:space="preserve">
-    <value>Xslt kaskadni stil je nevalidan.</value>
+    <value>Xslt CSS je nevalidan.</value>
   </data>
   <data name="ExceptionNewsItemFormatterStylesheetMessage" xml:space="preserve">
-    <value>Izabrani Xslt kaskadni stil za formatiranje predmeta prijavljuje sledeći problem:
+    <value>Izabrani Xslt CSS za formatiranje predmeta prijavljuje sledeći problem:
 {0}
 Detalji: {1}</value>
   </data>
@@ -593,14 +593,14 @@ Detalji: {1}</value>
     <comment>Zaglavlje postfiks na glavnom prozoru</comment>
   </data>
   <data name="MenuViewOutlookReadingPane" xml:space="preserve">
-    <value>Show Items in Groups</value>
+    <value>Prikaži predmete u grupama</value>
   </data>
   <data name="MenuNewFeedCaption" xml:space="preserve">
     <value>&amp;Feed Subscription...</value>
-    <comment>CHANGED: Caption within tool dropdown</comment>
+    <comment>Zaglavlje unutar padajućeg menija alata</comment>
   </data>
   <data name="MenuNewFeedDesc" xml:space="preserve">
-    <value>Potpišite se na novi izvor</value>
+    <value>Potpišite se na novi feed</value>
     <comment>Opis unutar fajl/kontekst menija</comment>
   </data>
   <data name="MenuNewCategoryCaption" xml:space="preserve">
@@ -764,7 +764,7 @@ Detalji: {1}</value>
     <comment>Opis unutar meni/alat/kontekst</comment>
   </data>
   <data name="MenuAutodiscoveredFeedsDropdownCaption" xml:space="preserve">
-    <value>Discovered Feeds</value>
+    <value>Otkriveni feed-ovi</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuAutodiscoveredFeedsDropdownDesc" xml:space="preserve">
@@ -1184,7 +1184,7 @@ Detalji: {1}</value>
     <comment>Opis unutar menija alata</comment>
   </data>
   <data name="MenuDoSearchWebCaption" xml:space="preserve">
-    <value>Search the Web</value>
+    <value>Pretarži Web</value>
     <comment>CHANGED</comment>
   </data>
   <data name="MenuDoSearchWebDesc" xml:space="preserve">
@@ -2462,25 +2462,25 @@ Molim vas pokušajte ručno otvoriti panel preko kontrol panel-a iz start menija
   </data>
   <data name="NewsGroupConfiguration_MainToolbarCaption" xml:space="preserve">
     <value>Glavni alati</value>
-    <comment> NewsGroupConfiguration naziv dijaloga bara sa alatima</comment>
+    <comment> Naziv dijaloga bara sa alatima konfiguracije grupe vesti</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolCaption" xml:space="preserve">
     <value>Dodaj identitet</value>
-    <comment> NewsGroupConfiguration naziv dijaloga glavnog alata</comment>
+    <comment> Naziv dijaloga glavnog alata konfiguracije grupe vesti</comment>
   </data>
   <data name="NewsGroupConfiguration_NewIdentityToolDesc" xml:space="preserve">
     <value>Napravi novi identitet...</value>
   </data>
   <data name="NewsGroupConfiguration_NewNewsServerToolCaption" xml:space="preserve">
     <value>Dodaj server vesti</value>
-    <comment> NewsGroupConfiguration naziv dijaloga glavnog alata</comment>
+    <comment> Naziv dijaloga glavnog alata konfiguracije grupe vesti</comment>
   </data>
   <data name="NewsGroupConfiguration_NewNewsServerToolDesc" xml:space="preserve">
     <value>Dodaj novi NNTP server...</value>
   </data>
   <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
     <value>Delete</value>
-    <comment> NewsGroupConfiguration naziv dijaloga glavnog alata</comment>
+    <comment> Naziv dijaloga glavnog alata konfiguracije grupe vesti</comment>
   </data>
   <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
     <value>Uklanja izabranu stavku</value>
@@ -2507,7 +2507,7 @@ Molim vas pokušajte ručno otvoriti panel preko kontrol panel-a iz start menija
     <value>Stanje konekcije mreže...</value>
   </data>
   <data name="MainForm_StatusBarRssParser_ToolTipText" xml:space="preserve">
-    <value>RSS Engine stanje...</value>
+    <value>Stanje RSS Engine-a...</value>
   </data>
   <data name="MainForm_DetailHeaderCaption_AtStartup" xml:space="preserve">
     <value>Dobrodošli!</value>
@@ -2629,234 +2629,234 @@ Molim vas pokušajte ručno otvoriti panel preko kontrol panel-a iz start menija
     <value>Menjaj izmešu sadržaja i punog teksta stavke</value>
   </data>
   <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
-    <value>What do you want to do now?</value>
+    <value>Šta želite da uradite sad?</value>
   </data>
   <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
-    <value>Navigate to the subscription...</value>
+    <value>Idi na potpis...</value>
   </data>
   <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
-    <value>Remove this subscription...</value>
+    <value>Ukloni ovaj potpis...</value>
   </data>
   <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
     <value>Previous</value>
-    <comment> Xslt default template language resources</comment>
+    <comment> Osnovni Xslt šablon jezičkih resursa</comment>
   </data>
   <data name="XsltDefaultTemplate_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Sledeći</value>
   </data>
   <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
-    <value>Displaying page</value>
+    <value>Prikazujem stranu</value>
   </data>
   <data name="XsltDefaultTemplate_of" xml:space="preserve">
-    <value>of</value>
+    <value>od</value>
   </data>
   <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
-    <value>&amp;Older than</value>
+    <value>&amp;Starije od</value>
   </data>
   <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
-    <value>Loading of file
+    <value>Učitavanje fajla
 {0}
-failed with error:
+neuspešno sa greškom:
 {1}
 
 {2}</value>
     <comment>.
- Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+ Parametri: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
-    <value>Saving of file
+    <value>Snimanje fajla
 {0}
-failed with error:
+neuspešno sa greškom:
 {1}
 
 {2}</value>
     <comment>.
- Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+ Parametri: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
-    <value>Using defaults for the subscription tree folder states.</value>
+    <value>Koristim osnovne parametre potpisa za stanje drvo stanja foldera.</value>
   </data>
   <data name="MenuTopStoriesCaption" xml:space="preserve">
-    <value>Top Stories</value>
+    <value>Glavne priče</value>
   </data>
   <data name="MenuTopStoriesDesc" xml:space="preserve">
-    <value>View the most recently popular links in your subscriptions</value>
+    <value>Vidite najpopularnije linkove u vašim potpisima</value>
     <comment>CHANGED</comment>
   </data>
   <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
-    <value>Determining Top Stories, please wait...</value>
+    <value>Određujem glavne priče, molim vas sačekajte...</value>
     <comment>CHANGED</comment>
   </data>
   <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
-    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <value>{0} Glavne priče: Najviše linkovane skorašnje priče</value>
     <comment>CHANGED.
- Parameters: 0 - appTitle (string) </comment>
+ Parametri: 0 - appTitle (string) </comment>
   </data>
   <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
-    <value>Discussion:</value>
+    <value>Diskusija:</value>
   </data>
   <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
-    <value>Text Size</value>
+    <value>Veličina teksta</value>
   </data>
   <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
-    <value>Select/Change the feed details text size...</value>
+    <value>Izaberi/promeni veličinu teksta detalja feed-a...</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
-    <value>Smallest</value>
+    <value>Najmanja</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smallest size...</value>
+    <value>Izaberi/promeni veličinu teksta u najmanji...</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
-    <value>Smaller</value>
+    <value>Mala</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smaller size...</value>
+    <value>Izaberi/promeni veličinu teksta u mali...</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
-    <value>Medium</value>
+    <value>Srednja</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to medium size...</value>
+    <value>Izaberi/promeni veličinu teksta u srednji...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
-    <value>Larger</value>
+    <value>Feće</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to larger size...</value>
+    <value>Izaberi/promeni veličinu teksta u veće...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
-    <value>Largest</value>
+    <value>Najveće</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to largest size...</value>
+    <value>Izaberi/promeni veličinu teksta u najveće...</value>
   </data>
 <data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
-    <value>My Google Reader Feeds</value>
+    <value>Moj Google čitač feed-ova</value>
   </data>
 	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Google Reader</value>
+    <value>Spremnik potpisanih feed-ova u Google čitaču</value>
   </data>
 	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
-    <value>My NewsGator Feeds</value>
+    <value>Moji NewsGator feed-ovi</value>
   </data>
 	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in NewsGator</value>
+    <value>Spremnik za potpisane feed-ove u NewsGator</value>
   </data>
 	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
-    <value>My Common Feed List Feeds</value>
+    <value>Moja uobičajena feed lista feed-ova</value>
   </data>
 	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Windows RSS platform</value>
+    <value>Spremnik za potpisane feed-ove na RSS platformi</value>
   </data>
 	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
-    <value>Share or unshare item in Google Reader</value>
+    <value>Selektuj da li se ovaj predmet deli sa Google čitačom</value>
   </data>
 	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
-    <value>Add or remove item from clippings folder in NewsGator Online</value>
+    <value>Dodaj ili ukloni predmet iz foldera isečaka u NewsGator Online</value>
   </data>
 	<data name="MenuSynchronizeFeedsCaption" space="preserve">
-    <value>&amp;Synchronize Feeds...</value>
+    <value>&amp;Sinhronizuj feed-ove...</value>
   </data>
 	<data name="MenuSynchronizeFeedsDesc" space="preserve">
-    <value>Launches the Synchronize Feeds Wizard</value>
+    <value>Startuje Čarobnjak za sinhronizovanje feed-ova</value>
   </data>
 	<data name="ExceptionInvalidPlaylistName" space="preserve">
-    <value>Please specify a valid playlist name</value>
+    <value>Molim vas navedite ispravno ime plejliste</value>
   </data>
 	<data name="NoTopStoriesMessage" space="preserve">
-    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
+    <value>Nisu pronađene priče koje su linkovane sa vaših potpisa u proteklih '{0}' nedelju dana.</value>
   </data>
 	<data name="TopStoriesDescription" space="preserve">
-    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
+    <value>Dole je lista najpopularniji linkova sa vaših potpisa u proteklih '{0}' nedelju dana. </value>
   </data>
 	<data name="ExceptionNoFeedSourceName" space="preserve">
-    <value>Please provide a name for this subscription list</value>
+    <value>Molim vas obezbedite ime za ovu listu potpisa</value>
   </data>
 	<data name="ExceptionNoPassword" space="preserve">
-    <value>Please provide a valid password</value>
+    <value>Molim vas obezbedite ispravnu lozinku</value>
   </data>
 	<data name="ExceptionNoUserName" space="preserve">
-    <value>Please provide a valid username</value>
+    <value>Molim vas obezbedite ispravno korisničko ime</value>
   </data>
 	<data name="MenuDownloadManager" space="preserve">
-    <value>Download Manager...</value>
+    <value>Menadžer za preuzimanje fajlova...</value>
   </data>
 	<data name="MenuDownloadManagerDesc" space="preserve">
-    <value>Launches the download manager</value>
+    <value>Startuje menadžer preuzimanja fajlova</value>
   </data>
 	<data name="MenuDeleteFeedSourceCaption" space="preserve">
-    <value>Delete Feed Source...</value>
+    <value>Obriši izvor feed-a...</value>
   </data>
 	<data name="MenuDeleteFeedSourceDesc" space="preserve">
-    <value>Delete this feed source</value>
+    <value>Obriši ovaj izvor feed-a</value>
   </data>
 	<data name="MenuRenameFeedSourceCaption" space="preserve">
-    <value>Rename Feed Source...</value>
+    <value>Preimenuj ovaj izvor feed-a...</value>
   </data>
 	<data name="MenuRenameFeedSourceDesc" space="preserve">
-    <value>Rename this feed source</value>
+    <value>Preimenuj ovaj izvor feed-a</value>
   </data>
 	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
-    <value>Remove Synchronization Source</value>
+    <value>Ukloni izvor sinhronizacije</value>
   </data>
 	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
-    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+    <value>Da li ste sigurni da želite da uklnite '{0}' sa vaše liste izvora za sinhronizaciju?</value>
   </data>
 	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
-    <value>{0} of {1} Subscription list(s) loaded</value>
+    <value>{0} od {1} liste potpisa učitano</value>
   </data>
 	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
-    <value>All Subscription list(s) loaded</value>
+    <value>Sve liste potpisa učitane</value>
   </data>
 	<data name="ExecutableForFileStartupFailure" space="preserve">
-    <value>Failed to start an application for file: {0}.
+    <value>Neusšeno startovanje aplikacije za fajl: {0}.
 
-Error: {1}</value>
+Greška: {1}</value>
   </data>
 	<data name="MenuShowFeedSourceProperties" space="preserve">
-    <value>Properties...</value>
+    <value>Parametri...</value>
   </data>
 	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
-    <value>Show the feed source properties</value>
+    <value>Prikaži parametre izvora feed-a</value>
   </data>
 	<data name="ExceptionFeedlistCredentials" space="preserve">
-    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}</value>
+    <value>Desio se izuzetak za vreme učitavanja liste feed-ova za "{0}": {1}</value>
   </data>
 	<data name="TreeFeedNodeType_Category" space="preserve">
-    <value>Category folder</value>
+    <value>Folder kategorije</value>
   </data>
 	<data name="TreeFeedNodeType_Feed" space="preserve">
     <value>Feed</value>
   </data>
 	<data name="TreeFeedNodeType_Finder" space="preserve">
-    <value>Finder</value>
+    <value>Nalazač</value>
   </data>
 	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
-    <value>Finder category</value>
+    <value>Kategorija nalazača</value>
   </data>
 	<data name="TreeFeedNodeType_Root" space="preserve">
-    <value>Subscription root</value>
+    <value>Koren potpisa</value>
   </data>
 	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
-    <value>Smart folder</value>
+    <value>Pametni folder</value>
   </data>
 	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
-    <value>Contains {0} unread items</value>
+    <value>Sadrži {0} nepročitanih predmeta</value>
   </data>
 	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
-    <value>Contains 1 unread item</value>
+    <value>Sadrži 1 nepročitan predmet</value>
   </data>
 	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
-    <value>Contains no unread items</value>
+    <value>Nema nepročitanih predmeta</value>
   </data>
 	<data name="Certificate_SelectionDialog_Title" space="preserve">
-    <value>Select a X509 Client Certificate</value>
+    <value>Izaberi X509 sertifikat klijenta</value>
   </data>
 	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
-    <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
+    <value>Sajt za feed '{0}' zahteva sertifikat klijenta. Molim vas izaberite jedan od instaliranih sertifikata.</value>
   </data>
 	<data name="Certificate_SelectionDialog_Message" space="preserve">
-    <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+    <value> Izaberite jedan od sertifikata prikazanih ispod kako bi bio dodeljen trenutnom feed-u:</value>
   </data>
 	</root>
