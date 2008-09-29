@@ -118,57 +118,57 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 <data name="chkDisplayWelcome.Text" space="preserve">
-    <value>Always display this Wizard Welcome Page</value>
+    <value>Uvek prikaži Dobrodošli stranu Čarobnjaka</value>
   </data>
 	<data name="lblFeedCredentialsIntro.Text" space="preserve">
-    <value>Here you can specify the username and password need to access your subscriptions</value>
+    <value>Ovde možete navesti korisničko ime i lozinku za pristup svojim potpisima</value>
   </data>
 	<data name="lblUsername.Text" space="preserve">
-    <value>&amp;Username:</value>
+    <value>&amp;Korisničko ime:</value>
   </data>
 	<data name="lblPassword.Text" space="preserve">
-    <value>&amp;Password:</value>
+    <value>&amp;Lozinka:</value>
   </data>
 	<data name="pageFeedCredentials.Description" space="preserve">
-    <value>Enter credential information so we can download your subscriptions</value>
+    <value>Unesite akreditive kako bi mogli preuzeti vaše potpise</value>
   </data>
 	<data name="label2.Text" space="preserve">
-    <value>Name:</value>
+    <value>Ime:</value>
   </data>
 	<data name="pageSourceName.Description" space="preserve">
-    <value>Provide a name for this subscription list</value>
+    <value>Navedite ime za ovu listu potpisa</value>
   </data>
 	<data name="pageSourceName.Text" space="preserve">
-    <value>Subscription Name</value>
+    <value>Ime potpisa</value>
   </data>
 	<data name="label1.Text" space="preserve">
-    <value>Synchronize feeds with one of the following sources</value>
+    <value>Sinhronizuj feeds-ove sa jednim od sledežih izvora</value>
   </data>
 	<data name="radioNewsGator.Text" space="preserve">
     <value>NewsGator Online</value>
   </data>
 	<data name="radioGoogleReader.Text" space="preserve">
-    <value>Google Reader</value>
+    <value>Google čitač</value>
   </data>
 	<data name="radioCommonFeedlist.Text" space="preserve">
-    <value>Windows Common Feedlist (Internet Explorer and Outlook)</value>
+    <value>Ѕajednička Windows lista feed-ova (Internet Explorer i Outlook)</value>
   </data>
 	<data name="pageStartImport.Description" space="preserve">
-    <value>Use the same feeds across RSS Bandit and Internet Explorer/Outlook on your desktop or with an online feed reader</value>
+    <value>Koristite iste feed-ove za RSS Bandit and Internet Explorer/Outlook na vašem računaru ili na nekom online feed čitaču</value>
   </data>
 	<data name="pageStartImport.Text" space="preserve">
-    <value>Select Feed Source</value>
+    <value>Izaberite izvor feed-ova</value>
   </data>
 	<data name="pageFeedCredentials.Text" space="preserve">
-    <value>Log-in Credentials</value>
+    <value>Log-in akreditivi</value>
   </data>
 	<data name="_btnImmediateFinish.Text" space="preserve">
-    <value>Finish</value>
+    <value>Završi</value>
   </data>
 	<data name="wizard.Text" space="preserve">
-    <value>wizard</value>
+    <value>čarobnjak</value>
   </data>
 	<data name="$this.Text" space="preserve">
-    <value>Synchronize Feeds Wizard</value>
+    <value>Čarobnjak za sinhronizaciju feed-ova</value>
   </data>
 	</root>

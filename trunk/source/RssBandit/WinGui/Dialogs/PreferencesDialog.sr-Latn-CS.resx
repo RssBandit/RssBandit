@@ -184,7 +184,7 @@
     <value>Udaljeni smeštaj liste izvora</value>
   </data>
   <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
-    <value>Akreditiva korisničko ime. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
+    <value>Akreditivi za udaljeni prostor. Može biti navedeno kao 'Domen\KorisničkoIme'.</value>
   </data>
   <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
     <value>Deljenje fajlova</value>
@@ -229,7 +229,7 @@
     <value>Markiraj sve predmete pročitanim na izlasku izvora ili kategorije</value>
   </data>
   <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
-    <value>Uako nema opisa otvori link u panelu za čitanje</value>
+    <value>Ako nema opisa otvori link u panelu za čitanje</value>
   </data>
   <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
     <value>Formatiranje predmeta</value>
@@ -307,10 +307,10 @@
     <value>Korisničko &amp;ime:</value>
   </data>
   <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
-    <value>Korisničko ime Proxy akredatia. Mođe biti navedeno kao 'Domain\KorisničkoIme'.</value>
+    <value>Korisničko ime Proxy akreditiva. Mođe biti navedeno kao 'Domen\KorisničkoIme'.</value>
   </data>
   <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
-    <value>Korisničko ime akreditiva. Može biti navedeno kao 'Domain\KorisničkoIme'.</value>
+    <value>Korisničko ime akreditiva. Može biti navedeno kao 'Domen\KorisničkoIme'.</value>
   </data>
   <data name="checkProxyAuth.Text" xml:space="preserve">
     <value>Proxy zahteva &amp;autorizaciju</value>
@@ -594,7 +594,7 @@
     <value>Dodatak/Podkast</value>
   </data>
   <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
-    <value>Podcasts</value>
+    <value>Podkasti</value>
   </data>
   <data name="btnPodcastOptions.Text" xml:space="preserve">
     <value>Napredne opcije...</value>
@@ -645,33 +645,33 @@
     <value>Novi komentari (Posmatrano)</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>Automatski označi vesti pročitanim posle gledanja</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>Ako je selektovano, nove vesti će automatski biti označene pročitanim kako skrolujete kroz panel za čitanje</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>news items per page</value>
+    <value>vesti po strani</value>
   </data>
   <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>Broj vesti po strani koji bi se trebao prikazati u panelu za čitanje</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
-    <value>Show only </value>
+    <value>Samo pokaži </value>
   </data>
   <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>Ako je selektovano, panel za čitanje će biti podeljen u odvojene strane od kojih će svaka sadržati naveden broj vesti</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
-    <value>Clear all individual feed and category Item Age settings</value>
+    <value>Obriši sve individualne feed-ove i kategoriju parametara starost predmeta</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
-    <value>Reset all individual feed and category Refresh Rate settings</value>
+    <value>Podesi sve individualne feed-ove i kategoriju parametara brzina osvežavanja</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
-    <value>Changes refresh rate setting for all feeds</value>
+    <value>Promeni brzinu osvežavanja za sve feeds-ove</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
-    <value>Changes default item age setting for all feeds</value>
+    <value>Promeni osnovne parametre starostio predmeta za sve feed-ove</value>
   </data>
 </root>

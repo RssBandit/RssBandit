@@ -76,7 +76,7 @@
 		<value>U redu</value>
 	</data>
 	<data name="RES_DeliciousFormAuthentication">
-		<value>Autnetifikacija</value>
+		<value>Autentifikacija</value>
 	</data>
 	<data name="RES_DeliciousFormPassword">
 		<value>&amp;Lozinka</value>
@@ -103,10 +103,10 @@
 		<value>Nema registracionih parametara za Windows Live Writer. Molim vas insalirajte Windows Live Writer sa http://ideas.live.com da bi ste dobili ovu mogućnost</value>
 	</data>
 	<data name="RES_MenuTwitterCaption" space="preserve">
-    <value>Post to Twitter</value>
+    <value>Postiraj na Twitter</value>
   </data>
 	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
-    <value>Twitter Plugin Configuration...</value>
+    <value>Konfiguracija Twitter dodatka...</value>
   </data>
 	<data name="RES_TwitterApiUrl" space="preserve">
     <value>&amp;Twitter API URL</value>
@@ -115,14 +115,14 @@
     <value>140</value>
   </data>
 	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
-    <value>Empty Message Body</value>
+    <value>Prazna poruka</value>
   </data>
 	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
-    <value>There was an error loading configuration from '{0}': 
+    <value>Desila se greška prilikom učitavanja konfiguracije sa  '{0}': 
 {1}</value>
    </data>
 	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
-    <value>There was an error writing configuration file '{0}': 
+    <value>Desila se greška prilikom pisanja konfiguracionog fajla '{0}': 
 {1}</value>
   </data>
 	</root>
