@@ -128,7 +128,7 @@
     <value>Користи &amp;прилагођени форматер</value>
   </data>
   <data name="comboFormatters.ToolTip" xml:space="preserve">
-    <value>Изаберите каскадне стилове форматера</value>
+    <value>Изаберите CSS форматера</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Параметри категорије</value>
@@ -167,7 +167,7 @@
     <value>Ажуријај &amp;фреквенцију</value>
   </data>
   <data name="labelFormatters.Text" xml:space="preserve">
-    <value>&amp;Каскадни стил форматера:</value>
+    <value>&amp;CSS форматера:</value>
   </data>
   <data name="tabAttachments.Text" xml:space="preserve">
     <value>Подкаст\Додатак</value>
