@@ -231,6 +231,9 @@
       <Name>System.Runtime.Serialization.Formatters.Soap</Name>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
