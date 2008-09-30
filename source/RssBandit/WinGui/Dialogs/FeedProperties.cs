@@ -56,7 +56,7 @@ namespace RssBandit.WinGui.Dialogs
 		internal System.Windows.Forms.CheckBox checkDownloadEnclosures;
 		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label label11;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components=null;
 
 
 		public FeedProperties(string title, string link, int refreshRate, TimeSpan maxItemAge, string currentCategory, string defaultCategory, ICollection<string> categories, string stylesheet): 

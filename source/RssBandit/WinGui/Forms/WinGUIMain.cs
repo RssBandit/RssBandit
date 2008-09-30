@@ -1767,17 +1767,18 @@ namespace RssBandit.WinGui.Forms
 
             if (categories != null)
             {
-                string sep = FeedSource.CategorySeparator;
-                foreach (var f in owner.FeedHandler.GetFeeds().Values)
-                {
-                    foreach (string category in categories)
-                    {
-                        if (f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep)))
-                        {
-                            result.Add(f);
-                        }
-                    }
-                }
+				string sep = FeedSource.CategorySeparator;
+				foreach (FeedSourceEntry e in owner.FeedSources.Sources)
+					foreach (var f in e.Source.GetFeeds().Values)
+					{
+						foreach (string category in categories)
+						{
+							if (f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep)))
+							{
+								result.Add(f);
+							}
+						}
+					}
             }
 
             if (feedUrls != null)

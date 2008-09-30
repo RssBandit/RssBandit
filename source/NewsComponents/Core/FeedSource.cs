@@ -160,9 +160,9 @@ namespace NewsComponents
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
     //TODO: just there to make it compile while refactoring. MUST BE REMOVED ON RELEASE
-#if DEBUG
-    [CLSCompliant(false)]
-#endif
+//#if DEBUG
+//    [CLSCompliant(false)]
+//#endif
     public abstract class FeedSource : ISharedProperty, IDisposable 
     {
         #region ctor's

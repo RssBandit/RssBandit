@@ -110,8 +110,7 @@ namespace RssBandit
 
         private CommandMediator cmdMediator;
         private FeedSourceManager sourceManager;
-        [Obsolete("use FeedSources")]
-		private FeedSource feedHandler;
+        
         private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
@@ -204,7 +203,7 @@ namespace RssBandit
 
         public event EventHandler PreferencesChanged;
 
-		public event EventHandler AllFeedSourcesLoaded;
+		//public event EventHandler AllFeedSourcesLoaded;
 		public event EventHandler AllFeedSourceSubscriptionsLoaded;
 		
 		public event EventHandler<FeedSourceEventArgs> FeedSourceSubscriptionsLoaded;
@@ -215,8 +214,8 @@ namespace RssBandit
 		public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
         
 		// old:
-		public event EventHandler FeedlistLoaded;
-        public event FeedDeletedHandler FeedDeleted;
+		//public event EventHandler FeedlistLoaded;
+		//public event FeedDeletedHandler FeedDeleted;
 
         /// <summary>
         /// Async invoke on UI thread
@@ -362,10 +361,7 @@ namespace RssBandit
 				if (BanditFeedSourceEntry != null)
 					BanditFeedSourceEntry.Source.SaveFeedList();
 			}
-
-			//TODO: remove, if all references got replaced:
-			feedHandler = BanditFeedSourceEntry.Source;
-            
+ 
             commentFeedsHandler = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
                                                               CreateCommentFeedHandlerConfiguration(
@@ -947,11 +943,6 @@ namespace RssBandit
 			}
 		}
 
-		[Obsolete("Please call FeedSources property")]
-        public FeedSource FeedHandler
-        {
-            get { return feedHandler; }        }
-
         public FeedSource CommentFeedsHandler
         {
             get { return commentFeedsHandler; }
@@ -1080,20 +1071,20 @@ namespace RssBandit
             }
         }
 
-        /// <summary>
-        /// Gets the NewsFeed from FeedHandler.
-        /// </summary>
-        /// <param name="feedUrl">The feed URL (can be null).</param>
-        /// <returns>NewsFeed if found, else null</returns>
-		[Obsolete("Please call GetFeed(FeedSourceEntry, string)")]
-		public INewsFeed GetFeed(string feedUrl)
-        {
-			if (string.IsNullOrEmpty(feedUrl))
-                return null;
-            if (feedHandler.IsSubscribed(feedUrl))
-                return feedHandler.GetFeeds()[feedUrl];
-            return null;
-        }
+		///// <summary>
+		///// Gets the NewsFeed from FeedHandler.
+		///// </summary>
+		///// <param name="feedUrl">The feed URL (can be null).</param>
+		///// <returns>NewsFeed if found, else null</returns>
+		//[Obsolete("Please call GetFeed(FeedSourceEntry, string)")]
+		//public INewsFeed GetFeed(string feedUrl)
+		//{
+		//    if (string.IsNullOrEmpty(feedUrl))
+		//        return null;
+		//    if (feedHandler.IsSubscribed(feedUrl))
+		//        return feedHandler.GetFeeds()[feedUrl];
+		//    return null;
+		//}
 
 		/// <summary>
 		/// Gets the NewsFeed from FeedHandler.
@@ -4063,7 +4054,7 @@ namespace RssBandit
 				if (entry == null)
 					return;
 
-            	XmlElement originalSource = null;
+            	// XmlElement originalSource = null;
             	XmlElement originalFeed = null; //RssHelper.CreateXmlElement(
 				//    AdditionalFeedElements.CurrentPrefix,
 				//    AdditionalFeedElements.OriginalFeedOfWatchedItem,

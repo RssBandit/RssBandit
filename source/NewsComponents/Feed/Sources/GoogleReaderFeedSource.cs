@@ -1966,7 +1966,7 @@ namespace NewsComponents.Feed
 
             foreach (GoogleReaderLabel label in subscription.Categories)
             {
-                this._categories.Add(label.Label);
+                this.p_categories.Add(label.Label);
             }
 
             if (banditfeed != null)
@@ -2055,11 +2055,11 @@ namespace NewsComponents.Feed
             get
             {
 
-                return (mysubscription == null ? this._link : mysubscription.FeedUrl);
+                return (mysubscription == null ? this.p_link : mysubscription.FeedUrl);
             }
             set
             {
-                this._link = value; 
+                this.p_link = value; 
             }
         }
 
@@ -2106,7 +2106,7 @@ namespace NewsComponents.Feed
         {
             get
             {
-                return this._categories;
+                return this.p_categories;
             }
             set
             {

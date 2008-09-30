@@ -29,15 +29,15 @@ namespace RssBandit.AppServices
 		/// </summary>
 		event EventHandler PreferencesChanged;
 		
-		/// <summary>
-		/// Raised after the feedlist/subscriptions were loaded
-		/// </summary>
-		event EventHandler FeedlistLoaded;
+		///// <summary>
+		///// Raised after the feedlist/subscriptions were loaded
+		///// </summary>
+		//event EventHandler FeedlistLoaded;
 
-		/// <summary>
-		/// Raised after a feed was deleted
-		/// </summary>
-		event FeedDeletedHandler FeedDeleted;
+		///// <summary>
+		///// Raised after a feed was deleted
+		///// </summary>
+		//event FeedDeletedHandler FeedDeleted;
 
 		/// <summary>
 		/// Returns the current global (specified via options)
