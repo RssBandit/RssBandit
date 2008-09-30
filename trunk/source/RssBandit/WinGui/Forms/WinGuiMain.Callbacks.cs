@@ -2078,7 +2078,7 @@ namespace RssBandit.WinGui.Forms
 
                 // now we can change the tool states:
                 owner.Mediator.SetEnabled(
-                    SearchIndexBehavior.NoIndexing != owner.FeedHandler.Configuration.SearchIndexBehavior,
+					SearchIndexBehavior.NoIndexing != RssBanditApplication.SearchIndexBehavior,
                     "cmdNewRssSearch",
                     "cmdToggleRssSearchTabState");
             }

@@ -55,7 +55,7 @@ namespace RssBandit.WinGui.Dialogs
 		/// <summary>
 		/// The new subscription - feed, if not null it is ready to be subscribed.
 		/// </summary>
-		internal NewsFeed Feed;
+		//internal NewsFeed Feed;
 
 		private AddSubscriptionWizardMode wizardMode; 
 		private WindowSerializer windowSerializer;

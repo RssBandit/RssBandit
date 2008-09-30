@@ -33,7 +33,7 @@ namespace RssBandit.WinGui.Dialogs
 		
 		private RichTextBox txtSource;
 		private System.Timers.Timer timer;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components=null;
 
 		public FeedFileContentSourceDialog(IWebProxy proxy, ICredentials feedCredentials, string sourceUrl, string title)
 		{

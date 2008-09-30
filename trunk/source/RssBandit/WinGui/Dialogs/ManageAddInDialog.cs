@@ -38,7 +38,7 @@ namespace RssBandit.WinGui.Dialogs
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components;
+		private System.ComponentModel.Container components=null;
 
 		public ManageAddInDialog()
 		{

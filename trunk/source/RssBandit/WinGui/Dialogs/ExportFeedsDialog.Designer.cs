@@ -191,7 +191,7 @@ namespace RssBandit.WinGui.Dialogs
 
 		}
 		#endregion	
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components=null;
 		private System.Windows.Forms.GroupBox grpFeedSource;
 		private System.Windows.Forms.GroupBox grpFormat;
 		private System.Windows.Forms.Label labelForCheckedTree;
