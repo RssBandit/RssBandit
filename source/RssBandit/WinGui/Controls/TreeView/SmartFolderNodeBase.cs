@@ -41,7 +41,7 @@ namespace RssBandit.WinGui.Controls
     /// <summary>
     /// Provides a base implementation of ISmartFolder.
     /// </summary>
-    public class SmartFolderNodeBase : TreeFeedsNodeBase, ISmartFolder
+    internal class SmartFolderNodeBase : TreeFeedsNodeBase, ISmartFolder
     {
 		protected ContextMenu p_popup;
         protected LocalFeedsFeed itemsFeed;

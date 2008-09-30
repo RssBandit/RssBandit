@@ -36,7 +36,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// The local feed for flagged items
 	/// </summary>
-	public class FlaggedItemsFeed:LocalFeedsFeed
+	internal class FlaggedItemsFeed:LocalFeedsFeed
 	{
 		private const string MigrationKey = "FlaggedItemsFeed.migrated.to.1.7";
 		// as long the FlagStatus of NewsItem's wasn't persisted all the time, 
@@ -153,7 +153,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// The local feed for watched items
 	/// </summary>
-	public class WatchedItemsFeed : LocalFeedsFeed
+	internal class WatchedItemsFeed : LocalFeedsFeed
 	{
 		private const string MigrationKey = "WatchedItemsFeed.migrated.to.1.7";
 		
@@ -217,7 +217,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// The local feed for sent items
 	/// </summary>
-	public class SentItemsFeed : LocalFeedsFeed
+	internal class SentItemsFeed : LocalFeedsFeed
 	{
 		private const string MigrationKey = "SentItemsFeed.migrated.to.1.7";
 		
@@ -293,7 +293,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// The local feed for deleted items
 	/// </summary>
-	public class DeletedItemsFeed : LocalFeedsFeed
+	internal class DeletedItemsFeed : LocalFeedsFeed
 	{
 		private const string MigrationKey = "DeletedItemsFeed.migrated.to.1.7";
 		
@@ -357,7 +357,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// The local (virtual, non-persisted) feed for unread items
 	/// </summary>
-	public class UnreadItemsFeed : LocalFeedsFeed
+	internal class UnreadItemsFeed : LocalFeedsFeed
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UnreadItemsFeed"/> class.
@@ -381,7 +381,7 @@ namespace RssBandit.SpecialFeeds
 	/// to a user. Singleton is implemented 
 	/// (see also http://www.yoda.arachsys.com/csharp/beforefieldinit.html).
 	/// </summary>
-	public sealed class ExceptionManager : LocalFeedsFeed
+	internal sealed class ExceptionManager : LocalFeedsFeed
 	{
 
 		/// <summary>
@@ -787,7 +787,7 @@ namespace RssBandit.SpecialFeeds
 	/// <summary>
 	/// Special local feeds base class
 	/// </summary>
-	public class LocalFeedsFeed:NewsFeed {
+	internal class LocalFeedsFeed:NewsFeed {
 
 		/// <summary>
 		/// Logger instance

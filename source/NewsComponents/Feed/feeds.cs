@@ -864,76 +864,76 @@ namespace NewsComponents.Feed
 
         #region INewsFeed implementation
 
-        protected string _title; 
+        protected string p_title; 
         /// <remarks/>
         public virtual string title {
             get
             {
-                return _title;
+                return p_title;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_title) || !_title.Equals(value))
+                if (String.IsNullOrEmpty(p_title) || !p_title.Equals(value))
                 {
-                    _title = value;
+                    p_title = value;
                     this.OnPropertyChanged("title"); 
                 }
             }
         }
 
-        protected string _link; 
+        protected string p_link; 
         /// <remarks/>
         [XmlElement(DataType = "anyURI")]
         public virtual string link
         {
             get
             {
-                return _link;
+                return p_link;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_link) || !_link.Equals(value))
+                if (String.IsNullOrEmpty(p_link) || !p_link.Equals(value))
                 {
-                    _link = value;
+                    p_link = value;
                     this.OnPropertyChanged("link");
                 }
             }
         }
 
-        protected string _id;
+        protected string p_id;
         /// <remarks/>
         [XmlAttribute]
         public virtual string id
         {
             get
             {
-                if (_id == null || _id.Length == 0)
-                    _id = Guid.NewGuid().ToString("N");
-                return _id;
+                if (string.IsNullOrEmpty(p_id))
+                    p_id = Guid.NewGuid().ToString("N");
+                return p_id;
             }
             set
             {
-                _id = value;
+                p_id = value;
             }
         }
 
-        protected int _refreshrate; 
+        protected int p_refreshrate; 
         /// <remarks/>
         [XmlElement("refresh-rate")]
         public virtual int refreshrate
         {
             get
             {
-                return _refreshrate;
+                return p_refreshrate;
             }
 
             set
             {
-                if (!_refreshrate.Equals(value))
+                if (!p_refreshrate.Equals(value))
                 {
-                    _refreshrate = value;
+                    p_refreshrate = value;
                     this.OnPropertyChanged("refreshrate");
                 }
             }
@@ -958,42 +958,42 @@ namespace NewsComponents.Feed
         [XmlElement(DataType = "anyURI")]
         public virtual string cacheurl { get; set; }
 
-        protected string _maxitemage; 
+        protected string p_maxitemage; 
         /// <remarks/>
         [XmlElement("max-item-age", DataType = "duration")]
         public virtual string maxitemage
         {
             get
             {
-                return _maxitemage;
+                return p_maxitemage;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_maxitemage) || !_maxitemage.Equals(value))
+                if (String.IsNullOrEmpty(p_maxitemage) || !p_maxitemage.Equals(value))
                 {
-                    _maxitemage = value;
+                    p_maxitemage = value;
                     this.OnPropertyChanged("maxitemage");
                 }
             }
         }
 
-        protected List<string> _storiesrecentlyviewed = new List<string>();
+        protected List<string> p_storiesrecentlyviewed = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "stories-recently-viewed", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof(String), IsNullable = false)]
         public virtual List<string> storiesrecentlyviewed 
         { 
             get{
-                return _storiesrecentlyviewed;
+                return p_storiesrecentlyviewed;
             }
             set
             {
-                _storiesrecentlyviewed = new List<string>(value);
+                p_storiesrecentlyviewed = new List<string>(value);
             }        
         }
 
-        protected List<string> _deletedstories = new List<string>();
+        protected List<string> p_deletedstories = new List<string>();
         /// <remarks/>
         [XmlArray(ElementName = "deleted-stories", IsNullable = false)]
         [XmlArrayItem("story", Type = typeof (String), IsNullable = false)]
@@ -1001,11 +1001,11 @@ namespace NewsComponents.Feed
         {
             get
             {
-                return _deletedstories;
+                return p_deletedstories;
             }
             set
             {
-                _deletedstories = new List<string>(value);
+                p_deletedstories = new List<string>(value);
             }
         }
 
@@ -1034,41 +1034,41 @@ namespace NewsComponents.Feed
         [XmlElement("listview-layout")]
         public virtual string listviewlayout { get; set; }
 
-        protected string _favicon; 
+        protected string p_favicon; 
         /// <remarks/>
         public virtual string favicon
         {
             get
             {
-                return _favicon;
+                return p_favicon;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_favicon) || !_favicon.Equals(value))
+                if (String.IsNullOrEmpty(p_favicon) || !p_favicon.Equals(value))
                 {
-                    _favicon = value;
+                    p_favicon = value;
                     this.OnPropertyChanged("favicon");
                 }
             }
         }
 
 
-        protected bool _downloadenclosures; 
+        protected bool p_downloadenclosures; 
         /// <remarks/>
         [XmlElement("download-enclosures")]
         public virtual bool downloadenclosures
         {
             get
             {
-                return _downloadenclosures;
+                return p_downloadenclosures;
             }
 
             set
             {
-                if (!_downloadenclosures.Equals(value))
+                if (!p_downloadenclosures.Equals(value))
                 {
-                    _downloadenclosures = value;
+                    p_downloadenclosures = value;
                     this.OnPropertyChanged("downloadenclosures");
                 }
             }
@@ -1078,21 +1078,21 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public virtual bool downloadenclosuresSpecified { get; set; }
 
-        protected string _enclosurefolder;
+        protected string p_enclosurefolder;
         /// <remarks/>
         [XmlElement("enclosure-folder")]
         public virtual string enclosurefolder
         {
             get
             {
-                return _enclosurefolder;
+                return p_enclosurefolder;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_enclosurefolder) || !_enclosurefolder.Equals(value))
+                if (String.IsNullOrEmpty(p_enclosurefolder) || !p_enclosurefolder.Equals(value))
                 {
-                    _enclosurefolder = value;
+                    p_enclosurefolder = value;
                     this.OnPropertyChanged("enclosurefolder");
                 }
             }
@@ -1106,20 +1106,20 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public virtual bool replaceitemsonrefreshSpecified {get; set;}
 
-        protected string _stylesheet; 
+        protected string p_stylesheet; 
         /// <remarks/>
         public virtual string stylesheet
         {
             get
             {
-                return _stylesheet;
+                return p_stylesheet;
             }
 
             set
             {
-                if (String.IsNullOrEmpty(_stylesheet) || !_stylesheet.Equals(value))
+                if (String.IsNullOrEmpty(p_stylesheet) || !p_stylesheet.Equals(value))
                 {
-                    _stylesheet = value;
+                    p_stylesheet = value;
                     this.OnPropertyChanged("stylesheet");
                 }
             }
@@ -1189,16 +1189,16 @@ namespace NewsComponents.Feed
             }
         }
 
-        protected List<string> _categories = new List<string>(); 
+        protected List<string> p_categories = new List<string>(); 
         /// <remarks/>
         [XmlArray(ElementName = "categories", IsNullable = false)]
         [XmlArrayItem("category", Type = typeof(String), IsNullable = false)]
         public virtual List<string> categories
         {
-            get { return _categories; }
+            get { return p_categories; }
             set
             {
-                if (value != null) { categories = value; }
+                if (value != null) { p_categories = value; }
             }
         }
 
@@ -1236,41 +1236,41 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public virtual object Tag { get; set; }
 
-        protected bool _containsNewMessages;
+        protected bool p_containsNewMessages;
         /// <remarks/>
         [XmlIgnore]
         public virtual bool containsNewMessages
         {
             get
             {
-                return _containsNewMessages;
+                return p_containsNewMessages;
             }
 
             set
             {
-                if (!_containsNewMessages.Equals(value))
+                if (!p_containsNewMessages.Equals(value))
                 {
-                    _containsNewMessages = value;
+                    p_containsNewMessages = value;
                     this.OnPropertyChanged("containsNewMessages");
                 }
             }
         }
 
-        protected bool _containsNewComments;
+        protected bool p_containsNewComments;
         /// <remarks/>
         [XmlIgnore]
         public virtual bool containsNewComments
         {
             get
             {
-                return _containsNewComments;
+                return p_containsNewComments;
             }
 
             set
             {
-                if (!_containsNewComments.Equals(value))
+                if (!p_containsNewComments.Equals(value))
                 {
-                    _containsNewComments = value;
+                    p_containsNewComments = value;
                     this.OnPropertyChanged("containsNewComments");
                 }
             }
@@ -1307,9 +1307,9 @@ namespace NewsComponents.Feed
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to add</param>
         public virtual void AddViewedStory(string storyid) {
-            if (!_storiesrecentlyviewed.Contains(storyid)) 
+            if (!p_storiesrecentlyviewed.Contains(storyid)) 
             {
-                _storiesrecentlyviewed.Add(storyid);
+                p_storiesrecentlyviewed.Add(storyid);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("storiesrecentlyviewed", CollectionChangeAction.Add, storyid));
@@ -1324,9 +1324,9 @@ namespace NewsComponents.Feed
         /// <param name="storyid">The ID to remove</param>
         public virtual void RemoveViewedStory(string storyid)
         {
-            if (_storiesrecentlyviewed.Contains(storyid))
+            if (p_storiesrecentlyviewed.Contains(storyid))
             {
-                _storiesrecentlyviewed.Remove(storyid);
+                p_storiesrecentlyviewed.Remove(storyid);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("storiesrecentlyviewed", CollectionChangeAction.Remove, storyid));
@@ -1341,9 +1341,9 @@ namespace NewsComponents.Feed
         /// <param name="name">The category to add</param>
         public virtual void AddCategory(string name)
         {
-            if (!_categories.Contains(name))
+            if (!p_categories.Contains(name))
             {
-                _categories.Add(name);
+                p_categories.Add(name);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("categories", CollectionChangeAction.Add, name));
@@ -1358,9 +1358,9 @@ namespace NewsComponents.Feed
         /// <param name="name">The category to remove</param>
         public virtual void RemoveCategory(string name)
         {
-            if (_categories.Contains(name))
+            if (p_categories.Contains(name))
             {
-                _categories.Remove(name);
+                p_categories.Remove(name);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("categories", CollectionChangeAction.Remove, name));
@@ -1375,9 +1375,9 @@ namespace NewsComponents.Feed
         /// <param name="storyid">The ID to add</param>
         public virtual void AddDeletedStory(string storyid)
         {
-            if (!_deletedstories.Contains(storyid))
+            if (!p_deletedstories.Contains(storyid))
             {
-                _deletedstories.Add(storyid);
+                p_deletedstories.Add(storyid);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("deletedstories", CollectionChangeAction.Add, storyid));
@@ -1391,9 +1391,9 @@ namespace NewsComponents.Feed
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to remove</param>
         public virtual void RemoveDeletedStory(string storyid) {
-            if (_deletedstories.Contains(storyid))
+            if (p_deletedstories.Contains(storyid))
             {
-                _deletedstories.Remove(storyid);
+                p_deletedstories.Remove(storyid);
                 if (null != PropertyChanged)
                 {
                     this.OnPropertyChanged(new CollectionChangedEventArgs("deletedstories", CollectionChangeAction.Remove, storyid));

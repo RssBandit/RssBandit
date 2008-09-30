@@ -23,7 +23,7 @@ using System.Security.Permissions;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RssBandit")]
-[assembly: AssemblyCopyright("(C) 2003-2007 by www.rssbandit.org")]
+[assembly: AssemblyCopyright("(C) 2003-2008 by www.rssbandit.org")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
