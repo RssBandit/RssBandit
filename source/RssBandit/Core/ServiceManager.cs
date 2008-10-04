@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security;
@@ -39,21 +40,25 @@ namespace AppInteropServices
         #region ivars
 
         private static readonly ILog _log = Log.GetLogger(typeof (ServiceManager));
-        private static AppDomain myAppDomain;
-
-        private static AppDomain LoaderDomain
+        
+        private static AppDomain CreateLoaderDomain(string relativeSearchPath)
         {
-            get
-            {
-                if (myAppDomain == null)
-                {
-                    myAppDomain = AppDomain.CreateDomain("loaderDomain");
-                }
-                return myAppDomain;
-            }
+			var setup = new AppDomainSetup();
+			AppDomainSetup currentSetup = AppDomain.CurrentDomain.SetupInformation;
+			setup.LoaderOptimization = LoaderOptimization.SingleDomain;
+
+			// We have to copy this, otherwise we have System.Security.Permissions.FileIOPermission while debugging!
+			setup.ActivationArguments = currentSetup.ActivationArguments;
+        	setup.ApplicationBase = currentSetup.ApplicationBase;
+			setup.PrivateBinPath = relativeSearchPath;
+			
+			// the loader appDomain is for search/load/test for plugin files only. Not all dll/exe implement our type,
+			// so we are able to unload the needless assemblies.
+			AppDomain loaderDomain = AppDomain.CreateDomain("loaderDomain", null, setup);
+        	return loaderDomain;      
         }
 
-        private IList<IAddIn> addInList = null;
+        private IList<IAddIn> addInList;
 
         #endregion
 
@@ -68,27 +73,42 @@ namespace AppInteropServices
         /// <permission cref="ReflectionPermission">Used to find extensions</permission>
         public static IList<IBlogExtension> SearchForIBlogExtensions(string path)
         {
-            ServiceManager srvFinder =
-                (ServiceManager)
-                LoaderDomain.CreateInstanceAndUnwrap(Assembly.GetAssembly(typeof (ServiceManager)).FullName,
-                                                     "AppInteropServices.ServiceManager");
-            IEnumerable<Type> extensions = srvFinder.SearchForIBlogExtensionTypes(path);
+        	AppDomain loaderDomain = null;
+			try
+			{
+				Type managerType = typeof(ServiceManager);
+			
+				string fullPath = RssBanditApplication.GetPlugInPath();
+				loaderDomain = CreateLoaderDomain(RssBanditApplication.GetPlugInRelativePath());
+				ServiceManager srvFinder = (ServiceManager)loaderDomain.CreateInstanceAndUnwrap(
+						Assembly.GetAssembly(managerType).FullName,
+						managerType.FullName);
 
-            List<IBlogExtension> extensionInstances = new List<IBlogExtension>();
-            foreach (Type foundType in extensions)
-            {
-                try
-                {
-                    IBlogExtension extension = (IBlogExtension) Activator.CreateInstance(foundType);
-                    extensionInstances.Add(extension);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("Plugin of type '" + foundType.FullName + "' could not be activated.", ex);
-                }
-            }
+				IEnumerable<Type> extensions = srvFinder.SearchForIBlogExtensionTypes(fullPath);
 
-            return extensionInstances;
+				List<IBlogExtension> extensionInstances = new List<IBlogExtension>();
+				foreach (Type foundType in extensions)
+				{
+					if (foundType.Equals(typeof(IBlogExtension)))
+						continue;
+					try
+					{
+						IBlogExtension extension = (IBlogExtension)Activator.CreateInstance(foundType);
+						extensionInstances.Add(extension);
+					}
+					catch (Exception ex)
+					{
+						_log.Error("Plugin of type '" + foundType.FullName + "' could not be activated.", ex);
+					}
+				}
+
+				return extensionInstances;
+			} 
+			finally
+			{
+				if (loaderDomain != null)
+					AppDomain.Unload(loaderDomain);
+			}
         }
 
         /// <summary>
@@ -109,7 +129,7 @@ namespace AppInteropServices
             IPermission rp = new ReflectionPermission(ReflectionPermissionFlag.MemberAccess);
             try
             {
-                rp.Demand();
+				rp.Demand();
             }
             catch (SecurityException se)
             {
@@ -129,20 +149,26 @@ namespace AppInteropServices
             string[] files = new string[fs1.Length + fs2.Length];
             fs1.CopyTo(files, 0);
             fs2.CopyTo(files, fs1.Length);
+			
+			AssemblyHelper helper = new AssemblyHelper();
 
             foreach (string f in files)
             {
-                if (f == null || f.Length == 0) continue;
+                if (string.IsNullOrEmpty(f)) 
+					continue;
 
                 try
                 {
                     // try and load the assembly
-                    Assembly a = Assembly.LoadFrom(f);
+                    Assembly a = helper.GetAssemblyFromFile(f);
+
+					if (a == null) 
+						continue;
 
                     // walk through all the types to see if anything implements IBlogExtension
                     foreach (Type t in a.GetTypes())
                     {
-                        if (blogExtensionType.IsAssignableFrom(t))
+						if (blogExtensionType.IsAssignableFrom(t) && !t.IsInterface)
                         {
                             // found one, add
                             foundTypes.Add(t);
@@ -162,15 +188,7 @@ namespace AppInteropServices
 
         #region AddInPackage type loading support
 
-        /// <summary>
-        /// Releases the app domain used for loading addins so we don't leak memory
-        /// </summary>
-        public static void UnloadLoaderAppDomain()
-        {
-            AppDomain.Unload(myAppDomain); //dismiss loaded DLL/EXE that do not provide the interface
-            myAppDomain = null;
-        }
-
+        
         /// <summary>
         /// Walk all the AddIns assembly locations 
         /// for classes that implements RssBandit.UIServices.IAddInPackage.
@@ -180,42 +198,58 @@ namespace AppInteropServices
         /// <param name="assemblies">AddInList with AddIn assembly locations</param>
         /// <returns>AddInList containing suitable types implementing IAddInPackages found</returns>
         /// <permission cref="ReflectionPermission">Used to find IAddInPackages implementors</permission>
-        public static IList<IAddIn> PopulateAndInitAddInPackages(IEnumerable<IAddIn> assemblies)
+        public static IList<IAddIn> PopulateAndInitAddInPackages(IList<IAddIn> assemblies)
         {
-            ServiceManager srvFinder =
-                (ServiceManager)
-                LoaderDomain.CreateInstanceAndUnwrap(Assembly.GetAssembly(typeof (ServiceManager)).FullName,
-                                                     "AppInteropServices.ServiceManager");
-            IDictionary<string, IEnumerable<Type>> addInTypes = srvFinder.SearchForIAddInPackagesTypes(assemblies);
+			List<IAddIn> newList = new List<IAddIn>();
+			if (assemblies == null || assemblies.Count == 0)
+				return newList;
 
-            List<IAddIn> newList = new List<IAddIn>();
-            foreach (IAddIn a in assemblies)
-            {
-                if (a.Location == null || ! addInTypes.ContainsKey(a.Location))
-                    continue;
+			AppDomain loaderDomain = null;
+			try
+			{
+				loaderDomain = CreateLoaderDomain(RssBanditApplication.GetAddInInRelativePath());
 
-                List<IAddInPackage> instances = new List<IAddInPackage>();
-                IEnumerable<Type> foundTypes = addInTypes[a.Location];
-                foreach (Type foundType in foundTypes)
-                {
-                    try
-                    {
-                        IAddInPackage addInPackage = (IAddInPackage) Activator.CreateInstance(foundType);
-                        if (addInPackage != null)
-                            instances.Add(addInPackage);
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error("AddIn of type '" + foundType.FullName + "' could not be activated.", ex);
-                    }
-                }
+				ServiceManager srvFinder =
+					(ServiceManager)
+					loaderDomain.CreateInstanceAndUnwrap(
+						Assembly.GetAssembly(typeof(ServiceManager)).FullName,
+						"AppInteropServices.ServiceManager");
+				IDictionary<string, IEnumerable<Type>> addInTypes =
+					srvFinder.SearchForIAddInPackagesTypes(assemblies);
 
-                if (instances.Count > 0)
-                {
-                    newList.Add(new AddIn(a.Location, Path.GetFileNameWithoutExtension(a.Location), instances));
-                }
-            }
-            return newList;
+				foreach (IAddIn a in assemblies)
+				{
+					if (a.Location == null || !addInTypes.ContainsKey(a.Location))
+						continue;
+
+					List<IAddInPackage> instances = new List<IAddInPackage>();
+					IEnumerable<Type> foundTypes = addInTypes[a.Location];
+					foreach (Type foundType in foundTypes)
+					{
+						try
+						{
+							IAddInPackage addInPackage = (IAddInPackage)Activator.CreateInstance(foundType);
+							if (addInPackage != null)
+								instances.Add(addInPackage);
+						}
+						catch (Exception ex)
+						{
+							_log.Error("AddIn of type '" + foundType.FullName + "' could not be activated.", ex);
+						}
+					}
+
+					if (instances.Count > 0)
+					{
+						newList.Add(new AddIn(a.Location, Path.GetFileNameWithoutExtension(a.Location), instances));
+					}
+				}
+				return newList;
+			}
+			finally
+			{
+				if (loaderDomain != null)
+					AppDomain.Unload(loaderDomain);
+			}
         }
 
         /// <summary>
@@ -252,16 +286,21 @@ namespace AppInteropServices
                 return foundTypes;
             }
 
+			AssemblyHelper helper = new AssemblyHelper();
+
             foreach (IAddIn f in addIns)
             {
-                if (f.Location == null || f.Location.Length == 0) continue;
+                if (string.IsNullOrEmpty(f.Location)) continue;
                 if (! File.Exists(f.Location)) continue;
 
                 try
                 {
                     // try and load the assembly
-                    Assembly a = Assembly.LoadFrom(f.Location);
-                    List<Type> typeArray = new List<Type>();
+                    Assembly a = helper.GetAssemblyFromFile(f.Location);
+					if (a == null)
+						continue; 
+					
+					List<Type> typeArray = new List<Type>();
                     // walk through all the types to see if any implements IAddInPackage
                     foreach (Type t in a.GetTypes())
                     {
@@ -297,7 +336,7 @@ namespace AppInteropServices
 
         public IAddIn Load(string fileName)
         {
-            if (fileName == null || fileName.Length == 0)
+            if (string.IsNullOrEmpty(fileName))
                 return null;
 
             if (File.Exists(fileName))
@@ -462,4 +501,66 @@ namespace AppInteropServices
 
         #endregion
     }
+
+	internal class AssemblyHelper
+	{
+		private static readonly ILog _log = Log.GetLogger(typeof(AssemblyHelper));
+        
+		public Assembly GetAssemblyFromFile(string fileName)
+		{
+			fileName = Path.GetFileNameWithoutExtension(fileName);
+			return GetAssembly(fileName);
+		}
+
+		public Assembly GetAssembly(string assemblyName)
+		{
+			return LoadAssembly(assemblyName) ?? LoadPartialAssembly(assemblyName);
+		}
+
+		private static Assembly LoadPartialAssembly(string assemblyName)
+		{
+			string[] assemblyNames = assemblyName.Split(',');
+			string assemblyNameShort = assemblyNames[0];
+			Assembly assemblyInstance = null;
+
+			try
+			{
+				assemblyInstance = Assembly.Load(assemblyNameShort);
+			}
+			catch (FileLoadException ex)
+			{
+				// Ignore it 
+				_log.Error("Failed to load assembly " + assemblyNameShort, ex);
+			}
+			catch (FileNotFoundException ex)
+			{
+				// Ignore it 
+				_log.Error("Failed to load assembly " + assemblyNameShort, ex);
+			}
+
+			return assemblyInstance;
+		}
+
+		private static Assembly LoadAssembly(string assemblyName)
+		{
+			Assembly assemblyInstance = null;
+
+			try
+			{
+				assemblyInstance = Assembly.Load(assemblyName);
+			}
+			catch (FileNotFoundException ex)
+			{
+				// Could not find the assembly. Ignore it.
+				_log.Error("Failed to load assembly " + assemblyName, ex);
+			}
+			catch (FileLoadException ex)
+			{
+				// Could not find the assembly. Ignore it.
+				_log.Error("Failed to load assembly " + assemblyName, ex);
+			}
+
+			return assemblyInstance;
+		}
+	}
 }
