@@ -39,7 +39,7 @@ namespace BlogExtension.Twitter
 			this.groupBox1.Text = Resource.Manager["RES_DeliciousFormAuthentication"];
 			this.label7.Text = Resource.Manager["RES_DeliciousFormPassword"];
 			this.label6.Text = Resource.Manager["RES_DeliciousFormUsername"];
-			this.label2.Text = Resource.Manager["RES_TwitterFormApiUrl"];
+			this.label2.Text = Resource.Manager["RES_TwitterApiUrl"];
             this.Text = Resource.Manager["RES_MenuTwitterFormConfiguration"];
 		}
 		
@@ -81,6 +81,7 @@ namespace BlogExtension.Twitter
 			this._btOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this._btOK.Location = new System.Drawing.Point(240, 147);
 			this._btOK.Name = "_btOK";
+			this._btOK.Size = new System.Drawing.Size(75, 23);
 			this._btOK.TabIndex = 5;
 			this._btOK.Text = "OK";
 			// 
@@ -90,22 +91,23 @@ namespace BlogExtension.Twitter
 			this._btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this._btCancel.Location = new System.Drawing.Point(328, 147);
 			this._btCancel.Name = "_btCancel";
+			this._btCancel.Size = new System.Drawing.Size(75, 23);
 			this._btCancel.TabIndex = 4;
 			this._btCancel.Text = "Cancel";
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.textPwd);
 			this.groupBox1.Controls.Add(this.label7);
 			this.groupBox1.Controls.Add(this.textUser);
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.groupBox1.Location = new System.Drawing.Point(0, 48);
+			this.groupBox1.Location = new System.Drawing.Point(5, 48);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(410, 80);
+			this.groupBox1.Size = new System.Drawing.Size(405, 80);
 			this.groupBox1.TabIndex = 36;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Authentication";
@@ -113,15 +115,14 @@ namespace BlogExtension.Twitter
 			// textPwd
 			// 
 			this.textPwd.AllowDrop = true;
-			this.textPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
+			this.textPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.textPwd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.textPwd.Location = new System.Drawing.Point(128, 50);
 			this.textPwd.Name = "textPwd";
 			this.textPwd.PasswordChar = '*';
-			this.textPwd.Size = new System.Drawing.Size(225, 20);
+			this.textPwd.Size = new System.Drawing.Size(220, 20);
 			this.textPwd.TabIndex = 36;
-			this.textPwd.Text = "";
 			// 
 			// label7
 			// 
@@ -137,13 +138,12 @@ namespace BlogExtension.Twitter
 			// textUser
 			// 
 			this.textUser.AllowDrop = true;
-			this.textUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
+			this.textUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.textUser.Location = new System.Drawing.Point(128, 26);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(225, 20);
+			this.textUser.Size = new System.Drawing.Size(220, 20);
 			this.textUser.TabIndex = 34;
-			this.textUser.Text = "";
 			// 
 			// label6
 			// 
@@ -159,26 +159,24 @@ namespace BlogExtension.Twitter
 			// textUri
 			// 
 			this.textUri.AllowDrop = true;
-			this.textUri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.textUri.Location = new System.Drawing.Point(112, 8);
+			this.textUri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.textUri.Location = new System.Drawing.Point(112, 14);
 			this.textUri.Name = "textUri";
 			this.textUri.Size = new System.Drawing.Size(296, 20);
 			this.textUri.TabIndex = 38;
-			this.textUri.Text = "";
 			// 
 			// label2
 			// 
-			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(96, 32);
+			this.label2.Size = new System.Drawing.Size(98, 32);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "&Twitter API URL";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// DeliciousPluginConfigurationForm
+			// TwitterPluginConfigurationForm
 			// 
 			this.AcceptButton = this._btOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -192,10 +190,13 @@ namespace BlogExtension.Twitter
 			this.Controls.Add(this._btCancel);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(424, 215);
 			this.Name = "TwitterPluginConfigurationForm";
 			this.Text = "Twitter Plugin Configuration...";
 			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 		#endregion
