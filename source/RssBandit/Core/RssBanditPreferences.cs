@@ -1633,10 +1633,12 @@ namespace RssBandit {
 				{
 					typeToDeserialize = Type.GetType(String.Format("{0}, {1}",
 							typeName, assemblyName.Substring(0, simpleAssemblyNameEnd)), false);
-					// in case System.Drawing assemlby was not yet loaded:
-					if (typeToDeserialize == null && typeName == "System.Drawing.Color")
-						typeToDeserialize = typeof(Color);
+					
 				}
+
+				// in case System.Drawing assemlby was not yet loaded:
+				if (typeToDeserialize == null && typeName == "System.Drawing.Color")
+					typeToDeserialize = typeof(Color);
 				return typeToDeserialize;
 			}
 
