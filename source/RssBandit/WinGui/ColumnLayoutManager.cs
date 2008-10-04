@@ -168,7 +168,7 @@ namespace RssBandit.WinGui
 		/// </summary>
 		public void Save()
 		{
-			if (_layouts.Modified)
+			if (_layouts != null && _layouts.Modified)
 				SaveLayouts(IoC.Resolve<IUserRoamingDataService>(), _layouts);
 		}
 

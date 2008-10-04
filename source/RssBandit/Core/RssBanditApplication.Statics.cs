@@ -483,6 +483,20 @@ namespace RssBandit
             if (!Directory.Exists(s)) return null;
             return s;
         }
+		
+		public static string GetPlugInRelativePath()
+		{
+			string s = Path.Combine(Application.StartupPath, "plugins");
+			if (!Directory.Exists(s)) return null;
+			return "plugins";
+		}
+
+		public static string GetAddInInRelativePath()
+		{
+			string s = Path.Combine(Application.StartupPath, "addins");
+			if (!Directory.Exists(s)) return null;
+			return "addins";
+		}
 
         public static string GetSearchIndexPath()
         {

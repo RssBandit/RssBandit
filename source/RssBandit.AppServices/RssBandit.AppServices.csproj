@@ -11,7 +11,7 @@
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>RssBandit.AppServices</AssemblyName>
-    <AssemblyOriginatorKeyFile>rssbandit.org.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -181,7 +181,11 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="rssbandit.org.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\rssbandit.org.snk">
+      <Link>rssbandit.org.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
