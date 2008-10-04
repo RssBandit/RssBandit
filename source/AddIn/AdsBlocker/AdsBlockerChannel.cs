@@ -42,7 +42,7 @@ namespace ChannelServices.AdsBlocker.AddIn
 				
 				if (item.HasContent) {
 					string content = item.Content; 
-					string currentBaseUrl = (item.Link == null || item.Link.Length == 0) ? item.FeedLink : item.Link;
+					string currentBaseUrl = (string.IsNullOrEmpty(item.Link)) ? item.FeedLink : item.Link;
 					if (currentBaseUrl != null) {
 						try {
 							_baseUrl = new Uri(currentBaseUrl);
