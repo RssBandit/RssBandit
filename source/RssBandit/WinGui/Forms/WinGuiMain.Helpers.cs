@@ -1885,11 +1885,7 @@ namespace RssBandit.WinGui.Forms
                     "Failed to load IBlogExtension plugin: " + (ibe == null ? String.Empty : ibe.GetType().FullName), ex);
                 ExceptionManager.Publish(ex);
             }
-            finally
-            {
-                //unload AppDomain used to load add-ins
-                ServiceManager.UnloadLoaderAppDomain();
-            }
+            
         }
 
         private void OnFeedTransformed(object sender, ThreadWorkerProgressArgs args)
