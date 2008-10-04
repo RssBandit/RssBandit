@@ -9,6 +9,7 @@
 
 using System;
 using System.Drawing;
+using Infragistics.Win;
 
 namespace RssBandit.WinGui.Utility
 {
@@ -18,16 +19,17 @@ namespace RssBandit.WinGui.Utility
 	/// </summary>
 	public class ColorEx
 	{
-		public static readonly Color[] OneNoteColors = new Color[] { 
-																	   Color.FromArgb(138, 168, 228), 
-																	   Color.FromArgb(145, 186, 174), 
-																	   Color.FromArgb(246, 176, 120),
-																	   Color.FromArgb(213, 164, 187), 
-																	   Color.FromArgb(180, 158, 222), 
-																	   Color.FromArgb(238, 149, 151), 
-																	   Color.FromArgb(183, 201, 151),
-																	   Color.FromArgb(255, 216, 105),
-			
+		public static readonly Color[] OneNoteColors = new Color[] 
+		{ 
+			FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientLight,
+			Color.FromArgb(145, 186, 174), 
+			Color.FromArgb(246, 176, 120),
+			Color.FromArgb(213, 164, 187), 
+			Color.FromArgb(180, 158, 222), 
+			Color.FromArgb(238, 149, 151), 
+			Color.FromArgb(183, 201, 151),
+			Color.FromArgb(138, 168, 228), 
+			Color.FromArgb(255, 216, 105),
 		};
 
 		/// <summary> Maximum Hue </summary>
@@ -243,6 +245,6 @@ namespace RssBandit.WinGui.Utility
 				control.BackColor = OneNoteColors[(index % OneNoteColors.Length)];
 			}
 		}
-
+		
 	}
 }

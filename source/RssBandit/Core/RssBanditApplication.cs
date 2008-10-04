@@ -542,9 +542,16 @@ namespace RssBandit
         object IServiceProvider.GetService(Type serviceType)
         {
 			// this is now just a fallback of IoC resolve calls.
-			// we are here for service requests, that are not registered,
-			// or unregistered meanwhile.
-            
+			// The main purpose is now: provide services for the AddIns!
+            if (serviceType.Equals(typeof(ICoreApplication)))
+        		return IoC.Resolve<ICoreApplication>();
+			if (serviceType.Equals(typeof(IInternetService)))
+				return IoC.Resolve<IInternetService>();
+			if (serviceType.Equals(typeof(IUserPreferences)))
+				return IoC.Resolve<IUserPreferences>();
+			if (serviceType.Equals(typeof(IAddInManager)))
+				return IoC.Resolve<IAddInManager>();
+			
             return null;
         }
 
