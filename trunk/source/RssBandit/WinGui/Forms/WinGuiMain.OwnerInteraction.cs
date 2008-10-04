@@ -673,21 +673,21 @@ namespace RssBandit.WinGui.Forms
 						if (String.Compare(Path.GetExtension(feed.favicon), ".ico", true) == 0)
 							try
 							{
-                            // looks like an ICO:
-                            using (var ico = new Icon(s, new Size(16, 16)))
-                            {
-                                if (!Win32.IsOSAtLeastWindowsVista)
-                                {
-                                    //HACK: this is a workaround to the AccessViolationException caused
-                                    // on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
-                                    // XP and below can't handle non-square icons
-                                    if (ico.Width != ico.Height)
-                                        return null;
-                                }
+								// looks like an ICO:
+								using (var ico = new Icon(s, new Size(16, 16)))
+								{
+									//if (!Win32.IsOSAtLeastWindowsVista)
+									//{
+									//HACK: this is a workaround to the AccessViolationException caused
+									// on call .ToBitmap(), if the ico.Width is != ico.Height (CLR 2.0)
+									// XP and below can't handle non-square icons
+									if (ico.Width != ico.Height)
+										return null;
+									//}
 
-                                favicon = ResizeFavicon(ico.ToBitmap());
-                            }
-                        }
+									favicon = ResizeFavicon(ico.ToBitmap());
+								}
+							}
                         catch (Exception e)
                         {
 							_log.Debug("LoadFavicon(" + feed.favicon + ") failed with error:", e);
@@ -698,7 +698,10 @@ namespace RssBandit.WinGui.Forms
 						if (favicon == null)
 						{
 							bool changed;
-							favicon = ResizeFavicon(Image.FromStream(s, true), out changed);
+							// we call Image.FromStream with validateImageData set to true to
+							// prevent UI control rendering issues later on. Better we fail here
+							// (and ignore the image) than breaking the UI/rendering:
+							favicon = ResizeFavicon(Image.FromStream(s, true, true), out changed);
 							if (changed)
 								using (MemoryStream saveStream = new MemoryStream())
 								{
