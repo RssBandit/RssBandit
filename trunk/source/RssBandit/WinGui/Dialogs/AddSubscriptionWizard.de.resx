@@ -181,7 +181,7 @@
     <value>Authentifizierung</value>
   </data>
   <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
-    <value>Bitte geben Sie Benutzername und Passwort ein, so diese Angaben für den erfolgreichen Download notwending sind</value>
+    <value>Bitte geben Sie Benutzername und Passwort ein, so diese Angaben für den erfolgreichen Download des Web-Feeds notwendig sind</value>
   </data>
   <data name="lblUsername.Text" xml:space="preserve">
     <value>&amp;Benutzername:</value>
@@ -244,16 +244,16 @@
     <value>Fertig!</value>
   </data>
   <data name="lblCompletionMessage.Text" xml:space="preserve">
-    <value>Das Abonnement ist jetzt fertig, um Sie Ihrer Liste hinzuzufügen.</value>
+    <value>Das Abonnement ist jetzt fertig, um es Ihrer Liste hinzuzufügen.</value>
   </data>
   <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
-    <value>Bitte wählen Sie einen der gefundenen Feeds für das Abonnement aus</value>
+    <value>Bitte wählen Sie einen der gefundenen Web-Feeds für das Abonnement aus</value>
   </data>
   <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
     <value>Mehrere Web-Feeds gefunden</value>
   </data>
   <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
-    <value>Wählen Sie einen der Feeds aus der Liste, dann drücken Sie bitte auf "Weiter", um zusätzliche Details zum Feed anzugeben.</value>
+    <value>Wählen Sie einen der Web-Feeds aus der Liste, dann drücken Sie bitte auf "Weiter", um zusätzliche Details zum Feed anzugeben.</value>
   </data>
   <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
     <value>Wird der erforderliche Web-Feed nicht in der Liste angezeigt, drücken Sie bitte auf "Zurück", um eine neue Suche zu starten.</value>
@@ -274,7 +274,7 @@
     <value>Suchmaschine:</value>
   </data>
   <data name="lblNewBySearchIntro.Text" xml:space="preserve">
-    <value>Das Ergebnis wird im Wesentlichen durch die verwendete Suchmaschine bestimmt. Einige von Ihnen sind Online Web-Feed Suchmaschinen (Syndic8), die in der Lage sind, relevante Feeds zu finden, die Sie direkt abonnieren können. Andere vermögen ein Suchergebnis als Web-Feed auszugeben.</value>
+    <value>Das Ergebnis wird im wesentlichen durch die verwendete Suchmaschine bestimmt. Einige von Ihnen sind Online Web-Feed Suchmaschinen (Syndic8), die in der Lage sind, relevante Feeds zu finden, die Sie direkt abonnieren können. Andere vermögen ein Suchergebnis als Web-Feed auszugeben.</value>
   </data>
   <data name="lblNewBySearchWords.Text" xml:space="preserve">
     <value>Schlüssel-Wörter oder Thema:</value>
@@ -325,7 +325,7 @@
     <value>Willkommen beim Anlegen eines neuen  Abonnement!</value>
   </data>
   <data name="chkDisplayWelcome.Text" xml:space="preserve">
-    <value>Willkommens-Dialog immer anzeigen</value>
+    <value>Diesen Willkommens-Dialog immer anzeigen</value>
   </data>
   <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
     <value>Der Dialog benötigt für manche Schritte eine Verbindung ins Internet. Wenn Ihr Computer noch nicht mit dem Internet verbunden ist, so verbinden Sie diesen bitte jetzt.</value>
