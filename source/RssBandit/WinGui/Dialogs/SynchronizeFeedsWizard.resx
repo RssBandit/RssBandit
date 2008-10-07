@@ -321,20 +321,20 @@
   <data name="&gt;&gt;textFeedSourceName.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 86</value>
+    <value>3, 86</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+    <value>75, 13</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Name:</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -405,6 +405,9 @@
   <data name="radioNewsGator.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioNewsGator.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="radioNewsGator.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -412,7 +415,7 @@
     <value>79, 119</value>
   </data>
   <data name="radioNewsGator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 17</value>
+    <value>117, 18</value>
   </data>
   <data name="radioNewsGator.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -435,6 +438,9 @@
   <data name="radioGoogleReader.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioGoogleReader.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="radioGoogleReader.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -442,7 +448,7 @@
     <value>79, 84</value>
   </data>
   <data name="radioGoogleReader.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 17</value>
+    <value>102, 18</value>
   </data>
   <data name="radioGoogleReader.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -465,6 +471,9 @@
   <data name="radioCommonFeedlist.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioCommonFeedlist.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>System</value>
+  </data>
   <data name="radioCommonFeedlist.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -472,7 +481,7 @@
     <value>79, 154</value>
   </data>
   <data name="radioCommonFeedlist.Size" type="System.Drawing.Size, System.Drawing">
-    <value>307, 17</value>
+    <value>313, 18</value>
   </data>
   <data name="radioCommonFeedlist.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -538,7 +547,7 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;pageFeedCredentials.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="_btnImmediateFinish.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>System</value>
@@ -547,10 +556,10 @@
     <value>NoControl</value>
   </data>
   <data name="_btnImmediateFinish.Location" type="System.Drawing.Point, System.Drawing">
-    <value>122, 327</value>
+    <value>122, 325</value>
   </data>
   <data name="_btnImmediateFinish.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 22</value>
+    <value>80, 23</value>
   </data>
   <data name="_btnImmediateFinish.TabIndex" type="System.Int32, mscorlib">
     <value>1008</value>
@@ -571,13 +580,13 @@
     <value>wizard</value>
   </data>
   <data name="&gt;&gt;_btnImmediateFinish.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="wizard.BannerImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAxCAYAAABznEEcAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/AAA
-        CvwBmdu77wAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK+wAA
+        CvsBy58dkAAAEUJJREFUaEPVmgdUVde2hg+KmnY1ucbkmkSTF5ObaoxGE2uMJS8qVgwYiYjGgqgYpAko
         Ihx6ryK9hC5dehMUkCq9KCAoiHQUhcNp+79zbyNPTEyMmDHePWPMwV6btTfzW/Ofc5WDDADef/2Hhfhv
         tzEDBAUFycTHx49jB6K2tlamsrJStqKiQoZtX758WaakpIS7LiwslGGNvc7NzZW5ePHihL8yeDVSTDD1
         uL7YMaRvc0Q+nn/42TFDFBQUjCfHJxDA+KqqKhZChiBky8rKxrEQD/+x/Px8mby8PJlfITjwJ7FmBi8c
@@ -663,8 +672,8 @@
   <data name="wizard.MarginImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAKQAAAE5CAYAAAAeOotoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/AAA
-        CvwBmdu77wAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK+wAA
+        CvsBy58dkAAA/3lJREFUeF5k/XV8HWeS9o17Z5/3v/f37O5kJhwzxMzMzMzMllGyJdmWJZNsSzLKzJYs
         WzJKBpmZmRI7cZg5mQzj7kxS7/equ09m9vNLcqf79OnTOqf76quqrqq6+9+mJkw1/inxb/9WosQPJazE
         z4wV/ccGsx+1yj//VuJH3vt/SvxMb7BWooT97N/Y13zdP/ez/1Pi3/U5tv3sZz9jf33s30r8u44QPlbi
         Rzb+TMf6Nz7Ffvqw9v03Xv/Ae3wL/tXn/SMlfuS7aPkPtv7sR3bWlwmHCwfkO+jvGfv9yHfV65+xXYdn

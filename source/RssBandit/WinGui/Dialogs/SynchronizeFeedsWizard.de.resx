@@ -118,31 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 <data name="chkDisplayWelcome.Text" space="preserve">
-    <value>Always display this Wizard Welcome Page</value>
+    <value>Diesen Willkommens-Dialog immer anzeigen</value>
   </data>
 	<data name="lblFeedCredentialsIntro.Text" space="preserve">
-    <value>Here you can specify the username and password need to access your subscriptions</value>
+    <value>Bitte geben Sie Benutzername und Passwort ein, da diese Angaben für den erfolgreichen Download der Abo-Liste notwendig sind:</value>
   </data>
 	<data name="lblUsername.Text" space="preserve">
-    <value>&amp;Username:</value>
+    <value>&amp;Benutzername:</value>
   </data>
 	<data name="lblPassword.Text" space="preserve">
-    <value>&amp;Password:</value>
+    <value>&amp;Passwort:</value>
   </data>
 	<data name="pageFeedCredentials.Description" space="preserve">
-    <value>Enter credential information so we can download your subscriptions</value>
+    <value>Bitte Authentifizierungs-Daten für den Download der Abo-Liste angeben</value>
   </data>
 	<data name="label2.Text" space="preserve">
     <value>Name:</value>
   </data>
 	<data name="pageSourceName.Description" space="preserve">
-    <value>Provide a name for this subscription list</value>
+    <value>Bitte vergeben Sie einen Namen für diese Abo-Liste</value>
   </data>
 	<data name="pageSourceName.Text" space="preserve">
-    <value>Subscription Name</value>
+    <value>Name der Abo-Liste</value>
   </data>
 	<data name="label1.Text" space="preserve">
-    <value>Synchronize feeds with one of the following sources</value>
+    <value>Sie können die Web-Feeds mit folgenden Quellen synchronisieren:</value>
   </data>
 	<data name="radioNewsGator.Text" space="preserve">
     <value>NewsGator Online</value>
@@ -151,24 +151,24 @@
     <value>Google Reader</value>
   </data>
 	<data name="radioCommonFeedlist.Text" space="preserve">
-    <value>Windows Common Feedlist (Internet Explorer and Outlook)</value>
+    <value>Windows Common Feedlist (Internet Explorer und Outlook)</value>
   </data>
 	<data name="pageStartImport.Description" space="preserve">
-    <value>Use the same feeds across RSS Bandit and Internet Explorer/Outlook on your desktop or with an online feed reader</value>
+    <value>Verwenden Sie dieselben Web-Feeds gemeinsam in RSS Bandit und Internet Explorer/Outlook auf Ihrem Desktop oder mit Ihrem Online Feed Reader</value>
   </data>
 	<data name="pageStartImport.Text" space="preserve">
-    <value>Select Feed Source</value>
+    <value>Synchronisations-Quelle wählen</value>
   </data>
 	<data name="pageFeedCredentials.Text" space="preserve">
-    <value>Log-in Credentials</value>
+    <value>Authentifizierung</value>
   </data>
 	<data name="_btnImmediateFinish.Text" space="preserve">
-    <value>Finish</value>
+    <value>Fertig</value>
   </data>
 	<data name="wizard.Text" space="preserve">
-    <value>wizard</value>
+    <value>Assistent</value>
   </data>
 	<data name="$this.Text" space="preserve">
-    <value>Synchronize Feeds Wizard</value>
+    <value>Assistent für die Web-Feeds Synchronisierung</value>
   </data>
 	</root>
