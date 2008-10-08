@@ -4,8 +4,11 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using NewsComponents.Net;
+using NewsComponents.Resources;
 using NewsComponents.Utils;
 
 namespace NewsComponents.News {
@@ -141,7 +144,7 @@ namespace NewsComponents.News {
 	/// <summary>
 	/// NNTP specific exception class
 	/// </summary>
-	[Serializable]
+	[Serializable, ComVisible(false)]
 	public class NntpWebException: WebException
 	{
 		
@@ -164,6 +167,20 @@ namespace NewsComponents.News {
 		public NntpWebException(string message, Exception innerException): base(message, innerException) {}
 	}
 	
+	/// <summary>
+	/// NntpResourceAuthorizationException is raised if a NNTP request results in a statuscode 480.
+	/// </summary>
+	[Serializable, ComVisible(false)]
+	public class NntpResourceAuthorizationException : ResourceAuthorizationException
+	{
+		/// <summary></summary>
+		public NntpResourceAuthorizationException() : base(ComponentsText.ExceptionNntpResourceAuthorization) { }
+		/// <summary></summary>
+		public NntpResourceAuthorizationException(string message) : base(message) { }
+		/// <summary></summary>
+		public NntpResourceAuthorizationException(string message, Exception innerException) : base(message, innerException) { }
+	}
+
     /// <summary>
     /// A class that understands the NNTP protocol.
     /// Could be useful for creating binary news reader,
@@ -317,7 +334,12 @@ namespace NewsComponents.News {
 			do{ 
                 response = GetData(true);	
 				if(firstTimeAround){
-					if ((response.Length < 3) || response.Substring( 0, 3) != "215") {
+					if ((response.Length >= 3) && response.Substring(0, 3) == "480")
+					{
+						throw new NntpResourceAuthorizationException();
+					}
+					if ((response.Length < 3) || response.Substring(0, 3) != "215")
+					{
 						throw new NntpWebException(response);
 					}
 					firstTimeAround = false; 

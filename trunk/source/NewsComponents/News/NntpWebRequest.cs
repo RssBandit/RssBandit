@@ -50,7 +50,7 @@ namespace NewsComponents.News {
 		/// <summary>
 		/// The length of time before the request times out. 
 		/// </summary>
-		private int timeout = 0;
+		private int timeout;
 
 		
 		/// <summary>
@@ -67,13 +67,17 @@ namespace NewsComponents.News {
 		/// <summary>
 		/// The credentials associated with this request.
 		/// </summary>
-		private ICredentials credentials = null;
+		private ICredentials credentials;
 
 		/// <summary>
 		/// The URI of the request.
 		/// </summary>
-		private Uri requestUri = null; 
-				
+		private readonly Uri requestUri;
+
+		/// <summary>
+		/// The proxy to use
+		/// </summary>
+		private IWebProxy proxy;
 
 		/// <summary>
 		/// Stream for writing output to the server.  
@@ -213,7 +217,30 @@ namespace NewsComponents.News {
 			}
 		}
 
-
+		/// <summary>
+		/// When overridden in a descendant class, gets or sets the network proxy to use to access this Internet resource.
+		/// </summary>
+		/// <value></value>
+		/// <returns>
+		/// The <see cref="T:System.Net.IWebProxy"/> to use to access the Internet resource.
+		/// </returns>
+		/// <exception cref="T:System.NotImplementedException">
+		/// Any attempt is made to get or set the property, when the property is not overridden in a descendant class.
+		/// </exception>
+		/// <PermissionSet>
+		/// 	<IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/>
+		/// </PermissionSet>
+		public override IWebProxy Proxy
+		{
+			get
+			{
+				return proxy;
+			}
+			set
+			{
+				proxy = value;
+			}
+		}
 		#endregion 
 
 		#region private properties
@@ -269,7 +296,7 @@ namespace NewsComponents.News {
 					throw new NntpWebException("Credentials property not an instance of NetworkCredential");
 				}
 				
-				bool authOK = false;
+				bool authOK;
 				
 				if(string.IsNullOrEmpty(nc.Domain)){
 					authOK = client.AuthInfo(nc.UserName, nc.Password); 
@@ -279,6 +306,11 @@ namespace NewsComponents.News {
 				
 				if (!authOK)
 					throw new NntpWebException(String.Format(ComponentsText.ExceptionNntpServerAuthenticationFailed, requestUri.Host));
+			}
+
+			if (proxy != null)
+			{
+				//TODO: to be impl. in the NntpClient
 			}
 
 			return client; 
@@ -310,7 +342,7 @@ namespace NewsComponents.News {
 		
 		public override IAsyncResult BeginGetResponse(AsyncCallback callback, object state) {
 						
-			GetResponseDelegate getResponse = new GetResponseDelegate(GetResponse);
+			GetResponseDelegate getResponse = GetResponse;
 
 			// The return call.  Store in the hashtable.
 			IAsyncResult asyncResult = getResponse.BeginInvoke(true, callback, state);
@@ -355,7 +387,7 @@ namespace NewsComponents.News {
 		/// <returns>An IAsyncResult that references the asynchronous request</returns>
 		public override IAsyncResult BeginGetRequestStream(AsyncCallback callback, object state) {
 			
-			GetRequestStreamDelegate getRequestStream = new GetRequestStreamDelegate(GetRequestStream);
+			GetRequestStreamDelegate getRequestStream = GetRequestStream;
 
 			// The return call.  Store in the hashtable.
 			IAsyncResult asyncResult = getRequestStream.BeginInvoke(callback, state);			
