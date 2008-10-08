@@ -129,6 +129,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// label2
 			// 
+			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			resources.ApplyResources(this.label2, "label2");
 			this.label2.Name = "label2";
 			// 
@@ -187,11 +188,13 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// label3
 			// 
+			this.label3.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			resources.ApplyResources(this.label3, "label3");
 			this.label3.Name = "label3";
 			// 
 			// label1
 			// 
+			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
 			// 
