@@ -139,6 +139,9 @@ namespace NewsComponents.Net
 #else
 			ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
 #endif
+			// allow the manager to send proxy crendentials for proxies that require auth.:
+			AuthenticationManager.CredentialPolicy = new ProxyCredentialsPolicy();
+
             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
@@ -1697,11 +1700,27 @@ send_request:
                 }
             }
         }
-    }
+	}
 
-    #region Certificate policy handling
+	#region Proxy authentication stuff
+	// first, we enabled default credentials to be used as proxy credentials
+	// in our app.config. For the CLR 3.x there is one more requirement to fullfill:
+	// see http://www.codeproject.com/KB/miscctrl/WPF_proxy_authentication.aspx
+	
+	class ProxyCredentialsPolicy : ICredentialPolicy
+	{
+		bool ICredentialPolicy.ShouldSendCredential(Uri challengeUri, WebRequest request, NetworkCredential credential, IAuthenticationModule authenticationModule)
+		{
+			return true;
+		}
+	}
 
-    /// <summary>
+
+	#endregion
+
+	#region Certificate policy handling
+
+	/// <summary>
     /// Possible Certificate issues.
     /// </summary>
     /// <remarks> The .NET Framework should expose these, but they don't.</remarks>
