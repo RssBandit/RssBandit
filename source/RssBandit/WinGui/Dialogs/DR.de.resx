@@ -208,7 +208,7 @@
     <value>OPML</value>
   </data>
   <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
-    <value>Aus Abonnement Gruppe</value>
+    <value>Aus Abonnement-Liste</value>
   </data>
   <data name="ExportFeedsDialog_Text" xml:space="preserve">
     <value>Feeds Exportieren</value>
@@ -220,19 +220,19 @@
     <value>(Outline Processor Markup Language) Format</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Authentifizierung</value>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Name der Abo-Liste:</value>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
-    <value>Password:</value>
+    <value>Passwort:</value>
   </data>
   <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
-    <value>Username:</value>
+    <value>Benutzername:</value>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Eigenschaften der Abo-Liste (Synchronisations-Quelle)</value>
   </data>
   <data name="ComboMaxItemAge_Item1" xml:space="preserve">
     <value>2 Tage</value>
@@ -363,22 +363,19 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>Feed Eigenschaften</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Updatefrequenz</value>
-  </data>
   <data name="FeedProperties_label4_Text" space="preserve">
-    <value>Update &amp;frequency:</value>
+    <value>Update&amp;frequenz:</value>
   </data>
 	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+    <value>Zugewiesenes Clientzertifikat entfernen...</value>
   </data>
 	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+    <value>Clientzertifikat auswählen...</value>
   </data>
 	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
-    <value>Client Certificate</value>
+    <value>Clientzertifikat</value>
   </data>
 	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+    <value>Zugewiesenes Clientzertifikat anzeigen...</value>
   </data>
-	</root>
+</root>

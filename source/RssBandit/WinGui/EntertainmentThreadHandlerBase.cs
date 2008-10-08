@@ -81,8 +81,10 @@ namespace RssBandit.WinGui
 			if (owner == null)
 				throw new ArgumentNullException("owner");
 
-			DialogResult result = DialogResult.OK;
-			p_operationThread = new Thread(new ThreadStart(this.Run));
+			p_operationThread = new Thread(this.Run);
+			// if the thread generate some UI / visible components, they should use the current cultures:
+			p_operationThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+			p_operationThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
 
 			p_waitDialog = owner as IWaitDialog;
 			Form f = owner as Form;
@@ -93,7 +95,7 @@ namespace RssBandit.WinGui
 
 			p_waitDialog.Initialize(this.p_workDone, this.p_operationTimeout, f != null ? f.Icon: null);
 			p_operationThread.Start();
-			result = p_waitDialog.StartWaiting(owner, waitMessage, allowCancel);
+			DialogResult result = p_waitDialog.StartWaiting(owner, waitMessage, allowCancel);
 
 			if (result != DialogResult.OK) {	// timeout, or cancelled by user
 				p_operationThread.Abort();	// reqires the inerited classes to catch ThreadAbortException !

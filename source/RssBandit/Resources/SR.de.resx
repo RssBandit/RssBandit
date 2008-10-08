@@ -679,8 +679,7 @@ Soll die Url '{1}' als neues Webdokument geöffnet werden?</value>
     <value>Validierungsfehler beim Laden der Feedliste.</value>
   </data>
   <data name="GUIStatusWaitMessageDetectingFeeds" xml:space="preserve">
-    <value>Suche nach Feeds auf der Seite:
-{0}</value>
+    <value>Suche nach Feeds auf der Seite: {0}</value>
   </data>
   <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" xml:space="preserve">
     <value>Suche nach Feeds, die folgende Schlüsselworte enthalten:
