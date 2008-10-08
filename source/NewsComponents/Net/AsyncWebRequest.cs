@@ -1711,7 +1711,10 @@ send_request:
 	{
 		bool ICredentialPolicy.ShouldSendCredential(Uri challengeUri, WebRequest request, NetworkCredential credential, IAuthenticationModule authenticationModule)
 		{
-			return true;
+			if (request != null && request.Proxy != null)
+				return true;
+			// only send, if web server explicitely request that:
+			return false;
 		}
 	}
 

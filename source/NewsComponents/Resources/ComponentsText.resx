@@ -183,4 +183,7 @@
   <data name="ExceptionClientCertificateRequired" xml:space="preserve">
     <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
   </data>
+  <data name="ExceptionNntpResourceAuthorization" xml:space="preserve">
+    <value>Unauthorized access, credentials required or invalid credentials (NNTP status 480)</value>
+  </data>
 </root>
