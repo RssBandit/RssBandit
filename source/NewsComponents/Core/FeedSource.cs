@@ -5395,7 +5395,7 @@ namespace NewsComponents
         /// </summary>
         public void RefreshFavicons()
         {
-            if ((FeedsListOK == false) || isOffline)
+            if ((FeedsListOK == false) || isOffline || !DownloadIntervalReached)
             {
                 //we don't have a feed list
                 return;
