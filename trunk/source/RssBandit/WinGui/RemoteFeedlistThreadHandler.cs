@@ -264,7 +264,7 @@ namespace RssBandit.WinGui
                        
 
                             UriBuilder builder = new UriBuilder(remoteUri);
-                            builder.Path = remoteFileName;
+                            builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
 
 
                             /* set up the FTP connection */
@@ -443,8 +443,7 @@ namespace RssBandit.WinGui
                         // Fetch from FTP                    
                         Uri remoteUri = new Uri(remoteLocation);           
                         UriBuilder builder = new UriBuilder(remoteUri);
-                        builder.Path = remoteFileName;
-
+                        builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
 
                         /* set up the FTP connection */
                         FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(builder.Uri);
