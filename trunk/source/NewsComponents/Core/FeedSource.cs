@@ -5671,7 +5671,7 @@ namespace NewsComponents
 
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (AsyncGetItemsForFeed(current.link, true, false))
+                                if (AsyncGetItemsForFeed(current.link, true, true))
                                     anyRequestQueued = true;
                             }
                         }
