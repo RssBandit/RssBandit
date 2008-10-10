@@ -682,14 +682,18 @@ namespace RssBandit.WinGui.Dialogs
 			invalidUriException = null;
 
 			if (StringHelper.EmptyTrimOrNull(url))
-				return String.Empty;
+				return String.Empty; 
 
 			// canonicalize the provided url:
 			string newUrl = HtmlHelper.HtmlDecode(url);
 			
 			//some weird URLs have newlines. 
 			// We remove them before create the Uri, so we do not fail on THAT error there	
-			newUrl = newUrl.Replace(Environment.NewLine, String.Empty); 
+			newUrl = newUrl.Replace(Environment.NewLine, String.Empty);
+
+            //handle feed URI scheme
+            newUrl = newUrl.ToLower().StartsWith("feed://") ? newUrl.Substring(7): newUrl;
+            newUrl = newUrl.ToLower().StartsWith("feed:") ? newUrl.Substring(5) : newUrl; 
 			
 			//handle the common case of feed URI not beginning with HTTP 
 			Uri reqUri;
