@@ -14,9 +14,9 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyVersion("1.7.0.812")]
-[assembly: AssemblyFileVersion("1.7.0.812")]
-[assembly: AssemblyInformationalVersion("1.7.812")]
+[assembly: AssemblyVersion("1.7.0.833")]
+[assembly: AssemblyFileVersion("1.7.0.833")]
+[assembly: AssemblyInformationalVersion("1.7.833")]
 [assembly: SatelliteContractVersion("1.7.0")]
 
 
