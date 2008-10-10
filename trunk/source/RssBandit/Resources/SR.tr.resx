@@ -2625,234 +2625,234 @@ Lütfen Başlat Menu'sunden kendiniz elle açmayı deneyin.</value>
     <value>Özet ve tam metin arasında geçiş yapar</value>
   </data>
   <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
-    <value>&amp;Older than</value>
+    <value>Şundan daha &amp;eski</value>
   </data>
   <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
-    <value>What do you want to do now?</value>
+    <value>Şimdi ne yapmak istiyorsunuz?</value>
   </data>
   <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
-    <value>Navigate to the subscription...</value>
+    <value>Aboneliğe git...</value>
   </data>
   <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
-    <value>Remove this subscription...</value>
+    <value>Bu aboneliği sil...</value>
   </data>
   <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Önceki</value>
     <comment> Xslt default template language resources</comment>
   </data>
   <data name="XsltDefaultTemplate_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Sonraki</value>
   </data>
   <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
-    <value>Displaying page</value>
+    <value>Sayfa gösteriliyor</value>
   </data>
   <data name="XsltDefaultTemplate_of" xml:space="preserve">
-    <value>of</value>
+    <value>'den</value>
   </data>
   <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
-    <value>Loading of file
-{0}
-failed with error:
+    <value>{0}
+dosyası yüklenirken
 {1}
+hatası oluştu:
 
 {2}</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
-    <value>Saving of file
-{0}
-failed with error:
+    <value>{0}
+dosyası kaydedilirken
 {1}
+hatası oluştu:
 
 {2}</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
   </data>
   <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
-    <value>Using defaults for the subscription tree folder states.</value>
+    <value>Abone listesi dosya yapısı için varsayılan ayarlar kullanılıyor.</value>
   </data>
   <data name="MenuTopStoriesCaption" xml:space="preserve">
-    <value>Top Stories</value>
+    <value>Güncel Haberler</value>
   </data>
   <data name="MenuTopStoriesDesc" xml:space="preserve">
-    <value>View the most recently popular links in your subscriptions</value>
+    <value>Aboneliklerinizden en güncel olanlarını okuyun</value>
     <comment>CHANGED</comment>
   </data>
   <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
-    <value>Determining Top Stories, please wait...</value>
+    <value>Güncel Haberler Belirleniyor, lütfen bekleyin...</value>
     <comment>CHANGED</comment>
   </data>
   <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
-    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <value>{0} Güncel Haberler: En Fazla Bağlantı Verilenler</value>
     <comment>CHANGED.
  Parameters: 0 - appTitle (string) </comment>
   </data>
   <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
-    <value>Discussion:</value>
+    <value>Tartışma:</value>
   </data>
   <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
-    <value>Text Size</value>
+    <value>Metin Boyu</value>
   </data>
   <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
-    <value>Select/Change the feed details text size...</value>
+    <value>Kaynak detayları metin boyunu seçer/değiştirir...</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
-    <value>Smallest</value>
+    <value>En Küçük</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smallest size...</value>
+    <value>Kaynak detayları metin boyunu minimuma küçültür...</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
-    <value>Smaller</value>
+    <value>Daha Küçük</value>
   </data>
   <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to smaller size...</value>
+    <value>Kaynak detayları metin boyunu küçültür...</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
-    <value>Medium</value>
+    <value>Orta</value>
   </data>
   <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to medium size...</value>
+    <value>Kaynak detayları metin boyunu orta ayara getirir...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
-    <value>Larger</value>
+    <value>Daha Büyük</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to larger size...</value>
+    <value>Kaynak detayları metin boyunu büyütür...</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
-    <value>Largest</value>
+    <value>En Büyük</value>
   </data>
   <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
-    <value>Select/Change the feed details text to largest size...</value>
+    <value>Kaynak detayları metin boyunu maksimuma büyütür...</value>
   </data>
-<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
-    <value>My Google Reader Feeds</value>
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
+    <value>Google Reader Beslemeleri</value>
   </data>
-	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Google Reader</value>
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
+    <value>Google Reader'da abone olunan haber kaynakları</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
-    <value>My NewsGator Feeds</value>
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
+    <value>NewsGator Beslemeleri</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in NewsGator</value>
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
+    <value>Newsgator'da abone olunan haber kaynakları</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
-    <value>My Common Feed List Feeds</value>
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
+    <value>Windows Beslemeleri</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
-    <value>Container of subscribed feeds in Windows RSS platform</value>
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
+    <value>Windows'da abone olunan haber kaynakları</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
-    <value>Share or unshare item in Google Reader</value>
+  <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
+    <value>Öğeyi Google Reader'da paylaş</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
-    <value>Add or remove item from clippings folder in NewsGator Online</value>
+  <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
+    <value>NewsGator Online clippings klasöründen ekle veya sil</value>
   </data>
-	<data name="MenuSynchronizeFeedsCaption" space="preserve">
-    <value>&amp;Synchronize Feeds...</value>
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
+    <value>&amp;Kaynakları Güncelle...</value>
   </data>
-	<data name="MenuSynchronizeFeedsDesc" space="preserve">
-    <value>Launches the Synchronize Feeds Wizard</value>
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
+    <value>Kaynakları Güncelleme Sihirbazını başlatır.</value>
   </data>
-	<data name="ExceptionInvalidPlaylistName" space="preserve">
-    <value>Please specify a valid playlist name</value>
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
+    <value>Lütfen geçerli bir playlist ismi girin</value>
   </data>
-	<data name="NoTopStoriesMessage" space="preserve">
-    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
+  <data name="NoTopStoriesMessage" xml:space="preserve">
+    <value>Abonelikleriniz arasında '{0}' tarafından geçen hafta içinde bağlantı verilen bir haber bulunamadı.</value>
   </data>
-	<data name="TopStoriesDescription" space="preserve">
-    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
+  <data name="TopStoriesDescription" xml:space="preserve">
+    <value>Aşağıda '{0}' içindeki abonelikleriniz arasında geçtiğimiz hafta en güncel olanlar listelenmektedir.</value>
   </data>
-	<data name="ExceptionNoFeedSourceName" space="preserve">
-    <value>Please provide a name for this subscription list</value>
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
+    <value>Bu abonelik listesi için bir isim belirleyin</value>
   </data>
-	<data name="ExceptionNoPassword" space="preserve">
-    <value>Please provide a valid password</value>
+  <data name="ExceptionNoPassword" xml:space="preserve">
+    <value>Lütfen geçerli bir şifre verin.</value>
   </data>
-	<data name="ExceptionNoUserName" space="preserve">
-    <value>Please provide a valid username</value>
+  <data name="ExceptionNoUserName" xml:space="preserve">
+    <value>Lütfen geçerli bir kullanıcı adı verin.</value>
   </data>
-	<data name="MenuDownloadManager" space="preserve">
-    <value>Download Manager...</value>
+  <data name="MenuDownloadManager" xml:space="preserve">
+    <value>İndirme Yöneticisi...</value>
   </data>
-	<data name="MenuDownloadManagerDesc" space="preserve">
-    <value>Launches the download manager</value>
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
+    <value>İndirme yöneticisini başlatır</value>
   </data>
-	<data name="MenuDeleteFeedSourceCaption" space="preserve">
-    <value>Delete Feed Source...</value>
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
+    <value>Haber Kaynağını Sil...</value>
   </data>
-	<data name="MenuDeleteFeedSourceDesc" space="preserve">
-    <value>Delete this feed source</value>
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
+    <value>Bu haber kaynağını sil</value>
   </data>
-	<data name="MenuRenameFeedSourceCaption" space="preserve">
-    <value>Rename Feed Source...</value>
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
+    <value>Haber Kaynağına Yeni İsim Ver</value>
   </data>
-	<data name="MenuRenameFeedSourceDesc" space="preserve">
-    <value>Rename this feed source</value>
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
+    <value>Bu haber kaynağına yeni bir isim verir...</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
-    <value>Remove Synchronization Source</value>
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
+    <value>Güncelleme Kaynağını Sil</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
-    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
+    <value>'{0}' öğesini güncelleme kaynaklarınızdan silmek istediğinize emin misiniz?</value>
   </data>
-	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
-    <value>{0} of {1} Subscription list(s) loaded</value>
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
+    <value>{1} kaynak listesinden {0} adedi yüklendi</value>
   </data>
-	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
-    <value>All Subscription list(s) loaded</value>
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
+    <value>Tüm abone listeleri yüklendi</value>
   </data>
-	<data name="ExecutableForFileStartupFailure" space="preserve">
-    <value>Failed to start an application for file: {0}.
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
+    <value>{0} dosyası için bir uygulama başlatılamadı.
 
-Error: {1}</value>
+Hata: {1}</value>
   </data>
-	<data name="MenuShowFeedSourceProperties" space="preserve">
-    <value>Properties...</value>
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
+    <value>Özellikler...</value>
   </data>
-	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
-    <value>Show the feed source properties</value>
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
+    <value>Kaynak özellikleri penceresini gösterir...</value>
   </data>
-	<data name="ExceptionFeedlistCredentials" space="preserve">
-    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}</value>
+  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
+    <value>"{0}" için haber kaynaklarını yüklerken bir kimilk doğrulama hatası oluştu: {1}</value>
   </data>
-	<data name="TreeFeedNodeType_Category" space="preserve">
-    <value>Category folder</value>
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
+    <value>Kategori klasörü</value>
   </data>
-	<data name="TreeFeedNodeType_Feed" space="preserve">
-    <value>Feed</value>
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
+    <value>Kaynak</value>
   </data>
-	<data name="TreeFeedNodeType_Finder" space="preserve">
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
     <value>Finder</value>
   </data>
-	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
-    <value>Finder category</value>
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
+    <value>Finder kategorisi</value>
   </data>
-	<data name="TreeFeedNodeType_Root" space="preserve">
-    <value>Subscription root</value>
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
+    <value>Abonelik başlangıcı</value>
   </data>
-	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
-    <value>Smart folder</value>
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
+    <value>Akıllı klasör</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
-    <value>Contains {0} unread items</value>
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
+    <value>{0} okunmamış öğe içerir</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
-    <value>Contains 1 unread item</value>
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
+    <value>1 okunmamış öğe içerir</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
-    <value>Contains no unread items</value>
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
+    <value>Okunmamış öğe yok</value>
   </data>
-	<data name="Certificate_SelectionDialog_Title" space="preserve">
-    <value>Select a X509 Client Certificate</value>
+  <data name="Certificate_SelectionDialog_Title" xml:space="preserve">
+    <value>Bir X509 Güvenlik Sertifikası seçin</value>
   </data>
-	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
-    <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
+  <data name="Certificate_ForFeedSiteRequired_Message" xml:space="preserve">
+    <value>'{0}' kaynağına erişim için güvenlik sertifikası gerekiyor. Lütfen sisteminizde kurulu bir sertifika seçin.</value>
   </data>
-	<data name="Certificate_SelectionDialog_Message" space="preserve">
-    <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+  <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
+    <value>Seçili kaynakta kullanmak üzere aşağıdaki sertifikalardan birini seçin:</value>
   </data>
-	</root>
+</root>

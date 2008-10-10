@@ -141,10 +141,10 @@
     <value>Podcast'lerin indirileceği klasörü belirlemek için tıklayın</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
-    <value>Windows Media Player playlist</value>
+    <value>Windows Media Player listesi</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
-    <value>iTunes playlist</value>
+    <value>iTunes listesi</value>
   </data>
   <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
     <value>Bu klasör:</value>
@@ -209,7 +209,7 @@
     <value>&amp;OPML</value>
   </data>
   <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
-    <value>From Feed Source</value>
+    <value>Haber Kaynağından</value>
   </data>
   <data name="ExportFeedsDialog_Text" xml:space="preserve">
     <value>Beslemeleri İhraç Et</value>
@@ -221,19 +221,19 @@
     <value>(Outline Processor Markup Language) Biçimi</value>
   </data>
   <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Kimlik Bilgileri</value>
   </data>
   <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
-    <value>Feed Source Name:</value>
+    <value>Haber Kaynağı Adı:</value>
   </data>
   <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
-    <value>Password:</value>
+    <value>Şifre:</value>
   </data>
   <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
-    <value>Username:</value>
+    <value>Kullanıcı Adı:</value>
   </data>
   <data name="FeedSourceProperties_Title" xml:space="preserve">
-    <value>Feed Source Properties</value>
+    <value>Haber Kaynağı Özellikleri</value>
   </data>
   <data name="ComboMaxItemAge_Item" xml:space="preserve">
     <value>1 Gün</value>
@@ -358,16 +358,16 @@
   <data name="FeedProperties_Text" xml:space="preserve">
     <value>Besleme Özellikleri</value>
   </data>
-<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
-    <value>Remove an assigned client certificate...</value>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>Kullanılan güvenlik sertifikasını sil...</value>
   </data>
-	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
-    <value>Select a client certificate...</value>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>Güvenlik sertifikası seç...</value>
   </data>
-	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
-    <value>Client Certificate</value>
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
+    <value>Güvenlik Sertifikası</value>
   </data>
-	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
-    <value>View the assigned client certificate...</value>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>Kullanılan güvenlik sertifikasına gözat...</value>
   </data>
-	</root>
+</root>

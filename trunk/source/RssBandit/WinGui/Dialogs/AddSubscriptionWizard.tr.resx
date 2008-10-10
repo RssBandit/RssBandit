@@ -500,12 +500,12 @@
     <value>Otomatik olarak bul</value>
   </data>
   <data name="lblSyndic8Help.Text" xml:space="preserve">
-    <value>Syndic8</value>
+    <value>Grupla</value>
   </data>
   <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
-    <value>The canonicalized URL we will use</value>
+    <value>Kullanılacak standart URL</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>Haber Kaynağı:</value>
   </data>
 </root>
