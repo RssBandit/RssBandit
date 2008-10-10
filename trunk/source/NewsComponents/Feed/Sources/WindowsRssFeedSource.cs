@@ -1525,6 +1525,11 @@ namespace NewsComponents.Feed
         /// </summary>
         private static readonly ILog _log = Log.GetLogger(typeof(WindowsRssNewsItem));
 
+        /// <summary>
+        /// This is the default DateTime used by the Windows RSS platform to indicate that no pubdate was found on the item. 
+        /// </summary>
+        private static DateTime NoPubDate = new DateTime(1899, 12, 30); 
+
         #endregion 
 
           #region destructor and IDisposable implementation 
@@ -1705,7 +1710,7 @@ namespace NewsComponents.Feed
             {
                 try
                 {
-                    return myitem.PubDate;
+                    return myitem.PubDate.Equals(NoPubDate) ? myitem.LastDownloadTime : myitem.PubDate;
                 }
                 catch (Exception e) /* thrown if Windows RSS platform can't parse the date */
                 {
