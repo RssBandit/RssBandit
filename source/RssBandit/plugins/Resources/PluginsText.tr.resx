@@ -60,127 +60,147 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-		<xsd:complexType>
-		<xsd:choice maxOccurs="unbounded">
-				 <xsd:element name="data">
-						  <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-		</xsd:complexType>
-		</xsd:element>
-		<xsd:element name="resheader">
-				 <xsd:complexType>
-		<xsd:sequence>
-		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-		</xsd:sequence>
-		<xsd:attribute name="name" type="xsd:string" use="required" />
-		</xsd:complexType>
-		</xsd:element>
-		</xsd:choice>
-		</xsd:complexType>
-		</xsd:element></xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.0.0.0</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RES_MenuEmailThisCaption">
+  <data name="RES_MenuEmailThisCaption" xml:space="preserve">
     <value>Eposta ile gönder...</value>
   </data>
-  <data name="RES_MenuDeliciousCaption">
+  <data name="RES_MenuDeliciousCaption" xml:space="preserve">
     <value>del.icio.us 'a gönder</value>
   </data>
-  <data name="RES_MenuWBloggarCaption">
+  <data name="RES_MenuWBloggarCaption" xml:space="preserve">
     <value>W::Bloggar kullanarak 'Blog' la...</value>
   </data>
-  <data name="RES_ExceptionWBloggarNotFound">
+  <data name="RES_ExceptionWBloggarNotFound" xml:space="preserve">
     <value>w::bloggar için hiçbir Kayıt Defteri ayarı yapılmamış. Bu özelliğin çalışması için lütfen http://www.bloggar.com 'dan w::bloggar 'ı yükleyin.</value>
   </data>
-  <data name="RES_DeliciousIncompleteSubmissionTitle">
+  <data name="RES_DeliciousIncompleteSubmissionTitle" xml:space="preserve">
     <value>Tamamlanmamış gönderi</value>
   </data>
-  <data name="RES_DeliciousIncompleteSubmissionMessage">
+  <data name="RES_DeliciousIncompleteSubmissionMessage" xml:space="preserve">
     <value>Metin alanlarından biri doldurulmamış.</value>
   </data>
-  <data name="RES_DeliciousFormTags">
+  <data name="RES_DeliciousFormTags" xml:space="preserve">
     <value>&amp;Etiketler</value>
   </data>
-  <data name="RES_DeliciousFormUrl">
+  <data name="RES_DeliciousFormUrl" xml:space="preserve">
     <value>&amp;Adres</value>
   </data>
-  <data name="RES_DeliciousFormDescription">
+  <data name="RES_DeliciousFormDescription" xml:space="preserve">
     <value>&amp;Tanımlama</value>
   </data>
-  <data name="RES_DeliciousFormCancel">
+  <data name="RES_DeliciousFormCancel" xml:space="preserve">
     <value>Vazgeç</value>
   </data>
-  <data name="RES_DeliciousFormPost">
+  <data name="RES_DeliciousFormPost" xml:space="preserve">
     <value>Gönder</value>
   </data>
-  <data name="RES_DeliciousFormOk">
+  <data name="RES_DeliciousFormOk" xml:space="preserve">
     <value>Tamam</value>
   </data>
-  <data name="RES_DeliciousFormAuthentication">
+  <data name="RES_DeliciousFormAuthentication" xml:space="preserve">
     <value>Kimlik Doğrulama</value>
   </data>
-  <data name="RES_DeliciousFormPassword">
+  <data name="RES_DeliciousFormPassword" xml:space="preserve">
     <value>&amp;Parola</value>
   </data>
-  <data name="RES_DeliciousFormUsername">
+  <data name="RES_DeliciousFormUsername" xml:space="preserve">
     <value>&amp;Kullanıcı Adı</value>
   </data>
-  <data name="RES_DeliciousFormApiUrl">
+  <data name="RES_DeliciousFormApiUrl" xml:space="preserve">
     <value>&amp;del.icio.us API URL</value>
   </data>
-  <data name="RES_DeliciousFormConfiguration">
+  <data name="RES_DeliciousFormConfiguration" xml:space="preserve">
     <value>Del.icio.us Eklenti Yapılandırması</value>
   </data>
-  <data name="RES_MenuSendToOneNoteCaption">
+  <data name="RES_MenuSendToOneNoteCaption" xml:space="preserve">
     <value>OneNote'a gönder...</value>
   </data>
-  <data name="RES_MenuSendToOneNoteConfigCaption">
+  <data name="RES_MenuSendToOneNoteConfigCaption" xml:space="preserve">
     <value>OneNote Eklenti Yapılandırması...</value>
   </data>
-  <data name="RES_MenuLiveWriterCaption">
+  <data name="RES_MenuLiveWriterCaption" xml:space="preserve">
     <value>Windows Live Writer kullanarak 'Blog' la...</value>
   </data>
-  <data name="RES_ExceptionLiveWriterNotFound">
+  <data name="RES_ExceptionLiveWriterNotFound" xml:space="preserve">
     <value>Windows Live Writer için hiçbir Kayıt Defteri ayarı yapılmamış. Bu özelliğin çalışması için lütfen http://ideas.live.com'dan Windows Live Writer'ı yükleyin.</value>
   </data>
-<data name="RES_MenuTwitterCaption" space="preserve">
-    <value>Post to Twitter</value>
+  <data name="RES_MenuTwitterCaption" xml:space="preserve">
+    <value>Twitter'a gönder</value>
   </data>
-	<data name="RES_MenuTwitterFormConfiguration" space="preserve">
-    <value>Twitter Plugin Configuration...</value>
+  <data name="RES_MenuTwitterFormConfiguration" xml:space="preserve">
+    <value>Twitter Eklenti Ayarları...</value>
   </data>
-	<data name="RES_TwitterApiUrl" space="preserve">
+  <data name="RES_TwitterApiUrl" xml:space="preserve">
     <value>&amp;Twitter API URL</value>
   </data>
-	<data name="RES_TwitterFormCount" space="preserve">
+  <data name="RES_TwitterFormCount" xml:space="preserve">
     <value>140</value>
   </data>
-	<data name="RES_TwitterIncompleteSubmissionMessage" space="preserve">
-    <value>Empty Message Body</value>
+  <data name="RES_TwitterIncompleteSubmissionMessage" xml:space="preserve">
+    <value>Mesaj İçeriği Boş</value>
   </data>
-	<data name="RES_ExceptionOneNoteBadConfigurationFileFormat" space="preserve">
-    <value>There was an error loading configuration from '{0}': 
-{1}</value>
-   </data>
-	<data name="RES_ExceptionOneNoteWritingConfigurationFile" space="preserve">
-    <value>There was an error writing configuration file '{0}': 
+  <data name="RES_ExceptionOneNoteBadConfigurationFileFormat" xml:space="preserve">
+    <value>Yapılandırma dosyası '{0}' yüklenirken hata oluştu:
 {1}</value>
   </data>
-	</root>
+  <data name="RES_ExceptionOneNoteWritingConfigurationFile" xml:space="preserve">
+    <value>Yapılandırma dosyası '{0}' yazılırken hata oluştu: 
+{1}</value>
+  </data>
+</root>
