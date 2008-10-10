@@ -587,7 +587,7 @@
     <value>Abone listesinde besleme ikonları olarak faviconları kullan</value>
   </data>
   <data name="checkUseFavicons.ToolTip" xml:space="preserve">
-    <value>Tıklandığında abone listesinde beslemelerin sembolü olarak web sitelerinin faviconu kullanılır</value>
+    <value>Seçildiğinde, abone listesinde kaynakların sembolü olarak web sitelerinin faviconu kullanılır</value>
     <comment>CHANGED</comment>
   </data>
   <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
@@ -648,33 +648,33 @@
     <value>Yeni Yorumlar (Takip Edilen)</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
-    <value>Automatically mark news items as read when viewed</value>
+    <value>Gözatıltığında haber öğelerini otomatikman okundu olarak işaretle</value>
   </data>
   <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
-    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+    <value>Seçildiğinde, okuma panosunu kaydırdıkça haber öğeleri otomatikman okundu olarak işaretlenir</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>news items per page</value>
+    <value>her sayfadaki haber öğesi</value>
   </data>
   <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>The number of news items that should be shown in the reading pane per page</value>
+    <value>Okuma panosunun her sayfasında gösterılecek haber öğe sayısı</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
-    <value>Show only </value>
+    <value>En fazla gösterilecek öğe</value>
   </data>
   <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
-    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+    <value>Seçildiğinde, okuma panosu herbiri belirlenen sayıda haber içeren sayfalara bölünür</value>
   </data>
   <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
-    <value>Clear all individual feed and category Item Age settings</value>
+    <value>Tüm kaynak ve kategori saklama süre ayarlarını sil</value>
   </data>
   <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
-    <value>Reset all individual feed and category Refresh Rate settings</value>
+    <value>Tüm kaynak ve kategori tazeleme sıklığı ayarlarını sil</value>
   </data>
   <data name="comboRefreshRate.ToolTip" xml:space="preserve">
-    <value>Changes refresh rate setting for all feeds</value>
+    <value>Tüm kaynaklar için varsayılan tazeleme sıklığı ayarlarını değiştirir</value>
   </data>
   <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
-    <value>Changes default item age setting for all feeds</value>
+    <value>Tüm kaynaklar için varsayılan saklama süre ayarlarını değiştirir</value>
   </data>
 </root>
