@@ -3750,7 +3750,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                if (!listFeedItems.Focused)
+                if (!listFeedItems.Focused && !listFeedItemsO.Visible)
                     return;
 
 #if TRACE_WIN_MESSAGES				
