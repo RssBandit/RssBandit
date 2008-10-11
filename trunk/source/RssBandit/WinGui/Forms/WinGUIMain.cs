@@ -1120,6 +1120,7 @@ namespace RssBandit.WinGui.Forms
 			this.listFeedItemsO.Size = new System.Drawing.Size(287, 100);
 			this.listFeedItemsO.TabIndex = 1;
 			this.listFeedItemsO.Visible = false;
+            this.listFeedItemsO.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
 			// 
 			// listFeedItems
 			// 
