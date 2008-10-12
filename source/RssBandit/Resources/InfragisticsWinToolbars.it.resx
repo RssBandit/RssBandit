@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+            Microsoft ResX Schema 
+        
+            Version 2.0
+                
+            The primary goals of this format is to allow a simple XML format 
+            that is mostly human readable. The generation and parsing of the 
+            various data types are done through the TypeConverter classes 
+            associated with the data types.
+        
+            Example:
+        
+                ... ado.net/XML headers & schema ...
+                <resheader name="resmimetype">text/microsoft-resx</resheader>
+                <resheader name="version">2.0</resheader>
+                <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+                <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+                <data name="Name1">this is my long string</data>
+                <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+                <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+                    [base64 mime encoded serialized .NET Framework object]
+                </data>
+                <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+                    [base64 mime encoded string representing a byte array form of the .NET Framework object]
+                </data>
+        
+            There are any number of "resheader" rows that contain simple 
+            name/value pairs.
+            
+            Each data row contains a name, and value. The row also contains a 
+            type or mimetype. Type corresponds to a .NET class that support 
+            text/value conversion through the TypeConverter architecture. 
+            Classes that don't support this are serialized and stored with the 
+            mimetype set.
+                     
+            The mimetype is used for serialized objects, and tells the 
+            ResXResourceReader how to depersist the object. This is currently not 
+            extensible. For a given mimetype the value must be set accordingly:
+        
+            Note - application/x-microsoft.net.object.binary.base64 is the format 
+                   that the ResXResourceWriter will generate, however the reader can 
+                   read any of the formats listed below.
+        
+            mimetype: application/x-microsoft.net.object.binary.base64
+            value   : The object must be serialized with 
+                    : System.Serialization.Formatters.Binary.BinaryFormatter
+                    : and then encoded with base64 encoding.
+        
+            mimetype: application/x-microsoft.net.object.soap.base64
+            value   : The object must be serialized with 
+                    : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+                    : and then encoded with base64 encoding.
+            mimetype: application/x-microsoft.net.object.bytearray.base64
+            value   : The object must be serialized into a byte array 
+                    : using a System.ComponentModel.TypeConverter
+                    : and then encoded with base64 encoding.
+        -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CustomizeDlgAddCommand_Categories">
+    <value>Categorie:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Close">
+    <value>Chiudi</value>
+  </data>
+  <data name="TaskPaneForwardButtonToolTip">
+    <value>Avanti</value>
+  </data>
+  <data name="CustomizeDialog_Enabled">
+    <value>Abilitato</value>
+  </data>
+  <data name="CustomizeDialog_New">
+    <value>&amp;Nuovo...</value>
+  </data>
+  <data name="AddRemoveButtons">
+    <value>&amp;Aggiungi o Rimuovi Bottoni</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Toolbar">
+    <value>BarraS&amp;trumenti:</value>
+  </data>
+  <data name="CustomizeDialog_Image">
+    <value>&amp;Immagine</value>
+  </data>
+  <data name="CustomizeDialog_EnabledVisible">
+    <value>Abilitato, Visibile</value>
+  </data>
+  <data name="CustomDlgNewToolBarCancel">
+    <value>Annulla</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete">
+    <value>&amp;Cancella</value>
+  </data>
+  <data name="CustomizeDialog_RenameAmp">
+    <value>&amp;Rinomina...</value>
+  </data>
+  <data name="CustomizeDlgNewToolKey">
+    <value>&amp;Codice</value>
+  </data>
+  <data name="CustomizeDialog_ToolbarsList">
+    <value>B&amp;arre Strumenti:</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove">
+    <value>&amp;Rimuovi</value>
+  </data>
+  <data name="MdiCommandArrangeIcons">
+    <value>&amp;Disponi Icone</value>
+  </data>
+  <data name="CustomizeDialog_Commands">
+    <value>Comandi</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteralNone">
+    <value>Nessuno</value>
+  </data>
+  <data name="ExistingToolDlg_Category">
+    <value>&amp;Categoria</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp">
+    <value>M&amp;uovi Su</value>
+  </data>
+  <data name="CustomizeDlgCopyButtonImage">
+    <value>&amp;Copia Immagine Bottone</value>
+  </data>
+  <data name="CustomizeDialog_Milliseconds">
+    <value>milisecondi</value>
+  </data>
+  <data name="CustomizeDlgKbdDesc">
+    <value>Descrizione</value>
+  </data>
+  <data name="CustomizeDlgNewToolCategory">
+    <value>&amp;Categoria</value>
+  </data>
+  <data name="DefaultAction_Popup_Closed">
+    <value>Apri</value>
+  </data>
+  <data name="MoreWindowsDlgClose">
+    <value>&amp;Chiudi</value>
+  </data>
+  <data name="Customize">
+    <value>&amp;Personalizza...</value>
+  </data>
+  <data name="PopupMenuDesigner_NewMenu">
+    <value>Nuovo...</value>
+  </data>
+  <data name="CustomizeDialog_CaptionCategoryKey">
+    <value>&amp;Descrizione, Categoria, Codice</value>
+  </data>
+  <data name="MoreWindowsDlgActivate">
+    <value>&amp;Attivazione</value>
+  </data>
+  <data name="CustomizeDialog_CategoriesMidAmp">
+    <value>Cate&amp;gorie:</value>
+  </data>
+  <data name="CustomizeDialog_Other">
+    <value>Altro</value>
+  </data>
+  <data name="CustomizeDialog_Rename">
+    <value>&amp;Rinomina...</value>
+  </data>
+  <data name="CustomizeDlgKbdCat">
+    <value>&amp;Categorie:</value>
+  </data>
+  <data name="CustomizeDialog_Import">
+    <value>Importa..</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain">
+    <value>Personalizza</value>
+  </data>
+  <data name="CustomizeMenuAnimationNone">
+    <value>Nessuno</value>
+  </data>
+  <data name="CustomizeDlgKbdCmd">
+    <value>C&amp;omandi:</value>
+  </data>
+  <data name="CustomizeDialog_Toolbars">
+    <value>Barre Strumenti</value>
+  </data>
+  <data name="DefaultAction_ButtonTool_On_Toolbar">
+    <value>Premi</value>
+  </data>
+  <data name="ExistingToolDlg_Insert">
+    <value>&amp;Inserisci</value>
+  </data>
+  <data name="CustomizeDialog_Options">
+    <value>Opzioni</value>
+  </data>
+  <data name="CustomizeDialog_Delete">
+    <value>&amp;Elimina...</value>
+  </data>
+  <data name="CustomizeDlgName">
+    <value>&amp;Nome:</value>
+  </data>
+  <data name="CustomizeDialog_CommandsEndAmp">
+    <value>Coman&amp;di</value>
+  </data>
+  <data name="CustomizeDialog_Description">
+    <value>Descrizione</value>
+  </data>
+  <data name="CustomizeDialog_Visible">
+    <value>Visibile</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Cancel">
+    <value>Annulla</value>
+  </data>
+  <data name="TaskPaneBackButtonToolTip">
+    <value>Indietro</value>
+  </data>
+  <data name="CustomizeDialog_Caption">
+    <value>Descrizione</value>
+  </data>
+  <data name="ToolbarCloseButtonToolTip">
+    <value>Chiudi</value>
+  </data>
+  <data name="CustomizeDlgDelete">
+    <value>&amp;Cancella</value>
+  </data>
+  <data name="CustomizeDlgEditButtonImage">
+    <value>&amp;Modifica Immagine Bottone...</value>
+  </data>
+  <data name="DefaultAction_Popup_Opened">
+    <value>Chiudi</value>
+  </data>
+  <data name="CustomizeDialog_Tools">
+    <value>Strumenti</value>
+  </data>
+  <data name="CustomizeShortcutNoneLiteral">
+    <value>Nessuno</value>
+  </data>
+  <data name="CustomizeDlgNewToolCaption">
+    <value>&amp;Descrizione</value>
+  </data>
+  <data name="CustomizeDlgNewToolAdd">
+    <value>Aggiungi</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add">
+    <value>&amp;Aggiungi...</value>
+  </data>
+  <data name="CustomizeDialog_CloseNoAmp">
+    <value>Chiudi</value>
+  </data>
+  <data name="CustomizeDialog_NewBeginAmp">
+    <value>&amp;Nuovo</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Commands">
+    <value>&amp;Comandi:</value>
+  </data>
+  <data name="CustomizeDialog_DeleteTool">
+    <value>&amp;Cancella Strumento...</value>
+  </data>
+  <data name="MoreWindowsDlgCloseWindows">
+    <value>&amp;Chiudi Finestra(e)</value>
+  </data>
+  <data name="CustomizeDialog_Key">
+    <value>Codice</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown">
+    <value>&amp;Muovi Sotto</value>
+  </data>
+  <data name="MoreItemsDlgClose">
+    <value>&amp;Chiudi</value>
+  </data>
+  <data name="LockToolbars">
+    <value>B&amp;locca Barre Strumenti</value>
+  </data>
+  <data name="CustomizeDialog_Category">
+    <value>Categoria</value>
+  </data>
+  <data name="ExistingToolDlg_Close">
+    <value>&amp;Chiudi</value>
+  </data>
+  <data name="CustomDlgNewToolBarLocation">
+    <value>Posizione:</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Commands">
+    <value>Comandi:</value>
+  </data>
+  <data name="MoreWindowsDlgArrangeIcons">
+    <value>Disponi Icone</value>
+  </data>
+  <data name="TaskPaneNextButtonToolTip">
+    <value>Prossimo</value>
+  </data>
+  <data name="TaskPanePreviousButtonToolTip">
+    <value>Precedente</value>
+  </data>
+  <data name="CustomizeDlgSelectControlMenu">
+    <value>Controllo</value>
+  </data>
+  <!-- JAS v5.3 SmartTags 7/14/05 START -->
+  <!-- JAS v5.3 SmartTags 7/14/05 END -->
+</root>

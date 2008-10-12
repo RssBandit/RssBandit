@@ -342,6 +342,115 @@
     <Content Include="Media\New Feed Items Received.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\InfragisticsShared.de.resx" >
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.es.resx"  >
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.fr.resx"  >
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.it.resx"  >
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsShared.zh-CHS.resx"  >
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.de.resx"  >
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.es.resx" >
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.fr.resx" >
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.it.resx" >
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWin.zh-CHS.resx" >
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.de.resx" >
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.es.resx" >
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.fr.resx" >
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.it.resx" >
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.zh-CHS.resx" >
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.de.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.es.resx" >
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.fr.resx" >
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.it.resx" >
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.zh-CHS.resx" >
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.de.resx" >
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.es.resx" >
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.fr.resx" >
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.it.resx" >
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.zh-CHS.resx" >
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\TreeImages.png" />
     <EmbeddedResource Include="Resources\AllToolImages.png" />
     <EmbeddedResource Include="Resources\ListImages.png" />
@@ -1774,6 +1883,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\ResourceInfragistics.cs" />
     <Compile Include="Resources\SR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
