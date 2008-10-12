@@ -166,6 +166,9 @@
     <Compile Include="..\Common\UriHelper.cs">
       <Link>UriHelper.cs</Link>
     </Compile>
+    <Compile Include="..\Common\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Collections\DisposableItemCollection.cs" />
     <Compile Include="Collections\FeedsCollection.cs">
       <SubType>Code</SubType>
@@ -382,9 +385,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utils\StringHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Xml\Namespaces.cs">
