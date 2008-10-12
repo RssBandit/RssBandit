@@ -585,6 +585,7 @@ namespace RssBandit
             _dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             _dispatcherThread.Start();
 
+			ResourceInfragistics.TranslateAll();
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
 
             GuiInvoker.Initialize();
