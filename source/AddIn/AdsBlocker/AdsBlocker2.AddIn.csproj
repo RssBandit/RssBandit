@@ -90,9 +90,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RssBandit.AppServices, Version=1.7.0.0, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=x86">
+    <Reference Include="RssBandit.AppServices, Version=1.8.0.0, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\RssBandit.AppServices.dll</HintPath>
+      <HintPath>..\..\RssBandit.AppServices\bin\Release\RssBandit.AppServices.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

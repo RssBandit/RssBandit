@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitter", "RssBandit\plugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNote", "RssBandit\plugins\OneNote\OneNote.csproj", "{BA2ADD22-E076-48C9-8DA1-1811DB230169}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdsBlocker2.AddIn", "AddIn\AdsBlocker\AdsBlocker2.AddIn.csproj", "{E0DCA353-A72C-467F-AEB6-E81230185475}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,12 @@ Global
 		{BA2ADD22-E076-48C9-8DA1-1811DB230169}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA2ADD22-E076-48C9-8DA1-1811DB230169}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA2ADD22-E076-48C9-8DA1-1811DB230169}.Release|x86.Build.0 = Release|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0DCA353-A72C-467F-AEB6-E81230185475}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
