@@ -318,9 +318,6 @@
     </None>
     <None Include="app.config">
     </None>
-    <Compile Include="..\Common\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
-    </Compile>
     <Compile Include="Converters\BytesToMegabytesConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\FileNameToIconConverter.cs" />
@@ -1807,6 +1804,10 @@
       <Link>Log.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\Common\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="..\Common\ProfilerHelper.cs">
       <Link>ProfilerHelper.cs</Link>
       <SubType>Code</SubType>
@@ -1891,10 +1892,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="VersionInfo.cs">
-      <Link>..\Common\VersionInfo.cs</Link>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web References\CLR20.DasBlog\Reference.cs">
       <AutoGen>True</AutoGen>
