@@ -461,6 +461,7 @@
     <None Include="Resources\subscriptions_folder_32.png" />
     <None Include="Resources\New_Certificate_16.png" />
     <None Include="Resources\View_Certificate_16.png" />
+    <Resource Include="Resources\error.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
