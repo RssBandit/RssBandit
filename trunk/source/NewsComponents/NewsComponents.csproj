@@ -324,6 +324,11 @@
     <Compile Include="Search\RssSearch.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
     <Compile Include="Storage\DataServiceFactory.cs" />
     <Compile Include="Storage\IInitDataService.cs" />
     <Compile Include="Storage\DataServiceBase.cs">
@@ -494,6 +499,10 @@
     <EmbeddedResource Include="Resources\xhtml-symbol.ent" />
     <EmbeddedResource Include="Resources\xhtml1-strict.dtd" />
     <EmbeddedResource Include="Resources\xhtml1-transitional.dtd" />
+    <EmbeddedResource Include="SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">

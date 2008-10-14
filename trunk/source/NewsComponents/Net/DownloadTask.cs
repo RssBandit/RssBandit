@@ -123,6 +123,18 @@ namespace NewsComponents.Net
             }
         }
 
+        private string _errorText;
+        public string ErrorText
+        {
+            get { return _errorText; }
+
+            set
+            {
+                _errorText = value;
+                RaisePropertyChanged("ErrorText");
+            }
+        }
+
         public DateTime CreatedDate
         {
             get
@@ -249,6 +261,7 @@ namespace NewsComponents.Net
             FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
             _createDate = TimeZoneInfo.ConvertTime((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
             _fileName = (string)reader.GetValue("_fileName", typeof(string), null);
+            _errorText = (string)reader.GetValue("_errorText", typeof(string), null);
 
             if (reader.Contains("_downloadFilesBase"))
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
@@ -273,6 +286,7 @@ namespace NewsComponents.Net
             info.AddValue("_fileSize", FileSize);
             info.AddValue("_createDate", TimeZoneInfo.ConvertTimeToUtc(_createDate));
             info.AddValue("_fileName", _fileName);
+            info.AddValue("_errorText", _errorText);
         }
 
         #endregion
