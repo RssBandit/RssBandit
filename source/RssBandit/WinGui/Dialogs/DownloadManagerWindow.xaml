@@ -107,6 +107,40 @@
                 <TextBlock Grid.Column="2" HorizontalAlignment="Right" Text="{Binding Path=CreatedDate, Mode=OneWay}" />
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="error">
+            <Grid Margin="2,2,2,2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32px" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="3" ToolTip="{Binding Path=ErrorText}">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource fileNameToIcon}">
+                            <Binding Path="FileName" />
+                            <Binding Path="State" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+
+                <TextBlock Grid.Column="1" >
+                            <Hyperlink NavigateUri="{Binding Path=FileName}" ToolTip="{Binding Path=FileName}" >
+                                <Hyperlink.Inlines>
+                                    <TextBlock Text="{Binding Path=DownloadItem.File.LocalName}" />
+                                </Hyperlink.Inlines>
+                                
+                            </Hyperlink>
+                        </TextBlock>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Text="{Binding Path=CreatedDate, Mode=OneWay}" />
+
+
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
         <Grid.RowDefinitions>
@@ -143,6 +177,10 @@
 
                                 <DataTrigger  Binding="{Binding Path=State}" Value="Pending">
                                     <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource pending}" />
+                                </DataTrigger>
+                                
+                                <DataTrigger  Binding="{Binding Path=State}" Value="DownloadError">
+                                    <Setter TargetName="cp" Property="ContentTemplate" Value="{StaticResource error}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
 
