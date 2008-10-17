@@ -371,6 +371,6 @@
     <value>L'URL canonicalizzato che verrà usato</value>
   </data>
   <data name="lblFeedSources.Text" xml:space="preserve">
-    <value>Subscription Source:</value>
+    <value>Fonte sottoscrizione:</value>
   </data>
 </root>
