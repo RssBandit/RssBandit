@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -111,4 +111,73 @@
   <data name="NewKeyedSubObjectDialog_Cancel">
     <value>Annuler</value>
   </data>
-</root>
+<data name="UltraPropertyPageDialogButtonOk">
+		<value>&amp;OK</value>
+	</data>
+	<data name="UltraPropertyPageDialogTitle">
+		<value> Custom Property Pages</value>
+	</data>
+	<data name="PropertySetErrorCaption">
+		<value>Error setting property</value>
+	</data>
+	<data name="TypeDesc_U16">
+		<value>16 bit unsigned integer</value>
+	</data>
+	<data name="TypeDesc_Byte">
+		<value>Byte</value>
+	</data>
+	<data name="TypeDesc_I64">
+		<value>64 bit signed integer (Long)</value>
+	</data>
+	<data name="TypeDesc_I32">
+		<value>32 bit signed integer (Int)</value>
+	</data>
+	<data name="TypeDesc_U32">
+		<value>32 bit unsigned integer</value>
+	</data>
+	<data name="TypeDesc_Char">
+		<value>Character</value>
+	</data>
+	<data name="TypeDesc_I16">
+		<value>16 bit signed integer</value>
+	</data>
+	<data name="TypeDesc_String">
+		<value>String</value>
+	</data>
+	<data name="TypeDesc_Single">
+		<value>Single (floating point)</value>
+	</data>
+	<data name="TypeDesc_U64">
+		<value>64 bit unsigned integer</value>
+	</data>
+	<data name="TypeDesc_Double">
+		<value>Double (floating point)</value>
+	</data>
+	<data name="TypeDesc_DBNull">
+		<value>DBNull</value>
+	</data>
+	<data name="TypeDesc_SByte">
+		<value>Byte (signed)</value>
+	</data>
+	<data name="TypeDesc_Null">
+		<value>(null)</value>
+	</data>
+	<data name="TypeDesc_DateTime">
+		<value>DateTime</value>
+	</data>
+	<data name="TypeDesc_Boolean">
+		<value>Boolean</value>
+	</data>
+	<data name="NewKeyedSubObjectDialog_Title">
+		<value>New {0}</value>
+	</data>
+	<data name="NewKeyedSubObjectDialog_Ok">
+		<value>OK</value>
+	</data>
+	<data name="NewKeyedSubObjectDialog_EnterKeyLabel">
+		<value>&amp;Enter Key:</value>
+	</data>
+	<data name="TransactionDescription_CustomPropertyPages">
+		<value>Custom Property Pages</value>
+	</data>
+	</root>

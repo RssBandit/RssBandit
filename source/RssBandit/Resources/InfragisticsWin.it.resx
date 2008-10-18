@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -795,4 +795,49 @@
   <data name="ImageBackgroundStretchMarginsPreview_DialogTitle">
     <value>Ridimensiona questa finestra per vedere l'effetto sull'immagine impostata</value>
   </data>
-</root>
+<data name="LC_Mouse">
+		<value>Mouse</value>
+	</data>
+	<data name="UltraCalc_StatusCode_Calculating">
+		<value>#Calculating</value>
+	</data>
+	<data name="TypeDesc_Byte">
+		<value>Byte</value>
+	</data>
+	<data name="CustomColorEditToolTip18">
+		<value>Lime</value>
+	</data>
+	<data name="DialogOK">
+		<value>OK</value>
+	</data>
+	<data name="TypeDesc_Null">
+		<value>(null)</value>
+	</data>
+	<data name="ColorEditorTabWeb">
+		<value>Web</value>
+	</data>
+	<data name="TypeDesc_DBNull">
+		<value>DBNull</value>
+	</data>
+	<data name="UltraCalc_ErrorCode_Syntax">
+		<value>#Syntax</value>
+	</data>
+	<data name="CustomColorEditToolTip6">
+		<value>Indigo</value>
+	</data>
+	<data name="TypeDesc_DateTime">
+		<value>DateTime</value>
+	</data>
+	<data name="CustomColorEditToolTip20">
+		<value>Aqua</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_btnOK">
+		<value>&amp;OK</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_OK">
+		<value>OK</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_EditBox_FontName">
+    <value></value>
+  </data>
+	</root>

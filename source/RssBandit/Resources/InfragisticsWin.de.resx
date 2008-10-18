@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -723,4 +723,121 @@
   <data name="ImageBackgroundStretchMarginsPreview_DialogTitle">
     <value>Bestimmt die Grösse dieses Dialogs neu um eine Vorschau Ihres vergrösserten Bildes zu zeigen.</value>
   </data>
-</root>
+<data name="CustomColorEditToolTip30">
+		<value>Plum</value>
+	</data>
+	<data name="CustomColorEditToolTip33">
+		<value>Tan</value>
+	</data>
+	<data name="TypeDesc_U16">
+		<value>16 bit unsigned integer</value>
+	</data>
+	<data name="TypeDesc_Byte">
+		<value>Byte</value>
+	</data>
+	<data name="CustomColorEditToolTip18">
+		<value>Lime</value>
+	</data>
+	<data name="TypeDesc_I32">
+		<value>32 bit signed integer (Int)</value>
+	</data>
+	<data name="TypeDesc_U32">
+		<value>32 bit unsigned integer</value>
+	</data>
+	<data name="DialogOK">
+		<value>OK</value>
+	</data>
+	<data name="AccessibleNameScrollbarThumb_Vert">
+		<value>Position</value>
+	</data>
+	<data name="TypeDesc_I16">
+		<value>16 bit signed integer</value>
+	</data>
+	<data name="TypeDesc_I64">
+		<value>64 bit signed integer (Long)</value>
+	</data>
+	<data name="LC_Layout Info">
+		<value>Layout Info</value>
+	</data>
+	<data name="TypeDesc_U64">
+		<value>64 bit unsigned integer</value>
+	</data>
+	<data name="ColorEditorTabWeb">
+		<value>Web</value>
+	</data>
+	<data name="LE_System.ArgumentNullException_10">
+		<value>Control</value>
+	</data>
+	<data name="LDR_CustomColorBoxUIElement_Transparent">
+		<value>Transparent</value>
+	</data>
+	<data name="TypeDesc_Double">
+		<value>Double (floating point)</value>
+	</data>
+	<data name="TypeDesc_DBNull">
+		<value>DBNull</value>
+	</data>
+	<data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_LocaleID">
+		<value>Locale ID</value>
+	</data>
+	<data name="TypeDesc_SByte">
+		<value>Byte (signed)</value>
+	</data>
+	<data name="UltraCalc_ErrorCode_Syntax">
+		<value>#Syntax</value>
+	</data>
+	<data name="ColorEditorTabSystem">
+		<value>System</value>
+	</data>
+	<data name="LDR_CustomColorBoxHotTrackElement_Tip">
+		<value>CustomColorEditToolTip</value>
+	</data>
+	<data name="AccessibleNameScrollbarThumb_Horz">
+		<value>Position</value>
+	</data>
+	<data name="CustomColorEditToolTip9">
+		<value>Orange</value>
+	</data>
+	<data name="CustomColorEditToolTip6">
+		<value>Indigo</value>
+	</data>
+	<data name="TypeDesc_Single">
+		<value>Single (floating point)</value>
+	</data>
+	<data name="LC_Design">
+		<value>Design</value>
+	</data>
+	<data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_NativeName">
+		<value>Native Name</value>
+	</data>
+	<data name="CustomColorEditToolTip25">
+		<value>Gold</value>
+	</data>
+	<data name="CustomColorEditToolTip24">
+		<value>Pink</value>
+	</data>
+	<data name="CustomColorEditToolTip20">
+		<value>Aqua</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_btnOK">
+		<value>&amp;OK</value>
+	</data>
+	<data name="UltraActionListBase_P_Name_DisplayName">
+		<value>Name</value>
+	</data>
+	<data name="LC_Serialization">
+		<value>Serialization</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_ButtonStyle_DisplayName">
+		<value>Button Style</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_Dock_DisplayName">
+		<value>Dock</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_OK">
+		<value>OK</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_EditBox_FontName">
+    <value></value>
+  </data>
+	</root>

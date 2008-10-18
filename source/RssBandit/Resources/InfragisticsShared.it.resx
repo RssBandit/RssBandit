@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -162,4 +162,22 @@
   <data name="TransactionDescription_CustomPropertyPages">
     <value>Proprietà Personalizzate</value>
   </data>
-</root>
+<data name="UltraPropertyPageDialogButtonOk">
+		<value>&amp;OK</value>
+	</data>
+	<data name="TypeDesc_Byte">
+		<value>Byte</value>
+	</data>
+	<data name="TypeDesc_DBNull">
+		<value>DBNull</value>
+	</data>
+	<data name="TypeDesc_Null">
+		<value>(null)</value>
+	</data>
+	<data name="TypeDesc_DateTime">
+		<value>DateTime</value>
+	</data>
+	<data name="NewKeyedSubObjectDialog_Ok">
+		<value>OK</value>
+	</data>
+	</root>
