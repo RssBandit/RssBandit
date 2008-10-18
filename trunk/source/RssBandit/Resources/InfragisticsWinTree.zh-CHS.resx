@@ -67,20 +67,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -128,4 +128,94 @@
   <!-- BF 10/10/05	BR06895 -->
   <!-- JAS BR06191 10/11/05 -->
   <!-- BF 3/17/06	BR10661-->
-</root>
+<data name="AllNodesDelete">
+		<value>All nodes in the UltraTree will be deleted. Do you want to continue?</value>
+	</data>
+	<data name="NodePropAddSibling">
+		<value>Add &amp;Sibling</value>
+	</data>
+	<data name="NodePropAddChild">
+		<value>Add C&amp;hild</value>
+	</data>
+	<data name="BeforeNodesDeletedTitle">
+		<value>Delete UltraTreeNodes</value>
+	</data>
+	<data name="BeforeNodesDeletedMessage">
+		<value>You have selected {0} node(s) for deletion. 
+Choose Yes to delete the UltraTreeNode(s) or No to exit.</value>
+	</data>
+	<data name="SelNodeEdit">
+		<value>Select node to edit:</value>
+	</data>
+	<data name="NodeEditorTitle">
+		<value>UltraWinTree Node Editor</value>
+	</data>
+	<data name="NodePropAddRoot">
+		<value>Add &amp;Root</value>
+	</data>
+	<data name="NodePropertyEditorLabelEditMessage">
+		<value>Node Label changed.</value>
+	</data>
+	<data name="SelNodeLabel">
+		<value>Selected Node Label:</value>
+	</data>
+	<data name="NodeProperty">
+		<value>Node Property</value>
+	</data>
+	<data name="PasteErrorMessage">
+		<value>The following error was encountered while attempting to paste nodes from the clipboard:
+
+{0}</value>
+	</data>
+	<data name="PasteErrorMessageCaption">
+		<value>Paste error</value>
+	</data>
+	<data name="DefaultAction_Collapse">
+		<value>Collapse</value>
+	</data>
+	<data name="DefaultAction_Expand">
+		<value>Expand</value>
+	</data>
+	<data name="DefaultAction_EnterEditMode">
+		<value>Enter edit mode</value>
+	</data>
+	<data name="NodesCollectionEditor_CannotModifyNodes">
+		<value>The nodes collection cannot be edited when there are bound nodes in the tree.</value>
+	</data>
+	<data name="UltraTreeNodeLayoutInfo_Exception_InvalidSize">
+		<value>The specified size was invalid because it contained a width or height that is less than zero.</value>
+	</data>
+	<data name="UltraTreeNode_Exception_BringCellIntoView">
+		<value>The specified column is not associated with this node.</value>
+	</data>
+	<data name="UltraTree_Exception_ActiveCellColumnHasNoDisplayColumn">
+		<value>The ActiveCell cannot be set for an UltraTreeNodeColumn which has no corresponding display column.</value>
+	</data>
+	<data name="DataError_MessageBox_Title">
+		<value>Data Error</value>
+	</data>
+	<data name="UltraTreeNodeColumn_EditorValueInvalid">
+		<value>"Value in editor is not valid."</value>
+	</data>
+	<data name="DataErrorUnableToConvert">
+		<value>Unable to convert from: {0} to {1}</value>
+	</data>
+	<data name="UltraTree_Exception_CannotSetTopNodeToHiddenNode">
+		<value>The TopNode property cannot be set to an UltraTreeNode that is not visible in the user interface.</value>
+	</data>
+	<data name="UltraTreeNodeColumn_Exception_MaxLength">
+		<value>The 'MaxLength' property cannot be set to a value that is less than zero.</value>
+	</data>
+	<data name="InvalidEditorValue_Error_Message_Prefix">
+		<value>Unable to update the data value: </value>
+	</data>
+	<data name="InvalidEditorValue_Error_Message">
+		<value>The editor's current value is not valid.</value>
+	</data>
+	<data name="ViolatesNullable_Error_Message">
+		<value>Empty cell value not allowed in column '{0}'.</value>
+	</data>
+	<data name="Exception_CannotEditDataBoundNode">
+		<value>The 'BeginEdit' method cannot be called on a node that is bound to a data source unless the 'UseEditor' property of the associated Override is set to DefaultableBoolean.True.</value>
+	</data>
+	</root>

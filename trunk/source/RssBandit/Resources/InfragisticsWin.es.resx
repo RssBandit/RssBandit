@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -141,4 +141,703 @@
   <data name="ImageBackgroundStretchMarginsEditor_Cancel">
     <value>Cancelar</value>
   </data>
-</root>
+<data name="MaskValidationErrorInvalidDayOfMonth">
+		<value>Invalid day for the specified month of year.</value>
+	</data>
+	<data name="LC_Mouse">
+		<value>Mouse</value>
+	</data>
+	<data name="CustomColorEditToolTip38">
+		<value>Lavendar</value>
+	</data>
+	<data name="CustomColorEditToolTip39">
+		<value>White</value>
+	</data>
+	<data name="CustomColorEditToolTip36">
+		<value>Light Turquoise</value>
+	</data>
+	<data name="CustomColorEditToolTip34">
+		<value>Light Yellow</value>
+	</data>
+	<data name="CustomColorEditToolTip35">
+		<value>Light Green</value>
+	</data>
+	<data name="CustomColorEditToolTip32">
+		<value>Rose</value>
+	</data>
+	<data name="CustomColorEditToolTip7">
+		<value>Gray 80%</value>
+	</data>
+	<data name="CustomColorEditToolTip30">
+		<value>Plum</value>
+	</data>
+	<data name="CustomColorEditToolTip0">
+		<value>Black</value>
+	</data>
+	<data name="CustomColorEditToolTip3">
+		<value>Dark Green</value>
+	</data>
+	<data name="CustomColorEditToolTip2">
+		<value>Olive Green</value>
+	</data>
+	<data name="MaskValidationErrorNoInput">
+		<value>Value is not nullable. You must input a valid value.</value>
+	</data>
+	<data name="AccessibleDescScrollbarNextPage_Vert">
+		<value>Moves the vertical position down a couple of lines</value>
+	</data>
+	<data name="UltraCalc_StatusCode_Calculating">
+		<value>#Calculating</value>
+	</data>
+	<data name="AccessibleDescScrollbarThumb_Vert">
+		<value>Indicates the current vertical position, and can be dragged to change it directly</value>
+	</data>
+	<data name="IllegalOperationMessageNoNextEditSection">
+		<value>There are no more edit sections.</value>
+	</data>
+	<data name="AccessibleActionCloseUp">
+		<value>Close</value>
+	</data>
+	<data name="LC_Action">
+		<value>Action</value>
+	</data>
+	<data name="AccessibleActionSpinLast">
+		<value>Last</value>
+	</data>
+	<data name="IllegalOperationMessageNoPrevEditSection">
+		<value>There are no previous edit sections to go to.</value>
+	</data>
+	<data name="CustomColorEditToolTip8">
+		<value>Dark Red</value>
+	</data>
+	<data name="CustomColorEditToolTip22">
+		<value>Violet</value>
+	</data>
+	<data name="EditContextMenuSelectAll">
+		<value>Select All</value>
+	</data>
+	<data name="FmtPrvdrTitle">
+		<value>FormatProvider Property Editor</value>
+	</data>
+	<data name="UltraImageEditor_ResizeLossOfDataPrompt_Message">
+		<value>Resizing the image to this size will cause a loss of data</value>
+	</data>
+	<data name="CustomColorEditToolTip37">
+		<value>Pale Blue</value>
+	</data>
+	<data name="CustomColorEditToolTip33">
+		<value>Tan</value>
+	</data>
+	<data name="CustomColorEditToolTip31">
+		<value>Gray 25%</value>
+	</data>
+	<data name="CustomColorEditToolTip19">
+		<value>Sea Green</value>
+	</data>
+	<data name="CustomColorEditToolTip15">
+		<value>Gray 50%</value>
+	</data>
+	<data name="UltraCalc_Status_Calculating">
+		<value>The application is in the process of calculating this cell.</value>
+	</data>
+	<data name="AccessibleNameScrollbar_Horz">
+		<value>Horizontal scrollbar</value>
+	</data>
+	<data name="AccessibleNameValueList">
+		<value>List</value>
+	</data>
+	<data name="MaskValidationErrorInputExceedsMax">
+		<value>Input value does not satisfy maximum value constraint.</value>
+	</data>
+	<data name="AccessibleActionSpinFirst">
+		<value>First</value>
+	</data>
+	<data name="CustomColorEditToolTip23">
+		<value>Gray 40%</value>
+	</data>
+	<data name="LC_Collection">
+		<value>Collection</value>
+	</data>
+	<data name="ValueListNull">
+		<value>(none)</value>
+	</data>
+	<data name="CustomColorToolTipAutomaticColor">
+		<value>Automatic Color</value>
+	</data>
+	<data name="TypeDesc_U16">
+		<value>16 bit unsigned integer</value>
+	</data>
+	<data name="TypeDesc_Byte">
+		<value>Byte</value>
+	</data>
+	<data name="CustomColorToolTipMoreColors">
+		<value>More Colors</value>
+	</data>
+	<data name="SelectColor_DragLabel">
+		<value>[Click here and drag to any location to capture a color from the screen]</value>
+	</data>
+	<data name="IllegalOperationMessageAtLastCharacter">
+		<value>Already after the last character - there are no more characters to go to.</value>
+	</data>
+	<data name="TabManagerScrollPreviousPage">
+		<value>Previous Page</value>
+	</data>
+	<data name="LE_System.NotSupportedException_5">
+		<value>Can't Access Value when not in edit mode</value>
+	</data>
+	<data name="AccessibleNameMaskedEditSelectedText">
+		<value>Selected text</value>
+	</data>
+	<data name="CustomColorEditToolTip18">
+		<value>Lime</value>
+	</data>
+	<data name="AccessibleActionShowColorDialog">
+		<value>Show Color Dialog</value>
+	</data>
+	<data name="TypeDesc_I32">
+		<value>32 bit signed integer (Int)</value>
+	</data>
+	<data name="TypeDesc_U32">
+		<value>32 bit unsigned integer</value>
+	</data>
+	<data name="SelectColor_Saturation">
+		<value>Saturation</value>
+	</data>
+	<data name="AccessibleNameScrollbarNextPage_Horz">
+		<value>Page right</value>
+	</data>
+	<data name="EditContextMenuPaste">
+		<value>Paste</value>
+	</data>
+	<data name="LC_Appearance">
+		<value>Appearance</value>
+	</data>
+	<data name="TypeDesc_Null">
+		<value>(null)</value>
+	</data>
+	<data name="LDR_CustomColorBoxUIElement_Automatic">
+		<value>Automatic</value>
+	</data>
+	<data name="TabManagerScrollLast">
+		<value>Last</value>
+	</data>
+	<data name="AccessibleActionSpinIncrement">
+		<value>More</value>
+	</data>
+	<data name="TypeDesc_Char">
+		<value>Character</value>
+	</data>
+	<data name="FromAppearancesCollection">
+		<value>From Appearances collection (Index: {0}, Key:"{1}")</value>
+	</data>
+	<data name="EditContextMenuCut">
+		<value>Cut</value>
+	</data>
+	<data name="AccessibleNameScrollbarThumb_Vert">
+		<value>Position</value>
+	</data>
+	<data name="AccessibleActionSpinPreviousPage">
+		<value>Previous Page</value>
+	</data>
+	<data name="AccessibleDescScrollbarPrev_Vert">
+		<value>Moves the vertical position up one line</value>
+	</data>
+	<data name="SelectColor_Red">
+		<value>Red</value>
+	</data>
+	<data name="TypeDesc_I16">
+		<value>16 bit signed integer</value>
+	</data>
+	<data name="AccessibleNameScrollbarPrevPage_Horz">
+		<value>Page left</value>
+	</data>
+	<data name="TypeDesc_String">
+		<value>String</value>
+	</data>
+	<data name="TypeDesc_I64">
+		<value>64 bit signed integer (Long)</value>
+	</data>
+	<data name="MaskValidationErrorInputDoesNotMatchMask">
+		<value>Input does not match the mask.</value>
+	</data>
+	<data name="LC_Layout Info">
+		<value>Layout Info</value>
+	</data>
+	<data name="ImageEditor_ImgDimensionsWidth">
+		<value>&amp;Width:</value>
+	</data>
+	<data name="SelectColor_Title">
+		<value>Select Color</value>
+	</data>
+	<data name="TabManagerScrollNextPage">
+		<value>Next Page</value>
+	</data>
+	<data name="ImageCaptureDialogDirections">
+		<value>Click and drag to select image</value>
+	</data>
+	<data name="AccessibleActionSpinPreviousItem">
+		<value>Previous Item</value>
+	</data>
+	<data name="TypeDesc_U64">
+		<value>64 bit unsigned integer</value>
+	</data>
+	<data name="ImageEditor_ImgDimensionsHeight">
+		<value>&amp;Height:</value>
+	</data>
+	<data name="TabManagerScrollPrevious">
+		<value>Previous</value>
+	</data>
+	<data name="ColorEditorTabWeb">
+		<value>Web</value>
+	</data>
+	<data name="LE_System.ArgumentNullException_10">
+		<value>Control</value>
+	</data>
+	<data name="AccessibleActionCheck">
+		<value>Check</value>
+	</data>
+	<data name="TypeDesc_Boolean">
+		<value>Boolean</value>
+	</data>
+	<data name="IllegalOperationMessageCannotDelete">
+		<value>Cannot delete selection.</value>
+	</data>
+	<data name="AccessibleActionInkCloseUp">
+		<value>Close Ink Input Panel</value>
+	</data>
+	<data name="AccessibleDescScrollbarNextPage_Horz">
+		<value>Moves the horizontal position right a couple of columns</value>
+	</data>
+	<data name="AccessibleDescScrollbar_Horz">
+		<value>Used to change the horizontal viewing area</value>
+	</data>
+	<data name="LDR_CustomColorBoxUIElement_Transparent">
+		<value>Transparent</value>
+	</data>
+	<data name="IllegalOperationMessageCannotMoveToPrevCharacter">
+		<value>Cannot move to previous character.</value>
+	</data>
+	<data name="AccessibleActionSetIndeterminate">
+		<value>Set Indeterminate</value>
+	</data>
+	<data name="TypeDesc_Double">
+		<value>Double (floating point)</value>
+	</data>
+	<data name="AccessibleActionUncheck">
+		<value>Uncheck</value>
+	</data>
+	<data name="TypeDesc_DBNull">
+		<value>DBNull</value>
+	</data>
+	<data name="ColorEditorTabCustom">
+		<value>Custom</value>
+	</data>
+	<data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_LocaleID">
+		<value>Locale ID</value>
+	</data>
+	<data name="MaskValidationErrorInputSmallerThanMin">
+		<value>Input value does not satisfy minimum value constraint.</value>
+	</data>
+	<data name="AccessibleNameScrollbarMin_Horz">
+		<value>Left</value>
+	</data>
+	<data name="TypeDesc_SByte">
+		<value>Byte (signed)</value>
+	</data>
+	<data name="UltraCalc_ErrorCode_Syntax">
+		<value>#Syntax</value>
+	</data>
+	<data name="AccessibleDescScrollbarPrev_Horz">
+		<value>Moves the horizontal position left one column</value>
+	</data>
+	<data name="AccessibleDescScrollbarMax_Vert">
+		<value>Moves the vertical position to the bottom most location</value>
+	</data>
+	<data name="AccessibleNameScrollbarMin_Vert">
+		<value>Top</value>
+	</data>
+	<data name="AccessibleNameScrollbarPrevPage_Vert">
+		<value>Page up</value>
+	</data>
+	<data name="ColorEditorTabSystem">
+		<value>System</value>
+	</data>
+	<data name="AccessibleNameScrollbarNext_Vert">
+		<value>Line down</value>
+	</data>
+	<data name="AccessibleActionSpinDecrement">
+		<value>Less</value>
+	</data>
+	<data name="LDR_CustomColorBoxHotTrackElement_Tip">
+		<value>CustomColorEditToolTip</value>
+	</data>
+	<data name="AccessibleDescScrollbarPrevPage_Vert">
+		<value>Moves the vertical position up a couple of lines</value>
+	</data>
+	<data name="AccessibleNameScrollbarMax_Horz">
+		<value>Right</value>
+	</data>
+	<data name="AccessibleNameMaskedEditTextArea">
+		<value>Text area</value>
+	</data>
+	<data name="UltraImageEditor_ResizeLossOfDataPrompt_Caption">
+		<value>Possible Loss of Data</value>
+	</data>
+	<data name="AccessibleDescScrollbarNext_Horz">
+		<value>Moves the horizontal position right one column</value>
+	</data>
+	<data name="AccessibleNameScrollbarPrev_Horz">
+		<value>Column left</value>
+	</data>
+	<data name="AccessibleDescScrollbarPrevPage_Horz">
+		<value>Moves the horizontal position left a couple of columns</value>
+	</data>
+	<data name="TabManagerScrollFirst">
+		<value>First</value>
+	</data>
+	<data name="AccessibleActionSpinNextItem">
+		<value>Next Item</value>
+	</data>
+	<data name="AccessibleNameScrollbarThumb_Horz">
+		<value>Position</value>
+	</data>
+	<data name="AccessibleActionSpinNextPage">
+		<value>Next Page</value>
+	</data>
+	<data name="LC_Property Changed">
+		<value>Property Changed</value>
+	</data>
+	<data name="MaskValidationErrorInvalidDate">
+		<value>An invalid date has been entered.</value>
+	</data>
+	<data name="IllegalOperationMessageGeneral">
+		<value>Illegal operation</value>
+	</data>
+	<data name="LDR_CustomColorBoxUIElement_MoreColors">
+		<value>More Colors...</value>
+	</data>
+	<data name="AccessibleDescScrollbar_Vert">
+		<value>Used to change the vertical viewing area</value>
+	</data>
+	<data name="CustomColorEditToolTip9">
+		<value>Orange</value>
+	</data>
+	<data name="ImageEditor_InvalidSize">
+		<value>Enter a value between 1 and {0}.</value>
+	</data>
+	<data name="CustomColorEditToolTip5">
+		<value>Dark Blue</value>
+	</data>
+	<data name="CustomColorEditToolTip4">
+		<value>Dark Teal</value>
+	</data>
+	<data name="PropertiesModifiedLiteral">
+		<value>{0} properties modified.</value>
+	</data>
+	<data name="CustomColorEditToolTip1">
+		<value>Brown</value>
+	</data>
+	<data name="AccessibleDescScrollbarMin_Vert">
+		<value>Moves the vertical position to the top most location</value>
+	</data>
+	<data name="AccessibleNameScrollbarNextPage_Vert">
+		<value>Page down</value>
+	</data>
+	<data name="AccessibleNameScrollbar_Vert">
+		<value>Vertical scrollbar</value>
+	</data>
+	<data name="SelectColor_Brightness">
+		<value>Brightness</value>
+	</data>
+	<data name="SelectColor_Green">
+		<value>Green</value>
+	</data>
+	<data name="LC_Data">
+		<value>Data</value>
+	</data>
+	<data name="LC_Behavior">
+		<value>Behavior</value>
+	</data>
+	<data name="AccessibleActionInkDropDown">
+		<value>Open Ink Input Panel</value>
+	</data>
+	<data name="SelectColor_Hue">
+		<value>Hue</value>
+	</data>
+	<data name="CustomColorEditToolTip6">
+		<value>Indigo</value>
+	</data>
+	<data name="AccessibleNameScrollbarPrev_Vert">
+		<value>Line up</value>
+	</data>
+	<data name="TabManagerTabListButton">
+		<value>Open Files</value>
+	</data>
+	<data name="TypeDesc_Decimal">
+		<value>Decimal</value>
+	</data>
+	<data name="TypeDesc_DateTime">
+		<value>DateTime</value>
+	</data>
+	<data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_DisplayName">
+		<value>Display Name</value>
+	</data>
+	<data name="IllegalOperationMessageNoPrevEditableCharacter">
+		<value>There are no previous editable characters.</value>
+	</data>
+	<data name="ImageEditor_ImgDimensionsTitle">
+		<value>Set Image Dimensions</value>
+	</data>
+	<data name="IllegalOperationMessageNoPrevCharacter">
+		<value>There are no previous characters.</value>
+	</data>
+	<data name="LC_Accessibility">
+		<value>Accessibility</value>
+	</data>
+	<data name="AccessibleDescScrollbarThumb_Horz">
+		<value>Indicates the current horizontal position, and can be dragged to change it directly</value>
+	</data>
+	<data name="AccessibleNameScrollbarNext_Horz">
+		<value>Column right</value>
+	</data>
+	<data name="EditContextMenuCopy">
+		<value>Copy</value>
+	</data>
+	<data name="TypeDesc_Single">
+		<value>Single (floating point)</value>
+	</data>
+	<data name="TabManagerScrollNext">
+		<value>Next</value>
+	</data>
+	<data name="AccessibleNameMaskedEditCharacter">
+		<value>A single text character</value>
+	</data>
+	<data name="AccessibleNameScrollbarMax_Vert">
+		<value>Bottom</value>
+	</data>
+	<data name="SelectColor_Blue">
+		<value>Blue</value>
+	</data>
+	<data name="TabManagerCloseButton">
+		<value>Close</value>
+	</data>
+	<data name="AccessibleDescScrollbarMin_Horz">
+		<value>Moves the horizontal position to the left most location</value>
+	</data>
+	<data name="AccessibleActionDropDown">
+		<value>Open</value>
+	</data>
+	<data name="UltraControlDesignerVerbCustomPropertyPage">
+		<value>Custom Property Pages...</value>
+	</data>
+	<data name="AccessibleActionPush">
+		<value>Push</value>
+	</data>
+	<data name="IllegalOperationMessageNoMaskSpecified">
+		<value>No mask or text specified.</value>
+	</data>
+	<data name="LE_EditorWithCombo_CantAccessSelectedIndexWhenNotInEditMode">
+		<value>Cannot access the SelectedIndex property when the Editor is not in edit mode.</value>
+	</data>
+	<data name="AccessibleDescScrollbarNext_Vert">
+		<value>Moves the vertical position down one line</value>
+	</data>
+	<data name="AccessibleDescScrollbarMax_Horz">
+		<value>Moves the horizontal position to the right most location</value>
+	</data>
+	<data name="CustomColorEditToolTip14">
+		<value>Blue Gray</value>
+	</data>
+	<data name="CustomColorEditToolTip16">
+		<value>Red</value>
+	</data>
+	<data name="CustomColorEditToolTip17">
+		<value>Light Orange</value>
+	</data>
+	<data name="CustomColorEditToolTip10">
+		<value>Dark Yellow</value>
+	</data>
+	<data name="CustomColorEditToolTip11">
+		<value>Green</value>
+	</data>
+	<data name="CustomColorEditToolTip12">
+		<value>Teal</value>
+	</data>
+	<data name="CustomColorEditToolTip13">
+		<value>Blue</value>
+	</data>
+	<data name="LC_Design">
+		<value>Design</value>
+	</data>
+	<data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_NativeName">
+		<value>Native Name</value>
+	</data>
+	<data name="NoneLiteral">
+		<value>(none)</value>
+	</data>
+	<data name="CustomColorEditToolTip29">
+		<value>Sky Blue</value>
+	</data>
+	<data name="CustomColorEditToolTip28">
+		<value>Turquoise</value>
+	</data>
+	<data name="CustomColorEditToolTip27">
+		<value>Bright Green</value>
+	</data>
+	<data name="CustomColorEditToolTip26">
+		<value>Yellow</value>
+	</data>
+	<data name="CustomColorEditToolTip25">
+		<value>Gold</value>
+	</data>
+	<data name="CustomColorEditToolTip24">
+		<value>Pink</value>
+	</data>
+	<data name="CustomColorEditToolTip21">
+		<value>Light Blue</value>
+	</data>
+	<data name="CustomColorEditToolTip20">
+		<value>Aqua</value>
+	</data>
+	<data name="LE_PageSectionSizeChangeNotAllowed">
+		<value>The size of a page section cannot be changed during a print operation.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_CannotConvert">
+		<value>Value could not be converted to {0}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_OutOfRange">
+		<value>Value must be within the range of {0} and {1}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_Enumeration">
+		<value>Value not found in list of possible choices.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_FixedValue">
+		<value>Value does not equal '{0}'.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MaxExclusive">
+		<value>Value must be less than {0}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MaxInclusive">
+		<value>Value must be less than or equal to {0}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MaxLength">
+		<value>Value must contain no more than {0} characters.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MinExclusive">
+		<value>Value must be greater than {0}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MinInclusive">
+		<value>Value must be greater than or equal to {0}.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_MinLength">
+		<value>Value must contain at least {0} characters.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_Nullable">
+		<value>Value cannot be null.</value>
+	</data>
+	<data name="LMSG_ValueConstraint_RegexPattern">
+		<value>Value does not match the required pattern.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_lblRegex">
+		<value>Step 1:  Enter regular expression here.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_lblTest">
+		<value>Step 2:  Enter test data here.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_lblMatches">
+		<value>Step 3:  Click 'Find Matches' to test the expression and populate list with matches.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_btnFindMatches">
+		<value>&amp;Find Matches</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_lblNote">
+		<value>Note:  Select an item in the list to highlight it in the test data.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_FormText">
+		<value>Regular Expression Editor</value>
+	</data>
+	<data name="UltraActionListBase_P_Name_Description">
+		<value>The name of the {0} instance.</value>
+	</data>
+	<data name="UltraActionListBase_P_SaveSettings_DisplayName">
+		<value>Save Settings</value>
+	</data>
+	<data name="UltraActionListBase_P_SaveSettingsFormat_DisplayName">
+		<value>Format of Saved Settings</value>
+	</data>
+	<data name="UltraActionListBase_P_SettingsKey_DisplayName">
+		<value>Settings Key</value>
+	</data>
+	<data name="LC_Serialization">
+		<value>Serialization</value>
+	</data>
+	<data name="UltraPrintDocumentActionList_P_DocumentName_DisplayName">
+		<value>Name of Document</value>
+	</data>
+	<data name="LE_BindableValueList_SetDataBinding_NoBindingContext">
+		<value>Databinding cannot occur unless a BindingContext or BindingContextControl has been specified.</value>
+	</data>
+	<data name="LD_ValueListItemsCollection_Add_NotWhenBound">
+		<value>ValueListItems cannot be added when the ValueList is bound.</value>
+	</data>
+	<data name="LD_ValueListItemsCollection_Insert_NotWhenBound">
+		<value>ValueListItems cannot be inserted when the ValueList is bound.</value>
+	</data>
+	<data name="LD_ValueListItemsCollection_Remove_NotWhenBound">
+		<value>ValueListItems cannot be removed when the ValueList is bound.</value>
+	</data>
+	<data name="LE_BindableValueList_RefreshDataItems_NotBound">
+		<value>The data items cannot be refreshed if the ValueList is not bound.</value>
+	</data>
+	<data name="UltraProgressBarActionList_P_Orientation_DisplayName">
+		<value>Orientation</value>
+	</data>
+	<data name="UltraProgressBarActionList_P_Style_DisplayName">
+		<value>Style</value>
+	</data>
+	<data name="UltraProgressBarActionList_P_SupportThemes_DisplayName">
+		<value>Support Themes</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_ButtonStyle_DisplayName">
+		<value>Button Style</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_Dock_DisplayName">
+		<value>Dock</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_MinMaxButtonsVisible_DisplayName">
+		<value>Min/Max Buttons Visible</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_Orientation_DisplayName">
+		<value>Orientation</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_ScrollBarArrowStyle_DisplayName">
+		<value>Scrollbar Arrow Style</value>
+	</data>
+	<data name="UltraScrollBarActionList_P_SupportThemes_DisplayName">
+		<value>Support Themes</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_Left">
+		<value>Left</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_Top">
+		<value>Top</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_Right">
+		<value>Right</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_Bottom">
+		<value>Bottom</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_Preview">
+		<value>Preview</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsEditor_DialogTitle">
+		<value>ImageBackground Stretch Margins Editor</value>
+	</data>
+	<data name="ImageBackgroundStretchMarginsPreview_DialogTitle">
+		<value>Resize this dialog to preview your stretched image.</value>
+	</data>
+	<data name="LS_RegexUITypeEditorForm_EditBox_FontName">
+    <value></value>
+  </data>
+	</root>
