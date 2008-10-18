@@ -64,20 +64,20 @@
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -774,4 +774,64 @@
     <value>Konnte den Toolwert nicht aktualisieren: {0}
 </value>
   </data>
-</root>
+<data name="CustomizeDlgAddCommand_OK">
+		<value>OK</value>
+	</data>
+	<data name="MoreWindowsDlgCascade">
+		<value>Casca&amp;de</value>
+	</data>
+	<data name="CustomizeMenuAnimationFade">
+		<value>Fade</value>
+	</data>
+	<data name="CustomizeDlgRearrangeCommands_Toolbar">
+		<value>&amp;Toolbar:</value>
+	</data>
+	<data name="CustomizeDialog_Image">
+		<value>&amp;Image</value>
+	</data>
+	<data name="CustomDlgNewToolBarUTB">
+		<value>UltraToolbar</value>
+	</data>
+	<data name="CustomizeLocationFloating">
+		<value>Floating</value>
+	</data>
+	<data name="CustomizeDlgNewToolKey">
+		<value>&amp;Key</value>
+	</data>
+	<data name="CustomizeDialog_ToolbarsList">
+		<value>Toolb&amp;ars:</value>
+	</data>
+	<data name="CustomDlgNewToolBarTBName">
+		<value>&amp;Toolbar name:</value>
+	</data>
+	<data name="TaskPaneHomeButtonToolTip">
+		<value>Home</value>
+	</data>
+	<data name="PopupMenuDesigner_NewMenu">
+		<value>New...</value>
+	</data>
+	<data name="CustomDlgRenameToolBarTBName">
+		<value>&amp;Toolbar name:</value>
+	</data>
+	<data name="CustomDlgNewToolBarTBOK">
+		<value>OK</value>
+	</data>
+	<data name="CustomizeDialog_Toolbars">
+		<value>Toolbars</value>
+	</data>
+	<data name="CustomizeDialog_PopupMenuDesigner">
+		<value>PopupMenuTool Designer</value>
+	</data>
+	<data name="MdiCommandCascade">
+		<value>&amp;Cascade</value>
+	</data>
+	<data name="CustomizeDialog_Tools">
+		<value>Tools</value>
+	</data>
+	<data name="CustomizeDialog_Key">
+		<value>Key</value>
+	</data>
+	<data name="CustomizeDlgSelectControlMenu">
+		<value>Control</value>
+	</data>
+	</root>
