@@ -94,16 +94,16 @@
     </object>
     <ul>
       <li><object type="text/sitemap">
-        <param name="Name" value="Synchronization using FTP">
-        <param name="Local" value="html\syncronization\synchronization_using_ftp.htm">
-      </object>
-      <li><object type="text/sitemap">
         <param name="Name" value="Synchronization using NewsGator Online">
         <param name="Local" value="html\syncronization\Synchronization_using_NewsGator_Online.htm">
       </object>
       <li><object type="text/sitemap">
-        <param name="Name" value="Synchronization using a dasBlog weblog">
-        <param name="Local" value="html\syncronization\synchronization_using_dasBlog_weblog.htm">
+        <param name="Name" value="Synchronization using Google Reader">
+        <param name="Local" value="html\syncronization\synchronization_using_google_reader.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using FTP">
+        <param name="Local" value="html\syncronization\synchronization_using_ftp.htm">
       </object>
       <li><object type="text/sitemap">
         <param name="Name" value="Synchronization using a local or network file">
@@ -112,6 +112,10 @@
       <li><object type="text/sitemap">
         <param name="Name" value="Synchronization using WebDAV">
         <param name="Local" value="html\syncronization\synchronization_using_webDAV.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using a dasBlog weblog">
+        <param name="Local" value="html\syncronization\synchronization_using_dasBlog_weblog.htm">
       </object>
       </ul>
     <li><object type="text/sitemap">
