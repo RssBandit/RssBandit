@@ -28,7 +28,12 @@
 			<frameset>0</frameset>
 		</topic>
 		<topic>
-			<name>Synchronization_using_NewsGator_Online.htm</name>
+			<name>synchronization_using_NewsGator_Online.htm</name>
+			<comments></comments>
+			<frameset>0</frameset>
+		</topic>
+		<topic>
+			<name>synchronization_using_Google_Reader.htm</name>
 			<comments></comments>
 			<frameset>0</frameset>
 		</topic>
