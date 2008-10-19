@@ -72,12 +72,41 @@ of an annoyance to come home and have to wade through all the items that you've 
 read to find the few new items you haven't yet read since you left work.
 </p>
 <p>
-Now with the latest version of RSS Bandit, you simply <b>Upload Feeds</b> before leaving and 
-<b>Download Feeds</b> when you get home and your home RSS Bandit will have the same state (more 
-or less) that RSS Bandit at work does.  (The ability to configure this synchronization to happen 
-automatically is on the list of upcoming features in a future version).
+Now with the latest version of RSS Bandit, there are two key mechanisms for synchronizing RSS Bandit 
+from multiple computers. The first option is to synchronize RSS Bandit with Web-based feed readers 
+such as <a href="http://reader.google.com">Google Reader</a> and 
+<a href="http://www.bloglines.com">Bloglines</a>. The second option is to use a remote storage system 
+and <b>Upload Feeds</b> before leaving and <b>Download Feeds</b> when you get home and your home 
+RSS Bandit will have the same state (more or less) that RSS Bandit at work does.  
 </p>
-<p><b>How does synchronization work?</b><br/>
+
+<p><b>How does synchronization via a Web-based feed reader work?</b><br/>
+When you launch RSS Bandit your feed list downloaded from the Web-based feed reader. Each time 
+you make changes such as marking an item as read, subscribing to a new feed, removing a feed, 
+or renaming a feed, this change is quickly reflected on the Web-based feed reader. 
+</p>
+<p>
+In addition, RSS Bandit periodically polls your Web-based feed reader so that if you make changes
+via the Web they are eventually reflected in RSS Bandit as well. 
+</p>
+
+<b>So how do I start synchronizing with a Web-based feed reader?</b><br/>
+<p>First you have to configure a new feed source.  Under the <b>File</b> menu select <b>Synchronize Feeds</b>.  
+This will bring up the dialogue in figure 1.
+</p>
+<p align="center"><img src="../../images/rssbandit_SynchronizeFeeds_Google.jpg"  alt="Figure 1: Synchronize Feeds" />
+<br/><span class="figure">Figure 1: Synchronize Feeds Wizard.</span>
+</p>
+<p>
+Then select your chosen Web-based feed reader. The following topices cover the various 
+choices for synchronizing with a Web-based feed reader.
+<ul>
+	<li><a href="synchronization_using_google_reader.htm">Google Reader</a></li>
+	<li><a href="synchronization_using_newsgator_online.htm">NewsGator Online</a></li>
+</ul>
+</p>
+
+<p><b>How does synchronization via remote storage work?</b><br/>
 Sychronization data is transferred within a ZIP compressed file that contains information about 
 the current state of your search folders, flagged items, replied items, subscribed feeds, and 
 read/unread messages.
@@ -96,12 +125,12 @@ you may notice that item #123 does not show up.  However, after refreshing your 
 as a new item.
 </p>
 <p>
-<b>So how do I start using it?</b><br/>
+<b>So how do I start using remote storage?</b><br/>
 First you have to configure <b>Remote Storage</b>.  Under the <b>Tools</b> menu select <b>Options</b> (
-or hit <b>CTRL+O</b>).  Click on the <b>Remote Storage</b> tab.  This will bring up the dialogue in figure 1.
+or hit <b>CTRL+O</b>).  Click on the <b>Remote Storage</b> tab.  This will bring up the dialogue in figure 2.
 </p>
-<p align="center"><img src="../../images/rssbandit_RemoteFeedsDialogue.gif" width="408" height="484" alt="Figure 1: Remote Storage Dialogue" />
-<br/><span class="figure">Figure 1: Remote Storage Dialogue.</span>
+<p align="center"><img src="../../images/rssbandit_RemoteFeedsDialogue.gif" width="408" height="484" alt="Figure 2: Remote Storage Dialogue" />
+<br/><span class="figure">Figure 2: Remote Storage Dialog.</span>
 </p>
 <p>
 In order to user Remote Storage, check the <b>Use Remote Storage</b> checkbox and select a 
