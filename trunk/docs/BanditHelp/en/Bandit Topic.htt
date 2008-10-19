@@ -90,11 +90,11 @@ To add content to the body, replace this text. A header and/or footer is
 
 
  <p style="font-size: 8pt; color: #808080;"><symbol name=Copyright><!--begin!kadov{{-->&#169;<!--}}end!kadov--> 
- 2003-2007 <a href="http://www.rssbandit.org">www.rssbandit.org</a>. Last 
+ 2003-2008 <a href="http://www.rssbandit.org">www.rssbandit.org</a>. Last 
  update on <!--kadov_tag{{<variable name=date
-									x-value=39113.423241>}}-->February 
- 1, 2007<!--kadov_tag{{</variable>}}--> at <!--kadov_tag{{<variable name=time
-	x-value=39113.423241>}}-->10:09 AM<!--kadov_tag{{</variable>}}--></p>
+									x-value=39739.629074>}}-->October 19, 
+ 2008<!--kadov_tag{{</variable>}}--> at <!--kadov_tag{{<variable name=time
+	x-value=39739.629074>}}-->3:05 PM<!--kadov_tag{{</variable>}}--></p>
 </div>
 </body>
 
