@@ -156,31 +156,6 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Gets the update service URL.
-        /// </summary>
-        /// <value>The update service URL.</value>
-        public static string UpdateServiceUrl
-        {
-            get
-            {
-                int idx = DateTime.Now.Second%applicationUpdateServiceUrls.Length;
-                return applicationUpdateServiceUrls[idx];
-            }
-        }
-
-        /// <summary>
-        /// Gets the feed validation URL base.
-        /// </summary>
-        /// <value>The feed validation URL base.</value>
-        public static string FeedValidationUrlBase
-        {
-            get
-            {
-                return validationUrlBase;
-            }
-        }
-
-        /// <summary>
         /// Gets the app GUID. Used by update web-service.
         /// </summary>
         /// <value>The app GUID.</value>

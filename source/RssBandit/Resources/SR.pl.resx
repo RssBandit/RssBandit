@@ -117,34 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="URL_WebHelp" xml:space="preserve">
-    <value>http://www.rssbandit.org/docs/</value>
-    <comment>used to navigate to german Bandit docs (Help)</comment>
-  </data>
-  <data name="URL_FeedValidationBase" xml:space="preserve">
-    <value>http://www.feedvalidator.org/check?URL=</value>
-    <comment>used to validate a RSSfeed, default on invalid .config</comment>
-  </data>
-  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
-    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-    <comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
-  </data>
-  <data name="URL_BugReport" xml:space="preserve">
-    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-    <comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
-  </data>
-  <data name="URL_ProjectNews" xml:space="preserve">
-    <value>http://sourceforge.net/news/?group_id=96589</value>
-    <comment>News page at Sourceforge, default on invalid .config</comment>
-  </data>
-  <data name="URL_WikiWebNews" xml:space="preserve">
-    <value>http://www.rssbandit.org/</value>
-    <comment>Bandit Wiki Site, default on invalid .config</comment>
-  </data>
-  <data name="URL_UserForum" xml:space="preserve">
-    <value>http://www.rssbandit.org/forum/</value>
-    <comment>Bandit User Forum, default on invalid .config</comment>
-  </data>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Wiadomości niesklasyfikowane]</value>
     <comment>localizable</comment>
@@ -451,15 +423,15 @@ Szczegóły: {1}</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>Nowości (Sourceforge)...</value>
+    <value>Nowości...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Przeczytaj najnowsze wiadomości o programie na witrynie Sourceforge.net</value>
+    <value>Przeczytaj najnowsze wiadomości o programie</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>Powiadom o błędzie (Sourceforge)...</value>
+    <value>Powiadom o błędzie...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
@@ -2060,10 +2032,6 @@ kłopot.</value>
   <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>Przejście do adresu Url pozwalającego na finansowe wsparcie projektu...</value>
     <comment>Description within help menu</comment>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-    <comment>Download package page at Sourceforge, default on invalid .config</comment>
   </data>
   <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
     <value>Dostępna jest nowa wersja programu.

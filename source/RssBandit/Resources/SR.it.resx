@@ -117,34 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="URL_WebHelp" xml:space="preserve">
-    <value>http://www.rssbandit.org/docs/</value>
-    <comment>Utilizzato per andare alla documentazion del Bandit (Help)</comment>
-  </data>
-  <data name="URL_FeedValidationBase" xml:space="preserve">
-    <value>http://www.feedvalidator.org/check?url=</value>
-    <comment>Utilizzato per validare un RSSfeed, default nel caso di .config non valido</comment>
-  </data>
-  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
-    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-    <comment>Utilizzato per navigare al Technorati Link Cosmos, default nel caso di .config non valido</comment>
-  </data>
-  <data name="URL_BugReport" xml:space="preserve">
-    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-    <comment>Pagina di segnalazione Bug a Sourceforge (non richiesto il logon), default nel caso di .config non valido</comment>
-  </data>
-  <data name="URL_ProjectNews" xml:space="preserve">
-    <value>http://sourceforge.net/news/?group_id=96589</value>
-    <comment>Pagina di novità a Sourceforge, default nel caso di .config non valido</comment>
-  </data>
-  <data name="URL_WikiWebNews" xml:space="preserve">
-    <value>http://www.rssbandit.org/</value>
-    <comment>Sito Wiki Bandit, default nel caso di .config non valido</comment>
-  </data>
-  <data name="URL_UserForum" xml:space="preserve">
-    <value>http://www.rssbandit.org/forum/</value>
-    <comment>Forum utenti Bandit, default nel caso di .config non valido</comment>
-  </data>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Feeds non classificati]</value>
     <comment>localizable</comment>
@@ -459,19 +431,19 @@ Dettagli: {1}</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>&amp;Visualizza news (Sourceforge)...</value>
+    <value>&amp;Visualizza news...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Leggi le ultime notizie di questa applicazione su Sourceforge.net</value>
+    <value>Leggi le ultime notizie di questa applicazione</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>&amp;Segnala un Bug (Sourceforge)...</value>
+    <value>&amp;Segnala un Bug...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Ti permette di segnalare un bug per questa applicazione su Sourceforge.net</value>
+    <value>Ti permette di segnalare un bug per questa applicazione</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
@@ -2062,10 +2034,6 @@ l'inconveniente.</value>
   <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>Naviga ad un Url dove puoi contribuire il progetto...</value>
     <comment>Description within help menu</comment>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-    <comment>Download package page at Sourceforge, default nel caso di .config non valido</comment>
   </data>
   <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
     <value>C'è una nuova versione disponibile per il download.

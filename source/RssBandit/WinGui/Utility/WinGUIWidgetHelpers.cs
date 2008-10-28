@@ -23,6 +23,9 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Net;
+using Infragistics.Win.UltraWinExplorerBar;
+using Infragistics.Win.UltraWinStatusBar;
+using Infragistics.Win.UltraWinToolbars;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
 using RssBandit.Common.Logging;
@@ -30,7 +33,6 @@ using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Interfaces;
-using RssBandit.WinGui.Utility;
 using RssBandit.Xml;
 using NewsComponents.Feed;
 using NewsComponents.Search;
@@ -178,7 +180,6 @@ namespace RssBandit.WinGui.Utility {
 	}
 	#endregion
 
-    
 	#region UrlFormatter
     /*
 	/// <summary>
@@ -580,244 +581,6 @@ namespace RssBandit.WinGui.Utility {
 		#endregion
 
 	}
-	#endregion
-
-	#region moved code/just for ref.
-//	internal class ListViewSortHelper: IComparer
-//	{
-//		private int _columnIndex;
-//		private SortOrder _sortOrder;
-//		private bool _useDateCompare;
-//
-//		public ListViewSortHelper():this(0, SortOrder.Ascending, false) {}
-//		public ListViewSortHelper(int sortColumnIndex, SortOrder sortOrder, bool isDate)
-//		{
-//			_columnIndex = sortColumnIndex;
-//			_sortOrder = sortOrder;
-//			_useDateCompare = isDate;
-//		}
-//
-//		public IComparer NewsItemComparer() {
-////			if (_useDateCompare) {
-////				return RssHelper.GetComparer(_sortOrder == SortOrder.Descending);
-////			}
-//			return RssHelper.GetComparer();
-//		}
-//
-//		public void InitFromConfig(string section, Settings reader) {
-//			_sortOrder = (SortOrder)reader.GetInt32(section+"/NewsItemListview.Sorter.SortOrder", (int)SortOrder.Descending);
-//			_useDateCompare = reader.GetBoolean(section+"/NewsItemListview.Sorter.UseDateCompare", false);
-//			_columnIndex = reader.GetInt32(section+"/NewsItemListview.Sorter.ColumnIndex", 0);
-//		}
-//
-//		public void SaveToConfig(string section, Settings writer) {
-//			writer.SetProperty(section+"/NewsItemListview.Sorter.SortOrder", (int)this._sortOrder);
-//			writer.SetProperty(section+"/NewsItemListview.Sorter.UseDateCompare", _useDateCompare);
-//			writer.SetProperty(section+"/NewsItemListview.Sorter.ColumnIndex", this._columnIndex);
-//		}
-//
-//		public int ColumnIndex
-//		{
-//			get { return _columnIndex;  }
-//			set { _columnIndex = value; }
-//		}
-//		public SortOrder Sorting
-//		{
-//			get { return _sortOrder;  }
-//			set { _sortOrder = value; }
-//		}
-//
-//		public bool DateCompare
-//		{
-//			get { return _useDateCompare;  }
-//			set { _useDateCompare = value; }
-//		}
-//
-//		public FlaggedListViewSortHelper FlaggedItemsSorter {
-//			get { 
-//				return new FlaggedListViewSortHelper(this._columnIndex, this._sortOrder, this._useDateCompare);
-//			}
-//		}
-//
-//		#region Graphics
-//
-//		Bitmap upBM, downBM;    // the 2 bitmaps used for drawing the triangles
-//		private Bitmap GetBitmap(bool ascending) {
-//			Bitmap bm = new Bitmap(8, 8);
-//			Graphics gfx = Graphics.FromImage(bm);
-//
-//			Pen lightPen = SystemPens.ControlLightLight;
-//			Pen shadowPen = SystemPens.ControlDark;
-//
-//			gfx.FillRectangle(SystemBrushes.ControlLight, 0, 0, 8, 8);
-//
-//			if (ascending) {
-//				// Draw triangle pointing upwards
-//				gfx.DrawLine(lightPen, 0, 7, 7, 7);
-//				gfx.DrawLine(lightPen, 7, 7, 4, 0);
-//				gfx.DrawLine(shadowPen, 3, 0, 0, 7);
-//			}
-//			else {
-//				gfx.DrawLine(lightPen, 4, 7, 7, 0);
-//				gfx.DrawLine(shadowPen, 3, 7, 0, 0);
-//				gfx.DrawLine(shadowPen, 0, 0, 7, 0);
-//			}
-//
-//			gfx.Dispose();
-//
-//			return bm;
-//		}
-//
-//		/// <summary>
-//		/// RefreshSortMarks uses LVM_GETHEADER, HDM_GEITEM and HDM_SETITEM to manipulate the header control
-//		/// of the underlying listview control.
-//		/// </summary>
-//		/// <param name="listView"></param>
-//		public void RefreshSortMarks(ListView listView) {
-//			int LVM_GETHEADER = 0x1000 + 31;
-//			int HDM_GETITEM = 0x1200 + 11;
-//			int HDM_SETITEM = 0x1200 + 12;
-//			int HDI_FORMAT =  0x0004;
-//			int HDI_BITMAP =  0x0010;
-//			int HDI_TEXT = 0x0002;
-//            
-//			IntPtr hHeader = Win32.SendMessage3(listView.Handle, LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-//            
-//			if (!hHeader.Equals(IntPtr.Zero)) {
-//				if (upBM == null) {
-//					upBM = GetBitmap(true);
-//					downBM = GetBitmap(false); 
-//				}
-//
-//				Win32.HDITEM item = new Win32.HDITEM();
-//				item.mask = HDI_FORMAT | HDI_BITMAP | HDI_TEXT;
-//				item.cchTextMax = 255;
-//
-//				for (int i = 0; i < listView.Columns.Count; i++) {
-//					IntPtr result = Win32.SendMessage2(hHeader, HDM_GETITEM, new IntPtr(i), item);
-//					if (result.ToInt32() > 0) {
-//						//item.pszText = listView.Columns[i].Text;
-//						item.pszText = Marshal.StringToHGlobalAuto(listView.Columns[i].Text);
-//						item.mask = HDI_FORMAT | HDI_TEXT | HDI_BITMAP;
-//						item.hbm = IntPtr.Zero;
-//                        
-//						if (i == _columnIndex) {
-//							item.fmt |= 0x7000;
-//							if (_sortOrder == SortOrder.Ascending)
-//								item.hbm = upBM.GetHbitmap();
-//							else
-//								item.hbm = downBM.GetHbitmap();
-//						}
-//						else {
-//							item.fmt |= 0x4000;
-//						}
-//						Win32.SendMessage2(hHeader, HDM_SETITEM, new IntPtr(i), item);
-//					}
-//				}
-//			}
-//		}
-//
-//		#endregion
-//
-//		#region Implementation of IComparer
-//		public virtual int Compare(object x, object y)
-//		{
-//			ThreadedListViewItem row1, row2;
-//
-//			row1 = (ThreadedListViewItem)x;
-//			row2 = (ThreadedListViewItem)y;
-//
-//			// immediatly called after adding subitems, so we test:
-//			if (row1.SubItems.Count <= _columnIndex || row2.SubItems.Count <= _columnIndex)
-//				return 0;
-//
-//			if (row1.IndentLevel != row2.IndentLevel)
-//				return 0;
-//
-//			if (row1.IndentLevel > 0 || row2.IndentLevel > 0)
-//				return 0;
-//
-//			int returnValue = 0;
-//
-//			if (_useDateCompare)	{
-//				if (row1.Key != null && row2.Key != null) {
-//					DateTime d1 = ((NewsItem)row1.Key).Date;
-//					DateTime d2 = ((NewsItem)row2.Key).Date;
-//					returnValue = (_sortOrder == SortOrder.Ascending ? DateTime.Compare(d1, d2): DateTime.Compare(d2, d1));
-//				}
-//			}
-//			else {
-//				string s1 = row1.SubItems[_columnIndex].Text;
-//				string s2 = row2.SubItems[_columnIndex].Text;
-//				returnValue = (_sortOrder == SortOrder.Ascending ? String.Compare(s1, s2) : String.Compare(s2, s1));
-//			}
-//
-//			// bubble up: unread first (ignore sortOrder)
-//			if (returnValue == 0 && row1.Key != null && row2.Key != null) {		// equal, compare if they are also read
-//				if (((NewsItem)row1.Key).BeenRead != ((NewsItem)row2.Key).BeenRead)
-//					returnValue = (!((NewsItem)row1.Key).BeenRead ? -1: 1);
-//			}
-//			
-//			return returnValue;
-//		}
-//
-//		#endregion
-//
-//	}
-//
-//	internal class FlaggedListViewSortHelper: ListViewSortHelper, IComparer {
-//		public FlaggedListViewSortHelper():base(0,SortOrder.Ascending, false) {}
-//		public FlaggedListViewSortHelper(int sortColumnIndex, SortOrder sortOrder, bool isDate):base(sortColumnIndex,sortOrder,isDate) {}
-//
-//		#region IComparer Members
-//
-//		public override int Compare(object x, object y) {
-//			// we asume, the view is grouped by the flags
-//			ThreadedListViewItem row1 = (ThreadedListViewItem)x;
-//			ThreadedListViewItem row2 = (ThreadedListViewItem)y;
-//			NewsItem item1 = (NewsItem)row1.Key;
-//			NewsItem item2 = (NewsItem)row2.Key;
-//
-//			// immediatly called after adding subitems, so we test:
-//			if (row1.SubItems.Count <= base.ColumnIndex || row2.SubItems.Count <= base.ColumnIndex)
-//				return 0;
-//
-//			if (row1.IndentLevel != row2.IndentLevel)
-//				return 0;
-//
-//			if (item1 == null || item2 == null)
-//				return base.Compare(x,y);
-//
-//			if (item1.FlagStatus == item2.FlagStatus)
-//				return base.Compare(x,y);
-//
-//			if (base.Sorting == SortOrder.Ascending) {
-//				if ((int)item1.FlagStatus < (int)item2.FlagStatus)
-//					return -1;
-//				if ((int)item1.FlagStatus > (int)item2.FlagStatus)
-//					return 1;
-//			} else {
-//				if ((int)item1.FlagStatus < (int)item2.FlagStatus)
-//					return 1;
-//				if ((int)item1.FlagStatus > (int)item2.FlagStatus)
-//					return -1;
-//			}
-//
-//			return 0;
-//
-//		}
-//
-//		#endregion
-//	}
-
-//	// internet connection states
-//	[Flags]public enum INetState {
-//		Invalid = 0,
-//		DisConnected = 1,
-//		Connected = 2,
-//		Offline = 4, 
-//		Online = 8
-//	}
 	#endregion
 
 	#region Utils
@@ -1594,6 +1357,7 @@ namespace RssBandit.WinGui.Utility {
 
 	#endregion
 
+	#region CertificateHelper
 	internal static class CertificateHelper
 	{
 		public static void ShowCertificate(X509Certificate2 certificate, IntPtr hwndParent)
@@ -1668,4 +1432,91 @@ namespace RssBandit.WinGui.Utility {
 			return null;
 		}
 	}
+	#endregion
+
+	#region WidgetFormatter
+	
+	public enum UiStyle
+	{
+		WindowsXP,
+		WindowsVista,
+		Office2003,
+		Office2007,
+		Default = Office2003,
+	}
+
+	/// <summary>
+	/// Helper to style all controls (esp. Infragistics)
+	/// in a unique manner. IG use different enums for each
+	/// control but with very similar enum values on each of them.
+	/// Goal is to allow a "switch" UI Style from XP/Vista (if no
+	/// Office is installed) and Office 2003/2007.
+	/// </summary>
+	class WidgetFormatter
+	{
+		//TODO: (TR) stillwork in progress!!!
+		private readonly UiStyle style;
+
+		public WidgetFormatter(UiStyle style)
+		{
+			this.style = style;
+		}
+
+		public void Format(object c)
+		{
+			if (c is UltraToolbar)
+				Format(c as UltraToolbar);
+			if (c is UltraExplorerBar)
+				Format(c as UltraExplorerBar);
+			if (c is UltraStatusBar)
+				Format(c as UltraStatusBar);
+		}
+
+		void Format(UltraToolbarBase t)
+		{
+			switch (style)
+			{
+				case UiStyle.WindowsXP:
+					t.ToolbarsManager.Style = ToolbarStyle.OfficeXP;break;
+				case UiStyle.WindowsVista:
+					t.ToolbarsManager.Style = ToolbarStyle.WindowsVista;break;
+				case UiStyle.Office2007:
+					t.ToolbarsManager.Style = ToolbarStyle.Office2007;break;
+				default:
+					t.ToolbarsManager.Style = ToolbarStyle.Office2003;break;
+			}
+		}
+
+		void Format(UltraExplorerBar t)
+		{
+			switch (style)
+			{
+				case UiStyle.WindowsXP:
+					t.ViewStyle = UltraExplorerBarViewStyle.XP;break;
+				case UiStyle.WindowsVista:
+					t.ViewStyle = UltraExplorerBarViewStyle.Office2007;break;
+				case UiStyle.Office2007:
+					t.ViewStyle = UltraExplorerBarViewStyle.Office2007;break;
+				default:
+					t.ViewStyle = UltraExplorerBarViewStyle.Office2003;break;
+			}
+		}
+
+		void Format(UltraStatusBar t)
+		{
+			switch (style)
+			{
+				case UiStyle.WindowsXP:
+					t.ViewStyle = ViewStyle.Office2003; break;
+				case UiStyle.WindowsVista:
+					t.ViewStyle = ViewStyle.Office2007; break;
+				case UiStyle.Office2007:
+					t.ViewStyle = ViewStyle.Office2007; break;
+				default:
+					t.ViewStyle = ViewStyle.Office2003; break;
+			}
+		}
+	}
+
+	#endregion
 }

@@ -1107,10 +1107,10 @@ voor meer informatie over de fout.</value>
     <value>Vernieuwen...</value>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>&amp;Meld een fout (Sourceforge)...</value>
+    <value>&amp;Meld een fout...</value>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Meld programmafout bij Sourceforge.net</value>
+    <value>Meld programmafout</value>
   </data>
   <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
     <value>Markeer alle items in Categorie als Gelezen</value>
@@ -1777,10 +1777,10 @@ voor meer informatie over de fout.</value>
     <value>Markeer deze om samen te voegen aan gelijktijdige zoekresultaten...</value>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>&amp;Toon nieuws (Sourceforge)...</value>
+    <value>&amp;Toon nieuws...</value>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Lees het laatste nieuws over RSS Bandit op Sourceforge.net</value>
+    <value>Lees het laatste nieuws over RSS Bandit</value>
   </data>
   <data name="MenuViewOutlookReadingPane" xml:space="preserve">
     <value>Toon items in groepen</value>

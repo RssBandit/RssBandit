@@ -117,34 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="URL_WebHelp" xml:space="preserve">
-    <value>http://www.rssbandit.org/docs/</value>
-    <comment>користи се за навигацију на Bandit документе (помоћ)</comment>
-  </data>
-  <data name="URL_FeedValidationBase" xml:space="preserve">
-    <value>http://www.feedvalidator.org/check?url=</value>
-    <comment>користи се за валидацију RSS извора, основно за инвалидан .config</comment>
-  </data>
-  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
-    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-    <comment>користи се за навигацију на Technorati космос линк, основно за инвалидан .config</comment>
-  </data>
-  <data name="URL_BugReport" xml:space="preserve">
-    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-    <comment>Страна за извештавање багова на Sourceforge (није потребна пријава), основно за инвалидан .config</comment>
-  </data>
-  <data name="URL_ProjectNews" xml:space="preserve">
-    <value>http://sourceforge.net/news/?group_id=96589</value>
-    <comment>Страна вести на Sourceforge, основно за инвалидан .config</comment>
-  </data>
-  <data name="URL_WikiWebNews" xml:space="preserve">
-    <value>http://www.rssbandit.org/</value>
-    <comment>Bandit Wiki сајт, основно за инвалидан .config</comment>
-  </data>
-  <data name="URL_UserForum" xml:space="preserve">
-    <value>http://www.rssbandit.org/forum/</value>
-    <comment>Bandit форум корисника, основно за инвалидан .config</comment>
-  </data>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Некласификовани извори]</value>
     <comment>могуће локализовати</comment>
@@ -461,19 +433,19 @@
     <comment>Опис унутар менија помоћи</comment>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>&amp;Покажи вести (Sourceforge)...</value>
+    <value>&amp;Покажи вести...</value>
     <comment>Заглавље унутар менија помоћи</comment>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Прочитајте задње вести о овој апликацији на Sourceforge.net</value>
+    <value>Прочитајте задње вести о овој апликацији</value>
     <comment>Опис унутар менија помоћи</comment>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>&amp;Пријавите баг (Sourceforge)...</value>
+    <value>&amp;Пријавите баг...</value>
     <comment>Заглавље унутар менија помоћи</comment>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Омогућује вам да пријавите баг за ову апликацију на Sourceforge.net</value>
+    <value>Омогућује вам да пријавите баг за ову апликацију</value>
     <comment>Опис унутар менија помоћи</comment>
   </data>
   <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
@@ -2060,14 +2032,6 @@ referrer-url: {2}</value>
   <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>Навигација на Url где можете помоћи пројект...</value>
     <comment>Опис унутар менија помоћи</comment>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-    <comment>Преузмите пакет на Sourceforge, основно са неисправним .config</comment>
-  </data>
-  <data name="URL_ProjectDonation" xml:space="preserve">
-    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
-    <comment>Bandit пројект Url донација, основни на неисправном.config</comment>
   </data>
   <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
     <value>Изашла је нова верзија.

@@ -126,7 +126,7 @@
 {0}頁的新聞</value>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>顯示新聞(Sourceforge)...</value>
+    <value>顯示新聞...</value>
   </data>
   <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
     <value>複製主頁聯結到剪貼簿</value>
@@ -558,7 +558,7 @@
     <comment>CHANGED</comment>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>報告程式錯誤 (Sourceforge)...</value>
+    <value>報告程式錯誤 ...</value>
   </data>
   <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
     <value>讀取新聞列表檔錯誤.</value>
@@ -1137,7 +1137,7 @@
     <value>複製選中的新聞到...</value>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>您可以在Sourceforge.net上報告程式的錯誤</value>
+    <value>您可以在上報告程式的錯誤</value>
   </data>
   <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
     <value>中斷瀏覽...</value>
@@ -1171,7 +1171,7 @@
     <value>送出</value>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>在 Sourceforge.net 閱讀最新的關於本應用程式的消息</value>
+    <value>在閱讀最新的關於本應用程式的消息</value>
   </data>
   <data name="MenuRenameCategoryCaption" xml:space="preserve">
     <value>重新命名分類</value>
@@ -1771,10 +1771,6 @@ administrative權限只用在要套用請求的功能.
   <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>瀏覽這位址可以讓你支持該專案...</value>
     <comment>Description within help menu</comment>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-    <comment>Download package page at Sourceforge, default on invalid .config</comment>
   </data>
   <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
     <value>有新的版本可供下載.

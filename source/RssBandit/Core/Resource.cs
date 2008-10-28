@@ -7,6 +7,7 @@
  */
 #endregion
 
+using System;
 using System.Reflection; 
 using System.IO;
 using System.Drawing;
@@ -18,7 +19,7 @@ namespace RssBandit
 	/// <summary>
 	/// Helper class used to manage application Resources
 	/// </summary>
-	internal sealed class Resource {
+	internal static class Resource {
 		
 		#region News Item Images/Colors (index store)
 
@@ -271,12 +272,56 @@ namespace RssBandit
 		}
 		
 		#endregion
-		#region ctor 
+		
+		#region OutgoingLinks 
 
-		/// <summary>
-		/// private Constructor
-		/// </summary>
-		private Resource() { }
+		internal static class OutgoingLinks
+		{
+			internal static class Default
+			{
+
+				public const string FeedValidationUrlBase = "http://www.feedvalidator.org/check?url=";
+				public const string FeedLinkCosmosUrlBase = "http://www.technorati.com/cosmos/links.html?rank=links&url=";
+			
+				// now use the new tracker at SF, filtering bugs by status "open":
+				public const string BugReportUrl = "http://sourceforge.net/tracker2/?func=browse&group_id=96589&atid=615248&status=1";
+				// now pointing to the new site structure:
+				public const string WebHelpUrl = "http://docs.rssbandit.org/v1.8/";
+				public const string ProjectNewsUrl = "http://rssbandit.org/";
+				public const string ProjectBlogUrl = "http://rssbandit.org/blog/";
+				public const string UserForumUrl = "http://forum.rssbandit.org/";
+				public const string ProjectDonationUrl = "http://rssbandit.org/donate/";
+				public const string ProjectDownloadUrl = "http://rssbandit.org/rss-bandit-download/";
+			}
+
+			// they can be overridden by app.config settings:
+			public static string FeedValidationUrlBase = Default.FeedValidationUrlBase;
+			public static string FeedLinkCosmosUrlBase = Default.FeedLinkCosmosUrlBase;
+			public static string BugReportUrl = Default.BugReportUrl;
+			public static string WebHelpUrl = Default.WebHelpUrl;
+			public static string ProjectNewsUrl = Default.ProjectNewsUrl;
+			public static string ProjectBlogUrl = Default.ProjectBlogUrl;
+			public static string UserForumUrl = Default.UserForumUrl;
+			public static string ProjectDonationUrl = Default.ProjectDonationUrl;
+			public static string ProjectDownloadUrl = Default.ProjectDownloadUrl;
+
+			private static readonly string[] applicationUpdateServiceUrls =
+				new[] { "http://updateService.rssbandit.org/UpdateService.asmx" };
+
+			/// <summary>
+			/// Gets the update service URL.
+			/// </summary>
+			/// <value>The update service URL.</value>
+			public static string UpdateServiceUrl
+			{
+				get
+				{
+					int idx = DateTime.Now.Second % applicationUpdateServiceUrls.Length;
+					return applicationUpdateServiceUrls[idx];
+				}
+			}
+		}
+
 		#endregion
 
 		#region public methods
