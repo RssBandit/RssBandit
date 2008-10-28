@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -33,18 +34,18 @@ namespace RssBandit
 		public static object Tag;
 
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditUpdateManager));
-		private static TimeSpan timeout = new TimeSpan(0,0,30);
+		private static readonly TimeSpan timeout = new TimeSpan(0,0,30);
 
-		private ClrMappedWebReference.UpdateService appUpdateService;
-		private AutoResetEvent workDone;
+		private readonly ClrMappedWebReference.UpdateService appUpdateService;
+		private readonly AutoResetEvent workDone;
 		private bool cancelled;
-        private SynchronizationContext _currentContext = AsyncOperationManager.SynchronizationContext;
+        private readonly SynchronizationContext _currentContext = AsyncOperationManager.SynchronizationContext;
 		
 		public RssBanditUpdateManager(){
 			this.cancelled = false;
 			this.workDone = new AutoResetEvent(false);
 			this.appUpdateService = new ClrMappedWebReference.UpdateService();
-			this.appUpdateService.Url = RssBanditApplication.UpdateServiceUrl;
+			this.appUpdateService.Url = Resource.OutgoingLinks.UpdateServiceUrl;
 		}
 
 		public static void BeginCheckForUpdates(IWin32Window owner, IWebProxy proxy) {
@@ -56,7 +57,7 @@ namespace RssBandit
 				
 				EntertainmentDialog entertainment = new EntertainmentDialog(updater.WorkDone, timeout, null);
 				entertainment.Message = SR.WaitDialogMessageCheckForNewAppVersion;
-				Thread theThread = new Thread(new ThreadStart(updater.Run));
+				Thread theThread = new Thread(updater.Run);
 				theThread.Start();
 
 				if (entertainment.ShowDialog( owner ) == DialogResult.Cancel) {	// timeout
@@ -70,7 +71,7 @@ namespace RssBandit
 			
 			} else {	// hidden
 
-				Thread theThread = new Thread(new ThreadStart(updater.Run));
+				Thread theThread = new Thread(updater.Run);
 				theThread.Start();
 			
 				if (updater.WorkDone.WaitOne(timeout, false)){
@@ -85,18 +86,14 @@ namespace RssBandit
 			}
 		}
 
-//		public static void BeginCheckForUpdates() {
-//			BeginCheckForUpdates(null);
-//		}
-
 		public AutoResetEvent WorkDone {
 			get {	return workDone;	}
 		}
 
-		private void Run() {
-			string url = null;
+		private void Run() 
+		{
 			try {
-				url = appUpdateService.DownloadLink(RssBanditApplication.AppGuid, RssBanditApplication.Version.ToString(), RssBanditApplication.ApplicationInfos);	
+				string url = appUpdateService.DownloadLink(RssBanditApplication.AppGuid, RssBanditApplication.Version.ToString(), RssBanditApplication.ApplicationInfos);	
 				workDone.Set();	// dismiss wait dialog
 				lock (this) {
 					if (!this.cancelled)
@@ -138,11 +135,3 @@ namespace RssBandit
 	}
 }
 
-#region CVS Version Log
-/*
- * $Log: RssBanditUpdateManager.cs,v $
- * Revision 1.7  2006/10/31 13:36:35  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- */
-#endregion

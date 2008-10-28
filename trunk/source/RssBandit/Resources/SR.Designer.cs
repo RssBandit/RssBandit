@@ -2722,7 +2722,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Report a Bug (Sourceforge)....
+        ///   Looks up a localized string similar to &amp;Report a Bug....
         /// </summary>
         internal static string MenuBugReportCaption {
             get {
@@ -2731,7 +2731,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enables you to report a bug for this application on Sourceforge.net.
+        ///   Looks up a localized string similar to Enables you to report a bug for this application.
         /// </summary>
         internal static string MenuBugReportDesc {
             get {
@@ -4963,7 +4963,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Display news (Sourceforge)....
+        ///   Looks up a localized string similar to &amp;Display news....
         /// </summary>
         internal static string MenuWorkspaceNewsCaption {
             get {
@@ -4972,7 +4972,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read latest news about this application on Sourceforge.net.
+        ///   Looks up a localized string similar to Read latest news about this application.
         /// </summary>
         internal static string MenuWorkspaceNewsDesc {
             get {
@@ -6052,87 +6052,6 @@ namespace RssBandit.Resources {
         internal static string UpgradeInfoBoxCaption {
             get {
                 return ResourceManager.GetString("UpgradeInfoBoxCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse.
-        /// </summary>
-        internal static string URL_BugReport {
-            get {
-                return ResourceManager.GetString("URL_BugReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.technorati.com/cosmos/links.html?rank=links&amp;url=.
-        /// </summary>
-        internal static string URL_FeedLinkCosmosUrlBase {
-            get {
-                return ResourceManager.GetString("URL_FeedLinkCosmosUrlBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.feedvalidator.org/check?url=.
-        /// </summary>
-        internal static string URL_FeedValidationBase {
-            get {
-                return ResourceManager.GetString("URL_FeedValidationBase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://sourceforge.net/donate/index.php?group_id=96589.
-        /// </summary>
-        internal static string URL_ProjectDonation {
-            get {
-                return ResourceManager.GetString("URL_ProjectDonation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276.
-        /// </summary>
-        internal static string URL_ProjectDownload {
-            get {
-                return ResourceManager.GetString("URL_ProjectDownload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://sourceforge.net/news/?group_id=96589.
-        /// </summary>
-        internal static string URL_ProjectNews {
-            get {
-                return ResourceManager.GetString("URL_ProjectNews", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.rssbandit.org/forum/.
-        /// </summary>
-        internal static string URL_UserForum {
-            get {
-                return ResourceManager.GetString("URL_UserForum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.rssbandit.org/docs/.
-        /// </summary>
-        internal static string URL_WebHelp {
-            get {
-                return ResourceManager.GetString("URL_WebHelp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.rssbandit.org/.
-        /// </summary>
-        internal static string URL_WikiWebNews {
-            get {
-                return ResourceManager.GetString("URL_WikiWebNews", resourceCulture);
             }
         }
         

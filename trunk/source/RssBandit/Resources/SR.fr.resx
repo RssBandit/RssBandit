@@ -117,34 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="URL_WebHelp" xml:space="preserve">
-    <value>http://www.rssbandit.org/docs/</value>
-    <comment>used to navigate to Bandit docs (Help)</comment>
-  </data>
-  <data name="URL_FeedValidationBase" xml:space="preserve">
-    <value>http://www.feedvalidator.org/check?url=</value>
-    <comment>used to validate a RSSfeed, default on invalid .config</comment>
-  </data>
-  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
-    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-    <comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
-  </data>
-  <data name="URL_BugReport" xml:space="preserve">
-    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-    <comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
-  </data>
-  <data name="URL_ProjectNews" xml:space="preserve">
-    <value>http://sourceforge.net/news/?group_id=96589</value>
-    <comment>News page at Sourceforge, default on invalid .config</comment>
-  </data>
-  <data name="URL_WikiWebNews" xml:space="preserve">
-    <value>http://www.rssbandit.org/</value>
-    <comment>Bandit Wiki Site, default on invalid .config</comment>
-  </data>
-  <data name="URL_UserForum" xml:space="preserve">
-    <value>http://www.rssbandit.org/forum/</value>
-    <comment>Bandit User Forum, default on invalid .config</comment>
-  </data>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Flux sans catégorie]</value>
     <comment>localizable</comment>
@@ -460,19 +432,19 @@ Détails : {1}</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>&amp;Afficher les actualités (Sourceforge)...</value>
+    <value>&amp;Afficher les actualités...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Lire les dernières informations à propos de cette application sur Sourceforge.net</value>
+    <value>Lire les dernières informations à propos de cette application</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>&amp;Signaler un bug (Sourceforge)...</value>
+    <value>&amp;Signaler un bug...</value>
     <comment>Caption within help menu</comment>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Permet de signaler un bug pour cette application sur Sourceforge.net</value>
+    <value>Permet de signaler un bug pour cette application</value>
     <comment>Description within help menu</comment>
   </data>
   <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
@@ -2042,14 +2014,6 @@ Ces droits administrateur ne sont nécessaires que pour activer la fonctionnalit
   <data name="MenuDonateToProjectDesc" xml:space="preserve">
     <value>Naviguer vers une URL où vous pourrez soutenir le projet...</value>
     <comment>Description within help menu</comment>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-    <comment>Download package page at Sourceforge, default on invalid .config</comment>
-  </data>
-  <data name="URL_ProjectDonation" xml:space="preserve">
-    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
-    <comment>Bandit Project Donation Url, default on invalid .config</comment>
   </data>
   <data name="MenuDonateToProjectCaption" xml:space="preserve">
     <value>Faire un don...</value>
