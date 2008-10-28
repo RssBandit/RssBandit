@@ -170,20 +170,7 @@ namespace RssBandit
         private const string applicationId = "RssBandit";
         private const string applicationName = "RSS Bandit";
 
-        private static readonly string[] applicationUpdateServiceUrls =
-            new[] {"http://www.rssbandit.org/services/UpdateService.asmx"};
-
         private static string defaultCategory;
-
-        private static string validationUrlBase;
-        private static string linkCosmosUrlBase;
-        private static string bugReportUrl;
-        private static string workspaceNewsUrl;
-        private static string webHelpUrl;
-        private static string wikiNewsUrl;
-        private static string forumUrl;
-        private static string projectDonationUrl;
-        private static string projectDownloadUrl;
 
         // advanced .config options:
         private static bool unconditionalCommentRss;
@@ -233,17 +220,7 @@ namespace RssBandit
 
         internal static void StaticInit()
         {
-            // set initial defaults:
-			validationUrlBase = SR.URL_FeedValidationBase;
-			linkCosmosUrlBase = SR.URL_FeedLinkCosmosUrlBase;
-			bugReportUrl = SR.URL_BugReport;
-			webHelpUrl = SR.URL_WebHelp;
-			workspaceNewsUrl = SR.URL_ProjectNews;
-			wikiNewsUrl = SR.URL_WikiWebNews;
-			forumUrl = SR.URL_UserForum;
-			projectDonationUrl = SR.URL_ProjectDonation;
-			projectDownloadUrl = SR.URL_ProjectDownload;
-
+            // set initial defaults
 			// advanced settings:
 			unconditionalCommentRss = false;
 			automaticColorSchemes =  true;
@@ -254,15 +231,16 @@ namespace RssBandit
             // read app.config If a key was not found, take defaults from the embedded resources
             List<ConfigurationErrorsException> configErrors = new List<ConfigurationErrorsException>();
 
-			CollectConfigurationException(() => validationUrlBase = ReadAppSettingsEntry("validationUrlBase", SR.URL_FeedValidationBase), configErrors);
-            CollectConfigurationException(() => linkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", SR.URL_FeedLinkCosmosUrlBase), configErrors);
-            CollectConfigurationException(() => bugReportUrl = ReadAppSettingsEntry("bugReportUrl", SR.URL_BugReport), configErrors);
-            CollectConfigurationException(() => webHelpUrl = ReadAppSettingsEntry("webHelpUrl", SR.URL_WebHelp), configErrors);
-            CollectConfigurationException(() => workspaceNewsUrl = ReadAppSettingsEntry("projectNewsUrl", SR.URL_ProjectNews), configErrors);
-            CollectConfigurationException(() => wikiNewsUrl = ReadAppSettingsEntry("wikiWebUrl", SR.URL_WikiWebNews), configErrors);
-            CollectConfigurationException(() => forumUrl = ReadAppSettingsEntry("userForumUrl", SR.URL_UserForum), configErrors);
-            CollectConfigurationException(() => projectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", SR.URL_ProjectDonation), configErrors);
-            CollectConfigurationException(() => projectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", SR.URL_ProjectDownload), configErrors);
+			// outgoing links:
+			CollectConfigurationException(() => Resource.OutgoingLinks.FeedValidationUrlBase = ReadAppSettingsEntry("validationUrlBase", Resource.OutgoingLinks.Default.FeedValidationUrlBase), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.FeedLinkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", Resource.OutgoingLinks.Default.FeedLinkCosmosUrlBase), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.BugReportUrl = ReadAppSettingsEntry("bugReportUrl", Resource.OutgoingLinks.Default.BugReportUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.WebHelpUrl = ReadAppSettingsEntry("webHelpUrl", Resource.OutgoingLinks.Default.WebHelpUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectBlogUrl = ReadAppSettingsEntry("projectNewsUrl", Resource.OutgoingLinks.Default.ProjectBlogUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectNewsUrl = ReadAppSettingsEntry("wikiWebUrl", Resource.OutgoingLinks.Default.ProjectNewsUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.UserForumUrl = ReadAppSettingsEntry("userForumUrl", Resource.OutgoingLinks.Default.UserForumUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", Resource.OutgoingLinks.Default.ProjectDonationUrl), configErrors);
+			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", Resource.OutgoingLinks.Default.ProjectDownloadUrl), configErrors);
 
             // read advanced settings:
             CollectConfigurationException(() => unconditionalCommentRss = ReadAppSettingsEntry("UnconditionalCommentRss", false), configErrors);

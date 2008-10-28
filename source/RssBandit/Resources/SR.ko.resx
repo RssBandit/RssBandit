@@ -1034,10 +1034,10 @@ for detailed information about the error occured.</value>
     <value>Refresh...</value>
   </data>
   <data name="MenuBugReportCaption">
-    <value>&amp;Report a Bug (Sourceforge)...</value>
+    <value>&amp;Report a Bug...</value>
   </data>
   <data name="MenuBugReportDesc">
-    <value>Enables you to report a bug for this application on Sourceforge.net</value>
+    <value>Enables you to report a bug for this application</value>
   </data>
   <data name="MenuCatchUpCategoryCaption">
     <value>Mark All Items In Category As Read</value>
@@ -1704,10 +1704,10 @@ for detailed information about the error occured.</value>
     <value>Check this entry, to include it within the simultaneous search...</value>
   </data>
   <data name="MenuWorkspaceNewsCaption">
-    <value>&amp;Display news (Sourceforge)...</value>
+    <value>&amp;Display news...</value>
   </data>
   <data name="MenuWorkspaceNewsDesc">
-    <value>Read latest news about this application on Sourceforge.net</value>
+    <value>Read latest news about this application</value>
   </data>
   <data name="MenuViewOutlookReadingPane">
     <value>Show Items in Groups</value>

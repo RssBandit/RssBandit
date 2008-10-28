@@ -57,34 +57,6 @@
 	<resheader name="Writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-	<data name="URL_WebHelp">
-		<value>http://www.rssbandit.org/docs/</value>
-		<comment>used to navigate to Bandit docs (Help)</comment>
-	</data>
-	<data name="URL_FeedValidationBase">
-		<value>http://www.feedvalidator.org/check?url=</value>
-		<comment>used to validate a RSSfeed, default on invalid .config</comment>
-	</data>
-	<data name="URL_FeedLinkCosmosUrlBase">
-		<value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-		<comment>used to navigate to Technorati Link Cosmos, default on invalid .config</comment>
-	</data>
-	<data name="URL_BugReport">
-		<value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-		<comment>Bug report page at Sourceforge (no logon required), default on invalid .config</comment>
-	</data>
-	<data name="URL_ProjectNews">
-		<value>http://sourceforge.net/news/?group_id=96589</value>
-		<comment>News page at Sourceforge, default on invalid .config</comment>
-	</data>
-	<data name="URL_WikiWebNews">
-		<value>http://www.rssbandit.org/</value>
-		<comment>Bandit Wiki Site, default on invalid .config</comment>
-	</data>
-	<data name="URL_UserForum">
-		<value>http://www.rssbandit.org/forum/</value>
-		<comment>Bandit User Forum, default on invalid .config</comment>
-	</data>
 	<data name="FeedDefaultCategory">
 		<value>[अवर्गीकृत फीड्स]</value>
 		<comment>localizable</comment>
@@ -402,19 +374,19 @@ Detail: {1}</value>
 		<comment>Description within help menu</comment>
 	</data>
 	<data name="MenuWorkspaceNewsCaption">
-		<value>&amp;Display news (Sourceforge)...</value>
+		<value>&amp;Display news...</value>
 		<comment>Caption within help menu</comment>
 	</data>
 	<data name="MenuWorkspaceNewsDesc">
-		<value>Read latest news about this application on Sourceforge.net</value>
+		<value>Read latest news about this application</value>
 		<comment>Description within help menu</comment>
 	</data>
 	<data name="MenuBugReportCaption">
-		<value>&amp;Report a Bug (Sourceforge)...</value>
+		<value>&amp;Report a Bug...</value>
 		<comment>Caption within help menu</comment>
 	</data>
 	<data name="MenuBugReportDesc">
-		<value>Enables you to report a bug for this application on Sourceforge.net</value>
+		<value>Enables you to report a bug for this application</value>
 		<comment>Description within help menu</comment>
 	</data>
 	<data name="MenuCheckForUpdatesCaption">
@@ -2001,14 +1973,6 @@ inconvenience.</value>
 	<data name="MenuColumnChooserResetLayoutToDefaultDesc">
 		<value>Layout will be removed from the selected subscription node...</value>
 		<comment>Description within context menu</comment>
-	</data>
-	<data name="URL_ProjectDownload">
-		<value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-		<comment>Download package page at Sourceforge, default on invalid .config</comment>
-	</data>
-	<data name="URL_ProjectDonation">
-		<value>http://sourceforge.net/donate/index.php?group_id=96589</value>
-		<comment>Bandit Project Donation Url, default on invalid .config</comment>
 	</data>
 	<data name="MainMenuEditCaption">
 		<value>&amp;संपादन</value>

@@ -1096,10 +1096,10 @@ for detailed information about the error occured.</value>
     <value>Refresh...</value>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>&amp;Report a Bug (Sourceforge)...</value>
+    <value>&amp;Report a Bug...</value>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Enables you to report a bug for this application on Sourceforge.net</value>
+    <value>Enables you to report a bug for this application</value>
   </data>
   <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
     <value>Mark All Items In Category As Read</value>
@@ -1820,10 +1820,10 @@ for detailed information about the error occured.</value>
     <value>Check this entry, to include it within the simultaneous search...</value>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>&amp;Display news (Sourceforge)...</value>
+    <value>&amp;Display news...</value>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Read latest news about this application on Sourceforge.net</value>
+    <value>Read latest news about this application</value>
   </data>
   <data name="MenuViewOutlookReadingPane" xml:space="preserve">
     <value>Show Items in Groups</value>
@@ -2158,34 +2158,6 @@ Do you want to continue?</value>
   </data>
   <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
     <value>Add or remove item from clippings folder in NewsGator Online</value>
-  </data>
-  <data name="URL_BugReport" xml:space="preserve">
-    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
-    <comment> some urls as fallback if invalid or missing in .config</comment>
-  </data>
-  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
-    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
-  </data>
-  <data name="URL_FeedValidationBase" xml:space="preserve">
-    <value>http://www.feedvalidator.org/check?url=</value>
-  </data>
-  <data name="URL_ProjectDonation" xml:space="preserve">
-    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
-  </data>
-  <data name="URL_ProjectDownload" xml:space="preserve">
-    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
-  </data>
-  <data name="URL_ProjectNews" xml:space="preserve">
-    <value>http://sourceforge.net/news/?group_id=96589</value>
-  </data>
-  <data name="URL_UserForum" xml:space="preserve">
-    <value>http://www.rssbandit.org/forum/</value>
-  </data>
-  <data name="URL_WebHelp" xml:space="preserve">
-    <value>http://www.rssbandit.org/docs/</value>
-  </data>
-  <data name="URL_WikiWebNews" xml:space="preserve">
-    <value>http://www.rssbandit.org/</value>
   </data>
   <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
     <value>Main Menu Bar</value>

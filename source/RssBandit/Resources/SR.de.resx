@@ -924,10 +924,10 @@ Detailliertere Informationen über diesen Fehler finden Sie in der Datei
     <value>Aktualisieren (Webseite)</value>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>Fehler melden (Sourceforge)...</value>
+    <value>Fehler melden...</value>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>Melden Sie einen aufgetretenen Anwendungsfehler an das Entwicklerteam auf Sourceforge.net</value>
+    <value>Melden Sie einen aufgetretenen Anwendungsfehler an das Entwicklerteam</value>
   </data>
   <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
     <value>Als gelesen markieren</value>
@@ -1593,10 +1593,10 @@ Detailliertere Informationen über diesen Fehler finden Sie in der Datei
     <value>Diese Suchmaschine auswählen, um sie in die simultane Suche einzubeziehen...</value>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>Neuigkeiten (Sourceforge)...</value>
+    <value>Neuigkeiten...</value>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>Lesen Sie die neuesten Nachrichten über die aktuelle Entwicklung dieser Applikation auf Sourceforge.net</value>
+    <value>Lesen Sie die neuesten Nachrichten über die aktuelle Entwicklung dieser Applikation</value>
   </data>
   <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" xml:space="preserve">
     <value>Wollen Sie wirklich diese Kategorie und alle 

@@ -325,7 +325,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdWebHelp(ICommand sender)
         {
-            NavigateToUrlInExternalBrowser(webHelpUrl);
+			NavigateToUrlInExternalBrowser(Resource.OutgoingLinks.WebHelpUrl);
         }
 
         /// <summary>
@@ -334,25 +334,25 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdReportAppBug(ICommand sender)
         {
-            NavigateToUrlAsUserPreferred(bugReportUrl, CaptionOnly + ": Bug Tracker", true, true);
+			NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.BugReportUrl, CaptionOnly + ": Bug Tracker", true, true);
         }
 
         /// <summary>
-        /// Display the Workspace News Web-Page.
+        /// Display the Blog News Web-Page.
         /// </summary>
         /// <param name="sender">Object that initiates the call</param>
-        public void CmdWorkspaceNews(ICommand sender)
+        public void CmdProjectBlogNews(ICommand sender)
         {
-            NavigateToUrlAsUserPreferred(workspaceNewsUrl, CaptionOnly + ": Project News", true, true);
+            NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.ProjectBlogUrl, CaptionOnly + ": Project Blog", true, true);
         }
 
         /// <summary>
-        /// Display the Wiki News Web-Page.
+        /// Display the Project News Web-Page.
         /// </summary>
         /// <param name="sender">Object that initiates the call</param>
-        public void CmdWikiNews(ICommand sender)
+        public void CmdProjectNews(ICommand sender)
         {
-            NavigateToUrlAsUserPreferred(wikiNewsUrl, CaptionOnly + ": Wiki", true, true);
+			NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.ProjectNewsUrl, CaptionOnly + ": Project News", true, true);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdVisitForum(ICommand sender)
         {
-            NavigateToUrlAsUserPreferred(forumUrl, CaptionOnly + ": Forum", true, true);
+            NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.UserForumUrl, CaptionOnly + ": Forum", true, true);
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdDonateToProject(ICommand sender)
         {
-            NavigateToUrlAsUserPreferred(projectDonationUrl, CaptionOnly + ": Donate", true, true);
+			NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.ProjectDonationUrl, CaptionOnly + ": Donate", true, true);
         }
 
 
@@ -518,7 +518,7 @@ namespace RssBandit
                     //RssBanditUpdateManager.BeginDownload(updateManager.AvailableUpdates);	// Async. Preferences updated in OnUpdateComplete event
 
                     // for now we do not download anything, just display the SF download page:
-                    NavigateToUrlAsUserPreferred(projectDownloadUrl, CaptionOnly + ": Download", true, true);
+					NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.ProjectDownloadUrl, CaptionOnly + ": Download", true, true);
                     LastAutoUpdateCheck = DateTime.Now;
                 }
             }
@@ -899,7 +899,7 @@ namespace RssBandit
         {
             if (!string.IsNullOrEmpty(feedLink))
             {
-                NavigateToUrlAsUserPreferred(validationUrlBase + Uri.EscapeUriString(feedLink),
+				NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.FeedValidationUrlBase + Uri.EscapeUriString(feedLink),
                                              SR.TabValidationResultCaption, true, true);
             }
         }
@@ -964,7 +964,7 @@ namespace RssBandit
                 IFeedDetails feedInfo = entry.Source.GetFeedDetails(feedLink);
                 if (feedInfo != null)
                 {
-                    NavigateToUrlAsUserPreferred(linkCosmosUrlBase + Uri.EscapeUriString(feedInfo.Link),
+					NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.FeedLinkCosmosUrlBase + Uri.EscapeUriString(feedInfo.Link),
                                                  String.Format(SR.TabLinkCosmosCaption,feedInfo.Title), true, true);
                 }
             }

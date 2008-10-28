@@ -537,7 +537,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuWebHelpCaption, SR.MenuWebHelpDesc, shortcutHandler); 
 
 			AppButtonToolCommand style0 = new AppButtonToolCommand(
-				"cmdWorkspaceNews", owner.Mediator, owner.CmdWorkspaceNews,
+				"cmdWorkspaceNews", owner.Mediator, owner.CmdProjectBlogNews,
 				SR.MenuWorkspaceNewsCaption, SR.MenuWorkspaceNewsDesc, shortcutHandler); 
 
 			AppButtonToolCommand style1 = new AppButtonToolCommand(
@@ -557,7 +557,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuCheckForUpdatesCaption, SR.MenuCheckForUpdatesDesc, shortcutHandler);
 
 			AppButtonToolCommand style4 = new AppButtonToolCommand(
-				"cmdWikiNews", owner.Mediator, owner.CmdWikiNews,
+				"cmdWikiNews", owner.Mediator, owner.CmdProjectNews,
 				SR.MenuBanditWikiCaption, SR.MenuBanditWikiDesc, shortcutHandler);
 			
 			AppButtonToolCommand style5 = new AppButtonToolCommand(

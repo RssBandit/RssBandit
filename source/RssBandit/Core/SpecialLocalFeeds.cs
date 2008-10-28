@@ -720,7 +720,7 @@ namespace RssBandit.SpecialFeeds
 				{
 					writer.WriteStartElement("li");
 					writer.WriteStartElement("a");
-					writer.WriteAttributeString("href", RssBanditApplication.FeedValidationUrlBase + this._resourceUrl);
+					writer.WriteAttributeString("href", Resource.OutgoingLinks.FeedValidationUrlBase + this._resourceUrl);
 					writer.WriteRaw(SR.RefreshFeedExceptionReportValidationPart);
 					writer.WriteEndElement();	// </a>
 					writer.WriteEndElement();	// </li>
@@ -761,7 +761,7 @@ namespace RssBandit.SpecialFeeds
 				{
 					if (this._resourceUrl.StartsWith("http"))
 					{
-						sLink = (provideXMLValidationUrl ? RssBanditApplication.FeedValidationUrlBase : String.Empty) + this._resourceUrl;
+						sLink = (provideXMLValidationUrl ? Resource.OutgoingLinks.FeedValidationUrlBase : String.Empty) + this._resourceUrl;
 					}
 					else
 					{

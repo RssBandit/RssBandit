@@ -125,7 +125,7 @@
 {0}页的新闻</value>
   </data>
   <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
-    <value>显示新闻(Sourceforge)...</value>
+    <value>显示新闻...</value>
   </data>
   <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
     <value>复制主页链接到剪贴板</value>
@@ -550,7 +550,7 @@
     <value>在网页上搜索</value>
   </data>
   <data name="MenuBugReportCaption" xml:space="preserve">
-    <value>报告程序错误 (Sourceforge)...</value>
+    <value>报告程序错误...</value>
   </data>
   <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
     <value>读取新闻列表文件错误.</value>
@@ -1122,7 +1122,7 @@
     <value>复制选中的新闻到o...</value>
   </data>
   <data name="MenuBugReportDesc" xml:space="preserve">
-    <value>您可以在Sourceforge.net上报告程序的错误</value>
+    <value>您可以在上报告程序的错误</value>
   </data>
   <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
     <value>取消访问...</value>
@@ -1156,7 +1156,7 @@
     <value>发件</value>
   </data>
   <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
-    <value>在 Sourceforge.net 阅读最新的关于本应用程序的消息</value>
+    <value>在阅读最新的关于本应用程序的消息</value>
   </data>
   <data name="MenuRenameCategoryCaption" xml:space="preserve">
     <value>重命名分类</value>
