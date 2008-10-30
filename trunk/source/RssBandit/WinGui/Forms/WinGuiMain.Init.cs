@@ -384,6 +384,8 @@ namespace RssBandit.WinGui.Forms
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
         	treeFeeds.AllowDrop = true;
+        	treeFeeds.ShowRootLines = false;
+			treeFeeds.ShowLines = false;
 
 			// we could also have impl. sorting by using a IComparable impl. at TreeFeedsNodeBase
 			// and it's inherited classes. But it is easier to handle the various different

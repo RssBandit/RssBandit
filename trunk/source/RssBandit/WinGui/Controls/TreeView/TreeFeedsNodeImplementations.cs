@@ -27,7 +27,7 @@ namespace RssBandit.WinGui.Controls
 
     #region SubscriptionRootNode
 
-    internal class SubscriptionRootNode : TreeFeedsNodeBase
+	internal class SubscriptionRootNode : TreeFeedsNodeBase
     {
         private static ContextMenu _popup; // share one context menu
 
@@ -176,7 +176,7 @@ namespace RssBandit.WinGui.Controls
     /// <summary>
     /// Root node to hold special folders, like Feed Errors and Flagged Item nodes.
     /// </summary>
-    internal class SpecialRootNode : TreeFeedsNodeBase
+	internal class SpecialRootNode : TreeFeedsNodeBase
     {
         private readonly ContextMenu _popup; // context menu
 
@@ -727,7 +727,7 @@ namespace RssBandit.WinGui.Controls
     /// <summary>
     /// Root node to hold persistent FinderNodes.
     /// </summary>
-    internal class FinderRootNode : TreeFeedsNodeBase
+	internal class FinderRootNode : TreeFeedsNodeBase
     {
         private readonly ContextMenu _popup; // context menu
 
