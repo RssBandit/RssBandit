@@ -1,7 +1,7 @@
 [DEFAULT]
 BASEURL=http://dasblog.us/
 [InternetShortcut]
-URL=http://www.rssbandit.org/ow.asp?YetImplementedFeatures
+URL=http://www.rssbandit.org/project-status/
 Modified=508CB1CFF481C50197
 IconFile=http://sourceforge.net/images/favicon.ico
 IconIndex=1

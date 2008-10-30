@@ -70,8 +70,8 @@ body {
     </ul>
 </p>
 <p>RSS Bandit supports integration with a wide variety of search engines 
- for searching the web. The default installation includes <a href="http://google.com/">Google</a>, 
- <a href="http://feedster.com/">Feedster</a>, and <a href="http://msn.com/">MSN</a>. 
+ for searching the web. The default installation includes <a href="http://www.google.com/">Google</a>, 
+ <a href="http://news.search.yahoo.com/news/">Yahoo! News</a>, and <a href="http://www.msn.com/">MSN</a>. 
  Some search engines (such as Feedster) can return results as as RSS feed, 
  which RSS Bandit displays in a special <b>Search result</b> folder within 
  the <b>Special Feeds</b> folder. </p>
@@ -83,11 +83,11 @@ body {
 	align=center><img src="..\..\images\WebSearchBox.jpg"
 						alt="Web Search"
 						/
-						style="width: 353px;
-								height: 200px;
+						style="width: 292px;
+								height: 87px;
 								border-style: none;"
-						width=353
-						height=200
+						width=292
+						height=87
 						border=0><br />
 <span class=figure>Figure 1: Web Search text box.</span> </p>
 
@@ -100,11 +100,11 @@ body {
 <p style="text-align: center;"
 	align=center><img src="..\..\images\WebSearchEngines.jpg"
 						alt="Web Search Engines"
-						style="width: 208px;
-								height: 122px;
+						style="width: 444px;
+								height: 205px;
 								border-style: none;"
-						width=208
-						height=122
+						width=444
+						height=205
 						border=0> <br />
 <span class=figure>Figure 2: Web Search Engines.</span> </p>
 
@@ -113,13 +113,13 @@ body {
  tab. It should bring up the dialog shown in figure 3. </p>
 
 <p style="text-align: center;"
-	align=center><img src="..\..\images\rssbandit_WebSearchOptions.gif"
+	align=center><img src="..\..\images\WebSearchOptions.jpg"
 						alt="Web Search Options"
-						style="width: 408px;
-								height: 484px;
+						style="width: 566px;
+								height: 534px;
 								border-style: none;"
-						width=408
-						height=484
+						width=566
+						height=534
 						border=0><br />
 <span class=figure>Figure 3: Web Search Options.</span> </p>
 
@@ -130,20 +130,20 @@ body {
 
 <p>You can reorder the search engines by selecting an engine and clicking 
  <b>Move Up</b> or <b>Move Down</b>. To add a new search engine, click 
- the <b>Add</b> button. This will bring up the properties dialog for a 
+ the <b>Add</b> button, for changes use the <strong>Properties...</strong> button. This will bring up the properties dialog for a 
  search engine as in figure 4. </p>
 
 <p style="text-align: center;"
 	align=center><img src="..\..\images\WebSearchAdd.jpg"
 						alt="Add Search Engine Dialog"
 						/
-						style="width: 450px;
-								height: 290px;
+						style="width: 510px;
+								height: 294px;
 								border-style: none;"
-						width=450
-						height=290
+						width=510
+						height=294
 						border=0><br />
-<span class=figure>Figure 4: Add Search Engine Dialog.</span> </p>
+<span class=figure>Figure 4: Add/Properties Search Engine Dialog.</span> </p>
 
 <p>The <b>URL</b> field requires the URL for the search engine. Note that 
  the URL cannot simply be the URL to the front page of the search engine's 
@@ -170,16 +170,8 @@ http://www.google.com/search?sourceid=navclient&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=
 </blockquote>
 
 <p>Every search engine is different, so you'll have to check with the search 
- engine. Some search engines requires the search term encoded different 
- than UTF-8, e.g. Yahoo Japan (euc-jp) http://www.yahoo.co.jp/ . So the 
- parameter placeholder can also have a format like this:</p>
-
-<p style="margin-left: 40px;">{0:&lt;encoding&gt;}</p>
-
-<p style="margin-left: 0px;">&lt;encoding&gt; can be of euc-jp, Shift_JIS. 
- See also at: <a href="http://msdn.microsoft.com/library/en-us/cpref/html/frlrfSystemTextEncodingClassGetEncodingTopic2.asp">MSDN</a>. 
- Examples: <span style="font-weight: bold;">{0:euc-jp}</span> or <span 
- style="font-weight: bold;">{0:Shift_JIS}</span>.</p>
+ engine. The search URL is expanded with the search term you provided and escaped 
+ before it gets send to the target address.</p>
 
 <p>The <b>Title</b> field is the text displayed in the list of search engines 
  (as seen in figure 2). </p>
@@ -190,19 +182,19 @@ http://www.google.com/search?sourceid=navclient&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=
 
 <p>The <b>Picture</b> field allows you to browse for a 16 x 16 pixel image 
  or icon that will represent the search engine. It will be displayed next 
- to search engine as in the hastily created icon for Google in figure 5. 
+ to search engine as in the hastily created icon for Yahoo in figure 5. 
  </p>
 
 <p style="text-align: center;"
 	align=center><img src="..\..\images\WebSearchEnginesWithImage.jpg"
 						alt="Google icon"
 						/
-						style="width: 163px;
-								height: 121px;
+						style="width: 431px;
+								height: 211px;
 								border-style: none;"
-						width=163
-						height=121
-						border=0> <br/><span class=figure>Figure 5: Google 
+						width=431
+						height=211
+						border=0> <br/><span class=figure>Figure 5: Yahoo 
  now has an icon.</span> </p>
 
 <p>If the search engine returns results as RSS, check the checkbox labeled 
