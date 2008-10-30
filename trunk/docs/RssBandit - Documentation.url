@@ -2,7 +2,7 @@
 [DEFAULT]
 BASEURL=http://www.dasblog.info/
 [InternetShortcut]
-URL=http://www.rssbandit.org/docs/
+URL=http://docs.rssbandit.org/
 HotKey=0
 IDList=
 IconFile=http://www.rssbandit.org/favicon.ico
