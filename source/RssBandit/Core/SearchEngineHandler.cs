@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -12,7 +13,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using System.Collections;
 using System.Collections.Generic;
 using NewsComponents;
 using RssBandit.Xml;
@@ -36,24 +36,24 @@ namespace RssBandit.WebSearch
 		/// <summary>
 		/// Holds the search engines.
 		/// </summary>
-		private SearchEngines _engines = null;
+		private SearchEngines _engines;
 		
 		///<summary>
 		///Internal flag used to track whether the XML in the 
 		///searches config validated against the schema. 
 		///</summary>
-		private bool  validationErrorOccured = false; 
+		private bool  validationErrorOccured; 
 
 		///<summary>
 		///Internal flag used to track whether the XML in the 
 		///searches config validated against the schema. 
 		///</summary>
-		private bool  enginesLoaded = false; 
+		private bool  enginesLoaded; 
 
 		/// <summary>
 		/// The schema for the search engines list format
 		/// </summary>
-		private XmlSchema searchConfigSchema = null; 
+		private XmlSchema searchConfigSchema; 
 
 		/// <summary>
 		/// Boolean flag indicates whether the search engines list was loaded 
@@ -135,7 +135,7 @@ namespace RssBandit.WebSearch
             //specify validation event handler passed by caller and the one we use 
             //internally to track state 
             settings.ValidationEventHandler += veh;
-            settings.ValidationEventHandler += new ValidationEventHandler(LoaderValidationCallback);
+            settings.ValidationEventHandler += LoaderValidationCallback;
             validationErrorOccured = false;
             enginesLoaded = false;
 
@@ -190,10 +190,10 @@ namespace RssBandit.WebSearch
 			ValidationEventArgs args) 
 		{
 
-			if(args.Severity == System.Xml.Schema.XmlSeverityType.Warning) {
+			if(args.Severity == XmlSeverityType.Warning) {
 				_log.Info(@"searches\config.xml validation warning: " + args.Message);
 			}
-			else if(args.Severity == System.Xml.Schema.XmlSeverityType.Error) {
+			else if(args.Severity == XmlSeverityType.Error) {
 
 				validationErrorOccured = true; 
 				
@@ -252,16 +252,6 @@ namespace RssBandit.WebSearch
 			_engines.Engines.Add(s1);
 
 			s1 = new SearchEngine();
-			s1.Title = "Feedster";
-			s1.SearchLink = @"http://www.feedster.com/search.php?hl=en&ie=ISO-8859-1&q={0}&btnG=Search&sort=date&type=rss";
-			s1.Description = "Search RSS feeds with Feedster...";			
-			s1.ImageName = "feedster.gif";
-			s1.IsActive = true;
-			s1.ReturnRssResult = true; 
-			
-			_engines.Engines.Add(s1);
-
-			s1 = new SearchEngine();
 			s1.Title = "MSN Search";
 			s1.SearchLink = @"http://search.msn.com/results.aspx?q={0}&FORM=SMCRT&x=32&y=15";
 			s1.Description = "Search the web with MSN Search...";			
@@ -296,26 +286,26 @@ namespace RssBandit.WebSearch
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
-	[System.Xml.Serialization.XmlRootAttribute("searchConfiguration", Namespace=RssBanditNamespace.SearchConfiguration, IsNullable=false)]
+	[XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
+	[XmlRootAttribute("searchConfiguration", Namespace=RssBanditNamespace.SearchConfiguration, IsNullable=false)]
 	public class SearchEngines
 	{
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("engine", Type = typeof(SearchEngine), IsNullable = false)]
+		[XmlElementAttribute("engine", Type = typeof(SearchEngine), IsNullable = false)]
 		public List<SearchEngine> Engines;
 
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("open-newtab", DataType="boolean")]
+		[XmlAttributeAttribute("open-newtab", DataType="boolean")]
 		public bool NewTabRequired;
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
+	[XmlTypeAttribute(Namespace=RssBanditNamespace.SearchConfiguration)]
 	public class SearchEngine: ISearchEngine, ICloneable
 	{
 		private string title = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("title")] 
+		[XmlElementAttribute("title")] 
 		public string Title {
 			get { return title; }
 			set { title = value; }
@@ -323,7 +313,7 @@ namespace RssBandit.WebSearch
 
 		private string searchLink = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("search-link", DataType="anyURI")] 
+		[XmlElementAttribute("search-link", DataType="anyURI")] 
 		public string SearchLink {
 			get { return searchLink; }
 			set { searchLink = value; }
@@ -331,7 +321,7 @@ namespace RssBandit.WebSearch
 
 		private string description = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("description")] 
+		[XmlElementAttribute("description")] 
 		public string Description {
 			get { return description; }
 			set { description = value; }
@@ -339,7 +329,7 @@ namespace RssBandit.WebSearch
 
 		private string imageName = String.Empty;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("image-name")] 
+		[XmlElementAttribute("image-name")] 
 		public string ImageName {
 			get { return imageName; }
 			set { imageName = value; }
@@ -347,7 +337,7 @@ namespace RssBandit.WebSearch
 
 		private bool isActive;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("active", DataType="boolean") ] 
+		[XmlAttributeAttribute("active", DataType="boolean") ] 
 		public bool IsActive {
 			get { return isActive; }
 			set { isActive = value; }
@@ -355,7 +345,7 @@ namespace RssBandit.WebSearch
 
 		private bool returnRssResult;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("rss-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
+		[XmlAttributeAttribute("rss-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
 		public bool ReturnRssResult {
 			get { return returnRssResult; }
 			set { returnRssResult = value; }
@@ -363,7 +353,7 @@ namespace RssBandit.WebSearch
 
 		private bool mrergeRssResult;
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute("merge-with-local-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
+		[XmlAttributeAttribute("merge-with-local-resultset", DataType="boolean" ), System.ComponentModel.DefaultValue(false) ] 
 		public bool MergeRssResult {
 			get { return mrergeRssResult; }
 			set { mrergeRssResult = value; }
@@ -383,26 +373,17 @@ namespace RssBandit.WebSearch
 			return se;
 		}
 
-		public override string ToString() {
-			if (this.Title != null) {
+		public override string ToString()
+		{
+			if (this.Title != null)
+			{
 				if (this.Description != null)
 					return String.Format("{0} ({1})", this.Title, this.Description);
-				else
-					return this.Title;
-			} else
-				return Resources.SR.GeneralNewItemText;
+				return this.Title;
+			}
+			return Resources.SR.GeneralNewItemText;
 		}
-
 
 		#endregion
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: SearchEngineHandler.cs,v $
- * Revision 1.18  2006/10/31 13:36:35  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- */
-#endregion
