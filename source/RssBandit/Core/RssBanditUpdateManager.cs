@@ -8,6 +8,8 @@
  */
 #endregion
 
+//#define TEST
+
 using System;
 using System.Net;
 using System.Windows.Forms;
@@ -52,6 +54,7 @@ namespace RssBandit
 
 			RssBanditUpdateManager updater = new RssBanditUpdateManager();
 			updater.appUpdateService.Proxy = proxy;
+			updater.appUpdateService.AllowAutoRedirect = true;
 
 			if (owner != null) {	// interactive/visual
 				
@@ -93,7 +96,11 @@ namespace RssBandit
 		private void Run() 
 		{
 			try {
+#if TEST
+				string url = appUpdateService.DownloadLink(RssBanditApplication.AppGuid, new Version(1,6,0,1).ToString(), RssBanditApplication.ApplicationInfos);	
+#else
 				string url = appUpdateService.DownloadLink(RssBanditApplication.AppGuid, RssBanditApplication.Version.ToString(), RssBanditApplication.ApplicationInfos);	
+#endif
 				workDone.Set();	// dismiss wait dialog
 				lock (this) {
 					if (!this.cancelled)
