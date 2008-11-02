@@ -1950,7 +1950,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.8.0.0, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.8.0.855, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CFF4FFDF0F906DD733DF8C65E6BA896B"
@@ -1981,7 +1981,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.8.0.836, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.8.0.855, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D4D212E51E4C73CDC74AF4F8BCA165D0"
@@ -2232,14 +2232,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RssBandit"
-        "ProductCode" = "8:{3BB7C592-2D67-4456-A140-24B48D9769DC}"
-        "PackageCode" = "8:{DF5A05AD-277E-4F1F-9858-A0FB06CD2247}"
+        "ProductCode" = "8:{A1204D35-B022-414B-809C-F0AA0B4B8238}"
+        "PackageCode" = "8:{6EE25537-D678-4B95-B437-3A089726A7EA}"
         "UpgradeCode" = "8:{108879A4-BD9B-414D-9C91-852BA402EF72}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.8.855"
+        "ProductVersion" = "8:1.8.858"
         "Manufacturer" = "8:rssbandit.org"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.rssbandit.org/forum/"
