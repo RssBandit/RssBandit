@@ -27,6 +27,73 @@ using NewsComponents.Utils;
 
 namespace NewsComponents
 {
+
+    /// <summary>
+    /// Compares NewsItems for equality and ensures that items in smart folders (e.g. search folders, watched items, etc) 
+    /// are compared using the original feed source URL. 
+    /// </summary>
+    public class SourceAwareNewsItemComparer : IEqualityComparer<INewsItem>
+    {
+        /// <summary>
+        /// Indicates that the source feed should be ignored when comparing feed items
+        /// </summary>
+        private readonly bool ignoreSourceFeed;
+        
+        /// <summary>
+        /// QName that identifies the XML element that contains the source feed in a NewsItem
+        /// </summary>
+        private static XmlQualifiedName qname = new XmlQualifiedName("feed-ref", NamespaceCore.Feeds_v2004);
+
+        public SourceAwareNewsItemComparer() : this(false) { ;}
+
+        public SourceAwareNewsItemComparer(bool ignoreSourceFeed)
+        {
+            this.ignoreSourceFeed = ignoreSourceFeed;
+        }
+
+        #region Implementation of IEqualityComparer<INewsItem>
+
+        public bool Equals(INewsItem x, INewsItem y)
+        {
+            if (x == null && y == null)
+                return true;
+            if (x == null || y == null)
+                return false;
+
+            if (ReferenceEquals(x, y))
+            {
+                return true;
+            }
+
+
+            //we compare IDs and owner feed URL to prevent two items with same ID across feeds being treated as equal
+            //since some items may be in search folders we need to get the original source feed URL
+            string ThisFeedLink = String.Empty, OtherFeedLink = String.Empty;
+            if (!ignoreSourceFeed)
+            {
+                XmlElement elem = RssHelper.GetOptionalElement(x, qname);
+                ThisFeedLink  = elem == null ? x.FeedLink : elem.InnerText;
+                elem = RssHelper.GetOptionalElement(y, qname);
+                OtherFeedLink = elem == null ? y.FeedLink : elem.InnerText;
+            }
+
+            if (string.Equals(ThisFeedLink, OtherFeedLink, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(x.Id, y.Id, StringComparison.Ordinal))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public int GetHashCode(INewsItem obj)
+        {
+            return obj.GetHashCode(); 
+        }
+
+        #endregion
+    }
+
     /// <summary>
     /// Represents an item in an RSS feed
     /// </summary>
@@ -1185,7 +1252,15 @@ namespace NewsComponents
             if (other == null)
                 return false;
 
-			if (string.Equals(FeedLink, other.FeedLink, StringComparison.OrdinalIgnoreCase) &&
+            //we compare IDs and owner feed URL to prevent two items with same ID across feeds being treated as equal
+            //since some items may be in search folders we need to get the original source feed URL
+            XmlQualifiedName qname = new XmlQualifiedName("feed-ref", NamespaceCore.Feeds_v2004);
+            XmlElement elem = RssHelper.GetOptionalElement(this, qname);
+            string ThisFeedLink = elem == null ? FeedLink : elem.InnerText;
+            elem = RssHelper.GetOptionalElement(other, qname);
+            string OtherFeedLink = elem == null ? other.FeedLink : elem.InnerText; 
+
+			if (string.Equals(ThisFeedLink, OtherFeedLink, StringComparison.OrdinalIgnoreCase) &&
 				string.Equals(Id, other.Id, StringComparison.Ordinal))
             {
                 return true;
