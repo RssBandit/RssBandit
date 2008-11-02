@@ -3970,11 +3970,13 @@ namespace RssBandit
 
             foreach (var ni in items)
             {
-                if (watchedItemsFeed.Items.Contains(ni))
+                SourceAwareNewsItemComparer comparer = new SourceAwareNewsItemComparer(); 
+                INewsItem itemFromWatchedItems = watchedItemsFeed.Items.FirstOrDefault(n => comparer.Equals(n, ni));
+                if (itemFromWatchedItems != null)
                 {
                 	int sourceID;
                 	string feedUrlOfWatchedItem = OptionalItemElement.GetOriginalFeedReference(
-                		ni, out sourceID);
+                        itemFromWatchedItems, out sourceID);
 
 					if (!String.IsNullOrEmpty(feedUrlOfWatchedItem) && FeedSources.ContainsKey(sourceID))
 					{
