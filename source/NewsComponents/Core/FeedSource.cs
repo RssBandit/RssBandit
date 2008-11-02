@@ -5390,15 +5390,17 @@ namespace NewsComponents
                 enclosureDownloader.ResumePendingDownloads();
         }
 
-        /// <summary>
-        /// Downloads the favicons for the various feeds. 
-        /// </summary>
-        public void RefreshFavicons()
+		/// <summary>
+		/// Downloads the favicons for the various feeds.
+		/// Returns true, if it really started downloading any favicon, else false.
+		/// </summary>
+		/// <returns></returns>
+        public bool RefreshFavicons()
         {
             if ((FeedsListOK == false) || isOffline || !DownloadIntervalReached)
             {
                 //we don't have a feed list
-                return;
+                return false;
             }
 
             var websites = new StringCollection();
@@ -5472,10 +5474,10 @@ namespace NewsComponents
             }
             catch (InvalidOperationException ioe)
             {
-// New feeds added to FeedsTable from another thread  
-
+				// New feeds added to FeedsTable from another thread  
                 Trace("RefreshFavicons() InvalidOperationException: {0}", ioe.ToDescriptiveString());
             }
+			return true;
         }
 
 
