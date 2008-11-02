@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+            Microsoft ResX Schema 
+        
+            Version 2.0
+                
+            The primary goals of this format is to allow a simple XML format 
+            that is mostly human readable. The generation and parsing of the 
+            various data types are done through the TypeConverter classes 
+            associated with the data types.
+        
+            Example:
+        
+                ... ado.net/XML headers & schema ...
+                <resheader name="resmimetype">text/microsoft-resx</resheader>
+                <resheader name="version">2.0</resheader>
+                <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+                <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+                <data name="Name1">this is my long string</data>
+                <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+                <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+                    [base64 mime encoded serialized .NET Framework object]
+                </data>
+                <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+                    [base64 mime encoded string representing a byte array form of the .NET Framework object]
+                </data>
+        
+            There are any number of "resheader" rows that contain simple 
+            name/value pairs.
+            
+            Each data row contains a name, and value. The row also contains a 
+            type or mimetype. Type corresponds to a .NET class that support 
+            text/value conversion through the TypeConverter architecture. 
+            Classes that don't support this are serialized and stored with the 
+            mimetype set.
+                     
+            The mimetype is used for serialized objects, and tells the 
+            ResXResourceReader how to depersist the object. This is currently not 
+            extensible. For a given mimetype the value must be set accordingly:
+        
+            Note - application/x-microsoft.net.object.binary.base64 is the format 
+                   that the ResXResourceWriter will generate, however the reader can 
+                   read any of the formats listed below.
+        
+            mimetype: application/x-microsoft.net.object.binary.base64
+            value   : The object must be serialized with 
+                    : System.Serialization.Formatters.Binary.BinaryFormatter
+                    : and then encoded with base64 encoding.
+        
+            mimetype: application/x-microsoft.net.object.soap.base64
+            value   : The object must be serialized with 
+                    : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+                    : and then encoded with base64 encoding.
+            mimetype: application/x-microsoft.net.object.bytearray.base64
+            value   : The object must be serialized into a byte array 
+                    : using a System.ComponentModel.TypeConverter
+                    : and then encoded with base64 encoding.
+                    
+			//	BF 12.22.03	WTR534
+			//	Added LER_Exception_CantAddNodeThatBelongsToDifferentControl                    
+        -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NodePropertyOK">
+    <value>确定</value>
+  </data>
+  <data name="NodePropEdit">
+    <value>编辑(&amp;E)</value>
+  </data>
+  <data name="NodeEditClear">
+    <value>无(&amp;C)</value>
+  </data>
+  <data name="NodePropertyCancel">
+    <value>取消</value>
+  </data>
+  <data name="NodeEditDelete">
+    <value>删除(&amp;D)</value>
+  </data>
+  <data name="DefaultAction_Sort">
+    <value>排序</value>
+  </data>
+  <!--BF 6/10/05 BR04486-->
+  <!--BF 6/16/05 NAS2005 Vol3 - Cell editing-->
+  <!-- JAS v5.3 SmartTags START -->
+  <!-- JAS v5.3 SmartTags END -->
+  <!-- BF 7/18/05	FR00881 -->
+  <!-- BF 7/18/05	FR00881 -->
+  <!-- BF 9/6/05	BR06063 -->
+  <!-- BF 9/9/05	BR06256 -->
+  <!-- BF 10/10/05	BR06895 -->
+  <!-- JAS BR06191 10/11/05 -->
+  <!-- BF 3/17/06	BR10661-->
+<data name="AllNodesDelete">
+		<value>All nodes in the UltraTree will be deleted. Do you want to continue?</value>
+	</data>
+	<data name="NodePropAddSibling">
+		<value>Add &amp;Sibling</value>
+	</data>
+	<data name="NodePropAddChild">
+		<value>Add C&amp;hild</value>
+	</data>
+	<data name="BeforeNodesDeletedTitle">
+		<value>Delete UltraTreeNodes</value>
+	</data>
+	<data name="BeforeNodesDeletedMessage">
+		<value>You have selected {0} node(s) for deletion. 
+Choose Yes to delete the UltraTreeNode(s) or No to exit.</value>
+	</data>
+	<data name="SelNodeEdit">
+		<value>Select node to edit:</value>
+	</data>
+	<data name="NodeEditorTitle">
+		<value>UltraWinTree Node Editor</value>
+	</data>
+	<data name="NodePropAddRoot">
+		<value>Add &amp;Root</value>
+	</data>
+	<data name="NodePropertyEditorLabelEditMessage">
+		<value>Node Label changed.</value>
+	</data>
+	<data name="SelNodeLabel">
+		<value>Selected Node Label:</value>
+	</data>
+	<data name="NodeProperty">
+		<value>Node Property</value>
+	</data>
+	<data name="PasteErrorMessage">
+		<value>The following error was encountered while attempting to paste nodes from the clipboard:
+
+{0}</value>
+	</data>
+	<data name="PasteErrorMessageCaption">
+		<value>Paste error</value>
+	</data>
+	<data name="DefaultAction_Collapse">
+		<value>Collapse</value>
+	</data>
+	<data name="DefaultAction_Expand">
+		<value>Expand</value>
+	</data>
+	<data name="DefaultAction_EnterEditMode">
+		<value>Enter edit mode</value>
+	</data>
+	<data name="NodesCollectionEditor_CannotModifyNodes">
+		<value>The nodes collection cannot be edited when there are bound nodes in the tree.</value>
+	</data>
+	<data name="UltraTreeNodeLayoutInfo_Exception_InvalidSize">
+		<value>The specified size was invalid because it contained a width or height that is less than zero.</value>
+	</data>
+	<data name="UltraTreeNode_Exception_BringCellIntoView">
+		<value>The specified column is not associated with this node.</value>
+	</data>
+	<data name="UltraTree_Exception_ActiveCellColumnHasNoDisplayColumn">
+		<value>The ActiveCell cannot be set for an UltraTreeNodeColumn which has no corresponding display column.</value>
+	</data>
+	<data name="DataError_MessageBox_Title">
+		<value>Data Error</value>
+	</data>
+	<data name="UltraTreeNodeColumn_EditorValueInvalid">
+		<value>"Value in editor is not valid."</value>
+	</data>
+	<data name="DataErrorUnableToConvert">
+		<value>Unable to convert from: {0} to {1}</value>
+	</data>
+	<data name="UltraTree_Exception_CannotSetTopNodeToHiddenNode">
+		<value>The TopNode property cannot be set to an UltraTreeNode that is not visible in the user interface.</value>
+	</data>
+	<data name="UltraTreeNodeColumn_Exception_MaxLength">
+		<value>The 'MaxLength' property cannot be set to a value that is less than zero.</value>
+	</data>
+	<data name="InvalidEditorValue_Error_Message_Prefix">
+		<value>Unable to update the data value: </value>
+	</data>
+	<data name="InvalidEditorValue_Error_Message">
+		<value>The editor's current value is not valid.</value>
+	</data>
+	<data name="ViolatesNullable_Error_Message">
+		<value>Empty cell value not allowed in column '{0}'.</value>
+	</data>
+	<data name="Exception_CannotEditDataBoundNode">
+		<value>The 'BeginEdit' method cannot be called on a node that is bound to a data source unless the 'UseEditor' property of the associated Override is set to DefaultableBoolean.True.</value>
+	</data>
+	</root>

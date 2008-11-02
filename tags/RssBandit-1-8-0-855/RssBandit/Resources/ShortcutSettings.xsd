@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns:tns="http://www.25hoursaday.com/2003/RSSBandit/shortcuts/" 
+	elementFormDefault="qualified" 
+	targetNamespace="http://www.25hoursaday.com/2003/RSSBandit/shortcuts/" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+	<xs:element name="shortcuts" type="tns:ShortcutSettings" />
+		<xs:complexType name="ShortcutSettings">
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="shortcut" type="tns:ShortcutSetting" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:complexType name="ShortcutSetting">
+			<xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="1" name="commandName" type="xs:string" />
+				<xs:element minOccurs="1" maxOccurs="1" name="keys" type="tns:Shortcut" />
+			</xs:sequence>
+			<xs:attribute name="display" type="xs:boolean" use="optional" default="false" />
+		</xs:complexType>
+
+		<xs:simpleType name="Shortcut">
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="None" />
+				<xs:enumeration value="CtrlA" />
+				<xs:enumeration value="CtrlB" />
+				<xs:enumeration value="CtrlC" />
+				<xs:enumeration value="CtrlD" />
+				<xs:enumeration value="CtrlE" />
+				<xs:enumeration value="CtrlF" />
+				<xs:enumeration value="CtrlG" />
+				<xs:enumeration value="CtrlH" />
+				<xs:enumeration value="CtrlI" />
+				<xs:enumeration value="CtrlJ" />
+				<xs:enumeration value="CtrlK" />
+				<xs:enumeration value="CtrlL" />
+				<xs:enumeration value="CtrlM" />
+				<xs:enumeration value="CtrlN" />
+				<xs:enumeration value="CtrlO" />
+				<xs:enumeration value="CtrlP" />
+				<xs:enumeration value="CtrlQ" />
+				<xs:enumeration value="CtrlR" />
+				<xs:enumeration value="CtrlS" />
+				<xs:enumeration value="CtrlT" />
+				<xs:enumeration value="CtrlU" />
+				<xs:enumeration value="CtrlV" />
+				<xs:enumeration value="CtrlW" />
+				<xs:enumeration value="CtrlX" />
+				<xs:enumeration value="CtrlY" />
+				<xs:enumeration value="CtrlZ" />
+				<xs:enumeration value="CtrlShiftA" />
+				<xs:enumeration value="CtrlShiftB" />
+				<xs:enumeration value="CtrlShiftC" />
+				<xs:enumeration value="CtrlShiftD" />
+				<xs:enumeration value="CtrlShiftE" />
+				<xs:enumeration value="CtrlShiftF" />
+				<xs:enumeration value="CtrlShiftG" />
+				<xs:enumeration value="CtrlShiftH" />
+				<xs:enumeration value="CtrlShiftI" />
+				<xs:enumeration value="CtrlShiftJ" />
+				<xs:enumeration value="CtrlShiftK" />
+				<xs:enumeration value="CtrlShiftL" />
+				<xs:enumeration value="CtrlShiftM" />
+				<xs:enumeration value="CtrlShiftN" />
+				<xs:enumeration value="CtrlShiftO" />
+				<xs:enumeration value="CtrlShiftP" />
+				<xs:enumeration value="CtrlShiftQ" />
+				<xs:enumeration value="CtrlShiftR" />
+				<xs:enumeration value="CtrlShiftS" />
+				<xs:enumeration value="CtrlShiftT" />
+				<xs:enumeration value="CtrlShiftU" />
+				<xs:enumeration value="CtrlShiftV" />
+				<xs:enumeration value="CtrlShiftW" />
+				<xs:enumeration value="CtrlShiftX" />
+				<xs:enumeration value="CtrlShiftY" />
+				<xs:enumeration value="CtrlShiftZ" />
+				<xs:enumeration value="F1" />
+				<xs:enumeration value="F2" />
+				<xs:enumeration value="F3" />
+				<xs:enumeration value="F4" />
+				<xs:enumeration value="F5" />
+				<xs:enumeration value="F6" />
+				<xs:enumeration value="F7" />
+				<xs:enumeration value="F8" />
+				<xs:enumeration value="F9" />
+				<xs:enumeration value="F10" />
+				<xs:enumeration value="F11" />
+				<xs:enumeration value="F12" />
+				<xs:enumeration value="ShiftF1" />
+				<xs:enumeration value="ShiftF2" />
+				<xs:enumeration value="ShiftF3" />
+				<xs:enumeration value="ShiftF4" />
+				<xs:enumeration value="ShiftF5" />
+				<xs:enumeration value="ShiftF6" />
+				<xs:enumeration value="ShiftF7" />
+				<xs:enumeration value="ShiftF8" />
+				<xs:enumeration value="ShiftF9" />
+				<xs:enumeration value="ShiftF10" />
+				<xs:enumeration value="ShiftF11" />
+				<xs:enumeration value="ShiftF12" />
+				<xs:enumeration value="CtrlF1" />
+				<xs:enumeration value="CtrlF2" />
+				<xs:enumeration value="CtrlF3" />
+				<xs:enumeration value="CtrlF4" />
+				<xs:enumeration value="CtrlF5" />
+				<xs:enumeration value="CtrlF6" />
+				<xs:enumeration value="CtrlF7" />
+				<xs:enumeration value="CtrlF8" />
+				<xs:enumeration value="CtrlF9" />
+				<xs:enumeration value="CtrlF10" />
+				<xs:enumeration value="CtrlF11" />
+				<xs:enumeration value="CtrlF12" />
+				<xs:enumeration value="CtrlShiftF1" />
+				<xs:enumeration value="CtrlShiftF2" />
+				<xs:enumeration value="CtrlShiftF3" />
+				<xs:enumeration value="CtrlShiftF4" />
+				<xs:enumeration value="CtrlShiftF5" />
+				<xs:enumeration value="CtrlShiftF6" />
+				<xs:enumeration value="CtrlShiftF7" />
+				<xs:enumeration value="CtrlShiftF8" />
+				<xs:enumeration value="CtrlShiftF9" />
+				<xs:enumeration value="CtrlShiftF10" />
+				<xs:enumeration value="CtrlShiftF11" />
+				<xs:enumeration value="CtrlShiftF12" />
+				<xs:enumeration value="Ins" />
+				<xs:enumeration value="CtrlIns" />
+				<xs:enumeration value="ShiftIns" />
+				<xs:enumeration value="Del" />
+				<xs:enumeration value="CtrlDel" />
+				<xs:enumeration value="ShiftDel" />
+				<xs:enumeration value="AltBksp" />
+				<xs:enumeration value="AltF1" />
+				<xs:enumeration value="AltF2" />
+				<xs:enumeration value="AltF3" />
+				<xs:enumeration value="AltF4" />
+				<xs:enumeration value="AltF5" />
+				<xs:enumeration value="AltF6" />
+				<xs:enumeration value="AltF7" />
+				<xs:enumeration value="AltF8" />
+				<xs:enumeration value="AltF9" />
+				<xs:enumeration value="AltF10" />
+				<xs:enumeration value="AltF11" />
+				<xs:enumeration value="AltF12" />
+				<xs:enumeration value="Alt0" />
+				<xs:enumeration value="Alt1" />
+				<xs:enumeration value="Alt2" />
+				<xs:enumeration value="Alt3" />
+				<xs:enumeration value="Alt4" />
+				<xs:enumeration value="Alt5" />
+				<xs:enumeration value="Alt6" />
+				<xs:enumeration value="Alt7" />
+				<xs:enumeration value="Alt8" />
+				<xs:enumeration value="Alt9" />
+				<xs:enumeration value="Ctrl0" />
+				<xs:enumeration value="Ctrl1" />
+				<xs:enumeration value="Ctrl2" />
+				<xs:enumeration value="Ctrl3" />
+				<xs:enumeration value="Ctrl4" />
+				<xs:enumeration value="Ctrl5" />
+				<xs:enumeration value="Ctrl6" />
+				<xs:enumeration value="Ctrl7" />
+				<xs:enumeration value="Ctrl8" />
+				<xs:enumeration value="Ctrl9" />
+				<xs:enumeration value="CtrlShift0" />
+				<xs:enumeration value="CtrlShift1" />
+				<xs:enumeration value="CtrlShift2" />
+				<xs:enumeration value="CtrlShift3" />
+				<xs:enumeration value="CtrlShift4" />
+				<xs:enumeration value="CtrlShift5" />
+				<xs:enumeration value="CtrlShift6" />
+				<xs:enumeration value="CtrlShift7" />
+				<xs:enumeration value="CtrlShift8" />
+				<xs:enumeration value="CtrlShift9" />
+			</xs:restriction>
+		</xs:simpleType>
+</xs:schema>
