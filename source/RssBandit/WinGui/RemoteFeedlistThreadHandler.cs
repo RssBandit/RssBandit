@@ -178,6 +178,10 @@ namespace RssBandit.WinGui
         public void RunUpload(SynchronizationFormat syncFormat)
         {
             string feedlistXml = Path.Combine(Path.GetTempPath(), "feedlist.xml");
+           
+            //copy BanditFeedSource feed list to subscriptions.xml 
+            FeedSourceEntry entry = rssBanditApp.FeedSources.GetOrderedFeedSources().Find(fs => fs.SourceType == FeedSourceType.DirectAccess);               
+            File.Copy(entry.Source.SubscriptionLocation.Location, RssBanditApplication.GetFeedListFileName(), true); 
 
             List<string> files = new List<string>(new[] {
                                  RssBanditApplication.GetFeedListFileName(),
@@ -203,13 +207,13 @@ namespace RssBandit.WinGui
             try
             {
                 rssBanditApp.SaveApplicationState();
-
+               
                 //convert subscriptions.xml to feedlist.xml then save to temp folder
                 using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt"))
                 {
                     XslCompiledTransform xslt = new XslCompiledTransform();
                     xslt.Load(new XmlTextReader(xsltStream));
-                    xslt.Transform(RssBanditApplication.GetFeedListFileName(), feedlistXml);
+                    xslt.Transform(entry.Source.SubscriptionLocation.Location, feedlistXml);
                 }
 
                 using (MemoryStream tempStream = new MemoryStream())
