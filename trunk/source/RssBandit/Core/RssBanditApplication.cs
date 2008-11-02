@@ -336,7 +336,9 @@ namespace RssBandit
 				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
 				// save the test enviroment:
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
-				if (BanditFeedSourceEntry != null)
+				// save only, if we don't start the very first time after installation:
+				if (BanditFeedSourceEntry != null &&
+					!Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
 					BanditFeedSourceEntry.Source.SaveFeedList();
 			}
  

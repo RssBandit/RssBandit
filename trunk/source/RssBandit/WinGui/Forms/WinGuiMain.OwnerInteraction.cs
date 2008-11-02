@@ -1450,10 +1450,11 @@ namespace RssBandit.WinGui.Forms
             {
                 try
                 {
-                    entry.Source.RefreshFavicons();
+					entry.FaviconsDownloaded = entry.Source.RefreshFavicons();
                 }
-                finally
+                catch (Exception ex)
                 {
+					_log.Error("RefreshFavicons() failed", ex);
                     entry.FaviconsDownloaded = true;
                 }
             }
