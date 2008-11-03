@@ -3113,9 +3113,12 @@ namespace RssBandit
                         
                         //due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
                         //into migrated feed list
-                        FileStream stream = File.Open(oldsubs, FileMode.Open);
-                        fs.Source.ImportFeedlist(stream);
-                        stream.Close(); 
+                        if (!StringHelper.EmptyTrimOrNull(oldsubs))
+                        {
+                            FileStream stream = File.Open(oldsubs, FileMode.Open);
+                            fs.Source.ImportFeedlist(stream);
+                            stream.Close();
+                        }
 
 						// needs the feedlist to be loaded:
 						CheckAndMigrateSettingsAndPreferences();
@@ -3163,9 +3166,13 @@ namespace RssBandit
             /* 
             if (File.Exists(currentFeedListFileName))
                 return;
-             */ 
-            string tempFile = Path.GetTempFileName();
-            File.Copy(currentFeedListFileName, tempFile, true); 
+             */
+            string tempFile = String.Empty;
+            if (File.Exists(currentFeedListFileName))
+            {
+                Path.GetTempFileName();
+                File.Copy(currentFeedListFileName, tempFile, true);
+            }
 
             //checks if new feed file exists and if we can migrate some older:
             string oldSubscriptionFile = GetFeedListFileName();
