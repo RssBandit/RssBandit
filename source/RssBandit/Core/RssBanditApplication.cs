@@ -3171,7 +3171,7 @@ namespace RssBandit
             if (File.Exists(currentFeedListFileName))
             {
                 Path.GetTempFileName();
-                File.Copy(currentFeedListFileName, tempFile, true);
+                File.Move(currentFeedListFileName, tempFile);
             }
 
             //checks if new feed file exists and if we can migrate some older:
