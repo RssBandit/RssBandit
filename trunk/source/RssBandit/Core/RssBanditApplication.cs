@@ -3107,8 +3107,16 @@ namespace RssBandit
 					if (fs.SourceType == FeedSourceType.DirectAccess)
 					{
 						// migrate old subscriptions or install a default one:
-						MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
-						LoadFeedSourceSubscriptions(fs, false);
+						string oldsubs = MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+						
+                        LoadFeedSourceSubscriptions(fs, false);
+                        
+                        //due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
+                        //into migrated feed list
+                        FileStream stream = File.Open(oldsubs, FileMode.Open);
+                        fs.Source.ImportFeedlist(stream);
+                        stream.Close(); 
+
 						// needs the feedlist to be loaded:
 						CheckAndMigrateSettingsAndPreferences();
 						//CheckAndMigrateListViewLayouts();
@@ -3147,10 +3155,17 @@ namespace RssBandit
         /// </summary>
         /// <param name="currentFeedListFileName">Name of the current feed list file.</param>
         /// <exception cref="BanditApplicationException">On any failure</exception>
-        internal static void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
+        /// <returns>Path to temp file containing contents of input file</returns>
+        internal static string MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
         {
+            //Due to issue in 1.8.0.855 where we lost feed subscriptions, we will merge subscriptions.xml with 
+            //current feed file instead of migration
+            /* 
             if (File.Exists(currentFeedListFileName))
                 return;
+             */ 
+            string tempFile = Path.GetTempFileName();
+            File.Copy(currentFeedListFileName, tempFile, true); 
 
             //checks if new feed file exists and if we can migrate some older:
             string oldSubscriptionFile = GetFeedListFileName();
@@ -3179,6 +3194,8 @@ namespace RssBandit
                 // no feedlist file exists:
                 throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
             }
+
+            return tempFile; 
         }
 
 		private void RaiseFeedSourceSubscriptionsLoaded(FeedSourceEntry entry)
