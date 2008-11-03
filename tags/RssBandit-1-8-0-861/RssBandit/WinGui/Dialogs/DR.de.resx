@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>Podcast Optionen</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>Allgemein</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>Folgende Datei-Typen als Podcasts einstufen. Verwenden Sie Semikolons (';'), um mehrere Einträge zu erfassen:</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>Liste der Podcast Datei-Erweiterungen, durch Semikolons getrennt</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>Nach dem Herunterladen, kopiere Podcasts in:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>Zielverzeichnis von Podcasts</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>Anklicken, um ein Zielverzeichnis für Podcasts auszuwählen</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>die Windows Media Player Wiedergabeliste</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>die iTunes Wiedergabeliste</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>dieses Verzeichnis:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>Wiedergabeliste</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>Als Wiedergabeliste:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>Ursprünglicher Dateiname</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>den Namen des Abonnementverwenden</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>folgenden Namen verwenden:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>Bitte den Namen der Wiedergabeliste angeben</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
+    <value>Änderungen nicht übernehmen und beenden</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
+    <value>Änderungen übernehmen und beenden</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
+    <value>Eine Änderung dieser Option erfordert mehr Benutzerrechte (Administrator)...</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
+    <value>&amp;Speichern</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
+    <value>Fertig. Bitte jetzt exportieren...</value>
+  </data>
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
+    <value>Wählen Sie die Feed(s), die &amp;exportiert werden sollen:</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
+    <value>Lesestatus der Eint&amp;räge mit exportieren</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
+    <value>Leere Kategorien eins&amp;chließen</value>
+  </data>
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
+    <value>Datei&amp;format</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
+    <value>Native</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
+    <value>OPML</value>
+  </data>
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
+    <value>Aus Abonnement-Liste</value>
+  </data>
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
+    <value>Feeds Exportieren</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
+    <value>Format, dass von dieser Anwendung intern verwendet wird</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
+    <value>(Outline Processor Markup Language) Format</value>
+  </data>
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
+    <value>Authentifizierung</value>
+  </data>
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
+    <value>Name der Abo-Liste:</value>
+  </data>
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
+    <value>Passwort:</value>
+  </data>
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
+    <value>Benutzername:</value>
+  </data>
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
+    <value>Eigenschaften der Abo-Liste (Synchronisations-Quelle)</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 Monate</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 Quartal</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 Quartale</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 Quartale</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 Jahr</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Unbegrenzt</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 Tage</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 Monat</value>
+  </data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 Tag</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>&amp;Eigene XSLT-Formatierung verwenden</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Aktivieren Sie diese Option, um eine eigene Formatierung zu ermöglichen</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Anhänge/Podcasts automatisch laden</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>&amp;Benachrichtigung einblenden, wenn neue Nachrichten eintreffen</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>B&amp;enachrichtigung für neu geladene Anhänge anzeigen</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>Beim Verlassen des Feed &amp;Nachrichten als gelesen markieren</value>
+  </data>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>Wählen Sie einen Zeitabstand aus, nach dessen Ablauf dieser Feed wieder auf neue Nachrichten geprüft werden soll</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Wählen Sie einen XSLT-stylesheet für die Formatierung</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Wählen Sie das max. Alter der Nachrichten, bis zu dem Sie noch nicht gelöscht werden sollen</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>Max. Nachrichten-&amp;Alter</value>
+  </data>
+  <data name="FeedProperties_label15_ToolTip" xml:space="preserve">
+    <value>Nachrichten, die älter als das angegebene Alter sind, werden automatisch gelöscht</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>Feed &amp;Url</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>Minuten</value>
+  </data>
+  <data name="FeedProperties_label4_ToolTip" xml:space="preserve">
+    <value>Die Updatefrequenz 0 (null) führt dazu, dass dieser Feed deaktiviert wird. Dieser Feed wird dann so lange nicht auf neue Nachrichten geprüft, bis Sie wieder eine von 0 abweichende Frequenz einstellen</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;Kategorie</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Benutzer&amp;name</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>&amp;Passwort</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Verwenden Sie die Standardformatierung für Nachrichten, oder wählen Sie eine eigne XSLT-Formatierung.</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>&amp;Formatierung mit:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Anhänge/Podcasts</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Authentifizierung</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_ToolTip" xml:space="preserve">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_ToolTipText" xml:space="preserve">
+    <value>Geben Sie hier Daten ein, wenn der Feed Anmeldeinformationen benötigt</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Anzeige</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Nachrichten</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Feed Eigenschaften</value>
+  </data>
+  <data name="FeedProperties_label4_Text" space="preserve">
+    <value>Update&amp;frequenz:</value>
+  </data>
+	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
+    <value>Zugewiesenes Clientzertifikat entfernen...</value>
+  </data>
+	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
+    <value>Clientzertifikat auswählen...</value>
+  </data>
+	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+    <value>Clientzertifikat</value>
+  </data>
+	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
+    <value>Zugewiesenes Clientzertifikat anzeigen...</value>
+  </data>
+</root>

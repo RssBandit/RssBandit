@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s1="http://services.newsgator.com/ngws/svc/PostItem.asmx/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://services.newsgator.com/ngws/svc/PostItem.asmx" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://services.newsgator.com/ngws/svc/PostItem.asmx" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://services.newsgator.com/ngws/svc/PostItem.asmx">
+      <s:element name="SetState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="locationName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="deletedPosts" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="readPosts" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="unreadPosts" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetStateResult" type="tns:ArrayOfPostState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPostState">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PostState" nillable="true" type="tns:PostState" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PostState">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PostID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="State" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="NGAPIToken" type="tns:NGAPIToken" />
+      <s:complexType name="NGAPIToken">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RatePost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="rating" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RatePostResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLinkCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLinkCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLinkCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLinks">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLinksResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLinksResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPostId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPostIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPostIdResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfPostState" nillable="true" type="tns:ArrayOfPostState" />
+      <s:element name="int" type="s:int" />
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+    <s:schema targetNamespace="http://services.newsgator.com/ngws/svc/PostItem.asmx/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetStateSoapIn">
+    <wsdl:part name="parameters" element="tns:SetState" />
+  </wsdl:message>
+  <wsdl:message name="SetStateSoapOut">
+    <wsdl:part name="parameters" element="tns:SetStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetStateNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="RatePostSoapIn">
+    <wsdl:part name="parameters" element="tns:RatePost" />
+  </wsdl:message>
+  <wsdl:message name="RatePostSoapOut">
+    <wsdl:part name="parameters" element="tns:RatePostResponse" />
+  </wsdl:message>
+  <wsdl:message name="RatePostNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetLinkCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLinkCount" />
+  </wsdl:message>
+  <wsdl:message name="GetLinkCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLinkCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLinkCountNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetLinksSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLinks" />
+  </wsdl:message>
+  <wsdl:message name="GetLinksSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLinksResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLinksNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="GetPostIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPostId" />
+  </wsdl:message>
+  <wsdl:message name="GetPostIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPostIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPostIdNGAPIToken">
+    <wsdl:part name="NGAPIToken" element="tns:NGAPIToken" />
+  </wsdl:message>
+  <wsdl:message name="SetStateHttpPostIn">
+    <wsdl:part name="locationName" type="s:string" />
+    <wsdl:part name="deletedPosts" type="s1:StringArray" />
+    <wsdl:part name="readPosts" type="s1:StringArray" />
+    <wsdl:part name="unreadPosts" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="SetStateHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfPostState" />
+  </wsdl:message>
+  <wsdl:message name="RatePostHttpPostIn">
+    <wsdl:part name="url" type="s:string" />
+    <wsdl:part name="rating" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RatePostHttpPostOut" />
+  <wsdl:message name="GetLinkCountHttpPostIn">
+    <wsdl:part name="postId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetLinkCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetLinksHttpPostIn">
+    <wsdl:part name="postId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetLinksHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetPostIdHttpPostIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetPostIdHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="PostItemSoap">
+    <wsdl:operation name="SetState">
+      <wsdl:input message="tns:SetStateSoapIn" />
+      <wsdl:output message="tns:SetStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RatePost">
+      <wsdl:input message="tns:RatePostSoapIn" />
+      <wsdl:output message="tns:RatePostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLinkCount">
+      <wsdl:input message="tns:GetLinkCountSoapIn" />
+      <wsdl:output message="tns:GetLinkCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLinks">
+      <wsdl:input message="tns:GetLinksSoapIn" />
+      <wsdl:output message="tns:GetLinksSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPostId">
+      <wsdl:input message="tns:GetPostIdSoapIn" />
+      <wsdl:output message="tns:GetPostIdSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PostItemHttpPost">
+    <wsdl:operation name="SetState">
+      <wsdl:input message="tns:SetStateHttpPostIn" />
+      <wsdl:output message="tns:SetStateHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RatePost">
+      <wsdl:input message="tns:RatePostHttpPostIn" />
+      <wsdl:output message="tns:RatePostHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLinkCount">
+      <wsdl:input message="tns:GetLinkCountHttpPostIn" />
+      <wsdl:output message="tns:GetLinkCountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLinks">
+      <wsdl:input message="tns:GetLinksHttpPostIn" />
+      <wsdl:output message="tns:GetLinksHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPostId">
+      <wsdl:input message="tns:GetPostIdHttpPostIn" />
+      <wsdl:output message="tns:GetPostIdHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PostItemSoap" type="tns:PostItemSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="SetState">
+      <soap:operation soapAction="http://services.newsgator.com/ngws/svc/PostItem.asmx/SetState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetStateNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RatePost">
+      <soap:operation soapAction="http://services.newsgator.com/ngws/svc/PostItem.asmx/RatePost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RatePostNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLinkCount">
+      <soap:operation soapAction="http://services.newsgator.com/ngws/svc/PostItem.asmx/GetLinkCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetLinkCountNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLinks">
+      <soap:operation soapAction="http://services.newsgator.com/ngws/svc/PostItem.asmx/GetLinks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetLinksNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostId">
+      <soap:operation soapAction="http://services.newsgator.com/ngws/svc/PostItem.asmx/GetPostId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetPostIdNGAPIToken" part="NGAPIToken" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PostItemHttpPost" type="tns:PostItemHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="SetState">
+      <http:operation location="/SetState" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RatePost">
+      <http:operation location="/RatePost" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="GetLinkCount">
+      <http:operation location="/GetLinkCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLinks">
+      <http:operation location="/GetLinks" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPostId">
+      <http:operation location="/GetPostId" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PostItem">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">NewsGator Online - operations on Post resources</documentation>
+    <wsdl:port name="PostItemSoap" binding="tns:PostItemSoap">
+      <soap:address location="http://services.newsgator.com/ngws/svc/PostItem.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PostItemHttpPost" binding="tns:PostItemHttpPost">
+      <http:address location="http://services.newsgator.com/ngws/svc/PostItem.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

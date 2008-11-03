@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_btnImmediateFinish.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnManageSearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewBySearchEngines.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewBySearchIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewBySearchWords.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblValidationTaskImage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblValidationTask2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblValidationTaskImage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblValidationTask1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblWaitStepIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMultipleFeedsFound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFeedCategory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblPageTitleCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFeedTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFeedCredentialsIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblUsername.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="textPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRemoveItemsOlderThan.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMinutes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblUpdateFrequency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkMarkItemsReadOnExiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFeedItemControlIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkEnableAlertOnNewItems.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFormatterStylesheet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkUseCustomFormatter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFeedItemDisplayIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblCompletionMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioNewByNNTPGroup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblHowToSubscribeIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioNewByTopicSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkNewByURLValidate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewByURLIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewByURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkDisplayWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblWelcomeHelpMessage1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblWelcomeHelpMessage2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNNTPGroups.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnManageNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNNTPServer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNewByNNTPGroupIntro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMinutes.Text" xml:space="preserve">
+    <value>минут</value>
+  </data>
+  <data name="pageValidateUrl.Text" xml:space="preserve">
+    <value>Пожалуйста ждите...</value>
+  </data>
+  <data name="pageWelcome.Text" xml:space="preserve">
+    <value>Добро пожаловать в помощник добавления новой подписки!</value>
+  </data>
+  <data name="lblNewByURL.Text" xml:space="preserve">
+    <value>URL:</value>
+  </data>
+  <data name="lblPassword.Text" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
+    <value>Более одной ленты новостей найдены</value>
+  </data>
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
+    <value>Вы должны определить хотя бы один NNTP сервер новостей для подписки на группы новостей. Вы можете нажать "Управление..." для задания сервера новостей.</value>
+  </data>
+  <data name="lblFeedCategory.Text" xml:space="preserve">
+    <value>Категория:</value>
+  </data>
+  <data name="pageNewByURL.Text" xml:space="preserve">
+    <value>Добавить новую подписку по URL</value>
+  </data>
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
+    <value>Имя/пароль для доступа к подписке</value>
+  </data>
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
+    <value>Всегда отображать приветственную страницу помощника</value>
+  </data>
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
+    <value>Этот шаг выполняет следующие задачи:</value>
+  </data>
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
+    <value>Подписка готова к добавлению в ваш список подписок.</value>
+  </data>
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
+    <value>Управление...</value>
+  </data>
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
+    <value>Этот помощник требует подключения к интернету!</value>
+  </data>
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
+    <value>Отображение ленты новостей</value>
+  </data>
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
+    <value>Использовать форматирование по-умолчанию или выберите XSLT стиль для форматирования</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
+    <value>Если требуемая лента новостей не была обнаружена, нажмите "Назад" для нового поиска.</value>
+  </data>
+  <data name="lblUsername.Text" xml:space="preserve">
+    <value>Имя пользователя:</value>
+  </data>
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
+    <value>Здесь вы можете определить заголовок подписки и добавить ее в новую или существующию категорию</value>
+  </data>
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
+    <value>Ключевые слова или темы:</value>
+  </data>
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
+    <value>Добавить новую подписку через поиск</value>
+  </data>
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
+    <value>Управление леной новостей</value>
+  </data>
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
+    <value>Использовать специальное форматирование</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
+    <value>Добавить новую подписку на группу новостей</value>
+  </data>
+  <data name="lblNNTPServer.Text" xml:space="preserve">
+    <value>NNTP сервер:</value>
+  </data>
+  <data name="pageHowToSelection.Text" xml:space="preserve">
+    <value>Новая подписка</value>
+  </data>
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
+    <value>Управление...</value>
+  </data>
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
+    <value>Здесь вы можете задать имя пользователя и пароль требуемые для доступа к подписке</value>
+  </data>
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
+    <value>Выберите один из вариантов добавоения новой подписки:</value>
+  </data>
+  <data name="lblValidationTask1.Text" xml:space="preserve">
+    <value>Выполняется</value>
+  </data>
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
+    <value>Поисковая система:</value>
+  </data>
+  <data name="wizard.Text" xml:space="preserve">
+    <value>помощник</value>
+  </data>
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
+    <value>&amp;Включить извещающие окна при получении сообщений</value>
+  </data>
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
+    <value>Здесь вы можете изменить поведение приложения для события "Получены новые сообщения", максимальный возраст сообщения (для контроля времени когда сообщение будет удалено автоматически) и частоту обновлений сообщений.</value>
+  </data>
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
+    <value>Группы:</value>
+  </data>
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
+    <value>Если вы не уверены насчет URL ленты новостей, введите адрес веб страницы и RSS Bandit попытается автоматически обнаружить ленты новостей.</value>
+  </data>
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
+    <value>• Проверка источника подписки и управление дополнительными требуемыми параметрами.</value>
+  </data>
+  <data name="radioNewByURL.Text" xml:space="preserve">
+    <value>Я введу URL ленты новостей или страницы</value>
+  </data>
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
+    <value>Обнаруженные ленты:</value>
+  </data>
+  <data name="finishPage.Text" xml:space="preserve">
+    <value>Готово!</value>
+  </data>
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
+    <value>Выберите ленту новостей из списка и нажмите "Далее" чтобы определить настройки новой подписки.</value>
+  </data>
+  <data name="lblValidationTask2.Text" xml:space="preserve">
+    <value>Ожидается</value>
+  </data>
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
+    <value>Результат поиска зависит от поисковой системы. Некоторые из них являются онлайновыми посковыми службами, позволяющими искать ленты новостей на которые вы можете подписаться. Другие могут просто предоставлять результаты поиска как ленту новостей.</value>
+  </data>
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
+    <value>Стиль форматирования:</value>
+  </data>
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
+    <value>Я хочу подписаться на группы новостей</value>
+  </data>
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
+    <value>Обнаружить и проверить ленту новостей</value>
+  </data>
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
+    <value>Частота обновления:</value>
+  </data>
+  <data name="pageTitleCategory.Text" xml:space="preserve">
+    <value>Заголовок и категории</value>
+  </data>
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
+    <value>• Обнаружение лент новостей на HTML странице или поиск лент новостей по ключевым словам.</value>
+  </data>
+  <data name="lblFeedTitle.Text" xml:space="preserve">
+    <value>Заголовок:</value>
+  </data>
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
+    <value>Удалить сообщения старее чем:</value>
+  </data>
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
+    <value>Я хочу искать ленты новостей по ключевым словам</value>
+  </data>
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
+    <value>&amp;Пометить сообщения как прочитанные при выходе</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Новая подписка</value>
+  </data>
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
+    <value>Обновить список групп</value>
+  </data>
+  <data name="wizard.CancelText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="wizard.FinishText" xml:space="preserve">
+    <value>Закончить</value>
+  </data>
+  <data name="wizard.HelpText" xml:space="preserve">
+    <value>&amp;Помощь</value>
+  </data>
+  <data name="wizard.NextText" xml:space="preserve">
+    <value>&amp;Далее &gt;</value>
+  </data>
+  <data name="wizard.PreviousText" xml:space="preserve">
+    <value>&lt; &amp;Назад</value>
+  </data>
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
+    <value>Этот помощник может вам помочь:</value>
+  </data>
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
+    <value>Для продолжения нажмите "Далее".</value>
+  </data>
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
+    <value>Пожалуйста нажмите "Далее" для продолжения или "Готово" чтобы добавить вашу новую подписку</value>
+  </data>
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
+    <value>Пожалуйста нажмите "Далее" для определения или изменения настроек...</value>
+  </data>
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
+    <value>Пожалуйста нажмите "Далее" для продолжения или "Готово" чтобы добавить вашу новую подписку</value>
+  </data>
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
+    <value>Пожалуйста нажмите "Далее" для продолжения или "Готово" чтобы добавить вашу новую подписку</value>
+  </data>
+  <data name="finishPage.FinishText" xml:space="preserve">
+    <value>Вы почти закончили добавление новой подписки. Нажмите кнопку "Готово" чтобы добавить вашу новую подписку.</value>
+  </data>
+  <data name="finishPage.ProceedText" xml:space="preserve">
+    <value>Нажмиьте кнопку "Готово" чтобы закрыть помощник.</value>
+  </data>
+  <data name="pageHowToSelection.Description" xml:space="preserve">
+    <value>Подписка хранит сообщения от определенного источника. Каким образом вы хотите добавить новую подписку?</value>
+  </data>
+  <data name="pageNewByURL.Description" xml:space="preserve">
+    <value>Добавляет подписку чья лента новостей может быть найдена по адресу.</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
+    <value>Пожалуйста выберите ленту новостей на которую вы хотите подписаться</value>
+  </data>
+  <data name="pageTitleCategory.Description" xml:space="preserve">
+    <value>Пожалуйста проверьте заголовок и выберите категорию</value>
+  </data>
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
+    <value>Если необходимо введите имя/пароль.</value>
+  </data>
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
+    <value>Дополнительные настройки подписки</value>
+  </data>
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
+    <value>Дополнительные параметры контоля отображения ленты новостей</value>
+  </data>
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
+    <value>Введите ключевые слова или темы для поиска лент новостей.</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
+    <value>Выбеорите NNTP сервер и одну из групп на которую вы хотите подписаться.</value>
+  </data>
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
+    <value>Usenet</value>
+  </data>
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
+    <value>Автообнаружение</value>
+  </data>
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
+    <value>Syndic8</value>
+  </data>
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
+    <value>Канонический URL, который будет использован</value>
+  </data>
+  <data name="lblFeedSources.Text" xml:space="preserve">
+    <value>Subscription Source:</value>
+  </data>
+</root>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:s1="urn:schemas-newtelligence-com:dasblog:config-services/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="urn:schemas-newtelligence-com:dasblog:config-services" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="urn:schemas-newtelligence-com:dasblog:config-services" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <s:schema elementFormDefault="qualified" targetNamespace="urn:schemas-newtelligence-com:dasblog:config-services">
+      <s:element name="GetFiles">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFilesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFilesResult" type="s0:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReadFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadFileResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="content" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFileResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ReadNavigation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadNavigationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="links" nillable="true" type="s0:NavigationRoot" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="NavigationRoot">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="link" type="s0:NavigationLink" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NavigationLink">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateNavigation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="links" nillable="true" type="s0:NavigationRoot" />
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateNavigationResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ArrayOfString" nillable="true" type="s0:ArrayOfString" />
+      <s:element name="base64Binary" nillable="true" type="s:base64Binary" />
+      <s:element name="links" nillable="true" type="s0:NavigationRoot" />
+    </s:schema>
+    <s:schema targetNamespace="urn:schemas-newtelligence-com:dasblog:config-services/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </types>
+  <message name="GetFilesSoapIn">
+    <part name="parameters" element="s0:GetFiles" />
+  </message>
+  <message name="GetFilesSoapOut">
+    <part name="parameters" element="s0:GetFilesResponse" />
+  </message>
+  <message name="ReadFileSoapIn">
+    <part name="parameters" element="s0:ReadFile" />
+  </message>
+  <message name="ReadFileSoapOut">
+    <part name="parameters" element="s0:ReadFileResponse" />
+  </message>
+  <message name="UpdateFileSoapIn">
+    <part name="parameters" element="s0:UpdateFile" />
+  </message>
+  <message name="UpdateFileSoapOut">
+    <part name="parameters" element="s0:UpdateFileResponse" />
+  </message>
+  <message name="ReadNavigationSoapIn">
+    <part name="parameters" element="s0:ReadNavigation" />
+  </message>
+  <message name="ReadNavigationSoapOut">
+    <part name="parameters" element="s0:ReadNavigationResponse" />
+  </message>
+  <message name="UpdateNavigationSoapIn">
+    <part name="parameters" element="s0:UpdateNavigation" />
+  </message>
+  <message name="UpdateNavigationSoapOut">
+    <part name="parameters" element="s0:UpdateNavigationResponse" />
+  </message>
+  <message name="GetFilesHttpGetIn">
+    <part name="username" type="s:string" />
+    <part name="password" type="s:string" />
+  </message>
+  <message name="GetFilesHttpGetOut">
+    <part name="Body" element="s0:ArrayOfString" />
+  </message>
+  <message name="ReadFileHttpGetIn">
+    <part name="fileName" type="s:string" />
+    <part name="username" type="s:string" />
+    <part name="password" type="s:string" />
+  </message>
+  <message name="ReadFileHttpGetOut">
+    <part name="Body" element="s0:base64Binary" />
+  </message>
+  <message name="UpdateFileHttpGetIn">
+    <part name="fileName" type="s:string" />
+    <part name="content" type="s1:StringArray" />
+    <part name="username" type="s:string" />
+    <part name="password" type="s:string" />
+  </message>
+  <message name="UpdateFileHttpGetOut" />
+  <message name="ReadNavigationHttpGetIn">
+    <part name="username" type="s:string" />
+    <part name="password" type="s:string" />
+  </message>
+  <message name="ReadNavigationHttpGetOut">
+    <part name="Body" element="s0:links" />
+  </message>
+  <portType name="ConfigEditingServiceSoap">
+    <operation name="GetFiles">
+      <input message="s0:GetFilesSoapIn" />
+      <output message="s0:GetFilesSoapOut" />
+    </operation>
+    <operation name="ReadFile">
+      <input message="s0:ReadFileSoapIn" />
+      <output message="s0:ReadFileSoapOut" />
+    </operation>
+    <operation name="UpdateFile">
+      <input message="s0:UpdateFileSoapIn" />
+      <output message="s0:UpdateFileSoapOut" />
+    </operation>
+    <operation name="ReadNavigation">
+      <input message="s0:ReadNavigationSoapIn" />
+      <output message="s0:ReadNavigationSoapOut" />
+    </operation>
+    <operation name="UpdateNavigation">
+      <input message="s0:UpdateNavigationSoapIn" />
+      <output message="s0:UpdateNavigationSoapOut" />
+    </operation>
+  </portType>
+  <portType name="ConfigEditingServiceHttpGet">
+    <operation name="GetFiles">
+      <input message="s0:GetFilesHttpGetIn" />
+      <output message="s0:GetFilesHttpGetOut" />
+    </operation>
+    <operation name="ReadFile">
+      <input message="s0:ReadFileHttpGetIn" />
+      <output message="s0:ReadFileHttpGetOut" />
+    </operation>
+    <operation name="UpdateFile">
+      <input message="s0:UpdateFileHttpGetIn" />
+      <output message="s0:UpdateFileHttpGetOut" />
+    </operation>
+    <operation name="ReadNavigation">
+      <input message="s0:ReadNavigationHttpGetIn" />
+      <output message="s0:ReadNavigationHttpGetOut" />
+    </operation>
+  </portType>
+  <binding name="ConfigEditingServiceSoap" type="s0:ConfigEditingServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="GetFiles">
+      <soap:operation soapAction="urn:schemas-newtelligence-com:dasblog:config-services/GetFiles" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReadFile">
+      <soap:operation soapAction="urn:schemas-newtelligence-com:dasblog:config-services/ReadFile" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UpdateFile">
+      <soap:operation soapAction="urn:schemas-newtelligence-com:dasblog:config-services/UpdateFile" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReadNavigation">
+      <soap:operation soapAction="urn:schemas-newtelligence-com:dasblog:config-services/ReadNavigation" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="UpdateNavigation">
+      <soap:operation soapAction="urn:schemas-newtelligence-com:dasblog:config-services/UpdateNavigation" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="ConfigEditingServiceHttpGet" type="s0:ConfigEditingServiceHttpGet">
+    <http:binding verb="GET" />
+    <operation name="GetFiles">
+      <http:operation location="/GetFiles" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="ReadFile">
+      <http:operation location="/ReadFile" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+    <operation name="UpdateFile">
+      <http:operation location="/UpdateFile" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output />
+    </operation>
+    <operation name="ReadNavigation">
+      <http:operation location="/ReadNavigation" />
+      <input>
+        <http:urlEncoded />
+      </input>
+      <output>
+        <mime:mimeXml part="Body" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ConfigEditingService">
+    <port name="ConfigEditingServiceSoap" binding="s0:ConfigEditingServiceSoap">
+      <soap:address location="http://localhost/dasBlog1.3/ConfigEditingService.asmx" />
+    </port>
+    <port name="ConfigEditingServiceHttpGet" binding="s0:ConfigEditingServiceHttpGet">
+      <http:address location="http://localhost/dasBlog1.3/ConfigEditingService.asmx" />
+    </port>
+  </service>
+</definitions>

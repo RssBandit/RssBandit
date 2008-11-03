@@ -1,0 +1,680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="tabGeneral.Text" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="tabGeneral.ToolTipText" xml:space="preserve">
+    <value>Общие установки приложения</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text" xml:space="preserve">
+    <value>Загружать ленты новостей при запуске</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text" xml:space="preserve">
+    <value>Поведение приложения</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text" xml:space="preserve">
+    <value>Установить RSS Bandit моим агрегатором по умолчанию</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip" xml:space="preserve">
+    <value>Сделать RSS Bandit приложением, слушающим 'feed:' URL протокол...</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Если следующая кнопка недоступна, RSS Bandit уже является вашим агрегатором по умолчанию. Иначе вы можете сделать его таковым.</value>
+  </data>
+  <data name="radioTrayActionNone.Text" xml:space="preserve">
+    <value>Никогда</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip" xml:space="preserve">
+    <value>Приложение всегда будет видно на панели задач</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Выберите когда производить минимизацию приложения в Tray:</value>
+  </data>
+  <data name="radioTrayActionClose.Text" xml:space="preserve">
+    <value>При закрытии приложения</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip" xml:space="preserve">
+    <value>Приложение не будет видно на панели задач</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text" xml:space="preserve">
+    <value>При минимизации (рекомендуется)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip" xml:space="preserve">
+    <value>Приложение не будет видно на панели задач</value>
+  </data>
+  <data name="labelCheckForUpdates.Text" xml:space="preserve">
+    <value>Обновлять:</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
+    <value>Вручную</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1" xml:space="preserve">
+    <value>При старте приложения</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2" xml:space="preserve">
+    <value>Один раз в 14 дней</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3" xml:space="preserve">
+    <value>Один раз в месяц</value>
+  </data>
+  <data name="tabWebBrowser.Text" xml:space="preserve">
+    <value>Web браузер</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text" xml:space="preserve">
+    <value>Безопасность</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text" xml:space="preserve">
+    <value>ActiveX контролы</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text" xml:space="preserve">
+    <value>Javascript</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text" xml:space="preserve">
+    <value>Java апплеты</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text" xml:space="preserve">
+    <value>Фоновый звук</value>
+  </data>
+  <data name="checkBrowserVideoAllowed.Text" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
+    <value>Загрузка изображений</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Модификация любых настроек безопасности влияет только на новые закладки Web браузера! Заметьте также, что эти настройки не действуют на окно сообщения.</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text" xml:space="preserve">
+    <value>Ссылки и новые окна</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text" xml:space="preserve">
+    <value>Запускать следующий исполняемый файл:</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
+    <value>Открывать Web браузер по умолчанию</value>
+  </data>
+  <data name="optNewWindowOnTab.Text" xml:space="preserve">
+    <value>Открывать в новой закладке (по умолчанию)</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
+    <value>Файл:</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Выберите опцию для определения поведения встроенного браузера при щелчке на HTML ссылке или при открытии нового окна.</value>
+  </data>
+  <data name="tabRemoteStorage.Text" xml:space="preserve">
+    <value>Удаленное хранилище</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text" xml:space="preserve">
+    <value>Удаленное хранилище для списка лент</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>Имя пользователя для доступа к удаленному хранилищу. Может быть определено в виде 'Domain\Username'.</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text" xml:space="preserve">
+    <value>Использовать удаленное хранилище</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Эта функция позволяет вам хранить ваш список лент новостей на удаленном сервере.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text" xml:space="preserve">
+    <value>URL сервиса:</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip" xml:space="preserve">
+    <value>Пароль для доступа к Proxy</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip" xml:space="preserve">
+    <value>Пароль для доступа к удаленному хранилищу</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text" xml:space="preserve">
+    <value>Имя пользователя:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>Имя пользователя для доступа к удаленному хранилищу. Может быть определено в виде 'Domain\Username'.</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text" xml:space="preserve">
+    <value>Протокол:</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip" xml:space="preserve">
+    <value>Пароль для доступа к Proxy</value>
+  </data>
+  <data name="tabNewsItems.Text" xml:space="preserve">
+    <value>Показ</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
+    <value>Пометить все сообщения как прочтенные при выходе из ленты или категории</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
+    <value>Если нет описания, открывать ссылку в окне сообщения</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
+    <value>Форматирование сообщений</value>
+  </data>
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
+    <value>Выберите стиль форматирования</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Применять встроенное форматирование или выберите специальный XSLT стиль форматирования из списка шаблонов.</value>
+  </data>
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
+    <value>Применить специальное форматирование</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
+    <value>Выберите эту опцию для использования специального форматирования</value>
+  </data>
+  <data name="labelFormatters.Text" xml:space="preserve">
+    <value>XSLT cтиль:</value>
+  </data>
+  <data name="tabFeeds.Text" xml:space="preserve">
+    <value>Ленты новостей</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip" xml:space="preserve">
+    <value>Прочитать больше о 'CommentAPI'...</value>
+  </data>
+  <data name="btnManageIdentities.Text" xml:space="preserve">
+    <value>Удостоверения...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text" xml:space="preserve">
+    <value>Удостоверение для комментариев</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Определите ваши персональные установки для ответов на сообщения (только для лент, поддерживаюших CommentAPI).</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text" xml:space="preserve">
+    <value>Обновление новостей</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Максимальный  возраст сообщения:</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>Прочитать больше о 'conditional get'...</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>минут</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Обновлять ленты каждые</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Задайте интервал обновления лент новостей (через 'Conditional Get').</value>
+  </data>
+  <data name="tabNetConnection.Text" xml:space="preserve">
+    <value>Подключение к сети</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text" xml:space="preserve">
+    <value>Proxy cервер</value>
+  </data>
+  <data name="checkNoProxy.Text" xml:space="preserve">
+    <value>Не использовать Proxy сервер</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text" xml:space="preserve">
+    <value>Имя пользователя:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
+    <value>Имя пользователя для доступа к Proxy серверу. Может быть определено в виде 'Domain\Username'.</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
+    <value>Имя пользователя для доступа к Proxy серверу. Может быть определено в виде 'Domain\Username'.</value>
+  </data>
+  <data name="checkProxyAuth.Text" xml:space="preserve">
+    <value>Proxy требует авторизации</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text" xml:space="preserve">
+    <value>Используйте  точку с запятой ( ; ) между записями</value>
+  </data>
+  <data name="labelProxyBypassList.Text" xml:space="preserve">
+    <value>Не использовать Proxy для адресов начинающихся с:</value>
+  </data>
+  <data name="checkUseProxy.Text" xml:space="preserve">
+    <value>Использовать специальные настройки Proxy сервера:</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text" xml:space="preserve">
+    <value>Использовать настройки Proxy сервера в Internet Explorer</value>
+  </data>
+  <data name="labelProxyServerSummery.Text" xml:space="preserve">
+    <value>Proxy сервер работает как посредник между вашим компьютером и интернетом при работе с Web серверами.</value>
+  </data>
+  <data name="textProxyPort.ToolTip" xml:space="preserve">
+    <value>Номер порта Proxy</value>
+  </data>
+  <data name="labelProxyPort.Text" xml:space="preserve">
+    <value>Порт: </value>
+  </data>
+  <data name="labelProxyAddress.Text" xml:space="preserve">
+    <value>Адрес: </value>
+  </data>
+  <data name="textProxyAddress.ToolTip" xml:space="preserve">
+    <value>Адрес Proxy</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text" xml:space="preserve">
+    <value>Не использовать Proxy для доступа к локальным ресурсам</value>
+  </data>
+  <data name="tabFonts.Text" xml:space="preserve">
+    <value>Шрифты</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text" xml:space="preserve">
+    <value>Подписки, сообщения</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text" xml:space="preserve">
+    <value>Задайте шрифты, стили и цвета используемые для отображения сообщений.</value>
+  </data>
+  <data name="btnChangeFont.Text" xml:space="preserve">
+    <value>&amp;Изменить...</value>
+  </data>
+  <data name="chkFontItalic.Text" xml:space="preserve">
+    <value>&amp;Курсив</value>
+  </data>
+  <data name="chkFontBold.Text" xml:space="preserve">
+    <value>&amp;Жирный</value>
+  </data>
+  <data name="btnChangeColor.Text" xml:space="preserve">
+    <value>&amp;Цвет...</value>
+  </data>
+  <data name="lblItemStates.Text" xml:space="preserve">
+    <value>&amp;Статус сообщения:</value>
+  </data>
+  <data name="lstItemStates.Items" xml:space="preserve">
+    <value>Прочтенное (обычный)</value>
+  </data>
+  <data name="lstItemStates.Items1" xml:space="preserve">
+    <value>Непрочтенное</value>
+  </data>
+  <data name="lstItemStates.Items2" xml:space="preserve">
+    <value>Флаг</value>
+  </data>
+  <data name="lstItemStates.Items4" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="chkFontUnderline.Text" xml:space="preserve">
+    <value>&amp;Подчеркнутый</value>
+  </data>
+  <data name="chkFontStrikeout.Text" xml:space="preserve">
+    <value>Пере&amp;чекрнутый</value>
+  </data>
+  <data name="lblFontSampleCaption.Text" xml:space="preserve">
+    <value>Пример:</value>
+  </data>
+  <data name="tabWebSearch.Text" xml:space="preserve">
+    <value>Web поиск</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text" xml:space="preserve">
+    <value>Поисковые системы</value>
+  </data>
+  <data name="btnSERemove.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="btnSERemove.ToolTip" xml:space="preserve">
+    <value>Удалить выбранную поисковую систему</value>
+  </data>
+  <data name="btnSEAdd.Text" xml:space="preserve">
+    <value>Добавить...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip" xml:space="preserve">
+    <value>Добавить новую поисковую систему</value>
+  </data>
+  <data name="btnSEProperties.Text" xml:space="preserve">
+    <value>Свойства...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip" xml:space="preserve">
+    <value>Открывает диалог свойств поисковой системы</value>
+  </data>
+  <data name="btnSEMoveDown.Text" xml:space="preserve">
+    <value>Ниже</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip" xml:space="preserve">
+    <value>Переместить этот пункт ниже</value>
+  </data>
+  <data name="btnSEMoveUp.Text" xml:space="preserve">
+    <value>Выше</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip" xml:space="preserve">
+    <value>Передвинуть этот пункт выше</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="columnHeader1.Text" xml:space="preserve">
+    <value>Название системы</value>
+  </data>
+  <data name="columnHeader2.Text" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Отметьте поисковые системы которые должны активироваться при нажатии кнопки 'Web поиск'.</value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="openExeFileDialog.Title" xml:space="preserve">
+    <value>Выберите исполняемый файл</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
+    <value>Переиспользовать открытые закладки</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
+    <value>File Share</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1" xml:space="preserve">
+    <value>FTP</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items2" xml:space="preserve">
+    <value>dasBlog</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items3" xml:space="preserve">
+    <value>Newsgator Online</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items4" xml:space="preserve">
+    <value>WebDAV</value>
+  </data>
+  <data name="linkCommentAPI.Text" xml:space="preserve">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip" xml:space="preserve">
+    <value>Список исключенных адресов</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip" xml:space="preserve">
+    <value>Пароль для Proxy</value>
+  </data>
+  <data name="lblUsedFontNameSize.Text" xml:space="preserve">
+    <value>Tahoma, 8pt</value>
+  </data>
+  <data name="lstItemStates.Items3" xml:space="preserve">
+    <value>Referrer</value>
+  </data>
+  <data name="lstItemStates.ToolTip" xml:space="preserve">
+    <value>Выберите статус сообщения для настройки...</value>
+  </data>
+  <data name="lblFontSampleABC.Text" xml:space="preserve">
+    <value>АаБбЮюЯя</value>
+  </data>
+  <data name="labelCheckToAllow.Text" xml:space="preserve">
+    <value>Выберите для разрешения:</value>
+  </data>
+  <data name="btnSelectExecutable.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text" xml:space="preserve">
+    <value>Отображать связанные сообщения как нити обсуждения</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip" xml:space="preserve">
+    <value>Если выбрано, сообщения связанные с другими сообщениями будут отображены как нити обсуждения</value>
+  </data>
+  <data name="optionSectionPanel1.Text" xml:space="preserve">
+    <value>Звуки</value>
+  </data>
+  <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
+    <value>Разрешает звуки</value>
+  </data>
+  <data name="btnConfigureAppSounds.Text" xml:space="preserve">
+    <value>Конфигурация...</value>
+  </data>
+  <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
+    <value>Открывает панель управления звуками Windows для настройки звуков RSS Bandit...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkRunAtStartup.Text" xml:space="preserve">
+    <value>Запустить приложение после входа в Windows</value>
+  </data>
+  <data name="checkUseFavicons.Text" xml:space="preserve">
+    <value>Использовать favicons как иконки лент новостей в дереве подписок </value>
+  </data>
+  <data name="checkUseFavicons.ToolTip" xml:space="preserve">
+    <value>Если выбрано, подписанные ленты будут отображать favicons как их символы</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
+    <value>Загружать новые табы в фоне</value>
+  </data>
+  <data name="tabEnclosures.Text" xml:space="preserve">
+    <value>Вложения/подкасты</value>
+  </data>
+  <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
+    <value>Подкасты</value>
+  </data>
+  <data name="btnPodcastOptions.Text" xml:space="preserve">
+    <value>Advanced Options...</value>
+  </data>
+  <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
+    <value>Нажмите кнопку ниже для конфигурации подкаста:</value>
+  </data>
+  <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
+    <value>Поиск папки в файловой системе...</value>
+  </data>
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
+    <value>Не должен превышать общего дискового пространства</value>
+  </data>
+  <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
+    <value>Вложения</value>
+  </data>
+  <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
+    <value>Начальная подписка: загрузить только последний</value>
+  </data>
+  <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
+    <value>Сохранять загруженные файлы в папке одноименной с лентой новостей</value>
+  </data>
+  <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
+    <value>Адрес загрузки вложения</value>
+  </data>
+  <data name="labelEnclosureDirectory.Text" xml:space="preserve">
+    <value>Download Attachments to:</value>
+  </data>
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
+    <value>Автоматически загружать вложения</value>
+  </data>
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
+    <value>&amp;Извещать о загруженных вложениях</value>
+  </data>
+  <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>Общая конфигурация загрузки вложений.</value>
+  </data>
+  <data name="lstItemStates.Items5" xml:space="preserve">
+    <value>Новые комментарии (Отслеживаемые)</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>news items per page</value>
+  </data>
+  <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
+    <value>Show only </value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+  <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+  <data name="comboRefreshRate.ToolTip" xml:space="preserve">
+    <value>Changes refresh rate setting for all feeds</value>
+  </data>
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
+    <value>Changes default item age setting for all feeds</value>
+  </data>
+</root>

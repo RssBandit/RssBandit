@@ -1,0 +1,655 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="tabGeneral.Text" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="tabGeneral.ToolTipText" xml:space="preserve">
+    <value>Definições Gerais da Aplicação</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text" xml:space="preserve">
+    <value>Inicialização</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text" xml:space="preserve">
+    <value>Forçar a baixa de canais na inicialização</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text" xml:space="preserve">
+    <value>Comportamento da Aplicação</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text" xml:space="preserve">
+    <value>Definir RSS Bandit como o Agregador padrão</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip" xml:space="preserve">
+    <value>Torna RSS Bandit a aplicação padrão ouvindo o protocolo de internet "feed:"...</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Se este botão estiver desabilitado, RSS Bandit é seu Agregador Padrão. Se ele estiver habilitado, você pode torná-lo seu Agregador Padrão pressionando o botão.</value>
+  </data>
+  <data name="radioTrayActionNone.Text" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip" xml:space="preserve">
+    <value>Aplicação ficará sempre visível dentro da barra de tarefas</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Selecione uma opção para determinar em que ação a aplicação deve 'Minimizar para a Bandeja'.</value>
+  </data>
+  <data name="radioTrayActionClose.Text" xml:space="preserve">
+    <value>Quando a Aplicação Fe&amp;char</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip" xml:space="preserve">
+    <value>Aplicação não será visível dentro da barra de tarefas</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text" xml:space="preserve">
+    <value>Quando a Aplicação M&amp;inimizar (recomendado)</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip" xml:space="preserve">
+    <value>Aplicação não será visível dentro da barra de tarefas</value>
+  </data>
+  <data name="labelCheckForUpdates.Text" xml:space="preserve">
+    <value>Verificar se há &amp;atualizações:</value>
+  </data>
+  <data name="tabNetConnection.Text" xml:space="preserve">
+    <value>Conexão de Rede</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text" xml:space="preserve">
+    <value>Servidor Proxy</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms" />
+  <data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="checkNoProxy.Text" xml:space="preserve">
+    <value>&amp;Não usar um servidor proxy</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text" xml:space="preserve">
+    <value>&amp;Senha:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip" xml:space="preserve">
+    <value>Senha da Credencial do Proxy</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text" xml:space="preserve">
+    <value>Nome do Usuário:</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
+    <value>Nome de Usuário da Credencial do Proxy. Pode ser especificado como 'Domínio\Nome do Usuário'.</value>
+  </data>
+  <data name="checkProxyAuth.Text" xml:space="preserve">
+    <value>Proxy exige &amp;autorização</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text" xml:space="preserve">
+    <value>Use ponto e virgula ( ; ) para separar entradas.</value>
+  </data>
+  <data name="labelProxyBypassList.Text" xml:space="preserve">
+    <value>Nã&amp;o usar proxy para endereços começando com:</value>
+  </data>
+  <data name="checkUseProxy.Text" xml:space="preserve">
+    <value>Usar definições de servidor &amp;proxy privadas:</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text" xml:space="preserve">
+    <value>Obter definições de servidor proxy do &amp;Internet Explorer</value>
+  </data>
+  <data name="labelProxyServerSummery.Text" xml:space="preserve">
+    <value>Um servidor proxy age como um intermediário entre seu computador e a Internet, recuperando arquivos de servidores Web remotos.</value>
+  </data>
+  <data name="labelProxyPort.Text" xml:space="preserve">
+    <value>Por&amp;ta: </value>
+  </data>
+  <data name="labelProxyAddress.Text" xml:space="preserve">
+    <value>Endereço: </value>
+  </data>
+  <data name="checkProxyBypassLocal.Text" xml:space="preserve">
+    <value>&amp;Não utilize proxy para endereços locais</value>
+  </data>
+  <data name="tabFonts.Text" xml:space="preserve">
+    <value>Fontes</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text" xml:space="preserve">
+    <value>Inscrições, Itens Novos</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text" xml:space="preserve">
+    <value>Configure a fonte, estilos e cores usados para destacar ou marcar estados de Inscrições e Itens novos.</value>
+  </data>
+  <data name="btnChangeFont.Text" xml:space="preserve">
+    <value>&amp;Alterar...</value>
+  </data>
+  <data name="chkFontItalic.Text" xml:space="preserve">
+    <value>I&amp;tálico</value>
+  </data>
+  <data name="chkFontBold.Text" xml:space="preserve">
+    <value>&amp;Negrito</value>
+  </data>
+  <data name="btnChangeColor.Text" xml:space="preserve">
+    <value>C&amp;or...</value>
+  </data>
+  <data name="lblItemStates.Text" xml:space="preserve">
+    <value>Estados de &amp;Item:</value>
+  </data>
+  <data name="chkFontUnderline.Text" xml:space="preserve">
+    <value>S&amp;ublinhado</value>
+  </data>
+  <data name="chkFontStrikeout.Text" xml:space="preserve">
+    <value>Tachado</value>
+  </data>
+  <data name="lblFontSampleCaption.Text" xml:space="preserve">
+    <value>Exemplo:</value>
+  </data>
+  <data name="tabNewsItems.Text" xml:space="preserve">
+    <value>Apresentação</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
+    <value>Sem descrição, abrir endereço de internet em janela de detalhes</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
+    <value>Formatação de Item</value>
+  </data>
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
+    <value>Selecione uma folha de estilo de formatador</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Selecione a construção padrão na formatação de item ou selecione um formatador XSLT customizado da lista de modelos.</value>
+  </data>
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
+    <value>Usar um formatador &amp;customizado</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
+    <value>Marque esta opção para usar um formatador customizado</value>
+  </data>
+  <data name="labelFormatters.Text" xml:space="preserve">
+    <value>Folha de e&amp;stilo do Formatador:</value>
+  </data>
+  <data name="tabFeeds.Text" xml:space="preserve">
+    <value>Canais</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text" xml:space="preserve">
+    <value>Comentários padrão</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip" xml:space="preserve">
+    <value>Leia mais acerca de 'CommentAPI'...</value>
+  </data>
+  <data name="btnManageIdentities.Text" xml:space="preserve">
+    <value>Identidades...</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text" xml:space="preserve">
+    <value>Identidade de Usuário para Comentários</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Especifique suas definiçoes pessoais padrão para postagem de respostas para itens de canal. Esta caracteristica está disponível apenas para canais que suportem CommentAPI.</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text" xml:space="preserve">
+    <value>Canais, Temporizador</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Idade Padrão Máxima de Item:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>minutos</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>&amp;Atualizar canais a cada</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Espefique o intervalo em que os canais aos quais você está inscrito devem ser atualizados. Cada canal com uma taxa de atualização dentro deste intervalo será solicitado novamente (Get condicional).</value>
+  </data>
+  <data name="tabRemoteStorage.Text" xml:space="preserve">
+    <value>Armazenamento Remoto</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text" xml:space="preserve">
+    <value>Armazenamento Remoto da lista de canais</value>
+  </data>
+  <data name="textRemoteStorageLocation.ToolTip" xml:space="preserve">
+    <value>Endereço de internet para serviço de armazenamento:</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text" xml:space="preserve">
+    <value>Usar Armazenamento &amp;Remoto</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Esta caracteristica permite que você tenha sua lista de canais armazenada remotamente, de maneira que ela possa ser compartilhada entre multiplos computadores.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text" xml:space="preserve">
+    <value>Endereço de internet para serviço:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text" xml:space="preserve">
+    <value>&amp;Senha:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text" xml:space="preserve">
+    <value>&amp;Nome do &amp;Usuário:</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>Nome de usuário. Pode ser especificada como 'Domínio\Nome de Usuário'.</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text" xml:space="preserve">
+    <value>Protocolo:</value>
+  </data>
+  <data name="tabWebBrowser.Text" xml:space="preserve">
+    <value>Navegador de Internet</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text" xml:space="preserve">
+    <value>Segurança, Restrições</value>
+  </data>
+  <data name="labelCheckToAllow.Text" xml:space="preserve">
+    <value>Marque para permitir:</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text" xml:space="preserve">
+    <value>Controles ActiveX</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text" xml:space="preserve">
+    <value>Javascript</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text" xml:space="preserve">
+    <value>Sons de fundo</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
+    <value>Download de Imagens</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Se você modificou qualquer definição de segurança, a definição estará ativa imediatamente apenas em nova Abas de navegador de internet ou em qualquer Aba de navegador despois que você reiniciar a aplicação! Estas definições não tem qualquer efeito sobre o painel de detalhes de item!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text" xml:space="preserve">
+    <value>Em Link Clicado e Janela Nova</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text" xml:space="preserve">
+    <value>Iniciar este E&amp;xecutável:</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
+    <value>Abrir o Navegador &amp;de Internet padrão configurado</value>
+  </data>
+  <data name="optNewWindowOnTab.Text" xml:space="preserve">
+    <value>Abrir em uma nova &amp;Aba (padrão)</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
+    <value>Reutilizar abas do navegador abertas</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib" />
+  <data name="txtBrowserStartExecutable.IconPadding" type="System.Int32, mscorlib">
+    <value>110</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
+    <value>Arquivo de &amp;Programa:</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Selecione uma opção para determinar o comportamento que o navegador interno deve ter para lidar com um clique em um endereço de internet ou abrir uma nova janela.</value>
+  </data>
+  <data name="tabWebSearch.Text" xml:space="preserve">
+    <value>Pesquisa na Internet</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text" xml:space="preserve">
+    <value>Mecânismos de busca</value>
+  </data>
+  <data name="btnSERemove.Text" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="btnSERemove.ToolTip" xml:space="preserve">
+    <value>Remove o Mecanismo de Pesquisa selecionado</value>
+  </data>
+  <data name="btnSEAdd.Text" xml:space="preserve">
+    <value>Adicionar...</value>
+  </data>
+  <data name="btnSEAdd.ToolTip" xml:space="preserve">
+    <value>Adicionar um novo Mecanismo de Pesquisa</value>
+  </data>
+  <data name="btnSEProperties.Text" xml:space="preserve">
+    <value>Propriedades...</value>
+  </data>
+  <data name="btnSEProperties.ToolTip" xml:space="preserve">
+    <value>Abre a Caixa de Diálogo de Propriedades do Mecanismo de Pesquisa</value>
+  </data>
+  <data name="btnSEMoveDown.Text" xml:space="preserve">
+    <value>Mover Abaixo</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip" xml:space="preserve">
+    <value>Move item abaixo</value>
+  </data>
+  <data name="btnSEMoveUp.Text" xml:space="preserve">
+    <value>Mover Acima</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip" xml:space="preserve">
+    <value>Move item acima</value>
+  </data>
+  <data name="columnHeader1.Text" xml:space="preserve">
+    <value>Titulo do Mecanismo</value>
+  </data>
+  <data name="columnHeader2.Text" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Selecione o(s) mecânismo(s) de busca que estarão ativos se você pressionar comando(s) na barra de tarefas 'Pesquisa na internet', pelas caixas de seleção na lista abaixo.</value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="textProxyAddress.ToolTip" xml:space="preserve">
+    <value>Endereço do Proxy</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>Leia mais a respeito de 'obtenção condicional'...</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
+    <value>Credencial do Nome do Usuário. Pode ser especificado como 'Domínio\Nome de Usuário'.</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip" xml:space="preserve">
+    <value>Lista de exceção de endereços</value>
+  </data>
+  <data name="lblUsedFontNameSize.Text" xml:space="preserve">
+    <value>Tahoma, 8pt</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
+    <value>Compartilhamento de arquivo</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1" xml:space="preserve">
+    <value>FTP</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items2" xml:space="preserve">
+    <value>dasBlog</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items3" xml:space="preserve">
+    <value>Newsgator Online</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items4" xml:space="preserve">
+    <value>WebDAV</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="lstItemStates.Items" xml:space="preserve">
+    <value>Lido (normal)</value>
+  </data>
+  <data name="lstItemStates.Items2" xml:space="preserve">
+    <value>Bandeira</value>
+  </data>
+  <data name="lstItemStates.Items3" xml:space="preserve">
+    <value>Referente</value>
+  </data>
+  <data name="lstItemStates.Items4" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2" xml:space="preserve">
+    <value>Uma vez a cada 14 dias</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3" xml:space="preserve">
+    <value>Uma vez por mês</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1" xml:space="preserve">
+    <value>Toda vez que a aplicação iniciar</value>
+  </data>
+  <data name="checkBrowserVideoAllowed.Text" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="lstItemStates.Items1" xml:space="preserve">
+    <value>Não lido</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
+    <value>Marque todos os itens como lidos ao sair do canal ou categoria</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text" xml:space="preserve">
+    <value>Applets Java</value>
+  </data>
+  <data name="textProxyPort.ToolTip" xml:space="preserve">
+    <value>Número da porta do Proxy</value>
+  </data>
+  <data name="lstItemStates.ToolTip" xml:space="preserve">
+    <value>Selecione um estado de item para mudar as definições...</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>Credencial de Nome de Usuário. Pode ser especificada como 'Domínio\Nome de Usuário'.</value>
+  </data>
+  <data name="lblFontSampleABC.Text" xml:space="preserve">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+  <data name="linkCommentAPI.Text" xml:space="preserve">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
+    <value>Manualmente</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="btnSelectExecutable.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text" xml:space="preserve">
+    <value>Apresenta ítens relacionados como linhas de discussão</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip" xml:space="preserve">
+    <value>Se selecionado, ítens com referências a outros ítens conhecidos serão apresentados como linhas de discussão</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip" xml:space="preserve">
+    <value>Senha do usuário:</value>
+  </data>
+  <data name="optionSectionPanel1.Text" xml:space="preserve">
+    <value>Sons</value>
+  </data>
+  <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
+    <value>Habilita sons para eventos da aplicação</value>
+  </data>
+  <data name="btnConfigureAppSounds.Text" xml:space="preserve">
+    <value>Configurar...</value>
+  </data>
+  <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
+    <value>Abre o Painel de Configuração de Sons do Windows para permitir a configuração de sons da aplicação RSS Bandit...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkRunAtStartup.Text" xml:space="preserve">
+    <value>Iniciar aplicação depois de iniciar o Windows</value>
+  </data>
+  <data name="checkUseFavicons.Text" xml:space="preserve">
+    <value>Usar favicons como icones de canal na árvore de Inscrições de Canal</value>
+  </data>
+  <data name="checkUseFavicons.ToolTip" xml:space="preserve">
+    <value>Se marcado, canais inscritos apresentarão favicons como símbolo de canal</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
+    <value>Baixar novas abas em segundo plano</value>
+  </data>
+  <data name="tabEnclosures.Text" xml:space="preserve">
+    <value>Anexos/Podcasts</value>
+  </data>
+  <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
+    <value>Podcasts</value>
+  </data>
+  <data name="btnPodcastOptions.Text" xml:space="preserve">
+    <value>Opções Avançadas...</value>
+  </data>
+  <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
+    <value>Clique no botão abaixo para configurar as opções de Podcast:</value>
+  </data>
+  <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
+    <value>Procurar por uma pasta no sistema de arquivos...</value>
+  </data>
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
+    <value>Espaço total usado em disco não deve exceder</value>
+  </data>
+  <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
+    <value>Anexos</value>
+  </data>
+  <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
+    <value>Em inscrição inicial: apenas baixar último(a)</value>
+  </data>
+  <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
+    <value>Colocar arquivos baixados em subdiretório nomeado com o nome do canal</value>
+  </data>
+  <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
+    <value>Localização de baixa de anexo</value>
+  </data>
+  <data name="labelEnclosureDirectory.Text" xml:space="preserve">
+    <value>Baixar anexos para:</value>
+  </data>
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
+    <value>Baixar anexos automaticamente</value>
+  </data>
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
+    <value>&amp;Habilitar janelas de alerta para anexos recém baixados</value>
+  </data>
+  <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>Configure o comportamento de baixa e local para baixa de anexos em geral.</value>
+  </data>
+  <data name="lstItemStates.Items5" xml:space="preserve">
+    <value>Novos Comentários (Visto)</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>news items per page</value>
+  </data>
+  <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
+    <value>Show only </value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+  <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+  <data name="comboRefreshRate.ToolTip" xml:space="preserve">
+    <value>Changes refresh rate setting for all feeds</value>
+  </data>
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
+    <value>Changes default item age setting for all feeds</value>
+  </data>
+</root>

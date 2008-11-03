@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>播客选项</value>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>将这些文件类型视为播客－使用分号 (';') 来分隔输入：</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>以分号分隔的播客文件扩展名列表</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>在下载完成后复制播客到：</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>播客目标文件夹</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>点击以选择播客的目标文件夹</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>Windows 媒体播放器播放列表</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>iTunes 播放列表</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>本文件夹：</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>作为播放列表名称：</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>使用文件的源名称</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>使用Feed名称</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>以本名称添加所有文件到单个播放列表：</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>提供播放列表的名称</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
+    <value>撤销所有更改并关闭</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
+    <value>接受所有更改并关闭</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
+    <value>选项需要更高的用户权限 (Administrator)...</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
+    <value>完成。现在导出...</value>
+  </data>
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
+    <value>选择 feed(s) 导出(&amp;e)：</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
+    <value>包括条目和已读状态(&amp;r)</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
+    <value>包含空的分类(&amp;c)</value>
+  </data>
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
+    <value>格式(&amp;F)</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
+    <value>本地的(&amp;N)</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
+    <value>&amp;OPML</value>
+  </data>
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
+    <value>From Feed Source</value>
+  </data>
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
+    <value>导出 Feeds</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
+    <value>本应用程序内部使用的格式</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
+    <value>(Outline Processor Markup Language) 格式</value>
+  </data>
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
+    <value>Feed Source Name:</value>
+  </data>
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
+    <value>Username:</value>
+  </data>
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
+    <value>Feed Source Properties</value>
+  </data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 天</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 季度</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 季度</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 季度</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>无限制</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>使用定制格式(&amp;c)</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>选中该选项以使用定制的格式</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>自动下载附件和播客</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>在接受新闻的时候允许警告窗口弹出</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>为新下载的附件和播客启用警告窗口(&amp;E)</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>在现有的feed上标记条目为已读(&amp;M)</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>选择格式化风格页</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>选择最大条目时限以保持条目被缓存</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>条目最大时间(&amp;A)</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>标题(&amp;T)</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>网址(&amp;U)</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>更新频率(&amp;f)</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>&amp;目录</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>用户(&amp;)</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>密码(&amp;P)</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>使用缺省条目格式或者选择定制的XSLT格式。</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>格式化风格页(&amp;S)：</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>附件/播客</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>认证</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>条目控制</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>新闻属性</value>
+  </data>
+<data name="FeedProperties_comboBox1_ToolTip" space="preserve">
+    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  </data>
+	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
+    <value>Remove an assigned client certificate...</value>
+  </data>
+	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
+    <value>Select a client certificate...</value>
+  </data>
+	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+    <value>Client Certificate</value>
+  </data>
+	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
+    <value>View the assigned client certificate...</value>
+  </data>
+	</root>
