@@ -2155,9 +2155,11 @@ namespace RssBandit
 			{
 				// IE proxy settings do not include proxy credentials!
 				IWebProxy proxy= WebRequest.GetSystemWebProxy();
+                proxy.Credentials = CredentialCache.DefaultCredentials;
+
+                // Allow the user to override the integrated credentials with custom settings
 				if (p.ProxyCustomCredentials)
 				{
-					proxy.Credentials = CredentialCache.DefaultCredentials;
 					if (!string.IsNullOrEmpty(p.ProxyUser))
 					{
 						proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
