@@ -821,7 +821,11 @@ namespace RssBandit.WinGui.Forms
 			}
 
 			resized = true;
-			var result = new Bitmap(16, 16, toResize.PixelFormat);
+
+			// Fix for the exception: "A Graphics object cannot be created from an image that has an indexed pixel format"
+			// See also: http://thedotnet.com/nntp/308566/showpost.aspx
+			// We can specify optional pixel format, but defaults to 3bbppArgb:
+			var result = new Bitmap(16, 16);
 			result.SetResolution(toResize.HorizontalResolution, toResize.VerticalResolution);
 			using (Graphics g = Graphics.FromImage(result))
 			{
