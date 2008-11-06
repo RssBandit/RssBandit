@@ -384,7 +384,7 @@ namespace RssBandit.WinGui.Forms
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
         	treeFeeds.AllowDrop = true;
-        	treeFeeds.ShowRootLines = false;
+        	//treeFeeds.ShowRootLines = false;
 			treeFeeds.ShowLines = false;
 
 			// we could also have impl. sorting by using a IComparable impl. at TreeFeedsNodeBase
@@ -395,7 +395,7 @@ namespace RssBandit.WinGui.Forms
 			
 			treeFeeds.HideSelection = false;
 			// grow the expansion indicator clickable image:
-			treeFeeds.ExpansionIndicatorSize = new Size(16, 16);
+			treeFeeds.ExpansionIndicatorSize = new Size(13, 13);
 
             // create RootFolderType.Finder:
 			TreeFeedsNodeBase root =
