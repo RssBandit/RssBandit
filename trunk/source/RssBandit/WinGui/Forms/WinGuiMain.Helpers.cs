@@ -209,7 +209,7 @@ namespace RssBandit.WinGui.Forms
 				return null;
 
 			SubscriptionRootNode root = TreeHelper.ParentRootNode(node) as SubscriptionRootNode;
-			if (root != null)
+			if (root != null && owner.FeedSources.ContainsKey(root.SourceID))
 				return owner.FeedSources[root.SourceID];
 			return null;
 		}
