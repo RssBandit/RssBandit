@@ -496,7 +496,7 @@
         "Entry"
         {
         "MsmKey" = "8:_CFF4FFDF0F906DD733DF8C65E6BA896B"
-        "OwnerKey" = "8:_F1CB79D4D5784D16A860368FE6BA2814"
+        "OwnerKey" = "8:_D4D212E51E4C73CDC74AF4F8BCA165D0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -508,7 +508,7 @@
         "Entry"
         {
         "MsmKey" = "8:_CFF4FFDF0F906DD733DF8C65E6BA896B"
-        "OwnerKey" = "8:_D4D212E51E4C73CDC74AF4F8BCA165D0"
+        "OwnerKey" = "8:_F1CB79D4D5784D16A860368FE6BA2814"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1950,7 +1950,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.8.0.868, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RssBandit.AppServices, Version=1.8.0.869, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CFF4FFDF0F906DD733DF8C65E6BA896B"
@@ -1981,7 +1981,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.8.0.868, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:NewsComponents, Version=1.8.0.869, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D4D212E51E4C73CDC74AF4F8BCA165D0"
@@ -2232,14 +2232,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RssBandit"
-        "ProductCode" = "8:{70470FC7-BEC6-4B19-B4F8-BEC81DF31CE7}"
-        "PackageCode" = "8:{9A4B81E3-9AC4-4C6A-9FA4-52199E8CE6F5}"
+        "ProductCode" = "8:{D5D7A88A-5395-4D43-AD18-713B804A1EF6}"
+        "PackageCode" = "8:{8F94E07B-AEF6-4EAE-9BCF-6ABCD4FEE1A9}"
         "UpgradeCode" = "8:{108879A4-BD9B-414D-9C91-852BA402EF72}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.8.869"
+        "ProductVersion" = "8:1.8.870"
         "Manufacturer" = "8:rssbandit.org"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.rssbandit.org/forum/"
