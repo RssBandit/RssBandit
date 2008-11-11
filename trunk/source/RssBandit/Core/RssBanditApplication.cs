@@ -3172,7 +3172,8 @@ namespace RssBandit
             string tempFile = String.Empty;
             if (File.Exists(currentFeedListFileName))
             {
-                tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+				do tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+				while (File.Exists(tempFile));
                 File.Move(currentFeedListFileName, tempFile);
             }
 
