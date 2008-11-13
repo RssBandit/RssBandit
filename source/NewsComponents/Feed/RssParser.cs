@@ -703,8 +703,7 @@ namespace NewsComponents.Feed
                     catch (FormatException fe)
                     {
                         /* date was improperly formated*/
-                        _log.Warn("Error parsing date from item {" + subject +
-                                  "} from feed {" + link + "}: " + fe.Message);
+                    	LogParseDateFormatException(f, fe);
                         continue;
                     }
                 }
@@ -1310,9 +1309,7 @@ namespace NewsComponents.Feed
                     catch (FormatException fe)
                     {
                         /* date was improperly formated*/
-
-                        _log.Warn("Error parsing date from item {" + subject +
-                                  "} from feed {" + link + "}: " + fe.Message);
+						LogParseDateFormatException(f, fe);
                         continue;
                     }
                 }
@@ -2078,9 +2075,8 @@ namespace NewsComponents.Feed
                             }
                             catch (FormatException fex)
                             {
-                                _log.Warn("Error parsing date from channel {" + feedTitle +
-                                          "} from feed {" + (feedLink ?? f.title) + "}: ", fex);
-                            }
+								LogParseDateFormatException(f, fex);
+							}
                             finally
                             {
                                 matched = true;
@@ -2249,8 +2245,8 @@ namespace NewsComponents.Feed
                             }
                             catch (FormatException fex)
                             {
-                                _log.Warn(string.Format("Error parsing date from channel {{{0}}} from feed {{{1}}}: ", feedTitle, (feedLink ?? f.title)), fex);
-                            }
+								LogParseDateFormatException(f, fex);
+							}
                             finally
                             {
                                 matched = true;
@@ -2305,6 +2301,10 @@ namespace NewsComponents.Feed
             }
         }
 
+		private static void LogParseDateFormatException(INewsFeed f, Exception fex)
+		{
+			_log.Warn(string.Format("Error parsing date from channel {{{0}}} from feed {{{1}}}:", f.title, f.link), fex);                 
+		}
 
         /// <summary>
         /// Posts a comment to a website using the CommentAPI specification described at 

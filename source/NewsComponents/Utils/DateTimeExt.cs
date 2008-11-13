@@ -116,7 +116,7 @@ namespace NewsComponents.Utils
 				}
 				catch (Exception e)
 				{
-					throw new FormatException(String.Format(ComponentsText.ExceptionRFC2822ParseGroupsMessage, e.GetType().Name), e);
+					throw new FormatException(String.Format(ComponentsText.ExceptionRFC2822ParseGroupsMessage, e.GetType().Name) + String.Format(" Input: '{0}'", dateTimeString), e);
 				}
 			}
 			
