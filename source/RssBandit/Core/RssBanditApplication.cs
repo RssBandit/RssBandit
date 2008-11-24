@@ -3472,7 +3472,11 @@ namespace RssBandit
             }
 			guiMain.RemoveFromSubscriptionTree(entry);
 			guiMain.RemoveFeedSourceView(entry);
-            
+
+            if (modifiedFeeds.Keys.Contains(entry.ID))
+            {
+                modifiedFeeds.Remove(entry.ID); 
+            }
 		}
 
 		private void ConnectFeedSourceEvents(FeedSource source)
