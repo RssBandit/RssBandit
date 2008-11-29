@@ -661,6 +661,13 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	
 	.PostSignature a { font-size: x-small; }
 </style>
+<script>
+    window.onerror = handleError;
+
+    function handleError(msg, file_loc, line_no) {
+    return true;
+    }
+</script>
 <script> 
 
  var currentItem   = null; 
@@ -852,13 +859,6 @@ function getItemDivs(){
 }
 
  
-</script>
-<script>
-window.onerror = handleError;
-
-function handleError(msg, file_loc, line_no) {
-   return true;
-}
 </script>
 </xsl:template>
 
