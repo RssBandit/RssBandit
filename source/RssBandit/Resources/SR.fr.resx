@@ -2636,7 +2636,7 @@ a échoué avec l'erreur:
     <value>Utilisez configuration par défaut pour l'arbre de souscription.</value>
   </data>
   <data name="MenuTopStoriesCaption" xml:space="preserve">
-    <value>Meilleurs histoires</value>
+    <value>Meilleures histoires</value>
     <comment>Top Stories</comment>
   </data>
   <data name="MenuTopStoriesDesc" xml:space="preserve">
@@ -2644,11 +2644,11 @@ a échoué avec l'erreur:
     <comment>View the most recently popular links in your subscriptions</comment>
   </data>
   <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
-    <value>Détermination des meilleurs histoires. Merci de patienter...</value>
+    <value>Détermination des meilleures histoires. Merci de patienter...</value>
     <comment>Determining Top Stories, please wait...</comment>
   </data>
   <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
-    <value>{0} Meilleurs histoires: Histoires récentes les plus liées</value>
+    <value>{0} Meilleures histoires: Histoires récentes les plus liées</value>
     <comment>{0} Top Stories: Most Linked Recent Stories</comment>
   </data>
   <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
@@ -2737,7 +2737,7 @@ a échoué avec l'erreur:
     <comment>Please specify a valid playlist name</comment>
   </data>
   <data name="NoTopStoriesMessage" xml:space="preserve">
-    <value>Il n'y a aucune meilleur histoire trouvée dans votre liste de souscriptions pour les '{0}' dernières semaines</value>
+    <value>Il n'y a aucune meilleure histoire trouvée dans votre liste de souscriptions pour les '{0}' dernières semaines</value>
     <comment>No stories found that have been linked from your subscriptions in '{0}' over the past week.</comment>
   </data>
   <data name="TopStoriesDescription" xml:space="preserve">
