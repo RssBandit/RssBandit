@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>Настройки подкаста</value>
+    <comment>Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>Общие</value>
+    <comment>Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>Считать следующие типы файлов подкастами - используйте точку с запятой (';') как разделитель:</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>Список расширений файлов подкастов разделенный точкой с запятой</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>После загрузки скопировать файлы подкаста в:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>Папка для подкастов</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>Щелкните здесь для выбора папки для подкастов</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>Плейлист Windows Media Player</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>Плейлист iTunes</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>Эта папка:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>Плейлист</value>
+    <comment>Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>Название плейлиста:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>Не использовать исходное имя файла</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>Использовать название ленты</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>Добавить все файлы в плейлист с именем:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>Задайте имя плейлиста</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
+    <value>Игнорировать все изменения и закрыть</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
+    <value>Применить все изменения и закрыть</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
+    <value>Эта опция требует больших прав пользователя (Администратор)...</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
+    <value>&amp;Сохранить</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
+    <value>Готово. Идет экспорт...</value>
+  </data>
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
+    <value>Выберите ленты новостей для &amp;экспорта:</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
+    <value>Сохранять состояние сообщений</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
+    <value>Сохранять пустые &amp;категории</value>
+  </data>
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
+    <value>&amp;Формат</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
+    <value>&amp;Встроенный</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
+    <value>&amp;OPML</value>
+  </data>
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
+    <value>From Feed Source</value>
+  </data>
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
+    <value>Экспортирование лент новостей</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
+    <value>Внутренний формат этого приложения</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
+    <value>(Outline Processor Markup Language) формат</value>
+  </data>
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
+    <value>Feed Source Name:</value>
+  </data>
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
+    <value>Username:</value>
+  </data>
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
+    <value>Feed Source Properties</value>
+  </data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 день</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 дня</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 дня</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 дня</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 дней</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 дней</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 дней</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 дней</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 день</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 месяц</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 месяца</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>1 квартал</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>2 квартала</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>3 квартала</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 год</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>Без ограничений</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>Использовать &amp;специальное форматирование</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>Выберите эту опцию для специального форматирования</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>Автоматически загружать вложения и подкасты</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>Разрешить извещения при получении сообщений</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>Извещать о загруженных вложениях и подкастах</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>&amp;Помечать сообщения как прочтенные при выходе</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>Выберите стиль форматирования</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>Выберите максимальный возраст сообщения для кэширования</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>Максимальный возраст</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;Адрес</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>минут</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>Обновление каждые </value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>Форматирование по умолчанию или выберите стиль</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>Стиль &amp;форматирования:</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>Подкасты/Вложения</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>Аутентификация</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>Показ</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>Контроль сообщений</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>Свойства ленты новостей</value>
+  </data>
+<data name="FeedProperties_comboBox1_ToolTip" space="preserve">
+    <value>Set or choose a limit in minutes this feed should be checked for new items again</value>
+  </data>
+	<data name="FeedProperties_btnRemoveClientCertificate_Tooltip" space="preserve">
+    <value>Remove an assigned client certificate...</value>
+  </data>
+	<data name="FeedProperties_btnSelectClientCertificate_Tooltip" space="preserve">
+    <value>Select a client certificate...</value>
+  </data>
+	<data name="FeedProperties_labelClientCertificate_Text" space="preserve">
+    <value>Client Certificate</value>
+  </data>
+	<data name="FeedProperties_btnViewClientCertificate_Tooltip" space="preserve">
+    <value>View the assigned client certificate...</value>
+  </data>
+	</root>

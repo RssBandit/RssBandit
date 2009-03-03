@@ -1,0 +1,2351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>RSSBandit</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RssBandit</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>RssBandit.Program</StartupObject>
+    <WebReference_EnableProperties>true</WebReference_EnableProperties>
+    <WebReference_EnableSQLTypes>false</WebReference_EnableSQLTypes>
+    <WebReference_EnableLegacyEventingModel>true</WebReference_EnableLegacyEventingModel>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkSubset>Full</TargetFrameworkSubset>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>doc\RssBandit.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1591</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA1012;-Microsoft.Design#CA2210;-Microsoft.Design#CA1040;-Microsoft.Design#CA1005;-Microsoft.Design#CA1020;-Microsoft.Design#CA1021;-Microsoft.Design#CA1010;-Microsoft.Design#CA1011;-Microsoft.Design#CA1009;-Microsoft.Design#CA1050;-Microsoft.Design#CA1026;-Microsoft.Design#CA1019;-Microsoft.Design#CA1031;-Microsoft.Design#CA1051;-Microsoft.Design#CA1002;-Microsoft.Design#CA1061;-Microsoft.Design#CA1006;-Microsoft.Design#CA1046;-Microsoft.Design#CA1045;-Microsoft.Design#CA1038;-Microsoft.Design#CA1008;-Microsoft.Design#CA1028;-Microsoft.Design#CA1004;-Microsoft.Design#CA1035;-Microsoft.Design#CA1023;-Microsoft.Design#CA1033;-Microsoft.Design#CA1039;-Microsoft.Design#CA1016;-Microsoft.Design#CA1014;-Microsoft.Design#CA1017;-Microsoft.Design#CA1018;-Microsoft.Design#CA1027;-Microsoft.Design#CA1059;-Microsoft.Design#CA1060;-Microsoft.Design#CA1034;-Microsoft.Design#CA1013;-Microsoft.Design#CA1036;-Microsoft.Design#CA1044;-Microsoft.Design#CA1041;-Microsoft.Design#CA1025;-Microsoft.Design#CA1057;-Microsoft.Design#CA1058;-Microsoft.Design#CA1054;-Microsoft.Design#CA1056;-Microsoft.Design#CA1055;-Microsoft.Design#CA1030;-Microsoft.Design#CA1007;-Microsoft.Design#CA1043;-Microsoft.Design#CA1024;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1302;-Microsoft.Globalization#CA1308;-Microsoft.Globalization#CA1306;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA1300;-Microsoft.Globalization#CA1309;-Microsoft.Interoperability#CA1403;-Microsoft.Interoperability#CA1406;-Microsoft.Interoperability#CA1413;-Microsoft.Interoperability#CA1402;-Microsoft.Interoperability#CA1407;-Microsoft.Interoperability#CA1404;-Microsoft.Interoperability#CA1410;-Microsoft.Interoperability#CA1411;-Microsoft.Interoperability#CA1405;-Microsoft.Interoperability#CA1409;-Microsoft.Interoperability#CA1412;-Microsoft.Interoperability#CA1400;-Microsoft.Naming#CA1702;-Microsoft.Naming#CA1700;-Microsoft.Naming#CA1712;-Microsoft.Naming#CA1713;-Microsoft.Naming#CA1714;-Microsoft.Naming#CA1709;-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1708;-Microsoft.Naming#CA1715;-Microsoft.Naming#CA1710;-Microsoft.Naming#CA1720;-Microsoft.Naming#CA1707;-Microsoft.Naming#CA1722;-Microsoft.Naming#CA1711;-Microsoft.Naming#CA1716;-Microsoft.Naming#CA1717;-Microsoft.Naming#CA1725;-Microsoft.Naming#CA1719;-Microsoft.Naming#CA1721;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703;-Microsoft.Naming#CA1724;-Microsoft.Naming#CA1726;-Microsoft.Security#CA2102;-Microsoft.Security#CA2104;-Microsoft.Security#CA2122;-Microsoft.Security#CA2114;-Microsoft.Security#CA2123;-Microsoft.Security#CA2108;-Microsoft.Security#CA2107;-Microsoft.Security#CA2103;-Microsoft.Security#CA2118;-Microsoft.Security#CA2109;-Microsoft.Security#CA2119;-Microsoft.Security#CA2106;-Microsoft.Security#CA2112;-Microsoft.Security#CA2120;-Microsoft.Security#CA2126;-Microsoft.Security#CA2124;-Microsoft.Security#CA2127;-Microsoft.Security#CA2128;-Microsoft.Security#CA2129;-Microsoft.Usage#CA2243;-Microsoft.Usage#CA2236;-Microsoft.Usage#CA2216;-Microsoft.Usage#CA2222;-Microsoft.Usage#CA1806;-Microsoft.Usage#CA2217;-Microsoft.Usage#CA2212;-Microsoft.Usage#CA2201;-Microsoft.Usage#CA2228;-Microsoft.Usage#CA2229;-Microsoft.Usage#CA2207;-Microsoft.Usage#CA2235;-Microsoft.Usage#CA2223;-Microsoft.Usage#CA2211;-Microsoft.Usage#CA2233;-Microsoft.Usage#CA2225;-Microsoft.Usage#CA2234;-Microsoft.Usage#CA2239;-Microsoft.Usage#CA2200;-Microsoft.Usage#CA2242;-Microsoft.Usage#CA2230</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-AltPath\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;IG2007_1;ALT_CONFIG_PATH</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-AltPath\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ALT_CONFIG_PATH</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRules>-Microsoft.Design#CA1012;-Microsoft.Design#CA2210;-Microsoft.Design#CA1040;-Microsoft.Design#CA1005;-Microsoft.Design#CA1020;-Microsoft.Design#CA1021;-Microsoft.Design#CA1010;-Microsoft.Design#CA1011;-Microsoft.Design#CA1009;-Microsoft.Design#CA1050;-Microsoft.Design#CA1026;-Microsoft.Design#CA1019;-Microsoft.Design#CA1031;-Microsoft.Design#CA1047;-Microsoft.Design#CA1000;-Microsoft.Design#CA1048;-Microsoft.Design#CA1051;-Microsoft.Design#CA1002;-Microsoft.Design#CA1061;-Microsoft.Design#CA1006;-Microsoft.Design#CA1046;-Microsoft.Design#CA1045;-Microsoft.Design#CA1065;-Microsoft.Design#CA1038;-Microsoft.Design#CA1008;-Microsoft.Design#CA1028;-Microsoft.Design#CA1064;-Microsoft.Design#CA1004;-Microsoft.Design#CA1035;-Microsoft.Design#CA1063;-Microsoft.Design#CA1032;-Microsoft.Design#CA1023;-Microsoft.Design#CA1033;-Microsoft.Design#CA1039;-Microsoft.Design#CA1016;-Microsoft.Design#CA1014;-Microsoft.Design#CA1017;-Microsoft.Design#CA1018;-Microsoft.Design#CA1027;-Microsoft.Design#CA1059;-Microsoft.Design#CA1060;-Microsoft.Design#CA1034;-Microsoft.Design#CA1013;-Microsoft.Design#CA1036;-Microsoft.Design#CA1044;-Microsoft.Design#CA1041;-Microsoft.Design#CA1025;-Microsoft.Design#CA1052;-Microsoft.Design#CA1053;-Microsoft.Design#CA1057;-Microsoft.Design#CA1058;-Microsoft.Design#CA1001;-Microsoft.Design#CA1049;-Microsoft.Design#CA1054;-Microsoft.Design#CA1056;-Microsoft.Design#CA1055;-Microsoft.Design#CA1030;-Microsoft.Design#CA1003;-Microsoft.Design#CA1007;-Microsoft.Design#CA1043;-Microsoft.Design#CA1024;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1302;-Microsoft.Globalization#CA1308;-Microsoft.Globalization#CA1306;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA2101;-Microsoft.Globalization#CA1300;-Microsoft.Globalization#CA1307;-Microsoft.Globalization#CA1309;-Microsoft.Interoperability#CA1403;-Microsoft.Interoperability#CA1406;-Microsoft.Interoperability#CA1413;-Microsoft.Interoperability#CA1402;-Microsoft.Interoperability#CA1407;-Microsoft.Interoperability#CA1404;-Microsoft.Interoperability#CA1410;-Microsoft.Interoperability#CA1411;-Microsoft.Interoperability#CA1405;-Microsoft.Interoperability#CA1409;-Microsoft.Interoperability#CA1415;-Microsoft.Interoperability#CA1408;-Microsoft.Interoperability#CA1414;-Microsoft.Interoperability#CA1412;-Microsoft.Interoperability#CA1400;-Microsoft.Interoperability#CA1401;-Microsoft.Maintainability#CA1506;-Microsoft.Maintainability#CA1502;-Microsoft.Maintainability#CA1501;-Microsoft.Maintainability#CA1505;-Microsoft.Maintainability#CA1504;-Microsoft.Maintainability#CA1500;-Microsoft.Mobility#CA1600;-Microsoft.Mobility#CA1601;-Microsoft.Naming#CA1702;-Microsoft.Naming#CA1700;-Microsoft.Naming#CA1712;-Microsoft.Naming#CA1713;-Microsoft.Naming#CA1714;-Microsoft.Naming#CA1709;-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1708;-Microsoft.Naming#CA1715;-Microsoft.Naming#CA1710;-Microsoft.Naming#CA1720;-Microsoft.Naming#CA1707;-Microsoft.Naming#CA1722;-Microsoft.Naming#CA1711;-Microsoft.Naming#CA1716;-Microsoft.Naming#CA1717;-Microsoft.Naming#CA1725;-Microsoft.Naming#CA1719;-Microsoft.Naming#CA1721;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703;-Microsoft.Naming#CA1724;-Microsoft.Naming#CA1726;-Microsoft.Performance#CA1809;-Microsoft.Performance#CA1811;-Microsoft.Performance#CA1812;-Microsoft.Performance#CA1813;-Microsoft.Performance#CA1823;-Microsoft.Performance#CA1800;-Microsoft.Performance#CA1805;-Microsoft.Performance#CA1810;-Microsoft.Performance#CA1824;-Microsoft.Performance#CA1822;-Microsoft.Performance#CA1815;-Microsoft.Performance#CA1814;-Microsoft.Performance#CA1819;-Microsoft.Performance#CA1821;-Microsoft.Performance#CA1804;-Microsoft.Performance#CA1820;-Microsoft.Performance#CA1802;-Microsoft.Portability#CA1901;-Microsoft.Portability#CA1900;-Microsoft.Reliability#CA2001;-Microsoft.Reliability#CA2002;-Microsoft.Reliability#CA2003;-Microsoft.Reliability#CA2004;-Microsoft.Reliability#CA2006;-Microsoft.Security#CA2116;-Microsoft.Security#CA2117;-Microsoft.Security#CA2105;-Microsoft.Security#CA2115;-Microsoft.Security#CA2102;-Microsoft.Security#CA2104;-Microsoft.Security#CA2122;-Microsoft.Security#CA2114;-Microsoft.Security#CA2123;-Microsoft.Security#CA2111;-Microsoft.Security#CA2108;-Microsoft.Security#CA2107;-Microsoft.Security#CA2103;-Microsoft.Security#CA2118;-Microsoft.Security#CA2109;-Microsoft.Security#CA2119;-Microsoft.Security#CA2106;-Microsoft.Security#CA2112;-Microsoft.Security#CA2120;-Microsoft.Security#CA2121;-Microsoft.Security#CA2126;-Microsoft.Security#CA2124;-Microsoft.Security#CA2127;-Microsoft.Security#CA2128;-Microsoft.Security#CA2129;-Microsoft.Usage#CA2243;-Microsoft.Usage#CA2236;-Microsoft.Usage#CA1816;-Microsoft.Usage#CA2227;-Microsoft.Usage#CA2213;-Microsoft.Usage#CA2216;-Microsoft.Usage#CA2214;-Microsoft.Usage#CA2222;-Microsoft.Usage#CA1806;-Microsoft.Usage#CA2217;-Microsoft.Usage#CA2212;-Microsoft.Usage#CA2219;-Microsoft.Usage#CA2201;-Microsoft.Usage#CA2228;-Microsoft.Usage#CA2221;-Microsoft.Usage#CA2220;-Microsoft.Usage#CA2240;-Microsoft.Usage#CA2229;-Microsoft.Usage#CA2238;-Microsoft.Usage#CA2207;-Microsoft.Usage#CA2208;-Microsoft.Usage#CA2235;-Microsoft.Usage#CA2237;-Microsoft.Usage#CA2232;-Microsoft.Usage#CA2223;-Microsoft.Usage#CA2211;-Microsoft.Usage#CA2233;-Microsoft.Usage#CA2225;-Microsoft.Usage#CA2226;-Microsoft.Usage#CA2231;-Microsoft.Usage#CA2224;-Microsoft.Usage#CA2218;-Microsoft.Usage#CA2234;-Microsoft.Usage#CA2239;-Microsoft.Usage#CA2200;-Microsoft.Usage#CA1801;-Microsoft.Usage#CA2242;-Microsoft.Usage#CA2205;-Microsoft.Usage#CA2230</CodeAnalysisRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <Name>Accessibility</Name>
+    </Reference>
+    <Reference Include="blogExtension">
+      <Name>blogExtension</Name>
+      <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Eyefinder">
+      <Name>Eyefinder</Name>
+      <HintPath>..\Common\Libraries\Eyefinder.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IEControl">
+      <Name>IEControl</Name>
+      <HintPath>..\Common\Libraries\IEControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.iTunesLib">
+      <Name>Interop.iTunesLib</Name>
+      <HintPath>..\Common\Libraries\Interop.iTunesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw">
+      <Name>Interop.SHDocVw</Name>
+      <HintPath>..\Common\Libraries\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ThumbCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Interop.ThumbCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.WMPLib">
+      <Name>Interop.WMPLib</Name>
+      <HintPath>..\Common\Libraries\Interop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <Name>log4net</Name>
+      <HintPath>..\Common\Libraries\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement">
+      <Name>Microsoft.ApplicationBlocks.ExceptionManagement</Name>
+      <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces">
+      <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
+      <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Name>mscorlib</Name>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="SandDock">
+      <Name>SandDock</Name>
+      <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Name>System.Web.Services</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WizardFramework">
+      <Name>WizardFramework</Name>
+      <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
+    </Reference>
+    <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
+      <Name>NewsComponents</Name>
+      <Project>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
+      <Name>RssBandit.AppServices</Name>
+      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <Reference Include="Infragistics2.Shared.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Shared.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.Misc.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTree.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTree.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics2.Win.v8.2, Version=8.2.20082.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\Common\Libraries\Infragistics2.Win.v8.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\rssbandit.org.snk">
+      <Link>rssbandit.org.snk</Link>
+    </None>
+    <None Include="app.config">
+    </None>
+    <Compile Include="Converters\BytesToMegabytesConverter.cs" />
+    <Compile Include="Converters\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\FileNameToIconConverter.cs" />
+    <Compile Include="Converters\NotVisibleConverter.cs" />
+    <Compile Include="Core\ApplicationExceptionHandler.cs" />
+    <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
+    <Compile Include="Core\Exceptions.cs" />
+    <Compile Include="Core\RssBanditApplication.Commands.cs" />
+    <None Include="readme.txt" />
+    <None Include="Resources\SearchEnginesConfig.xsx">
+      <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\ShortcutSettings.xsx">
+      <DependentUpon>ShortcutSettings.xsd</DependentUpon>
+    </None>
+    <Content Include="Media\Feed Discovered.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\New Attachment Downloaded.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\New Feed Items Received.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Resources\InfragisticsShared.de.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.es.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.fr.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.it.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsShared.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsShared.zh-CHS.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.de.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.es.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.fr.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.it.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWin.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWin.zh-CHS.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.de.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.es.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.fr.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.it.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.zh-CHS.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.de.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.es.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.fr.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.it.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.zh-CHS.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.de.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.es.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.fr.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.it.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.zh-CHS.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TreeImages.png" />
+    <EmbeddedResource Include="Resources\AllToolImages.png" />
+    <EmbeddedResource Include="Resources\ListImages.png" />
+    <EmbeddedResource Include="Resources\TreeImagesXP.png" />
+    <None Include="Resources\search_folder_16.png" />
+    <None Include="Resources\search_folder_32.png" />
+    <None Include="Resources\subscriptions_folder_16.png" />
+    <None Include="Resources\subscriptions_folder_32.png" />
+    <None Include="Resources\New_Certificate_16.png" />
+    <None Include="Resources\View_Certificate_16.png" />
+    <Resource Include="Resources\error.png" />
+    <Content Include="templates\aura-8.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\C64.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\DOS.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Film.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\formal-red.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Headlines.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\holiday-halloween.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\clip.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\newsbin.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\shared.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\unshared.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\kuro5hin.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\neo-blue.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\outlook-express.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\outlook2003-orange.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Polaroid.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\slashdot.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Sticky Notes.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\unwise-terminal.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.disco" />
+    <None Include="Web References\CLR20.DasBlog\ConfigEditingService.wsdl" />
+    <None Include="Web References\CLR20.DasBlog\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CLR20.RssBandit.UpdateService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="WinGui\Genghis\Info.txt" />
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\2003Comment.png" />
+    <None Include="Resources\2003Left.png" />
+    <None Include="Resources\2003Minus.gif" />
+    <None Include="Resources\2003Plus.gif" />
+    <None Include="Resources\add.newsserver.16.png" />
+    <None Include="Resources\add.user.16.png" />
+    <EmbeddedResource Include="Resources\AniImagesXP.png" />
+    <Resource Include="Resources\App.ico" />
+    <EmbeddedResource Include="Resources\AppBusy.ico" />
+    <EmbeddedResource Include="Resources\AppBusyXP.ico" />
+    <EmbeddedResource Include="Resources\AppTray.ico" />
+    <EmbeddedResource Include="Resources\AppTrayXP.ico" />
+    <EmbeddedResource Include="Resources\Connected.ico" />
+    <EmbeddedResource Include="Resources\default-feedlist.xml" />
+    <EmbeddedResource Include="Resources\DefaultTemplate.xslt" />
+    <None Include="Resources\delete.16.png" />
+    <EmbeddedResource Include="Resources\Disconnected.ico" />
+    <None Include="Resources\feed.discovered.16.png" />
+    <None Include="Resources\feed.discovered.32.png" />
+    <EmbeddedResource Include="Resources\feedlist2subscriptions.xslt" />
+    <EmbeddedResource Include="Resources\feedRefresh.ico" />
+    <EmbeddedResource Include="Resources\Html.16.png" />
+    <EmbeddedResource Include="Resources\Html.32.png" />
+    <EmbeddedResource Include="Resources\iecontext_subscribebandit.htm" />
+    <EmbeddedResource Include="Resources\iecontext_subscribefeed.htm" />
+    <EmbeddedResource Include="Resources\ListStateImages.bmp" />
+    <None Include="Resources\nntp.doc.png" />
+    <None Include="Resources\no.feed.discovered.16.png" />
+    <None Include="Resources\no.feed.discovered.32.png" />
+    <None Include="Resources\rssbandit.16.png" />
+    <None Include="Resources\rssbandit.32.png" />
+    <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
+    <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
+    <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
+      <SubType>
+      </SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
+    <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
+    <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
+      <SubType>
+      </SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.bg.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.de.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.es.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.fr.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.hi.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.it.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ja.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ko.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.nl-NL.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.pl.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.pt-BR.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.ru.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.sr-Cyrl-CS.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.sr-Latn-CS.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.tr.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.zh-CHS.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.zh-CHT.resx">
+      <DependentUpon>SR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
+    <EmbeddedResource Include="Resources\UnreadFeedItemsXP.ico" />
+    <EmbeddedResource Include="Resources\WizardTask.Failed.png" />
+    <EmbeddedResource Include="Resources\WizardTask.InProgress.png" />
+    <EmbeddedResource Include="Resources\WizardTask.Pending.png" />
+    <EmbeddedResource Include="Resources\WizardTask.Success.png" />
+    <EmbeddedResource Include="WinGui\Controls\CollapsibleSplitter.resx">
+      <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\MenuCommands.resx">
+      <DependentUpon>MenuCommands.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\OptionSectionPanel.resx">
+      <DependentUpon>OptionSectionPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\SearchPanel.resx">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ThListView\ThreadedListView.resx">
+      <DependentUpon>ThreadedListView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeader.resx">
+      <DependentUpon>ThreadedListViewColumnHeader.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\ToolCommands.resx">
+      <DependentUpon>ToolCommands.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\TrayAnimation.resx">
+      <DependentUpon>TrayAnimation.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Controls\VerticalHeaderLabel.resx">
+      <DependentUpon>VerticalHeaderLabel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.bg.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.de.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.es.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.fr.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.hi.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.it.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ja.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ko.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.nl-NL.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pl.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.pt-BR.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.ru.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Cyrl-CS.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Latn-CS.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.tr.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHS.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHT.resx">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.bg.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.de.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.es.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.fr.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.hi.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.it.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ja.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ko.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.nl-NL.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pl.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.pt-BR.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.ru.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Cyrl-CS.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Latn-CS.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.tr.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHS.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHT.resx">
+      <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.bg.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.de.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.es.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.fr.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.hi.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.it.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ja.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ko.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.nl-NL.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pl.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.pt-BR.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.ru.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Cyrl-CS.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Latn-CS.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.tr.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHS.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHT.resx">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ko.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.bg.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.de.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.es.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.fr.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.hi.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.it.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ja.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ko.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.nl-NL.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.pl.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.pt-BR.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DR.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.ru.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Cyrl-CS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Latn-CS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.tr.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHS.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHT.resx">
+      <DependentUpon>DR.resx</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ko.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedSourceProperties.resx">
+      <DependentUpon>FeedSourceProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ko.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ko.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ko.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ko.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ko.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.bg.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.de.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.es.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.fr.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.hi.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.it.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ja.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ko.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.nl-NL.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.pl.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.pt-BR.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.ru.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Cyrl-CS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Latn-CS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.tr.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHS.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHT.resx">
+      <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DialogBase.resx">
+      <DependentUpon>DialogBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.bg.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.de.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.es.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.fr.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.hi.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.it.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ja.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.nl-NL.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pl.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.pt-BR.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.ru.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Latn-CS.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.tr.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHS.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHT.resx">
+      <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.bg.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.de.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.es.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.fr.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.hi.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.it.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ja.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.nl-NL.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pl.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.pt-BR.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ru.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Latn-CS.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.tr.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHS.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHT.resx">
+      <DependentUpon>EntertainmentDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ExportFeedsDialog.resx">
+      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedProperties.resx">
+      <DependentUpon>FeedProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\FeedFileContentSourceDialog.resx">
+      <DependentUpon>FeedFileContentSourceDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.bg.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.de.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.es.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.fr.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.hi.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.it.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ja.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.nl-NL.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pl.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.pt-BR.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.ru.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Latn-CS.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.tr.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHS.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHT.resx">
+      <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.bg.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.de.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.es.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.fr.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.hi.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.it.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ja.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.nl-NL.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pl.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.pt-BR.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.ru.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Latn-CS.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.tr.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHS.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHT.resx">
+      <DependentUpon>ManageAddInDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PodcastOptionsDialog.resx">
+      <DependentUpon>PodcastOptionsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.bg.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.de.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.es.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.fr.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.hi.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.it.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ja.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.nl-NL.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pl.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.pt-BR.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.ru.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Cyrl-CS.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Latn-CS.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.tr.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHS.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHT.resx">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.bg.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.de.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.es.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.fr.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.hi.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.it.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ja.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.nl-NL.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pl.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.pt-BR.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ru.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Latn-CS.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.tr.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHS.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHT.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.bg.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.de.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.es.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.fr.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.hi.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.it.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ja.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.nl-NL.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pl.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.pt-BR.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.ru.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Cyrl-CS.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Latn-CS.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.tr.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHS.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHT.resx">
+      <DependentUpon>SearchEngineProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.bg.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.de.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.es.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.fr.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.hi.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.it.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ja.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.nl-NL.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pl.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.pt-BR.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ru.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Cyrl-CS.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Latn-CS.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.tr.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHS.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHT.resx">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.bg.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.de.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.es.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.fr.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.hi.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.it.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ja.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ko.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.nl-NL.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pl.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.pt-BR.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.ru.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Cyrl-CS.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Latn-CS.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.tr.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHS.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHT.resx">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.bg.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.de.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.es.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.fr.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.hi.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.it.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ja.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ko.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.nl-NL.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pl.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pt-BR.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ru.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-Cyrl-CS.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-Latn-CS.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.tr.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHS.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHT.resx">
+      <DependentUpon>ToastNotify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinGui\Forms\WinGUIMain.resx">
+      <DependentUpon>WinGUIMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="..\Common\Log.cs">
+      <Link>Log.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Common\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Common\ProfilerHelper.cs">
+      <Link>ProfilerHelper.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\AdditionalElements.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\BanditApplicationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\BanditExceptionPublisher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\CommandLineParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ExceptionLog4netPublisher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\GuiInvoker.cs" />
+    <Compile Include="Core\IdentityNewsServerManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\InitialInstanceActivator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Resource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditApplication.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditApplication.EventHandlers.cs" />
+    <Compile Include="Core\RssBanditApplication.Podcasts.cs" />
+    <Compile Include="Core\RssBanditApplication.Statics.cs" />
+    <Compile Include="Core\RssBanditPreferences.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssBanditUpdateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\RssItemFilters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\SearchEngineHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ServiceInfrastructure\IoC.cs" />
+    <Compile Include="Core\ServiceInfrastructure\IServiceDependencyContainer.cs" />
+    <Compile Include="Core\ServiceInfrastructure\IServiceDependencyResolver.cs" />
+    <Compile Include="Core\ServiceInfrastructure\ServiceProviderDependenyResolver.cs" />
+    <Compile Include="Core\ServiceManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\SpecialLocalFeeds.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Storage\DataServiceBase.cs" />
+    <Compile Include="Core\Storage\DataServiceFactory.cs" />
+    <Compile Include="Core\Storage\DataServiceInterfaces.cs" />
+    <Compile Include="Core\Storage\FileStorageDataService.cs" />
+    <Compile Include="Core\Storage\IInitDataService.cs" />
+    <Compile Include="Core\Storage\SerializableClasses.cs" />
+    <Compile Include="Core\ThreadWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\ThreadWorkerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\UACManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ResourceInfragistics.cs" />
+    <Compile Include="Resources\SR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\CLR20.DasBlog\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\CLR20.RssBandit.UpdateService\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+      <SubType>code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="WinGui\AutoDiscoveredFeedsMenuHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\AutoDiscoverFeedsThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\ColumnLayoutManager.cs" />
+    <Compile Include="WinGui\CommandBarManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\CollapsibleSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\Line.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\MenuCommands.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\NavigatorHeaderDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\NavigatorHeaderHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\OptionSectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\SearchPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\SearchPanel.Designer.cs">
+      <DependentUpon>SearchPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Controls\SmoothLabelDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\StateSerializationHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\DesignerSupport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ListHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Sorting\ThreadedListViewItemComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Sorting\ThreadedListViewSorter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewColumnHeaderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewGroupCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\ThreadedListViewItemCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ThListView\Win32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\ToolCommands.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TrayAnimation.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\ListFeedsDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\SmartFolderNodeBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsDrawFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeGroupHeaderPainter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeFeedsNodeImplementations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\TreeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\UltraTreeExtended.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\UltraToolTipContextHelperBase.cs" />
+    <Compile Include="WinGui\Controls\VerticalHeaderLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Controls\WindowSerializer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\AddSubscriptionWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\AddSubscriptionWizard.Designer.cs">
+      <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\AskForDefaultAggregator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\CategoryProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\CategoryProperties.Designer.cs">
+      <DependentUpon>CategoryProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DownloadManagerWindow.xaml.cs">
+      <DependentUpon>DownloadManagerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
+      <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedProperties.Designer.cs">
+      <DependentUpon>FeedProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedSourceProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedSourceProperties.Designer.cs">
+      <DependentUpon>FeedSourceProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PostReplyForm.Designer.cs">
+      <DependentUpon>PostReplyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SynchronizeFeedsWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\DiscoveredFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\EntertainmentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ExportFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FeedFileContentSourceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ImportFeedsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\ManageAddInDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PodcastOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PostReplyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PreferencesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\PreferencesDialog.Designer.cs">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SearchEngineProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SecurityIssueDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\SecurityIssueDialog.Designer.cs">
+      <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\DisplayingNewsChannelProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\EntertainmentThreadHandlerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ControlHelpers\IdleTask.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ControlHelpers\ToolbarHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\NewsGroupsConfiguration.Designer.cs">
+      <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Callbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Init.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.Helpers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.OwnerInteraction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\Enums.cs" />
+    <Compile Include="WinGui\Forms\NewsGroupsConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\ToastNotify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGUIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Forms\WinGuiMain.UITaskTimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\AniForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\CursorChanger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Genghis\Preferences.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\GuiStateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\HttpRequestFileThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Interfaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Keyboard\ShortcutHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\PostReplyThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\PrefetchFeedThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\RemoteFeedlistThreadHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\ToastNotifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\TopStoriesThreadHandler.cs" />
+    <Compile Include="WinGui\TrayStateManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\ClipboardHelper.cs" />
+    <Compile Include="WinGui\Utility\ColorEx.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\CommandMediator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\FontColorHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\NavigationHistory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\RssItemFormatter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\WheelSupport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\Win32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Utility\WinGUIWidgetHelpers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Xml\Namespaces.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="Resources\BanditHelp.chm" />
+    <None Include="Resources\hotnews.16.png" />
+    <Content Include="RssBandit.exe.log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RssBandit.exe.manifest" />
+    <Content Include="templates\images\aura-8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\been.watched.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\bg_film_left.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\bg_film_right.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.blue.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.clear.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.complete.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.green.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.orange.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.purple.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.red.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.reply.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\flag.yellow.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\leftarrow.GIF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\not.watched.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\play.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\read.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\rightarrow.GIF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\unflag.GIF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\images\unread.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\readme.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <WebReferenceUrl Include="http://www.rendelmann.info/blog/ConfigEditingService.asmx">
+      <RelPath>Web References\CLR20.DasBlog\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://www.rendelmann.info/blog/ConfigEditingService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost/RssBandit.UpdateService/UpdateService.asmx">
+      <RelPath>Web References\CLR20.RssBandit.UpdateService\</RelPath>
+      <UrlBehavior>Static</UrlBehavior>
+      <UpdateFromURL>http://localhost/RssBandit.UpdateService/UpdateService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WinGui\Dialogs\DownloadManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

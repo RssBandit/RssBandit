@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="7200000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  <feed category="Microsoft">
+    <title>Channel 9</title>
+    <link>http://channel9.msdn.com/rss.aspx</link>
+    <last-retrieved>2004-08-06T17:40:45.8480524-07:00</last-retrieved>
+    <cacheurl>channel9.msdn.com.80.1790485842.d2c3aea4a9584846bccbf013a127d9ce.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://channel9.msdn.com/ShowPost.aspx?PostID=16613#16613</story>
+      <story>http://channel9.msdn.com/ShowPost.aspx?PostID=16610#16610</story>
+      <story>http://channel9.msdn.com/ShowPost.aspx?PostID=16585#16585</story>
+      <story>http://channel9.msdn.com/ShowPost.aspx?PostID=16583#16583</story>
+      <story>http://channel9.msdn.com/ShowPost.aspx?PostID=16556#16556</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-06T17:40:35.9260504-07:00</if-modified-since>
+  </feed>
+  <feed category="Forums">
+    <title>ASP.NET Forums: Architecture</title>
+    <link>http://www.asp.net/Forums/rss.aspx?forumid=16</link>
+    <refresh-rate>3600000</refresh-rate>
+    <last-retrieved>2004-08-07T19:51:12.5781250-07:00</last-retrieved>
+    <cacheurl>www.asp.net.80.1330717902.4da39ded455b4fa1a693a0432da0d3eb.xml</cacheurl>
+    <stories-recently-viewed>
+      <story>http://www.asp.net/Forums/ShowPost.aspx?tabindex=1&amp;PostID=532241</story>
+    </stories-recently-viewed>
+    <if-modified-since>2004-08-07T19:51:05.0000000-07:00</if-modified-since>
+    <auth-user>haacked</auth-user>
+    <auth-password>h2JaXsDRG+LNb314elfK2Px+LMXGDCRP</auth-password>
+  </feed>
+  <categories>
+    <category>Microsoft</category>
+    <category>Forums</category>
+  </categories>
+</feeds>

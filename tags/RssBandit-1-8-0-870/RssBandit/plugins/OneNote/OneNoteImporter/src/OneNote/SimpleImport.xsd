@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://schemas.microsoft.com/office/onenote/2004/import"
+            xmlns="http://schemas.microsoft.com/office/onenote/2004/import"
+            elementFormDefault="qualified">
+ 
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Working draft schema for OneNote import transactions.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<!-- Root element: OneNote. -->
+	<xsd:element name="Import">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Top level element. Contains any number of verbs.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="EnsurePage" type="EnsurePageVerb"/>
+					<xsd:element name="PlaceObjects" type="PlaceObjectsVerb"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- EnsurePage Action. -->
+	<xsd:complexType name="EnsurePageVerb">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Ensures the existence of a section or page.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="path" type="xsd:string" use="required"/>
+		<xsd:attribute name="guid" type="GUID" use="required"/>
+		<xsd:attribute name="title" type="xsd:string"/>
+		<xsd:attribute name="date" type="xsd:dateTime"/>
+		<xsd:attribute name="RTL" type="xsd:boolean" default="false"/>
+		<xsd:attribute name="insertAfter" type="GUID"/>
+	</xsd:complexType>
+
+	<!-- PlaceObjects Action -->
+	<xsd:complexType name="PlaceObjectsVerb">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Places top level page objecs on the page, or replaces them if they
+				already exist.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Object" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:choice>
+						<xsd:element name="Delete"/>
+						<xsd:sequence>
+							<xsd:element name="Position">
+								<xsd:complexType>
+									<!-- X and Y coordinates are represented as points. -->
+									<xsd:attribute name="x" type="xsd:decimal" use="required"/>
+									<xsd:attribute name="y" type="xsd:decimal" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:choice>
+								<xsd:element name="Image">
+									<xsd:complexType>
+										<xsd:complexContent>
+											<xsd:extension base="ImageContent">
+												<xsd:attribute name="backgroundImage" type="xsd:boolean"
+																			 default="false"/>
+												<!-- Width and Height are also expressed in points. -->
+												<xsd:attribute name="width" type="PositiveDecimal"/>
+												<xsd:attribute name="height" type="PositiveDecimal"/>
+											</xsd:extension>
+										</xsd:complexContent>
+									</xsd:complexType>
+								</xsd:element>
+								<xsd:element name="Ink">
+									<xsd:complexType>
+										<xsd:complexContent>
+											<xsd:extension base="InkContent">
+												<xsd:attribute name="width" type="PositiveDecimal"/>
+												<xsd:attribute name="height" type="PositiveDecimal"/>
+											</xsd:extension>
+										</xsd:complexContent>
+									</xsd:complexType>
+								</xsd:element>
+								<xsd:element name="Outline">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:choice maxOccurs="unbounded">
+												<xsd:element name="Image">
+													<xsd:complexType>
+														<xsd:complexContent>
+															<xsd:extension base="ImageContent">
+																<xsd:attribute name="align">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:string">
+																			<xsd:enumeration value="left"/>
+																			<xsd:enumeration value="center"/>
+																			<xsd:enumeration value="right"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:attribute>
+															</xsd:extension>
+														</xsd:complexContent>
+													</xsd:complexType>
+												</xsd:element>
+												<xsd:element name="Ink" type="InkContent"/>
+												<xsd:element name="Html" type="HtmlContent"/>
+											</xsd:choice>
+										</xsd:sequence>
+										<xsd:attribute name="width" type="PositiveDecimal"/>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:choice>
+						</xsd:sequence>
+					</xsd:choice>
+					<xsd:attribute name="guid" type="GUID" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="pagePath" type="xsd:string" use="required"/>
+		<xsd:attribute name="pageGuid" type="GUID" use="required"/>
+	</xsd:complexType>
+
+	<!-- Common types. -->
+	<xsd:simpleType name="GUID">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				The representation of a GUID, generally the id of an element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="PositiveDecimal">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Positive number.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:minInclusive value="0.00"/>
+			<xsd:maxInclusive value="1000000.00"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="HtmlContent">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Contains the html data to be imported.
+
+				If the html is included via a Data node, we expect it to be wrapped in
+				a CDATA marker.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="File" type="FilePath"/>
+			<xsd:element name="Data" type="xsd:string"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="InkContent">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Contains the ink to be imported.  The data is either referenced in a
+				file or is included inlined, Base64 encoded.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="File" type="FilePath"/>
+			<xsd:element name="Data" type="xsd:base64Binary"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="ImageContent">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Contains the image to be imported.  The data is either referenced in a
+				file or is included inlined, Base64 encoded.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="File" type="FilePath"/>
+			<xsd:element name="Data" type="xsd:base64Binary"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="FilePath">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Represents the path to a file.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="path" use="required"/>
+	</xsd:complexType>
+		
+</xsd:schema>

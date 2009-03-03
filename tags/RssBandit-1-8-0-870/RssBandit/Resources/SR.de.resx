@@ -1,0 +1,2378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddInGeneralFailure" xml:space="preserve">
+    <value>Im AddIn '{1}' trat ein genereller Fehler auf:
+        
+{0}</value>
+  </data>
+  <data name="AddInLoadFailure" xml:space="preserve">
+    <value>Laden des AddIn's '{1}' fehlgeschlagen:
+        
+{0}</value>
+  </data>
+  <data name="AddInUnloadFailure" xml:space="preserve">
+    <value>Entladen des AddIn's '{1}' fehlgeschlagen:
+        
+{0}</value>
+  </data>
+  <data name="AppLoadStateGuiLoading" xml:space="preserve">
+    <value>Lade Hauptfenster...</value>
+  </data>
+  <data name="AppLoadStateLoading" xml:space="preserve">
+    <value>Lade Anwendung...</value>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle" xml:space="preserve">
+    <value>[unbekannt]</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation" xml:space="preserve">
+    <value>Select or create a folder to store downloaded attachments</value>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved" xml:space="preserve">
+    <value>Das Daten-Cache Verzeichnis 
+
+{0}
+
+scheint ein Unterverzeichnis des alten Daten-Cache zu sein. 
+Darum kann der Cache nicht an den neuen Ort verschoben werden.
+Es wird weiterhin das alte Cache-Verzeichnis verwendet...</value>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException" xml:space="preserve">
+    <value>Das in der Vor-Version benutzte Daten-Cache Verzeichnis kann nicht nach
+
+{0}
+
+verschoben werden, da ein Fehler aufgetreten ist:
+{1}
+
+Es wird weiterhin das alte Cache-Verzeichnis verwendet...</value>
+  </data>
+  <data name="CertificateIssue_CertCHAINING" xml:space="preserve">
+    <value>Das Zertifikat ist bereits Mitglied der Vertrauenskette.</value>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH" xml:space="preserve">
+    <value>Der Name des Sicherheits-Zertifikates ist ungültig oder stimmt nicht mit dem Namen der Web-Site überein.</value>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL" xml:space="preserve">
+    <value>Das Zertifikat  verursachte einen kritischen Fehler.</value>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED" xml:space="preserve">
+    <value>Das ausgestellte Zertifikat ist am {0} abgelaufen.</value>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING" xml:space="preserve">
+    <value>Der Aussteller des Zertifikats ist bereits Mitglied der Vertrauenskette.</value>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED" xml:space="preserve">
+    <value>Das Format des Zertifikats ist fehlerhaft.</value>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST" xml:space="preserve">
+    <value>Das Zertifikat verursachte einen Fehler auf Grund der Pfad-Länge (der Vertrauenskette).</value>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE" xml:space="preserve">
+    <value>Der Verwendungszweck des Zertifikates ist nicht für die erforderliche Aufgabe bestimmt.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE" xml:space="preserve">
+    <value>Das Widerrufen des Zertifikates schlug fehl.</value>
+  </data>
+  <data name="CertificateIssue_CertREVOKED" xml:space="preserve">
+    <value>Das Zertifikat wurde widerrufen.</value>
+  </data>
+  <data name="CertificateIssue_CertROLE" xml:space="preserve">
+    <value>Die Rolle des Zertifikates is falsch.</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA" xml:space="preserve">
+    <value>Das Zertifikat besitzt eine nicht vertrauenswürdige CA (Certification Authory).</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT" xml:space="preserve">
+    <value>Das Zertifikat besitzt eine nicht vertrauenswürdige Root-CA (Root Certification Authory).</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT" xml:space="preserve">
+    <value>Das Zertifikat besitzt eine nicht vertrauenswürdige Test Root-CA (Test Root Certification Authory).</value>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING" xml:space="preserve">
+    <value>Die Gültigkeitsperiode des Zertifikates ist verschachtelt.</value>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE" xml:space="preserve">
+    <value>Das Zertifikat kann nicht für die erforderliche Aufgabe verwendet werden.</value>
+  </data>
+  <data name="CertificateIssue_Unknown" xml:space="preserve">
+    <value>Das SIcherheits-Zertifikat verursachte ein allgemeines Problem: '{0}'.</value>
+  </data>
+  <data name="CertificateIssueOnFeedCaption" xml:space="preserve">
+    <value>Informationen, die Sie mit dem Feed '{0}' austauschen, können nicht von anderen Benutzern belauscht oder modifiziert werden. Allerdings gibt es trotzdem ein Problem mit dem Sicherheits-Zertifikat des Feed.</value>
+  </data>
+  <data name="CertificateIssueOnSiteCaption" xml:space="preserve">
+    <value>Informationen, die Sie mit der Web-Site '{0}' austauschen, können nicht von anderen Benutzern belauscht oder modifiziert werden. Allerdings gibt es trotzdem ein Problem mit dem Sicherheits-Zertifikat der Web-Site.</value>
+  </data>
+  <data name="CmdLineCultureDesc" xml:space="preserve">
+    <value>Startet Anwendung in einer anderen Benutzersprache (ISO Sprachcodes)</value>
+  </data>
+  <data name="CmdLineHelpDesc" xml:space="preserve">
+    <value>Zeigt diesen Hilfetext an</value>
+  </data>
+  <data name="CmdLineResetUIDesc" xml:space="preserve">
+    <value>Will reset the user interface to the default</value>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc" xml:space="preserve">
+    <value>Startet Anwendung minimiert in der Taskleiste</value>
+  </data>
+  <data name="CmdLineSubscribeToDesc" xml:space="preserve">
+    <value>Abonniere angegebene Feeds</value>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>Identitäten verwalten</value>
+  </data>
+  <data name="ConfigNewsServerDialogCaption" xml:space="preserve">
+    <value>News-Gruppen verwalten</value>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip" xml:space="preserve">
+    <value>Ansicht schließen...</value>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip" xml:space="preserve">
+    <value>Ansicht öffnen...</value>
+  </data>
+  <data name="DetailHeaderCaptionWelcome" xml:space="preserve">
+    <value>Willkommen!</value>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable" xml:space="preserve">
+    <value>Derzeit sind keine neuen Versionen der Anwendung zum Download verfügbar.</value>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
+    <value>Es ist eine neue Version der Anwendung zum Download verfügbar.
+Wollen Sie mehr darüber erfahren?
+
+Wenn Sie NEIN auswählen, werden Sie später nochmals daran erinnert.</value>
+  </data>
+  <data name="DirectoryDoesNotExistMessage" xml:space="preserve">
+    <value>Das Verzeichnis existiert nicht</value>
+  </data>
+  <data name="DragDockablePanelInfo" xml:space="preserve">
+    <value>Halten Sie die 'Ctrl'-Taste gedrückt, um das Andocken zu vermeiden.</value>
+  </data>
+  <data name="ExceptionCategory" xml:space="preserve">
+    <value>Allgemeiner Fehler</value>
+  </data>
+  <data name="ExceptionDuplicateCategoryName" xml:space="preserve">
+    <value>Die Bezeichnung '{0}' scheint bereits in Verwendung zu sein. Bitte wählen Sie eine andere.</value>
+  </data>
+  <data name="ExceptionGeneral" xml:space="preserve">
+    <value>Entschuldigung, es trat ein Fehler auf:
+        
+'{0}'</value>
+  </data>
+  <data name="ExceptionGeneralCritical" xml:space="preserve">
+    <value>Ein kritischer Fehler trat auf und wurde in dieser Datei festgehalten: 
+'{0}'.
+Bitte senden Sie den Inhalt dieser Datei an das Entwickler-Team auf http://dev.rssbandit.org 
+zusammen mit folgenden Informationen:
+</value>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall" xml:space="preserve">
+    <value>IBlogExtension (AddIn) Funktionsaufruf '{0}' verursachte einen Fehler:
+ '{1}'.        
+        </value>
+  </data>
+  <data name="ExceptionImportFeedlist" xml:space="preserve">
+    <value>Beim Importieren der Feedliste von  
+'{0}' trat ein Fehler auf:
+        
+'{1}'</value>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation" xml:space="preserve">
+    <value>Bei einem FTP Remote Storage müssen Sie das 'ftp:' Url Schema angeben.</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage" xml:space="preserve">
+    <value>Validierungsfehler beim Laden der Konfiguration für Web-Suchmaschinen.
+Detailliertere Informationen über diesen Fehler finden Sie in der Datei
+  '{0}'.</value>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile" xml:space="preserve">
+    <value>Die Datei mit den Definitionen für Tastenkürzel konnte nicht validiert werden (ungültiges XML).</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage" xml:space="preserve">
+    <value>ein ungültiges Zeichen</value>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet" xml:space="preserve">
+    <value>Beim Laden des zur Transformation eines Eintrags erforderliche Xslt Stylesheet trat ein Fehler auf:
+
+ '{0}'</value>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage" xml:space="preserve">
+    <value>Fehler beim Laden der Konfiguration für Web-Suchmaschinen:
+  '{0}'.
+Detailliertere Informationen über diesen Fehler finden Sie in der Datei
+  '{1}'.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet" xml:space="preserve">
+    <value>Der Xslt Stylesheet ist ungültig.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile" xml:space="preserve">
+    <value>Der Xslt Stylesheet konnte nicht kompiliert werden.</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage" xml:space="preserve">
+    <value>Der ausgewählte Xslt Stylesheet zum formatieren von Einträgen verursachte ein Problem:
+  '{0}'.
+Details: {1}</value>
+  </data>
+  <data name="ExceptionNewsItemTransformation" xml:space="preserve">
+    <value>Feedeintrag konnnte nicht nach HTML transformiert werden.</value>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed" xml:space="preserve">
+    <value>Das laden verfügbarer Newsgruppen von '{0}' ist fehlgeschlagen: {1}</value>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable" xml:space="preserve">
+    <value>Bitte geben Sie den Pfad und Dateinamen einer ausführbaren Datei an.</value>
+  </data>
+  <data name="ExceptionNoProxyAuthUser" xml:space="preserve">
+    <value>Bitte geben Sie einen Benutzer für die Proxyserverauthentifizierung an.</value>
+  </data>
+  <data name="ExceptionNoProxyUrl" xml:space="preserve">
+    <value>Bitte geben Sie die Adresse (IP oder Servername) des Proxyserver an.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser" xml:space="preserve">
+    <value>Bitte geben Sie einen Benutzer für die Remote Storage Authentifizierung an.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation" xml:space="preserve">
+    <value>Bitte geben Sie den Endpunkt des Remote Storage an.</value>
+  </data>
+  <data name="ExceptionOpenFileMessage" xml:space="preserve">
+    <value>Die Datei '{0}' konnte nicht geöffnet werden:
+		
+ '{1}'.</value>
+  </data>
+  <data name="ExceptionPostNewFeedItem" xml:space="preserve">
+    <value>Beim Senden der neuen Nachricht
+'{0}' (Abo. Url/Titel) trat ein Fehler auf:
+        
+'{1}'</value>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem" xml:space="preserve">
+    <value>Beim Senden des Kommentars zum Eintrag   
+'{0}' trat ein Fehler auf:
+        
+'{1}'</value>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure" xml:space="preserve">
+    <value>The system reported an error while attempting to play enclosure:
+
+{0}
+
+Error:{1}.</value>
+  </data>
+  <data name="ExceptionProxyConfiguration" xml:space="preserve">
+    <value>Ungültige Proxy Konfiguration: 
+{0}.
+
+Die Einstellungen wurden zurückgesetzt: kein Proxy wird verwendet.</value>
+  </data>
+  <data name="ExceptionProxyPortInvalid" xml:space="preserve">
+    <value>Ungültiger Proxyserver Port.</value>
+  </data>
+  <data name="ExceptionProxyPortRange" xml:space="preserve">
+    <value>Der Wert für den Proxyserver Port liegt nicht im erlaubten Wertebereichs von 0 bis 65535.</value>
+  </data>
+  <data name="ExceptionReadingFeedlistFile" xml:space="preserve">
+    <value>Es trat ein Fehler beim Laden der Feedliste auf:
+  '{0}'.
+Detailliertere Informationen über diesen Fehler finden Sie in der Datei
+  '{1}'.</value>
+  </data>
+  <data name="ExceptionRefreshRateInvalid" xml:space="preserve">
+    <value>Ungültige Aktualisierungsrate.</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed" xml:space="preserve">
+    <value>Prüfung von {0} auf neue Einträge fehlgeschlagen: {1}</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed" xml:space="preserve">
+    <value>Prüfung von {0} auf neue Einträge fehlgeschlagen (XML Fehler): {1}</value>
+  </data>
+  <data name="ExceptionSaveFileMessage" xml:space="preserve">
+    <value>Die Datei '{0}' konnte nicht gespeichert werden:
+		
+		'{1}'.
+	</value>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator" xml:space="preserve">
+    <value>Beim Versuch, den Standard Aggregator einzurichten, trat folgender Fehler auf:
+        
+'{0}'</value>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage" xml:space="preserve">
+    <value>Beim Start des angegebenen Programms '{0}' trat folgendes Problem auf:
+	
+ '{1}'.
+
+Soll die Url '{2}' als neues Webdokument geöffnet werden?</value>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage" xml:space="preserve">
+    <value>Beim Start Ihres Standard Web Browser trat folgendes Problem auf:
+		
+ '{0}'.
+
+Soll die Url '{1}' als neues Webdokument geöffnet werden?</value>
+  </data>
+  <data name="ExceptionUISettingsSave" xml:space="preserve">
+    <value>Fehler beim Speichern der UI Einstellungen (.settings.xml):
+        
+'{0}'</value>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave" xml:space="preserve">
+    <value>Beim Speichern der Konfiguration der Web-Suchmaschinen trat ein Fehler auf:
+        
+'{0}'</value>
+  </data>
+  <data name="FeedDefaultCategory" xml:space="preserve">
+    <value>[keine Kategorie]</value>
+  </data>
+  <data name="FeedDetailDocumentTabCaption" xml:space="preserve">
+    <value>Feed Details</value>
+  </data>
+  <data name="FeedListNoChildsMessage" xml:space="preserve">
+    <value>Keine Einträge...</value>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption" xml:space="preserve">
+    <value>Gelöschte Einträge</value>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc" xml:space="preserve">
+    <value>Order für gelöschte Einträge</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption" xml:space="preserve">
+    <value>Fehlerhafte Feeds</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc" xml:space="preserve">
+    <value>Ordner sammelt die auftretenden Fehler abonnierter Feeds</value>
+  </data>
+  <data name="FeedNodeFinderRootCaption" xml:space="preserve">
+    <value>Suchordner</value>
+  </data>
+  <data name="FeedNodeFinderRootDesc" xml:space="preserve">
+    <value>Speichert definierte Suchordner</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption" xml:space="preserve">
+    <value>Einträge zur Nachverfolgung</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc" xml:space="preserve">
+    <value>Ordner für Einträge, die zur Nachverfolgung gekennzeichnet wurden</value>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption" xml:space="preserve">
+    <value>Weiterverfolgen</value>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption" xml:space="preserve">
+    <value>Weiterleiten</value>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption" xml:space="preserve">
+    <value>Lesen</value>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption" xml:space="preserve">
+    <value>Beantworten</value>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption" xml:space="preserve">
+    <value>Rückschau</value>
+  </data>
+  <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
+    <value>Abonnements</value>
+  </data>
+  <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
+    <value>Ordner für alle abonnierten Feeds</value>
+  </data>
+  <data name="FeedNodeSentItemsCaption" xml:space="preserve">
+    <value>Gesendete Einträge</value>
+  </data>
+  <data name="FeedNodeSentItemsDesc" xml:space="preserve">
+    <value>Enthält Ihre gesendeten Einträge</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption" xml:space="preserve">
+    <value>Weitere Ordner</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc" xml:space="preserve">
+    <value>Enthält spezielle, organisatorische Ordner</value>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption" xml:space="preserve">
+    <value>Ungelesene Einträge</value>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc" xml:space="preserve">
+    <value>Liste der noch nicht gelesenen Einträge</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption" xml:space="preserve">
+    <value>Beobachtete Einträge</value>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc" xml:space="preserve">
+    <value>Liste der beobachteten Einträge</value>
+  </data>
+  <data name="FileDialogFilterAllFiles" xml:space="preserve">
+    <value>Alle Dateien</value>
+  </data>
+  <data name="FileDialogFilterOPMLFiles" xml:space="preserve">
+    <value>OPML Dateien</value>
+  </data>
+  <data name="FileDialogFilterXMLFiles" xml:space="preserve">
+    <value>XML Dateien</value>
+  </data>
+  <data name="FormatExceptionProxyPort" xml:space="preserve">
+    <value>Proxyserver Port ist keine Zahl.</value>
+  </data>
+  <data name="FormatExceptionRefreshRate" xml:space="preserve">
+    <value>Aktualisierungsrate ist keine Zahl.</value>
+  </data>
+  <data name="GeneralNewItemText" xml:space="preserve">
+    <value>[Neu]</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter" xml:space="preserve">
+    <value>[Neu {0}]</value>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption" xml:space="preserve">
+    <value>Automatische Suche nach Feeds fehlgeschlagen</value>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption" xml:space="preserve">
+    <value>Nicht ausgefülltes, aber erforderliches Dialogfeld.</value>
+  </data>
+  <data name="GUICurrentConnectionState_Info" xml:space="preserve">
+    <value>Aktueller Status der Internetverbindung...</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption" xml:space="preserve">
+    <value>Es trat ein Fehler auf</value>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed" xml:space="preserve">
+    <value>Fehler beim Laden der Kommetar-Feedliste: {0}</value>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage" xml:space="preserve">
+    <value>Empfang der Feedliste fehlgeschlagen:
+{0}</value>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage" xml:space="preserve">
+    <value>Senden der Feedliste fehlgeschlagen:
+{0}</value>
+  </data>
+  <data name="GUIFieldKeywordsInvalid" xml:space="preserve">
+    <value>Kein Schlüsselwort angegeben</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo" xml:space="preserve">
+    <value>Dieser Feed ist bereits abonniert.
+ Kategorie/Name: {0}
+ Url: {1}.</value>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid" xml:space="preserve">
+    <value>Die Feed-Url und auch dessen Titel müssen angegeben werden!</value>
+  </data>
+  <data name="GUIFieldTitleInvalid" xml:space="preserve">
+    <value>Der Titel der Kategorie darf nicht leer sein!</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid" xml:space="preserve">
+    <value>Ungültige Url für die Webseite angegeben</value>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption" xml:space="preserve">
+    <value>Laden von Newsgruppen fehlgeschlagen</value>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage" xml:space="preserve">
+    <value>Es wurde kein Eintrag ausgewählt.</value>
+  </data>
+  <data name="GUIStatusBusyRefresh" xml:space="preserve">
+    <value>Beschäftigt, suche nach neuen Einträgen...</value>
+  </data>
+  <data name="GUIStatusChildItemsNA" xml:space="preserve">
+    <value>Einträge konnten nicht geladen werden, da keine Netzwerkverbindung besteht.</value>
+  </data>
+  <data name="GUIStatusDone" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed" xml:space="preserve">
+    <value>Vorgang abgebrochen. Das Dialogfeld für den Titel muss ausgefüllt werden.</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage" xml:space="preserve">
+    <value>Vorgang abgebrochen. Feed '{0}' erzeugte einen Fehler: {1}</value>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed" xml:space="preserve">
+    <value>Ungültiger Feed.</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig" xml:space="preserve">
+    <value>Validierungsfehler beim Laden der Konfiguration für Web-Suchmaschinen</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage" xml:space="preserve">
+    <value>Laden des Feed fehlgeschlagen: {0}</value>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig" xml:space="preserve">
+    <value>Fehler beim Laden der Konfiguration für Web-Suchmaschinen</value>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
+    <value>Fehler beim Laden der Feedliste.</value>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage" xml:space="preserve">
+    <value>{0} Einträge empfangen</value>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage" xml:space="preserve">
+    <value>{0} Feed(s) nach neuen Einträgen durchsucht.</value>
+  </data>
+  <data name="GUIStatusIdle" xml:space="preserve">
+    <value>RSS Bandit</value>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds" xml:space="preserve">
+    <value>Kein Feed gefunden</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound" xml:space="preserve">
+    <value>Es wurden leider keine Feeds gefunden.</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems" xml:space="preserve">
+    <value>Lade, bitte warten...</value>
+  </data>
+  <data name="GUIStatusLoadingFeed" xml:space="preserve">
+    <value>Lade...</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist" xml:space="preserve">
+    <value>Lade Feedliste...</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived" xml:space="preserve">
+    <value>Neue Feedeinträge empfangen...</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage" xml:space="preserve">
+    <value>{0} Feed(s) mit {1} neuen Einträgen</value>
+  </data>
+  <data name="GUIStatusNoFeedlistFile" xml:space="preserve">
+    <value>Keine Feeds abonniert.</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated" xml:space="preserve">
+    <value>Kein Feed wurde nach neuen Einträgen durchsucht.</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft" xml:space="preserve">
+    <value>Alle Einträge wurden bereits gelesen.</value>
+  </data>
+  <data name="GUIStatusPostNewFeedItem" xml:space="preserve">
+    <value>Nachricht wird gesendet, bitte warten...</value>
+  </data>
+  <data name="GUIStatusPostReplyToItem" xml:space="preserve">
+    <value>Sende Kommentar, bitte warten...</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState" xml:space="preserve">
+    <value>Aktualisiere Statusinformation über die Internetverbindung...</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage" xml:space="preserve">
+    <value>Aktualisiere Feeds...</value>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage" xml:space="preserve">
+    <value>Prüfe {0} auf neue Einträge ...</value>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed" xml:space="preserve">
+    <value>Kommentar-Feedliste wird geladen, bitte warten...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable" xml:space="preserve">
+    <value>Ungelesene Einträge vorhanden...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage" xml:space="preserve">
+    <value>Noch {0} ungelesene Einträge.</value>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile" xml:space="preserve">
+    <value>Validierungsfehler beim Laden der Feedliste.</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds" xml:space="preserve">
+    <value>Suche nach Feeds auf der Seite: {0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" xml:space="preserve">
+    <value>Suche nach Feeds, die folgende Schlüsselworte enthalten:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist" xml:space="preserve">
+    <value>Empfange Feedliste ({0}), bitte warten...</value>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed" xml:space="preserve">
+    <value>Lade Feed:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile" xml:space="preserve">
+    <value>Lade Datei:
+{0}</value>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist" xml:space="preserve">
+    <value>Feedliste ({0}) wird gesendet, bitte warten...</value>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption" xml:space="preserve">
+    <value>In RSS Bandit abonnieren</value>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption" xml:space="preserve">
+    <value>Im Standard-Aggregator abonnieren</value>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption" xml:space="preserve">
+    <value>Ungültige Feedliste</value>
+  </data>
+  <data name="InvalidFeedlistFileMessage" xml:space="preserve">
+    <value>Das Format der Feedliste ist ungültig.
+Detailliertere Informationen über diesen Fehler finden Sie in der Datei
+  '{0}'.</value>
+  </data>
+  <data name="InvalidFeedURIBoxCaption" xml:space="preserve">
+    <value>Ungültige Url</value>
+  </data>
+  <data name="InvalidFeedURIBoxText" xml:space="preserve">
+    <value>Die angegebene Url für das neue Feedabonnement ist nicht zulässig.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog" xml:space="preserve">
+    <value>Webservice Url:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint" xml:space="preserve">
+    <value>Sie können Ihre Feedliste als 'blogroll.opml' speichern, wenn Sie ein Anwender von 'dasBlog' (http://www.dasblog.net) sind. Die Webservice Url sollte in diesem Fall wie folgt angegeben werden: 'http://yourblog.com/dasblog/ConfigEditingService.asmx'. 	Zusätzlich müssen Sie den 'Configuration Editing service' innerhalb von 'dasBlog' aktivieren.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare" xml:space="preserve">
+    <value>Verzeichnispfad (Ordner):</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint" xml:space="preserve">
+    <value>Sie können den Anwendungsstatus als 'rssbandit-state.zip' Datei in einem lokalen bzw. Netzwerk-Ordner speichern. Geben Sie den Ordnerpfad wie folgt an '\\Netzwerkfreigabe\feedlist\' oder auch einfach 'H:\'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp" xml:space="preserve">
+    <value>FTP Server/Pfad:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint" xml:space="preserve">
+    <value>Sie können den Anwendungsstatus als 'rssbandit-state.zip' Datei auf einem FTP Server speichern. Geben Sie den Namen des FTP Servers und den Pfad wie folgt an: 'ftp://ihrserver.com:7788/feedlist_ordner/'.</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline" xml:space="preserve">
+    <value>NG Online Url:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint" xml:space="preserve">
+    <value>Sie können den Anwendungsstatus der abonnierten Feeds mit Newsgator Online synchronisieren. Die Online Anmeldung bei Newsgator finden Sie unter der Web-Adresse http://www.newsgator.com</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV" xml:space="preserve">
+    <value>WebDAV Url:</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint" xml:space="preserve">
+    <value>Sie können den Anwendungsstatus als 'rssbandit-state.zip' Datei in einem WebDAV Ordner speichern. Die Url sollte auf einen WebDAV Order zeigen, z. Bsp. 'http://meinwebdav.com/personal/'. Sie müssen dort das Recht haben, Dateien zu lesen und zu schreiben!</value>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount" xml:space="preserve">
+    <value>Kommentare</value>
+  </data>
+  <data name="ListviewColumnCaptionCreator" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="ListviewColumnCaptionDate" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure" xml:space="preserve">
+    <value>Anhang</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc" xml:space="preserve">
+    <value>Feed Beschreibung</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle" xml:space="preserve">
+    <value>Abonnement-Titel</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl" xml:space="preserve">
+    <value>Feed Url</value>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus" xml:space="preserve">
+    <value>Markierung</value>
+  </data>
+  <data name="ListviewColumnCaptionHeadline" xml:space="preserve">
+    <value>Schlagzeile</value>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl" xml:space="preserve">
+    <value>Url der Webseite</value>
+  </data>
+  <data name="ListviewColumnCaptionTopic" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
+  <data name="MainMenuEditCaption" xml:space="preserve">
+    <value>&amp;Bearbeiten</value>
+  </data>
+  <data name="MainMenuEditDesc" xml:space="preserve">
+    <value>RSS Bandit Bearbeitungs-Kommandos</value>
+  </data>
+  <data name="MainMenuFileCaption" xml:space="preserve">
+    <value>&amp;Datei</value>
+  </data>
+  <data name="MainMenuFileDesc" xml:space="preserve">
+    <value>Menü für Dateibefehle</value>
+  </data>
+  <data name="MainMenuHelpCaption" xml:space="preserve">
+    <value>&amp;Hilfe</value>
+  </data>
+  <data name="MainMenuHelpDesc" xml:space="preserve">
+    <value>Hilfe zum Programm...</value>
+  </data>
+  <data name="MainMenuSearchCaption" xml:space="preserve">
+    <value>&amp;Suche</value>
+  </data>
+  <data name="MainMenuSearchDesc" xml:space="preserve">
+    <value>Befehle zur Konfiguration der Web-Suchmaschinen</value>
+  </data>
+  <data name="MainMenuToolsCaption" xml:space="preserve">
+    <value>Ex&amp;tras</value>
+  </data>
+  <data name="MainMenuToolsDesc" xml:space="preserve">
+    <value>Allgemein gebräuchliche Befehle</value>
+  </data>
+  <data name="MainMenuViewCaption" xml:space="preserve">
+    <value>&amp;Ansicht</value>
+  </data>
+  <data name="MainMenuViewDesc" xml:space="preserve">
+    <value>Befehle zur Steuerung der Ansicht</value>
+  </data>
+  <data name="MenuAboutCaption" xml:space="preserve">
+    <value>Über RSS Bandit...</value>
+  </data>
+  <data name="MenuAboutDesc" xml:space="preserve">
+    <value>Zeigt Informationen über diese Anwendung an</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption" xml:space="preserve">
+    <value>Dieser Feed</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc" xml:space="preserve">
+    <value>Mehr Feed Informationen...</value>
+  </data>
+  <data name="MenuAppCloseExitCaption" xml:space="preserve">
+    <value>B&amp;eenden</value>
+  </data>
+  <data name="MenuAppCloseExitDesc" xml:space="preserve">
+    <value>Anwendung beenden</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption" xml:space="preserve">
+    <value>Offline arbeiten</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc" xml:space="preserve">
+    <value>Kontrolliert den Modus der Internetverbindung</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline" xml:space="preserve">
+    <value>[Sie arbeiten Offline]</value>
+  </data>
+  <data name="MenuAppOptionsCaption" xml:space="preserve">
+    <value>Optionen...</value>
+  </data>
+  <data name="MenuAppOptionsDesc" xml:space="preserve">
+    <value>Zeigt den Optionsdialog der Anwendung an...</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption" xml:space="preserve">
+    <value>Automatisch ermittelte Feeds</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc" xml:space="preserve">
+    <value>Zeigt alle automatisch ermittelten Feeds besuchter Webseiten an...</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption" xml:space="preserve">
+    <value>Feeds finden...</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc" xml:space="preserve">
+    <value>Lokalisiert Feeds auf einer Webseite or zu einem Thema</value>
+  </data>
+  <data name="MenuBanditForumCaption" xml:space="preserve">
+    <value>RSS Bandit Forum besuchen...</value>
+  </data>
+  <data name="MenuBanditForumDesc" xml:space="preserve">
+    <value>Themen rund um RSS Bandit diskutieren...</value>
+  </data>
+  <data name="MenuBanditWikiCaption" xml:space="preserve">
+    <value>RSS Bandit Homepage besuchen...</value>
+  </data>
+  <data name="MenuBanditWikiDesc" xml:space="preserve">
+    <value>Informiert über Neuigkeiten, neue Programmeigenschaften, oft gestellte Fragen und dergleichen mehr...</value>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption" xml:space="preserve">
+    <value>Wechseln zu</value>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc" xml:space="preserve">
+    <value>Zur angegebenen Webadresse navigieren...</value>
+  </data>
+  <data name="MenuBrowserNavigateBackCaption" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc" xml:space="preserve">
+    <value>Zurück (Historie)</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
+    <value>Abbrechen (Web-Navigation)</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption" xml:space="preserve">
+    <value>Webadresszeile</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc" xml:space="preserve">
+    <value>Webadresszeile (Url)</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption" xml:space="preserve">
+    <value>Vorwärts</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc" xml:space="preserve">
+    <value>Vorwärts (Historie)</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption" xml:space="preserve">
+    <value>Im Standard Web Browser öffnen</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc" xml:space="preserve">
+    <value>Adresse im Standard Web Browser öffnen...</value>
+  </data>
+  <data name="MenuBrowserNewTabCaption" xml:space="preserve">
+    <value>Neues Webdokument</value>
+  </data>
+  <data name="MenuBrowserNewTabDesc" xml:space="preserve">
+    <value>Neues Webdokument öffnen (Tab)...</value>
+  </data>
+  <data name="MenuBrowserRefreshCaption" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="MenuBrowserRefreshDesc" xml:space="preserve">
+    <value>Aktualisieren (Webseite)</value>
+  </data>
+  <data name="MenuBugReportCaption" xml:space="preserve">
+    <value>Fehler melden...</value>
+  </data>
+  <data name="MenuBugReportDesc" xml:space="preserve">
+    <value>Melden Sie einen aufgetretenen Anwendungsfehler an das Entwicklerteam</value>
+  </data>
+  <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
+    <value>Als gelesen markieren</value>
+  </data>
+  <data name="MenuCatchUpCategoryDesc" xml:space="preserve">
+    <value>Markiert alle Einträge dieser Kategorie als gelesen...</value>
+  </data>
+  <data name="MenuCatchUpOnAllCaption" xml:space="preserve">
+    <value>Als gelesen markieren</value>
+  </data>
+  <data name="MenuCatchUpOnAllDesc" xml:space="preserve">
+    <value>Markiert alle Einträge in allen Feeds als gelesen</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption" xml:space="preserve">
+    <value>Gelesen</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc" xml:space="preserve">
+    <value>Alle Einträge des Feeds als gelesen markieren...</value>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption" xml:space="preserve">
+    <value>Als gelesen markieren</value>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc" xml:space="preserve">
+    <value>Alle Einträge des Feeds als gelesen markieren...</value>
+  </data>
+  <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
+    <value>Auf neuere Version prüfen...</value>
+  </data>
+  <data name="MenuCheckForUpdatesDesc" xml:space="preserve">
+    <value>Auf vorhandene Programm-Updates prüfen...</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption" xml:space="preserve">
+    <value>Liste der gefundenen Feeds löschen</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc" xml:space="preserve">
+    <value>Löscht alle ermittelten Feeds in dieser Liste...</value>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption" xml:space="preserve">
+    <value>Autor anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Autor' (Author) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserCaption" xml:space="preserve">
+    <value>Spalten-Layout</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption" xml:space="preserve">
+    <value>Anzahl Kommentare anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Kommentar' (Anzahl) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserDateCaption" xml:space="preserve">
+    <value>Datum anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserDateDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Datum' für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserDesc" xml:space="preserve">
+    <value>Angezeigte Spalten und Layouts verwalten...</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption" xml:space="preserve">
+    <value>Anhang-Status anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Anhang-Status' (enclosure state) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption" xml:space="preserve">
+    <value>Abonnement-Titel anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Abonnement-Titel' (subscription title) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserFlagCaption" xml:space="preserve">
+    <value>Markierungs-Status anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserFlagDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Markierung' (flag state) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption" xml:space="preserve">
+    <value>Auf Standard-Layout zurücksetzen</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc" xml:space="preserve">
+    <value>Das individuelle Layout wird vom ausgewählten Abonnement-Eintrag entfernt und das jeweilige Standard-Layout verwendet...</value>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption" xml:space="preserve">
+    <value>Kategorie anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Kategorie' (subject, topic) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserTitleCaption" xml:space="preserve">
+    <value>Schlagzeile anzeigen</value>
+  </data>
+  <data name="MenuColumnChooserTitleDesc" xml:space="preserve">
+    <value>Zeigt die Spalte 'Schlagzeile' (headline, title) für News-Einträge an...</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption" xml:space="preserve">
+    <value>Aktuelles Layout für Kategorien zum Standard machen</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc" xml:space="preserve">
+    <value>Layout soll für alle Kategorien gelten, die keine individuellen Layouts besitzen...</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" xml:space="preserve">
+    <value>Aktuelles Layout für Feeds zum Standard machen</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" xml:space="preserve">
+    <value>Layout soll für alle Feeds gelten, die keine individuellen Layouts besitzen...</value>
+  </data>
+  <data name="MenuConfigCommandCaption" xml:space="preserve">
+    <value>Konfigurieren...</value>
+  </data>
+  <data name="MenuCopyFeedCaption" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="MenuCopyFeedDesc" xml:space="preserve">
+    <value>Kopiert bestimmte Eigenschaften eines Feeds nach...</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>Feed Homepage als HTML Link ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>Kopiert Feed Homepage mit Titel als HTML Link ins Clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
+    <value>Feed Homepage Url ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc" xml:space="preserve">
+    <value>Kopiert die Url der Homepage des gewählten Feeds ins Clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemCaption" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption" xml:space="preserve">
+    <value>Eintragstext ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc" xml:space="preserve">
+    <value>Kopiert den Textinhalt des Eintrags ins Clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemDesc" xml:space="preserve">
+    <value>Kopiert bestimmte Eigenschaften eines Eintrags nach...</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption" xml:space="preserve">
+    <value>Url des Eintrags ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc" xml:space="preserve">
+    <value>Kopiert die Url des ausgewählten Eintrags ins Clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>Eintragstitel als HTML Link ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>Kopiert den Eintragstitel als HTML Verknüpfung ins Clipboard...</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption" xml:space="preserve">
+    <value>Url des Feeds ins Clipboard</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc" xml:space="preserve">
+    <value>Kopiert die Url des Feeds ins Clipboard...</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption" xml:space="preserve">
+    <value>Alle Einträge löschen</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc" xml:space="preserve">
+    <value>Entfernt alle Feedeinträge...</value>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption" xml:space="preserve">
+    <value>Alle Feeds löschen</value>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc" xml:space="preserve">
+    <value>Löscht alle abonnierten Feeds...</value>
+  </data>
+  <data name="MenuDeleteCategoryCaption" xml:space="preserve">
+    <value>Kategorie löschen</value>
+  </data>
+  <data name="MenuDeleteCategoryDesc" xml:space="preserve">
+    <value>Löscht diese Kategorie und alle enthaltenen Feeds/Kategorien...</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc" xml:space="preserve">
+    <value>Entfernt alle ausgewähten Einträge...</value>
+  </data>
+  <data name="MenuDeleteThisFeedCaption" xml:space="preserve">
+    <value>Feed löschen</value>
+  </data>
+  <data name="MenuDeleteThisFeedDesc" xml:space="preserve">
+    <value>Diesen Feed löschen...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption" xml:space="preserve">
+    <value>Alle Dokumente schliessen</value>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc" xml:space="preserve">
+    <value>Schliesst alle Browserdokumente in allen Bereichen...</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption" xml:space="preserve">
+    <value>Alle Dokumente im Bereich schliessen</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc" xml:space="preserve">
+    <value>Schliesst alle Browserdokumente dieses Bereichs...</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption" xml:space="preserve">
+    <value>Dokument schliessen</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc" xml:space="preserve">
+    <value>Schliesst das aktuelle Browserdokument...</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption" xml:space="preserve">
+    <value>Horizontal geteiltes Layout</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc" xml:space="preserve">
+    <value>Wenn aktiv, werden geteilte Webdokumente horizontal angeordnet...</value>
+  </data>
+  <data name="MenuDonateToProjectCaption" xml:space="preserve">
+    <value>Projekt unterstützen (spenden)...</value>
+  </data>
+  <data name="MenuDonateToProjectDesc" xml:space="preserve">
+    <value>Ruft eine Url auf, wo Sie das Projekt finanziell unterstützen können...</value>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MenuDoSearchComboBoxDesc" xml:space="preserve">
+    <value>Begriffe für die Web Suche...</value>
+  </data>
+  <data name="MenuDoSearchWebCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MenuDoSearchWebDesc" xml:space="preserve">
+    <value>Starte die Web Suche...</value>
+  </data>
+  <data name="MenuDownloadAttachmentCaption" xml:space="preserve">
+    <value>Download Attachment</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc" xml:space="preserve">
+    <value>Download the item's enclosure files to the specified Podcasts folder</value>
+  </data>
+  <data name="MenuDownloadFeedsCaption" xml:space="preserve">
+    <value>Feedliste empfangen...</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc" xml:space="preserve">
+    <value>Empfängt Feedliste vom Remote Storage.</value>
+  </data>
+  <data name="MenuExportFeedsCaption" xml:space="preserve">
+    <value>Exportiere Feeds...</value>
+  </data>
+  <data name="MenuExportFeedsDesc" xml:space="preserve">
+    <value>Exportiert die Feedliste...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption" xml:space="preserve">
+    <value>Leseansicht oben</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc" xml:space="preserve">
+    <value>Feedeinträge unten, Eintragsinhalt oben...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption" xml:space="preserve">
+    <value>Position der Leseansicht</value>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc" xml:space="preserve">
+    <value>Wählen/Ändern Sie das Layout der Feed Details Ansicht...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption" xml:space="preserve">
+    <value>Leseansicht rechts</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc" xml:space="preserve">
+    <value>Feedeinträge links, Eintragsinhalt rechts....</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption" xml:space="preserve">
+    <value>Leseansicht links</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc" xml:space="preserve">
+    <value>Feedeinträge rechts, Eintragsinhalt links...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption" xml:space="preserve">
+    <value>Leseansicht unten</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc" xml:space="preserve">
+    <value>Feedeinträge oben, Eintragsinhalt darunter...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption" xml:space="preserve">
+    <value>Kommentar senden...</value>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc" xml:space="preserve">
+    <value>Einen Kommentar/Antwort zu diesem Eintrag senden...</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption" xml:space="preserve">
+    <value>Kommentare &amp;beobachten</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc" xml:space="preserve">
+    <value>Informiert werden, wenn neue Kommentare zu diesem Eintrag hinzugefügt werden</value>
+  </data>
+  <data name="MenuFinderDeleteAllCaption" xml:space="preserve">
+    <value>Alle löschen</value>
+  </data>
+  <data name="MenuFinderDeleteAllDesc" xml:space="preserve">
+    <value>Löscht diesen und alle untergeordneten Suchordner...</value>
+  </data>
+  <data name="MenuFinderDeleteCaption" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="MenuFinderDeleteDesc" xml:space="preserve">
+    <value>Löscht den ausgewählten Suchordner...</value>
+  </data>
+  <data name="MenuFinderRenameCaption" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="MenuFinderRenameDesc" xml:space="preserve">
+    <value>Ausgewählten Ordner umbenennen</value>
+  </data>
+  <data name="MenuFlagFeedItemCaption" xml:space="preserve">
+    <value>Zur Nachverfolgung kennzeichnen...</value>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption" xml:space="preserve">
+    <value>Markierung löschen</value>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc" xml:space="preserve">
+    <value>Löscht ausgewählte Einträge aus dem speziellen Ordner...</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption" xml:space="preserve">
+    <value>Erledigt</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc" xml:space="preserve">
+    <value>Markiert ausgewählte Einträge als 'Erledigt' und entfernt diese aus dem speziellen Ordner...</value>
+  </data>
+  <data name="MenuFlagFeedItemDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge den speziellen Ordnern zur Nachverfolgung hinzu...</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption" xml:space="preserve">
+    <value>Weiterverfolgen</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge dem speziellen Ordner 'Weiterverfolgen' hinzu...</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption" xml:space="preserve">
+    <value>Weiterleiten</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge dem speziellen Ordner 'Weiterleiten' hinzu...</value>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption" xml:space="preserve">
+    <value>Lesen</value>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge dem speziellen Ordner 'Lesen' hinzu...</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption" xml:space="preserve">
+    <value>Beantworten</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge dem speziellen Ordner 'Beantworten' hinzu...</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption" xml:space="preserve">
+    <value>Rückschau</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc" xml:space="preserve">
+    <value>Fügt die ausgewählten Einträge dem speziellen Ordner 'Rückschau' hinzu...</value>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (AddIn) Befehl</value>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (AddIn) konfigurieren</value>
+  </data>
+  <data name="MenuImportFeedsCaption" xml:space="preserve">
+    <value>Importiere Feeds...</value>
+  </data>
+  <data name="MenuImportFeedsDesc" xml:space="preserve">
+    <value>Importieren einer Feedliste (.xml, .ocs oder .opml)</value>
+  </data>
+  <data name="MenuListViewSelectAllCaption" xml:space="preserve">
+    <value>&amp;Alle auswählen</value>
+  </data>
+  <data name="MenuListViewSelectAllDesc" xml:space="preserve">
+    <value>Wählt alle Einträge in der Detailansicht aus.</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption" xml:space="preserve">
+    <value>Als &amp;ungelesen markieren</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc" xml:space="preserve">
+    <value>Markiert die ausgewählten Einträge als ungelesen...</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption" xml:space="preserve">
+    <value>Homepage</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc" xml:space="preserve">
+    <value>Navigiert zur Homepage des Feeds...</value>
+  </data>
+  <data name="MenuNewCategoryCaption" xml:space="preserve">
+    <value>Neue Kategorie</value>
+  </data>
+  <data name="MenuNewCategoryDesc" xml:space="preserve">
+    <value>Fügt eine neue Kategorie hinzu, um Feeds zu gruppieren</value>
+  </data>
+  <data name="MenuNewCmdsCaption" xml:space="preserve">
+    <value>&amp;Neu...</value>
+  </data>
+  <data name="MenuNewCmdsDesc" xml:space="preserve">
+    <value>Neue Abonnements hinzufügen</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption" xml:space="preserve">
+    <value>&amp;Suchergebnis abonnieren...</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc" xml:space="preserve">
+    <value>Einen Feed finden oder ein Suchergebnis abonnieren</value>
+  </data>
+  <data name="MenuNewFeedCaption" xml:space="preserve">
+    <value>&amp;Feed Subscription...</value>
+  </data>
+  <data name="MenuNewFeedCaption2" xml:space="preserve">
+    <value>&amp;Neues Feed Abonnement...</value>
+  </data>
+  <data name="MenuNewFeedDesc" xml:space="preserve">
+    <value>Einen neuen Feed abonnieren</value>
+  </data>
+  <data name="MenuNewFinderCaption" xml:space="preserve">
+    <value>Neuer Suchordner</value>
+  </data>
+  <data name="MenuNewFinderDesc" xml:space="preserve">
+    <value>Legt einen neuen Suchordner an...</value>
+  </data>
+  <data name="MenuNewNntpFeedCaption" xml:space="preserve">
+    <value>&amp;Newsgruppe abonnieren...</value>
+  </data>
+  <data name="MenuNewNntpFeedDesc" xml:space="preserve">
+    <value>Eine neue Newsgruppe abonnieren</value>
+  </data>
+  <data name="MenuNewRssSearchCaption" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="MenuNewRssSearchDesc" xml:space="preserve">
+    <value>Lokale Suche nach Einträgen...</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption" xml:space="preserve">
+    <value>&amp;Neues Abonnement...</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc" xml:space="preserve">
+    <value>Fügt ein neues Abonnement mit Hilfe eines Schritt-für-Schritt Dialogs hinzu</value>
+  </data>
+  <data name="MenuNextUnreadItemCaption" xml:space="preserve">
+    <value>Nächster ungelesene</value>
+  </data>
+  <data name="MenuNextUnreadItemDesc" xml:space="preserve">
+    <value>Navigiert zum nächsten ungelesenen Eintrag...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>Identitäten verwalten...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc" xml:space="preserve">
+    <value>Öffnet den Dialog zum Verwalten von Identitäten...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption" xml:space="preserve">
+    <value>News-Gruppen...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc" xml:space="preserve">
+    <value>Öffnet den Dialog zum Verwalten von NNTP Servern und News-Gruppen...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption" xml:space="preserve">
+    <value>&amp;Add-Ins...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc" xml:space="preserve">
+    <value>Anzeige des Add-In Management Dialogs...</value>
+  </data>
+  <data name="MenuPostNewFeedItemCaption" xml:space="preserve">
+    <value>Neue Nachricht</value>
+  </data>
+  <data name="MenuPostNewFeedItemDesc" xml:space="preserve">
+    <value>Anlegen einer neuen Nachricht für das ausgewählte Abonnement</value>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption" xml:space="preserve">
+    <value>Kommentar senden...</value>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc" xml:space="preserve">
+    <value>Senden eines Kommentars bzw. Antwort zum ausgewählten Eintrag...</value>
+  </data>
+  <data name="MenuRefreshFinderCaption" xml:space="preserve">
+    <value>Suche neu starten</value>
+  </data>
+  <data name="MenuRefreshFinderDesc" xml:space="preserve">
+    <value>Suche wird erneut gestartet...</value>
+  </data>
+  <data name="MenuRenameCaptionDesc" xml:space="preserve">
+    <value>Diesen Ordner umbenennen...</value>
+  </data>
+  <data name="MenuRenameCategoryCaption" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="MenuRenameCategoryDesc" xml:space="preserve">
+    <value>Kategorie umbenennen...</value>
+  </data>
+  <data name="MenuRenameThisFeedCaption" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="MenuRenameThisFeedDesc" xml:space="preserve">
+    <value>Diesen Feed umbenennen...</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc" xml:space="preserve">
+    <value>Stellt alle ausgewählten Einträge wieder her...</value>
+  </data>
+  <data name="MenuSendLogsByMailCaption" xml:space="preserve">
+    <value>Log Dateien per e-Mail senden...</value>
+  </data>
+  <data name="MenuSendLogsByMailDesc" xml:space="preserve">
+    <value>Sendet eine e-Mail mit Log Dateien für die Fehler-Analyse</value>
+  </data>
+  <data name="MenuShowAlertWindowsCaption" xml:space="preserve">
+    <value>Benachrichtigung bei neuen Feedeinträgen</value>
+  </data>
+  <data name="MenuShowAlertWindowsDesc" xml:space="preserve">
+    <value>Steuert die Anzeige der Benachrichtigungsfenster bei Eingang neuer Einträge...</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption" xml:space="preserve">
+    <value>Immer</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc" xml:space="preserve">
+    <value>Anzeige von Benachrichtigungsfenstern bei allen neuen Einträgen...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption" xml:space="preserve">
+    <value>Eigenschaften...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc" xml:space="preserve">
+    <value>Zeigt den Dialog für Kategorie-Eigenschaften an...</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption" xml:space="preserve">
+    <value>Laut Feed-Eigenschaften</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc" xml:space="preserve">
+    <value>Anzeige der Benachrichtigungsfenster bei Eingang neuer Einträge, wie pro Feed konfiguriert...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption" xml:space="preserve">
+    <value>Eigenschaften...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc" xml:space="preserve">
+    <value>Anzeige des Feed Eigenschaftsdialog...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption" xml:space="preserve">
+    <value>Eigenschaften...</value>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc" xml:space="preserve">
+    <value>Zeigt den Eigenschaftsdialog für Suchordner an...</value>
+  </data>
+  <data name="MenuShowLinkCosmosCaption" xml:space="preserve">
+    <value>Link Cosmos</value>
+  </data>
+  <data name="MenuShowLinkCosmosDesc" xml:space="preserve">
+    <value>Navigiert zu Technorati zeigt den Feed Link Cosmos...</value>
+  </data>
+  <data name="MenuShowMainGuiCaption" xml:space="preserve">
+    <value>RSS Bandit anzeigen</value>
+  </data>
+  <data name="MenuShowMainGuiDesc" xml:space="preserve">
+    <value>Das Hauptfenster von RSS Bandit anzeigen...</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption" xml:space="preserve">
+    <value>Desktop-Benachrichtigung über neue Einträge</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc" xml:space="preserve">
+    <value>Steuert die Anzeige der Desktop Information (Balloon-Info) über den Empfang neuer Einträge...</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption" xml:space="preserve">
+    <value>Niemals</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc" xml:space="preserve">
+    <value>Keine Anzeige von Benachrichtigungsfenstern...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption" xml:space="preserve">
+    <value>Abonnieren...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc" xml:space="preserve">
+    <value>Zeigt den Dialog zum Abonnieren des Feeds für dieses Suchergebnis an...</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc" xml:space="preserve">
+    <value>Kontrolliert die Sichtbarkeit der Suchansicht.</value>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption" xml:space="preserve">
+    <value>Feed Abonnements</value>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc" xml:space="preserve">
+    <value>Kontrolliert die Sichbarkeit der Baumansicht abonnierter Feeds.</value>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption" xml:space="preserve">
+    <value>Feeds aktualisieren</value>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc" xml:space="preserve">
+    <value>Startet die Prüfung aller abonnierten Feeds auf neue Nachrichteneinträge...</value>
+  </data>
+  <data name="MenuUpdateCategoryCaption" xml:space="preserve">
+    <value>Feeds aktualisieren...</value>
+  </data>
+  <data name="MenuUpdateCategoryDesc" xml:space="preserve">
+    <value>Alle Feeds dieser Kategorie werden aktualisiert...</value>
+  </data>
+  <data name="MenuUpdateThisFeedCaption" xml:space="preserve">
+    <value>Feed aktualisieren</value>
+  </data>
+  <data name="MenuUpdateThisFeedDesc" xml:space="preserve">
+    <value>Aktualisiert diesen Feed...</value>
+  </data>
+  <data name="MenuUploadFeedsCaption" xml:space="preserve">
+    <value>Feedliste senden...</value>
+  </data>
+  <data name="MenuUploadFeedsDesc" xml:space="preserve">
+    <value>Sendet Feedliste zum Remote Storage.</value>
+  </data>
+  <data name="MenuValidateFeedCaption" xml:space="preserve">
+    <value>Validieren</value>
+  </data>
+  <data name="MenuValidateFeedDesc" xml:space="preserve">
+    <value>Validiert diesen Feed...</value>
+  </data>
+  <data name="MenuViewOutlookReadingPane" xml:space="preserve">
+    <value>Gruppierte Liste der Feed Einträge</value>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption" xml:space="preserve">
+    <value>Quelltext anzeigen</value>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc" xml:space="preserve">
+    <value>Den Quelltext dieses Feed anzeigen...</value>
+  </data>
+  <data name="MenuViewToolbarMainCaption" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="MenuViewToolbarMainDesc" xml:space="preserve">
+    <value>Schaltet die Sichtbarkeit der Standard Symbolleiste um.</value>
+  </data>
+  <data name="MenuViewToolbarsCaption" xml:space="preserve">
+    <value>Symbolleisten</value>
+  </data>
+  <data name="MenuViewToolbarsDesc" xml:space="preserve">
+    <value>Steuert die Sichtbarkeit der verschiedenen Symbolleisten.</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption" xml:space="preserve">
+    <value>Web Navigation</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc" xml:space="preserve">
+    <value>Schaltet die Sichtbarkeit der Symbolleiste Web-Navigation um.</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption" xml:space="preserve">
+    <value>Web Suche</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc" xml:space="preserve">
+    <value>Schaltet die Sichtbarkeit der Symbolleiste Web-Suche um.</value>
+  </data>
+  <data name="MenuWebHelpCaption" xml:space="preserve">
+    <value>Online Dokumentation</value>
+  </data>
+  <data name="MenuWebHelpDesc" xml:space="preserve">
+    <value>Hilfethemen zu RSS Bandit wie: Schnellstart, FAQ, usw.</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption" xml:space="preserve">
+    <value>Neue Dokumentansicht für Resultate</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc" xml:space="preserve">
+    <value>Suchergebnisse sollen in einer neuen Dokumentansicht angezeigt werden...</value>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc" xml:space="preserve">
+    <value>Diese Suchmaschine auswählen, um sie in die simultane Suche einzubeziehen...</value>
+  </data>
+  <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
+    <value>Neuigkeiten...</value>
+  </data>
+  <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
+    <value>Lesen Sie die neuesten Nachrichten über die aktuelle Entwicklung dieser Applikation</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" xml:space="preserve">
+    <value>Wollen Sie wirklich diese Kategorie und alle 
+ enthaltenen Kategorien bzw. Feed Abonnements löschen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion" xml:space="preserve">
+    <value>Wollen Sie wirklich alle Feed Abonnements löschen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion" xml:space="preserve">
+    <value>Wollen Sie wirklich alle Suchordner löschen?</value>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion" xml:space="preserve">
+    <value>Wollen Sie wirklich alle Einträge löschen?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion" xml:space="preserve">
+    <value>Wollen Sie wirklich dieses Feed Abonnement löschen?</value>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion" xml:space="preserve">
+    <value>Wollen Sie diesen Suchordner wirklich löschen?</value>
+  </data>
+  <data name="NameRequiredInPostReplyMessage" xml:space="preserve">
+    <value>Sie müssen einen Namen angeben, um einen Kommentar zu senden</value>
+  </data>
+  <data name="NewPostToFeedFormCaption" xml:space="preserve">
+    <value>Neue Nachricht an: {0}</value>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage" xml:space="preserve">
+    <value>Lade verfügbare Newsgruppen. Bitte warten Sie einen Moment, ...</value>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption" xml:space="preserve">
+    <value>Erweiterte Einstellungen</value>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption" xml:space="preserve">
+    <value>Generelle Einstellungen</value>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption" xml:space="preserve">
+    <value>Server Einstellungen</value>
+  </data>
+  <data name="NotYetImplementedFeature_Info" xml:space="preserve">
+    <value>Es tut uns sehr leid, aber dieses Feature 
+steht in Ihrer Version der Anwendung noch nicht zur Verfügung.</value>
+  </data>
+  <data name="OverflowExceptionRefreshRate" xml:space="preserve">
+    <value>Der Wert für die Aktualisierungsrate ist zu gross.</value>
+  </data>
+  <data name="PostReplyFormCaption" xml:space="preserve">
+    <value>Kommentar - AW: {0}</value>
+  </data>
+  <data name="PostReplySentIdentityInfoText" xml:space="preserve">
+    <value>Benutzername: {0}
+E-Mail: {1}
+Referenz-Url: {2}</value>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue" xml:space="preserve">
+    <value>&lt;leer&gt;</value>
+  </data>
+  <data name="PostReplyTitlePrefix" xml:space="preserve">
+    <value>AW: {0}</value>
+  </data>
+  <data name="PreferencesExceptionMessageTitle" xml:space="preserve">
+    <value>Fehler beim Setzen von Optionen</value>
+  </data>
+  <data name="ProtocolViolationExceptionCategory" xml:space="preserve">
+    <value>Protokoll Verletzung</value>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart" xml:space="preserve">
+    <value>Der Feed wurde erzeugt von/durch '{0}'.</value>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo" xml:space="preserve">
+    <value>Kontakt Information(en):</value>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage" xml:space="preserve">
+    <value>Feed Homepage</value>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor" xml:space="preserve">
+    <value>Managing Editor</value>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart" xml:space="preserve">
+    <value>Aktualisierung des Feed '&lt;strong&gt;{0}&lt;/strong&gt;' fehlgeschlagen: {1}</value>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart" xml:space="preserve">
+    <value>Klicken Sie hier, um diesen Feed zu &lt;strong&gt;validieren&lt;/strong&gt;.</value>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster" xml:space="preserve">
+    <value>Web Master</value>
+  </data>
+  <data name="RemoteStorageDownload_Question" xml:space="preserve">
+    <value>Ihre derzeitige Feedliste wird durch die vom unter Optionen|Remote Storage 
+konfigurierten Service gesendeten Datei ersetzt.
+        
+Wollen Sie fortfahren?</value>
+  </data>
+  <data name="RemoteStorageFeature_Info" xml:space="preserve">
+    <value>Sie müssen zuerst den Remote Storage im Optionsdialog konfigurieren, bevor Sie diesen Befehl nutzen können.</value>
+  </data>
+  <data name="RemoteStorageUpload_Question" xml:space="preserve">
+    <value>Ihre Feedliste wird jetzt and den unter Optionen|Remote Storage 
+konfigurierten Service gesendet. 
+        
+Wollen Sie fortfahren?</value>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info" xml:space="preserve">
+    <value>Feedliste wurde erfolgreich gesendet.</value>
+  </data>
+  <data name="RssSearchCancelledStateMessage" xml:space="preserve">
+    <value>Abbrechen, ...</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc" xml:space="preserve">
+    <value>Aktuelle Suche abbrechen...</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc" xml:space="preserve">
+    <value>Startet die definierte Suche...</value>
+  </data>
+  <data name="RssSearchNoResultMessage" xml:space="preserve">
+    <value>Keine Einträge gefunden.</value>
+  </data>
+  <data name="RssSearchResultNodeCaption" xml:space="preserve">
+    <value>Suchergebnis</value>
+  </data>
+  <data name="RssSearchStateMessage" xml:space="preserve">
+    <value>Suche, ...</value>
+  </data>
+  <data name="RssSearchSuccessResultMessage" xml:space="preserve">
+    <value>{0} Einträge gefunden.</value>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption" xml:space="preserve">
+    <value>Findet alle Einträge, deren Eigenschaften/Inhalt dem regulären Ausdruck entsprechen.</value>
+  </data>
+  <data name="RssSearchTypeTextHintCaption" xml:space="preserve">
+    <value>Findet alle Einträge, die das angegebene Schlüsselwort enthalten.</value>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption" xml:space="preserve">
+    <value>Findet alle Einträge, deren RSS 2.0 Repräsentation dem angegebenen XPath Ausdruck entsprechen.</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty" xml:space="preserve">
+    <value>Bitte vergeben Sie für die Suche einen Titel</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty" xml:space="preserve">
+    <value>Bitte geben Sie eine Url für die Suche an</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam" xml:space="preserve">
+    <value>Es fehlt der '{0}' Parameter (Platzhalter für spätere Suchbegriffe)</value>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess" xml:space="preserve">
+    <value>Um die gewünschte Funktionalität zu ermöglichen, benötigt die Anwendung Schreibrechte
+für den Windows Registry Schlüssel: '{0}'.
+        
+Dazu starten Sie die Anwendung bitter erneut über den Windows Datei-Explorer,
+indem Sie im Kontext-Menü der .exe Datei 'Ausführen unter...' auswählen.
+Dann wählen Sie bitte das lokale Windows Administrator Konto, 
+um die Anwendung zu starten.
+
+Diese administrativen Rechte sind nur erforderlich, um diese Funktionalität einzurichten.
+Für die normale Funktionalität der Anwendung sind diese NICHT notwendig!
+Bitte entschuldigen Sie diese Unannehmlichkeit.</value>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage" xml:space="preserve">
+    <value>Abonnierte Feeds: {0}</value>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage" xml:space="preserve">
+    <value>Auswahl enthält {0} Einträge</value>
+  </data>
+  <data name="Syndic8FeedSearchTitle" xml:space="preserve">
+    <value>Syndic8 Service</value>
+  </data>
+  <data name="TabFeedHomeCaption" xml:space="preserve">
+    <value>Feed Homepage: {0}</value>
+  </data>
+  <data name="TabFeedSourceCaption" xml:space="preserve">
+    <value>Feed Quelltext: {0}</value>
+  </data>
+  <data name="TabLinkCosmosCaption" xml:space="preserve">
+    <value>Feed Link Cosmos: {0}</value>
+  </data>
+  <data name="TabValidationResultCaption" xml:space="preserve">
+    <value>Feed Validierungsergebnis</value>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption" xml:space="preserve">
+    <value>Schaltflächen hinzufügen oder entfernen...</value>
+  </data>
+  <data name="ToolbarOptionsCaption" xml:space="preserve">
+    <value>Werkzeugleiste - Optionen</value>
+  </data>
+  <data name="UpgradeFeedlistInfoText" xml:space="preserve">
+    <value>Die aktuelle Version von {0} bietet neue Eigenschaften bzw. behebt Fehler früherer Version(en),
+was eine Änderung des Formats der Feedliste erfordert.
+Um ältere Versionen des Programms auf Ihrem Computer nicht zu beeinflussen, 
+wird jetzt eine neue Feedlistendatei aus der bestehenden erzeugt.
+
+Ihre alte Feedliste wird nicht modifiziert und bleibt erhalten.
+
+Soll das Programm jetzt fortgesetzt werden?</value>
+  </data>
+  <data name="UpgradeInfoBoxCaption" xml:space="preserve">
+    <value>Upgrade Information</value>
+  </data>
+  <data name="URL_BugReport" xml:space="preserve">
+    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+  </data>
+  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
+    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+  </data>
+  <data name="URL_FeedValidationBase" xml:space="preserve">
+    <value>http://www.feedvalidator.org/check?url=</value>
+  </data>
+  <data name="URL_ProjectDonation" xml:space="preserve">
+    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+  </data>
+  <data name="URL_ProjectDownload" xml:space="preserve">
+    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+  </data>
+  <data name="URL_ProjectNews" xml:space="preserve">
+    <value>http://sourceforge.net/news/?group_id=96589</value>
+  </data>
+  <data name="URL_UserForum" xml:space="preserve">
+    <value>http://www.rssbandit.org/forum/</value>
+  </data>
+  <data name="URL_WebHelp" xml:space="preserve">
+    <value>http://www.rssbandit.org/docs/</value>
+  </data>
+  <data name="URL_WikiWebNews" xml:space="preserve">
+    <value>http://www.rssbandit.org/</value>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion" xml:space="preserve">
+    <value>Suche nach neuen Versionen...</value>
+  </data>
+  <data name="WebExceptionCategory" xml:space="preserve">
+    <value>Web-Zugriffsfehler</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess" xml:space="preserve">
+    <value>Anforderung der Daten für {0} fehlgeschlagen: {1}</value>
+  </data>
+  <data name="WindowAboutCaption" xml:space="preserve">
+    <value>Über {0}</value>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>Gehe zurück, um andere Schlüsselworte einzugeben, oder wähle Abbrechen</value>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>Gehe zurück, um die URL zu ändern, oder wähle Abbrechen</value>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage" xml:space="preserve">
+    <value>Lade den Web-Feed Titel...</value>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage" xml:space="preserve">
+    <value>Ungültiger Web-Feed.</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage" xml:space="preserve">
+    <value>Laden des Web-Feed abgebrochen.</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage" xml:space="preserve">
+    <value>Laden des Web-Feed fehlgeschlagen.</value>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage" xml:space="preserve">
+    <value>Suche abgebrochen.</value>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage" xml:space="preserve">
+    <value>Suche fehlgeschlagen.</value>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage" xml:space="preserve">
+    <value>Suche...</value>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message" xml:space="preserve">
+    <value>{0} Web-Feed(s) wurden gefunden.</value>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage" xml:space="preserve">
+    <value>Web-Feed erfolgreich geladen.</value>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage" xml:space="preserve">
+    <value>Überprüfung der URL...</value>
+  </data>
+  <data name="WrongImageSizeMessage" xml:space="preserve">
+    <value>Bild hat nicht die erforderliche Grösse von 16x16 Pixel.</value>
+  </data>
+  <data name="XmlExceptionCategory" xml:space="preserve">
+    <value>Xml Fehler</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate" xml:space="preserve">
+    <value>am</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure" xml:space="preserve">
+    <value>Anhang</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher" xml:space="preserve">
+    <value>Publiziert von</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState" xml:space="preserve">
+    <value>Flag setzen bzw. zurücksetzen</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState" xml:space="preserve">
+    <value>Als gelesen bzw. nicht gelesen markieren</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath" xml:space="preserve">
+    <value>Ungültiger Pfad für das Download-Verzeichnis angegeben</value>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture" xml:space="preserve">
+    <value>Die Benutzer-Sprache der Anwendung konnte nicht auf '{0}' gesetzt werden:
+
+Fehler:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage" xml:space="preserve">
+    <value>Eine Datei empfangen</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
+    <value>Hauptmenü</value>
+    <comment> Main Form control captions</comment>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption" xml:space="preserve">
+    <value>Wichtige Werkzeuge</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption" xml:space="preserve">
+    <value>Web-Browser Werkzeuge</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption" xml:space="preserve">
+    <value>Such-Werkzeuge</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu" xml:space="preserve">
+    <value>Menü</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit" xml:space="preserve">
+    <value>Editieren</value>
+  </data>
+  <data name="MainForm_ToolCategoryView" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools" xml:space="preserve">
+    <value>Extras</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText" xml:space="preserve">
+    <value>URL zum Navigieren hier eingeben</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered" xml:space="preserve">
+    <value>Abonnement gefunden</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived" xml:space="preserve">
+    <value>Neue Beiträge empfangen</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded" xml:space="preserve">
+    <value>Neuer Anhang heruntergeladen</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed" xml:space="preserve">
+    <value>Tut mir Leid, aber das Windows Steuerungs-Fenster zur Konfiguration 
+der Anwendungs-Sounds kann nicht angezeigt werden:
+
+{0}
+
+Bitte versuchen Sie es direkt über das Windows Start Menü "Einstellungen".</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption" xml:space="preserve">
+    <value>Werkzeuge</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption" xml:space="preserve">
+    <value>Neue Identität</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc" xml:space="preserve">
+    <value>Anlegen einer neue Identität...</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption" xml:space="preserve">
+    <value>Neuer Newsserver</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc" xml:space="preserve">
+    <value>Anlegen einer neuen NNTP Server Definition...</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
+    <value>Löschen</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
+    <value>Entfernt den ausgewählten Eintrag</value>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks" xml:space="preserve">
+    <value>Ähnliche Seiten</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState" xml:space="preserve">
+    <value>Beobachten von Kommentaren / Kommentare ignorieren</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption" xml:space="preserve">
+    <value>Feed Abonnements</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText" xml:space="preserve">
+    <value>Web Browser Status...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText" xml:space="preserve">
+    <value>Ladefortschritt einer Seite...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText" xml:space="preserve">
+    <value>Status der Netzwerk-Verbindung...</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText" xml:space="preserve">
+    <value>Status Feed Manager...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup" xml:space="preserve">
+    <value>Willkommen!</value>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text" xml:space="preserve">
+    <value>Speichern</value>
+    <comment> SearchPanel control</comment>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text" xml:space="preserve">
+    <value>&amp;Link des Eintrags</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text" xml:space="preserve">
+    <value>Kategor&amp;ie</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text" xml:space="preserve">
+    <value>&amp;Beschreibung</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text" xml:space="preserve">
+    <value>&amp;Titel</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text" xml:space="preserve">
+    <value>Wählen Sie alle Felder, die bei der Suche berücksichtigt werden sollen</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text" xml:space="preserve">
+    <value>Eintrag &amp;publiziert</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text" xml:space="preserve">
+    <value>&amp;Alter des Eintrags</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text" xml:space="preserve">
+    <value>&amp;Jünger als</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text" xml:space="preserve">
+    <value>&amp;Status: Gelesen</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text" xml:space="preserve">
+    <value>&amp;Nicht gelesen</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text" xml:space="preserve">
+    <value>&amp;Speichern der Suche als</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text" xml:space="preserve">
+    <value>Such&amp;felder</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text" xml:space="preserve">
+    <value>Zusätzliche &amp;Optionen</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text" xml:space="preserve">
+    <value>Suchbereich</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at" xml:space="preserve">
+    <value>am</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before" xml:space="preserve">
+    <value>vor dem</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after" xml:space="preserve">
+    <value>nach dem</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between" xml:space="preserve">
+    <value>zwischen</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour" xml:space="preserve">
+    <value>1 Stunde</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours" xml:space="preserve">
+    <value>{0} Stunden</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day" xml:space="preserve">
+    <value>1 Tag</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days" xml:space="preserve">
+    <value>{0} Tage</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month" xml:space="preserve">
+    <value>1 Monat</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months" xml:space="preserve">
+    <value>{0} Monate</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter" xml:space="preserve">
+    <value>1 Quartal</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters" xml:space="preserve">
+    <value>{0} Quartale</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year" xml:space="preserve">
+    <value>1 Jahr</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years" xml:space="preserve">
+    <value>{0} Jahre</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+  <data name="ExceptionEnclosureDownloadError" xml:space="preserve">
+    <value>Download Fehler</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption" xml:space="preserve">
+    <value>Zusammenfassungen anzeigen</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc" xml:space="preserve">
+    <value>Schaltet zwischen der Anzeige von Zusammenfassungen und vollen Eintragstexten um</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
+    <value>&amp;Älter als</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
+    <value>Was wollen Sie mit diesem Abonnement jetzt tun?</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
+    <value>Das Abonnement anzeigen...</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
+    <value>Das Abonnement jetzt entfernen...</value>
+  </data>
+  <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
+    <value>Vorherige</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_Next" xml:space="preserve">
+    <value>Nächste</value>
+  </data>
+  <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
+    <value>Aktuelle Seite</value>
+  </data>
+  <data name="XsltDefaultTemplate_of" xml:space="preserve">
+    <value>von</value>
+  </data>
+  <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
+    <value>Das Laden der Datei
+{0}
+ist fehlgeschlagen. Es trat folgender Fehler auf:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
+    <value>Das Speichern der Datei
+{0}
+ist fehlgeschlagen. Es trat folgender Fehler auf:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
+    <value>Es werden Standard-Werte für die Ordner-Stati der Abonnement-Hierarchie verwendet.</value>
+  </data>
+  <data name="MenuTopStoriesCaption" xml:space="preserve">
+    <value>Schlagzeilen</value>
+  </data>
+  <data name="MenuTopStoriesDesc" xml:space="preserve">
+    <value>Anzeige der zuletzt am meisten verlinkten Beiträge in Ihren Abonnements</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
+    <value>Schlagzeilen werden ermittelt, bitte warten...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
+    <value>{0} Schlagzeilen: die zuletzt am meisten verlinkten Beiträge</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+  <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
+    <value>Diskussion:</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
+    <value>Textgröße</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
+    <value>Klein</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Klein...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
+    <value>Kleiner</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Kleiner...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Normal...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
+    <value>Größer</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Größer...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
+    <value>Groß</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
+    <value>Auswahl/Ändern der Textgröße für die Feed-Details-Anzeige auf Groß...</value>
+  </data>
+<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
+    <value>Google Reader Web-Feeds</value>
+  </data>
+	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
+    <value>Gruppiert Web-Feeds des Google Reader</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
+    <value>NewsGator Web-Feeds</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
+    <value>Gruppiert Web-Feeds von NewsGator</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
+    <value>Windows Web-Feeds</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
+    <value>Gruppiert Web-Feeds der Windows RSS Platform</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
+    <value>Eintrag im Google Reader für andere Nutzer freigeben oder sperren</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
+    <value>Eintrag im 'clippings' Ordner in NewsGator Online hinzufügen oder entfernen</value>
+  </data>
+	<data name="MenuSynchronizeFeedsCaption" space="preserve">
+    <value>Web-Feeds &amp;synchronisieren...</value>
+  </data>
+	<data name="MenuSynchronizeFeedsDesc" space="preserve">
+    <value>Startet den Assistent für die Web-Feeds Synchronisation</value>
+  </data>
+	<data name="ExceptionInvalidPlaylistName" space="preserve">
+    <value>Bitte eine gültigen Namen für die Wiedergabeliste angeben</value>
+  </data>
+	<data name="NoTopStoriesMessage" space="preserve">
+    <value>Es konnten keine Schlagzeilen ermittelt werden, die in der letzten Woche durch Beiträge Ihrer Abonnements '{0}' verlinkt wurden.</value>
+  </data>
+	<data name="TopStoriesDescription" space="preserve">
+    <value>Es folgt die Liste der Schlagzeilen (most popular links), die in der letzten Woche durch Beiträge Ihrer Abonnements '{0}' verlinkt wurden.</value>
+  </data>
+	<data name="ExceptionNoFeedSourceName" space="preserve">
+    <value>Bitte vergeben Sie einen Namen für diese Abonnement-Liste</value>
+  </data>
+	<data name="ExceptionNoPassword" space="preserve">
+    <value>Bitte vergeben Sie ein gültiges Passwort</value>
+  </data>
+	<data name="ExceptionNoUserName" space="preserve">
+    <value>Bitte vergeben Sie einen gültigen Benutzernamen</value>
+  </data>
+	<data name="MenuDownloadManager" space="preserve">
+    <value>Downloads verwalten...</value>
+  </data>
+	<data name="MenuDownloadManagerDesc" space="preserve">
+    <value>Startet den Download Manager</value>
+  </data>
+	<data name="MenuDeleteFeedSourceCaption" space="preserve">
+    <value>Abonnement-Liste löschen...</value>
+  </data>
+	<data name="MenuDeleteFeedSourceDesc" space="preserve">
+    <value>Löscht diese Abonnement-Liste</value>
+  </data>
+	<data name="MenuRenameFeedSourceCaption" space="preserve">
+    <value>Abonnement-Liste umbenennen...</value>
+  </data>
+	<data name="MenuRenameFeedSourceDesc" space="preserve">
+    <value>Auswählen, um diese Abonnement-Liste umzubenennen</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
+    <value>Entfernen der Abonnement-Liste</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
+    <value>Wollen Sie wirklich die Abonnement-Liste '{0}' entfernen?
+Hinweis: es wird nur die Synchronisation Ihrer Liste in dieser Anwendung
+beendet, nicht aber Ihre Web-Feeds in der zugehörigen Synchronisations-Quelle!</value>
+  </data>
+	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
+    <value>{0} von {1} Abonnement-Liste(n) geladen</value>
+  </data>
+	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
+    <value>Alle Abonnement-Liste(n) geladen</value>
+  </data>
+	<data name="ExecutableForFileStartupFailure" space="preserve">
+    <value>Der Start der Anwendung für die Datei {0} ist fehlgeschlagen.
+
+Fehler: {1}</value>
+  </data>
+	<data name="MenuShowFeedSourceProperties" space="preserve">
+    <value>Eigenschaften...</value>
+  </data>
+	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
+    <value>Anzeige der Eigenschaften dieser Abonnement-Liste</value>
+  </data>
+	<data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>Der Zugriff auf die Web-Feeds der Abonnement-Liste '{0}' erfordert Benutzername und Passwort: {1}</value>
+  </data>
+	<data name="TreeFeedNodeType_Category" space="preserve">
+    <value>Kategorieordner</value>
+  </data>
+	<data name="TreeFeedNodeType_Feed" space="preserve">
+    <value>Web-Feed</value>
+  </data>
+	<data name="TreeFeedNodeType_Finder" space="preserve">
+    <value>Suchordner</value>
+  </data>
+	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
+    <value>Suchordner-Kategorie</value>
+  </data>
+	<data name="TreeFeedNodeType_Root" space="preserve">
+    <value>Oberster Abonnementordner</value>
+  </data>
+	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+    <value>Besondere Order</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
+    <value>Enthält {0} ungelesene Beiträge</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
+    <value>Enthält einen ungelesenen Beitrag</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
+    <value>Enthält keine ungelesenen Beiträge</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Title" space="preserve">
+    <value>X509 Client-Zertifikat Auswahl</value>
+  </data>
+	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
+    <value>Die Site für den Web-Feed '{0}' erfordert ein Client-Zertifikat. Bitte wählen Sie eines Ihrer installierten Zertifikate aus.</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Message" space="preserve">
+    <value>Bitte wählen Sie eines der unten aufgelisteten Zertifikate aus, um es dem aktuellen Web-Feed zuzuweisen:</value>
+  </data>
+	</root>

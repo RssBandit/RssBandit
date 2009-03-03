@@ -1,0 +1,837 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+            Microsoft ResX Schema 
+        
+            Version 2.0
+                
+            The primary goals of this format is to allow a simple XML format 
+            that is mostly human readable. The generation and parsing of the 
+            various data types are done through the TypeConverter classes 
+            associated with the data types.
+        
+            Example:
+        
+                ... ado.net/XML headers & schema ...
+                <resheader name="resmimetype">text/microsoft-resx</resheader>
+                <resheader name="version">2.0</resheader>
+                <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+                <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+                <data name="Name1">this is my long string</data>
+                <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+                <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+                    [base64 mime encoded serialized .NET Framework object]
+                </data>
+                <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+                    [base64 mime encoded string representing a byte array form of the .NET Framework object]
+                </data>
+        
+            There are any number of "resheader" rows that contain simple 
+            name/value pairs.
+            
+            Each data row contains a name, and value. The row also contains a 
+            type or mimetype. Type corresponds to a .NET class that support 
+            text/value conversion through the TypeConverter architecture. 
+            Classes that don't support this are serialized and stored with the 
+            mimetype set.
+                     
+            The mimetype is used for serialized objects, and tells the 
+            ResXResourceReader how to depersist the object. This is currently not 
+            extensible. For a given mimetype the value must be set accordingly:
+        
+            Note - application/x-microsoft.net.object.binary.base64 is the format 
+                   that the ResXResourceWriter will generate, however the reader can 
+                   read any of the formats listed below.
+        
+            mimetype: application/x-microsoft.net.object.binary.base64
+            value   : The object must be serialized with 
+                    : System.Serialization.Formatters.Binary.BinaryFormatter
+                    : and then encoded with base64 encoding.
+        
+            mimetype: application/x-microsoft.net.object.soap.base64
+            value   : The object must be serialized with 
+                    : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+                    : and then encoded with base64 encoding.
+            mimetype: application/x-microsoft.net.object.bytearray.base64
+            value   : The object must be serialized into a byte array 
+                    : using a System.ComponentModel.TypeConverter
+                    : and then encoded with base64 encoding.
+        -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DefaultAction_Item_On_Menu">
+    <value>Ausführen</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnMenus">
+    <value>&amp;Große Symbole in Menüs</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Categories">
+    <value>Kategorien:</value>
+  </data>
+  <data name="CustomizeDialog_MenuAnimations">
+    <value>&amp;Menü Animation:</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBType">
+    <value>Typ der Symbolleiste:</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarTitle">
+    <value>Namen der Symbolleiste</value>
+  </data>
+  <data name="CustomizeDialog_Shortcut">
+    <value>Verknüpfung</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Close">
+    <value>Schließen</value>
+  </data>
+  <data name="CustomizeDlgImageAndText">
+    <value>Bild &amp;und Text</value>
+  </data>
+  <data name="CustomizeNewToolbarTitle">
+    <value>Neue Symbolleiste</value>
+  </data>
+  <data name="TaskPaneForwardButtonToolTip">
+    <value>Vorwärts</value>
+  </data>
+  <data name="CustomizeDialog_Enabled">
+    <value>Eingeschalten</value>
+  </data>
+  <data name="CustomizeDlgCopyOf">
+    <value>Kopie von</value>
+  </data>
+  <data name="CustomizeDlgTooltipDeleteTool">
+    <value>Das ausgewählte Tool löschen</value>
+  </data>
+  <data name="ImgSelectionCtrlRemoveImage">
+    <value>&amp;Bild löschen</value>
+  </data>
+  <data name="CustomizeDialog_SortCommands">
+    <value>Alphabetisch sortieren</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarTitle">
+    <value>Symbolleiste zurücksetzen</value>
+  </data>
+  <data name="CustomizeDlgBeginGrp">
+    <value>&amp;Guppe beginnen</value>
+  </data>
+  <data name="CustomizeCreateToolError">
+    <value>Fehler beim Erzeugen des neuen Tools</value>
+  </data>
+  <data name="CustomizeDialog_New">
+    <value>&amp;Neu...</value>
+  </data>
+  <data name="CustomizeDialog_ModifySelection">
+    <value>Auswahl Änderung</value>
+  </data>
+  <data name="CustomizeNewToolTitle">
+    <value>Neue Tool</value>
+  </data>
+  <data name="CustomizeDialog_PersonalizedMenusAndToolbars">
+    <value>Personalisierte Menüs und Symbolleisten</value>
+  </data>
+  <data name="AddRemoveButtons">
+    <value>&amp;Button hinzufügen oder entfernen</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemovalTitle">
+    <value>Verknüfungsanpassung zurücksetzen</value>
+  </data>
+  <data name="CustomizeRenameToolbarErrorTitle">
+    <value>Fehler beim Umbennen der Symbolleiste</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutUnassignedLiteral">
+    <value>[nicht zugewiesen]</value>
+  </data>
+  <data name="CustomizeDialog_ResetAmp">
+    <value>&amp;Zurücksetzen...</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecCmd">
+    <value>Bestimmt ein Kommando</value>
+  </data>
+  <data name="CustomizeDialog_EnabledVisible">
+    <value>Sichtbar eingeschalten</value>
+  </data>
+  <data name="CustomDlgNewToolBarCancel">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Title">
+    <value>Kommandos reorganisieren</value>
+  </data>
+  <data name="CustomizeDialog_ListFontNamesInTheirFont">
+    <value>Liste der Schriften in deren Schriftformat</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="CustomizeDialog_RenameAmp">
+    <value>&amp;Umbenennen...</value>
+  </data>
+  <data name="CustomizeDlgConvertToolType">
+    <value>Tooltyp ändern...</value>
+  </data>
+  <data name="CustomizeDlgKbdAssign">
+    <value>&amp;Zuweisen</value>
+  </data>
+  <data name="PopupMenuDesigner_AvailableTools">
+    <value>Verfügbare Tools:</value>
+  </data>
+  <data name="DeserializationError">
+    <value>Während des Lesens der Daten ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="CustomizeDialog_AlwaysShowFullMenus">
+    <value>Immer vollständige Menüs anzeigen</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Title">
+    <value>Kommando hinzufügen</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuMessage">
+    <value>Wollen Sie alle Änderungen Menü '{0}' zurücksetzen?</value>
+  </data>
+  <data name="CustomizeDialog_RearrangeCommands">
+    <value>Kommandos &amp;reorganisieren...</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="MdiCommandArrangeIcons">
+    <value>&amp;Icons ausrichten</value>
+  </data>
+  <data name="CustomizeDialog_Commands">
+    <value>Kommandos</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteralNone">
+    <value>Keine</value>
+  </data>
+  <data name="CustomizeDlgPasteButtonImage">
+    <value>&amp;Letzte Buttonimage</value>
+  </data>
+  <data name="CustomizeDialog_CreateCopyOfTool">
+    <value>&amp;Kopie des Tools erzeugen</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutAssignedLiteral">
+    <value>Aktuell zugewiesen an {0}</value>
+  </data>
+  <data name="CustomizeDialog_LoadSave">
+    <value>Laden/Speichern...</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_ViewGeneratedCode">
+    <value>3. &amp;Generierten Code anzeigen</value>
+  </data>
+  <data name="ExistingToolDlg_Category">
+    <value>&amp;Kategorie:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp">
+    <value>Nach &amp;oben</value>
+  </data>
+  <data name="MoreItemsDlgTitle">
+    <value>Mehr Einträge...</value>
+  </data>
+  <data name="CustomizeDlgCopyButtonImage">
+    <value>Bild &amp;kopieren</value>
+  </data>
+  <data name="CustomizeMenuAnimationUnfold">
+    <value>Entfalten</value>
+  </data>
+  <data name="CustomizeDialog_Milliseconds">
+    <value>Millisekunden</value>
+  </data>
+  <data name="CustomizeDlgKbdDesc">
+    <value>Beschreibung</value>
+  </data>
+  <data name="CustomizeDlgNewToolCategory">
+    <value>&amp;Kategorie</value>
+  </data>
+  <data name="DefaultAction_Popup_Closed">
+    <value>Öffnen</value>
+  </data>
+  <data name="MoreWindowsDlgClose">
+    <value>&amp;Schließen</value>
+  </data>
+  <data name="CustomizeDialogGenerateToolClickCodeTitle">
+    <value>Generiert Tool Click-Code</value>
+  </data>
+  <data name="Customize">
+    <value>&amp;Anpassen...</value>
+  </data>
+  <data name="CustomizeAddToolError">
+    <value>Während dem Hinzufügen eines Tools ist ein Fehler aufgetreten '{0}'.</value>
+  </data>
+  <data name="CustomizeDialog_BasicProps">
+    <value>Grundeinstellungen</value>
+  </data>
+  <data name="CustomizeDialog_CaptionCategoryKey">
+    <value>&amp;Bezeichnung, Kategorie, Key</value>
+  </data>
+  <data name="CustomizeConfirmToolbarResetTitle">
+    <value>Bestätigung: Symbolleiste zurücksetzen</value>
+  </data>
+  <data name="CustomizeAddToolbarErrorTitle">
+    <value>Fehler beim Hinzufügen der Symbolleiste</value>
+  </data>
+  <data name="CustomizeDialog_PgTools">
+    <value>Tools</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuTitle">
+    <value>Menü zurücksetzen</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Choose">
+    <value>Wählen Sie bitte ein Menü/Symbolleiste zum reorganisieren.</value>
+  </data>
+  <data name="CustomizeDlgResetButtonImage">
+    <value>Bild zurücksetzen</value>
+  </data>
+  <data name="CustomizeDialog_KeyboardBeginAmp">
+    <value>&amp;Tastatur</value>
+  </data>
+  <data name="MoreWindowsDlgActivate">
+    <value>&amp;Aktivieren</value>
+  </data>
+  <data name="DescToolTipDlgNoHelp">
+    <value>Kein Hilfethema vorhanden.</value>
+  </data>
+  <data name="CustomizeSelectImageTitle">
+    <value>Bild auswählen</value>
+  </data>
+  <data name="MoreWindowsDlgMinWindows">
+    <value>Fenster minimieren</value>
+  </data>
+  <data name="CustomizeDialog_CategoriesMidAmp">
+    <value>Kate&amp;gorien:</value>
+  </data>
+  <data name="CustomizeDuplicateToolMessage">
+    <value>Der Toolname '{0}' existiert schon. Bitte wählen Sie einen anderen.</value>
+  </data>
+  <data name="CustomizeDialog_Other">
+    <value>Andere</value>
+  </data>
+  <data name="CustomizeAddToolErrorTitle">
+    <value>Fehler beim Hinzufügen des Tools</value>
+  </data>
+  <data name="MoreWindowsDlgTileVert">
+    <value>&amp;Vertikal anordnen</value>
+  </data>
+  <data name="CustomizeLocationDockedBottom">
+    <value>Angedockter Bottom</value>
+  </data>
+  <data name="DescToolTipDlgNewWebPage">
+    <value>Neue Webseite</value>
+  </data>
+  <data name="CustomizeCategoryUnassigned">
+    <value>Nicht zugewiesen</value>
+  </data>
+  <data name="CustomizeSelectImageFileErrorTitle">
+    <value>Bild-Ladefehler</value>
+  </data>
+  <data name="CustomizeDlgInsertNewItem">
+    <value>Neues Tool einfügen</value>
+  </data>
+  <data name="CustomizeDlgSelectObjectPropertyTab">
+    <value>Ausgewähltes Objekt</value>
+  </data>
+  <data name="CustomizeDlgNewToolType">
+    <value>Tool &amp;Typ</value>
+  </data>
+  <data name="CustomizeDialog_ImportMenusFromForm">
+    <value>Import Menüs von...</value>
+  </data>
+  <data name="CustomizeRenameToolbarError">
+    <value>Fehler beim Umbennen der Symbolleiste zu '{0}'</value>
+  </data>
+  <data name="CustomizeDlgNewToolTitle">
+    <value>Neues Tool</value>
+  </data>
+  <data name="CustomizeDialog_Rename">
+    <value>&amp;Umbennen...</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ModifySelection">
+    <value>&amp;Auswahl bearbeiten</value>
+  </data>
+  <data name="PopupMenuDesigner_CurrentMenu">
+    <value>Aktuelles Menü:</value>
+  </data>
+  <data name="RemoveOptionSetContextMenuItem">
+    <value>OptionSet löschen...</value>
+  </data>
+  <data name="CustomizeDialog_NewToolbar">
+    <value>&amp;Neue Symbolleiste...</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortToolsLiteral">
+    <value>Alphabetische Sortierungstoll</value>
+  </data>
+  <data name="CustomizeDlgKbdCat">
+    <value>&amp;Kategorien:</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolbarProperties">
+    <value>Hinweis: Die Eigenschaften des ausgewählten Symbolleiste können nicht verändert werden, da diese vererbt werden.</value>
+  </data>
+  <data name="CustomizeDlgInsertNewToolsMenu">
+    <value>Tool einfügen</value>
+  </data>
+  <data name="CustomizeSelectImageFileError">
+    <value>Während das Bild von der Datei geladen wurde ist ein Fehler aufgetreten {0}</value>
+  </data>
+  <data name="CustomizeDialog_Import">
+    <value>Import...</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain">
+    <value>Anpassen</value>
+  </data>
+  <data name="CustomizeAddToolbarError">
+    <value>Beim Hinzurügen der Symbolleiste ist ein Fehler aufgetreten. '{0}'</value>
+  </data>
+  <data name="CustomizeDlgTextOnlyInMenus">
+    <value>&amp;Nur Text (in Menüs)</value>
+  </data>
+  <data name="CustomizeDlgKbdResetAll">
+    <value>Alles &amp;Zurücksetzen...</value>
+  </data>
+  <data name="CustomizeMenuAnimationNone">
+    <value>Keine</value>
+  </data>
+  <data name="MdiCommandTileHorizontal">
+    <value>Tile hori&amp;zontal</value>
+  </data>
+  <data name="CustomizeDlgKbdCmd">
+    <value>&amp;Kommands:</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecShrtcut">
+    <value>Verknüpfung &amp;festlegen</value>
+  </data>
+  <data name="CustomizeEmptyCategoryLiteral">
+    <value>&lt;Keine Kategorie zugewiesen&gt;</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDeleteTitle">
+    <value>Bestätigung: Symbolleiste löschen</value>
+  </data>
+  <data name="CustomizeDlgNewToolCustomizerCaption">
+    <value>Schaltflächen-Bezeichnung</value>
+  </data>
+  <data name="MdiCommandCloseWindows">
+    <value>&amp;Alle Fenster schließen</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDelete">
+    <value>Wollen Sie die Symbolleiste '{0}' wirklich löschen?</value>
+  </data>
+  <data name="DefaultAction_ButtonTool_On_Toolbar">
+    <value>Drücken</value>
+  </data>
+  <data name="FontListTool_Exception_CannotSetValueList">
+    <value>Die Wertelisten-Eigenschaft kann für die Schriftartenauflistung nicht eingestellt werden.</value>
+  </data>
+  <data name="ExistingToolDlg_Insert">
+    <value>&amp;Einfügen</value>
+  </data>
+  <data name="NewToolPlaceHolderCaption">
+    <value>[Neues Toll einfügen]</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolProperties">
+    <value>Merke: Die Eigenschaften des ausgewählten Tools können nicht verändert werden da diese übernommen werden.</value>
+  </data>
+  <data name="CustomizeDialog_ImportToolbarsFromForm">
+    <value>Importiere Symbolleisten von...</value>
+  </data>
+  <data name="CustomizeDlgDefStyle">
+    <value>&amp;Standard Style</value>
+  </data>
+  <data name="TaskPaneNavigationMenuToolTip">
+    <value>Andere Task Panes</value>
+  </data>
+  <data name="CustomizeDialog_Options">
+    <value>Optionen</value>
+  </data>
+  <data name="CustomizeDlgKbdTitle">
+    <value>Tastatur anpasen</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Choose">
+    <value>Wählen Sie den Befehl 'Hinzufügen' und klicken Sie OK</value>
+  </data>
+  <data name="PopupMenuDesigner_Instructions">
+    <value>Folgendes ist die Liste der aktuellen Tools welche ins Menü gesetzt werden können. Um das Menü zu aktuallisieren, wählen Sie das Menü aus um in der Combo-Box zu editieren und ziehen Sie die Tools von der unteren Liste in die Liste links.</value>
+  </data>
+  <data name="CustomizeDialog_AllProps">
+    <value>Alle Eigenschaften</value>
+  </data>
+  <data name="QuickCustomizeToolTip2000">
+    <value>Mehr Schaltflächen</value>
+  </data>
+  <data name="CustomizeDialog_FloatingToolbarFadeDelay">
+    <value>Verzögerung beim Ausblenden:</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteral">
+    <value>&lt;Selektierter Tooltyp: {0}&gt;</value>
+  </data>
+  <data name="CustomizeDialog_Delete">
+    <value>&amp;Löschen...</value>
+  </data>
+  <data name="CustomizeMenuAnimationRandom">
+    <value>Zufall</value>
+  </data>
+  <data name="CustomizeDialog_ShowScreenTipsOnToolbars">
+    <value>QuickInfo auf den Symbolleisten anzeigen</value>
+  </data>
+  <data name="QuickCustomizeToolTipXP">
+    <value>Symbolleisten einstellen</value>
+  </data>
+  <data name="CustomizeDialog_QuestionProperties">
+    <value>\'?????\" Eigenschaften</value>
+  </data>
+  <data name="CustomizeDlgName">
+    <value>&amp;Name:</value>
+  </data>
+  <data name="CustomizeDlgReset">
+    <value>&amp;Zurücksetzen</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Reset">
+    <value>&amp;Zurücksetzen...</value>
+  </data>
+  <data name="CustomizeDialog_CommandsEndAmp">
+    <value>Komman&amp;dos</value>
+  </data>
+  <data name="CustomizeDialog_Description">
+    <value>Beschreibung</value>
+  </data>
+  <data name="CustomizeDialog_LargeImage">
+    <value>&amp;Große Bilder</value>
+  </data>
+  <data name="CustomizeConfirmToolDeleteTitle">
+    <value>Bestätigung: Schaltfläche löschen</value>
+  </data>
+  <data name="CustomizeDialog_Visible">
+    <value>Sichtbar</value>
+  </data>
+  <data name="MoreItemsDlgTitleOK">
+    <value>&amp;OK</value>
+  </data>
+  <data name="CustomizeDlgRecentlyUsed">
+    <value>Kürzlich verwendet</value>
+  </data>
+  <data name="MdiCommandTileVertical">
+    <value>&amp;Vertikal anordnen</value>
+  </data>
+  <data name="CustomizeDuplicateToolTitle">
+    <value>Titel der Schaltfläche</value>
+  </data>
+  <data name="DragToolErrorTitle">
+    <value>Fehler beim Ziehen der Tools</value>
+  </data>
+  <data name="ToolBaseActionList_SharedProperties_Header">
+    <value>Gemeinsam genutzte Eigenschaften</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Cancel">
+    <value>Abbrechen</value>
+  </data>
+  <data name="TaskPaneBackButtonToolTip">
+    <value>Zurück</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemoval">
+    <value>Wollen Sie alle angepaßten Verknüpfungen zurücksetzen?</value>
+  </data>
+  <data name="CustomizeKeyboardTitle">
+    <value>Tastatur anpaßen</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortCommandsLiteral">
+    <value>Alphabetisch sortieren</value>
+  </data>
+  <data name="CustomizeDialog_SortToolsAlphabetically">
+    <value>&amp;Alphabetisches Sortierungstool</value>
+  </data>
+  <data name="CustomizeDialog_Caption">
+    <value>Bezeichnung</value>
+  </data>
+  <data name="ToolbarCloseButtonToolTip">
+    <value>Schließen</value>
+  </data>
+  <data name="CustomizeLocationDockedRight">
+    <value>Rechts angedockt</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageDataTitle">
+    <value>Benutzte Daten zurücksetzen</value>
+  </data>
+  <data name="CustomizeDlgDelete">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="CustomizeDialog_ResetMyUsageData">
+    <value>Daten &amp;zurücksetzen</value>
+  </data>
+  <data name="CustomizeLocationDockedTop">
+    <value>Oben angedockt</value>
+  </data>
+  <data name="CustomizeDlgEditButtonImage">
+    <value>Bild der Schaltfläche &amp;bearbeiten...</value>
+  </data>
+  <data name="MoreWindowsDlgTileHorz">
+    <value>&amp;Horizontal anordnen</value>
+  </data>
+  <data name="DefaultAction_Popup_Opened">
+    <value>Schließen</value>
+  </data>
+  <data name="CustomizeConfirmToolDelete">
+    <value>Wollen Sie das Tool '{0}' wirklich löschen?</value>
+  </data>
+  <data name="DescToolTipDlgNewBlankWeb">
+    <value>Neue leere Webseite im Dokumentfenster öffnen.</value>
+  </data>
+  <data name="CustomizeRenameToolbarTitle">
+    <value>Symbolleiste umbenennen...</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnToolbars">
+    <value>G&amp;roße Symbole in den Symbolleisten</value>
+  </data>
+  <data name="NewToolbarButtonCaption">
+    <value>Neue Symbolleiste...</value>
+  </data>
+  <data name="CustomizeDialog_NewTool">
+    <value>&amp;Neues Tool...</value>
+  </data>
+  <data name="MoreWindowsPrompt">
+    <value>Mehr Fenster...</value>
+  </data>
+  <data name="CustomizeDialog_ShowShortcutKeysInScreenTips">
+    <value>Tastatur-&amp;Verknüpfungen in den QickInfo anzeigen</value>
+  </data>
+  <data name="CustomizeLocationDockedLeft">
+    <value>Links angedockt</value>
+  </data>
+  <data name="ResetToolbar">
+    <value>Symbolleiste &amp; zurücksetzen</value>
+  </data>
+  <data name="CustomizeDialog_SmallImage">
+    <value>&amp;Kleines Bild</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromImgList">
+    <value>Wählen Sie aus der Liste der Bilder</value>
+  </data>
+  <data name="TearawayToolTip">
+    <value>Ziehen, um dieses Menü zu bewegen</value>
+  </data>
+  <data name="CustomizeSelectImageFile">
+    <value>Wählen Sie das Bild aus</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageData">
+    <value>Diese Funktion löscht die Aufzeichnung der Befehle, welche in dieser Anwendung verwendet wurden und stellt die Defaulteinstellungen im Menü und in der Symbolleiste wieder her. Es annuliert keine expliziten Kundensteinstellungen. Sind Sie sicher dass Sie fortfahren wollen?</value>
+  </data>
+  <data name="CustomizeShortcutNoneLiteral">
+    <value>Keine</value>
+  </data>
+  <data name="CustomizeDlgNewToolCaption">
+    <value>&amp;Bezeichnung</value>
+  </data>
+  <data name="CustomizeDialog_ResetMidAmp">
+    <value>Zurücksetzen...</value>
+  </data>
+  <data name="CustomizeDialog_ToolsByCategory">
+    <value>Tools nach Kategorie</value>
+  </data>
+  <data name="CustomizeDlgInsertExistingItem">
+    <value>Vorhandes Tool einfügen...</value>
+  </data>
+  <data name="MoreItemsPrompt">
+    <value>Mehr Einträge...</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarMessage">
+    <value>Wollen Sie alle Änderungen in der Symbolleiste '{0}' zurücksetzen?</value>
+  </data>
+  <data name="ExistingToolDlg_ToolType">
+    <value>&amp;Tool Typ:</value>
+  </data>
+  <data name="CustomizeDialog_SelectedCommand">
+    <value>Kommando auswählen:</value>
+  </data>
+  <data name="CustomizeDlgNewToolAdd">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="CustomizeCreateToolErrorTitle">
+    <value>Fehler beim Erzeugen des Tools</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add">
+    <value>&amp;Hinzufügen...</value>
+  </data>
+  <data name="CustomizeDialog_CloseNoAmp">
+    <value>Schließen</value>
+  </data>
+  <data name="CustomizeCategoryAllCommands">
+    <value>Alle Kommandos</value>
+  </data>
+  <data name="CustomDlgRenameToolBarTitle">
+    <value>Symbolleiste umbenennen...</value>
+  </data>
+  <data name="CustomizeMenuAnimationSlide">
+    <value>Gleiten</value>
+  </data>
+  <data name="CustomizeDialog_NewBeginAmp">
+    <value>&amp;Neu</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Commands">
+    <value>&amp;Kommandos:</value>
+  </data>
+  <data name="CustomizeDialog_DeleteTool">
+    <value>&amp;Löschen Tool...</value>
+  </data>
+  <data name="MoreWindowsDlgCloseWindows">
+    <value>&amp;Fenster schließen</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromFile">
+    <value>Von &amp;Datei auswählen...</value>
+  </data>
+  <data name="CustomizeConfirmToolbarReset">
+    <value>Wollen Sie alle Änderungen in der Symbolleiste '{0}' zurücksetzen?</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown">
+    <value>Nach &amp;unten</value>
+  </data>
+  <data name="CustomizeDlgTooltipCreateNewTool">
+    <value>Neues Tool generieren</value>
+  </data>
+  <data name="MoreItemsDlgClose">
+    <value>&amp;Schließen</value>
+  </data>
+  <data name="ExistingToolDlg_Title">
+    <value>Vorhandenes Tool einfügen</value>
+  </data>
+  <data name="LockToolbars">
+    <value>Symbolleiste  &amp;sperren</value>
+  </data>
+  <data name="CustomizeDialog_Category">
+    <value>Kategorie</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarMessage">
+    <value>Der Name '{0}' für eine Symbolleiste existiert schon. Bitte wählen Sie einen anderen.</value>
+  </data>
+  <data name="ToolBaseActionList_ToolSpecificProperties_Header">
+    <value>Tool Eigenschaften</value>
+  </data>
+  <data name="MoreWindowsDlgMoreWindows">
+    <value>Mehr Fenster...</value>
+  </data>
+  <data name="ExistingToolDlg_Close">
+    <value>&amp;Schließen</value>
+  </data>
+  <data name="CustomDlgNewToolBarLocation">
+    <value>Position:</value>
+  </data>
+  <data name="MdiCommandMinimizeWindows">
+    <value>Alle Fenster minimieren</value>
+  </data>
+  <data name="CustomizeDlgTextOnAlways">
+    <value>&amp;Nur Text</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Commands">
+    <value>Kommandos:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MenuBar">
+    <value>Menü &amp;Symbolleiste:</value>
+  </data>
+  <data name="CustomizeDialog_ShowFullMenusAfterAShortDelay">
+    <value>Nach kurzer Verzögerung &amp;vollständiges Menü anzeigen</value>
+  </data>
+  <data name="MoreWindowsDlgArrangeIcons">
+    <value>Icons ausrichten</value>
+  </data>
+  <data name="TaskPaneNextButtonToolTip">
+    <value>Weiter</value>
+  </data>
+  <data name="TaskPanePreviousButtonToolTip">
+    <value>Vorherige</value>
+  </data>
+  <!-- JAS v5.3 SmartTags 7/14/05 START -->
+  <!-- JAS v5.3 SmartTags 7/14/05 END -->
+  <data name="ToolEditErrorInvalidValue">
+    <value>Konnte den Toolwert nicht aktualisieren: {0}
+</value>
+  </data>
+<data name="CustomizeDlgAddCommand_OK">
+		<value>OK</value>
+	</data>
+	<data name="MoreWindowsDlgCascade">
+		<value>Casca&amp;de</value>
+	</data>
+	<data name="CustomizeMenuAnimationFade">
+		<value>Fade</value>
+	</data>
+	<data name="CustomizeDlgRearrangeCommands_Toolbar">
+		<value>&amp;Toolbar:</value>
+	</data>
+	<data name="CustomizeDialog_Image">
+		<value>&amp;Image</value>
+	</data>
+	<data name="CustomDlgNewToolBarUTB">
+		<value>UltraToolbar</value>
+	</data>
+	<data name="CustomizeLocationFloating">
+		<value>Floating</value>
+	</data>
+	<data name="CustomizeDlgNewToolKey">
+		<value>&amp;Key</value>
+	</data>
+	<data name="CustomizeDialog_ToolbarsList">
+		<value>Toolb&amp;ars:</value>
+	</data>
+	<data name="CustomDlgNewToolBarTBName">
+		<value>&amp;Toolbar name:</value>
+	</data>
+	<data name="TaskPaneHomeButtonToolTip">
+		<value>Home</value>
+	</data>
+	<data name="PopupMenuDesigner_NewMenu">
+		<value>New...</value>
+	</data>
+	<data name="CustomDlgRenameToolBarTBName">
+		<value>&amp;Toolbar name:</value>
+	</data>
+	<data name="CustomDlgNewToolBarTBOK">
+		<value>OK</value>
+	</data>
+	<data name="CustomizeDialog_Toolbars">
+		<value>Toolbars</value>
+	</data>
+	<data name="CustomizeDialog_PopupMenuDesigner">
+		<value>PopupMenuTool Designer</value>
+	</data>
+	<data name="MdiCommandCascade">
+		<value>&amp;Cascade</value>
+	</data>
+	<data name="CustomizeDialog_Tools">
+		<value>Tools</value>
+	</data>
+	<data name="CustomizeDialog_Key">
+		<value>Key</value>
+	</data>
+	<data name="CustomizeDlgSelectControlMenu">
+		<value>Control</value>
+	</data>
+	</root>
