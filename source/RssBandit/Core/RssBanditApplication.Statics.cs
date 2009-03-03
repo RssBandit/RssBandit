@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -954,29 +953,14 @@ namespace RssBandit
 		/// <exception cref="ConfigurationErrorsException">On type conversion failures</exception>
 		public static T ReadAppSettingsEntry<T>(string name, T defaultValue)
 		{
-			if (string.IsNullOrEmpty(name))
-				return defaultValue;
-
-			Type t = typeof(T);
-			string value = ConfigurationManager.AppSettings[name];
-
-			if (!string.IsNullOrEmpty(value))
+			try
 			{
-				if (t == typeof(string))
-					return (T)(object)value;
-				try
-				{
-					TypeConverter converter = TypeDescriptor.GetConverter(t);
-					if (converter != null && converter.CanConvertFrom(typeof(string)))
-						return (T)converter.ConvertFrom(value);
-				} catch (Exception ex)
-				{
-					throw new ConfigurationErrorsException(String.Format("RssBandit.exe.config value '{1}' with key '{0}' cannot be converted to target type '{2}': {3}", name, value, t.FullName, ex.Message), ex);
-				}
-				throw new ConfigurationErrorsException(String.Format("RssBandit.exe.config value '{1}' with key '{0}' cannot be converted to target type '{2}'", name, value, t.FullName));
-
+				return NewsComponents.Utils.Common.Configuration.ReadAppSettingsEntry(name, defaultValue);
+			} 
+			catch (Exception ex)
+			{
+				throw new ConfigurationErrorsException(ex.Message, ex, "RssBandit.exe.config", 0);
 			}
-			return defaultValue;
 		}
 
 		/// <summary>

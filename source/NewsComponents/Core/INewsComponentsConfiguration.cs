@@ -15,7 +15,6 @@ using System.IO;
 using log4net;
 using Microsoft.Win32;
 
-using NewsComponents.Storage;
 using NewsComponents.Utils;
 using Logger = RssBandit.Common.Logging;
 
@@ -193,7 +192,7 @@ namespace NewsComponents
 		/// <summary/>
 		protected string applicationDownloadPath;
 		/// <summary/>
-		protected SearchIndexBehavior searchBehavior = NewsComponents.SearchIndexBehavior.Default;
+		protected SearchIndexBehavior searchBehavior = SearchIndexBehavior.Default;
 		/// <summary/>
 		protected IPersistedSettings settings;
 		
