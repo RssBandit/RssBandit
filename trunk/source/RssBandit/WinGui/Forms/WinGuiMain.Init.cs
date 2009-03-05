@@ -1413,17 +1413,26 @@ namespace RssBandit.WinGui.Forms
             string settingsPath = RssBanditApplication.GetShortcutSettingsFileName();
             try
             {
-                _shortcutHandler.Load(settingsPath);
-            }
-            catch (InvalidShortcutSettingsFileException e)
-            {
-                _log.Warn("The user defined shortcut settings file is invalid. Using the default instead.", e);
-                using (Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
-                {
-                    _shortcutHandler.Load(settingsStream);
-                }
-            }
-        }
+				if (File.Exists(settingsPath))
+				{
+					_shortcutHandler.Load(settingsPath);
+					return;
+				}
+			}
+			catch (InvalidShortcutSettingsFileException e)
+			{
+				_log.Warn("The user defined shortcut settings file is invalid. Using the default instead.", e);
+			}
+			catch (IOException e)
+			{
+				_log.Error("File access error on user defined shortcut settings file. Using the default instead.", e);
+			} 
+
+			using (Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
+			{
+				_shortcutHandler.Load(settingsStream);
+			}
+		}
 
 
         protected void InitResources()
