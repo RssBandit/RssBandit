@@ -1698,7 +1698,14 @@ namespace RssBandit.WinGui.Forms
 					}
 					else
 					{
-						tn.SetIndividualImage(icon);
+						try
+						{
+							tn.SetIndividualImage(icon);
+						} 
+						catch (Exception ex)
+						{
+							_log.Debug("UpdateFavicon.SetIndividualImage("+ favicon+") failed for node " + tn.Text +" url: " + feedUrl, ex);
+						}
 					}
 				}
 			}
