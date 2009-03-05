@@ -108,11 +108,11 @@ namespace NewsComponents.Search
         /// </summary>
         public object OpenLock = new Object();
 
-		public event FinishedIndexOperationEventHandler FinishedIndexOperation;
+		public event EventHandler<FinishedIndexOperationEventArgs> FinishedIndexOperation;
 
 		private readonly LuceneSettings settings;
 		private Lucene.Net.Store.Directory indexBaseDirectory;
-		private bool open, flushInprogress = false, threadRunning = false;
+		private bool open, flushInprogress, threadRunning;
 		private Thread IndexModifyingThread;
 		private readonly PriorityQueue pendingIndexOperations = new PriorityQueue(); 
 
@@ -120,8 +120,8 @@ namespace NewsComponents.Search
 		private static readonly ILog _log = Log.GetLogger(typeof(LuceneIndexModifier));	
 		private static readonly LuceneInfoWriter _logHelper = new LuceneInfoWriter(_log); 
 
-		protected internal IndexWriter indexWriter = null;
-		protected internal IndexReader indexReader = null;
+		protected internal IndexWriter indexWriter;
+		//protected internal IndexReader indexReader = null;
 
 		private const int TimeToDelayBeforeRetry = 1000; /* 1 second */ 
 
@@ -153,21 +153,6 @@ namespace NewsComponents.Search
 			CreateIndexerThread();
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="LuceneIndexModifier"/> class.
-		/// </summary>
-		/// <param name="baseDirectory">The index base directory.</param>
-		public LuceneIndexModifier(string baseDirectory) {
-			if (!string.IsNullOrEmpty(baseDirectory)) {
-				if (!Directory.Exists(baseDirectory))
-					Directory.CreateDirectory(baseDirectory);
-				this.indexBaseDirectory = Lucene.Net.Store.FSDirectory.GetDirectory(baseDirectory, false);
-				this.Init();
-			}
-
-			CreateIndexerThread();
-		}
-
 		#endregion
 
 		#region public properties/methods (general)
@@ -194,15 +179,16 @@ namespace NewsComponents.Search
 		/// Make sure all changes are written to disk (pending operations
 		/// and index).
 		/// </summary>
-		/// <exception cref="IOException" ></exception>
-		public virtual void Flush()
+		// <exception cref="IOException" ></exception>
+		public virtual void Flush(bool close)
 		{
 			// force flush all:
             try
             {
                 //BUGBUG: We don't index every document in this case. 
-                FlushPendingOperations( Math.Min(pendingIndexOperations.Count, 10 /* Int32.MaxValue - locks up the UI on shutdown */));
-                FlushIndex();
+                if (close)
+					FlushPendingOperations( Math.Min(pendingIndexOperations.Count, 10 /* Int32.MaxValue - locks up the UI on shutdown */));
+                FlushIndex(close);
             }
             catch (Exception e)
             {
@@ -232,7 +218,7 @@ namespace NewsComponents.Search
 			while (this.flushInprogress)
 				Thread.Sleep(50);
 			
-			this.Flush();
+			this.Flush(true);
 		}
 		
 		/// <summary>
@@ -354,10 +340,7 @@ namespace NewsComponents.Search
 				{
 					return indexWriter.DocCount();
 				}
-				else
-				{
-					return indexReader.NumDocs();
-				}
+				return 0;
 			}
 		}
 
@@ -398,11 +381,6 @@ namespace NewsComponents.Search
 				{
 					try { indexWriter.Close(); } catch (Exception) { ;}
 					indexWriter = null;
-				}
-				else if (indexReader != null)
-				{
-					try { indexReader.Close(); } catch (Exception) { ;}
-					indexReader = null;
 				}
 				open = false;
 			}
@@ -661,7 +639,7 @@ namespace NewsComponents.Search
 		/// <returns> the number of documents deleted
 		/// </returns>
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
-		private int DeleteTerm(Term term)
+		private void DeleteTerm(Term term)
 		{
 //#if TRACE_INDEX_OPS
 			_log.DebugFormat("Deleting documents that match '{0}' from the index", term.ToString());
@@ -669,22 +647,18 @@ namespace NewsComponents.Search
 			lock (SyncRoot)
 			{
 				AssureOpen();
-				CreateIndexReader();
-                int deleted = 0;
                 try
                 {
-                    deleted = indexReader.DeleteDocuments(term);
+                    indexWriter.DeleteDocuments(term);
                 }
                 catch(IOException ioe)
                 {
                     _log.Error("IOException deleting document from the index", ioe);
                 }
-
-                return deleted; 
 			}
 		}
 
-		private void FlushIndex() 
+		private void FlushIndex(bool closeWriterOnly) 
 		{
 #if TRACE_INDEX_OPS
 			_log.Info("FlushIndex...");
@@ -696,13 +670,8 @@ namespace NewsComponents.Search
 				{
 					indexWriter.Close();
 					indexWriter = null;
-					CreateIndexWriter();
-				}
-				else
-				{
-					indexReader.Close();
-					indexReader = null;
-					CreateIndexReader();
+					if (!closeWriterOnly)
+						CreateIndexWriter();
 				}
 			}
 		}
@@ -754,25 +723,10 @@ namespace NewsComponents.Search
 
 		/// <summary> Close the IndexReader and open an IndexWriter.</summary>
 		/// <exception cref="IOException"></exception>
-		protected internal virtual void  CreateIndexWriter() {
-			if (this.indexWriter == null) {
-				if (this.indexReader != null) {
-#if TRACE_INDEX_OPS
-					_log.Info("Closing IndexReader...");
-#endif
-					try { this.indexReader.Close(); }
-					catch (IOException) { ;}
-					catch(UnauthorizedAccessException uae){
-						/* Sometimes we get exceptions here about renaming deletable.new 
-						 * to deletable. Found solution at 
-						 * http://mail-archives.apache.org/mod_mbox/lucene-java-dev/200608.mbox/%3c22121027.1157066785442.JavaMail.jira@brutus%3e 
-						 */ 
-						Thread.Sleep(TimeToDelayBeforeRetry); 
-						_log.Debug("Error closing index reader:", uae);
-						try { this.indexReader.Close(); } catch(Exception e){_log.Debug("Error closing index writer after sleeping:", e);}
-					}
-					this.indexReader = null;
-				}
+		protected internal virtual void  CreateIndexWriter() 
+		{
+			if (this.indexWriter == null) 
+			{
 #if TRACE_INDEX_OPS
 				_log.Info("Creating IndexWriter...");
 #endif
@@ -781,29 +735,6 @@ namespace NewsComponents.Search
 				this.indexWriter.SetInfoStream( _logHelper);
                 this.indexWriter.SetMergeFactor(MaxSegments);
                 this.indexWriter.SetMaxBufferedDocs(DocsPerSegment); 
-			}
-		}
-		
-		/// <summary> Close the IndexWriter and open an IndexReader.</summary>
-		/// <exception cref="IOException"></exception>
-		protected internal virtual void  CreateIndexReader() {
-			if (this.indexReader == null) {
-				if (this.indexWriter != null) {
-#if TRACE_INDEX_OPS
-					_log.Info("Closing IndexWriter...");
-#endif
-                    try {
-                        this.indexWriter.Close();
-                    } catch (Exception e) { /* "docs out of order" throws System.Exception */
-                        _log.Error("Error closing index writer:", e);
-                    }
-
-                    this.indexWriter = null; 
-                }
-#if TRACE_INDEX_OPS
-				_log.Info("Creating IndexReader...");
-#endif
-				this.indexReader = IndexReader.Open(this.BaseDirectory);
 			}
 		}
 
@@ -824,7 +755,7 @@ namespace NewsComponents.Search
 	 */
 	internal class LuceneInfoWriter: TextWriter{
 
-		private readonly ILog logger = null; 
+		private readonly ILog logger; 
 		
 		/// <summary>
 		/// We don't want a default constructor

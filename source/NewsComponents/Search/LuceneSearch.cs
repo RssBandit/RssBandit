@@ -115,7 +115,7 @@ namespace NewsComponents.Search
 		private bool startIndexAll;
 
 		// logging/tracing:
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(LuceneSearch));
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(LuceneSearch));
 
 		#region ctor's
 
@@ -177,15 +177,15 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="criteria">The criteria.</param>
 		/// <param name="scope">The scope.</param>
-		/// <param name="newsHandlers">The news handlers.</param>
+		/// <param name="feedSources">The news handlers.</param>
 		/// <param name="cultureName">Name of the culture.</param>
 		/// <returns></returns>
-		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IEnumerable<FeedSource> newsHandlers, string cultureName) 
+		public Result ExecuteSearch(SearchCriteriaCollection criteria, INewsFeed[] scope, IEnumerable<FeedSource> feedSources, string cultureName) 
 		{
 			if (!UseIndex)
 				return null;
 			
-			Query q = BuildLuceneQuery(criteria, scope, LuceneSearch.GetAnalyzer(cultureName));
+			Query q = BuildLuceneQuery(criteria, scope, GetAnalyzer(cultureName));
 			if (q == null)	// not validated
 				return new Result(0, 0, GetArrayList.Empty, GetArrayList.Empty);
 
@@ -197,9 +197,9 @@ namespace NewsComponents.Search
 			while (hits == null)
 			{
 				try {
-					System.DateTime start = System.DateTime.Now;
+					DateTime start = DateTime.Now;
 					hits = searcher.Search(q, Sort.RELEVANCE);
-					TimeSpan timeRequired = TimeSpan.FromTicks(System.DateTime.Now.Ticks - start.Ticks);
+					TimeSpan timeRequired = TimeSpan.FromTicks(DateTime.Now.Ticks - start.Ticks);
 					_log.Info(String.Format("Found {0} document(s) that matched query '{1}' (time required: {2})", hits.Length(), q,timeRequired));
 				} catch (BooleanQuery.TooManyClauses) {
 					BooleanQuery.SetMaxClauseCount(BooleanQuery.GetMaxClauseCount()*2);
@@ -215,12 +215,12 @@ namespace NewsComponents.Search
 				Document doc = hits.Doc(i);
 
 				INewsFeed f = null;
-				string feedLink = doc.Get(LuceneSearch.Keyword.FeedLink);
+				string feedLink = doc.Get(Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
 					f = (NewsFeed) matchedFeeds[feedLink];
 
                 if (f == null){
-                    foreach (FeedSource h in newsHandlers)
+                    foreach (FeedSource h in feedSources)
                     {
                         if (h.IsSubscribed(feedLink))
                         {
@@ -232,12 +232,12 @@ namespace NewsComponents.Search
 
 				if (f == null) continue;
 				SearchHitNewsItem item = new SearchHitNewsItem(f, 
-					doc.Get(LuceneSearch.Keyword.ItemTitle),
-					doc.Get(LuceneSearch.Keyword.ItemLink),
-					doc.Get(LuceneSearch.IndexDocument.ItemSummary),
-					doc.Get(LuceneSearch.Keyword.ItemAuthor),
-					new DateTime(DateTools.StringToTime(doc.Get(LuceneSearch.Keyword.ItemDate))),
-					LuceneNewsItemSearch.NewsItemIDFromUID(doc.Get(LuceneSearch.IndexDocument.ItemID)));
+					doc.Get(Keyword.ItemTitle),
+					doc.Get(Keyword.ItemLink),
+					doc.Get(IndexDocument.ItemSummary),
+					doc.Get(Keyword.ItemAuthor),
+					new DateTime(DateTools.StringToTime(doc.Get(Keyword.ItemDate))),
+					LuceneNewsItemSearch.NewsItemIDFromUID(doc.Get(IndexDocument.ItemID)));
 				
 				items.Add(item);
 				if (!matchedFeeds.Contains(feedLink))
@@ -265,16 +265,18 @@ namespace NewsComponents.Search
 				return false;
 			}
 
-			SearchCriteriaString criteriaProperty = null;
+			SearchCriteriaString criteriaProperty;
 			foreach (ISearchCriteria sc in criteria)
 			{
 				criteriaProperty = sc as SearchCriteriaString;
-				if (criteriaProperty != null) {
+				if (criteriaProperty != null)
+				{
 					if (StringExpressionKind.RegularExpression == criteriaProperty.WhatKind) {
-						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind.ToString()));
+						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind));
 						break;	// yet a warning
-					} else if (StringExpressionKind.XPathExpression == criteriaProperty.WhatKind) {
-						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind.ToString()));
+					}
+					if (StringExpressionKind.XPathExpression == criteriaProperty.WhatKind) {
+						validationException = new SearchException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, criteriaProperty.WhatKind));
 						return false;	// error
 					}
 				}
@@ -310,33 +312,33 @@ namespace NewsComponents.Search
 						continue;
 					
 					if (c.Where == SearchStringElement.Undefined) {
-						AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.IndexDocument.ItemContent, analyzer)); 
+						AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, IndexDocument.ItemContent, analyzer)); 
 					} else {
 						if((c.Where & SearchStringElement.Title) > 0){
-							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.Keyword.ItemTitle, analyzer)); 
+							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, Keyword.ItemTitle, analyzer)); 
 						}
 
 						if((c.Where & SearchStringElement.Link) > 0){
-							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.Keyword.ItemLink, analyzer)); 
+							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, Keyword.ItemLink, analyzer)); 
 						}
 
 						if((c.Where & SearchStringElement.Content) > 0){
-							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.IndexDocument.ItemContent, analyzer)); 
+							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, IndexDocument.ItemContent, analyzer)); 
 						}
 
 						if((c.Where & SearchStringElement.Subject) > 0){
-							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.Keyword.ItemTopic, analyzer)); 
+							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, Keyword.ItemTopic, analyzer)); 
 						}
 
 						if((c.Where & SearchStringElement.Author) > 0){
-							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, LuceneSearch.Keyword.ItemAuthor, analyzer)); 
+							AddBooleanClauseShould(bTerms, QueryFromStringExpression(c, Keyword.ItemAuthor, analyzer)); 
 						}
 					}
 					
 				} 
 				else if (sc is SearchCriteriaAge) {
 					SearchCriteriaAge c = (SearchCriteriaAge) sc;
-					Term left = null, right = null; 
+					Term left, right; 
 					string pastDate = "19900101",
 					       pastDateTime = "199001010001";
 					string futureDate = DateTimeExt.DateAsInteger(DateTime.Now.AddYears(20)).ToString(),
@@ -347,16 +349,16 @@ namespace NewsComponents.Search
 						//TODO: validate provided date(s) to be in the allowed ranges (pastDate, futureDate)!
 						switch(c.WhatKind){	
 							case DateExpressionKind.Equal:
-								AddBooleanClauseMust(bRanges, new PrefixQuery(new Term(LuceneSearch.Keyword.ItemDate, c.WhatAsIntDateOnly.ToString())));  //itemDate == whatYearOnly;
+								AddBooleanClauseMust(bRanges, new PrefixQuery(new Term(Keyword.ItemDate, c.WhatAsIntDateOnly.ToString())));  //itemDate == whatYearOnly;
 								break;
 							case DateExpressionKind.OlderThan:
-								left = new Term(LuceneSearch.Keyword.ItemDate, pastDate);
-								right = new Term(LuceneSearch.Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
+								left = new Term(Keyword.ItemDate, pastDate);
+								right = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate < whatYearOnly;
 								break;
 							case DateExpressionKind.NewerThan:
-								left = new Term(LuceneSearch.Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
-								right = new Term(LuceneSearch.Keyword.ItemDate, futureDate);
+								left = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
+								right = new Term(Keyword.ItemDate, futureDate);
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate > whatYearOnly;
 								break;
 								
@@ -367,13 +369,13 @@ namespace NewsComponents.Search
 						DateTime dt = DateTime.Now.ToUniversalTime().Subtract(c.WhatRelativeToToday);
 						switch(c.WhatKind){	
 							case DateExpressionKind.OlderThan:
-								left = new Term(LuceneSearch.Keyword.ItemDate, pastDateTime);
-								right = new Term(LuceneSearch.Keyword.ItemDate, DateTools.TimeToString(dt.Ticks, DateTools.Resolution.MINUTE));
+								left = new Term(Keyword.ItemDate, pastDateTime);
+								right = new Term(Keyword.ItemDate, DateTools.TimeToString(dt.Ticks, DateTools.Resolution.MINUTE));
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true));
 								break;
 							case DateExpressionKind.NewerThan:
-								left = new Term(LuceneSearch.Keyword.ItemDate, DateTools.TimeToString(dt.Ticks, DateTools.Resolution.MINUTE));
-								right = new Term(LuceneSearch.Keyword.ItemDate, futureDateTime);
+								left = new Term(Keyword.ItemDate, DateTools.TimeToString(dt.Ticks, DateTools.Resolution.MINUTE));
+								right = new Term(Keyword.ItemDate, futureDateTime);
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true));
 								break;
 								
@@ -386,8 +388,8 @@ namespace NewsComponents.Search
 				else if (sc is SearchCriteriaDateRange) {
 					SearchCriteriaDateRange  c = (SearchCriteriaDateRange) sc;
 					
-					Term left = new Term(LuceneSearch.Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Bottom).ToString());
-					Term right = new Term(LuceneSearch.Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Top).ToString());
+					Term left = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Bottom).ToString());
+					Term right = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Top).ToString());
 					AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate > whatYearOnly;
 				}	
 			}
@@ -415,8 +417,7 @@ namespace NewsComponents.Search
 				}
 				scopeQuery[scopeQuery.Length-1] = ')';
 				// AND
-				AddBooleanClauseMust(masterQuery, 
-				                     QueryFromStringExpression(scopeQuery.ToString(), LuceneSearch.IndexDocument.FeedID, analyzer));
+				AddBooleanClauseMust(masterQuery, QueryFromStringExpression(scopeQuery.ToString(), IndexDocument.FeedID, analyzer));
 			}
 			
 			return masterQuery;
@@ -443,13 +444,14 @@ namespace NewsComponents.Search
 
 #else // lucene 2.0:
 		
-		private static Query QueryFromStringExpression(SearchCriteriaString c, string field, Analyzer a) {
+		private static Query QueryFromStringExpression(SearchCriteriaString c, string field, Analyzer a)
+		{
 			if (c.WhatKind == StringExpressionKind.RegularExpression) {
-				throw new NotSupportedException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, c.WhatKind.ToString()));
-			} else {
-				return QueryFromStringExpression(c.What, field, a);
+				throw new NotSupportedException(String.Format(ComponentsText.ExceptionLuceneSearchKindNotSupported, c.WhatKind));
 			}
+			return QueryFromStringExpression(c.What, field, a);
 		}
+
 		private static Query QueryFromStringExpression(string expression, string field, Analyzer a) {
 			return new QueryParser(field, a).Parse(expression);
 		}
@@ -530,7 +532,7 @@ namespace NewsComponents.Search
 				if (startIndexAll) 
 					this.indexModifier.CreateIndex();
 				
-				LuceneIndexer indexer = CreateIndexer();
+				LuceneIndexer indexer = GetIndexer();
 				indexer.IndexingFinished += OnIndexingFinished;
 				indexer.IndexingProgress += OnIndexingProgress;
 				indexer.IndexAll(restartInfo, lastIndexed);
@@ -571,7 +573,7 @@ namespace NewsComponents.Search
 		public void IndexAdd(IList<INewsItem> newsItems) {
 			if (!UseIndex || newsItems == null) return;
 			try {
-				LuceneIndexer indexer = CreateIndexer();
+				LuceneIndexer indexer = GetIndexer();
 				indexer.IndexNewsItems(newsItems);
 
 			} catch (Exception ex) {
@@ -585,7 +587,7 @@ namespace NewsComponents.Search
 		/// <param name="item">The news item.</param>
 		public void IndexAdd(INewsItem item) {
 			if (!UseIndex || item == null) return;
-			this.IndexAdd(new INewsItem[]{item});
+			this.IndexAdd(new[]{item});
 		}
 
 		#endregion
@@ -599,7 +601,7 @@ namespace NewsComponents.Search
 		public void IndexRemove(INewsItem[] newsItems) {
 			if (!UseIndex || newsItems == null) return;
 			try {
-				LuceneIndexer indexer = CreateIndexer();
+				LuceneIndexer indexer = GetIndexer();
 				indexer.RemoveNewsItems(newsItems);
 			} catch (Exception ex) {
 				Log.Error("Failure while remove item(s) from search index.", ex);
@@ -612,7 +614,7 @@ namespace NewsComponents.Search
 		/// <param name="newsItem">The news items list.</param>
 		public void IndexRemove(INewsItem newsItem) {
 			if (!UseIndex || newsItem == null) return;
-			this.IndexRemove(new INewsItem[] {newsItem});
+			this.IndexRemove(new[] {newsItem});
 		}
 		/// <summary>
 		/// Remove the feed (and all it's items) from the lucene search index.
@@ -621,7 +623,7 @@ namespace NewsComponents.Search
 		public void IndexRemove(string feedID) {
 			if (!UseIndex || string.IsNullOrEmpty(feedID)) return;
 			try {
-				LuceneIndexer indexer = CreateIndexer();
+				LuceneIndexer indexer = GetIndexer();
 				indexer.RemoveFeed(feedID);
 			} catch (Exception ex) {
 				Log.Error("Failure while remove item(s) from search index.", ex);
@@ -668,7 +670,7 @@ namespace NewsComponents.Search
 		public void ReIndex(INewsFeed feed, IList<INewsItem> items) {
 			if (!UseIndex || feed == null) return;
 			try {
-				LuceneIndexer indexer = CreateIndexer();
+				LuceneIndexer indexer = GetIndexer();
 				indexer.RemoveNewsItems(feed.id); 
 				indexer.IndexNewsItems(items);
 			} catch (Exception ex) {
@@ -705,7 +707,17 @@ namespace NewsComponents.Search
 			if (!UseIndex) return;
 			this.indexModifier.StopIndexer();
 		}
-		
+
+		/// <summary> 
+		/// Make sure all changes are written to disk (pending operations
+		/// and index).
+		/// </summary>
+		public void Flush()
+		{
+			if (!UseIndex) return;
+			this.indexModifier.Flush(false);
+		}
+
 		#endregion
 
 		#region internal members
@@ -801,13 +813,17 @@ namespace NewsComponents.Search
 		#endregion
 
 		#region private members
-		
+
+		private LuceneIndexer _indexer;
 		/// <summary>
 		/// Creates the indexer.
 		/// </summary>
 		/// <returns></returns>
-		private LuceneIndexer CreateIndexer() {
-			return new LuceneIndexer(this.indexModifier, newsHandlers);	
+		private LuceneIndexer GetIndexer() 
+		{
+			if (_indexer == null)
+				_indexer = new LuceneIndexer(this.indexModifier, newsHandlers);
+			return _indexer;
 		}
 
 		private bool UseIndex {
@@ -865,7 +881,7 @@ namespace NewsComponents.Search
 			string line = reader.ReadLine();	
 			if (!StringHelper.EmptyTrimOrNull(line)) 
 			{
-				string[] fields = line.Split(new char[]{'\t'});
+				string[] fields = line.Split(new[]{'\t'});
 				if (fields.Length > 1) {
 					// feed Url is the key:
 					return new DictionaryEntry(fields[1], fields[0]);
@@ -900,6 +916,7 @@ namespace NewsComponents.Search
 				Log.Error("Cannot delete '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
 			}
 			
+			indexModifier.Flush(false);
 			RaiseIndexingFinished();
 		}
 
