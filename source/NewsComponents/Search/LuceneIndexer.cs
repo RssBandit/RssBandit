@@ -31,10 +31,9 @@ namespace NewsComponents.Search
 		public event LuceneIndexingProgressEventHandler IndexingProgress;
 
 		private readonly LuceneIndexModifier indexModifier;
-		private Thread IndexingThread;
-		private IDictionary restartInfo;
-		private DictionaryEntry lastIndexed;
-        private readonly IList<FeedSource> newsHandlers;
+		private bool indexingAllThreadRunning;
+		private readonly object indexingAllSyncLock = new object();
+		private readonly IList<FeedSource> newsHandlers;
 		
 		public LuceneIndexer(LuceneIndexModifier indexModifier, IList<FeedSource> newsHandlers) {
 		
@@ -52,29 +51,36 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="restartInfos">The restart infos.</param>
 		/// <param name="lastIndexedEntry">The last indexed entry.</param>
-		public void IndexAll(IDictionary restartInfos, DictionaryEntry lastIndexedEntry) {
-			
-			if (IndexingThread != null && IndexingThread.IsAlive)
-				return;	// yet running
-			IndexingThread = new Thread(this.ThreadRun);
-			IndexingThread.Name = "BanditIndexerThread";
-			IndexingThread.IsBackground = true;
-			
-			if (restartInfo == null)
-				restartInfo = new HybridDictionary();
-			
-			this.lastIndexed = lastIndexedEntry;
-			this.restartInfo = restartInfos;
-			
-			IndexingThread.Start();
+		public void IndexAll(IDictionary restartInfos, DictionaryEntry lastIndexedEntry) 
+		{
+			lock (indexingAllSyncLock)
+			{
+				if (indexingAllThreadRunning)
+					return; // yet running
+
+				if (restartInfos == null)
+					restartInfos = new HybridDictionary();
+
+				ThreadPool.QueueUserWorkItem(ThreadRun,
+					new object[] {restartInfos, lastIndexedEntry});
+				
+				indexingAllThreadRunning = true;
+			}
 		}
 		
 	
-		private void ThreadRun() {
-			
+		private void ThreadRun(object state) 
+		{
 			DateTime start = DateTime.Now;
-			Log.Info(String.Format("Lucene Indexing {0}started at {1}", restartInfo.Count == 0 ? String.Empty: "re-", start) ); 
+			Thread.CurrentThread.Name = "BanditIndexAllThread";
+
+			object[] stateArray = (object[])state;
+
+			IDictionary restartInfo = (IDictionary)stateArray[0];
+			DictionaryEntry lastIndexed = (DictionaryEntry)stateArray[1];
 			
+			Log.Info(String.Format("Lucene Indexing {0}started at {1}", restartInfo.Count == 0 ? String.Empty : "re-", start));
+
 			if (lastIndexed.Key != null && lastIndexed.Value != null) 
 			{	// always remove the last possibly not fully indexed feed 
 				// (e.g. app.exit while initial indexing was in progress):
@@ -147,12 +153,19 @@ namespace NewsComponents.Search
 				if (feedCount != 0 || itemCount != 0)
 					indexModifier.Optimize();
 
-			} catch (ThreadAbortException) {
+			} 
+			catch (ThreadAbortException) {
 				// ignore
-			} catch (Exception e) {
+			} 
+			catch (Exception e) {
 				Log.Error("Failure while indexing items.", e);
-			} finally {
-				this.IndexingThread = null;
+			} 
+			finally 
+			{
+				lock (indexingAllSyncLock)
+				{
+					indexingAllThreadRunning = false;
+				}
 			}
 		}
 
