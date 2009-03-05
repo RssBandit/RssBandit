@@ -3943,17 +3943,37 @@ namespace RssBandit.WinGui.Forms
             /* don't show script error dialog and don't disable script due to a single script error */
 			if (_docContainer.ActiveDocument != null && _docContainer.ActiveDocument.Controls.Count > 0)
 			{
-				var hc = (HtmlControl)_docContainer.ActiveDocument.Controls[0];
-
+				HtmlControl hc = FindControl<HtmlControl>(_docContainer.ActiveDocument.Controls);
+				
 				if (hc != null)
 				{
 					var window = (IHTMLWindow2)hc.Document2.GetParentWindow();
 					IHTMLEventObj eventObj = window.eventobj;
-					eventObj.ReturnValue = true;
+					if (eventObj != null)
+						eventObj.ReturnValue = true;
+				} 
+				else
+				{
+					_log.Error("FindControl<HtmlControl>() returned null");
 				}
 			}
         }
 
+		private static T FindControl<T>(Control.ControlCollection collection) where T: class
+		{
+			if (collection != null && collection.Count > 0)
+			{
+				foreach (Control control in collection)
+				{
+					if (control is T)
+						return (T)(object)control;
+					T instance = FindControl<T>(control.Controls);
+					if (instance != null)
+						return instance;
+				}
+			}
+			return null;
+		}
 
         private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e)
         {
