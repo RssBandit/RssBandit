@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -8,20 +9,11 @@
 #endregion
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading;
 
-using RssBandit.WinGui;
 using RssBandit.WinGui.Utility;
 using NewsComponents;
-using NewsComponents.Utils;
-using NewsComponents.Collections;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -30,23 +22,23 @@ namespace RssBandit.WinGui.Forms
 	/// </summary>
 	public class ImportFeedsDialog : Form
 	{
-		private UrlCompletionExtender urlExtender;
+		private readonly UrlCompletionExtender urlExtender;
 
-		private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox textUrlOrFile;
-		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.Label label4;
-		internal System.Windows.Forms.Button btnSelectFile;
-		private System.Windows.Forms.ComboBox comboCategory;
-		private System.Windows.Forms.Label label3;
+		private Label label2;
+        private Button btnOk;
+        private Button btnCancel;
+        private TextBox textUrlOrFile;
+		private ToolTip toolTip1;
+		private Label label4;
+		internal Button btnSelectFile;
+		private ComboBox comboCategory;
+		private Label label3;
         private ComboBox comboFeedSource;
         private Label label1;
 		private System.ComponentModel.IContainer components;
 
-        private FeedSourceManager feedSources;
-        private string defaultCategory; 
+        //private readonly FeedSourceManager feedSources;
+        private readonly string defaultCategory; 
 		/// <summary>
 		/// Constructor is private because we always want the categories
 		/// combo box to be filled
@@ -61,15 +53,17 @@ namespace RssBandit.WinGui.Forms
 			urlExtender.Add(this.textUrlOrFile); 
 		}
 		
-		public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, string selectedFeedSource, FeedSourceManager feedSources):this()	{
-            this.feedSources = feedSources;
+		public ImportFeedsDialog(string urlOrFile, string selectedCategory, string defaultCategory, string selectedFeedSource, FeedSourceManager feedSources):
+			this()	
+		{
+            //this.feedSources = feedSources;
             this.defaultCategory = defaultCategory; 
 			this.textUrlOrFile.Text = (urlOrFile ?? String.Empty);
 			
             //select the initial feed source used for populating combo boxes
-            FeedSourceEntry fs = null; 
-            feedSources.TryGetValue(selectedFeedSource, out fs); 
-            fs = fs ?? feedSources.Sources.FirstOrDefault();
+            FeedSourceEntry fs; 
+            if (!feedSources.TryGetValue(selectedFeedSource, out fs)) 
+				fs = feedSources.Sources.FirstOrDefault();
 
             //initialize combo boxes	
             foreach (string category in fs.Source.GetCategories().Keys)
@@ -80,11 +74,13 @@ namespace RssBandit.WinGui.Forms
 			this.comboCategory.Items.Add(defaultCategory);
 			this.comboCategory.Text = (selectedCategory ?? String.Empty);
 
-            foreach (FeedSourceEntry fsid in feedSources.GetOrderedFeedSources())
-            {
-                this.comboFeedSource.Items.Add(fsid.Name); 
-            }
-            this.comboFeedSource.Text = fs.Name; 
+			this.comboFeedSource.DataSource = feedSources.GetOrderedFeedSources();
+			//foreach (FeedSourceEntry fsid in feedSources.GetOrderedFeedSources())
+			//{
+			//    int itemIndex = this.comboFeedSource.Items.Add(fsid.Name);
+			//    this.comboFeedSource.Items[itemIndex]
+			//}
+			this.comboFeedSource.SelectedItem = fs; //fs.Name; 
 		}
 		
 		public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }
@@ -105,6 +101,7 @@ namespace RssBandit.WinGui.Forms
 			}
 			base.Dispose( disposing );
 		}
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -223,12 +220,12 @@ namespace RssBandit.WinGui.Forms
 		}
 		#endregion	
 
-		private void textUri_TextChanged(object sender, System.EventArgs e)
+		private void textUri_TextChanged(object sender, EventArgs e)
 		{
 			btnOk.Enabled = (textUrlOrFile.Text.Length > 0);
 		}
 
-		private void btnSelectFile_Click(object sender, System.EventArgs e) {
+		private void btnSelectFile_Click(object sender, EventArgs e) {
 			OpenFileDialog ofd = new OpenFileDialog();
 
 			ofd.Filter = "OPML files (*.opml)|*.opml|OCS files (*.ocs)|*.ocs|XML files (*.xml)|*.xml|All files (*.*)|*.*" ;
@@ -243,14 +240,16 @@ namespace RssBandit.WinGui.Forms
 
         private void comboFeedSource_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FeedSource fs = feedSources.GetOrderedFeedSources()[comboFeedSource.SelectedIndex].Source;
-            this.comboCategory.Items.Clear();
+            //FeedSource fs = feedSources.GetOrderedFeedSources()[comboFeedSource.SelectedIndex].Source;
+			FeedSourceEntry fs = comboFeedSource.SelectedItem as FeedSourceEntry;
+			this.comboCategory.Items.Clear();
 
-            //initialize combo boxes	
-            foreach (string category in fs.GetCategories().Keys)
-            {
-                this.comboCategory.Items.Add(category);
-            }
+			//initialize category combo box
+			if (fs != null)
+				foreach (string category in fs.Source.GetCategories().Keys)
+				{
+					this.comboCategory.Items.Add(category);
+				}
 
             this.comboCategory.Items.Add(defaultCategory);
             this.comboCategory.Text = defaultCategory; 
