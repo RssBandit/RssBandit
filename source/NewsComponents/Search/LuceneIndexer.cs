@@ -1,34 +1,13 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: LuceneIndexer.cs,v $
- * Revision 1.7  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.6  2006/11/05 01:23:55  carnage4life
- * Reduced time consuming locks in indexing code
- *
- * Revision 1.5  2006/09/29 18:11:59  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- *
- * Revision 1.4  2006/09/12 19:06:52  t_rendelmann
- * next iteration on lucense integration - using a fixed lucene.dll with more localized analyzers
- *
- * Revision 1.3  2006/08/13 17:01:18  t_rendelmann
- * further progress on lucene search (not yet finished)
- *
- */
-#endregion
 
 using System;
 using System.Collections;
@@ -37,7 +16,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using Lucene.Net.Index;
-using NewsComponents.Utils;
 using NewsComponents.Feed;
 using RssBandit.Common.Logging;
 
@@ -52,11 +30,11 @@ namespace NewsComponents.Search
 		public event EventHandler IndexingFinished;
 		public event LuceneIndexingProgressEventHandler IndexingProgress;
 
-		private LuceneIndexModifier indexModifier;
+		private readonly LuceneIndexModifier indexModifier;
 		private Thread IndexingThread;
 		private IDictionary restartInfo;
 		private DictionaryEntry lastIndexed;
-        private IList<FeedSource> newsHandlers;
+        private readonly IList<FeedSource> newsHandlers;
 		
 		public LuceneIndexer(LuceneIndexModifier indexModifier, IList<FeedSource> newsHandlers) {
 		
@@ -72,21 +50,21 @@ namespace NewsComponents.Search
 		/// <summary>
 		/// Indexes all feeds with all items.
 		/// </summary>
-		/// <param name="restartInfo">The restart info.</param>
-		/// <param name="lastIndexed">The last indexed feed.</param>
-		public void IndexAll(IDictionary restartInfo, DictionaryEntry lastIndexed) {
+		/// <param name="restartInfos">The restart infos.</param>
+		/// <param name="lastIndexedEntry">The last indexed entry.</param>
+		public void IndexAll(IDictionary restartInfos, DictionaryEntry lastIndexedEntry) {
 			
 			if (IndexingThread != null && IndexingThread.IsAlive)
 				return;	// yet running
-			IndexingThread = new Thread(new ThreadStart(this.ThreadRun));
+			IndexingThread = new Thread(this.ThreadRun);
 			IndexingThread.Name = "BanditIndexerThread";
 			IndexingThread.IsBackground = true;
 			
 			if (restartInfo == null)
 				restartInfo = new HybridDictionary();
 			
-			this.lastIndexed = lastIndexed;
-			this.restartInfo = restartInfo;
+			this.lastIndexed = lastIndexedEntry;
+			this.restartInfo = restartInfos;
 			
 			IndexingThread.Start();
 		}
@@ -94,7 +72,7 @@ namespace NewsComponents.Search
 	
 		private void ThreadRun() {
 			
-			System.DateTime start = System.DateTime.Now;
+			DateTime start = DateTime.Now;
 			Log.Info(String.Format("Lucene Indexing {0}started at {1}", restartInfo.Count == 0 ? String.Empty: "re-", start) ); 
 			
 			if (lastIndexed.Key != null && lastIndexed.Value != null) 
@@ -146,7 +124,7 @@ namespace NewsComponents.Search
                         {
                             // reset the feed ID, because it may not get saved 
                             // along with the subscription list on a initial indexing break:                           
-                            INewsFeed f = null;
+                            INewsFeed f;
                             if (newsHandler.GetFeeds().TryGetValue(feedlink, out f))
                             {
                                 f.id = restartInfo[feedlink] as string;
@@ -158,7 +136,7 @@ namespace NewsComponents.Search
 
                 }//foreach
 					
-					System.DateTime end = System.DateTime.Now;
+					DateTime end = DateTime.Now;
 					TimeSpan timeRequired = TimeSpan.FromTicks(end.Ticks - start.Ticks);
 					Log.Info(String.Format("Lucene Indexing all items finished at {0}. Time required: {1}h:{2} min for {3} feeds with {4} items.", end, timeRequired.TotalHours, timeRequired.TotalMinutes, feedCount, itemCount ) ); 
 				
@@ -183,14 +161,17 @@ namespace NewsComponents.Search
 			if (newsItems != null) 
 			{
 				for (int i=0; i < newsItems.Count; i++) {
-					INewsItem item = newsItems[i] as INewsItem;
+					INewsItem item = newsItems[i];
 					if (item != null) {
 						try {
 							// we do not always have the content loaded:
                             if (item.ContentType == ContentType.None && item.Feed != null && item.Feed.owner != null)
                             {
-                                FeedSource handler = item.Feed.owner as FeedSource;
-                                handler.GetCachedContentForItem(item);
+                            	if (item.Feed.owner != null)
+                            	{
+                            		FeedSource handler = (FeedSource)item.Feed.owner;
+                            		handler.GetCachedContentForItem(item);
+                            	}
                             }
 							indexModifier.Add(LuceneNewsItemSearch.Document(item), item.Language);
 						} catch (Exception ex) {
@@ -211,11 +192,12 @@ namespace NewsComponents.Search
 		internal void RemoveNewsItems(IList newsItems) {
 			if (newsItems != null && newsItems.Count > 0) {
 				//int removed = 0;
-				Term term = new Term(LuceneSearch.IndexDocument.ItemID, null);
 				for (int i=0; i < newsItems.Count; i++) {
-					NewsItem item = newsItems[i] as NewsItem;
-					if (item != null) {
-						term.text = LuceneNewsItemSearch.UID(item);
+					INewsItem item = newsItems[i] as INewsItem;
+					if (item != null) 
+					{
+						Term term = new Term(LuceneSearch.IndexDocument.ItemID, 
+							LuceneNewsItemSearch.UID(item));
 						indexModifier.Delete(term);
 					}
 				}

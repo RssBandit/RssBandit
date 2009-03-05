@@ -120,7 +120,7 @@ namespace NewsComponents
 		/// Gets true, if credentials are supported (and most often required) by
 		/// a feed source.
 		/// </summary>
-    	public bool CredentialsSupported = false;
+    	public bool CredentialsSupported;
        
 		/// <summary>
         /// Initializes the subscription location
@@ -197,26 +197,28 @@ namespace NewsComponents
         }
 
 
-        /// <summary>
-        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType using
-        /// the default configuration
-        /// </summary>
-        /// <seealso cref="DefaultConfiguration"/>
-        /// <param name="handlerType">The type of FeedSource to create</param>
-        /// <param name="location">The location of the subscriptions</param>
-        /// <returns>A new FeedSource</returns>
+		/// <summary>
+		/// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType using
+		/// the default configuration
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="handlerType">The type of FeedSource to create</param>
+		/// <param name="location">The location of the subscriptions</param>
+		/// <returns>A new FeedSource</returns>
+		/// <seealso cref="DefaultConfiguration"/>
         public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location)
         {
             return CreateFeedSource(id, handlerType, location, DefaultConfiguration);
         }
 
-        /// <summary>
-        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType
-        /// </summary>
-        /// <param name="handlerType">The type of FeedSource to create</param>
-        /// <param name="location">The location of the subscriptions</param>
-        /// <param name="configuration"></param>
-        /// <returns>A new FeedSource</returns>
+		/// <summary>
+		/// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <param name="handlerType">The type of FeedSource to create</param>
+		/// <param name="location">The location of the subscriptions</param>
+		/// <param name="configuration">The configuration.</param>
+		/// <returns>A new FeedSource</returns>
         public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location,
                                                   INewsComponentsConfiguration configuration)
         {
@@ -1337,12 +1339,10 @@ namespace NewsComponents
                 {
                     try
                     {
-                        /*  We need to handle issues with FIPS security policy on Vista as reported at 
-                         *  http://sourceforge.net/tracker/index.php?func=detail&aid=1960767&group_id=96589&atid=615248
-                         * 
-                         * TODO: Find a way to notify the user that search is disabled. 
-                         */
-                        p_searchHandler = new LuceneSearch(DefaultConfiguration);
+						// force to use only one instance:
+                        p_searchHandler = FeedSourceManager.SearchHandler;
+						// an alternative would be: one index per feedsource
+						// but then some more changes are required...
                     }
                     catch (TypeInitializationException)
                     {
@@ -4842,6 +4842,9 @@ namespace NewsComponents
 
         protected void OnAllRequestsComplete()
         {
+			// get the indexSearcher aware of modifications:
+			SearchHandler.Flush();
+
             RaiseOnAllAsyncRequestsCompleted();
         }
 
