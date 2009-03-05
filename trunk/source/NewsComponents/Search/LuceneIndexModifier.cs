@@ -57,15 +57,11 @@ namespace NewsComponents.Search
 	/// This is a class that is used to represent a pending operation on the index in 
 	/// that is currently in the pending operation queue. 
 	/// </summary>
-	internal class PendingIndexOperation{
+	internal class PendingIndexOperation
+	{
 		public IndexOperation Action;
 		public object[] Parameters;
 
-		/// <summary>
-		/// No default constructor
-		/// </summary>
-		private PendingIndexOperation(){;}
-			
 		/// <summary>
 		/// Constructor 
 		/// </summary>
@@ -113,7 +109,11 @@ namespace NewsComponents.Search
 		private readonly LuceneSettings settings;
 		private Lucene.Net.Store.Directory indexBaseDirectory;
 		private bool open, flushInprogress, threadRunning;
-		private Thread IndexModifyingThread;
+		
+		// (initially not signalled)
+		private AutoResetEvent startProcessPendingOpsSignal = new AutoResetEvent(false);
+		private RegisteredWaitHandle rwhProcessPendingOps;
+
 		private readonly PriorityQueue pendingIndexOperations = new PriorityQueue(); 
 
 		// logging/tracing:
@@ -247,6 +247,7 @@ namespace NewsComponents.Search
 			lock(this.pendingIndexOperations.SyncRoot){
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.AddSingleDocument,
 					new PendingIndexOperation(IndexOperation.AddSingleDocument, new object[]{doc, culture}));
+				startProcessPendingOpsSignal.Set();
 			}
 		}
 
@@ -262,6 +263,7 @@ namespace NewsComponents.Search
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.AddMultipleDocuments,
 					new PendingIndexOperation(IndexOperation.AddMultipleDocuments, new object[] { docs, culture }));
+				startProcessPendingOpsSignal.Set();
 			}
 		}
 
@@ -282,6 +284,7 @@ namespace NewsComponents.Search
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.DeleteDocuments,
 					new PendingIndexOperation(IndexOperation.DeleteDocuments, new object[] { term }));
+				startProcessPendingOpsSignal.Set();
 			}
 		}
 		
@@ -295,6 +298,7 @@ namespace NewsComponents.Search
 				// differs only in the priority, the operation is the same:
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.DeleteFeed,
 					new PendingIndexOperation(IndexOperation.DeleteDocuments, new object[] { term }));
+				startProcessPendingOpsSignal.Set();
 			}
 		}
 		
@@ -310,6 +314,7 @@ namespace NewsComponents.Search
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.OptimizeIndex,
 					new PendingIndexOperation(IndexOperation.OptimizeIndex, null));
+				startProcessPendingOpsSignal.Set();
 			}
 		}
 
@@ -379,7 +384,8 @@ namespace NewsComponents.Search
 				if (!open) return;
 				if (indexWriter != null)
 				{
-					try { indexWriter.Close(); } catch (Exception) { ;}
+					try { indexWriter.Close(); } 
+					catch (Exception closeEx) { _log.Error("Failed to close indexWriter", closeEx);}
 					indexWriter = null;
 				}
 				open = false;
@@ -390,61 +396,60 @@ namespace NewsComponents.Search
 
 		#region private methods (IndexThread related)
 
-		private void CreateIndexerThread () {
-			IndexModifyingThread = new Thread(this.ThreadRun);
-			IndexModifyingThread.Name = "BanditSearchIndexModifyingThread";
-			IndexModifyingThread.IsBackground = true;
-			//TR: does not really help to reduce CPU hogging if running on CLR 2.0:
-			//IndexModifyingThread.Priority = ThreadPriority.Lowest;
+		private void CreateIndexerThread () 
+		{
 			this.threadRunning = true;
-			IndexModifyingThread.Start();
+			// Tell the thread pool to wait on the AutoResetEvent.
+			rwhProcessPendingOps = ThreadPool.RegisterWaitForSingleObject(
+				startProcessPendingOpsSignal, ThreadRun, null,
+				TimeSpan.FromSeconds(30), false);
 		}
 		
 		/// <summary>
-		/// This thread loops continously popping items from the pendingIndexOperations 
-		/// queue and performing the actions. This ensures that there is only one thread
+		/// This thread loops if it gets the wakeup signal by the startProcessPendingOpsSignal
+		/// AutoResetEvent popping items from the pendingIndexOperations queue
+		/// and performing the actions. This ensures that there is only one thread
 		/// modifying the index at any given time. 
 		/// </summary>
-		private void ThreadRun() 
+		private void ThreadRun(object ignored, bool timedOut)
 		{
-			while(threadRunning) {
-				if (false == this.flushInprogress && 
+			// runs if timedOut, or signalled, but stop on threadRunning flag:
+			if (threadRunning)
+			{
+				if (false == this.flushInprogress &&
 					this.pendingIndexOperations.Count > 0)
 				{
-                    // do not calc percentage on a few items:
-                    FlushPendingOperations(Math.Max(200, this.pendingIndexOperations.Count / 10));
-                    if (threadRunning)
-                        Thread.Sleep(1000 * 5); //sleep  5 secs
-				}else{
-			        Thread.Sleep(1000*30); //sleep  30 secs
-			    }
-			}//while(true)
-			
-			//PendingIndexOperation current = null; 
-			
-			//while(true)
-			//{
-			//    lock(this.pendingIndexOperations.SyncRoot){
-			//        if(this.pendingIndexOperations.Count > 0){
-			//            current = this.pendingIndexOperations.Dequeue() as PendingIndexOperation;
-			//        }								
-			//    }
-			//    if(current != null){					
-			//        this.PerformOperation(current); 
-			//    }else{
-			//        Thread.Sleep(1000*1); //sleep  
-			//    }
+					do
+					{
+						// do not calc percentage on a few items:
+						FlushPendingOperations(Math.Max(200, this.pendingIndexOperations.Count / 10));
+						if (threadRunning)
+							Thread.Sleep(1000 * 5); //sleep 5 secs
+					} 
+					while (threadRunning && this.pendingIndexOperations.Count > 0);
+				}
 
-			//    current = null; 
-			//}//while(true)
+			}//if(threadRunning)
 		}
 
-		private void StopIndexerThread() {
+		private void StopIndexerThread()
+		{
 			threadRunning = false;
+			// Tell the thread pool to stop waiting on the event:
+			if (rwhProcessPendingOps != null)
+			{
+				rwhProcessPendingOps.Unregister(null);
+				rwhProcessPendingOps = null;
+			}
+			if (startProcessPendingOpsSignal != null)
+			{
+				startProcessPendingOpsSignal.Close();
+				startProcessPendingOpsSignal = null;
+			}
 		}
 
 		#endregion
-		
+
 		#region private methods (PendingIndexOperation related)
 
 		/// <summary>
@@ -703,9 +708,10 @@ namespace NewsComponents.Search
 
 		/// <summary> Initialize an IndexWriter.</summary>
 		/// <exception cref="IOException"></exception>
-		protected internal void Init() {
+		protected internal void Init() 
+		{
 			lock (this.SyncRoot) {
-				this.indexWriter =new IndexWriter(this.settings.GetIndexDirectory(), 
+				this.indexWriter =new IndexWriter(this.settings.GetIndexDirectory(),
 					LuceneSearch.GetAnalyzer(LuceneSearch.DefaultLanguage), !this.IndexExists);
 				open = true;
 			}
@@ -742,8 +748,15 @@ namespace NewsComponents.Search
 
 		#region IDisposable Members
 
-		public void Dispose() {
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose() 
+		{
+			StopIndexerThread();
 			Close();
+
+			GC.SuppressFinalize(this);
 		}
 
 		#endregion

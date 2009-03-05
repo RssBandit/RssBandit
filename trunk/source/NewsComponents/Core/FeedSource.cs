@@ -817,7 +817,7 @@ namespace NewsComponents
             /// <summary>
             /// NewsFeed.
             /// </summary>
-            public NewsFeed Feed;
+            public INewsFeed Feed;
 
             /// <summary>
             /// Object used by the caller only
@@ -831,7 +831,7 @@ namespace NewsComponents
             /// <param name="tag">object, used by the caller only</param>
             /// <param name="cancel">true, if the search request should be cancelled</param>
             public FeedSearchResultEventArgs(
-                NewsFeed f, object tag, bool cancel) : base(cancel)
+                INewsFeed f, object tag, bool cancel) : base(cancel)
             {
                 Feed = f;
                 Tag = tag;
@@ -2205,7 +2205,7 @@ namespace NewsComponents
         /// <param name="criteria"></param>
         /// <param name="scope"></param>
         /// <param name="tag"></param>
-        public void SearchFeeds(SearchCriteriaCollection criteria, NewsFeed[] scope, object tag)
+        public void SearchFeeds(SearchCriteriaCollection criteria, INewsFeed[] scope, object tag)
         {
             // if scope is an empty array: search all, else search only in spec. feeds
             // pseudo code:
@@ -3063,7 +3063,7 @@ namespace NewsComponents
 
                 var categoryTable = new Dictionary<string, XmlElement>(categories.Count);
 
-                foreach (NewsFeed f in feeds.Values)
+                foreach (INewsFeed f in feeds.Values)
                 {
                     XmlElement outline = opmlDoc.CreateElement("outline");
                     outline.SetAttribute("title", f.title);
@@ -3274,7 +3274,7 @@ namespace NewsComponents
         {
             if (FeedsListOK)
             {
-                foreach (NewsFeed f in feedsTable.Values)
+                foreach (INewsFeed f in feedsTable.Values)
                 {
                     MarkForDownload(f);
                 }
@@ -3313,7 +3313,7 @@ namespace NewsComponents
             {
                 if (categories.ContainsKey(category))
                 {
-                    foreach (NewsFeed f in feedsTable.Values)
+                    foreach (INewsFeed f in feedsTable.Values)
                     {
                         if ((f.category != null) && f.category.Equals(category))
                         {
@@ -3323,7 +3323,7 @@ namespace NewsComponents
                 }
                 else if (category == null /* the default category */)
                 {
-                    foreach (NewsFeed f in feedsTable.Values)
+                    foreach (INewsFeed f in feedsTable.Values)
                     {
                         if (f.category == null)
                         {

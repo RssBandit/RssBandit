@@ -38,11 +38,13 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
+using Lucene.Net.Store;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
 using RssBandit.Common.Logging;
+using Directory=System.IO.Directory;
 
 #endregion
 
@@ -134,6 +136,7 @@ namespace NewsComponents.Search
 				this.settings = new LuceneSettings(configuration);
 				
 				startIndexAll = (this.settings.IsRAMBasedSearch ||
+					IsIndexCorrupted(this.settings.GetIndexDirectory()) ||
 					!IndexReader.IndexExists(this.settings.GetIndexDirectory()));
 				
 				this.indexModifier = new LuceneIndexModifier(this.settings);
@@ -217,7 +220,7 @@ namespace NewsComponents.Search
 				INewsFeed f = null;
 				string feedLink = doc.Get(Keyword.FeedLink);
 				if (matchedFeeds.Contains(feedLink))
-					f = (NewsFeed) matchedFeeds[feedLink];
+					f = (INewsFeed) matchedFeeds[feedLink];
 
                 if (f == null){
                     foreach (FeedSource h in feedSources)
@@ -813,6 +816,35 @@ namespace NewsComponents.Search
 		#endregion
 
 		#region private members
+
+		private bool IsIndexCorrupted(Lucene.Net.Store.Directory directory)
+		{
+			if (directory is FSDirectory && IndexReader.IndexExists(directory))
+			{
+				bool unexpectedProcessTermination = IndexReader.IsLocked(directory);
+				if (unexpectedProcessTermination) try
+					{
+						_log.Error("Try to cleanup index after unexpected Process Termination...");
+						Directory.Delete(settings.IndexPath, true);
+						Directory.CreateDirectory(settings.IndexPath);
+						return true;
+					}
+					catch (Exception accessEx)
+					{
+						_log.Error("Could not cleanup index after unexpected Process Termination. Try simply unlock now.", accessEx);
+						try
+						{
+							IndexReader.Unlock(directory);
+						} 
+						catch (Exception ex)
+						{
+							_log.Error("Could not unlock index after unexpected Process Termination. Giving up now.", ex);
+						
+						}
+					}
+			}
+			return false;
+		}
 
 		private LuceneIndexer _indexer;
 		/// <summary>
