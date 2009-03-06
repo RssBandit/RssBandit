@@ -614,7 +614,61 @@ namespace NewsComponents.Utils
 				ZipFiles(files, zipStream);
 			}
 		}
-		
+
+		/// <summary>
+		/// Zips up the files listed into the specified stream
+		/// </summary>
+		/// <param name="files">The list of files to zip</param>
+		/// <param name="zos">The stream to store the zipped files</param>
+		public static void ZipFiles(IEnumerable<string> files, ZipOutputStream zos)
+		{
+
+			byte[] buffer = new byte[bufferSize];
+			zos.SetLevel(9);
+
+			foreach (string file in files)
+			{
+
+				string fileToProcess = file;
+			try_again:
+				if (File.Exists(fileToProcess))
+				{
+					try
+					{
+						using (FileStream fs = OpenForRead(fileToProcess))
+						{
+
+							ZipEntry entry = new ZipEntry(Path.GetFileName(file));
+							entry.Size = fs.Length;
+
+							zos.PutNextEntry(entry);
+
+							int size;
+							do
+							{
+
+								size = fs.Read(buffer, 0, buffer.Length);
+								zos.Write(buffer, 0, size);
+
+							} while (size > 0);
+
+						}
+
+					}
+					catch (IOException)
+					{
+						// file possibly in use/locked, try to copy and use that:
+						string newFile = Path.GetTempFileName();
+						File.Copy(file, newFile, true);
+						fileToProcess = newFile;
+						goto try_again;
+					}
+				}
+			}
+
+			zos.Finish();
+		}
+
 		#endregion
 
 		#endregion
@@ -632,49 +686,7 @@ namespace NewsComponents.Utils
 			return new ZipOutputStream(OpenForWrite(fileName));
 		}
 
-		/// <summary>
-		/// Zips up the files listed into the specified stream
-		/// </summary>
-		/// <param name="files">The list of files to zip</param>
-		/// <param name="zos">The stream to store the zipped files</param>
-		private static void ZipFiles(IEnumerable<string> files, ZipOutputStream zos){
 		
-			byte[] buffer = new byte[bufferSize];
-		    zos.SetLevel(5); 
-
-			foreach(string file in files){
-
-				string fileToProcess = file;
-		try_again:				
-				if(File.Exists(fileToProcess)){
-					try {
-						using (FileStream fs = OpenForRead(fileToProcess)) {
-
-							ZipEntry entry = new ZipEntry(Path.GetFileName(file));
-							zos.PutNextEntry(entry);
-
-						    int size;
-						    do {
-						
-								size = fs.Read(buffer, 0, buffer.Length);
-								zos.Write(buffer, 0, size);
-
-							} while (size > 0);
-
-						}
-
-					} catch (IOException) {
-						// file possibly in use/locked, try to copy and use that:
-						string newFile = Path.GetTempFileName();
-						File.Copy(file, newFile, true);
-						fileToProcess = newFile;
-						goto try_again;
-					}
-				}
-			}
-            		
-			zos.Finish();		
-		}
 		#endregion
 
 		/// <summary>

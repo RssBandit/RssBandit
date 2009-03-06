@@ -1288,11 +1288,9 @@ namespace NewsComponents
 		/// Gets the data service files used by each data service.
 		/// </summary>
 		/// <returns></returns>
-		public string [] GetDataServiceFiles()
+		public virtual string [] GetDataServiceFiles()
 		{
-			// currently only the IUserDataService has relevant files:
-			IUserDataService service = UserDataService;
-			return service.GetUserDataFileNames();
+			return new string[0];
 		}
 
 		/// <summary>

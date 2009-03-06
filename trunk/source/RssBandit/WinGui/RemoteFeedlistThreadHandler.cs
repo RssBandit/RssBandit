@@ -8,7 +8,6 @@
  */
 #endregion
 
-
 using System;
 using System.Threading;
 using System.IO;
@@ -97,29 +96,29 @@ namespace RssBandit.WinGui
                 RunUpload();
         }
 
-        public RemoteStorageProtocolType RemoteProtocol
-        {
-            get
-            {
-                return remoteProtocol;
-            }
-            set
-            {
-                remoteProtocol = value;
-            }
-        }
+		public RemoteStorageProtocolType RemoteProtocol
+		{
+			get
+			{
+				return remoteProtocol;
+			}
+			set
+			{
+				remoteProtocol = value;
+			}
+		}
 
-        public string RemoteLocation
-        {
-            get
-            {
-                return remoteLocation;
-            }
-            set
-            {
-                remoteLocation = value;
-            }
-        }
+		public string RemoteLocation
+		{
+			get
+			{
+				return remoteLocation;
+			}
+			set
+			{
+				remoteLocation = value;
+			}
+		}
 
 
         public string RemoteFileName
@@ -144,34 +143,6 @@ namespace RssBandit.WinGui
         }
 
         /// <summary>
-        /// Zips up the files listed into the specified stream
-        /// </summary>
-        /// <param name="files">The list of files to zip</param>
-        /// <param name="zos">The stream to store the zipped files</param>
-        private static void ZipFiles(IEnumerable<string> files, ZipOutputStream zos)
-        {
-            zos.SetLevel(5);
-
-            foreach (string file in files)
-            {
-                if (File.Exists(file))
-                {
-                    FileStream fs2 = File.OpenRead(file);
-
-                    byte[] buffer = new byte[fs2.Length];
-                    fs2.Read(buffer, 0, buffer.Length);
-
-                    ZipEntry entry = new ZipEntry(Path.GetFileName(file));
-                    zos.PutNextEntry(entry);
-                    zos.Write(buffer, 0, buffer.Length);
-                    fs2.Close();
-                }
-            }
-
-            zos.Finish();
-        }
-
-        /// <summary>
         /// Upload application state either as a ZIP file or as a SIAM file 
         /// </summary>
         /// <param name="syncFormat">The synchronization format to use</param>
@@ -192,7 +163,7 @@ namespace RssBandit.WinGui
                              });
         	
 			// add files managed by Bandit data storage:
-			IUserDataService dataService = IoC.Resolve<IUserDataService>();
+			IUserRoamingDataService dataService = IoC.Resolve<IUserRoamingDataService>();
 			if (dataService != null)
 				files.AddRange(dataService.GetUserDataFileNames());
 
@@ -226,7 +197,7 @@ namespace RssBandit.WinGui
                                 FileHelper.OpenForWrite(
                                     Path.Combine(Environment.ExpandEnvironmentVariables(remoteLocation), remoteFileName));
                             zos = new ZipOutputStream(fs);
-                            ZipFiles(files, zos);
+                            FileHelper.ZipFiles(files, zos);
                             zos.Close();
 
                             break;
@@ -260,7 +231,7 @@ namespace RssBandit.WinGui
                         case RemoteStorageProtocolType.FTP: // Send to FTP server
                             //save feed list 
                             zos = new ZipOutputStream(tempStream);
-                            ZipFiles(files, zos);
+							FileHelper.ZipFiles(files, zos);
 
                             tempStream.Position = 0;
 
@@ -321,7 +292,7 @@ namespace RssBandit.WinGui
                         case RemoteStorageProtocolType.WebDAV:
 
                             zos = new ZipOutputStream(tempStream);
-                            ZipFiles(files, zos);
+							FileHelper.ZipFiles(files, zos);
 
                             remoteUri = new Uri(remoteLocation.EndsWith("/")
                                                     ?
@@ -650,7 +621,7 @@ namespace RssBandit.WinGui
 					else
                     {
 						// set files managed by Bandit data storage:
-						IUserDataService dataService = IoC.Resolve<IUserDataService>();
+						IUserRoamingDataService dataService = IoC.Resolve<IUserRoamingDataService>();
 						if (dataService != null)
 						{
 							if (DataEntityName.None != dataService.SetContentForDataFile(theEntry.Name, zis))
@@ -672,23 +643,3 @@ namespace RssBandit.WinGui
 
     }
 }
-
-#region CVS Version Log
-
-/*
- * $Log: RemoteFeedlistThreadHandler.cs,v $
- * Revision 1.59  2007/07/26 02:47:20  carnage4life
- * Fixed compile errors from last checkin
- *
- * Revision 1.58  2007/07/26 01:40:36  carnage4life
- * It seems we weren't detecting some of the instances of the passive/active mode issue during FTP upload/download
- *
- * Revision 1.57  2006/11/24 15:29:00  carnage4life
- * Fixed problem caused by the fact we weren't closing filestreams in the ZipFiles() method
- *
- * Revision 1.56  2006/10/31 13:36:35  t_rendelmann
- * fixed: various changes applied to make compile with CLR 2.0 possible without the hassle to convert it all the time again
- *
- */
-
-#endregion
