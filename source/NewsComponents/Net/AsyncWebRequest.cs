@@ -20,10 +20,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-using ICSharpCode.SharpZipLib;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+
 using log4net;
 using NewsComponents.News;
 using NewsComponents.Utils;
@@ -526,8 +523,9 @@ namespace NewsComponents.Net
                             state.Request.Abort();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+					_log.Error("FinalizeWebRequest() caused exception", ex);
                 }
 
                 queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
@@ -547,14 +545,9 @@ namespace NewsComponents.Net
         internal void ResponseCallback(IAsyncResult result)
         {
             RequestState state = null;
-            try
-            {
-                state = result.AsyncState as RequestState;
-            }
-            catch
-            {
-            }
-
+            if (result != null)
+				state = result.AsyncState as RequestState;
+            
             if (state == null)
                 return;
 
@@ -616,9 +609,9 @@ namespace NewsComponents.Net
                                 state.RequestParams.LastModified =
                                     DateTimeExt.Parse(httpResponse.Headers.Get("Last-Modified"));
                             }
-                            catch
+                            catch (FormatException)
                             {
-/* ignore */
+								/* ignore */
                             }
                         }
 
@@ -630,184 +623,185 @@ namespace NewsComponents.Net
 
                         return;
                     }
-                    else if (httpResponse.StatusCode == HttpStatusCode.NotModified)
-                    {
-                        HttpCookieManager.GetCookies(httpResponse);
+                	
+					if (httpResponse.StatusCode == HttpStatusCode.NotModified)
+                	{
+                		HttpCookieManager.GetCookies(httpResponse);
 
-                        string eTag = httpResponse.Headers.Get("ETag");
-                        // also if it was not modified, we receive a httpResponse.LastModified with current date!
-                        // so we did not store it (is is just the same as last-retrived)
-                        // provide last request Uri and ETag:
-                        state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri, eTag, MinValue,
-                                                 RequestResult.NotModified);
-                        // cleanup:
-                        FinalizeWebRequest(state);
-                    }
-                    else if ((httpResponse.StatusCode == HttpStatusCode.MovedPermanently)
-                             || (httpResponse.StatusCode == HttpStatusCode.Moved))
-                    {
-                        state.RetryCount++;
-                        if (state.RetryCount > RequestState.MAX_RETRIES)
-                        {
-                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
-                            throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
-                                                   null, WebExceptionStatus.RequestCanceled, httpResponse);
-                        }
+                		string eTag = httpResponse.Headers.Get("ETag");
+                		// also if it was not modified, we receive a httpResponse.LastModified with current date!
+                		// so we did not store it (is is just the same as last-retrived)
+                		// provide last request Uri and ETag:
+                		state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri, eTag, MinValue,
+                		                         RequestResult.NotModified);
+                		// cleanup:
+                		FinalizeWebRequest(state);
+                	}
+                	else if ((httpResponse.StatusCode == HttpStatusCode.MovedPermanently)
+                	         || (httpResponse.StatusCode == HttpStatusCode.Moved))
+                	{
+                		state.RetryCount++;
+                		if (state.RetryCount > RequestState.MAX_RETRIES)
+                		{
+                			// there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                			throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
+                			                       null, WebExceptionStatus.RequestCanceled, httpResponse);
+                		}
 
-                        string url2 = httpResponse.Headers["Location"];
-                        //Check for any cookies
-                        HttpCookieManager.GetCookies(httpResponse);
+                		string url2 = httpResponse.Headers["Location"];
+                		//Check for any cookies
+                		HttpCookieManager.GetCookies(httpResponse);
 
-                        state.movedPermanently = true;
-                        //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                		state.movedPermanently = true;
+                		//Remove Url from queue 
+                		queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                        _log.Debug("ResponseCallback() Moved: '" + state.InitialRequestUri + " to " + url2);
+                		_log.Debug("ResponseCallback() Moved: '" + state.InitialRequestUri + " to " + url2);
 
-                        // Enqueue the request with the new Url. 
-                        // We raise the queue priority a bit to get the retry request closer to the just
-                        // finished one. So the user get better feedback, because the whole processing
-                        // of one request (including the redirection/moved/... ) is visualized as one update
-                        // action.
-
-
-                        Uri req;
-                        //Try absolute first
-                        if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
-                        {
-                            // Try relative
-                            if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
-                                throw new WebException(
-                                    string.Format(
-                                        "Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
-                                        httpResponse.ResponseUri, url2));
-                        }
-
-                        RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
-                        QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                		// Enqueue the request with the new Url. 
+                		// We raise the queue priority a bit to get the retry request closer to the just
+                		// finished one. So the user get better feedback, because the whole processing
+                		// of one request (including the redirection/moved/... ) is visualized as one update
+                		// action.
 
 
-                        // ping the queue listener thread to Dequeue the next request
-                        RequestThread.EndRequest(state);
-                    }
-                    else if (IsRedirect(httpResponse.StatusCode))
-                    {
-                        state.RetryCount++;
-                        if (state.RetryCount > RequestState.MAX_RETRIES)
-                        {
-                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
-                            throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
-                                                   null, WebExceptionStatus.RequestCanceled, httpResponse);
-                        }
+                		Uri req;
+                		//Try absolute first
+                		if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
+                		{
+                			// Try relative
+                			if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
+                				throw new WebException(
+                					string.Format(
+                						"Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
+                						httpResponse.ResponseUri, url2));
+                		}
 
-                        string url2 = httpResponse.Headers["Location"];
-                        //Check for any cookies
-                        HttpCookieManager.GetCookies(httpResponse);
-
-                        //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
-
-                        _log.Debug("ResponseCallback() Redirect: '" + state.InitialRequestUri + " to " + url2);
-                        // Enqueue the request with the new Url. 
-                        // We raise the queue priority a bit to get the retry request closer to the just
-                        // finished one. So the user get better feedback, because the whole processing
-                        // of one request (including the redirection/moved/... ) is visualized as one update
-                        // action.
-
-                        Uri req;
-                        //Try absolute first
-                        if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
-                        {
-                            // Try relative
-                            if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
-                                throw new WebException(
-                                    string.Format(
-                                        "Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
-                                        httpResponse.ResponseUri, url2));
-                        }
+                		RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
+                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
 
 
-                        RequestParameter rqp =
-                            RequestParameter.Create(req, RebuildCredentials(state.RequestParams.Credentials, url2),
-                                                    state.RequestParams);
-                        QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                		// ping the queue listener thread to Dequeue the next request
+                		RequestThread.EndRequest(state);
+                	}
+                	else if (IsRedirect(httpResponse.StatusCode))
+                	{
+                		state.RetryCount++;
+                		if (state.RetryCount > RequestState.MAX_RETRIES)
+                		{
+                			// there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                			throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
+                			                       null, WebExceptionStatus.RequestCanceled, httpResponse);
+                		}
+
+                		string url2 = httpResponse.Headers["Location"];
+                		//Check for any cookies
+                		HttpCookieManager.GetCookies(httpResponse);
+
+                		//Remove Url from queue 
+                		queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+
+                		_log.Debug("ResponseCallback() Redirect: '" + state.InitialRequestUri + " to " + url2);
+                		// Enqueue the request with the new Url. 
+                		// We raise the queue priority a bit to get the retry request closer to the just
+                		// finished one. So the user get better feedback, because the whole processing
+                		// of one request (including the redirection/moved/... ) is visualized as one update
+                		// action.
+
+                		Uri req;
+                		//Try absolute first
+                		if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
+                		{
+                			// Try relative
+                			if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
+                				throw new WebException(
+                					string.Format(
+                						"Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
+                						httpResponse.ResponseUri, url2));
+                		}
 
 
-                        // ping the queue listener thread to Dequeue the next request
-                        RequestThread.EndRequest(state);
-                    }
-                    else if (IsUnauthorized(httpResponse.StatusCode))
-                    {
-                        if (state.RequestParams.Credentials == null)
-                        {
-                            // no initial credentials, try with default credentials
-                            state.RetryCount++;
+                		RequestParameter rqp =
+                			RequestParameter.Create(req, RebuildCredentials(state.RequestParams.Credentials, url2),
+                			                        state.RequestParams);
+                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
 
-                            //Remove Url from queue 
-                            queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                            // Enqueue the request with the new Url. 
-                            // We raise the queue priority a bit to get the retry request closer to the just
-                            // finished one. So the user get better feedback, because the whole processing
-                            // of one request (including the redirection/moved/... ) is visualized as one update
-                            // action.
-                            RequestParameter rqp =
-                                RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
-                            QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
-                            // ping the queue listener thread to Dequeue the next request
-                            RequestThread.EndRequest(state);
-                        }
-                        else
-                        {
-                            // failed with provided credentials
+                		// ping the queue listener thread to Dequeue the next request
+                		RequestThread.EndRequest(state);
+                	}
+                	else if (IsUnauthorized(httpResponse.StatusCode))
+                	{
+                		if (state.RequestParams.Credentials == null)
+                		{
+                			// no initial credentials, try with default credentials
+                			state.RetryCount++;
 
-                            if (state.RequestParams.SetCookies)
-                            {
-                                // one more request without cookies
+                			//Remove Url from queue 
+                			queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                                state.RetryCount++;
+                			// Enqueue the request with the new Url. 
+                			// We raise the queue priority a bit to get the retry request closer to the just
+                			// finished one. So the user get better feedback, because the whole processing
+                			// of one request (including the redirection/moved/... ) is visualized as one update
+                			// action.
+                			RequestParameter rqp =
+                				RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
+                			QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                			// ping the queue listener thread to Dequeue the next request
+                			RequestThread.EndRequest(state);
+                		}
+                		else
+                		{
+                			// failed with provided credentials
 
-                                //Remove Url from queue 
-                                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                			if (state.RequestParams.SetCookies)
+                			{
+                				// one more request without cookies
 
-                                // Enqueue the request with the new Url. 
-                                // We raise the queue priority a bit to get the retry request closer to the just
-                                // finished one. So the user get better feedback, because the whole processing
-                                // of one request (including the redirection/moved/... ) is visualized as one update
-                                // action.
-                                RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
-                                QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
-                                // ping the queue listener thread to Dequeue the next request
-                                RequestThread.EndRequest(state);
-                            }
-                            else
-                            {
-                                throw new ResourceAuthorizationException();
-                            }
-                        }
-                    }
-					else if (IsAccessForbidden(httpResponse.StatusCode) &&
-						state.InitialRequestUri.Scheme == "https")
-					{
-						throw new ClientCertificateRequiredException();
-					}
-                    else if (httpResponse.StatusCode == HttpStatusCode.Gone)
-                    {
-                        throw new ResourceGoneException();
-                    }
-                    else
-                    {
-						string statusCode = httpResponse.StatusDescription;
-						if (String.IsNullOrEmpty(statusCode))
-							statusCode = httpResponse.StatusCode.ToString();
+                				state.RetryCount++;
 
-                        string statusMessage = null;
-                        try { 
-                            statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd(); 
-                        }catch { }
+                				//Remove Url from queue 
+                				queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                        throw new WebException("Unexpected HTTP Response: " + statusCode + "<p>" + (statusMessage ?? String.Empty));
-                    }
+                				// Enqueue the request with the new Url. 
+                				// We raise the queue priority a bit to get the retry request closer to the just
+                				// finished one. So the user get better feedback, because the whole processing
+                				// of one request (including the redirection/moved/... ) is visualized as one update
+                				// action.
+                				RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
+                				QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                				// ping the queue listener thread to Dequeue the next request
+                				RequestThread.EndRequest(state);
+                			}
+                			else
+                			{
+                				throw new ResourceAuthorizationException();
+                			}
+                		}
+                	}
+                	else if (IsAccessForbidden(httpResponse.StatusCode) &&
+                	         state.InitialRequestUri.Scheme == "https")
+                	{
+                		throw new ClientCertificateRequiredException();
+                	}
+                	else if (httpResponse.StatusCode == HttpStatusCode.Gone)
+                	{
+                		throw new ResourceGoneException();
+                	}
+                	else
+                	{
+                		string statusCode = httpResponse.StatusDescription;
+                		if (String.IsNullOrEmpty(statusCode))
+                			statusCode = httpResponse.StatusCode.ToString();
+
+                		string statusMessage = null;
+                		try { 
+                			statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd(); 
+                		}catch { }
+
+                		throw new WebException("Unexpected HTTP Response: " + statusCode + "<p>" + (statusMessage ?? String.Empty));
+                	}
                 }
                 else if (fileResponse != null)
                 {
@@ -891,13 +885,8 @@ namespace NewsComponents.Net
         private void ReadCallback(IAsyncResult result)
         {
             RequestState state = null;
-            try
-            {
+            if (result != null)
                 state = result.AsyncState as RequestState;
-            }
-            catch
-            {
-            }
 
             if (state == null)
                 return;
@@ -1657,9 +1646,10 @@ send_request:
                 {
                     OnAllRequestsComplete();
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("OnAllRequestsComplete() event impl. caused an error", ex);
+				}
             }
         }
 
@@ -1695,8 +1685,9 @@ send_request:
                 {
                     OnCertificateIssue(sender, e);
                 }
-                catch
+                catch (Exception ex)
                 {
+					_log.Error("OnCertificateIssue() event impl. caused an error", ex);
                 }
             }
         }
