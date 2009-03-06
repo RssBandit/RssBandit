@@ -1110,23 +1110,11 @@ namespace RssBandit
                 return;
             }
 
-
-            RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
-                RemoteFeedlistThreadHandler.Operation.Upload, this,
-                Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
-                Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
-
-            DialogResult result =
-                rh.Start(guiMain, String.Format(SR.GUIStatusWaitMessageUpLoadingFeedlist,Preferences.RemoteStorageProtocol),
-                         false);
-
-            if (result != DialogResult.OK)
-                return;
-
-            if (!rh.OperationSucceeds)
-            {
-                MessageError(String.Format(SR.GUIFeedlistUploadExceptionMessage,rh.OperationException.Message));
-            }
+			string errorMessage;
+			if (TryUploadFeedlistAndState(false, out errorMessage))
+			{
+				MessageError(errorMessage);
+			}
         }
 
         /// <summary>
@@ -1147,28 +1135,10 @@ namespace RssBandit
                 return;
             }
 
-            RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
-                RemoteFeedlistThreadHandler.Operation.Download, this,
-                Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
-                Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
-
-            DialogResult result =
-                rh.Start(guiMain,String.Format(
-                         SR.GUIStatusWaitMessageDownLoadingFeedlist,Preferences.RemoteStorageProtocol), false);
-
-            if (result != DialogResult.OK)
-                return;
-
-            if (rh.OperationSucceeds)
+        	string errorMessage;
+			if (!TryDownloadFeedlistAndState(false, out errorMessage))
             {
-                guiMain.SaveSubscriptionTreeState();
-                guiMain.SyncFinderNodes();
-                guiMain.InitiatePopulateTreeFeeds();
-                guiMain.LoadAndRestoreSubscriptionTreeState();
-            }
-            else
-            {
-                MessageError(String.Format(SR.GUIFeedlistDownloadExceptionMessage,rh.OperationException.Message));
+                MessageError(errorMessage);
             }
         }
 

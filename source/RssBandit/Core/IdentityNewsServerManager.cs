@@ -94,6 +94,14 @@ namespace RssBandit
 			if (Identities.Modified)
 				SaveIdentities(IoC.Resolve<IUserRoamingDataService>(), Identities);
 		}
+		
+		/// <summary>
+		/// Resets the identities. They are re-loaded from storage on next request
+		/// </summary>
+		public void Reset()
+		{
+			identities = null;
+		}
 
 		public void MigrateOrMergeIdentities(List<NewsComponents.Feed.UserIdentity> oldVersionIdentities, bool replace)
 		{

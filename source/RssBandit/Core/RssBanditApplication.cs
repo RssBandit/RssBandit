@@ -891,8 +891,71 @@ namespace RssBandit
 
         #endregion
 
+		#region Download/Upload of Bandit state
 
-        public FeedSourceEntry CurrentFeedSource
+		public bool TryDownloadFeedlistAndState(bool allowCancel, out string errorMessage)
+		{
+			errorMessage = null;
+			if (!Preferences.UseRemoteStorage)
+				return true;
+			
+			RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
+				RemoteFeedlistThreadHandler.Operation.Download, this,
+				Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
+				Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
+
+			DialogResult result =
+				rh.Start(guiMain, String.Format(
+						 SR.GUIStatusWaitMessageDownLoadingFeedlist, Preferences.RemoteStorageProtocol), 
+						 allowCancel);
+
+			if (result != DialogResult.OK)
+				return true;
+
+			if (rh.OperationSucceeds)
+			{
+				guiMain.SaveSubscriptionTreeState();
+				guiMain.SyncFinderNodes();
+				columnLayoutManager.Reset();
+				IdentityManager.Reset();
+				guiMain.InitiatePopulateTreeFeeds();
+				guiMain.LoadAndRestoreSubscriptionTreeState();
+				return true;
+			}
+			
+			errorMessage= String.Format(SR.GUIFeedlistDownloadExceptionMessage, rh.OperationException.Message);
+			return false;
+		}
+
+		public bool TryUploadFeedlistAndState(bool allowCancel, out string errorMessage)
+		{
+			errorMessage = null;
+			if (!Preferences.UseRemoteStorage)
+				return true;
+
+			RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
+				RemoteFeedlistThreadHandler.Operation.Upload, this,
+				Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
+				Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
+
+			DialogResult result =
+				rh.Start(guiMain, String.Format(SR.GUIStatusWaitMessageUpLoadingFeedlist, 
+					Preferences.RemoteStorageProtocol),
+					allowCancel);
+
+			if (result != DialogResult.OK)
+				return true;	// user may have cancelled the action
+
+			if (rh.OperationSucceeds)
+				return true;
+            
+			errorMessage = String.Format(SR.GUIFeedlistUploadExceptionMessage, rh.OperationException.Message);
+			return false;
+		}
+
+		#endregion
+
+		public FeedSourceEntry CurrentFeedSource
         {
             get
             {
@@ -960,12 +1023,7 @@ namespace RssBandit
 			HandleSubscriptionRelevantChange(property);
 		}
 
-		[Obsolete("call SubscriptionModified(FeedSourceEntry, NewsFeedProperty)")]
-		public void SubscriptionModified(NewsFeedProperty property)
-        {
-            HandleSubscriptionRelevantChange(property);
-        }
-
+		
         /// <summary>
         /// Notification method about a feed that was modified.
         /// </summary>

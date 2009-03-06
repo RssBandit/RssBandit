@@ -466,6 +466,17 @@ namespace NewsComponents.Feed
 			return loaded;
 		}
 
+		/// <summary>
+		/// Gets the data service files used by each data service.
+		/// </summary>
+		/// <returns></returns>
+		public override string[] GetDataServiceFiles()
+		{
+			// currently only the IUserDataService has relevant files:
+			IUserDataService service = UserDataService;
+			return service.GetUserDataFileNames();
+		}
+
 		protected override void ReplaceDataWithContent(string dataFileName, Stream content)
 		{
 			// my IUserDataService has relevant files, reset ivar(s):

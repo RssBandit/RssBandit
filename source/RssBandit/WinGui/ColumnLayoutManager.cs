@@ -172,6 +172,14 @@ namespace RssBandit.WinGui
 				SaveLayouts(IoC.Resolve<IUserRoamingDataService>(), _layouts);
 		}
 
+		/// <summary>
+		/// Resets the layouts. They are re-loaded from storage on next request
+		/// </summary>
+		public void Reset()
+		{
+			_layouts = null;
+		}
+
 		private static FeedColumnLayoutCollection LoadLayouts(IClientDataService dataService)
 		{
 			if (dataService == null)
