@@ -111,7 +111,7 @@ namespace NewsComponents.Search
 		private bool open, flushInprogress, threadRunning;
 		
 		// (initially not signalled)
-		private AutoResetEvent startProcessPendingOpsSignal = new AutoResetEvent(false);
+		private AutoResetEvent startProcessPendingOpsSignal;
 		private RegisteredWaitHandle rwhProcessPendingOps;
 
 		private readonly PriorityQueue pendingIndexOperations = new PriorityQueue(); 
@@ -150,7 +150,7 @@ namespace NewsComponents.Search
 			this.indexBaseDirectory = settings.GetIndexDirectory();
 			this.Init();
 
-			CreateIndexerThread();
+			StartIndexerThread();
 		}
 
 		#endregion
@@ -396,15 +396,34 @@ namespace NewsComponents.Search
 
 		#region private methods (IndexThread related)
 
-		private void CreateIndexerThread () 
+		private void StartIndexerThread () 
 		{
 			this.threadRunning = true;
+			// (initially not signalled)
+			startProcessPendingOpsSignal = new AutoResetEvent(false);
+			
 			// Tell the thread pool to wait on the AutoResetEvent.
 			rwhProcessPendingOps = ThreadPool.RegisterWaitForSingleObject(
 				startProcessPendingOpsSignal, ThreadRun, null,
-				TimeSpan.FromSeconds(30), false);
+				Timeout.Infinite, false);
 		}
 		
+		private void StopIndexerThread()
+		{
+			threadRunning = false;
+			// Tell the thread pool to stop waiting on the event:
+			if (rwhProcessPendingOps != null)
+			{
+				rwhProcessPendingOps.Unregister(null);
+				rwhProcessPendingOps = null;
+			}
+			if (startProcessPendingOpsSignal != null)
+			{
+				startProcessPendingOpsSignal.Close();
+				startProcessPendingOpsSignal = null;
+			}
+		}
+
 		/// <summary>
 		/// This thread loops if it gets the wakeup signal by the startProcessPendingOpsSignal
 		/// AutoResetEvent popping items from the pendingIndexOperations queue
@@ -432,21 +451,7 @@ namespace NewsComponents.Search
 			}//if(threadRunning)
 		}
 
-		private void StopIndexerThread()
-		{
-			threadRunning = false;
-			// Tell the thread pool to stop waiting on the event:
-			if (rwhProcessPendingOps != null)
-			{
-				rwhProcessPendingOps.Unregister(null);
-				rwhProcessPendingOps = null;
-			}
-			if (startProcessPendingOpsSignal != null)
-			{
-				startProcessPendingOpsSignal.Close();
-				startProcessPendingOpsSignal = null;
-			}
-		}
+		
 
 		#endregion
 
