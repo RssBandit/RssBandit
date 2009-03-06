@@ -149,8 +149,6 @@ namespace AppInteropServices
             string[] files = new string[fs1.Length + fs2.Length];
             fs1.CopyTo(files, 0);
             fs2.CopyTo(files, fs1.Length);
-			
-			AssemblyHelper helper = new AssemblyHelper();
 
             foreach (string f in files)
             {
@@ -160,7 +158,7 @@ namespace AppInteropServices
                 try
                 {
                     // try and load the assembly
-                    Assembly a = helper.GetAssemblyFromFile(f);
+                    Assembly a = AssemblyHelper.GetAssemblyFromFile(f);
 
 					if (a == null) 
 						continue;
@@ -286,8 +284,6 @@ namespace AppInteropServices
                 return foundTypes;
             }
 
-			AssemblyHelper helper = new AssemblyHelper();
-
             foreach (IAddIn f in addIns)
             {
                 if (string.IsNullOrEmpty(f.Location)) continue;
@@ -296,7 +292,7 @@ namespace AppInteropServices
                 try
                 {
                     // try and load the assembly
-                    Assembly a = helper.GetAssemblyFromFile(f.Location);
+                    Assembly a = AssemblyHelper.GetAssemblyFromFile(f.Location);
 					if (a == null)
 						continue; 
 					
@@ -502,65 +498,34 @@ namespace AppInteropServices
         #endregion
     }
 
-	internal class AssemblyHelper
+	internal static class AssemblyHelper
 	{
 		private static readonly ILog _log = Log.GetLogger(typeof(AssemblyHelper));
         
-		public Assembly GetAssemblyFromFile(string fileName)
+		public static Assembly GetAssemblyFromFile(string fileName)
 		{
-			fileName = Path.GetFileNameWithoutExtension(fileName);
-			return GetAssembly(fileName);
-		}
+            if (string.IsNullOrEmpty(fileName))
+                return null;
 
-		public Assembly GetAssembly(string assemblyName)
-		{
-			return LoadAssembly(assemblyName) ?? LoadPartialAssembly(assemblyName);
-		}
-
-		private static Assembly LoadPartialAssembly(string assemblyName)
-		{
-			string[] assemblyNames = assemblyName.Split(',');
-			string assemblyNameShort = assemblyNames[0];
-			Assembly assemblyInstance = null;
+            Assembly assemblyInstance = null;
 
 			try
 			{
-				assemblyInstance = Assembly.Load(assemblyNameShort);
+                assemblyInstance = Assembly.LoadFile(fileName);    
 			}
-			catch (FileLoadException ex)
-			{
-				// Ignore it 
-				_log.Error("Failed to load assembly " + assemblyNameShort, ex);
-			}
-			catch (FileNotFoundException ex)
-			{
-				// Ignore it 
-				_log.Error("Failed to load assembly " + assemblyNameShort, ex);
-			}
+            catch (FileLoadException ex)
+            {
+                // Ignore it 
+                _log.Error("Failed to load assembly " + fileName, ex);
+            }
+            catch (FileNotFoundException ex)
+            {
+                // Ignore it 
+                _log.Error("Failed to load assembly " + fileName, ex);
+            }
 
-			return assemblyInstance;
-		}
+            return assemblyInstance;
 
-		private static Assembly LoadAssembly(string assemblyName)
-		{
-			Assembly assemblyInstance = null;
-
-			try
-			{
-				assemblyInstance = Assembly.Load(assemblyName);
-			}
-			catch (FileNotFoundException ex)
-			{
-				// Could not find the assembly. Ignore it.
-				_log.Error("Failed to load assembly " + assemblyName, ex);
-			}
-			catch (FileLoadException ex)
-			{
-				// Could not find the assembly. Ignore it.
-				_log.Error("Failed to load assembly " + assemblyName, ex);
-			}
-
-			return assemblyInstance;
 		}
 	}
 }
