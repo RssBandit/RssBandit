@@ -146,29 +146,53 @@ namespace BlogExtension.Delicious
 			}
 		}
 		
-		private static byte[] CalculateHash() {
-			string salt = "DeliciousPlugin.4711";
-			byte[] b = Encoding.Unicode.GetBytes(salt);
-			int bLen = b.GetLength(0);
+		private static byte[] CalculateHash() 
+		{
+			// for FIPS compliance we just return the hash we formerly calculated.
+			// This is for backward compatibility, so users do not loose all their
+			// config credentials...
+			byte[] h = new byte[16];
+			h[0] = 15;
+			h[1] = 181;
+			h[2] = 113;
+			h[3] = 225;
+			h[4] = 176;
+			h[5] = 227;
+			h[6] = 172;
+			h[7] = 215;
+			h[8] = 61;
+			h[9] = 231;
+			h[10] = 78;
+			h[11] = 33;
+			h[12] = 166;
+			h[13] = 89;
+			h[14] = 12;
+			h[15] = 50;
+			return h;
+			
+			//string salt = "DeliciousPlugin.4711";
+			//byte[] b = Encoding.Unicode.GetBytes(salt);
+			//int bLen = b.GetLength(0);
 				
-			// just to make the key somewhat "invisible" in Anakrino, we use the random class.
-			// the seed (a prime number) makes it repro
-			Random r = new Random(1500450271);	
-			// result array
-			byte[] res = new Byte[500];
-			int i = 0;
+			//// just to make the key somewhat "invisible" in Anakrino, we use the random class.
+			//// the seed (a prime number) makes it repro
+			//Random r = new Random(1500450271);	
+			//// result array
+			//byte[] res = new Byte[500];
+			//int i = 0;
 				
-			for (i = 0; i < bLen && i < 500; i++)
-				res[i] = (byte)(b[i] ^ r.Next(30, 127));
+			//for (i = 0; i < bLen && i < 500; i++)
+			//    res[i] = (byte)(b[i] ^ r.Next(30, 127));
 				
-			// padding:
-			while (i < 500) {
-				res[i] = (byte)r.Next(30, 127);
-				i++;
-			}
+			//// padding:
+			//while (i < 500) {
+			//    res[i] = (byte)r.Next(30, 127);
+			//    i++;
+			//}
 
-			MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
-			return csp.ComputeHash(res);
+			//MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
+			//byte[] cspr = csp.ComputeHash(res);
+			//return cspr;
 		}
 	
 		private byte[] Encrypt(string str) {

@@ -1534,39 +1534,85 @@ namespace RssBandit {
 				return ret;
 			}
 
-			private static byte[] _calcHash() {
-				string salt = null;
-				if (_compatibilityMode) {
-					// use the old days salt string.
-					// this is not just a query: it will also create the folder :-(
-					salt = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				} else {
-					// so here is a possibly better way to init the salt without
-					// query the file system:
-					salt = "B*A!N_D:I;T,P1E0P%P$E+R";
+			private static byte[] _calcHash() 
+			{
+				// for FIPS compliance we just return the hash we formerly calculated.
+				// This is for backward compatibility, so users do not loose all their
+				// feed/feedsource/ftp/ etc. credentials...
+				byte[] h = new byte[16];
+				if (_compatibilityMode)
+				{
+					h[0] = 120;
+					h[1] = 40;
+					h[2] = 4;
+					h[3] = 105;
+					h[4] = 228;
+					h[5] = 255;
+					h[6] = 178;
+					h[7] = 45;
+					h[8] = 118;
+					h[9] = 90;
+					h[10] = 179;
+					h[11] = 178;
+					h[12] = 149;
+					h[13] = 150;
+					h[14] = 125;
+					h[15] = 185;
 				}
-
-				byte[] b = Encoding.Unicode.GetBytes(salt);
-				int bLen = b.GetLength(0);
-				
-				// just to make the key somewhat "invisible" in Anakrino, we use the random class.
-				// the seed (a prime number) makes it repro
-				Random r = new Random(1500450271);	
-				// result array
-				byte[] res = new Byte[500];
-				int i = 0;
-				
-				for (i = 0; i < bLen && i < 500; i++)
-					res[i] = (byte)(b[i] ^ r.Next(30, 127));
-				
-				// padding:
-				while (i < 500) {
-					res[i] = (byte)r.Next(30, 127);
-					i++;
+				else
+				{
+					h[0] = 33;
+					h[1] = 97;
+					h[2] = 12;
+					h[3] = 205;
+					h[4] = 28;
+					h[5] = 181;
+					h[6] = 25;
+					h[7] = 20;
+					h[8] = 55;
+					h[9] = 214;
+					h[10] = 222;
+					h[11] = 35;
+					h[12] = 111;
+					h[13] = 239;
+					h[14] = 96;
+					h[15] = 42;
 				}
+				return h;
 
-				MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
-				return csp.ComputeHash(res);
+				//string salt = null;
+				//if (_compatibilityMode) {
+				//    // use the old days salt string.
+				//    // this is not just a query: it will also create the folder :-(
+				//    salt = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				//} else {
+				//    // so here is a possibly better way to init the salt without
+				//    // query the file system:
+				//    salt = "B*A!N_D:I;T,P1E0P%P$E+R";
+				//}
+
+				//byte[] b = Encoding.Unicode.GetBytes(salt);
+				//int bLen = b.GetLength(0);
+				
+				//// just to make the key somewhat "invisible" in Anakrino, we use the random class.
+				//// the seed (a prime number) makes it repro
+				//Random r = new Random(1500450271);	
+				//// result array
+				//byte[] res = new Byte[500];
+				//int i = 0;
+				
+				//for (i = 0; i < bLen && i < 500; i++)
+				//    res[i] = (byte)(b[i] ^ r.Next(30, 127));
+				
+				//// padding:
+				//while (i < 500) {
+				//    res[i] = (byte)r.Next(30, 127);
+				//    i++;
+				//}
+
+				//MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
+				//byte[] cspr = csp.ComputeHash(res);
+				//return cspr;
 			}
 
 
