@@ -146,30 +146,54 @@ namespace NewsComponents.Utils
 			return BitConverter.ToUInt16(data, 0);
 		}
 
-		private static byte[] _calcHash() {
-			string salt = "NewsComponents.4711";
-			byte[] b = Encoding.Unicode.GetBytes(salt);
-			int bLen = b.GetLength(0);
+		private static byte[] _calcHash()
+		{
+			// for FIPS compliance we just return the hash we formerly calculated.
+			// This is for backward compatibility, so users do not loose all their
+			// feed/feedsource/ftp/ etc. credentials...
+			byte[] h = new byte[16];
+			h[0] = 52;
+			h[1] = 113;
+			h[2] = 220;
+			h[3] = 112;
+			h[4] = 183;
+			h[5] = 67;
+			h[6] = 200;
+			h[7] = 138;
+			h[8] = 61;
+			h[9] = 240;
+			h[10] = 245;
+			h[11] = 255;
+			h[12] = 169;
+			h[13] = 12;
+			h[14] = 98;
+			h[15] = 218;
+			return h;
+			
+			//string salt = "NewsComponents.4711";
+			//byte[] b = Encoding.Unicode.GetBytes(salt);
+			//int bLen = b.GetLength(0);
 				
-			// just to make the key somewhat "invisible" in Anakrino, we use the random class.
-			// the seed (a prime number) makes it repro
-			Random r = new Random(1500450271);	
-			// result array
-			byte[] res = new Byte[500];
-			int i;
+			//// just to make the key somewhat "invisible" in Anakrino, we use the random class.
+			//// the seed (a prime number) makes it repro
+			//Random r = new Random(1500450271);	
+			//// result array
+			//byte[] res = new Byte[500];
+			//int i;
 				
-			for (i = 0; i < bLen && i < 500; i++)
-				res[i] = (byte)(b[i] ^ r.Next(30, 127));
+			//for (i = 0; i < bLen && i < 500; i++)
+			//    res[i] = (byte)(b[i] ^ r.Next(30, 127));
 				
-			// padding:
-			while (i < 500) {
-				res[i] = (byte)r.Next(30, 127);
-				i++;
-			}
+			//// padding:
+			//while (i < 500) {
+			//    res[i] = (byte)r.Next(30, 127);
+			//    i++;
+			//}
 
-			//TODO: this hash algorithm is NOT FIPS compliant: replace by a comliant impl.
-			MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
-			return csp.ComputeHash(res);
+			////TODO: this hash algorithm is NOT FIPS compliant: replace by a comliant impl.
+			//MD5CryptoServiceProvider csp = new MD5CryptoServiceProvider();
+			//byte[] cspr = csp.ComputeHash(res);
+			//return cspr;
 		}
 
 	}
