@@ -749,8 +749,9 @@ namespace NewsComponents
                          */
                         p_searchHandler = new LuceneSearch(FeedSource.DefaultConfiguration);
                     }
-                    catch (TypeInitializationException)
+                    catch (TypeInitializationException tex)
                     {
+						_log.Error("Because of a lucene search initialization failure, search was turned off.", tex);
                         NewsComponentsConfiguration noIndexingConfig = new NewsComponentsConfiguration();
                         noIndexingConfig.SearchIndexBehavior = SearchIndexBehavior.NoIndexing;
                         p_searchHandler = new LuceneSearch(noIndexingConfig);
