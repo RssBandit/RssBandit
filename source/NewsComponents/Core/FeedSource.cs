@@ -1333,22 +1333,13 @@ namespace NewsComponents
         {
             get
             {
-                if (p_searchHandler == null)
-                {
-                    try
-                    {
-						// force to use only one instance:
-                        p_searchHandler = FeedSourceManager.SearchHandler;
-						// an alternative would be: one index per feedsource
-						// but then some more changes are required...
-                    }
-                    catch (TypeInitializationException)
-                    {
-                        NewsComponentsConfiguration noIndexingConfig = new NewsComponentsConfiguration();
-                        noIndexingConfig.SearchIndexBehavior =  SearchIndexBehavior.NoIndexing;
-                        p_searchHandler = new LuceneSearch(noIndexingConfig); 
-                    }
-                }
+				if (p_searchHandler == null)
+				{
+					// force to use only one instance:
+					p_searchHandler = FeedSourceManager.SearchHandler;
+					// an alternative would be: one index per feedsource
+					// but then some more changes are required...
+				}
 
                 return p_searchHandler;
             }
