@@ -394,8 +394,9 @@ namespace RssBandit.WinGui.Forms
         	treeFeeds.Override.Sort = SortType.Ascending;
 			
 			treeFeeds.HideSelection = false;
+            treeFeeds.NodeLevelOverrides[0].HotTracking = DefaultableBoolean.False;
 			// grow the expansion indicator clickable image:
-			treeFeeds.ExpansionIndicatorSize = new Size(13, 13);
+			//treeFeeds.ExpansionIndicatorSize = new Size(13, 13);
 
             // create RootFolderType.Finder:
 			TreeFeedsNodeBase root =
@@ -446,8 +447,9 @@ namespace RssBandit.WinGui.Forms
             toolbarHelper = new ToolbarHelper(ultraToolbarsManager);
 
             historyMenuManager = new HistoryMenuManager();
-            historyMenuManager.OnNavigateBack += OnHistoryNavigateGoBackItemClick;
-            historyMenuManager.OnNavigateForward += OnHistoryNavigateGoForwardItemClick;
+			historyMenuManager.OnNavigateBack += OnHistoryNavigateGoBackItemClick;
+			historyMenuManager.OnNavigateForward += OnHistoryNavigateGoForwardItemClick;
+			//ultraToolbarsManager.AfterNavigation += OnToolbarAfterHistoryNavigation;
 
             _Main_Toolbars_Dock_Area_Left = new UltraToolbarsDockArea();
             _Main_Toolbars_Dock_Area_Right = new UltraToolbarsDockArea();
