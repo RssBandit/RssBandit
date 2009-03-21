@@ -10,7 +10,6 @@
 
 
 using System;
-using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using RssBandit.Resources;
@@ -20,42 +19,15 @@ namespace RssBandit.WinGui.Forms
 	/// <summary>
 	/// Summary description for SplashScreen.
 	/// </summary>
-	public class SplashScreen : Form
+	partial class SplashScreen : Form
 	{
-		private string statusInfo = String.Empty;
-		private string versionInfo = String.Empty;
-
-		private RectangleF rectStatus, rectVersion = RectangleF.Empty; 
-		private readonly Font statusFont = new Font("Tahoma", 8, FontStyle.Regular);
+		private Label lblStatusInfo;
+		private Label lblVersionInfo;
 		private Label labelSlogan;
-		private readonly Font versionFont = new Font("Tahoma", 8, FontStyle.Bold);
-		
-		public string StatusInfo {
-			set {	statusInfo = value; ApplyChanges();	}
-			get {	return statusInfo;	}
-		}
 
-		public string VersionInfo {
-			set {	versionInfo = value; ApplyChanges();	}
-			get {	return versionInfo;	}
-		}
+		private string statusInfo;
+		private string versionInfo;
 
-		private void ApplyChanges() {
-			try {
-				if (this.InvokeRequired) {
-					this.Invoke(new MethodInvoker(this.Invalidate));
-					return;
-				}
-
-				this.Invalidate();
-			}
-			catch {
-				//	do something here...
-			}
-		}
-
-		
-		
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -68,8 +40,47 @@ namespace RssBandit.WinGui.Forms
 			//
 			InitializeComponent();
 			base.Text = SR.MainForm_DetailHeaderCaption_AtStartup;
-			InitDrawingRectangles();
+		}
 
+		public void SetInfos(string status, string version)
+		{
+			statusInfo = status;
+			versionInfo = version;
+			ApplyChanges();
+		}
+
+		public string StatusInfo
+		{
+			set { statusInfo = value; ApplyChanges(); }
+			get { return statusInfo; }
+		}
+
+		public string VersionInfo
+		{
+			set { versionInfo = value; ApplyChanges(); }
+			get { return versionInfo; }
+		}
+
+		private void ApplyChanges()
+		{
+			try
+			{
+				if (InvokeRequired)
+				{
+					Invoke(new MethodInvoker(this.ApplyChanges));
+					return;
+				}
+
+				if (this.lblStatusInfo.Text != statusInfo)
+					this.lblStatusInfo.Text = statusInfo;
+				
+				if (this.lblVersionInfo.Text != versionInfo)
+					this.lblVersionInfo.Text = versionInfo;
+			}
+			catch
+			{
+				//	do something here...
+			}
 		}
 
 		/// <summary>
@@ -82,117 +93,51 @@ namespace RssBandit.WinGui.Forms
 				if(components != null)
 				{
 					components.Dispose();
+				    components = null;
 				}
 			}
 			base.Dispose( disposing );
 		}
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
+		private void OnFormClick(object sender, EventArgs e)
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen));
-			this.labelSlogan = new System.Windows.Forms.Label();
-			this.SuspendLayout();
-			// 
-			// labelSlogan
-			// 
-			this.labelSlogan.BackColor = System.Drawing.Color.Transparent;
-			this.labelSlogan.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-			this.labelSlogan.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.labelSlogan.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.labelSlogan.Location = new System.Drawing.Point(0, 240);
-			this.labelSlogan.Name = "labelSlogan";
-			this.labelSlogan.Size = new System.Drawing.Size(365, 27);
-			this.labelSlogan.TabIndex = 0;
-			this.labelSlogan.Text = "Your desktop news aggregator";
-			this.labelSlogan.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.labelSlogan.UseMnemonic = false;
-			// 
-			// SplashScreen
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
-			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-			this.ClientSize = new System.Drawing.Size(365, 270);
-			this.Controls.Add(this.labelSlogan);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Name = "SplashScreen";
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Welcome!";
-			this.TransparencyKey = System.Drawing.Color.Magenta;
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnFormPaint);
-			this.ResumeLayout(false);
-
-		}
-		#endregion
-
-		private void OnFormPaint(object sender, System.Windows.Forms.PaintEventArgs e) {
-			Graphics g = e.Graphics;
-
-			StringFormat f = new StringFormat();
-			
-			if (Win32.IsOSAtLeastWindowsXP) {
-				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-			} else {
-				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-			}
-
-			f.Alignment = StringAlignment.Far;
-			f.LineAlignment = StringAlignment.Near;
-			g.DrawString(versionInfo, versionFont, new SolidBrush(this.ForeColor), rectVersion , f);
-
-			f.Alignment = StringAlignment.Near;
-			f.LineAlignment = StringAlignment.Near;
-			g.DrawString(statusInfo, statusFont, new SolidBrush(this.ForeColor), rectStatus , f);
-		}
-
-		private void InitDrawingRectangles() {
-			int boxWidth = this.ClientSize.Width-20;
-			// 0,0 is the top left corner of the window:
-			rectVersion = new RectangleF(new Point(10, 190),
-				new Size(boxWidth, Convert.ToInt32(versionFont.Size) + 20));		// one line
-			rectStatus = new RectangleF(new Point(10, 10),
-				new Size(boxWidth, Convert.ToInt32(statusFont.Size * 2) + 25));	// two lines
+			this.Close();
 		}
 
 	}
 
-	public class Splash {
+	/// <summary>
+	/// The Splash screen controller class
+	/// </summary>
+	public class Splash 
+    {
 		static SplashScreen MySplashForm;
-		static Thread MySplashThread;
-
-		//	internally used as a thread function - showing the form and
-		//	starting the messageloop for it
-		static void ShowThread() {
-            MySplashForm = new SplashScreen();
-			Application.Run(MySplashForm);
-		}
-
+		
 		//	public Method to show the SplashForm
-		static public void Show() {
-			if (MySplashThread != null)
-				return;
+		static public void Show(string status, string version) 
+        {
+            // (initially not signalled)
+            using (ManualResetEvent splashThreadStartedSignal = new ManualResetEvent(false))
+            {
+                ThreadPool.QueueUserWorkItem(
+                    delegate
+                        {
+                            MySplashForm = new SplashScreen();
+							MySplashForm.SetInfos(status, version);
+                            splashThreadStartedSignal.Set();
 
-			MySplashThread = new Thread(ShowThread);
-			// take over the culture settings from main/default thread 
-			// (if not, Splash will not care about a change of the culture in the main thread)
-			MySplashThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-			MySplashThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
-			MySplashThread.IsBackground = true;
-			MySplashThread.SetApartmentState(ApartmentState.STA);
-			MySplashThread.Start();
-			while (MySplashForm == null) Thread.Sleep(new TimeSpan(100));
-		}
+                            Application.Run(MySplashForm); 
+                        });
+
+                // wait until splash thread signals it was started and displayed:
+                splashThreadStartedSignal.WaitOne();
+                
+            } // using() free resources
+        }
 
 		//	public Method to hide the SplashForm
-		static public void Close() {
-			if (MySplashThread == null) return;
+		static public void Close() 
+        {
 			if (MySplashForm == null) return;
 
 			try {
@@ -200,12 +145,12 @@ namespace RssBandit.WinGui.Forms
 			}
 			catch (Exception) {
 			}
-			MySplashThread = null;
 			MySplashForm = null;
 		}
 
 		//	public Method to set or get the loading Status
-		static public string Status {
+		static public string Status 
+        {
 			set {
 				if (MySplashForm == null) {
 					return;
