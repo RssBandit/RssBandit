@@ -101,9 +101,10 @@ namespace RssBandit
                         initialStartupState != FormWindowState.Minimized)
                     {
                         // no splash, if start option is tray only or minimized
-                        Splash.Show();
-                        Splash.Version = String.Format("{0}", RssBanditApplication.versionPostfix /* "v{0}" , RssBanditApplication.Version */);
-                        Splash.Status = SR.AppLoadStateLoading;
+                        Splash.Show(SR.AppLoadStateLoading,
+							String.Format(String.IsNullOrEmpty(RssBanditApplication.versionPostfix) ? "v{0}": "v{0} {1}",
+								RssBanditApplication.Version, RssBanditApplication.versionPostfix )
+							);
                     }
 
 					if (appInstance.Init())

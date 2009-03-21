@@ -2125,6 +2125,9 @@
     <Compile Include="WinGui\Forms\NewsGroupsConfiguration.Designer.cs">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinGui\Forms\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinGui\Forms\WinGuiMain.Callbacks.cs">
       <SubType>Form</SubType>
     </Compile>
