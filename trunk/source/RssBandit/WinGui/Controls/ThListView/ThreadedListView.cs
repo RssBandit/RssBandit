@@ -1,28 +1,25 @@
-#region CVS Version Header
-
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
-
 #endregion
 
 #define NON_TRANSPARENT_SORTMARKERS
 
 using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using log4net;
+using RssBandit.Common.Logging;
 using RssBandit.WinGui.Controls.ThListView.Sorting;
-using NewsComponents.Feed;
-using RssBandit;
 using RssBandit.Resources;
 using System.Collections.Generic;
 
@@ -57,6 +54,7 @@ namespace RssBandit.WinGui.Controls.ThListView
         private string _emptyAutoGroupText = String.Empty;
         //private IntPtr _apiRetVal;
         private ThreadedListViewItem _noChildsPlaceHolder;
+		private static readonly ILog _log = Log.GetLogger(typeof(ThreadedListView));
 
 
         public event EventHandler<ListLayoutCancelEventArgs> BeforeListLayoutChange;
@@ -120,7 +118,11 @@ namespace RssBandit.WinGui.Controls.ThListView
         {
             _headerImageListLoaded = false;
             _isWinXP = RssBandit.Win32.IsOSAtLeastWindowsXP;
-            // our core state:
+        	
+			DoubleBuffered = true;
+        	ShowItemToolTips = true;
+			
+			// our core state:
             ShowAsThreads = true;
 
             // layout:
@@ -733,8 +735,9 @@ namespace RssBandit.WinGui.Controls.ThListView
                     EnsureVisible(paramItemIndex - 1);
                     EnsureVisible(lvItem.Index);
                 }
-                catch
+                catch (Exception ex)
                 {
+					_log.Error("EnsureVisible() failed", ex);
                 }
 
                 if (activate)
@@ -821,14 +824,15 @@ namespace RssBandit.WinGui.Controls.ThListView
             bool cancel = false;
             if (BeforeExpandThread != null)
             {
-                var e = new ThreadCancelEventArgs(tlv, cancel);
+                var e = new ThreadCancelEventArgs(tlv, false);
                 try
                 {
                     BeforeExpandThread(this, e);
                     cancel = e.Cancel;
                 }
-                catch
+                catch (Exception ex)
                 {
+					_log.Error("Event BeforeExpandThread() failed", ex);
                 }
             }
             return cancel;
@@ -843,9 +847,10 @@ namespace RssBandit.WinGui.Controls.ThListView
                 {
                     ExpandThread(this, tea);
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event ExpandThread() failed", ex);
+				}
                 if (tea.ChildItems != null)
                 {
                     return tea.ChildItems;
@@ -866,9 +871,10 @@ namespace RssBandit.WinGui.Controls.ThListView
                 {
                     AfterExpandThread(this, tea);
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event AfterExpandThread() failed", ex);
+				}
             }
         }
 
@@ -877,15 +883,16 @@ namespace RssBandit.WinGui.Controls.ThListView
             bool cancel = false;
             if (BeforeCollapseThread != null)
             {
-                var e = new ThreadCancelEventArgs(tlv, cancel);
+                var e = new ThreadCancelEventArgs(tlv, false);
                 try
                 {
                     BeforeCollapseThread(this, e);
                     cancel = e.Cancel;
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event BeforeCollapseThread() failed", ex);
+				}
             }
             return cancel;
         }
@@ -900,9 +907,10 @@ namespace RssBandit.WinGui.Controls.ThListView
                 {
                     CollapseThread(this, tea);
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event CollapseThread() failed", ex);
+				}
             }
         }
 
@@ -911,15 +919,16 @@ namespace RssBandit.WinGui.Controls.ThListView
             bool cancel = false;
             if (BeforeListLayoutChange != null)
             {
-                var e = new ListLayoutCancelEventArgs(newLayout, cancel);
+                var e = new ListLayoutCancelEventArgs(newLayout, false);
                 try
                 {
                     BeforeListLayoutChange(this, e);
                     cancel = e.Cancel;
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event BeforeListLayoutChange() failed", ex);
+				}
             }
             return cancel;
         }
@@ -932,9 +941,10 @@ namespace RssBandit.WinGui.Controls.ThListView
                 {
                     ListLayoutChanged(this, new ListLayoutEventArgs(layout));
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event ListLayoutChanged() failed", ex);
+				}
             }
         }
 
@@ -946,18 +956,17 @@ namespace RssBandit.WinGui.Controls.ThListView
                 {
                     ListLayoutModified(this, new ListLayoutEventArgs(layout));
                 }
-                catch
-                {
-                }
+				catch (Exception ex)
+				{
+					_log.Error("Event ListLayoutModified() failed", ex);
+				}
             }
         }
 
         private void SetExtendedStyles()
         {
-            var ex_styles =
-                (Win32.LVS_EX) Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, IntPtr.Zero);
-            ex_styles |= Win32.LVS_EX.LVS_EX_DOUBLEBUFFER | Win32.LVS_EX.LVS_EX_INFOTIP |
-                         Win32.LVS_EX.LVS_EX_SUBITEMIMAGES;
+            var ex_styles = (Win32.LVS_EX) Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, IntPtr.Zero);
+            ex_styles |= Win32.LVS_EX.LVS_EX_SUBITEMIMAGES;
             Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, new IntPtr((int) ex_styles));
         }
 
