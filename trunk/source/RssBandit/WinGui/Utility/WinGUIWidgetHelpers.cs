@@ -379,37 +379,32 @@ namespace RssBandit.WinGui.Utility {
 			return FileHelper.OpenForWrite(RssBanditApplication.GetSettingsFileName());
 		}
 
-		/// <summary>
-		/// Opens a read-only stream on the backing store.</summary>
-		/// <returns>
-		/// A stream to read from.</returns>
-		private static FileStream OpenSettingsStream() {
-			return FileHelper.OpenForRead(RssBanditApplication.GetSettingsFileName());
-		}
-        
 		/// <summary>Deserializes to the userStore hashtable from an storage stream.</summary>
 		/// <remarks>Exceptions are silently ignored.</remarks>
-		private static void Deserialize() {
-			XmlTextReader reader = null;
+		private static void Deserialize() 
+        {
 			try {
-				reader = new XmlTextReader( OpenSettingsStream() );
-                
-				// Read name/value pairs.
-				while (reader.Read()) {
-					if (reader.NodeType == XmlNodeType.Element && reader.Name == "property") {
-						string name = reader.GetAttribute("name");
-						string value = reader.ReadString();
-						userStore[name] = value;
-					}
-				}
-                
-				reader.Close();
+                string fileName = RssBanditApplication.GetSettingsFileName();
+                if (File.Exists(fileName))
+                {
+                    using (XmlTextReader reader = new XmlTextReader(FileHelper.OpenForRead(fileName)))
+                    {
+                        // Read name/value pairs.
+                        while (!reader.EOF && reader.Read())
+                        {
+                            if (reader.NodeType == XmlNodeType.Element && reader.Name == "property")
+                            {
+                                string name = reader.GetAttribute("name");
+                                string value = reader.ReadString();
+                                userStore[name] = value;
+                            }
+                        }
+
+                    }
+                }
 			}
-			catch (Exception e) {
-				// Release all resources held by the XmlTextReader.
-				if (reader != null)
-					reader.Close();
-                
+			catch (Exception e) 
+            {
 				// Report exception.
 				_log.Debug("Settings: There was an error while deserializing from Settings Storage.  Ignoring.");
 				_log.Debug("Settings: The exception was:", e);
@@ -568,15 +563,19 @@ namespace RssBandit.WinGui.Utility {
 			set { _currentUrl = value; }
 		}
 
-		public ITextImageItem[] GoBackHistoryItems(int maxItems) {
-			//TODO: impl. by IEControl
-			return EmptyHistoryItems;
+		public ITextImageItem[] GoBackHistoryItems
+		{
+			get;
+			set;
+		}
+
+		public ITextImageItem[] GoForwardHistoryItems
+		{
+			get;
+			set;
 		}
 		
-		public  ITextImageItem[] GoForwardHistoryItems(int maxItems) {
-			//TODO: impl. by IEControl
-			return EmptyHistoryItems;
-		}
+		public ITextImageItem CurrentHistoryItem { get; set; }
 
 		#endregion
 
