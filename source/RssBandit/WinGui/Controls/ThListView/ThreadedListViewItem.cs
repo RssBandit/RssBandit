@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -12,8 +13,6 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace RssBandit.WinGui.Controls.ThListView
 {
@@ -24,16 +23,16 @@ namespace RssBandit.WinGui.Controls.ThListView
 	public class ThreadedListViewItem:ListViewItem
 	{
 
-		private int _indentLevel = 0;
-		private int _groupIndex = 0; 
-		private bool _hasChilds = false;
-		private bool _isComment = false;
-		internal bool _expanded = false;
-		private object _key = null;
-		private static int _originalIndex = 0;
+		private int _indentLevel;
+		private int _groupIndex; 
+		private bool _hasChilds;
+		private bool _isComment;
+		internal bool _expanded;
+		private object _key;
+		private static int _originalIndex;
 		private ThreadedListViewItem _parent;
 
-		public ThreadedListViewItem():base() {
+		public ThreadedListViewItem() {
 			RaiseIndex();
 		}
 		public ThreadedListViewItem(string text):this(null, text) { }
@@ -53,7 +52,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 			_key = key;
 		} 
 
-		public ThreadedListViewItem(ThreadedListViewItem.ListViewSubItem[] subItems, int imageIndex) : base(subItems, imageIndex) { 
+		public ThreadedListViewItem(ListViewSubItem[] subItems, int imageIndex) : base(subItems, imageIndex) { 
 		} 
 
 		public ThreadedListViewItem(object key, string[] items, int imageIndex, Color foreColor, Color backColor, Font font) : base(items, imageIndex, foreColor, backColor, font) { 
@@ -73,7 +72,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 			this.GroupIndex = groupIndex; 
 		} 
 
-		public ThreadedListViewItem(ThreadedListViewItem.ListViewSubItem[] subItems, int imageIndex, int groupIndex) : base(subItems, imageIndex) { 
+		public ThreadedListViewItem(ListViewSubItem[] subItems, int imageIndex, int groupIndex) : base(subItems, imageIndex) { 
 			this.GroupIndex = groupIndex; 
 		} 
 
@@ -90,7 +89,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 			} 
 			set { 
 				_groupIndex = value; 
-				Win32.API.AddItemToGroup(base.ListView.Handle, base.Index, _groupIndex); 
+				Win32.API.AddItemToGroup(base.ListView.Handle, Index, _groupIndex); 
 			} 
 		} 
 
@@ -288,21 +287,21 @@ namespace RssBandit.WinGui.Controls.ThListView
 		private void SetListViewSubItemImage(int subItem, int imageIndex) {
 			Win32.LVITEM lvi = new Win32.LVITEM();
 
-			lvi.iItem = base.Index;
+			lvi.iItem = Index;
 			lvi.iSubItem = subItem;
 			lvi.iImage = imageIndex;
 			lvi.mask = Win32.ListViewItemFlags.LVIF_IMAGE;
-			Win32.API.SendMessage((IntPtr)base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
+			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
 		}
 
 		private void SetListViewItemIndent(int level) 
 		{
 			Win32.LVITEM lvi = new Win32.LVITEM();
 
-			lvi.iItem = base.Index;
+			lvi.iItem = Index;
 			lvi.iIndent = level;
 			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-			Win32.API.SendMessage((IntPtr)base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
+			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
 		}
 
 		private int GetListViewItemIndent() 
@@ -310,9 +309,9 @@ namespace RssBandit.WinGui.Controls.ThListView
 			Win32.LVITEM lvi = new Win32.LVITEM();
 			int ret;
 
-			lvi.iItem = base.Index;
+			lvi.iItem = Index;
 			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-			Win32.API.SendMessage((IntPtr)base.ListView.Handle, Win32.W32_LVM.LVM_GETITEMA /* 4101 */, 0, ref lvi);
+			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_GETITEMA /* 4101 */, 0, ref lvi);
 			ret = lvi.iIndent;
 			return ret;
 
@@ -338,7 +337,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 		
 		private string _insertionPointTicket;
 
-		public ThreadedListViewItemPlaceHolder():base() {
+		public ThreadedListViewItemPlaceHolder() {
 			CreateInsertionPointTicket();
 		}
 		public ThreadedListViewItemPlaceHolder(string text):base(null, text) { 
