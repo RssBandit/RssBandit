@@ -164,6 +164,8 @@ namespace RssBandit
 
         private FinderSearchNodes findersSearchRoot;
         private NewsItemFormatter NewsItemFormatter;
+        private CachedImageLocater cachedImageLocater; 
+
 
         // as defined in the installer for Product ID
         private const string applicationGuid = "9DDCC9CA-DFCD-4BF3-B069-C9660BB28848";
@@ -375,6 +377,8 @@ namespace RssBandit
             NewsItemFormatter.TransformError += OnNewsItemTransformationError;
             NewsItemFormatter.StylesheetError += OnNewsItemFormatterStylesheetError;
             NewsItemFormatter.StylesheetValidationError += OnNewsItemFormatterStylesheetValidationError;
+
+            cachedImageLocater = new CachedImageLocater(); 
 
             // init all common components with the current preferences. 
             // also apply some settings to each feed source instance, so they have
@@ -5107,6 +5111,15 @@ namespace RssBandit
             return RssLocater.UrlFromFeedProtocolUrl(feedUrl);
         }
 
+        /// <summary>
+        /// Replaces references to images on the Web with references to cached versions from the browser cache
+        /// </summary>
+        /// <param name="html">The input HTML</param>
+        /// <returns>The HTML with the URLs to all images found in the browser cache replaced</returns>
+        public string ReplaceImagesWithCachedVersions(string html)
+        {
+            return HtmlHelper.ReplaceImageLinks(html, new MatchEvaluator(cachedImageLocater.GetCachedImageLocation)); 
+        }
 
         /// <summary>
         /// Used to initialize parameters to the XSLT template that formats the feeds as HTMl. 

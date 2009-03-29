@@ -25,6 +25,7 @@ using Sgml;
 
 namespace NewsComponents.Utils
 {
+
     /// <summary>
     /// helper class used for expanding relative URLs. 
     /// </summary>
@@ -72,6 +73,10 @@ namespace NewsComponents.Utils
         private static readonly Regex RegExFindHref =
             new Regex(@"<a[\s]+[^>]*?href[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>",
                       RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static readonly Regex RegExFindSrc =
+           new Regex(@"<[iI][mM][gG][\s]+[^>]*?src[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>",
+                     RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled);
         // according to http://www.w3.org/TR/REC-html40/charset.html#entities
@@ -280,6 +285,22 @@ namespace NewsComponents.Utils
             RelativeUrlExpander expander = new RelativeUrlExpander();
             expander.baseUrl = baseUrl;
             return RegExFindHrefOrSrc.Replace(html, new MatchEvaluator(expander.ConvertToAbsoluteUrl));
+        }
+
+
+        /// <summary>
+        /// Replaces image links in the HTML input using the provided match evaluate. Typically used to replace references 
+        /// to images on the web with references to local files from the browser cache for offline mode. 
+        /// </summary>
+        /// <param name="html">String to work on</param>
+        /// <param name="me">Match evaluator which replaces the URLs</param>
+        /// <returns>The HTML content with all the images replaced</returns>
+        public static string ReplaceImageLinks(string html, MatchEvaluator me)
+        {
+            if (html == null || html.Length == 0)
+                return html;
+
+            return RegExFindSrc.Replace(html, me); 
         }
 
         /// <summary>

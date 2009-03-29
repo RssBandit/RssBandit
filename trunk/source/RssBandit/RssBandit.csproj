@@ -2218,6 +2218,7 @@
     <Compile Include="WinGui\Utility\WinGUIWidgetHelpers.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Utility\WinInetAPI.cs" />
     <Compile Include="Xml\Namespaces.cs">
       <SubType>Code</SubType>
     </Compile>
