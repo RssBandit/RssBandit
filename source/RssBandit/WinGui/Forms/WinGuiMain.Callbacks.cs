@@ -3117,7 +3117,16 @@ namespace RssBandit.WinGui.Forms
                 else
                 {
 					stylesheet = (item.Feed != null && entry != null ? entry.Source.GetStyleSheet(item.Feed.link) : String.Empty);
-                    htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
+
+                    string html2render = owner.FormatNewsItem(stylesheet, item, searchCriterias);
+                   
+                    //serve images from the browser cache if we are offline
+                    if (!owner.InternetAccessAllowed)
+                    {
+                        html2render = owner.ReplaceImagesWithCachedVersions(html2render); 
+                    }
+
+                    htmlDetail.Html = html2render; 
                     htmlDetail.Navigate(null);
 
                     FeedDetailTabState.Url = item.Link;
