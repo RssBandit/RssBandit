@@ -5944,16 +5944,8 @@ namespace NewsComponents
                         {
                             cats.Add(f1.category, new category(f1.category));
                         }
-
-						//if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
-						//{
-						//    listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
-
-						//    if (layout != null)
-						//        colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
-						//    else
-						//        f1.listviewlayout = null;
-						//}
+                        
+                        f1.owner = this; 
 
                         if (!syncedfeeds.ContainsKey(f1.link))
                         {
@@ -5981,71 +5973,12 @@ namespace NewsComponents
             }
 
 
-            //IDictionary<string, INntpServerDefinition> serverList = new Dictionary<string, INntpServerDefinition>();
-            //IDictionary<string, UserIdentity> identityList = new Dictionary<string, UserIdentity>();
-
-            /* copy over user identity information */
-			//foreach (var identity in myFeeds.identities)
-			//{
-			//    if (replace)
-			//    {
-			//        identityList.Add(identity.Name, identity);
-			//    }
-			//    else if (!identities.ContainsKey(identity.Name))
-			//    {
-			//        identities.Add(identity.Name, identity);
-			//    }
-			//} //foreach
-
-
-            /* copy over newsgroup information */
-			//foreach (var server in myFeeds.nntpservers)
-			//{
-			//    if (replace)
-			//    {
-			//        serverList.Add(server.Name, server);
-			//    }
-			//    else if (!nntpServers.ContainsKey(server.Name))
-			//    {
-			//        nntpServers.Add(server.Name, server);
-			//    }
-			//}
-
-			//// copy over layout information 
-			//foreach (var layout in myFeeds.listviewLayouts)
-			//{
-			//    if (replace)
-			//    {
-			//        if (layout.FeedColumnLayout.LayoutType == LayoutType.GlobalFeedLayout ||
-			//            layout.FeedColumnLayout.LayoutType == LayoutType.GlobalCategoryLayout ||
-			//            layout.FeedColumnLayout.LayoutType == LayoutType.SearchFolderLayout ||
-			//            layout.FeedColumnLayout.LayoutType == LayoutType.SpecialFeedsLayout)
-			//            colLayouts.Add(layout.ID, layout.FeedColumnLayout);
-			//    }
-			//    else if (!layouts.ContainsKey(layout.ID))
-			//    {
-			//        //don't replace layouts on import
-			//        if (layout.FeedColumnLayout.LayoutType != LayoutType.GlobalFeedLayout ||
-			//            layout.FeedColumnLayout.LayoutType != LayoutType.GlobalCategoryLayout ||
-			//            layout.FeedColumnLayout.LayoutType != LayoutType.SearchFolderLayout ||
-			//            layout.FeedColumnLayout.LayoutType != LayoutType.SpecialFeedsLayout)
-			//            layouts.Add(layout.ID, layout.FeedColumnLayout);
-			//    }
-			//}
-
-
             if (replace)
             {
                 /* update feeds table */
                 feedsTable = syncedfeeds;
                 /* update category information */
-                categories = cats;
-                /* update identities */
-                //identities = identityList;
-                /* update servers */
-                //nntpServers = serverList;
-                /* update layouts */
-                //layouts = colLayouts;
+                categories = cats;              
             }
             else
             {

@@ -199,6 +199,7 @@ namespace RssBandit.WinGui
                             zos = new ZipOutputStream(fs);
                             FileHelper.ZipFiles(files, zos);
                             zos.Close();
+                            fs.Close(); 
 
                             break;
                      

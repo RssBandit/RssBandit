@@ -68,6 +68,21 @@ namespace NewsComponents.Net
 
         #endregion
 
+        #region Public fields 
+
+        /// <summary>
+        /// The HTTP downloader used by tasks loaded on startup
+        /// </summary>
+        public static readonly HttpDownloader httpDownloader = new HttpDownloader();
+
+        /// <summary>
+        /// The BITS downloader used by tasks loaded on startup
+        /// </summary>
+        public static readonly BITSDownloader bitsDownloader = new BITSDownloader(); 
+
+        #endregion 
+
+
         #region Singleton implementation
 
         /// <summary>
@@ -294,6 +309,8 @@ namespace NewsComponents.Net
                 try
                 {
                     task = (DownloadTask) formatter.Deserialize(stream);
+                    task.Downloader = (task.SupportsBITS ? (IDownloader) bitsDownloader : (IDownloader) httpDownloader); 
+               
                     lock (registry)
                     {
                         //TODO: Once we have a UI for managing enclosures we'll need to 
