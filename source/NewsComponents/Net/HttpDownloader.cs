@@ -180,7 +180,7 @@ namespace NewsComponents.Net
             currentTask = task;
             Uri requestUri = new Uri(task.DownloadItem.Enclosure.Url);
 
-            if (state.InitialRequestUri.Equals(requestUri))
+            if (state != null && state.InitialRequestUri.Equals(requestUri))
             {
                 BackgroundDownloadManager.AsyncWebRequest.FinalizeWebRequest(state);
             }

@@ -279,6 +279,7 @@ namespace NewsComponents
                 if (contentLengthSpecified)
                 {
                     downloader = new BITSDownloader();
+                    task.SupportsBITS = true; 
                 }
                 else if (task.DownloadItem.Enclosure.Length <= (15*1024*1024))
                 {

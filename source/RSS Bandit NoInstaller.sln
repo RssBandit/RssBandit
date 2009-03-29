@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4} = {9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}
