@@ -240,6 +240,17 @@ namespace NewsComponents.Net
             }
         }
 
+
+        private bool _supportsBITS; 
+
+        /// <summary>
+        /// Indicates whether the downloader for this task supports BITS or not. 
+        /// </summary>
+        public bool SupportsBITS {
+            get { return _supportsBITS;  } 
+            set { _supportsBITS = value; }
+        }
+
         #endregion
 
         #region ISerializable Members
@@ -262,6 +273,7 @@ namespace NewsComponents.Net
             _createDate = TimeZoneInfo.ConvertTime((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
             _fileName = (string)reader.GetValue("_fileName", typeof(string), null);
             _errorText = (string)reader.GetValue("_errorText", typeof(string), null);
+            _supportsBITS = (bool)reader.GetBoolean("_supportsBITS", false); 
 
             if (reader.Contains("_downloadFilesBase"))
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
@@ -287,6 +299,7 @@ namespace NewsComponents.Net
             info.AddValue("_createDate", TimeZoneInfo.ConvertTimeToUtc(_createDate));
             info.AddValue("_fileName", _fileName);
             info.AddValue("_errorText", _errorText);
+            info.AddValue("_supportsBITS", _supportsBITS); 
         }
 
         #endregion
