@@ -1078,6 +1078,37 @@ namespace RssBandit.WinGui.Utility {
 
 	#endregion
 
+    #region CachedImageLocator
+    /// <summary>
+    /// Helper class used to locate cached versions of images for use in offline mode
+    /// </summary>
+    internal class CachedImageLocater
+    {
+        /// <summary>
+        /// Returns the location of the matched URL from the local IE cache. If the file isn't found in the cache then it returns 
+        /// the original URL. 
+        /// </summary>
+        /// <param name="m">The image URL</param>
+        /// <returns>The location of the image from the browser cache or the original URL if not cached</returns>
+        internal string GetCachedImageLocation(System.Text.RegularExpressions.Match m)
+        {
+            string src = m.Groups[1].ToString();
+            //handle case where regex starts or ends with quote character
+            string test = src.Trim(new char[] { '"', '\'' });
+
+            ArrayList results = WinInetAPI.FindUrlCacheEntries(test);
+
+            if(results.Count == 0){ 
+                return m.Groups[0].ToString();
+            }
+
+            WinInetAPI.INTERNET_CACHE_ENTRY_INFO entry = (WinInetAPI.INTERNET_CACHE_ENTRY_INFO) results[0];
+            return m.Groups[0].ToString().Replace(src, entry.lpszLocalFileName);
+        }
+    }
+
+    #endregion 
+
 	#region FinderSearchNodes
 	[Serializable]
 	public class FinderSearchNodes {

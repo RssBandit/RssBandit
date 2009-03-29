@@ -266,9 +266,43 @@ namespace RssBandit
 		private const int GWL_STYLE = -16;
 		public const int TVS_INFOTIP = 0x0800;
 
+        /// <summary>
+        /// From winerror.h.
+        /// </summary>
+        public const int ERROR_SUCCESS = 0;
+
+        /// <summary>
+        /// From winerror.h.
+        /// </summary>
+        public const int ERROR_FILE_NOT_FOUND = 2;
+
+        /// <summary>
+        /// From winerror.h.
+        /// </summary>
+        public const int ERROR_ACCESS_DENIED = 5;
+
+        /// <summary>
+        /// From winerror.h.
+        /// </summary>
+        public const int ERROR_INSUFFICIENT_BUFFER = 122;
+
+        /// <summary>
+        /// From winerror.h.
+        /// </summary>
+        public const int ERROR_NO_MORE_ITEMS = 259;
+
+      
+
 		#endregion
 
 		#region structs/classes
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct FILETIME
+        {
+            public UInt32 dwLowDateTime;
+            public UInt32 dwHighDateTime;
+        }
 
 		[StructLayout(LayoutKind.Sequential)]
 		internal struct POINT {
