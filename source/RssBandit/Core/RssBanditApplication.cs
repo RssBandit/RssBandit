@@ -1936,6 +1936,7 @@ namespace RssBandit
             if (Preferences.MarkItemsReadOnExit != propertiesDialog.checkMarkItemsReadOnExit.Checked)
             {
                 Preferences.MarkItemsReadOnExit = propertiesDialog.checkMarkItemsReadOnExit.Checked;
+                sourceManager.ForEach(fs => fs.ResetAllMarkItemsReadOnExitSettings());            
             }
 
             if (Preferences.UseFavicons != propertiesDialog.checkUseFavicons.Checked)
