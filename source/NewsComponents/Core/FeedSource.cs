@@ -2329,6 +2329,39 @@ namespace NewsComponents
 
 
         /// <summary>
+        /// Resets all mark items read on exit settings at feeds and categories.
+        /// </summary>
+        public virtual void ResetAllMarkItemsReadOnExitSettings()
+        {
+            string[] keys;
+
+            lock (feedsTable)
+            {
+                keys = new string[feedsTable.Count];
+                if (feedsTable.Count > 0)
+                    feedsTable.Keys.CopyTo(keys, 0);
+            }
+
+            for (int i = 0, len = keys.Length; i < len; i++)
+            {
+                INewsFeed f;
+                if (feedsTable.TryGetValue(keys[i], out f))
+                {
+                    f.markitemsreadonexit = false;
+                    f.markitemsreadonexitSpecified = false;
+                }
+            }
+            // handle categories:
+            //DISCUSS: do we need to lock here? 
+            foreach (var c in categories.Values)
+            {
+                c.markitemsreadonexit = false;
+                c.markitemsreadonexitSpecified = false;
+            }
+        }
+
+
+        /// <summary>
         /// Resets all refresh rate settings at feeds and categories.
         /// </summary>
         public virtual void ResetAllRefreshRateSettings()
