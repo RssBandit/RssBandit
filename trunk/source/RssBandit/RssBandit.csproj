@@ -266,50 +266,41 @@
       <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <Reference Include="Infragistics2.Shared.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Shared.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Shared.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.Misc.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.Misc.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.Misc.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinEditors.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinEditors.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinExplorerBar.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinStatusBar.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinTabControl.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTabControl.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinToolbars.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinTree.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.UltraWinTree.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.UltraWinTree.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics2.Win.v8.3, Version=8.3.20083.2021, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Win.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
