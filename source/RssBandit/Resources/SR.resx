@@ -539,6 +539,12 @@ Error:{1}.</value>
   <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in RSS Bandit</value>
   </data>
+  <data name="FeedNodeFacebookFeedsCaption" xml:space="preserve">
+    <value>Facebook News Feed</value>
+  </data>
+  <data name="FeedNodeFacebookFeedsDesc" xml:space="preserve">
+    <value>Container of news feed from Facebook</value>
+  </data>
   <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
     <value>My Google Reader Feeds</value>
   </data>
@@ -2474,5 +2480,14 @@ Error: {1}</value>
   </data>
   <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
     <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+  </data>
+  <data name="ExceptionFacebookAuthToken" xml:space="preserve">
+    <value>An error occured while trying to obtain a Facebook authorization token</value>
+  </data>
+  <data name="ExceptionFacebookLogin" xml:space="preserve">
+    <value>Facebook login failure</value>
+  </data>
+  <data name="FacebookConnectFormTitle" xml:space="preserve">
+    <value>Facebook Login</value>
   </data>
 </root>

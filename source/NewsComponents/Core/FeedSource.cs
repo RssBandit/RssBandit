@@ -107,7 +107,12 @@ namespace NewsComponents
         /// <summary>
         /// The feeds are directly accessed by RSS Bandit.
         /// </summary>
-        DirectAccess
+        DirectAccess, 
+        
+        /// <summary>
+        /// The feed is sourced from the Facebook news feed.
+        /// </summary>
+        Facebook
     }
 
 
@@ -243,6 +248,9 @@ namespace NewsComponents
                 case FeedSourceType.NewsGator:
                     handler = new NewsGatorFeedSource(configuration, location);
                     break;
+                case FeedSourceType.Facebook:
+                    handler = new FacebookFeedSource(configuration, location); 
+                    break; 
                 default:
                     break;
             }

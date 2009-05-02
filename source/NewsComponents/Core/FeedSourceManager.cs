@@ -560,13 +560,14 @@ namespace NewsComponents
 					return new SubscriptionLocation(BuildSubscriptionName(id, type));
 				case FeedSourceType.Google:
 					return new SubscriptionLocation(BuildSubscriptionName(id, type),
-						BuildCredentials(properties));
-						
+						BuildCredentials(properties));				
 				case FeedSourceType.NewsGator:
 					return new SubscriptionLocation(BuildSubscriptionName(id, type),
 						BuildCredentials(properties));
 				case FeedSourceType.WindowsRSS:
 					return new SubscriptionLocation(BuildSubscriptionName(id, type));
+                case FeedSourceType.Facebook:
+                    return new SubscriptionLocation(BuildSubscriptionName(id, type), BuildCredentials(properties));
 				default:
 					throw new InvalidOperationException("FeedSourceType not supported:" + type);
 			}

@@ -3439,7 +3439,16 @@ namespace RssBandit
 								new NetworkCredential(wiz.UserName, wiz.Password));
 						fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
 						entry = sourceManager.Add(fs, wiz.FeedSourceName);
-					}
+                    }
+                    else if (wiz.SelectedFeedSource == FeedSourceType.Facebook)
+                    {
+                        SubscriptionLocation loc =
+                            new SubscriptionLocation(
+                                FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Facebook), 
+                                new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
+                        fs = FeedSource.CreateFeedSource(id, FeedSourceType.Facebook, loc);
+                        entry = sourceManager.Add(fs, wiz.FeedSourceName);
+                    }
 
 					if (entry != null)
 					{

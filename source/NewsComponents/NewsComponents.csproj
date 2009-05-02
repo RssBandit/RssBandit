@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -148,6 +148,9 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -203,6 +206,7 @@
     <Compile Include="Feed\feeds.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Feed\Sources\FacebookFeedSource.cs" />
     <Compile Include="Feed\Sources\GoogleReaderFeedSource.cs" />
     <Compile Include="Feed\Sources\GoogleReaderModifier.cs" />
     <Compile Include="Feed\Sources\NewsGatorFeedSource.cs" />
@@ -503,6 +507,7 @@
     <EmbeddedResource Include="SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SR.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
