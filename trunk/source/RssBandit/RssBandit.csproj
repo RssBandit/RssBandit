@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -349,7 +349,9 @@
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsShared.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\InfragisticsShared.zh-CHS.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
       <SubType>Designer</SubType>
@@ -370,7 +372,9 @@
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWin.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\InfragisticsWin.zh-CHS.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
       <SubType>Designer</SubType>
@@ -437,7 +441,9 @@
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.resx" />
+    <EmbeddedResource Include="Resources\InfragisticsWinTree.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\InfragisticsWinTree.zh-CHS.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
       <SubType>Designer</SubType>
@@ -1000,9 +1006,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.ko.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.ko.resx">
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.bg.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
@@ -2040,6 +2048,12 @@
     </Compile>
     <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FacebookConnectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinGui\Dialogs\FacebookConnectDialog.Designer.cs">
+      <DependentUpon>FacebookConnectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Dialogs\FeedProperties.Designer.cs">
       <DependentUpon>FeedProperties.cs</DependentUpon>
