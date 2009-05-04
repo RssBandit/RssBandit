@@ -11,7 +11,7 @@ namespace RssBandit.WinGui.Dialogs
 {
     public partial class FacebookConnectDialog : Form
     {
-        public static readonly string FbUrlTemplate = "http://www.facebook.com/login.php?api_key={0}&&v=1.0&auth_token={1}";
+        public static readonly string FbUrlTemplate = "http://www.facebook.com/login.php?api_key={0}&&v=1.0&auth_token={1}&popup";
         public static readonly string ApiKey = "2d8ab36a639b61dd7a1a9dab4f7a0a5a";
         public static readonly string TokenUrl = "http://www.25hoursaday.com/weblog/CreateFBtoken.aspx"; 
 
