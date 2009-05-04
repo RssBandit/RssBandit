@@ -635,10 +635,11 @@ namespace NewsComponents
 				}	
 			}
 
-			using (TextWriter writer = new StreamWriter(FileHelper.OpenForWrite(feedSourcesUrl)))
-			{
-				serializer.Serialize(writer, sources);
-			}
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, sources);
+                FileHelper.WriteStreamWithBackup(feedSourcesUrl, stream);
+            }			
         }
 
         #region search related 
