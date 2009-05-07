@@ -745,7 +745,8 @@ namespace NewsComponents.Search
 					LuceneSearch.GetAnalyzer(LuceneSearch.DefaultLanguage), false);
 				this.indexWriter.SetInfoStream( _logHelper);
                 this.indexWriter.SetMergeFactor(MaxSegments);
-                this.indexWriter.SetMaxBufferedDocs(DocsPerSegment); 
+                this.indexWriter.SetMaxBufferedDocs(DocsPerSegment);
+				this.indexWriter.SetMergeScheduler(new NoExceptionsConcurrentMergeScheduler());
 			}
 		}
 
@@ -767,6 +768,19 @@ namespace NewsComponents.Search
 		#endregion
 	}
 
+	/*
+	 * according to http://mail-archives.apache.org/mod_mbox/lucene-java-user/200902.mbox/%3c39D2833E-C1BE-425A-B7E8-47C17748E792@mikemccandless.com%3e 
+	 * we create our own exception ignoring MergeScheduler class 
+	 */
+	internal class NoExceptionsConcurrentMergeScheduler: ConcurrentMergeScheduler
+	{
+		public NoExceptionsConcurrentMergeScheduler()
+		{
+			// as long there is no  handleMergeException method to overwrite,
+			// we use this one:
+			this.SetSuppressExceptions_ForNUnitTest();
+		} 
+	}
 
 	/**
 	 * Helper class which writes internal Lucene debug info to RSS Bandit trace logs. 

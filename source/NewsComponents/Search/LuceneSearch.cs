@@ -190,7 +190,7 @@ namespace NewsComponents.Search
 			
 			Query q = BuildLuceneQuery(criteria, scope, GetAnalyzer(cultureName));
 			if (q == null)	// not validated
-				return new Result(0, 0, GetArrayList.Empty, GetArrayList.Empty);
+				return new Result(0, 0, GetList<SearchHitNewsItem>.Empty, GetArrayList.Empty);
 
 			//TODO: to be fixed -
 			// next line causes issues with concurrent thread access to the search index:
@@ -210,7 +210,7 @@ namespace NewsComponents.Search
 				}
 			}
 
-			ArrayList items = new ArrayList(hits.Length());
+			List<SearchHitNewsItem> items = new List<SearchHitNewsItem>(hits.Length());
 			HybridDictionary matchedFeeds = new HybridDictionary();
 
 			
@@ -1020,7 +1020,7 @@ namespace NewsComponents.Search
 		{
 			public readonly int ItemMatchCount;
 			public readonly int FeedMatchCount;
-			public IList ItemsMatched;
+			public IList<SearchHitNewsItem> ItemsMatched;
 			public IList FeedsMatched;
 
 			/// <summary>
@@ -1030,7 +1030,8 @@ namespace NewsComponents.Search
 			/// <param name="feedMatches">The feed matches.</param>
 			/// <param name="itemsMatched">The items matched.</param>
 			/// <param name="feedsMatched">The feeds matched.</param>
-			public Result(int itemMatches, int feedMatches, IList itemsMatched, IList feedsMatched) {
+			public Result(int itemMatches, int feedMatches, IList<SearchHitNewsItem> itemsMatched, IList feedsMatched)
+			{
 				this.ItemMatchCount = itemMatches;
 				this.FeedMatchCount = feedMatches;
 				this.ItemsMatched = itemsMatched;
