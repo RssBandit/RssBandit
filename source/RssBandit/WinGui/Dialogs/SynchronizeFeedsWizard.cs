@@ -458,11 +458,20 @@ namespace RssBandit.WinGui.Forms
                     HttpWebRequest request = WebRequest.Create(FacebookConnectDialog.TokenUrl) as HttpWebRequest;
                     FacebookAuthToken = new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
 
-                    string fbUrl = String.Format(FacebookConnectDialog.FbUrlTemplate, FacebookConnectDialog.ApiKey, FacebookAuthToken);
-
+                    string fbUrl = String.Format(FacebookConnectDialog.FbLoginUrlTemplate, FacebookConnectDialog.ApiKey, FacebookAuthToken);
+                    
+                    /* login user */ 
                     using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbUrl)))
                     {
                         result = fcd.ShowDialog();
+                    }
+
+                    /* get extended permission to access feed */
+                    string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey);
+
+                    using (FacebookConnectDialog fcd2 = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
+                    {
+                        result = fcd2.ShowDialog();
                     }
                 }
                 catch (WebException we)

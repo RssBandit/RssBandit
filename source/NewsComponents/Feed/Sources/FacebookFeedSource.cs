@@ -54,7 +54,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The base URL from which to retrieve a user's news feed as an ActivityStreams feed.
         /// </summary>
-        private static string ActivityStreamUrl = "http://www.facebook.com/activitystreams/feed.php"; 
+        private static string ActivityStreamUrl = "http://api.facebook.com/restserver.php"; // "http://www.facebook.com/activitystreams/feed.php"; 
 
         /// <summary>
         /// The Facebook user ID of the current user. 
@@ -79,8 +79,13 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The Facebook application ID for RSS Bandit
         /// </summary>
-        private static string ApplicationId = "2d8ab36a639b61dd7a1a9dab4f7a0a5a";
+        private static string ApplicationId = "15028810303";
 
+        /// <summary>
+        /// The Facebook application key for RSS Bandit
+        /// </summary>
+        private static string ApplicationKey ="2d8ab36a639b61dd7a1a9dab4f7a0a5a";
+        
         /// <summary>
         /// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
         /// </summary>
@@ -160,7 +165,7 @@ namespace NewsComponents.Feed
         private void GetSessionKey()
         {
             if (!Offline && !String.IsNullOrEmpty(authToken))
-            {
+            { //http://www.facebook.com/login.php?api_key=2d8ab36a639b61dd7a1a9dab4f7a0a5a&&v=1.0&auth_token={1}&popup
                 string SessionKeyUrl = String.Format("http://www.25hoursaday.com/weblog/CreateFBtoken.aspx?getsessionfor={0}", authToken);
 
                 HttpWebRequest request = WebRequest.Create(SessionKeyUrl) as HttpWebRequest;
@@ -178,6 +183,70 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
+        /// Converts a dictionary of parameter values into a sequential list. 
+        /// </summary>
+        /// <param name="parameterDictionary">The dictionary to convert</param>
+        /// <returns>List containing the parameter values</returns>
+        private static List<string> ParameterDictionaryToList(IEnumerable<KeyValuePair<string, string>> parameterDictionary)
+        {
+            List<string> list = new List<string>();
+            foreach (KeyValuePair<string, string> pair in parameterDictionary)
+            {
+                list.Add(string.Format(CultureInfo.InvariantCulture, "{0}", new object[] { pair.Key }));
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Converts a dictionary of query string parameters to an HTTP GET query string.
+        /// </summary>
+        /// <remarks>This also adds the standard parameters for all Facebook API calls</remarks>
+        /// <param name="parameterList">The list of parameters for the method call</param>
+        /// <returns>The parameters as an HTTP GET query string</returns>
+        private string CreateHTTPParameterList(IDictionary<string, string> parameterList)
+        {
+            StringBuilder builder = new StringBuilder();
+            parameterList.Add("api_key", ApplicationKey);
+            parameterList.Add("v", "1.0");
+            parameterList.Add("format", "JSON");
+            parameterList.Add("call_id", DateTime.Now.Ticks.ToString("x", CultureInfo.InvariantCulture));
+            parameterList.Add("sig", this.GenerateSignature(parameterList));
+            foreach (KeyValuePair<string, string> pair in parameterList)
+            {
+                builder.Append(pair.Key);
+                builder.Append("=");
+                builder.Append(Uri.EscapeDataString(pair.Value));
+                builder.Append("&");
+            }
+            builder.Remove(builder.Length - 1, 1);
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Generates a signature for use in Facebook API calls. 
+        /// </summary>
+        /// <param name="parameters">The parameters of the current request</param>
+        /// <returns>The MD5 signature of the provided parameters</returns>
+        private string GenerateSignature(IDictionary<string, string> parameters)
+        {
+            StringBuilder builder = new StringBuilder();
+            List<string> list = ParameterDictionaryToList(parameters);
+            list.Sort();
+            foreach (string str in list)
+            {
+                builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", new object[] { str, parameters[str] }));
+            }
+            builder.Append(this.clientSecret);
+            byte[] buffer = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(builder.ToString().Trim()));
+            builder = new StringBuilder();
+            foreach (byte num in buffer)
+            {
+                builder.Append(num.ToString("x2", CultureInfo.InvariantCulture));
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
         /// Generates an MD5 hash of the parameters to the Facebook API call to retrieve the news feed
         /// </summary>
         /// <param name="facebookUserId">The user's Facebook ID</param>
@@ -188,10 +257,10 @@ namespace NewsComponents.Feed
         internal string GenerateSignature(string facebookUserId, string applicationId, string sessionKey, string clientSecret)
         {
             StringBuilder builder = new StringBuilder();            
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "app_id", applicationId));
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "session_key", sessionKey));
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "source_id", facebookUserId)); 
-            builder.Append(this.clientSecret);
+            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "app_id",  applicationId));
+            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "session_key", sessionKey ));
+            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "source_id",  facebookUserId)); 
+            builder.Append( /* "f76b6b58c9494490be50548a25effdae" */   this.clientSecret );
 
             byte[] buffer = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(builder.ToString().Trim()));
             builder = new StringBuilder();
@@ -201,7 +270,6 @@ namespace NewsComponents.Feed
             }
             return builder.ToString();
         }
-
 
         /// <summary>
         /// Helper function which converts the URI to the Facebook News Feed to a human readable form 
@@ -236,24 +304,8 @@ namespace NewsComponents.Feed
         /// <param name="priority">The priority of the request</param>
         protected override void OnRequestException(Uri requestUri, Exception e, int priority)
         {
-            Trace("AsyncRequst.OnRequestException() fetching '{0}': {1}", requestUri.ToString(), e.ToDescriptiveString());
-
-            string key = CreateFeedUriFromDownloadUri(requestUri).CanonicalizedUri();
-            if (feedsTable.ContainsKey(key))
-            {
-                Trace("AsyncRequest.OnRequestException() '{0}' found in feedsTable.", requestUri.ToString());
-                INewsFeed f = feedsTable[key];
-                // now we set this within causedException prop.
-                //f.lastretrieved = DateTime.Now; 
-                //f.lastretrievedSpecified = true; 
-                f.causedException = true;
-            }
-            else
-            {
-                Trace("AsyncRequst.OnRequestException() '{0}' NOT found in feedsTable.", requestUri.ToString());
-            }
-
-            RaiseOnUpdateFeedException(key, e, priority);
+            Uri feedUri = CreateFeedUriFromDownloadUri(requestUri);
+            base.OnRequestException(feedUri, e, priority);             
         }
 
 
@@ -270,275 +322,8 @@ namespace NewsComponents.Feed
         protected override void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
                                     RequestResult result, int priority)
         {
-            Trace("AsyncRequest.OnRequestComplete: '{0}': {1}", requestUri.ToString(), result);
-            if (newUri != null)
-                Trace("AsyncRequest.OnRequestComplete: perma redirect of '{0}' to '{1}'.", requestUri.ToString(),
-                      newUri.ToString());
-
-            IList<INewsItem> itemsForFeed;
             Uri feedUri = CreateFeedUriFromDownloadUri(requestUri);
-           
-            //is this the first time we've downloaded the feed on this machine? 
-            bool firstSuccessfulDownload = false;
-
-            //grab items from feed, then save stream to cache. 
-            try
-            {
-                //We need a reference to the feed so we can see if a cached object exists
-                INewsFeed theFeed = null;
-
-                if (!feedsTable.TryGetValue(feedUri.CanonicalizedUri(), out theFeed))
-                {
-                    Trace("ATTENTION! FeedsTable[requestUri] as NewsFeed returns null for: '{0}'",
-                          requestUri.ToString());
-                    return;
-                }
-
-                string feedUrl = theFeed.link;
-                if (true)
-                {
-                    if (String.Compare(feedUrl, feedUri.CanonicalizedUri(), true) != 0)
-                        Trace("feed.link != requestUri: \r\n'{0}'\r\n'{1}'", feedUrl, requestUri.CanonicalizedUri());
-                }
-
-                if (newUri != null)
-                {
-                    // Uri changed/moved permanently
-
-                    lock (feedsTable)
-                    {
-                        feedsTable.Remove(feedUrl);
-                        theFeed.link = newUri.CanonicalizedUri();
-                        this.feedsTable.Add(theFeed.link, theFeed);
-                    }
-
-                    lock (itemsTable)
-                    {
-                        if (itemsTable.ContainsKey(feedUrl))
-                        {
-                            IFeedDetails FI = itemsTable[feedUrl];
-                            itemsTable.Remove(feedUrl);
-                            itemsTable.Remove(theFeed.link); //remove any old cached versions of redirected link
-                            itemsTable.Add(theFeed.link, FI);
-                        }
-                    }
-
-                    feedUrl = theFeed.link;
-                } // newUri
-
-                if (result == RequestResult.OK)
-                {
-                    //Update our recently read stories. This is very necessary for 
-                    //dynamically generated feeds which always return 200(OK) even if unchanged							
-
-                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, response, false /* cachedStream */, false /* markitemsread */);
-                    IInternalFeedDetails fiFromCache = null;
-
-                    // Sometimes we may not have loaded feed from cache. So ensure it is 
-                    // loaded into memory if cached. We don't lock here because loading from
-                    // disk is too long a time to hold a lock.  
-                    try
-                    {
-                        if (!itemsTable.ContainsKey(feedUrl))
-                        {
-                            fiFromCache = this.GetFeed(theFeed);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
-                        /* the cache file may be corrupt or an IO exception 
-						 * not much we can do so just ignore it 
-						 */
-                    }
-
-                    List<INewsItem> newReceivedItems = null;
-
-                    //Merge items list from cached copy of feed with this newly fetched feed. 
-                    //Thus if a feed removes old entries (such as a news site with daily updates) we 
-                    //don't lose them in the aggregator. 
-                    lock (itemsTable)
-                    {
-                        //TODO: resolve time consuming lock to hold only a short time!!!
-
-                        //if feed was in cache but not in itemsTable we load it into itemsTable
-                        if (!itemsTable.ContainsKey(feedUrl) && (fiFromCache != null))
-                        {
-                            itemsTable.Add(feedUrl, fiFromCache);
-                        }
-
-                        if (itemsTable.ContainsKey(feedUrl))
-                        {
-                            IFeedDetails fi2 = itemsTable[feedUrl];
-
-                            if (RssParser.CanProcessUrl(feedUrl))
-                            {
-                                fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
-                                                                  out newReceivedItems, theFeed.replaceitemsonrefresh,
-                                                                  false /* respectOldItemState */);
-                            }
-
-                            /*
-                             * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
-                             * that doesn't match the requestUri. We insert a test here to see if this has occured
-                             * and if so we return from this method.  
-                             * 
-                             * We are careful here to ensure we don't treat a case of the feed or website being moved 
-                             * as an instance of this bug. We do this by (1) test to see if website URL in feed just 
-                             * downloaded matches the site URL in the feed from the cache AND (2) if all the items in
-                             * the feed we just downloaded were never in the cache AND (3) the site URL is the same for
-                             * the site URL for another feed we have in the cache. 
-                             */
-                            if ((String.Compare(fi2.Link, fi.Link, true) != 0) &&
-                                (newReceivedItems.Count == fi.ItemsList.Count))
-                            {
-                                foreach (IInternalFeedDetails fdi in itemsTable.Values)
-                                {
-                                    if (String.Compare(fdi.Link, fi.Link, true) == 0)
-                                    {
-                                        RaiseOnUpdatedFeed(requestUri, null, RequestResult.NotModified, priority, false);
-                                        _log.Error(
-                                            String.Format(
-                                                "Feed mixup encountered when downloading {2} because fi2.link != fi.link: {0}!= {1}",
-                                                fi2.Link, fi.Link, requestUri.CanonicalizedUri()));
-                                        return;
-                                    }
-                                } //foreach
-                            }
-
-                            itemsTable.Remove(feedUrl);
-                        }
-                        else
-                        {
-                            //if(itemsTable.ContainsKey(feedUrl)){ means this is a newly downloaded feed
-                            firstSuccessfulDownload = true;
-                            newReceivedItems = fi.ItemsList;
-                            RelationCosmosAddRange(newReceivedItems);
-                        }
-
-                        itemsTable.Add(feedUrl, fi);
-                    } //lock(itemsTable)					    
-
-                    //if(eTag != null){	// why we did not store the null?
-                    theFeed.etag = eTag;
-                    //}
-
-                    if (lastModified > theFeed.lastmodified)
-                    {
-                        theFeed.lastmodified = lastModified;
-                    }
-
-                    if (newReceivedItems.Count > 0)
-                    {
-                        theFeed.cacheurl = this.SaveFeed(theFeed);
-                        SearchHandler.IndexAdd(newReceivedItems); // may require theFeed.cacheurl !
-                    }
-
-                    theFeed.causedException = false;
-                    itemsForFeed = fi.ItemsList;
-
-                    /* download podcasts from items we just received if downloadenclosures == true */
-                    if (this.GetDownloadEnclosures(theFeed.link))
-                    {
-                        int numDownloaded = 0;
-                        int maxDownloads = (firstSuccessfulDownload
-                                                ? NumEnclosuresToDownloadOnNewFeed
-                                                : DefaultNumEnclosuresToDownloadOnNewFeed);
-
-                        if (newReceivedItems != null)
-                            foreach (INewsItem ni in newReceivedItems)
-                            {
-                                //ensure that we don't attempt to download these enclosures at a later date
-                                if (numDownloaded >= maxDownloads)
-                                {
-                                    MarkEnclosuresDownloaded(ni);
-                                    continue;
-                                }
-
-                                try
-                                {
-                                    numDownloaded += this.DownloadEnclosure(ni, maxDownloads - numDownloaded);
-                                }
-                                catch (DownloaderException de)
-                                {
-                                    _log.Error("Error occured when downloading enclosures in OnRequestComplete():", de);
-                                }
-                            }
-                    }
-
-                    /* Make sure read stories are accurately calculated */
-                    theFeed.containsNewMessages = false;
-                    theFeed.storiesrecentlyviewed.Clear();
-
-                    foreach (NewsItem ri in itemsForFeed)
-                    {
-                        if (ri.BeenRead)
-                        {
-                            theFeed.AddViewedStory(ri.Id);
-                        }
-
-                        if (ri.HasNewComments)
-                        {
-                            theFeed.containsNewComments = true;
-                        }
-
-                        /* Set event handler for handling read state changes. 
-                         * First unset it on old items so we don't add same event handler twice. 
-                         */
-                        ri.PropertyChanged -= this.OnNewsItemPropertyChanged;
-                        ri.PropertyChanged += this.OnNewsItemPropertyChanged;
-                    }
-
-
-                    if (itemsForFeed.Count > theFeed.storiesrecentlyviewed.Count)
-                    {
-                        theFeed.containsNewMessages = true;
-                    }
-
-                    //we're done downloading items from the feed
-                    theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
-                    theFeed.lastretrievedSpecified = true;
-
-                }
-                else if (result == RequestResult.NotModified)
-                {
-                    // expected behavior: response == null, if not modified !!!
-                    theFeed.lastretrieved = new DateTime(DateTime.Now.Ticks);
-                    theFeed.lastretrievedSpecified = true;
-                    theFeed.causedException = false;                 
-                }
-                else
-                {
-                    throw new NotImplementedException("Unhandled RequestResult: " + result);
-                }
-                
-                    RaiseOnUpdatedFeed(feedUri, newUri, result, priority, firstSuccessfulDownload);                
-            }
-            catch (Exception e)
-            {
-                string key = requestUri.CanonicalizedUri();
-                if (feedsTable.ContainsKey(key))
-                {
-                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception: ", requestUri.ToString(), e.StackTrace);
-                    INewsFeed f = feedsTable[key];
-                    // now we set this within causedException prop.:
-                    //f.lastretrieved = DateTime.Now; 
-                    //f.lastretrievedSpecified = true; 
-                    f.causedException = true;
-                }
-                else
-                {
-                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception on feed not contained in FeedsTable: ",
-                          requestUri.ToString(), e.StackTrace);
-                }
-
-                RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
-            }
-            finally
-            {
-                if (response != null)
-                    response.Close();
-            }
+            base.OnRequestComplete(feedUri, response, newUri, eTag, lastModified, result, priority); 
         }
 
         #endregion 
@@ -635,35 +420,50 @@ namespace NewsComponents.Feed
             if (manual)
                 priority += 1000;
 
-            Uri feedUri = new Uri(feedUrl);           
+            Uri feedUri = new Uri(feedUrl);
 
-            NewsFeed theFeed = null; 
+            NewsFeed theFeed = null;
 
             //see if we've retrieved the news feed before 
-             if (feedsTable.ContainsKey(feedUri.CanonicalizedUri()))
-                    theFeed = feedsTable[feedUri.CanonicalizedUri()] as NewsFeed;
+            if (feedsTable.ContainsKey(feedUri.CanonicalizedUri()))
+                theFeed = feedsTable[feedUri.CanonicalizedUri()] as NewsFeed;
 
-                if (theFeed == null) //feed list is corrupted 
-                    return false;               
+            if (theFeed == null) //feed list is corrupted 
+                return false;
 
-                // raise event only if we "really" go over the wire for an update:
-                RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
+            // raise event only if we "really" go over the wire for an update:
+            RaiseOnUpdateFeedStarted(feedUri, forceDownload, priority);
 
-                //DateTime lastRetrieved = DateTime.MinValue; 
-                DateTime lastModified = DateTime.MinValue;
+            //DateTime lastRetrieved = DateTime.MinValue; 
+            DateTime lastModified = DateTime.MinValue;
 
-                if (itemsTable.ContainsKey(feedUrl))
-                {
-                    etag = theFeed.etag;
-                    lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
-                }
-            
+            if (itemsTable.ContainsKey(feedUrl))
+            {
+                etag = theFeed.etag;
+                lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
+            }
+
             //generate request URL with appropriate parameters
-            string parameters  = "?source_id={0}&app_id={1}&session_key={2}&sig={3}&v=0.7&read&updated_time={4}";
-            DateTime lastRetrieved = theFeed.lastretrievedSpecified ? theFeed.lastretrieved : DateTime.Now - new TimeSpan(1, 0, 0, 0); //default is 1 day
-            string updatedTime = ( (lastRetrieved.Ticks - unixEpoch.Ticks) / 10).ToString();
+            //string parameters  = "?source_id={0}&app_id={1}&session_key={2}&sig={3}&v=0.7&read&updated_time={4}";
+            //string parameters = "?session_key={0}&viewer_id={1}&v=1.0";
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
 
-            string reqUrl = String.Format(feedUrl + parameters, this.facebookUserId, ApplicationId, this.sessionKey, GenerateSignature(this.facebookUserId, ApplicationId, sessionKey, this.clientSecret), updatedTime); 
+            DateTime lastRetrieved = theFeed.lastretrievedSpecified ? theFeed.lastretrieved : DateTime.Now - new TimeSpan(1, 0, 0, 0); //default is 1 day
+            string updatedTime = ((lastRetrieved.Ticks - unixEpoch.Ticks) / 10).ToString();
+            //parameters.Add("updated_time", updatedTime);
+
+           // parameters.Add("source_id", this.facebookUserId);
+            //parameters.Add("app_id", ApplicationId);
+            parameters.Add("viewer_id", this.facebookUserId); 
+            parameters.Add("session_key", this.sessionKey);
+            parameters.Add("method", "facebook.stream.get");
+
+            /* FQL
+            string query = String.Format("?query=select post_id, source_id, created_time, actor_id, target_id, app_id, message, attachment, comments, likes, permalink, attribution, type from stream where filter_key in (select filter_key FROM stream_filter where uid = {0} and type = 'newsfeed') and created_time >= {1} order by created_time desc limit 50", facebookUserId, updatedTime);
+            parameters = "&v=1.0&method=fql.query&format=JSON&call_id={0}&session_key={1}&api_key={2}&sig={3}";
+            */
+
+            string reqUrl = feedUrl + "?" + CreateHTTPParameterList(parameters);
             Uri reqUri = new Uri(reqUrl);
 
             try
@@ -682,12 +482,13 @@ namespace NewsComponents.Feed
                     //cache file is corrupt
                     Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToDescriptiveString());
                 }
-              
+
                 ICredentials c = null;
 
                 RequestParameter reqParam =
                     RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
-               
+                reqParam = RequestParameter.Create(false, reqParam);
+
                 AsyncWebRequest.QueueRequest(reqParam,
                                              null,
                                              OnRequestStart,

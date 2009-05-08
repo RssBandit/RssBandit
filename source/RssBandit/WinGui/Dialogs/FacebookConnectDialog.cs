@@ -11,9 +11,15 @@ namespace RssBandit.WinGui.Dialogs
 {
     public partial class FacebookConnectDialog : Form
     {
-        public static readonly string FbUrlTemplate = "http://www.facebook.com/login.php?api_key={0}&&v=1.0&auth_token={1}&popup";
+        public static readonly string FbLoginUrlTemplate = "http://www.facebook.com/login.php?api_key={0}&&v=1.0&auth_token={1}&popup";
+        public static readonly string FbPermissionsUrlTemplate = "http://www.facebook.com/authorize.php?api_key={0}&v=1.0&ext_perm=read_stream&popup";
         public static readonly string ApiKey = "2d8ab36a639b61dd7a1a9dab4f7a0a5a";
-        public static readonly string TokenUrl = "http://www.25hoursaday.com/weblog/CreateFBtoken.aspx"; 
+        public static readonly string TokenUrl = "http://www.25hoursaday.com/weblog/CreateFBtoken.aspx";
+
+        /// <summary>
+        /// Indicates that the user has authorized RSS Bandit to access their news feed. 
+        /// </summary>
+        private bool authorizationComplete = false; 
 
         /// <summary>
         /// Browser object used to navigate to Facebook Connect dialog
@@ -43,8 +49,12 @@ namespace RssBandit.WinGui.Dialogs
         private void FacebookConnectDialog_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
             if (e.Url.PathAndQuery.Contains("desktopapp.php"))
-            {
+            {                 
                 base.DialogResult = DialogResult.OK;
+            }
+            else if (e.Url.PathAndQuery.Contains("authorize.php"))
+            {
+                authorizationComplete = true;               
             }
         }
 
@@ -55,10 +65,15 @@ namespace RssBandit.WinGui.Dialogs
         /// <param name="e"></param>
         private void FacebookConnectDialog_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (base.DialogResult != DialogResult.OK)
+             if (authorizationComplete)
             {
-                base.DialogResult = DialogResult.Cancel;
+                base.DialogResult = DialogResult.OK;
             }
+             else if (base.DialogResult != DialogResult.OK)
+             {
+                 base.DialogResult = DialogResult.Cancel;
+             }
+            
         }
 
 
