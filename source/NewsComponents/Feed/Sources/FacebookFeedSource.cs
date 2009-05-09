@@ -54,7 +54,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The base URL from which to retrieve a user's news feed as an ActivityStreams feed.
         /// </summary>
-        private static string ActivityStreamUrl = "http://api.facebook.com/restserver.php"; // "http://www.facebook.com/activitystreams/feed.php"; 
+        public static readonly string ActivityStreamUrl = "http://api.facebook.com/restserver.php";  
 
         /// <summary>
         /// The Facebook user ID of the current user. 
@@ -208,7 +208,7 @@ namespace NewsComponents.Feed
             StringBuilder builder = new StringBuilder();
             parameterList.Add("api_key", ApplicationKey);
             parameterList.Add("v", "1.0");
-            parameterList.Add("format", "JSON");
+            parameterList.Add("format", "XML");
             parameterList.Add("call_id", DateTime.Now.Ticks.ToString("x", CultureInfo.InvariantCulture));
             parameterList.Add("sig", this.GenerateSignature(parameterList));
             foreach (KeyValuePair<string, string> pair in parameterList)
@@ -241,31 +241,6 @@ namespace NewsComponents.Feed
             builder = new StringBuilder();
             foreach (byte num in buffer)
             {
-                builder.Append(num.ToString("x2", CultureInfo.InvariantCulture));
-            }
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Generates an MD5 hash of the parameters to the Facebook API call to retrieve the news feed
-        /// </summary>
-        /// <param name="facebookUserId">The user's Facebook ID</param>
-        /// <param name="applicationId">The RSS Bandit application ID</param>
-        /// <param name="sessionKey">The session key</param>
-        /// <param name="clientSecret">The secret key of the client</param>
-        /// <returns></returns>
-        internal string GenerateSignature(string facebookUserId, string applicationId, string sessionKey, string clientSecret)
-        {
-            StringBuilder builder = new StringBuilder();            
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "app_id",  applicationId));
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "session_key", sessionKey ));
-            builder.Append(string.Format(CultureInfo.InvariantCulture, "{0}={1}", "source_id",  facebookUserId)); 
-            builder.Append( /* "f76b6b58c9494490be50548a25effdae" */   this.clientSecret );
-
-            byte[] buffer = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(builder.ToString().Trim()));
-            builder = new StringBuilder();
-            foreach (byte num in buffer)
-            { 
                 builder.Append(num.ToString("x2", CultureInfo.InvariantCulture));
             }
             return builder.ToString();
@@ -443,20 +418,10 @@ namespace NewsComponents.Feed
                 lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
             }
 
-            //generate request URL with appropriate parameters
-            //string parameters  = "?source_id={0}&app_id={1}&session_key={2}&sig={3}&v=0.7&read&updated_time={4}";
-            //string parameters = "?session_key={0}&viewer_id={1}&v=1.0";
             Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-            DateTime lastRetrieved = theFeed.lastretrievedSpecified ? theFeed.lastretrieved : DateTime.Now - new TimeSpan(1, 0, 0, 0); //default is 1 day
-            string updatedTime = ((lastRetrieved.Ticks - unixEpoch.Ticks) / 10).ToString();
-            //parameters.Add("updated_time", updatedTime);
-
-           // parameters.Add("source_id", this.facebookUserId);
-            //parameters.Add("app_id", ApplicationId);
             parameters.Add("viewer_id", this.facebookUserId); 
             parameters.Add("session_key", this.sessionKey);
-            parameters.Add("method", "facebook.stream.get");
+            parameters.Add("method", "stream.get");
 
             /* FQL
             string query = String.Format("?query=select post_id, source_id, created_time, actor_id, target_id, app_id, message, attachment, comments, likes, permalink, attribution, type from stream where filter_key in (select filter_key FROM stream_filter where uid = {0} and type = 'newsfeed') and created_time >= {1} order by created_time desc limit 50", facebookUserId, updatedTime);

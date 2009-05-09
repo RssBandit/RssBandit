@@ -525,6 +525,9 @@
     </None>
     <None Include="Properties\DataSources\System.Xml.XmlElement.datasource" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\facebook-newsfeed-2-atom.xslt" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
