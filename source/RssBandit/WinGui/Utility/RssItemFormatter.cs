@@ -37,7 +37,7 @@ namespace RssBandit.WinGui.Utility
 
 		static private readonly string _defaultTmpl;
 
-		static private readonly string _searchTmpl; 
+		static private readonly string _searchTmpl;      
 
 		public const string SearchTemplateId = ":*<>?"; 
 
@@ -52,7 +52,7 @@ namespace RssBandit.WinGui.Utility
 
 			using (Stream xsltStream = Resource.GetStream("Resources.SearchResultsTemplate.xslt")) {
 				_searchTmpl = new StreamReader(xsltStream).ReadToEnd();	
-			}
+			}          
 		}
 
 		public NewsItemFormatter():this(String.Empty, _defaultTmpl) {
@@ -216,8 +216,7 @@ namespace RssBandit.WinGui.Utility
 			}
 		
 			return doc;
-		}*/
-
+		}*/       
 
 		public static string DefaultNewsItemTemplate	{
 			get {	return _defaultTmpl; }

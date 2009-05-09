@@ -516,6 +516,7 @@
     <Content Include="templates\unwise-terminal.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="templates\facebook.fdxsl" />
     <None Include="Web References\CLR20.DasBlog\ConfigEditingService.disco" />
     <None Include="Web References\CLR20.DasBlog\ConfigEditingService.wsdl" />
     <None Include="Web References\CLR20.DasBlog\Reference.map">
