@@ -324,7 +324,7 @@ namespace NewsComponents.Feed
             else
             {
                 myFeeds = new feeds();
-                NewsFeed f = CreateDefaultFacebookNewsFeed();
+                NewsFeed f = CreateDefaultFacebookNewsFeed();                
                 myFeeds.feed.Add(f); 
             }
 
@@ -344,6 +344,7 @@ namespace NewsComponents.Feed
             if (feedlist.feed.Count == 1)
             {
                 this.feedsTable.Add(feedlist.feed[0].link, feedlist.feed[0]);
+                feedlist.feed[0].owner = this; 
             }
             else
             {
@@ -429,6 +430,7 @@ namespace NewsComponents.Feed
             */
 
             string reqUrl = feedUrl + "?" + CreateHTTPParameterList(parameters);
+
             Uri reqUri = new Uri(reqUrl);
 
             try
