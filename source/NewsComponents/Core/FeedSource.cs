@@ -192,11 +192,6 @@ namespace NewsComponents
             //LoadCachedTopStoryTitles();
             EnclosureFolder = String.Empty;
             NumEnclosuresToDownloadOnNewFeed = DefaultNumEnclosuresToDownloadOnNewFeed;
-
-            using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
-            {
-                _facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
-            }
         }
 
 		/// <summary>
@@ -1246,7 +1241,7 @@ namespace NewsComponents
         /// <summary>
         /// XSLT template used for converting Facebook's news feed XML format to Atom. 
         /// </summary>
-        static private readonly string _facebookTmpl; 
+        static private string _facebookTmpl; 
 		
         /// <summary>
 		/// Gets the user cache data service instance.
@@ -4664,12 +4659,26 @@ namespace NewsComponents
                     }
                     else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.ActivityStreamUrl))
                     {
+
+                        if (String.IsNullOrEmpty(_facebookTmpl))
+                        {
+                            using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
+                            {
+                                _facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
+                            }
+                        }
+
                         //convert from Facebook's XML format to Atom
                         XslCompiledTransform transform = new XslCompiledTransform(); 
-                        transform.Load(XmlReader.Create(new StringReader(_facebookTmpl))); 
+                        XsltSettings settings = new XsltSettings();
+                        settings.EnableScript = true;                        
+                        transform.Load(XmlReader.Create(new StringReader(_facebookTmpl)), settings, null);                         
                         
-                        MemoryStream stream = new MemoryStream(); 
-                        XmlWriter writer = XmlWriter.Create(stream); 
+                        MemoryStream stream = new MemoryStream();
+                        XmlWriterSettings settings2 = new XmlWriterSettings();
+                        settings2.ConformanceLevel = ConformanceLevel.Auto; 
+                        
+                        XmlWriter writer = XmlWriter.Create(stream, settings2); 
                         transform.Transform(XmlReader.Create(response), writer);
                         response.Close();
                         stream.Seek(0, SeekOrigin.Begin);
