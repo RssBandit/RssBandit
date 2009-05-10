@@ -14,6 +14,9 @@ using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
+using System.Linq;
+using RssBandit.WinGui.Dialogs;
+using System.IO; 
 
 namespace RssBandit
 {
@@ -336,6 +339,58 @@ namespace RssBandit
 										GetFeed(entry, e.FeedUri).certificateId = cert.Thumbprint;
 										SubscriptionModified(entry, NewsFeedProperty.FeedCredentials);
 									}
+                                }
+
+                                if (e.ExceptionThrown.InnerException is FacebookException)
+                                {
+                                    FacebookException fe = e.ExceptionThrown.InnerException as FacebookException;
+
+                                    if (fe.ErrorCode == 102) //session key has expired
+                                    {
+                                        try
+                                        {                                           
+                                            FeedSourceEntry fse =
+                                                this.FeedSources.Sources.SingleOrDefault(fs => fs.SourceType == FeedSourceType.Facebook);
+
+                                            string FacebookAuthToken = String.Empty;
+                                            DialogResult result = DialogResult.None;
+
+                                            try
+                                            {
+                                                HttpWebRequest request = WebRequest.Create(FacebookConnectDialog.TokenUrl) as HttpWebRequest;
+                                                FacebookAuthToken = new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
+
+                                                string fbUrl = String.Format(FacebookConnectDialog.FbLoginUrlTemplate, FacebookConnectDialog.ApiKey, FacebookAuthToken);
+
+                                                /* login user */
+                                                using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbUrl)))
+                                                {
+                                                    result = fcd.ShowDialog();
+                                                }                                             
+                                            }
+                                            catch (WebException we)
+                                            {
+                                                MessageBox.Show(SR.ExceptionFacebookAuthToken, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
+
+                                            if (result != DialogResult.OK)
+                                            {
+                                                throw new Exception(SR.ExceptionFacebookLogin);
+                                            }
+                                            else
+                                            {
+                                                var fbSource = fse.Source as IFacebookFeedSource;
+
+                                                fbSource.SetAuthToken(FacebookAuthToken);
+                                                fbSource.GetSessionKey();
+                                                fse.Source.RefreshFeeds(true /* force_download */);
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+                                            /* SingleOrDefault throws exception if more than one Facebook feed source is found */
+                                        }
+                                    }
                                 }
 
 								WebException webex = e.ExceptionThrown as WebException;
