@@ -292,7 +292,7 @@
       </head>
       <body>
         <xsl:for-each select='//item'>
-          <xsl:copy-of select='current()/description'/>
+          <xsl:value-of disable-output-escaping='yes' select='current()/description'/>
         </xsl:for-each>
       </body>
     </html>
@@ -312,7 +312,7 @@
         <xsl:call-template name="embedded_style" />
       </head>
       <body>
-        <xsl:copy-of select="description"/>
+        <xsl:value-of disable-output-escaping='yes' select='//item/description'/>
       </body>
     </html>
   </xsl:template>

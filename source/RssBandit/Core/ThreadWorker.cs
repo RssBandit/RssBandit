@@ -147,18 +147,27 @@ namespace RssBandit
 					INewsItem item = (INewsItem)task.Arguments[0];
 					if (item == null)
 						throw new InvalidOperationException("Non-Null task argument 'item' expected.");
+                   
+                    object result = null;
 
-					NewsFeed cmtFeed = new NewsFeed();
-					cmtFeed.link = item.CommentRssUrl;
-					cmtFeed.title = item.Feed.title;
+                    if ((item.Feed != null) && (item.Feed.owner is IFacebookFeedSource))
+                    {
+                        IFacebookFeedSource fbSource = item.Feed.owner as IFacebookFeedSource;
+                        result = fbSource.GetCommentsForItem(item); 
+                    }else{
+                        NewsFeed cmtFeed = new NewsFeed();
+                        cmtFeed.link = item.CommentRssUrl;
+                        cmtFeed.title = item.Feed.title;
 
-					if (!string.IsNullOrEmpty(item.Feed.authUser)) {	// take over credential settings
-						string u = null, p = null;
-						FeedSource.GetFeedCredentials(item.Feed, ref u, ref p);
-						FeedSource.SetFeedCredentials(cmtFeed, u, p);
-					}
-						
-					object result = RssParser.DownloadItemsFromFeed(cmtFeed, app.Proxy, FeedSource.Offline);
+                        if (!string.IsNullOrEmpty(item.Feed.authUser))
+                        {	// take over credential settings
+                            string u = null, p = null;
+                            FeedSource.GetFeedCredentials(item.Feed, ref u, ref p);
+                            FeedSource.SetFeedCredentials(cmtFeed, u, p);
+                        }
+
+                        result = RssParser.DownloadItemsFromFeed(cmtFeed, app.Proxy, FeedSource.Offline);
+                    }
 					RaiseBackgroundTaskFinished(task, maxTasks, currentTask, null, new object[]{result, item, task.Arguments[1], task.Arguments[2]});
 					return null;
 

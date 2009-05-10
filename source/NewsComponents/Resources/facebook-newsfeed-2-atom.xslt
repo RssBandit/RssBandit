@@ -2,12 +2,15 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl fb localized bndt"
     xmlns:fb="http://api.facebook.com/1.0/"
-    xmlns:bndt='http://www.25hoursaday.com/2003/RSSBandit/feeds/'
-    xmlns:localized='urn:localization-extension'
->
-    <xsl:output method="xml" indent="yes"/>
+    xmlns:bndt="http://www.25hoursaday.com/2003/RSSBandit/feeds/"
+    xmlns:localized="urn:localization-extension"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:thr="http://purl.org/syndication/thread/1.0" >
+  
+  <xsl:output method="xml" indent="yes"/>
 
 
+  <xsl:param name="CommentUrlPlaceholder" />
   <xsl:param name="UserID" />
   <xsl:param name="FeedTitle" />
 
@@ -104,6 +107,24 @@ public static string GetVideoHoverText(){
   return "Click to play video"; 
 }
 
+public static string GetCommentText(int count){
+ if(count == 0)
+  return "Comment";
+ else
+  return count == 1 ? count + " Comment" : count + " Comments"; 
+}
+
+public static string GetCommentHoverText(){
+ return "Click here to post a comment"; 
+}
+
+public static string GetLikesText(int count){
+  return count > 1 ? "Likes" : "Like";
+}
+
+public static string GetLikesHoverText(){
+ return "Click here to see who has liked this item";
+}
   ]]>
   </msxsl:script>
 
@@ -126,16 +147,14 @@ public static string GetVideoHoverText(){
             <id>
               <xsl:value-of select="fb:post_id"/>              
             </id>
+            <xsl:variable name="username"><xsl:value-of select="//fb:profile[fb:id = $userid]/fb:name"/></xsl:variable>
+            <xsl:variable name="message">
+              <xsl:choose><xsl:when test="fb:attachment/fb:media/fb:stream_media/fb:type"><xsl:value-of select="localized:GetSharingMessage(string(fb:attachment/fb:media//fb:type))"/></xsl:when>
+              <xsl:when test="fb:attachment/fb:name"><xsl:value-of select="fb:attachment/fb:name"/></xsl:when>
+              <xsl:otherwise><xsl:value-of select="fb:message"/></xsl:otherwise></xsl:choose>
+            </xsl:variable>
             <title>
-             <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:name"/>: 
-              <xsl:choose>
-                <xsl:when test="fb:attachment/fb:media">
-                  <xsl:value-of select="localized:GetSharingMessage(string(fb:attachment/fb:media//fb:type))"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="fb:message"/>
-                </xsl:otherwise>
-              </xsl:choose>
+              <xsl:value-of select="concat($username, ': ', $message)" />
             </title>
             <link>
               <xsl:attribute name="href">
@@ -145,19 +164,20 @@ public static string GetVideoHoverText(){
             <published>             
               <xsl:value-of select="bndt:ConvertFromUnixTimestamp(number(fb:created_time))"/>
             </published>
-            <updated>
+           <!--  THIS CHANGES ON EVERY NEW COMMENT. MESSES UP SORT ORDER.
+           <updated> 
               <xsl:value-of select="bndt:ConvertFromUnixTimestamp(number(fb:updated_time))"/>
-            </updated>
+            </updated> -->
             <author>
               <name>
-                <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:name"/>
+                <xsl:value-of select="$username"/>
               </name>
               <uri>
                 <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:url"/>
               </uri>
             </author>
             <content type="xhtml">
-              <div xmlns="http://www.w3.org/1999/xhtml">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="UIIntentionalStory ">
                 <div class="UIIntentionalStory_Content">
                   <a class="UIIntentionalStory_Pic">
                     <xsl:attribute name="href">
@@ -169,7 +189,7 @@ public static string GetVideoHoverText(){
                           <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:pic_square"/>
                         </xsl:attribute>
                         <xsl:attribute name="alt">
-                          <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:name"/>
+                          <xsl:value-of select="$username"/>
                         </xsl:attribute>
                       </img>
                     </span>
@@ -182,15 +202,16 @@ public static string GetVideoHoverText(){
                             <xsl:attribute name ="href">
                               <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:url"/>
                             </xsl:attribute>
-                            <xsl:value-of select="//fb:profile[fb:id = $userid]/fb:name"/>
+                            <xsl:value-of select="$username"/>
                           </a>
                         </span>
+                        <xsl:text>&#160;</xsl:text>
                         <xsl:value-of select="fb:message"/>
                       </h3>
                     </div>
                     <xsl:if test="fb:attachment/fb:media">
                       <div class="UIStoryAttachment">
-                        <div class="UIStoryAttachment_Media UIStoryAttachment_MediaSingle">
+                        <div class="UIStoryAttachment_MediaSingle">
                           <div class="UIMediaItem">
                             <xsl:choose>
                               <xsl:when test="fb:attachment/fb:media/fb:stream_media/fb:video">
@@ -217,12 +238,12 @@ public static string GetVideoHoverText(){
                               <xsl:when test="fb:attachment/fb:media/fb:stream_media/fb:src">
                                 <a>
                                   <xsl:attribute name="href">
-                                    <xsl:value-of select="fb:attachment/fb:media/fb:stream_media/fb:href"/>
+                                    <xsl:value-of disable-output-escaping="yes" select="fb:attachment/fb:media/fb:stream_media/fb:href"/>
                                   </xsl:attribute>
                                   <div class="UIMediaItem_Wrapper">
                                     <img>
                                       <xsl:attribute name="src">
-                                        <xsl:value-of select="fb:attachment/fb:media/fb:stream_media/fb:src"/>
+                                        <xsl:value-of disable-output-escaping="yes" select="fb:attachment/fb:media/fb:stream_media/fb:src"/>
                                       </xsl:attribute>
                                     </img>
                                   </div>
@@ -240,7 +261,14 @@ public static string GetVideoHoverText(){
                           </a>
                         </div>
                         <div class="UIStoryAttachment_Copy">
-                          <xsl:value-of select="fb:attachment/fb:description"/>
+                          <xsl:choose>
+                            <xsl:when test="contains(/fb:attachment/fb:description , '&lt;') and contains(/fb:attachment/fb:description , '&gt;')">
+                              <xsl:value-of disable-output-escaping="yes" select="fb:attachment/fb:description"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                              <xsl:value-of select="fb:attachment/fb:description"/>
+                            </xsl:otherwise>
+                          </xsl:choose>
                         </div>
                         <div class="UIStoryAttachment_Table">
                           <xsl:for-each select="fb:attachment/fb:properties/fb:stream_property">
@@ -266,6 +294,28 @@ public static string GetVideoHoverText(){
                             <xsl:value-of select="bndt:GetRelativeTime(number(fb:created_time))"/>
                           </a>
                         </span>
+                        <xsl:text>&#160;</xsl:text>
+                        <span class="action_links_bottom">
+                          <a>
+                            <xsl:attribute name="href">
+                              <xsl:value-of select="concat('fdaction:?action=comment&amp;postid=',string(fb:post_id))"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="title">
+                              <xsl:value-of select="localized:GetCommentHoverText()"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="localized:GetCommentText(number(fb:comments/fb:count))"/>
+                          </a>
+                          <span class="action_link_dash action_link_dash_1"> · </span>
+                          <a>
+                            <xsl:attribute name="href">
+                              <xsl:value-of select="fb:likes/fb:href"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="title">
+                              <xsl:value-of select="localized:GetLikesHoverText()"/>
+                            </xsl:attribute>
+                            <xsl:value-of select="localized:GetLikesText(number(fb:likes/fb:count))"/>
+                          </a>
+                        </span>
                       </div>
                     </div>
                   </div>                 
@@ -274,13 +324,15 @@ public static string GetVideoHoverText(){
             </content>
             <xsl:if test="fb:comments/fb:can_post = 1">
               <fb:can-comment>true</fb:can-comment>
-            </xsl:if>
-            <xsl:if test="fb:comments/fb:count &gt; 0" >
-              <xsl:copy-of select="fb:comments" />
-            </xsl:if>
-            <xsl:if test="fb:likes/fb:count &gt; 0" >
-              <xsl:copy-of select="fb:likes" />
-            </xsl:if>
+            </xsl:if>            
+            <link rel="replies" type="application/atom+xml">
+              <xsl:attribute name="href">
+                <xsl:value-of select="$CommentUrlPlaceholder"/>
+              </xsl:attribute>
+              <xsl:attribute name="count" namespace="http://purl.org/syndication/thread/1.0">
+                <xsl:value-of select="fb:comments/fb:count"/>                
+              </xsl:attribute>              
+            </link>
           </entry>          
         </xsl:for-each>
         
@@ -288,5 +340,16 @@ public static string GetVideoHoverText(){
     </xsl:template>
 
   <xsl:template match="fb:profiles | fb:albums" ></xsl:template>
-   
+
+  <xsl:template match="fb:error_response">
+    <fb:error_response xmlns:fb="http://api.facebook.com/1.0/">
+      <xsl:attribute name="error_code">
+        <xsl:value-of select="fb:error_code"/>
+      </xsl:attribute>
+      <xsl:attribute name="error_message">
+        <xsl:value-of select="fb:error_message"/>
+      </xsl:attribute>
+    </fb:error_response>    
+  </xsl:template>
+  
 </xsl:stylesheet>
