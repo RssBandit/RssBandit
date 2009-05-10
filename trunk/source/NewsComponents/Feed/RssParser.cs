@@ -159,8 +159,11 @@ namespace NewsComponents.Feed
         private const int nt_clipped = 61;
         private const int nt_flagState = 62;
         private const int nt_duration = 63;
+        private const int nt_can_comment = 64;
+        private const int nt_ns_fb = 65;
+        private const int nt_error_response = 66;
 
-        private const int NT_SIZE = 1 + nt_duration; // last used + 1
+        private const int NT_SIZE = 1 + nt_error_response; // last used + 1
 
         #endregion
 
@@ -1587,6 +1590,11 @@ namespace NewsComponents.Feed
                     rssNamespaceUri = feedReader.NamespaceURI;
                     feedFormat = SyndicationFormat.Atom;
                 }
+                else if (feedReader.NamespaceURI.Equals("http://api.facebook.com/1.0/")
+                         && (localname == atomized_strings[nt_error_response]))
+                {
+                    throw new FacebookException(Int32.Parse(feedReader["error_code"]), feedReader["error_message"]);
+                }
                 else
                 {
                     throw new RssParserException(ComponentsText.ExceptionUnknownXmlDialect);
@@ -1733,6 +1741,7 @@ namespace NewsComponents.Feed
 
             atomized_names[nt_author] = nt.Add("author");
             atomized_names[nt_body] = nt.Add("body");
+            atomized_names[nt_can_comment] = nt.Add("can-comment"); 
             atomized_names[nt_category] = nt.Add("category");
             atomized_names[nt_channel] = nt.Add("channel");
             atomized_names[nt_clipped] = nt.Add("clipped");
@@ -1749,6 +1758,7 @@ namespace NewsComponents.Feed
             atomized_names[nt_enclosure] = nt.Add("enclosure");
             atomized_names[nt_encoded] = nt.Add("encoded");
             atomized_names[nt_entry] = nt.Add("entry");
+            atomized_names[nt_error_response] = nt.Add("error_response");
             atomized_names[nt_feed] = nt.Add("feed");
             atomized_names[nt_flagState] = nt.Add("flagState");
             atomized_names[nt_flagstatus] = nt.Add("flag-status");
@@ -1798,6 +1808,8 @@ namespace NewsComponents.Feed
             // podcast related 	
             atomized_names[nt_ns_mediarss] = nt.Add("http://search.yahoo.com/mrss/");
             atomized_names[nt_ns_itunes] = nt.Add("http://www.itunes.com/dtds/podcast-1.0.dtd");
+            // facebook API
+            atomized_names[nt_ns_fb] = nt.Add("http://api.facebook.com/1.0/"); 
             return atomized_names;
         }
 
@@ -1902,7 +1914,7 @@ namespace NewsComponents.Feed
                 if (type.IndexOf("xhtml") != -1)
                 {
                     onNextElement = true;
-                    return element.ReadInnerXml();
+                    return element.ReadInnerXml().Replace("&amp;", "&");
                 }
                 else if ((type.IndexOf("text") != -1))
                 {
@@ -2362,7 +2374,7 @@ namespace NewsComponents.Feed
             HttpWebResponse response = (HttpWebResponse) request.GetResponse();
             return response.StatusCode;
         }
-    } //RssParser
+    } //RssParser  
 
 	/// <summary>
 	/// RSS parse exception

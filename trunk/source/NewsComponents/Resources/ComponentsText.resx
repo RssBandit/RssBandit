@@ -186,4 +186,7 @@
   <data name="ExceptionNntpResourceAuthorization" xml:space="preserve">
     <value>Unauthorized access, credentials required or invalid credentials (NNTP status 480)</value>
   </data>
+  <data name="DefaultFacebookCommenterName" xml:space="preserve">
+    <value>Unknown Facebook User</value>
+  </data>
 </root>

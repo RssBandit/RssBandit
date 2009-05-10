@@ -12,6 +12,7 @@ using System.Runtime.Serialization.Json;
 using System.Net;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Runtime.Serialization; 
 
 using log4net; 
 
@@ -22,6 +23,7 @@ using NewsComponents.Collections;
 using NewsComponents.Net;
 using NewsComponents.Threading;
 using NewsComponents.Utils;
+using NewsComponents.Resources;
 
 namespace NewsComponents.Feed
 {
@@ -37,6 +39,18 @@ namespace NewsComponents.Feed
         /// </summary>
         ///<param name="item">The Facebook API application auth token</param>   
         void SetAuthToken(string authToken);   
+
+         /// <summary>
+        /// Retrieves a new session key using the current auth token. 
+        /// </summary>
+        void GetSessionKey();
+
+        /// <summary>
+        /// Retrieves the list of comments on the specified item from Facebook 
+        /// </summary>
+        /// <param name="item">The target item</param>
+        /// <returns>A list of comments on the item</returns>
+        List<INewsItem> GetCommentsForItem(INewsItem item); 
     }
 
     #endregion
@@ -162,7 +176,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Retrieves a new session key using the current auth token. 
         /// </summary>
-        private void GetSessionKey()
+        public void GetSessionKey()
         {
             if (!Offline && !String.IsNullOrEmpty(authToken))
             { //http://www.facebook.com/login.php?api_key=2d8ab36a639b61dd7a1a9dab4f7a0a5a&&v=1.0&auth_token={1}&popup
@@ -202,13 +216,14 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <remarks>This also adds the standard parameters for all Facebook API calls</remarks>
         /// <param name="parameterList">The list of parameters for the method call</param>
+        /// <param name="useJson">Dictates whether to use XML or JSON as the output format</param>
         /// <returns>The parameters as an HTTP GET query string</returns>
-        private string CreateHTTPParameterList(IDictionary<string, string> parameterList)
+        private string CreateHTTPParameterList(IDictionary<string, string> parameterList, bool useJson)
         {
             StringBuilder builder = new StringBuilder();
             parameterList.Add("api_key", ApplicationKey);
             parameterList.Add("v", "1.0");
-            parameterList.Add("format", "XML");
+            parameterList.Add("format", useJson ? "JSON" : "XML");
             parameterList.Add("call_id", DateTime.Now.Ticks.ToString("x", CultureInfo.InvariantCulture));
             parameterList.Add("sig", this.GenerateSignature(parameterList));
             foreach (KeyValuePair<string, string> pair in parameterList)
@@ -429,7 +444,7 @@ namespace NewsComponents.Feed
             parameters = "&v=1.0&method=fql.query&format=JSON&call_id={0}&session_key={1}&api_key={2}&sig={3}";
             */
 
-            string reqUrl = feedUrl + "?" + CreateHTTPParameterList(parameters);
+            string reqUrl = feedUrl + "?" + CreateHTTPParameterList(parameters, false /* useJson */);
 
             Uri reqUri = new Uri(reqUrl);
 
@@ -473,12 +488,71 @@ namespace NewsComponents.Feed
             return requestQueued;
         }
 
+        /// <summary>
+        /// Retrieves the list of comments on the specified item from Facebook 
+        /// </summary>
+        /// <param name="item">The target item</param>
+        /// <returns>A list of comments on the item</returns>
+        public List<INewsItem> GetCommentsForItem(INewsItem item)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("post_id", item.Id);
+            parameters.Add("session_key", this.sessionKey);
+            parameters.Add("method", "stream.getComments");
+
+            string reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
+
+            HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<FacebookComment>));
+
+            List<INewsItem> comments = new List<INewsItem>(); 
+            List<FacebookComment> jsonComments = serializer.ReadObject(response.GetResponseStream()) as List<FacebookComment>; 
+
+            foreach(FacebookComment c in jsonComments){
+                var ni = new NewsItem(item.Feed, null, null, c.text, ConvertFromUnixTimestamp(c.time), String.Empty);
+                ni.FeedDetails = item.FeedDetails;
+                ni.Author = ComponentsText.DefaultFacebookCommenterName; 
+                comments.Add(ni);                 
+            }
+
+            return comments; 
+        }
+
+        /// <summary>
+        /// Helper method which converts a Unix timestamp to a DateTime
+        /// </summary>
+        /// <param name="timestamp"></param>
+        /// <returns></returns>
+        private static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {            
+            return unixEpoch.AddSeconds(timestamp);
+        }
 
         #endregion 
 
     }
 
     #endregion
+
+
+    #region FacebookComment
+
+    /// <summary>
+    /// Represents a comment made on a news feed item.
+    /// </summary>
+    [Serializable]
+    public struct FacebookComment
+    {
+        public int fromid;
+        public int time;
+        public string text;
+        public string id;
+    }
+
+    #endregion 
+
 
     #region FacebookSession
 
@@ -492,6 +566,52 @@ namespace NewsComponents.Feed
         public string uid;
         public string expires;
         public string secret; 
+    }
+
+    #endregion 
+
+    #region FacebookException 
+
+    /// <summary>
+    /// Represents an exception when retrieving or publishing data to or from Facebook 
+    /// </summary>
+    [Serializable]
+    public class FacebookException : ApplicationException
+    {
+        /// <summary>
+        /// The error code that was returned by Facebook. 
+        /// </summary>
+        public int ErrorCode { get; private set; }
+
+        /// <summary>
+        /// Always requires an error code
+        /// </summary>
+        private FacebookException()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
+        /// <param name="errorCode">The error code.</param>
+        /// <param name="message">The message.</param>
+        public FacebookException(int errorCode, string message)
+            : base(message)
+        {
+            ErrorCode = errorCode;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
+        protected FacebookException(
+            SerializationInfo info,
+            StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 
     #endregion 

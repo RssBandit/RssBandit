@@ -4930,6 +4930,8 @@ namespace RssBandit
         /// fdaction:?action=unsubscribefeed&amp;feedid=id-of-feed
         /// From within top story page:
         /// fdaction?action=markdiscussionread&amp;storyid=id-of-story
+        /// From within a Facebook newsfeed
+        /// fdaction?action=comment&amp;postid=id-of-post
         /// </code>
         /// </remarks>
         public bool InterceptUrlNavigation(string webUrl)

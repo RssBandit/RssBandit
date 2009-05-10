@@ -1237,11 +1237,20 @@ namespace NewsComponents
 		// per instance:
 		private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
 
+        /// <summary>
+        /// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
+        /// </summary>
+        private static XsltArgumentList fbTransformArgs = new XsltArgumentList(); 
 
         /// <summary>
-        /// XSLT template used for converting Facebook's news feed XML format to Atom. 
+        /// Used for transforming Facebook's news feed to an Atom feed
         /// </summary>
-        static private string _facebookTmpl; 
+        private static XslCompiledTransform fbTransform = null;
+
+        /// <summary>
+        /// Used a synchronization point when initializing variables related to transforming Facebook news feed XML to Atom
+        /// </summary>
+        private static Object FbTransformSyncRoot = new Object(); 
 		
         /// <summary>
 		/// Gets the user cache data service instance.
@@ -4659,27 +4668,36 @@ namespace NewsComponents
                     }
                     else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.ActivityStreamUrl))
                     {
-
-                        if (String.IsNullOrEmpty(_facebookTmpl))
+                        lock (FbTransformSyncRoot)
                         {
-                            using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
+                            if (fbTransform == null)
                             {
-                                _facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
+                                string facebookTmpl = null; 
+
+                                using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
+                                {
+                                    facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
+                                }
+
+                                fbTransform = new XslCompiledTransform();
+                                XsltSettings settings = new XsltSettings();
+                                settings.EnableScript = true;
+                                fbTransform.Load(XmlReader.Create(new StringReader(facebookTmpl)), settings, null);
+
+                                fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookFeedSource.ActivityStreamUrl);
+                                fbTransformArgs.AddParam("FeedTitle", String.Empty, SR.FacebookNewsFeedTitle);
+                                fbTransformArgs.AddParam("UserID", String.Empty, this.location.Credentials.UserName); 
                             }
                         }
 
                         //convert from Facebook's XML format to Atom
-                        XslCompiledTransform transform = new XslCompiledTransform(); 
-                        XsltSettings settings = new XsltSettings();
-                        settings.EnableScript = true;                        
-                        transform.Load(XmlReader.Create(new StringReader(_facebookTmpl)), settings, null);                         
-                        
+                       
                         MemoryStream stream = new MemoryStream();
                         XmlWriterSettings settings2 = new XmlWriterSettings();
                         settings2.ConformanceLevel = ConformanceLevel.Auto; 
                         
-                        XmlWriter writer = XmlWriter.Create(stream, settings2); 
-                        transform.Transform(XmlReader.Create(response), writer);
+                        XmlWriter writer = XmlWriter.Create(stream, settings2);
+                        fbTransform.Transform(XmlReader.Create(response), writer);
                         response.Close();
                         stream.Seek(0, SeekOrigin.Begin);
                         response = stream;
