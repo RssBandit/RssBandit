@@ -262,7 +262,7 @@ public static string GetLikesHoverText(){
                         </div>
                         <div class="UIStoryAttachment_Copy">
                           <xsl:choose>
-                            <xsl:when test="contains(/fb:attachment/fb:description , '&lt;') and contains(/fb:attachment/fb:description , '&gt;')">
+                            <xsl:when test="contains(fb:attachment/fb:description , '&lt;') and contains(fb:attachment/fb:description , '&gt;')">
                               <xsl:value-of disable-output-escaping="yes" select="fb:attachment/fb:description"/>
                             </xsl:when>
                             <xsl:otherwise>
@@ -296,26 +296,30 @@ public static string GetLikesHoverText(){
                         </span>
                         <xsl:text>&#160;</xsl:text>
                         <span class="action_links_bottom">
-                          <a>
-                            <xsl:attribute name="href">
-                              <xsl:value-of select="concat('fdaction:?action=comment&amp;postid=',string(fb:post_id))"/>
-                            </xsl:attribute>
-                            <xsl:attribute name="title">
-                              <xsl:value-of select="localized:GetCommentHoverText()"/>
-                            </xsl:attribute>
-                            <xsl:value-of select="localized:GetCommentText(number(fb:comments/fb:count))"/>
-                          </a>
-                          <span class="action_link_dash action_link_dash_1"> · </span>
-                          <a>
-                            <xsl:attribute name="href">
-                              <xsl:value-of select="fb:likes/fb:href"/>
-                            </xsl:attribute>
-                            <xsl:attribute name="title">
-                              <xsl:value-of select="localized:GetLikesHoverText()"/>
-                            </xsl:attribute>
-                            <xsl:value-of select="localized:GetLikesText(number(fb:likes/fb:count))"/>
-                          </a>
-                        </span>
+                          <xsl:if test="fb:comments/fb:can_post = 1">
+                            <a>
+                              <xsl:attribute name="href">
+                                <xsl:value-of select="concat('fdaction:?action=comment&amp;postid=',string(fb:post_id))"/>
+                              </xsl:attribute>
+                              <xsl:attribute name="title">
+                                <xsl:value-of select="localized:GetCommentHoverText()"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="localized:GetCommentText(number(fb:comments/fb:count))"/>
+                            </a>
+                          </xsl:if>
+                          <xsl:if test="fb:likes/fb:can_like = 1" >
+                            <span class="action_link_dash action_link_dash_1"> · </span>
+                            <a>
+                              <xsl:attribute name="href">
+                                <xsl:value-of select="fb:likes/fb:href"/>
+                              </xsl:attribute>
+                              <xsl:attribute name="title">
+                                <xsl:value-of select="localized:GetLikesHoverText()"/>
+                              </xsl:attribute>
+                              <xsl:value-of select="localized:GetLikesText(number(fb:likes/fb:count))"/>
+                            </a>
+                          </xsl:if>
+                          </span>
                       </div>
                     </div>
                   </div>                 
