@@ -269,6 +269,35 @@
       .UIMediaItem_Wrapper {
       overflow:hidden;
       }
+
+      .ufi_section {
+      padding-bottom:0;
+      }
+
+      .comment_box .ufi_section .comment_profile_pic {
+      float:left;
+      padding-bottom:4px;
+      padding-right:2px;
+      text-align:left;
+      }
+
+      .comment_box .comment_content {
+      float:left;
+      padding:0 0 0 2px;
+      width:311px;
+      }
+
+      .comment_box .comment_content .comment_actions {
+      color:#999999;
+      margin-left:4px;
+      }
+      .comment_box .comment_content .comment_meta_data {
+      font-size:9px;
+      font-weight:normal;
+      }
+      .comment_box .comment_content .comment_credits {
+      margin-left:4px;
+      }
     </style>
     <script>
       window.onerror = handleError;
