@@ -495,6 +495,7 @@ namespace NewsComponents.Feed
         /// <returns>A list of comments on the item</returns>
         public List<INewsItem> GetCommentsForItem(INewsItem item)
         {
+            //get commenters
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("post_id", item.Id);
             parameters.Add("session_key", this.sessionKey);
@@ -508,16 +509,38 @@ namespace NewsComponents.Feed
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<FacebookComment>));
 
             List<INewsItem> comments = new List<INewsItem>(); 
-            List<FacebookComment> jsonComments = serializer.ReadObject(response.GetResponseStream()) as List<FacebookComment>; 
+            List<FacebookComment> jsonComments = serializer.ReadObject(response.GetResponseStream()) as List<FacebookComment>;
+            response.Close(); 
+           
 
-            foreach(FacebookComment c in jsonComments){
-                var ni = new NewsItem(item.Feed, null, null, c.text, ConvertFromUnixTimestamp(c.time), String.Empty);
-                ni.FeedDetails = item.FeedDetails;
-                ni.Author = ComponentsText.DefaultFacebookCommenterName; 
-                comments.Add(ni);                 
-            }
+            //get info on commenters
+            string uids   = String.Join(",", jsonComments.Select(comment => comment.fromid.ToString()).ToArray()); 
+            string fields = "uid,first_name,last_name,pic_square,profile_url";
 
-            return comments; 
+            parameters = new Dictionary<string, string>();
+            parameters.Add("uids", uids);
+            parameters.Add("fields", fields);
+
+            string reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
+            request = WebRequest.Create(reqUrl) as HttpWebRequest;
+            response = request.GetResponse() as HttpWebResponse;
+
+            serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
+            List<FacebookUser> jsonUsers = serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>;
+
+            return CreateCommentNewsItems(jsonComments, jsonUsers); 
+        }
+
+
+        /// <summary>
+        /// Converts the input comments and list of users into a collection of INewsItem objects. 
+        /// </summary>
+        /// <param name="comments">The comments from Facebook</param>
+        /// <param name="users">The list of users who posted the comments </param>
+        /// <returns>A list of news items representing the Facebook comments</returns>
+        private static List<INewsItem> CreateCommentNewsItems(List<FacebookComment> comments, List<FacebookUser> users){
+
+            string htmlBody = @"<div class='comment_box'><div class='ufi_section'></div></div>";
         }
 
         /// <summary>
@@ -569,6 +592,24 @@ namespace NewsComponents.Feed
     }
 
     #endregion 
+
+    #region FacebookUser
+
+    /// <summary>
+    /// Represents a Facebook user
+    /// </summary>
+    [Serializable]
+    public struct FacebookUser
+    {
+        public string uid;
+        public string firstname;
+        public string lastname;
+        public string picsquare;
+        public string profileurl;
+    }
+
+    #endregion 
+
 
     #region FacebookException 
 
