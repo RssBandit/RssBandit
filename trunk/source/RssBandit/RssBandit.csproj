@@ -480,9 +480,11 @@
     <Content Include="templates\holiday-halloween.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="templates\images\bg_fb_comment.gif" />
     <Content Include="templates\images\clip.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="templates\images\fb_play_button.png" />
     <Content Include="templates\images\newsbin.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
