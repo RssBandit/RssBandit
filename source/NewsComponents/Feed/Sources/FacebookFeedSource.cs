@@ -520,6 +520,8 @@ namespace NewsComponents.Feed
             parameters = new Dictionary<string, string>();
             parameters.Add("uids", uids);
             parameters.Add("fields", fields);
+            parameters.Add("session_key", this.sessionKey);
+            parameters.Add("method", "users.getInfo"); 
 
             reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
             request = WebRequest.Create(reqUrl) as HttpWebRequest;
@@ -528,7 +530,7 @@ namespace NewsComponents.Feed
             serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
             List<FacebookUser> jsonUsers = serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>;
 
-            return CreateCommentNewsItems(item.Feed, jsonComments, jsonUsers); 
+            return CreateCommentNewsItems(item.Feed, item.FeedDetails, jsonComments, jsonUsers); 
         }
 
 
@@ -536,10 +538,11 @@ namespace NewsComponents.Feed
         /// Converts the input comments and list of users into a collection of INewsItem objects. 
         /// </summary>
         /// <param name="feed">The parent news feed of the item whose comments are being generated</param>
+        /// <param name="feedDetails">The parent feed details object for the comments being generated</param>
         /// <param name="comments">The comments from Facebook</param>
         /// <param name="users">The list of users who posted the comments </param>
         /// <returns>A list of news items representing the Facebook comments</returns>
-        private static List<INewsItem> CreateCommentNewsItems(INewsFeed feed, List<FacebookComment> comments, List<FacebookUser> users){
+        private static List<INewsItem> CreateCommentNewsItems(INewsFeed feed, IFeedDetails feedDetails, List<FacebookComment> comments, List<FacebookUser> users){
 
            string htmlBody = @"<div class='comment_box'><div class='ufi_section'>
                                 <div class='comment_profile_pic'>
@@ -549,7 +552,7 @@ namespace NewsComponents.Feed
                                 </div>
                                 <div class='comment_content'>
                                  <div class='comment_actions'>
-                                  <a href='{1}>{0}</a> - <span class='comment_meta_data'>{3}</span>
+                                  <a href='{1}'>{0}</a> - <span class='comment_meta_data'>{3}</span>
                                  </div>
                                  <div class='comment_text'><div class='comment_actual_text'>{4}</div>
                                 </div>
@@ -565,6 +568,8 @@ namespace NewsComponents.Feed
                string content = String.Format(htmlBody, name, u.profileurl, u.picsquare, pubdate.ToString("h:mmtt MMM dd"), c.text);
                NewsItem n = new NewsItem(feed, String.Empty, String.Empty, content, pubdate, String.Empty);
                n.Author = name;
+               n.FeedDetails = feedDetails;
+               n.Id = c.id; 
 
                items.Add(n); 
            }
@@ -627,13 +632,18 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents a Facebook user
     /// </summary>
-    [Serializable]
+    [DataContract]
     public struct FacebookUser
     {
+        [DataMember]
         public string uid;
+        [DataMember(Name="first_name")]
         public string firstname;
+        [DataMember(Name = "last_name")]
         public string lastname;
+        [DataMember(Name = "pic_square")]
         public string picsquare;
+        [DataMember(Name = "profile_url")]
         public string profileurl;
     }
 

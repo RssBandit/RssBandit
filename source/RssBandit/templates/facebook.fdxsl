@@ -73,6 +73,16 @@
       width:50px;
       }
 
+      .UIRoundedImage_SMALL {
+      height:32px;
+      width:32px;
+      }
+
+      .UIRoundedImage_SMALL .UIRoundedImage_Image {
+      height:32px;
+      width:32px;
+      }
+
       .UIRoundedImage_WHITE .UIRoundedImage_CornersSprite {
       top:0;
       }
@@ -258,7 +268,7 @@
       }
 
       .video_thumb span.play {
-      background-image:url(http://facebook.com/images/streams/videos/video_badge.png);
+      background-image:url($IMAGEDIR$fb_play_button.png);
       background-position:left bottom;
       background-repeat:no-repeat;
       display:inline;
@@ -270,10 +280,33 @@
       overflow:hidden;
       }
 
+      .commentable_item .ufi_section {
+      padding-bottom:0;
+      }
+
+      .comment_box .ufi_section {
+      background:#ECEFF5 none repeat scroll 0 0;
+      border-bottom:1px solid #E5EAF1;
+      clear:left;
+      float:none;
+      margin-bottom:2px;
+      overflow:hidden;
+      padding:6px 4px 6px 6px;
+      width:350px;
+      }
+
       .ufi_section {
       padding-bottom:0;
       }
 
+      .comment_box {
+      background:transparent url($IMAGEDIR$bg_fb_comment.gif) no-repeat scroll left 1px;
+      clear:both;
+      display:block;
+      font-size:11px;
+      overflow:hidden;
+      padding:7px 0 0;
+      }
       .comment_box .ufi_section .comment_profile_pic {
       float:left;
       padding-bottom:4px;
