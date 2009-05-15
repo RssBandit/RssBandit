@@ -7,7 +7,13 @@
     xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
     xmlns:thr="http://purl.org/syndication/thread/1.0" >
   
-  <xsl:output method="xml" indent="yes"/>
+  <!-- <xsl:output method="xml" indent="yes"/> -->
+
+  <xsl:output method="xml"
+       doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+       doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+       indent="yes" />
+
 
 
   <xsl:param name="CommentUrlPlaceholder" />

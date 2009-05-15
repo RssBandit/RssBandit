@@ -521,26 +521,55 @@ namespace NewsComponents.Feed
             parameters.Add("uids", uids);
             parameters.Add("fields", fields);
 
-            string reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
+            reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
             request = WebRequest.Create(reqUrl) as HttpWebRequest;
             response = request.GetResponse() as HttpWebResponse;
 
             serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
             List<FacebookUser> jsonUsers = serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>;
 
-            return CreateCommentNewsItems(jsonComments, jsonUsers); 
+            return CreateCommentNewsItems(item.Feed, jsonComments, jsonUsers); 
         }
 
 
         /// <summary>
         /// Converts the input comments and list of users into a collection of INewsItem objects. 
         /// </summary>
+        /// <param name="feed">The parent news feed of the item whose comments are being generated</param>
         /// <param name="comments">The comments from Facebook</param>
         /// <param name="users">The list of users who posted the comments </param>
         /// <returns>A list of news items representing the Facebook comments</returns>
-        private static List<INewsItem> CreateCommentNewsItems(List<FacebookComment> comments, List<FacebookUser> users){
+        private static List<INewsItem> CreateCommentNewsItems(INewsFeed feed, List<FacebookComment> comments, List<FacebookUser> users){
 
-            string htmlBody = @"<div class='comment_box'><div class='ufi_section'></div></div>";
+           string htmlBody = @"<div class='comment_box'><div class='ufi_section'>
+                                <div class='comment_profile_pic'>
+                                 <a title='{0}' href='{1}'>
+                                  <span class='UIRoundedImage UIRoundedImage_Small'><img class='UIRoundedImage_Image' src='{2}' /></span>
+                                 </a>
+                                </div>
+                                <div class='comment_content'>
+                                 <div class='comment_actions'>
+                                  <a href='{1}>{0}</a> - <span class='comment_meta_data'>{3}</span>
+                                 </div>
+                                 <div class='comment_text'><div class='comment_actual_text'>{4}</div>
+                                </div>
+                               </div>";
+
+           List<INewsItem> items = new List<INewsItem>();
+           
+           foreach (FacebookComment c in comments)
+           {
+               FacebookUser u = users.FirstOrDefault(user => user.uid == c.fromid.ToString()); 
+               DateTime pubdate = ConvertFromUnixTimestamp(c.time); 
+               string name      = u.firstname + " " + u.lastname; 
+               string content = String.Format(htmlBody, name, u.profileurl, u.picsquare, pubdate.ToString("h:mmtt MMM dd"), c.text);
+               NewsItem n = new NewsItem(feed, String.Empty, String.Empty, content, pubdate, String.Empty);
+               n.Author = name;
+
+               items.Add(n); 
+           }
+
+           return items; 
         }
 
         /// <summary>

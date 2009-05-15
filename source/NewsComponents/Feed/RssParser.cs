@@ -1867,9 +1867,12 @@ namespace NewsComponents.Feed
                 throw new ApplicationException(String.Format(ComponentsText.ExceptionNoProcessingHandlerMessage, f.link));     
             }            
 
-            //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)			
-            XmlTextReader r = new XmlTextReader(feedStream);
-            r.WhitespaceHandling = WhitespaceHandling.Significant;
+            //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)	
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ProhibitDtd = false;
+            settings.IgnoreWhitespace = true;
+            XmlReader r = XmlReader.Create(feedStream, settings);
+            //r.WhitespaceHandling = WhitespaceHandling.Significant;
             XmlBaseAwareXmlValidatingReader vr = new XmlBaseAwareXmlValidatingReader(f.link, r);
             vr.ValidationType = ValidationType.None;
             vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
