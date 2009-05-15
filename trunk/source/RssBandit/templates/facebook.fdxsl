@@ -298,6 +298,10 @@
       .comment_box .comment_content .comment_credits {
       margin-left:4px;
       }
+
+      .comment_box .comment_text {
+      max-width:382px;
+      }
     </style>
     <script>
       window.onerror = handleError;
