@@ -88,11 +88,31 @@ namespace NewsComponents.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error has occured downloading the enclosure:
+        ///
+        ///{0}.
+        /// </summary>
+        internal static string ExceptionDownloadingEnclosure {
+            get {
+                return ResourceManager.GetString("ExceptionDownloadingEnclosure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The attempt to download the file &apos;{0}&apos; failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download..
         /// </summary>
         internal static string ExceptionEnclosureCacheLimitReached {
             get {
                 return ResourceManager.GetString("ExceptionEnclosureCacheLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Facebook subscriptions file has been tampered with and cannot be loaded. Delete Facebook as a feed source and add it again from &quot;Synchronize Feeds&quot; to fix this problem..
+        /// </summary>
+        internal static string ExceptionFacebookFeedlistCorrupted {
+            get {
+                return ResourceManager.GetString("ExceptionFacebookFeedlistCorrupted", resourceCulture);
             }
         }
         
@@ -246,6 +266,33 @@ namespace NewsComponents.Resources {
         internal static string ExceptionUnsupportedAtomVersion {
             get {
                 return ResourceManager.GetString("ExceptionUnsupportedAtomVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News Feed.
+        /// </summary>
+        internal static string FacebookNewsFeedTitle {
+            get {
+                return ResourceManager.GetString("FacebookNewsFeedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to facebook.
+        /// </summary>
+        internal static string FacebookStyleSheet {
+            get {
+                return ResourceManager.GetString("FacebookStyleSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown User.
+        /// </summary>
+        internal static string FacebookUnknownUser {
+            get {
+                return ResourceManager.GetString("FacebookUnknownUser", resourceCulture);
             }
         }
     }
