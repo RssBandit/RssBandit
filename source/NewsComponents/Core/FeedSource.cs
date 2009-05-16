@@ -4685,7 +4685,7 @@ namespace NewsComponents
                                 fbTransform.Load(XmlReader.Create(new StringReader(facebookTmpl)), settings, null);
 
                                 fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookFeedSource.ActivityStreamUrl);
-                                fbTransformArgs.AddParam("FeedTitle", String.Empty, SR.FacebookNewsFeedTitle);
+                                fbTransformArgs.AddParam("FeedTitle", String.Empty, ComponentsText.FacebookNewsFeedTitle);
                                 fbTransformArgs.AddParam("UserID", String.Empty, this.location.Credentials.UserName); 
                             }
                         }
