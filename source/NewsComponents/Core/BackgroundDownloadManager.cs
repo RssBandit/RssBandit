@@ -792,7 +792,7 @@ namespace NewsComponents
                             e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
 
             ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 
-            e.Task.ErrorText = string.Format(SR.ExceptionDownloadingEnclosure, e.Exception.Message);
+            e.Task.ErrorText = string.Format(ComponentsText.ExceptionDownloadingEnclosure, e.Exception.Message);
             e.Task.State = DownloadTaskState.DownloadError;
 
             //DownloadRegistryManager.Current.UnRegisterTask(e.Task);

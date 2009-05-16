@@ -66,6 +66,17 @@ namespace NewsComponents.Feed
         #region private fields 
 
         /// <summary>
+        /// The URL to the default image used when a profile pic cannot be discovered for a user. 
+        /// </summary>
+        private static readonly string DefaultFacebookProfilePic = "http://static.ak.fbcdn.net/pics/q_silhouette.gif";
+
+        /// <summary>
+        /// The URL to the default image used when a profile URL cannot be discovered for a user. 
+        /// </summary>
+        private static readonly string DefaultFacebookProfileUrl = "http://www.facebook.com"; 
+
+
+        /// <summary>
         /// The base URL from which to retrieve a user's news feed as an ActivityStreams feed.
         /// </summary>
         public static readonly string ActivityStreamUrl = "http://api.facebook.com/restserver.php";  
@@ -164,10 +175,10 @@ namespace NewsComponents.Feed
 
             NewsFeed f = new NewsFeed();
             f.link = ActivityStreamUrl;
-            f.title = SR.FacebookNewsFeedTitle;
+            f.title = ComponentsText.FacebookNewsFeedTitle;
             f.refreshrateSpecified = true;
             f.refreshrate = 1000 * 60 * 5; //refresh every five minutes
-            f.stylesheet = SR.FacebookStyleSheet;
+            f.stylesheet = ComponentsText.FacebookStyleSheet;
 
             return f; 
         }
@@ -363,7 +374,7 @@ namespace NewsComponents.Feed
             }
             else
             {
-                throw new ApplicationException(SR.ExceptionFacebookFeedlistCorrupted); 
+                throw new ApplicationException(ComponentsText.ExceptionFacebookFeedlistCorrupted); 
             }
         }
         
@@ -564,8 +575,14 @@ namespace NewsComponents.Feed
            {
                FacebookUser u = users.FirstOrDefault(user => user.uid == c.fromid.ToString()); 
                DateTime pubdate = ConvertFromUnixTimestamp(c.time); 
-               string name      = u.firstname + " " + u.lastname; 
+               
+               //handle situations where all nulls returned because commenter isn't viewer's friend or in their network
+               string name = String.IsNullOrEmpty(u.firstname) && String.IsNullOrEmpty(u.lastname) ?
+                                ComponentsText.FacebookUnknownUser : u.firstname + " " + u.lastname;
+               u.picsquare = u.picsquare ?? DefaultFacebookProfilePic;
+               u.profileurl = u.profileurl ?? DefaultFacebookProfileUrl;
                string content = String.Format(htmlBody, name, u.profileurl, u.picsquare, pubdate.ToString("h:mmtt MMM dd"), c.text);
+               
                NewsItem n = new NewsItem(feed, String.Empty, String.Empty, content, pubdate, String.Empty);
                n.Author = name;
                n.FeedDetails = feedDetails;
