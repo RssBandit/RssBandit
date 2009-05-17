@@ -4692,11 +4692,9 @@ namespace NewsComponents
 
                         //convert from Facebook's XML format to Atom
                        
-                        MemoryStream stream = new MemoryStream();
-                        XmlWriterSettings settings2 = new XmlWriterSettings();
-                        settings2.ConformanceLevel = ConformanceLevel.Auto; 
-                        
-                        XmlWriter writer = XmlWriter.Create(stream, settings2);
+                        MemoryStream stream = new MemoryStream();                          
+                        XmlWriter writer = XmlWriter.Create(stream, fbTransform.OutputSettings);
+
                         fbTransform.Transform(XmlReader.Create(response), writer);
                         response.Close();
                         stream.Seek(0, SeekOrigin.Begin);
