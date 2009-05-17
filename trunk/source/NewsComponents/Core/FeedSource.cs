@@ -6418,7 +6418,7 @@ namespace NewsComponents
         /// <param name="inReply2item">An RSS item that is the post parent</param>		
         /// <exception cref="WebException">If an error occurs when the POSTing the 
         /// comment</exception>
-        public void PostComment(string url, INewsItem item2post, INewsItem inReply2item)
+        public virtual void PostComment(string url, INewsItem item2post, INewsItem inReply2item)
         {
             if (inReply2item.CommentStyle == SupportedCommentStyle.CommentAPI)
             {

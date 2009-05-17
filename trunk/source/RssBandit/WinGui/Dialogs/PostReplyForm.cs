@@ -174,6 +174,17 @@ namespace RssBandit.WinGui.Dialogs
 			get { return (string.IsNullOrEmpty(this.txtTitle.Text) ? String.Format(SR.PostReplyTitlePrefix,this.ReplyToItem.Title):  this.txtTitle.Text); }
 		}
 
+        /// <summary>
+        /// Indicates whether the title element should be visible or not. 
+        /// </summary>
+        public bool DisplayTitle
+        {
+            set
+            {
+                this.txtTitle.Visible = value; 
+            }
+        }
+
 		/// <summary>
 		/// Gets the prefixed title.
 		/// </summary>

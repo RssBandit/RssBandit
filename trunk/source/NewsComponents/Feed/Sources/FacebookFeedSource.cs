@@ -354,6 +354,21 @@ namespace NewsComponents.Feed
             return unixEpoch.AddSeconds(timestamp);
         }
 
+
+        /// <summary>
+        /// Helper function for making API call to Facebook. 
+        /// </summary>
+        /// <param name="parameters">The request parameters</param>
+        /// <param name="useJson">Indicates whether to return response as XML or JSON</param>
+        /// <returns>The HttpWebResponse</returns>
+        private HttpWebResponse MakeRequest(Dictionary<string, string> parameters, bool useJson)
+        {
+            string reqUrl = FacebookApiUrl + "?" + CreateHTTPParameterList(parameters, useJson);
+            HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            return response; 
+        }
+
         #endregion 
 
 
@@ -538,18 +553,13 @@ namespace NewsComponents.Feed
             parameters.Add("session_key", this.sessionKey);
             parameters.Add("method", "stream.getComments");
 
-            string reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
-
-            HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            HttpWebResponse response = MakeRequest(parameters, true /* useJson */ );             
 
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<FacebookComment>));
-
             List<INewsItem> comments = new List<INewsItem>(); 
             List<FacebookComment> jsonComments = serializer.ReadObject(response.GetResponseStream()) as List<FacebookComment>;
             response.Close(); 
            
-
             //get info on commenters
             string uids   = String.Join(",", jsonComments.Select(comment => comment.fromid.ToString()).ToArray()); 
             string fields = "uid,first_name,last_name,pic_square,profile_url";
@@ -558,11 +568,9 @@ namespace NewsComponents.Feed
             parameters.Add("uids", uids);
             parameters.Add("fields", fields);
             parameters.Add("session_key", this.sessionKey);
-            parameters.Add("method", "users.getInfo"); 
+            parameters.Add("method", "users.getInfo");
 
-            reqUrl = item.CommentRssUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
-            request = WebRequest.Create(reqUrl) as HttpWebRequest;
-            response = request.GetResponse() as HttpWebResponse;
+            response = MakeRequest(parameters, true /* useJson */ );             
 
             serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
             List<FacebookUser> jsonUsers = serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>;
@@ -642,10 +650,7 @@ namespace NewsComponents.Feed
                 parameters.Add("session_key", this.sessionKey);
                 parameters.Add("method", "users.getInfo");
 
-                string reqUrl = FacebookApiUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
-
-                HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                HttpWebResponse response = MakeRequest(parameters, true /* useJson */ );             
 
                 var serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
                 FacebookUser fbUser = (serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>).First();
@@ -677,16 +682,34 @@ namespace NewsComponents.Feed
             parameters.Add("session_key", this.sessionKey);
             parameters.Add("method", "users.hasAppPermission");
 
-            string reqUrl = FacebookApiUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
-
-            HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
+            HttpWebResponse response = MakeRequest(parameters, true /* useJson */ );             
             string responseValue = new StreamReader(response.GetResponseStream()).ReadToEnd();            
             response.Close();
 
             canPublishToStream = responseValue.Contains("1");
             return canPublishToStream; 
+        }
+
+
+        /// <summary>
+        /// Posts a comment in reply to an item 
+        /// </summary>
+        /// <param name="url">The URL to post the comment to</param>
+        /// <param name="item2post">An RSS item that will be posted to the website</param>
+        /// <param name="inReply2item">An RSS item that is the post parent</param>		
+        /// <exception cref="WebException">If an error occurs when the POSTing the 
+        /// comment</exception>
+        public override void PostComment(string url, INewsItem item2post, INewsItem inReply2item)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("post_id", inReply2item.Id);
+            parameters.Add("session_key", this.sessionKey);
+            parameters.Add("method", "stream.addComment");
+            parameters.Add("comment", item2post.Content);
+
+            HttpWebResponse response = MakeRequest(parameters, true /* useJson */ );             
+            string responseValue = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            response.Close();
         }
 
         #endregion 
