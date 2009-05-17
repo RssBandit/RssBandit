@@ -267,6 +267,7 @@ namespace NewsComponents.Feed
             string author = null;
             string commentUrl = null;
             string commentRssUrl = null;
+            SupportedCommentStyle commentStyle = SupportedCommentStyle.None; 
             Enclosure enc = null;
             TimeSpan encDuration = TimeSpan.MinValue;
             int commentCount = NewsItem.NoComments;
@@ -631,14 +632,30 @@ namespace NewsComponents.Feed
                     continue;
                 }
 
-                if ((localname == atomized_strings[nt_comment])
-                    && (namespaceuri == atomized_strings[nt_ns_wfw]))
+                if (String.IsNullOrEmpty(commentUrl))
                 {
-                    if (!reader.IsEmptyElement)
+
+                    if ((localname == atomized_strings[nt_comment])
+                        && (namespaceuri == atomized_strings[nt_ns_wfw]))
                     {
-                        commentUrl = ReadElementUrl(reader);
+                        if (!reader.IsEmptyElement)
+                        {
+                            commentUrl = ReadElementUrl(reader);
+                            commentStyle = SupportedCommentStyle.CommentAPI;
+                        }
+                        continue;
                     }
-                    continue;
+                    else if ((localname == atomized_strings[nt_can_comment])
+                        && (namespaceuri == atomized_strings[nt_ns_fb]))
+                    {
+                        if (!reader.IsEmptyElement && ReadElementString(reader).Equals("1"))
+                        {
+                            commentUrl = FacebookFeedSource.FacebookApiUrl;
+                            commentStyle = SupportedCommentStyle.Facebook;
+                        }
+                        continue;
+
+                    }
                 }
 
                 if ((localname == atomized_strings[nt_read])
@@ -745,7 +762,7 @@ namespace NewsComponents.Feed
             newsItem.Author = author;
             newsItem.CommentRssUrl = commentRssUrl;
             newsItem.CommentUrl = commentUrl;
-            newsItem.CommentStyle = (commentUrl == null ? SupportedCommentStyle.None : SupportedCommentStyle.CommentAPI);
+            newsItem.CommentStyle = commentStyle;
             newsItem.Enclosures = (enclosures ?? GetList<IEnclosure>.Empty);
             newsItem.WatchComments = watchComments;
             newsItem.Language = reader.XmlLang;
@@ -1894,9 +1911,8 @@ namespace NewsComponents.Feed
             
             XmlBaseAwareXmlValidatingReader vr = new XmlBaseAwareXmlValidatingReader(f.link, r);
             vr.ValidationType = ValidationType.None;
-            //vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
              
-            return GetItemsForFeed(f, r, cachedStream, markitemsread);
+            return GetItemsForFeed(f, vr, cachedStream, markitemsread);
         }       
 
 
