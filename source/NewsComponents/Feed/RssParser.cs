@@ -1889,14 +1889,16 @@ namespace NewsComponents.Feed
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.ProhibitDtd = false;
             settings.IgnoreWhitespace = true;
+            settings.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
             XmlReader r = XmlReader.Create(feedStream, settings);
-            //r.WhitespaceHandling = WhitespaceHandling.Significant;
+            
             XmlBaseAwareXmlValidatingReader vr = new XmlBaseAwareXmlValidatingReader(f.link, r);
             vr.ValidationType = ValidationType.None;
-            vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
+            //vr.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
+             
+            return GetItemsForFeed(f, r, cachedStream, markitemsread);
+        }       
 
-            return GetItemsForFeed(f, vr, cachedStream, markitemsread);
-        }
 
 
         /// <summary>

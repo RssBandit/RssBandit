@@ -647,8 +647,8 @@ namespace NewsComponents.Feed
                 HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
-                var serializer = new DataContractJsonSerializer(typeof(FacebookUser));
-                FacebookUser fbUser = (FacebookUser) serializer.ReadObject(response.GetResponseStream());
+                var serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
+                FacebookUser fbUser = (serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>).First();
                 ui = new UserIdentity()
                 {
                     RealName = fbUser.firstname + " " + fbUser.lastname,

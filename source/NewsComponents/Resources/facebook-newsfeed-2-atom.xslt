@@ -4,7 +4,6 @@
     xmlns:fb="http://api.facebook.com/1.0/"
     xmlns:bndt="http://www.25hoursaday.com/2003/RSSBandit/feeds/"
     xmlns:localized="urn:localization-extension"
-    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
     xmlns:thr="http://purl.org/syndication/thread/1.0" >
   
   <!-- <xsl:output method="xml" indent="yes"/> -->
