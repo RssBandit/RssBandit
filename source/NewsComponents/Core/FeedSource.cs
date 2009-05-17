@@ -4666,7 +4666,7 @@ namespace NewsComponents
                     {
                         fi = NntpParser.GetItemsForNewsGroup(theFeed, response, false);
                     }
-                    else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.ActivityStreamUrl))
+                    else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.FacebookApiUrl))
                     {
                         lock (FbTransformSyncRoot)
                         {
@@ -4684,7 +4684,7 @@ namespace NewsComponents
                                 settings.EnableScript = true;
                                 fbTransform.Load(XmlReader.Create(new StringReader(facebookTmpl)), settings, null);
 
-                                fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookFeedSource.ActivityStreamUrl);
+                                fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookFeedSource.FacebookApiUrl);
                                 fbTransformArgs.AddParam("FeedTitle", String.Empty, ComponentsText.FacebookNewsFeedTitle);
                                 fbTransformArgs.AddParam("UserID", String.Empty, this.location.Credentials.UserName); 
                             }

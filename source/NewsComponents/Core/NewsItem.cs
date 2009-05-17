@@ -875,6 +875,12 @@ namespace NewsComponents
                     writer.WriteString(commentUrl);
                     writer.WriteEndElement();
                 }
+                else if (commentStyle == SupportedCommentStyle.Facebook)
+                {
+                    writer.WriteStartElement("fb", "can-comment", RssHelper.NsFacebook);
+                    writer.WriteString("1");
+                    writer.WriteEndElement(); 
+                }
             }
 
             //<wfw:commentRss />

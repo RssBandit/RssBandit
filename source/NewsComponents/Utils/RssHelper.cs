@@ -77,6 +77,13 @@ namespace NewsComponents.Utils
 		/// </summary>
 		public const string NsCommentAPI = "http://wellformedweb.org/CommentAPI/";
 
+        /// <summary>
+        /// Facebook AP='=\\
+        ///]=\related elements. 
+        /// </summary>
+        public const string NsFacebook = "http://api.facebook.com/1.0/";
+
+
 		// object needed to create XmlElement's, etc.
 		private static readonly XmlDocument elementCreator = new XmlDocument();
 
