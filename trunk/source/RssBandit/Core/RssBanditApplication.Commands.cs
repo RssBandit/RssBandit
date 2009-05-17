@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using NewsComponents;
 using NewsComponents.Feed;
@@ -17,6 +18,7 @@ using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 
 using RssBandit.Common;
+using System.Net;
 
 namespace RssBandit
 {
@@ -1632,9 +1634,57 @@ namespace RssBandit
                 return;
             }
 
+            string defaultIdentity = Preferences.UserIdentityForComments;              
+            IFacebookFeedSource fbSource = item2reply.Feed.owner as IFacebookFeedSource;
+
+            if (fbSource != null)
+            {
+                //Ensure user's Facebook identity is known
+                var identity = IdentityManager.Identities.Values.FirstOrDefault(id => id.ReferrerUrl.Contains("facebook.com"));
+                if (identity == null)
+                {
+                    //TODO: Try...catch around this in case we need to reprompt for session ID
+                    UserIdentity ui = fbSource.GetUserIdentity();
+                    identity = new RssBandit.Core.Storage.Serialization.UserIdentity()
+                    {
+                        Name = ui.Name,
+                        RealName = ui.RealName,
+                        ReferrerUrl = ui.ReferrerUrl
+                    };
+
+                    IdentityManager.Identities.Add(identity.Name, identity); 
+                }
+                defaultIdentity = identity.Name;
+                DialogResult result = DialogResult.None; 
+
+                //Ensure user granted the stream_publish permission
+                if (!fbSource.CanPublishToStream())
+                {
+                    try
+                    {
+                        /* get extended permission to publish to the news feed */
+                        string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey, "publish_stream");
+
+                        using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
+                        {
+                            result = fcd.ShowDialog();
+                        }
+                    }
+                    catch (WebException we)
+                    {
+                        MessageBox.Show(SR.ExceptionFacebookAuthToken, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                if (result != DialogResult.OK)
+                {
+                    return; //user didn't grant permission to publish to the news feed
+                }
+            }
+
             if ((postReplyForm == null) || (postReplyForm.IsDisposed))
             {
-                postReplyForm = new PostReplyForm(Preferences.UserIdentityForComments, IdentityManager);
+                postReplyForm = new PostReplyForm(defaultIdentity, IdentityManager);
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 

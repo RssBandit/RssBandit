@@ -466,8 +466,8 @@ namespace RssBandit.WinGui.Forms
                         result = fcd.ShowDialog();
                     }
 
-                    /* get extended permission to access feed */
-                    string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey);
+                    /* get extended permission to access the news feed */
+                    string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey, "read_stream");
 
                     using (FacebookConnectDialog fcd2 = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
                     {

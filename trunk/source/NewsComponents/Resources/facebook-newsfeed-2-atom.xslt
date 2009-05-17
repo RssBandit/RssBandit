@@ -333,7 +333,7 @@ public static string GetLikesHoverText(){
               </div>
             </content>
             <xsl:if test="fb:comments/fb:can_post = 1">
-              <fb:can-comment>true</fb:can-comment>
+              <fb:can-comment>1</fb:can-comment>
             </xsl:if>            
             <link rel="replies" type="application/atom+xml">
               <xsl:attribute name="href">
