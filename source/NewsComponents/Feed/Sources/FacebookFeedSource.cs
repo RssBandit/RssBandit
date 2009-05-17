@@ -50,7 +50,19 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="item">The target item</param>
         /// <returns>A list of comments on the item</returns>
-        List<INewsItem> GetCommentsForItem(INewsItem item); 
+        List<INewsItem> GetCommentsForItem(INewsItem item);
+
+        /// <summary>
+        /// Gets the user's profile information from Facebook
+        /// </summary>
+        /// <returns>The user's profile information as a UserIdentity object</returns>
+        UserIdentity GetUserIdentity();
+
+        /// <summary>
+        /// Tests whether the user has granted the 'stream_publish' permission. 
+        /// </summary>
+        /// <returns>True if the 'stream_publish' permission has been granted to RSS Bandit and false otherwise</returns>
+        bool CanPublishToStream();
     }
 
     #endregion
@@ -79,7 +91,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The base URL from which to retrieve a user's news feed as an ActivityStreams feed.
         /// </summary>
-        public static readonly string ActivityStreamUrl = "http://api.facebook.com/restserver.php";  
+        public static readonly string FacebookApiUrl = "http://api.facebook.com/restserver.php";  
 
         /// <summary>
         /// The Facebook user ID of the current user. 
@@ -99,7 +111,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The current auth token for making Facebook API requests. 
         /// </summary>
-        private string authToken = String.Empty; 
+        private string authToken = String.Empty;
+
+        /// <summary>
+        /// Indicates whether the user has granted the 'publish_stream' extended permission
+        /// </summary>
+        private bool canPublishToStream = false; 
 
         /// <summary>
         /// The Facebook application ID for RSS Bandit
@@ -174,7 +191,7 @@ namespace NewsComponents.Feed
         {
 
             NewsFeed f = new NewsFeed();
-            f.link = ActivityStreamUrl;
+            f.link = FacebookApiUrl;
             f.title = ComponentsText.FacebookNewsFeedTitle;
             f.refreshrateSpecified = true;
             f.refreshrate = 1000 * 60 * 5; //refresh every five minutes
@@ -327,8 +344,17 @@ namespace NewsComponents.Feed
             base.OnRequestComplete(feedUri, response, newUri, eTag, lastModified, result, priority); 
         }
 
-        #endregion 
+        /// <summary>
+        /// Helper method which converts a Unix timestamp to a DateTime
+        /// </summary>
+        /// <param name="timestamp"></param>
+        /// <returns></returns>
+        private static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {
+            return unixEpoch.AddSeconds(timestamp);
+        }
 
+        #endregion 
 
 
         #region public methods
@@ -540,6 +566,7 @@ namespace NewsComponents.Feed
 
             serializer = new DataContractJsonSerializer(typeof(List<FacebookUser>));
             List<FacebookUser> jsonUsers = serializer.ReadObject(response.GetResponseStream()) as List<FacebookUser>;
+            response.Close(); 
 
             return CreateCommentNewsItems(item.Feed, item.FeedDetails, jsonComments, jsonUsers); 
         }
@@ -595,13 +622,71 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Helper method which converts a Unix timestamp to a DateTime
+        /// Gets the user's profile information from Facebook
         /// </summary>
-        /// <param name="timestamp"></param>
-        /// <returns></returns>
-        private static DateTime ConvertFromUnixTimestamp(double timestamp)
-        {            
-            return unixEpoch.AddSeconds(timestamp);
+        /// <returns>The user's profile information as a UserIdentity object</returns>
+        public UserIdentity GetUserIdentity()
+        {
+            if (this.UserIdentity.ContainsKey(this.facebookUserId))
+            {
+                return this.UserIdentity[this.facebookUserId];
+            }
+            else
+            {
+                UserIdentity ui = null;
+                string fields = "uid,first_name,last_name,pic_square,profile_url";
+
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("uids", this.facebookUserId);
+                parameters.Add("fields", fields);
+                parameters.Add("session_key", this.sessionKey);
+                parameters.Add("method", "users.getInfo");
+
+                string reqUrl = FacebookApiUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
+
+                HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+                var serializer = new DataContractJsonSerializer(typeof(FacebookUser));
+                FacebookUser fbUser = (FacebookUser) serializer.ReadObject(response.GetResponseStream());
+                ui = new UserIdentity()
+                {
+                    RealName = fbUser.firstname + " " + fbUser.lastname,
+                    Name = "Facebook",
+                    ReferrerUrl = fbUser.profileurl
+                };
+                this.UserIdentity[this.facebookUserId] = ui;
+
+                response.Close(); 
+                return ui; 
+            }
+        }
+
+        /// <summary>
+        /// Tests whether the user has granted the 'stream_publish' permission. 
+        /// </summary>
+        /// <returns>True if the 'stream_publish' permission has been granted to RSS Bandit and false otherwise</returns>
+        public bool CanPublishToStream()
+        {
+            //assume that if user has previously granted permission that we still have it now
+            if (canPublishToStream)
+                return true;
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("ext_perm", "publish_stream");
+            parameters.Add("session_key", this.sessionKey);
+            parameters.Add("method", "users.hasAppPermission");
+
+            string reqUrl = FacebookApiUrl + "?" + CreateHTTPParameterList(parameters, true /* useJson */);
+
+            HttpWebRequest request = WebRequest.Create(reqUrl) as HttpWebRequest;
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+            string responseValue = new StreamReader(response.GetResponseStream()).ReadToEnd();            
+            response.Close();
+
+            canPublishToStream = responseValue.Contains("1");
+            return canPublishToStream; 
         }
 
         #endregion 

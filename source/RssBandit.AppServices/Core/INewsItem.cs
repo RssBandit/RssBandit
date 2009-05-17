@@ -36,7 +36,12 @@ namespace NewsComponents
         /// <summary>
         /// NNTP posting
         /// </summary>
-        NNTP = 2
+        NNTP = 2, 
+
+        /// <summary>
+        /// Facebook API
+        /// </summary>
+        Facebook = 3
     }
 
     /// <summary>
