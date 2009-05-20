@@ -708,7 +708,6 @@ namespace NewsComponents.Feed
             parameters.Add("comment", item2post.Content);
 
             HttpWebResponse response = MakeRequest(parameters, true /* useJson */ );             
-            string responseValue = new StreamReader(response.GetResponseStream()).ReadToEnd();
             response.Close();
         }
 
