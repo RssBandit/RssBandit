@@ -196,6 +196,7 @@ namespace NewsComponents.Feed
             f.refreshrateSpecified = true;
             f.refreshrate = 1000 * 60 * 5; //refresh every five minutes
             f.stylesheet = ComponentsText.FacebookStyleSheet;
+            f.markitemsreadonexit = f.markitemsreadonexitSpecified = true; 
 
             return f; 
         }
@@ -726,8 +727,8 @@ namespace NewsComponents.Feed
     [Serializable]
     public struct FacebookComment
     {
-        public int fromid;
-        public int time;
+        public long fromid;
+        public long time;
         public string text;
         public string id;
     }

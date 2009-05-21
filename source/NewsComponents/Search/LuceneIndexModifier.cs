@@ -673,17 +673,39 @@ namespace NewsComponents.Search
 #if TRACE_INDEX_OPS
 			_log.Info("FlushIndex...");
 #endif
-			lock (SyncRoot)
-			{
-				AssureOpen();
-				if (indexWriter != null)
-				{
-					indexWriter.Close();
-					indexWriter = null;
-					if (!closeWriterOnly)
-						CreateIndexWriter();
-				}
-			}
+            lock (SyncRoot)
+            {
+                AssureOpen();
+                if (indexWriter != null)
+                {
+                    try
+                    {
+
+                        indexWriter.Close();
+                        indexWriter = null;
+                        if (!closeWriterOnly)
+                            CreateIndexWriter();
+                    }
+                    catch (FileNotFoundException fe)
+                    {
+                        /* index has gotten corrupted and refers to a non-existence index file */
+                        this.ResetIndex();
+                        _log.Error("Index is corrupted, recreating index:", fe);
+                    }
+                    catch (IndexOutOfRangeException ioore)
+                    {
+                        /* index has gotten corrupted, */
+                        this.ResetIndex();
+                        _log.Error("Index is corrupted, recreating index:", ioore);
+                    }
+                    catch (UnauthorizedAccessException uae)
+                    {
+                        /* another process may be accessing index files */
+                        _log.Error("Index files may be in use, sleeping:", uae);
+                        Thread.Sleep(TimeToDelayBeforeRetry);
+                    }
+                }//if(indexWriter != null)
+            }//lock
 		}
 
 		/// <summary> Merges all segments together into a single segment, optimizing an index
