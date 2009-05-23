@@ -504,32 +504,41 @@ namespace NewsComponents
 				return;
 			if (!File.Exists(feedSourcesUrl))
 				return;
-			
-			XmlParserContext context =
-				new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
-			using (XmlReader reader = new RssBanditXmlReader(FileHelper.OpenForRead(feedSourcesUrl), XmlNodeType.Document, context))
-			{
-				
-				//convert XML to objects
-				XmlSerializer serializer =
-					XmlHelper.SerializerCache.GetSerializer(typeof(SerializableFeedSources));
-				SerializableFeedSources mySources = (SerializableFeedSources)serializer.Deserialize(reader);
-				
-				_feedSources.Clear();
-				
-				lastUsedKey = mySources.LastID;
-				int maxUsedKey = 0;
-				foreach (FeedSourceEntry fs in mySources.List)
-				{
-					if (maxUsedKey < fs.ID)
-						maxUsedKey = fs.ID;
-					_feedSources.Add(fs.ID, fs);
-					fs.Source = FeedSource.CreateFeedSource(fs.ID, fs.SourceType, 
-						CreateSubscriptionLocation(fs.ID, fs.SourceType, fs.Properties));
-				}
-				if (maxUsedKey > lastUsedKey)
-					lastUsedKey = maxUsedKey;
-			}
+
+            try
+            {
+
+                XmlParserContext context =
+                    new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
+                using (XmlReader reader = new RssBanditXmlReader(FileHelper.OpenForRead(feedSourcesUrl), XmlNodeType.Document, context))
+                {
+
+                    //convert XML to objects
+                    XmlSerializer serializer =
+                        XmlHelper.SerializerCache.GetSerializer(typeof(SerializableFeedSources));
+                    SerializableFeedSources mySources = (SerializableFeedSources)serializer.Deserialize(reader);
+
+                    _feedSources.Clear();
+
+                    lastUsedKey = mySources.LastID;
+                    int maxUsedKey = 0;
+                    foreach (FeedSourceEntry fs in mySources.List)
+                    {
+                        if (maxUsedKey < fs.ID)
+                            maxUsedKey = fs.ID;
+                        _feedSources.Add(fs.ID, fs);
+                        fs.Source = FeedSource.CreateFeedSource(fs.ID, fs.SourceType,
+                            CreateSubscriptionLocation(fs.ID, fs.SourceType, fs.Properties));
+                    }
+                    if (maxUsedKey > lastUsedKey)
+                        lastUsedKey = maxUsedKey;
+                }
+
+            }
+            catch (Exception e)
+            {
+                _log.Error("Error on deserializing feed source",e);                
+            }
 		}
 
 		/// <summary>
