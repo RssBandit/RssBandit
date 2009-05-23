@@ -499,6 +499,11 @@ namespace NewsComponents.Search
                 /* another process may be accessing index files */
                 _log.Error("Index files may be in use, sleeping:", uae);
                 Thread.Sleep(TimeToDelayBeforeRetry);
+            }catch (ArgumentOutOfRangeException aoore)
+            {
+                /* index has gotten corrupted, */
+                this.ResetIndex();
+                _log.Error("Index is corrupted, recreating index:", aoore);
             }
 			
 			RaiseFinishedIndexOperationEvent(current);
