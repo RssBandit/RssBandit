@@ -21,6 +21,13 @@
 
   <msxsl:script language="C#" implements-prefix="bndt">
     <![CDATA[
+    public XPathNavigator ConvertURLsToHyperlinks(string sInput) 
+ { 
+     string xml = "<div>" +  System.Text.RegularExpressions.Regex.Replace(sInput, @"(\bhttp://[^ ]+\b)", @"<a href=""$0"">$0</a>") + "</div>"; 
+     XPathDocument doc = new XPathDocument(new System.IO.StringReader(xml)); 
+     return doc.CreateNavigator();
+ }
+    
  public static string ConvertFromUnixTimestamp(double timestamp)  
 {    
     DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -211,7 +218,7 @@ public static string GetLikesHoverText(){
                           </a>
                         </span>
                         <xsl:text>&#160;</xsl:text>
-                        <xsl:value-of select="fb:message"/>
+                        <xsl:copy-of select="bndt:ConvertURLsToHyperlinks(fb:message)"/>
                       </h3>
                     </div>
                     <xsl:if test="fb:attachment/fb:media">
