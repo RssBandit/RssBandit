@@ -21,9 +21,14 @@
 
   <msxsl:script language="C#" implements-prefix="bndt">
     <![CDATA[
-    public XPathNavigator ConvertURLsToHyperlinks(string sInput) 
+    
+    public bool ContainsHtmlEntities(string input){
+      return input.Contains("&"); 
+    }
+    
+    public XPathNavigator ConvertURLsToHyperlinks(string input) 
  { 
-     string xml = "<div>" +  System.Text.RegularExpressions.Regex.Replace(sInput, @"(\bhttp://[^ ]+\b)", @"<a href=""$0"">$0</a>") + "</div>"; 
+     string xml = "<div>" +  System.Text.RegularExpressions.Regex.Replace(input, @"(\bhttp://[^ ]+\b)", @"<a href=""$0"">$0</a>") + "</div>"; 
      XPathDocument doc = new XPathDocument(new System.IO.StringReader(xml)); 
      return doc.CreateNavigator();
  }
@@ -218,7 +223,14 @@ public static string GetLikesHoverText(){
                           </a>
                         </span>
                         <xsl:text>&#160;</xsl:text>
-                        <xsl:copy-of select="bndt:ConvertURLsToHyperlinks(fb:message)"/>
+                        <xsl:choose>
+                          <xsl:when test="bndt:ContainsHtmlEntities(fb:message)">
+                            <xsl:value-of select="fb:message"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:copy-of select="bndt:ConvertURLsToHyperlinks(fb:message)"/>
+                          </xsl:otherwise>
+                        </xsl:choose>
                       </h3>
                     </div>
                     <xsl:if test="fb:attachment/fb:media">
