@@ -309,7 +309,9 @@ namespace NewsComponents.Feed
             }
 
             //<item />
-            foreach (var item in itemsList)
+            INewsItem[] items = new INewsItem[itemsList.Count];
+            itemsList.CopyTo(items); 
+            foreach (var item in items)
             {
                 writer.WriteRaw(item.ToString(NewsItemSerializationFormat.RssItem, useGMTDate, noDescriptions));
             }
