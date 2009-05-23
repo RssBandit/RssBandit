@@ -650,7 +650,7 @@ namespace RssBandit.WinGui.Controls
 			return itemsFeed.Items.FindAll(
 				item =>
 				{
-					return app.FeedSources.SourceOf(item.Feed).ID == entryID;
+                    return (app.FeedSources.SourceOf(item.Feed) != null) && (app.FeedSources.SourceOf(item.Feed).ID == entryID);
 				});
 		}
     }
