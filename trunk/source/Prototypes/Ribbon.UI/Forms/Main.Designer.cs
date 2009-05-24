@@ -16,15 +16,16 @@ namespace RssBandit.UI.Forms
 			Infragistics.Win.UltraWinTree.UltraTreeNode ultraTreeNode1 = new Infragistics.Win.UltraWinTree.UltraTreeNode();
 			Infragistics.Win.UltraWinTree.UltraTreeNode ultraTreeNode2 = new Infragistics.Win.UltraWinTree.UltraTreeNode();
 			Infragistics.Win.UltraWinTree.Override _override1 = new Infragistics.Win.UltraWinTree.Override();
-			Infragistics.Win.Appearance appearance23 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance43 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinTree.UltraTreeNode ultraTreeNode3 = new Infragistics.Win.UltraWinTree.UltraTreeNode();
 			Infragistics.Win.UltraWinTree.UltraTreeNode ultraTreeNode4 = new Infragistics.Win.UltraWinTree.UltraTreeNode();
 			Infragistics.Win.UltraWinTree.Override _override2 = new Infragistics.Win.UltraWinTree.Override();
-			Infragistics.Win.Appearance appearance24 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance44 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinTree.Override _override3 = new Infragistics.Win.UltraWinTree.Override();
-			Infragistics.Win.Appearance appearance25 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance45 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinTree.Override _override4 = new Infragistics.Win.UltraWinTree.Override();
-			Infragistics.Win.Appearance appearance26 = new Infragistics.Win.Appearance();
+			Infragistics.Win.Appearance appearance46 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinTree.UltraTreeNode ultraTreeNode5 = new Infragistics.Win.UltraWinTree.UltraTreeNode();
 			Infragistics.Win.UltraWinScrollBar.ScrollBarLook scrollBarLook1 = new Infragistics.Win.UltraWinScrollBar.ScrollBarLook();
 			Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
 			Infragistics.Win.Appearance appearance5 = new Infragistics.Win.Appearance();
@@ -43,30 +44,50 @@ namespace RssBandit.UI.Forms
 			Infragistics.Win.UltraWinToolbars.ListTool listTool1 = new Infragistics.Win.UltraWinToolbars.ListTool("cmdColorSchemeList");
 			Infragistics.Win.UltraWinToolbars.ContextualTabGroup contextualTabGroup1 = new Infragistics.Win.UltraWinToolbars.ContextualTabGroup("ctgFeed");
 			Infragistics.Win.UltraWinToolbars.ContextualTabGroup contextualTabGroup2 = new Infragistics.Win.UltraWinToolbars.ContextualTabGroup("ctgCategory");
+			Infragistics.Win.UltraWinToolbars.ContextualTabGroup contextualTabGroup3 = new Infragistics.Win.UltraWinToolbars.ContextualTabGroup("ctgSearch");
 			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab1 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribMain");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup1 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgNew");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup1 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgRefresh");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool42 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRefreshAll");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool43 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRefreshFolder");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup2 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgNew");
 			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool3 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdNewFeedDropdown");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool31 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdSynchronizeFeeds");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup2 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgNavigation");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool7 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdSynchronizeFeeds");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup3 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgCatchUp");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool29 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNextUnread");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool40 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNextUnreadFeed");
-			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab2 = new Infragistics.Win.UltraWinToolbars.RibbonTab("rbEdit");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup3 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("grpEditGeneral");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool5 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDelete");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool6 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCut");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool7 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCopy");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool8 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdPaste");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool9 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdSelectAll");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup4 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("ribbonGroup1");
-			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab3 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribStyles");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup5 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgDefLayout");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup6 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgMyLayout");
-			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab4 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribFeeds");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup7 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgFeedContext");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool25 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDelete");
-			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab5 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribCategory");
-			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup8 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgCategoryContext");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool26 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDelete");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool46 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkAllItemsAsRead");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool47 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdTopStories");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab2 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribFolder");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup4 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgFolderNew");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool60 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool62 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewSubscription");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup5 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("grpFolderActions");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool64 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRenameFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool66 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCopyFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool67 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMoveFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool68 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteFolder");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup6 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgFolderCatchUp");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool72 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRefreshFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool73 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteAllItemsInFolder");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab3 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribFeed");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup7 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgFeedActions");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool5 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRenameFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool7 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCopyFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool8 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMoveFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool9 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteFeed");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup8 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgFeedCatchUp");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool75 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkAllItemsAsRead");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool76 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteAllItemsInFeed");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab4 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribItem");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab5 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribView");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup9 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgViewLayout");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool10 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdLayoutNavigationPane");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool11 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdReadingPane");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup10 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgDefLayout");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup11 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rgMyLayout");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab6 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribFeedback");
+			Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab7 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribSearch");
+			Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup12 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgSearchScope");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool10 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewFeedSubscription");
 			Infragistics.Win.UltraWinToolbars.TextBoxTool textBoxTool1 = new Infragistics.Win.UltraWinToolbars.TextBoxTool("txtSearchWeb");
 			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool1 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdSearchWeb");
@@ -110,8 +131,6 @@ namespace RssBandit.UI.Forms
 			Infragistics.Win.UltraWinToolbars.TaskPaneTool taskPaneTool1 = new Infragistics.Win.UltraWinToolbars.TaskPaneTool("cmdTaskSearch");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool30 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNextUnread");
 			Infragistics.Win.Appearance appearance36 = new Infragistics.Win.Appearance();
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool32 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdSynchronizeFeeds");
-			Infragistics.Win.Appearance appearance34 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool4 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdNewFeedDropdown");
 			Infragistics.Win.Appearance appearance35 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool35 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewFeedSubscription");
@@ -122,7 +141,7 @@ namespace RssBandit.UI.Forms
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool12 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewFeedSubscription");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool27 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewNntpSubscription");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool28 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewSearchResultSubscription");
-			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool36 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdSynchronizeFeeds");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool8 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdSynchronizeFeeds");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool37 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdOptions");
 			Infragistics.Win.Appearance appearance33 = new Infragistics.Win.Appearance();
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool2 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdImport");
@@ -130,6 +149,37 @@ namespace RssBandit.UI.Forms
 			Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool2 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("cmdWorkOffline", "");
 			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool41 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNextUnreadFeed");
 			Infragistics.Win.Appearance appearance37 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool9 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdSynchronizeFeeds");
+			Infragistics.Win.Appearance appearance38 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool44 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRefreshAll");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool45 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRefreshFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool48 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkAllItemsAsRead");
+			Infragistics.Win.Appearance appearance39 = new Infragistics.Win.Appearance();
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool49 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdTopStories");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool12 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdLayoutNavigationPane");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool50 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNavPaneMinimized");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool51 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdHideNavPane");
+			Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool13 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdReadingPane");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool54 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneRight");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool55 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneBottom");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool56 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneOff");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool52 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNavPaneMinimized");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool53 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdHideNavPane");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool57 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneRight");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool58 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneBottom");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool59 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdReadingPaneOff");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool61 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool63 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdNewSubscription");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool65 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRenameFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool69 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCopyFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool70 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMoveFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool71 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool74 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteAllItemsInFolder");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool6 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdRenameFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool31 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdCopyFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool32 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMoveFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool36 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteFeed");
+			Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool77 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdDeleteAllItemsInFeed");
 			this.ultraExplorerBarContainerControl1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
 			this.ultraTree1 = new Infragistics.Win.UltraWinTree.UltraTree();
 			this.ultraExplorerBarContainerControl2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
@@ -178,45 +228,49 @@ namespace RssBandit.UI.Forms
 			this.ultraTree1.NodeConnectorColor = System.Drawing.SystemColors.ControlDark;
 			ultraTreeNode1.Key = "Root";
 			ultraTreeNode2.Key = "child1";
-			appearance23.Image = ((object)(resources.GetObject("appearance23.Image")));
-			resources.ApplyResources(appearance23.FontData, "appearance23.FontData");
-			resources.ApplyResources(appearance23, "appearance23");
-			appearance23.ForceApplyResources = "FontData|";
-			_override1.NodeAppearance = appearance23;
+			appearance43.Image = ((object)(resources.GetObject("appearance43.Image")));
+			resources.ApplyResources(appearance43.FontData, "appearance43.FontData");
+			resources.ApplyResources(appearance43, "appearance43");
+			appearance43.ForceApplyResources = "FontData|";
+			_override1.NodeAppearance = appearance43;
 			ultraTreeNode2.Override = _override1;
 			ultraTreeNode2.Tag = "F";
 			resources.ApplyResources(ultraTreeNode2, "ultraTreeNode2");
-			appearance24.Image = ((object)(resources.GetObject("appearance24.Image")));
-			resources.ApplyResources(appearance24.FontData, "appearance24.FontData");
-			resources.ApplyResources(appearance24, "appearance24");
-			appearance24.ForceApplyResources = "FontData|";
-			_override2.NodeAppearance = appearance24;
+			appearance44.Image = ((object)(resources.GetObject("appearance44.Image")));
+			resources.ApplyResources(appearance44.FontData, "appearance44.FontData");
+			resources.ApplyResources(appearance44, "appearance44");
+			appearance44.ForceApplyResources = "FontData|";
+			_override2.NodeAppearance = appearance44;
 			ultraTreeNode4.Override = _override2;
 			ultraTreeNode4.Tag = "F";
 			resources.ApplyResources(ultraTreeNode4, "ultraTreeNode4");
 			ultraTreeNode3.Nodes.AddRange(new Infragistics.Win.UltraWinTree.UltraTreeNode[] {
             ultraTreeNode4});
-			appearance25.Image = ((object)(resources.GetObject("appearance25.Image")));
-			resources.ApplyResources(appearance25.FontData, "appearance25.FontData");
-			resources.ApplyResources(appearance25, "appearance25");
-			appearance25.ForceApplyResources = "FontData|";
-			_override3.NodeAppearance = appearance25;
+			appearance45.Image = ((object)(resources.GetObject("appearance45.Image")));
+			resources.ApplyResources(appearance45.FontData, "appearance45.FontData");
+			resources.ApplyResources(appearance45, "appearance45");
+			appearance45.ForceApplyResources = "FontData|";
+			_override3.NodeAppearance = appearance45;
 			ultraTreeNode3.Override = _override3;
 			ultraTreeNode3.Tag = "C";
 			resources.ApplyResources(ultraTreeNode3, "ultraTreeNode3");
 			ultraTreeNode1.Nodes.AddRange(new Infragistics.Win.UltraWinTree.UltraTreeNode[] {
             ultraTreeNode2,
             ultraTreeNode3});
-			appearance26.Image = ((object)(resources.GetObject("appearance26.Image")));
-			resources.ApplyResources(appearance26.FontData, "appearance26.FontData");
-			resources.ApplyResources(appearance26, "appearance26");
-			appearance26.ForceApplyResources = "FontData|";
-			_override4.NodeAppearance = appearance26;
+			appearance46.Image = ((object)(resources.GetObject("appearance46.Image")));
+			resources.ApplyResources(appearance46.FontData, "appearance46.FontData");
+			resources.ApplyResources(appearance46, "appearance46");
+			appearance46.ForceApplyResources = "FontData|";
+			_override4.NodeAppearance = appearance46;
 			ultraTreeNode1.Override = _override4;
 			ultraTreeNode1.Tag = "R";
 			resources.ApplyResources(ultraTreeNode1, "ultraTreeNode1");
+			ultraTreeNode5.LeftImages.Add(((object)(resources.GetObject("ultraTreeNode5.LeftImages"))));
+			ultraTreeNode5.Tag = "S";
+			resources.ApplyResources(ultraTreeNode5, "ultraTreeNode5");
 			this.ultraTree1.Nodes.AddRange(new Infragistics.Win.UltraWinTree.UltraTreeNode[] {
-            ultraTreeNode1});
+            ultraTreeNode1,
+            ultraTreeNode5});
 			scrollBarLook1.ViewStyle = Infragistics.Win.UltraWinScrollBar.ScrollBarViewStyle.WindowsVista;
 			this.ultraTree1.ScrollBarLook = scrollBarLook1;
 			this.ultraTree1.BeforeActivate += new Infragistics.Win.UltraWinTree.BeforeNodeChangedEventHandler(this.OnBeforeNodeActivate);
@@ -395,86 +449,141 @@ namespace RssBandit.UI.Forms
 			contextualTabGroup1.Key = "ctgFeed";
 			resources.ApplyResources(contextualTabGroup2, "contextualTabGroup2");
 			contextualTabGroup2.Key = "ctgCategory";
+			resources.ApplyResources(contextualTabGroup3, "contextualTabGroup3");
+			contextualTabGroup3.Key = "ctgSearch";
 			this.ultraToolbarsManager.Ribbon.NonInheritedContextualTabGroups.AddRange(new Infragistics.Win.UltraWinToolbars.ContextualTabGroup[] {
             contextualTabGroup1,
-            contextualTabGroup2});
+            contextualTabGroup2,
+            contextualTabGroup3});
 			resources.ApplyResources(ribbonTab1, "ribbonTab1");
 			resources.ApplyResources(ribbonGroup1, "ribbonGroup1");
+			resources.ApplyResources(buttonTool42.SharedProps, "buttonTool42.SharedProps");
+			buttonTool42.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool43.SharedProps, "buttonTool43.SharedProps");
+			buttonTool43.ForceApplyResources = "SharedProps";
+			ribbonGroup1.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool42,
+            buttonTool43});
+			resources.ApplyResources(ribbonGroup2, "ribbonGroup2");
+			resources.ApplyResources(popupMenuTool3.InstanceProps, "popupMenuTool3.InstanceProps");
 			popupMenuTool3.InstanceProps.MinimumSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
 			popupMenuTool3.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
 			resources.ApplyResources(popupMenuTool3.SharedProps, "popupMenuTool3.SharedProps");
-			popupMenuTool3.ForceApplyResources = "SharedProps";
-			resources.ApplyResources(buttonTool31.InstanceProps, "buttonTool31.InstanceProps");
-			buttonTool31.InstanceProps.IsFirstInGroup = true;
-			buttonTool31.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
-			resources.ApplyResources(buttonTool31.SharedProps, "buttonTool31.SharedProps");
-			buttonTool31.ForceApplyResources = "SharedProps|InstanceProps";
-			ribbonGroup1.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+			popupMenuTool3.ForceApplyResources = "SharedProps|InstanceProps";
+			resources.ApplyResources(popupMenuTool7.InstanceProps, "popupMenuTool7.InstanceProps");
+			popupMenuTool7.InstanceProps.IsFirstInGroup = true;
+			popupMenuTool7.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
+			resources.ApplyResources(popupMenuTool7.SharedProps, "popupMenuTool7.SharedProps");
+			popupMenuTool7.ForceApplyResources = "InstanceProps|SharedProps";
+			ribbonGroup2.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             popupMenuTool3,
-            buttonTool31});
-			resources.ApplyResources(ribbonGroup2, "ribbonGroup2");
+            popupMenuTool7});
+			resources.ApplyResources(ribbonGroup3, "ribbonGroup3");
 			resources.ApplyResources(buttonTool29.SharedProps, "buttonTool29.SharedProps");
 			buttonTool29.ForceApplyResources = "SharedProps";
 			resources.ApplyResources(buttonTool40.SharedProps, "buttonTool40.SharedProps");
 			buttonTool40.ForceApplyResources = "SharedProps";
-			ribbonGroup2.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+			resources.ApplyResources(buttonTool46.SharedProps, "buttonTool46.SharedProps");
+			buttonTool46.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool47.SharedProps, "buttonTool47.SharedProps");
+			buttonTool47.ForceApplyResources = "SharedProps";
+			ribbonGroup3.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool29,
-            buttonTool40});
+            buttonTool40,
+            buttonTool46,
+            buttonTool47});
 			ribbonTab1.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
             ribbonGroup1,
-            ribbonGroup2});
+            ribbonGroup2,
+            ribbonGroup3});
 			resources.ApplyResources(ribbonTab2, "ribbonTab2");
-			resources.ApplyResources(ribbonGroup3, "ribbonGroup3");
+			resources.ApplyResources(ribbonGroup4, "ribbonGroup4");
+			resources.ApplyResources(buttonTool60.SharedProps, "buttonTool60.SharedProps");
+			buttonTool60.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool62.SharedProps, "buttonTool62.SharedProps");
+			buttonTool62.ForceApplyResources = "SharedProps";
+			ribbonGroup4.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool60,
+            buttonTool62});
+			resources.ApplyResources(ribbonGroup5, "ribbonGroup5");
+			resources.ApplyResources(buttonTool64.SharedProps, "buttonTool64.SharedProps");
+			buttonTool64.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool66.SharedProps, "buttonTool66.SharedProps");
+			buttonTool66.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool67.SharedProps, "buttonTool67.SharedProps");
+			buttonTool67.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool68.SharedProps, "buttonTool68.SharedProps");
+			buttonTool68.ForceApplyResources = "SharedProps";
+			ribbonGroup5.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool64,
+            buttonTool66,
+            buttonTool67,
+            buttonTool68});
+			resources.ApplyResources(ribbonGroup6, "ribbonGroup6");
+			resources.ApplyResources(buttonTool73.SharedProps, "buttonTool73.SharedProps");
+			buttonTool73.ForceApplyResources = "SharedProps";
+			ribbonGroup6.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool72,
+            buttonTool73});
+			ribbonTab2.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
+            ribbonGroup4,
+            ribbonGroup5,
+            ribbonGroup6});
+			resources.ApplyResources(ribbonTab3, "ribbonTab3");
+			resources.ApplyResources(ribbonGroup7, "ribbonGroup7");
 			resources.ApplyResources(buttonTool5.SharedProps, "buttonTool5.SharedProps");
 			buttonTool5.ForceApplyResources = "SharedProps";
-			buttonTool6.InstanceProps.IsFirstInGroup = true;
-			resources.ApplyResources(buttonTool6.SharedProps, "buttonTool6.SharedProps");
-			buttonTool6.ForceApplyResources = "SharedProps";
 			resources.ApplyResources(buttonTool7.SharedProps, "buttonTool7.SharedProps");
 			buttonTool7.ForceApplyResources = "SharedProps";
 			resources.ApplyResources(buttonTool8.SharedProps, "buttonTool8.SharedProps");
 			buttonTool8.ForceApplyResources = "SharedProps";
-			buttonTool9.InstanceProps.IsFirstInGroup = true;
 			resources.ApplyResources(buttonTool9.SharedProps, "buttonTool9.SharedProps");
 			buttonTool9.ForceApplyResources = "SharedProps";
-			ribbonGroup3.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+			ribbonGroup7.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool5,
-            buttonTool6,
             buttonTool7,
             buttonTool8,
             buttonTool9});
-			resources.ApplyResources(ribbonGroup4, "ribbonGroup4");
-			ribbonTab2.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
-            ribbonGroup3,
-            ribbonGroup4});
-			resources.ApplyResources(ribbonTab3, "ribbonTab3");
-			resources.ApplyResources(ribbonGroup5, "ribbonGroup5");
-			resources.ApplyResources(ribbonGroup6, "ribbonGroup6");
-			ribbonTab3.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
-            ribbonGroup5,
-            ribbonGroup6});
-			resources.ApplyResources(ribbonTab4, "ribbonTab4");
-			ribbonTab4.ContextualTabGroupKey = "ctgFeed";
-			resources.ApplyResources(ribbonGroup7, "ribbonGroup7");
-			ribbonGroup7.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
-            buttonTool25});
-			ribbonTab4.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
-            ribbonGroup7});
-			ribbonTab4.Visible = false;
-			resources.ApplyResources(ribbonTab5, "ribbonTab5");
-			ribbonTab5.ContextualTabGroupKey = "ctgCategory";
 			resources.ApplyResources(ribbonGroup8, "ribbonGroup8");
+			resources.ApplyResources(buttonTool76.SharedProps, "buttonTool76.SharedProps");
+			buttonTool76.ForceApplyResources = "SharedProps";
 			ribbonGroup8.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
-            buttonTool26});
-			ribbonTab5.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
+            buttonTool75,
+            buttonTool76});
+			ribbonTab3.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
+            ribbonGroup7,
             ribbonGroup8});
-			ribbonTab5.Visible = false;
+			ribbonTab3.Visible = false;
+			resources.ApplyResources(ribbonTab4, "ribbonTab4");
+			resources.ApplyResources(ribbonTab5, "ribbonTab5");
+			resources.ApplyResources(ribbonGroup9, "ribbonGroup9");
+			resources.ApplyResources(popupMenuTool10.SharedProps, "popupMenuTool10.SharedProps");
+			popupMenuTool10.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(popupMenuTool11.SharedProps, "popupMenuTool11.SharedProps");
+			popupMenuTool11.ForceApplyResources = "SharedProps";
+			ribbonGroup9.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            popupMenuTool10,
+            popupMenuTool11});
+			resources.ApplyResources(ribbonGroup10, "ribbonGroup10");
+			resources.ApplyResources(ribbonGroup11, "ribbonGroup11");
+			ribbonTab5.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
+            ribbonGroup9,
+            ribbonGroup10,
+            ribbonGroup11});
+			resources.ApplyResources(ribbonTab6, "ribbonTab6");
+			resources.ApplyResources(ribbonTab7, "ribbonTab7");
+			ribbonTab7.ContextualTabGroupKey = "ctgSearch";
+			resources.ApplyResources(ribbonGroup12, "ribbonGroup12");
+			ribbonTab7.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
+            ribbonGroup12});
 			this.ultraToolbarsManager.Ribbon.NonInheritedRibbonTabs.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonTab[] {
             ribbonTab1,
             ribbonTab2,
             ribbonTab3,
             ribbonTab4,
-            ribbonTab5});
+            ribbonTab5,
+            ribbonTab6,
+            ribbonTab7});
 			resources.ApplyResources(buttonTool10.SharedProps, "buttonTool10.SharedProps");
 			buttonTool10.ForceApplyResources = "SharedProps";
 			this.ultraToolbarsManager.Ribbon.QuickAccessToolbar.NonInheritedTools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
@@ -659,13 +768,6 @@ namespace RssBandit.UI.Forms
 			buttonTool30.SharedProps.AppearancesSmall.Appearance = appearance36;
 			resources.ApplyResources(buttonTool30.SharedProps, "buttonTool30.SharedProps");
 			buttonTool30.ForceApplyResources = "SharedProps";
-			appearance34.Image = ((object)(resources.GetObject("appearance34.Image")));
-			resources.ApplyResources(appearance34.FontData, "appearance34.FontData");
-			resources.ApplyResources(appearance34, "appearance34");
-			appearance34.ForceApplyResources = "FontData|";
-			buttonTool32.SharedProps.AppearancesLarge.Appearance = appearance34;
-			resources.ApplyResources(buttonTool32.SharedProps, "buttonTool32.SharedProps");
-			buttonTool32.ForceApplyResources = "SharedProps";
 			appearance35.Image = ((object)(resources.GetObject("appearance35.Image")));
 			resources.ApplyResources(appearance35.FontData, "appearance35.FontData");
 			resources.ApplyResources(appearance35, "appearance35");
@@ -688,7 +790,7 @@ namespace RssBandit.UI.Forms
             buttonTool12,
             buttonTool27,
             buttonTool28,
-            buttonTool36});
+            popupMenuTool8});
 			popupMenuTool6.ForceApplyResources = "SharedProps";
 			appearance33.Image = ((object)(resources.GetObject("appearance33.Image")));
 			resources.ApplyResources(appearance33.FontData, "appearance33.FontData");
@@ -711,6 +813,81 @@ namespace RssBandit.UI.Forms
 			buttonTool41.SharedProps.AppearancesSmall.Appearance = appearance37;
 			resources.ApplyResources(buttonTool41.SharedProps, "buttonTool41.SharedProps");
 			buttonTool41.ForceApplyResources = "SharedProps";
+			appearance38.Image = ((object)(resources.GetObject("appearance38.Image")));
+			resources.ApplyResources(appearance38.FontData, "appearance38.FontData");
+			resources.ApplyResources(appearance38, "appearance38");
+			appearance38.ForceApplyResources = "FontData|";
+			popupMenuTool9.SharedProps.AppearancesLarge.Appearance = appearance38;
+			resources.ApplyResources(popupMenuTool9.SharedProps, "popupMenuTool9.SharedProps");
+			popupMenuTool9.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool44.SharedProps, "buttonTool44.SharedProps");
+			buttonTool44.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool45.SharedProps, "buttonTool45.SharedProps");
+			buttonTool45.ForceApplyResources = "SharedProps";
+			appearance39.Image = global::RssBandit.UI.Properties.Resources.mark_feed_read_16;
+			resources.ApplyResources(appearance39.FontData, "appearance39.FontData");
+			resources.ApplyResources(appearance39, "appearance39");
+			appearance39.ForceApplyResources = "FontData|";
+			buttonTool48.SharedProps.AppearancesSmall.Appearance = appearance39;
+			resources.ApplyResources(buttonTool48.SharedProps, "buttonTool48.SharedProps");
+			buttonTool48.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool49.SharedProps, "buttonTool49.SharedProps");
+			buttonTool49.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(popupMenuTool12.SharedProps, "popupMenuTool12.SharedProps");
+			resources.ApplyResources(buttonTool50.SharedProps, "buttonTool50.SharedProps");
+			buttonTool50.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool51.SharedProps, "buttonTool51.SharedProps");
+			buttonTool51.ForceApplyResources = "SharedProps";
+			popupMenuTool12.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool50,
+            buttonTool51});
+			popupMenuTool12.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(popupMenuTool13.SharedProps, "popupMenuTool13.SharedProps");
+			resources.ApplyResources(buttonTool54.SharedProps, "buttonTool54.SharedProps");
+			buttonTool54.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool55.SharedProps, "buttonTool55.SharedProps");
+			buttonTool55.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool56.SharedProps, "buttonTool56.SharedProps");
+			buttonTool56.ForceApplyResources = "SharedProps";
+			popupMenuTool13.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
+            buttonTool54,
+            buttonTool55,
+            buttonTool56});
+			popupMenuTool13.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool52.SharedProps, "buttonTool52.SharedProps");
+			buttonTool52.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool53.SharedProps, "buttonTool53.SharedProps");
+			buttonTool53.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool57.SharedProps, "buttonTool57.SharedProps");
+			buttonTool57.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool58.SharedProps, "buttonTool58.SharedProps");
+			buttonTool58.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool59.SharedProps, "buttonTool59.SharedProps");
+			buttonTool59.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool61.SharedProps, "buttonTool61.SharedProps");
+			buttonTool61.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool63.SharedProps, "buttonTool63.SharedProps");
+			buttonTool63.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool65.SharedProps, "buttonTool65.SharedProps");
+			buttonTool65.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool69.SharedProps, "buttonTool69.SharedProps");
+			buttonTool69.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool70.SharedProps, "buttonTool70.SharedProps");
+			buttonTool70.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool71.SharedProps, "buttonTool71.SharedProps");
+			buttonTool71.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool74.SharedProps, "buttonTool74.SharedProps");
+			buttonTool74.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool6.SharedProps, "buttonTool6.SharedProps");
+			buttonTool6.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool31.SharedProps, "buttonTool31.SharedProps");
+			buttonTool31.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool32.SharedProps, "buttonTool32.SharedProps");
+			buttonTool32.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool36.SharedProps, "buttonTool36.SharedProps");
+			buttonTool36.ForceApplyResources = "SharedProps";
+			resources.ApplyResources(buttonTool77.SharedProps, "buttonTool77.SharedProps");
+			buttonTool77.ForceApplyResources = "SharedProps";
 			this.ultraToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool13,
             buttonTool14,
@@ -729,7 +906,6 @@ namespace RssBandit.UI.Forms
             controlContainerTool1,
             taskPaneTool1,
             buttonTool30,
-            buttonTool32,
             popupMenuTool4,
             labelTool2,
             popupMenuTool6,
@@ -737,7 +913,31 @@ namespace RssBandit.UI.Forms
             buttonTool2,
             buttonTool4,
             stateButtonTool2,
-            buttonTool41});
+            buttonTool41,
+            popupMenuTool9,
+            buttonTool44,
+            buttonTool45,
+            buttonTool48,
+            buttonTool49,
+            popupMenuTool12,
+            popupMenuTool13,
+            buttonTool52,
+            buttonTool53,
+            buttonTool57,
+            buttonTool58,
+            buttonTool59,
+            buttonTool61,
+            buttonTool63,
+            buttonTool65,
+            buttonTool69,
+            buttonTool70,
+            buttonTool71,
+            buttonTool74,
+            buttonTool6,
+            buttonTool31,
+            buttonTool32,
+            buttonTool36,
+            buttonTool77});
 			this.ultraToolbarsManager.ToolClick += new Infragistics.Win.UltraWinToolbars.ToolClickEventHandler(this.OnToolbarToolClick);
 			// 
 			// _Form1_Toolbars_Dock_Area_Right

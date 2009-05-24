@@ -125,7 +125,7 @@
   <data name="ultraTree1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="appearance23.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance43.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
@@ -145,7 +145,7 @@
   <data name="ultraTreeNode2.Text" xml:space="preserve">
     <value>Carnage4Life</value>
   </data>
-  <data name="appearance24.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance44.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
@@ -165,7 +165,7 @@
   <data name="ultraTreeNode4.Text" xml:space="preserve">
     <value>Bruno</value>
   </data>
-  <data name="appearance25.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance45.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
@@ -184,7 +184,7 @@
   <data name="ultraTreeNode3.Text" xml:space="preserve">
     <value>Friends</value>
   </data>
-  <data name="appearance26.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance46.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
@@ -203,8 +203,29 @@
   <data name="ultraTreeNode1.Text" xml:space="preserve">
     <value>My Feeds</value>
   </data>
+  <data name="ultraTreeNode5.LeftImages" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAoVJREFUOE+Vk2tIU2Ecxqeop3RaTWkTRepDiGRURhfICppI9SH6FHSxlFLKZU6QFEEI
+        nc4ib3NiJG5WdLHU8oKhZKSlmZN5T6aCXSiJXZq7qrXz9D/hp86EeuEH57zv/3nO/33e8/oIaJhNRv9n
+        jU25LrAX/IWiKIfVYjPOTrXpJyZvvux+NUMlSwS4Wt6YNhj86rXazo7hD5gFMOgCWoxA7biJzS8s/rot
+        NjaRRMGEj1eDe5o6ecvQJGwk5hiz/0T7Zxc0Bjeqxl1IT0vrJeFuYq1Xgwp1zajODXxb9mB+yYM+8yKe
+        f3SgdsIK9eQyFJpmdl1ISBaJI712UVH/0NFJLfebFvHa6EbrFyfuT9ugHragasSB0o5hbAwLKyfxDsKf
+        18WNyupPd+dYPCDRoxkbtFMLqBn5geIBE26PuaBs6EGwUKgm4X5iDc8gO1NWW6YzQTVqh0pvQdmQGYp3
+        Jij7zSgf8+Bqds4ciVTEHoLhGSRID8fkF5XMFw46WIXOiaKBBZTpnbg18guKuiY2K+OKPaegpE8cxBxa
+        LUhmV9zOY5kZMv11bSurbB/1FDT0euTXcudTU84brRRwd5UM+viArgi/PznwtsGdbwixL1wizouKjKgW
+        iTbU0Ht1curlttZKOTCeAjw5jokjou7NfoLtq5kE0sImYi+RQBwIFYdK38YJmqFNBKYzgcYTmDq6vieG
+        EcR5DZQmfVeCEq7sN5Aetr45GPgUd6Rkkg5nUxKyFaWztO61k79D5rbHUPTRPfHMY5dKirnvFpw6c66L
+        5i8R4bxTWWUigEy2yPLy3p88ffaFRCLhMrpIiP/VgKsLIKKJ5BW4+xH0PwZcLfcjcV/l4MS+vwF2eDur
+        r22DzwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="ultraTreeNode5.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="ultraTree1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 105</value>
+    <value>135, 192</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ultraTree1.TabIndex" type="System.Int32, mscorlib">
@@ -226,7 +247,7 @@
     <value>0, 25</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 105</value>
+    <value>135, 192</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -298,7 +319,7 @@
     <value>135, 0</value>
   </data>
   <data name="splitter2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>3, 208</value>
+    <value>3, 295</value>
   </data>
   <data name="splitter2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -346,7 +367,7 @@
     <value>0, 143</value>
   </data>
   <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 65</value>
+    <value>526, 152</value>
   </data>
   <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -376,7 +397,7 @@
     <value>0, 140</value>
   </data>
   <data name="splitter1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 3</value>
+    <value>526, 3</value>
   </data>
   <data name="splitter1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -403,7 +424,7 @@
     <value>Title</value>
   </data>
   <data name="ultraListView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 140</value>
+    <value>526, 140</value>
   </data>
   <data name="ultraListView1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -430,7 +451,7 @@
     <value>135, 0</value>
   </data>
   <data name="panel_list_detail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 208</value>
+    <value>526, 295</value>
   </data>
   <data name="panel_list_detail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -554,7 +575,7 @@
     <value>0, 0</value>
   </data>
   <data name="ultraExplorerBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 208</value>
+    <value>135, 295</value>
   </data>
   <data name="ultraExplorerBar.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -578,7 +599,7 @@
     <value>4, 216</value>
   </data>
   <data name="Form1_Fill_Panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>483, 208</value>
+    <value>661, 295</value>
   </data>
   <data name="Form1_Fill_Panel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -605,10 +626,10 @@
     <value>NoControl</value>
   </data>
   <data name="ultraStatusBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 424</value>
+    <value>0, 511</value>
   </data>
   <data name="ultraStatusBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>620, 23</value>
+    <value>798, 23</value>
   </data>
   <data name="ultraStatusBar1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -632,7 +653,7 @@
     <value>0, 216</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Left.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 208</value>
+    <value>4, 295</value>
   </data>
   <metadata name="ultraToolbarsManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
@@ -644,13 +665,13 @@
     <value>5, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>620, 447</value>
+    <value>798, 534</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Location" type="System.Drawing.Point, System.Drawing">
-    <value>487, 216</value>
+    <value>665, 216</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 208</value>
+    <value>133, 295</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Right.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Right</value>
@@ -668,7 +689,7 @@
     <value>0, 0</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Top.Size" type="System.Drawing.Size, System.Drawing">
-    <value>620, 216</value>
+    <value>798, 216</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Top.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Top</value>
@@ -683,10 +704,10 @@
     <value>3</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Bottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 424</value>
+    <value>0, 511</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Bottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>620, 0</value>
+    <value>798, 0</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Bottom.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Bottom</value>
@@ -2357,47 +2378,71 @@
   <data name="contextualTabGroup2.Caption" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="contextualTabGroup3.Caption" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="ribbonTab1.Caption" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="ribbonGroup1.Caption" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="buttonTool31.InstanceProps.Caption" xml:space="preserve">
-    <value>Feed Source</value>
+    <value>Refresh Feeds</value>
   </data>
   <data name="ribbonGroup2.Caption" xml:space="preserve">
-    <value>Navigation</value>
+    <value>New</value>
   </data>
-  <data name="ribbonTab2.Caption" xml:space="preserve">
-    <value>Edit</value>
+  <data name="popupMenuTool3.InstanceProps.Caption" xml:space="preserve">
+    <value>Subscription</value>
+  </data>
+  <data name="popupMenuTool7.InstanceProps.Caption" xml:space="preserve">
+    <value>Feed Source</value>
   </data>
   <data name="ribbonGroup3.Caption" xml:space="preserve">
-    <value>General</value>
+    <value>Catch Up</value>
+  </data>
+  <data name="ribbonTab2.Caption" xml:space="preserve">
+    <value>Folder</value>
   </data>
   <data name="ribbonGroup4.Caption" xml:space="preserve">
-    <value>ribbonGroup1</value>
-  </data>
-  <data name="ribbonTab3.Caption" xml:space="preserve">
-    <value>Styles</value>
+    <value>New</value>
   </data>
   <data name="ribbonGroup5.Caption" xml:space="preserve">
-    <value>Default Stylesheets</value>
+    <value>Actions</value>
   </data>
   <data name="ribbonGroup6.Caption" xml:space="preserve">
-    <value>My Stylesheets</value>
+    <value>Catch Up</value>
   </data>
-  <data name="ribbonTab4.Caption" xml:space="preserve">
-    <value>Feed Tools</value>
+  <data name="ribbonTab3.Caption" xml:space="preserve">
+    <value>Feed</value>
   </data>
   <data name="ribbonGroup7.Caption" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="ribbonTab5.Caption" xml:space="preserve">
-    <value>Category Tools</value>
+    <value>Actions</value>
   </data>
   <data name="ribbonGroup8.Caption" xml:space="preserve">
-    <value>General</value>
+    <value>Catch Up</value>
+  </data>
+  <data name="ribbonTab4.Caption" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="ribbonTab5.Caption" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ribbonGroup9.Caption" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="ribbonGroup10.Caption" xml:space="preserve">
+    <value>Default Stylesheets</value>
+  </data>
+  <data name="ribbonGroup11.Caption" xml:space="preserve">
+    <value>My Stylesheets</value>
+  </data>
+  <data name="ribbonTab6.Caption" xml:space="preserve">
+    <value>Send Feedback</value>
+  </data>
+  <data name="ribbonTab7.Caption" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ribbonGroup12.Caption" xml:space="preserve">
+    <value>Scope</value>
   </data>
   <data name="ultraTaskPaneToolbar1.Text" xml:space="preserve">
     <value>Search</value>
@@ -2943,62 +2988,6 @@
   <data name="buttonTool30.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>Move to next unread item</value>
   </data>
-  <data name="appearance34.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-</value>
-  </data>
-  <data name="buttonTool32.SharedProps.Caption" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="buttonTool32.SharedProps.CustomizerCaption" xml:space="preserve">
-    <value>New Feed Source Tool</value>
-  </data>
-  <data name="buttonTool32.SharedProps.CustomizerDescription" xml:space="preserve">
-    <value>Feed Source</value>
-  </data>
   <data name="appearance35.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -3137,6 +3126,269 @@
   </data>
   <data name="buttonTool41.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>Next Unread Feed Tool</value>
+  </data>
+  <data name="appearance38.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="popupMenuTool9.SharedProps.Caption" xml:space="preserve">
+    <value>Feed Source</value>
+  </data>
+  <data name="popupMenuTool9.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Feed Source Tool</value>
+  </data>
+  <data name="popupMenuTool9.SharedProps.CustomizerDescription" xml:space="preserve">
+    <value>Feed Source</value>
+  </data>
+  <data name="buttonTool44.SharedProps.Caption" xml:space="preserve">
+    <value>Update All Feeds</value>
+  </data>
+  <data name="buttonTool44.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool44.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Refresh All Command</value>
+  </data>
+  <data name="buttonTool45.SharedProps.Caption" xml:space="preserve">
+    <value>Update Folder</value>
+  </data>
+  <data name="buttonTool45.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool45.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Refresh Folder Command</value>
+  </data>
+  <data name="buttonTool48.SharedProps.Caption" xml:space="preserve">
+    <value>Mark All Items as Read</value>
+  </data>
+  <data name="buttonTool48.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool48.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Mark All Items Read Command</value>
+  </data>
+  <data name="buttonTool49.SharedProps.Caption" xml:space="preserve">
+    <value>Top Stories</value>
+  </data>
+  <data name="buttonTool49.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool49.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Top Stories Command</value>
+  </data>
+  <data name="popupMenuTool12.SharedProps.Caption" xml:space="preserve">
+    <value>Navigation Pane</value>
+  </data>
+  <data name="popupMenuTool12.SharedProps.Category" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="popupMenuTool12.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Navigation Pane Dropdown Menu</value>
+  </data>
+  <data name="popupMenuTool13.SharedProps.Caption" xml:space="preserve">
+    <value>Reading Pane</value>
+  </data>
+  <data name="popupMenuTool13.SharedProps.Category" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="popupMenuTool13.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Reading Pane Menu</value>
+  </data>
+  <data name="buttonTool52.SharedProps.Caption" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="buttonTool52.SharedProps.Category" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="buttonTool52.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Minimize Navigation Pane Tool</value>
+  </data>
+  <data name="buttonTool53.SharedProps.Caption" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="buttonTool53.SharedProps.Category" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="buttonTool53.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Hide Navigation Pane Command</value>
+  </data>
+  <data name="buttonTool57.SharedProps.Caption" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="buttonTool57.SharedProps.Category" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="buttonTool57.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Reading Pane Right Command</value>
+  </data>
+  <data name="buttonTool58.SharedProps.Caption" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="buttonTool58.SharedProps.Category" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="buttonTool58.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Reading Pane Bottom Command</value>
+  </data>
+  <data name="buttonTool59.SharedProps.Caption" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="buttonTool59.SharedProps.Category" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="buttonTool59.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Reading Pane Off Command</value>
+  </data>
+  <data name="buttonTool61.SharedProps.Caption" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="buttonTool61.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool61.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Folder Tool</value>
+  </data>
+  <data name="buttonTool63.SharedProps.Caption" xml:space="preserve">
+    <value>New Subscription</value>
+  </data>
+  <data name="buttonTool63.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool63.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Subscription Tool (Wizard)</value>
+  </data>
+  <data name="buttonTool65.SharedProps.Caption" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="buttonTool65.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool65.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Rename Folder Tool</value>
+  </data>
+  <data name="buttonTool69.SharedProps.Caption" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="buttonTool69.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool69.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Copy Folder Tool</value>
+  </data>
+  <data name="buttonTool70.SharedProps.Caption" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="buttonTool70.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool70.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Move Folder Tool</value>
+  </data>
+  <data name="buttonTool71.SharedProps.Caption" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="buttonTool71.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool71.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Delete Folder Tool</value>
+  </data>
+  <data name="buttonTool74.SharedProps.Caption" xml:space="preserve">
+    <value>Delete All Items</value>
+  </data>
+  <data name="buttonTool74.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool74.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Delete All Items in Folder Command</value>
+  </data>
+  <data name="buttonTool6.SharedProps.Caption" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="buttonTool6.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool6.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Rename Feed Tool</value>
+  </data>
+  <data name="buttonTool31.SharedProps.Caption" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="buttonTool31.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool31.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Copy Feed Tool</value>
+  </data>
+  <data name="buttonTool32.SharedProps.Caption" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="buttonTool32.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool32.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Move Feed Tool</value>
+  </data>
+  <data name="buttonTool36.SharedProps.Caption" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="buttonTool36.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool36.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Delete Feed Tool</value>
+  </data>
+  <data name="buttonTool77.SharedProps.Caption" xml:space="preserve">
+    <value>Delete All Items</value>
+  </data>
+  <data name="buttonTool77.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool77.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Delete All Items in Feed Tool</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Left</value>

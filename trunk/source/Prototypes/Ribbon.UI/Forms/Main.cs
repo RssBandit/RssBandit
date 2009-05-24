@@ -110,10 +110,27 @@ namespace RssBandit.UI.Forms
 			foreach (RibbonTab ctg in ultraToolbarsManager.Ribbon.Tabs)
 				if (ctg.ContextualTabGroup != null)
 					ctg.Visible = false;
+
+			RibbonTab active = null;
 			if (e.TreeNode.Tag.ToString() == "F")
-				ultraToolbarsManager.Ribbon.Tabs["ribFeeds"].Visible = true;
+			{
+				active = ultraToolbarsManager.Ribbon.Tabs["ribFeed"];
+			}
 			if (e.TreeNode.Tag.ToString() == "C")
-				ultraToolbarsManager.Ribbon.Tabs["ribCategory"].Visible = true;
+			{
+				active = ultraToolbarsManager.Ribbon.Tabs["ribFolder"];
+			}
+			if (e.TreeNode.Tag.ToString() == "S")
+			{
+				active = ultraToolbarsManager.Ribbon.Tabs["ribSearch"];
+			}
+
+			if (active != null)
+			{
+				active.Visible = true;
+				active.BringIntoView();
+				ultraToolbarsManager.Ribbon.SelectedTab = active;
+			}
 		}
 
 	}
