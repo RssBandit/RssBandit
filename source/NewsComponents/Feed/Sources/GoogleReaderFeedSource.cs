@@ -1212,6 +1212,10 @@ namespace NewsComponents.Feed
             {
                 GoogleReaderUpdater.CancelPendingOperations();
             }
+            else
+            {
+                GoogleReaderUpdater.UnregisterFeedSource(this); 
+            }
             base.DeleteAllFeedsAndCategories(deleteFromSource);
         }
 
