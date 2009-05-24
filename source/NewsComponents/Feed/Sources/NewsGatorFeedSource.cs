@@ -1911,6 +1911,10 @@ namespace NewsComponents.Feed
             {
                 NewsGatorUpdater.CancelPendingOperations();
             }
+            else
+            {
+                NewsGatorUpdater.UnregisterFeedSource(this); 
+            }
             base.DeleteAllFeedsAndCategories(deleteFromSource);
         }
 

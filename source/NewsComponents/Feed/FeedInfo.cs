@@ -303,7 +303,9 @@ namespace NewsComponents.Feed
             writer.WriteElementString("description", Description);
 
             //other stuff
-            foreach (var s in optionalElements.Values)
+            string[] optionals = new string[optionalElements.Count];
+            optionalElements.Values.CopyTo(optionals, 0); 
+            foreach (var s in optionals)
             {
                 writer.WriteRaw(s);
             }
