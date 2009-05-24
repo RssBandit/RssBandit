@@ -181,7 +181,7 @@
     <value>The requested resource is not longer available (HTTP status 410)</value>
   </data>
   <data name="ExceptionClientCertificateRequired" xml:space="preserve">
-    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
+    <value>Access forbidden, client certificate required or invalid</value>
   </data>
   <data name="ExceptionNntpResourceAuthorization" xml:space="preserve">
     <value>Unauthorized access, credentials required or invalid credentials (NNTP status 480)</value>
