@@ -28,6 +28,7 @@ using NewsComponents.Utils;
 
 using RssBandit.Common;
 using RssBandit.Common.Logging;
+using NewsComponents.Resources;
 
 namespace NewsComponents.Feed
 {
@@ -515,16 +516,24 @@ namespace NewsComponents.Feed
         /// </summary>
         private void AuthenticateUser()
         {
-            string body = String.Format(authBody, location.Credentials.UserName, location.Credentials.Password);  
+            string body = String.Format(authBody, location.Credentials.UserName, location.Credentials.Password);
+            try
+            {
+                StreamReader reader = new StreamReader(AsyncWebRequest.PostSyncResponseStream(authUrl, body, null, null, this.Proxy));
+                string[] response = reader.ReadToEnd().Split('\n');
 
-            StreamReader reader = new StreamReader(AsyncWebRequest.PostSyncResponseStream(authUrl, body, null, null, this.Proxy));
-            string[] response = reader.ReadToEnd().Split('\n');
-
-            foreach(string s in response){
-                if(s.StartsWith("SID=",StringComparison.Ordinal)){
-                    this.SID = s.Substring(4);
-                    return;
+                foreach (string s in response)
+                {
+                    if (s.StartsWith("SID=", StringComparison.Ordinal))
+                    {
+                        this.SID = s.Substring(4);
+                        return;
+                    }
                 }
+            }
+            catch (ClientCertificateRequiredException) //Google returns a 403 instead of a 401 on invalid password
+            {
+                throw new ResourceAuthorizationException(); 
             }
 
             throw new WebException("Could not authenticate user to Google Reader because no SID provided in response", WebExceptionStatus.UnknownError);

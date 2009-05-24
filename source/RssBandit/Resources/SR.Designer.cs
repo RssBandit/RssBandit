@@ -529,7 +529,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An authorization exception occured while attempting to load the feed list for &quot;{0}&quot;: {1}.
+        ///   Looks up a localized string similar to An authorization exception occured while attempting to load the feed list for &quot;{0}&quot;: {1}. Please ensure your username &amp; password are correct by right-clicking on &quot;{0}&quot; and selecting Properties..
         /// </summary>
         internal static string ExceptionFeedlistCredentials {
             get {
