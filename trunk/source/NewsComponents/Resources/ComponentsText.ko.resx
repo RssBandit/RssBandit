@@ -130,6 +130,6 @@
     <value>요구하신 정보는 더 이상 존재 하지 않습니다 (HTTP status 410)</value>
   </data>
 	<data name="ExceptionClientCertificateRequired" space="preserve">
-    <value>Access forbidden, client certificate required or invalid client certificate provided.</value>
+    <value>Access forbidden, client certificate required or invalid</value>
   </data>
 	</root>

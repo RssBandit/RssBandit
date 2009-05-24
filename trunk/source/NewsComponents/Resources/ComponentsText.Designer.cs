@@ -70,7 +70,7 @@ namespace NewsComponents.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Access forbidden, client certificate required or invalid client certificate provided..
+        ///   Looks up a localized string similar to Access forbidden, client certificate required or invalid.
         /// </summary>
         internal static string ExceptionClientCertificateRequired {
             get {
