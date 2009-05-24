@@ -5363,21 +5363,28 @@ namespace NewsComponents
                 return false;
             }
 
-            string fileext = Path.GetExtension(filename);
-
-            if (fileext.Length > 1)
+            try
             {
-                fileext = fileext.Substring(1);
+                string fileext = Path.GetExtension(filename);
 
-                foreach (string podcastExt in podcastfileextensions)
+                if (fileext.Length > 1)
                 {
-                    if (fileext.ToLower().Equals(podcastExt.ToLower()))
-                    {
-                        return true;
-                    }
-                } //foreach
-            }
+                    fileext = fileext.Substring(1);
 
+                    foreach (string podcastExt in podcastfileextensions)
+                    {
+                        if (fileext.ToLower().Equals(podcastExt.ToLower()))
+                        {
+                            return true;
+                        }
+                    } //foreach
+                }
+            }
+            catch (ArgumentException)
+            { 
+                /* invalid characters in file path when calling Path.GetExtension() */
+            }
+                                        
             return false;
         }
 
