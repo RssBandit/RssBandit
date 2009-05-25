@@ -59,7 +59,7 @@ namespace RssBandit.Common
         /// <param name="uri">The URI to canonicalize</param>
         /// <param name="replaceWWW">Indicates whether preceding 'www' should be removed or not</param>
         /// <returns>The canonicalized URI as a string</returns>        
-        public static string CanonicalizedUri(this Uri uri, bool replaceWWW)
+        public static string CanonicalizedUri(Uri uri, bool replaceWWW)
         {
 
             if (uri.IsFile || uri.IsUnc)
@@ -70,7 +70,7 @@ namespace RssBandit.Common
             {
                 builder.Host = (builder.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? builder.Host.Substring(4) : builder.Host);
             }
-			builder.Path = (builder.Path.EndsWith("/", StringComparison.Ordinal) ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);
+            builder.Path = (builder.Path.EndsWith("/", StringComparison.Ordinal) && String.IsNullOrEmpty(builder.Query) ? builder.Path.Substring(0, builder.Path.Length - 1) : builder.Path);
 
             string strUri = builder.ToString();
 
