@@ -2307,17 +2307,17 @@
   <data name="&gt;&gt;imageList1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
-    <value>ultraToolbarsManager</value>
-  </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
   <data name="&gt;&gt;ultraToolTipManager1.Name" xml:space="preserve">
     <value>ultraToolTipManager1</value>
   </data>
   <data name="&gt;&gt;ultraToolTipManager1.Type" xml:space="preserve">
     <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
+    <value>ultraToolbarsManager</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
@@ -2518,7 +2518,7 @@
     <value>New</value>
   </data>
   <data name="resource.Category" xml:space="preserve">
-    <value>Menu</value>
+    <value>Home</value>
   </data>
   <data name="resource.CustomizerCaption" xml:space="preserve">
     <value>New Feed Subscription</value>
@@ -2598,7 +2598,7 @@
     <value>New</value>
   </data>
   <data name="resource.Category1" xml:space="preserve">
-    <value>Menu</value>
+    <value>Home</value>
   </data>
   <data name="resource.CustomizerCaption1" xml:space="preserve">
     <value>New Nntp Subscription</value>
@@ -2681,7 +2681,7 @@
     <value>New</value>
   </data>
   <data name="resource.Category2" xml:space="preserve">
-    <value>Menu</value>
+    <value>Home</value>
   </data>
   <data name="resource.CustomizerCaption2" xml:space="preserve">
     <value>New Search Result Subscription</value>
@@ -3041,7 +3041,7 @@
     <value>Feed</value>
   </data>
   <data name="popupMenuTool4.SharedProps.Category" xml:space="preserve">
-    <value>Menu</value>
+    <value>Home</value>
   </data>
   <data name="popupMenuTool4.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>New Feed dropdown menu</value>
@@ -3177,11 +3177,14 @@
   <data name="popupMenuTool9.SharedProps.Caption" xml:space="preserve">
     <value>Feed Source</value>
   </data>
+  <data name="popupMenuTool9.SharedProps.Category" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="popupMenuTool9.SharedProps.CustomizerCaption" xml:space="preserve">
-    <value>New Feed Source Tool</value>
+    <value>New Feed Source dropdown menu</value>
   </data>
   <data name="popupMenuTool9.SharedProps.CustomizerDescription" xml:space="preserve">
-    <value>Feed Source</value>
+    <value>Feed Sources Menu</value>
   </data>
   <data name="buttonTool44.SharedProps.Caption" xml:space="preserve">
     <value>Update All Feeds</value>
@@ -3223,7 +3226,7 @@
     <value>Navigation Pane</value>
   </data>
   <data name="popupMenuTool12.SharedProps.Category" xml:space="preserve">
-    <value>Menu</value>
+    <value>View</value>
   </data>
   <data name="popupMenuTool12.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>Navigation Pane Dropdown Menu</value>
@@ -3389,6 +3392,60 @@
   </data>
   <data name="buttonTool77.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>Delete All Items in Feed Tool</value>
+  </data>
+  <data name="buttonTool26.SharedProps.Caption" xml:space="preserve">
+    <value>New Facebook Feed Source</value>
+  </data>
+  <data name="buttonTool26.SharedProps.Category" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="buttonTool26.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Facebook Feed Source command</value>
+  </data>
+  <data name="buttonTool78.SharedProps.Caption" xml:space="preserve">
+    <value>New Google Reader Feed Source</value>
+  </data>
+  <data name="buttonTool78.SharedProps.Category" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="buttonTool78.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Google Reader Feed Source command</value>
+  </data>
+  <data name="buttonTool79.SharedProps.Caption" xml:space="preserve">
+    <value>New Newsgator Online Feed Source</value>
+  </data>
+  <data name="buttonTool79.SharedProps.Category" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="buttonTool79.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>New Newsgator Online Feed Source command</value>
+  </data>
+  <data name="buttonTool80.SharedProps.Caption" xml:space="preserve">
+    <value>Add Windows Common Feed List</value>
+  </data>
+  <data name="buttonTool80.SharedProps.Category" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="buttonTool80.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Add Windows Common Feed List command</value>
+  </data>
+  <data name="buttonTool85.SharedProps.Caption" xml:space="preserve">
+    <value>Go!</value>
+  </data>
+  <data name="buttonTool85.SharedProps.Category" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="buttonTool85.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Navigate to Url command</value>
+  </data>
+  <data name="buttonTool87.SharedProps.Caption" xml:space="preserve">
+    <value>Update Feed</value>
+  </data>
+  <data name="buttonTool87.SharedProps.Category" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="buttonTool87.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Refresh Feed command</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Left</value>

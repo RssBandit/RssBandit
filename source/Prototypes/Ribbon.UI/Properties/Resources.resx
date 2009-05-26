@@ -283,4 +283,28 @@
   <data name="next_unread_item_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\next.unread.item.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Go_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\go.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_folder_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\add.folder.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="move_2_folder_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\move.2.folder.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="move_2_folder_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\move.2.folder.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_all_feedsources_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh.all.feedsources.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_feed_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh.feed.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_folder_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh.folder.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rename_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\rename.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

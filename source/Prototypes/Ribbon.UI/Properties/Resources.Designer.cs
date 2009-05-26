@@ -67,6 +67,13 @@ namespace RssBandit.UI.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap add_folder_32 {
+            get {
+                object obj = ResourceManager.GetObject("add_folder_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap add_newsserver_16 {
             get {
                 object obj = ResourceManager.GetObject("add_newsserver_16", resourceCulture);
@@ -235,6 +242,13 @@ namespace RssBandit.UI.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Go_32 {
+            get {
+                object obj = ResourceManager.GetObject("Go_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Help_Icon_16 {
             get {
                 object obj = ResourceManager.GetObject("Help_Icon_16", resourceCulture);
@@ -273,6 +287,20 @@ namespace RssBandit.UI.Properties {
         internal static System.Drawing.Bitmap Minus_16 {
             get {
                 object obj = ResourceManager.GetObject("Minus_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap move_2_folder_16 {
+            get {
+                object obj = ResourceManager.GetObject("move_2_folder_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap move_2_folder_32 {
+            get {
+                object obj = ResourceManager.GetObject("move_2_folder_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -350,6 +378,34 @@ namespace RssBandit.UI.Properties {
         internal static System.Drawing.Bitmap Plus_16 {
             get {
                 object obj = ResourceManager.GetObject("Plus_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_all_feedsources_32 {
+            get {
+                object obj = ResourceManager.GetObject("refresh_all_feedsources_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_feed_32 {
+            get {
+                object obj = ResourceManager.GetObject("refresh_feed_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_folder_32 {
+            get {
+                object obj = ResourceManager.GetObject("refresh_folder_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rename_16 {
+            get {
+                object obj = ResourceManager.GetObject("rename_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

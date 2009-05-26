@@ -171,6 +171,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\move.2.folder.16.png" />
+    <None Include="Resources\move.2.folder.32.png" />
+    <None Include="Resources\rename.16.png" />
+    <None Include="Resources\add.folder.32.png" />
+    <None Include="Resources\refresh.feed.32.png" />
+    <None Include="Resources\refresh.folder.32.png" />
+    <None Include="Resources\refresh.all.feedsources.32.png" />
+    <None Include="Resources\Go.32.png" />
     <None Include="Resources\mark.feed.read.16.png" />
     <None Include="Resources\next.unread.feed.16.png" />
     <None Include="Resources\next.unread.item.16.png" />
@@ -290,7 +298,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
     <Folder Include="Stylesheets\Preview\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
