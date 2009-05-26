@@ -11,6 +11,7 @@
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using Ribbon.WindowsApplication;
+using System;
 
 namespace RssBandit.UI.Forms
 {
@@ -47,6 +48,30 @@ namespace RssBandit.UI.Forms
 			base.Dispose( disposing );
 		}
 
+		private void ActivateContextRibbon(string id)
+		{
+			
+			RibbonTab active = null;
+			if (ultraToolbarsManager.Ribbon.Tabs.Exists(id))
+				active = ultraToolbarsManager.Ribbon.Tabs[id];
+			else
+				throw new ArgumentException("No such ribbon tab with id: " + id, "id");
+
+			if (ultraToolbarsManager.Ribbon.SelectedTab == active)
+				return;
+			
+			ultraToolbarsManager.EventManager.AllEventsEnabled = false;
+
+			foreach (RibbonTab ctg in ultraToolbarsManager.Ribbon.Tabs)
+				if (ctg.ContextualTabGroup != null)
+					ctg.Visible = false;
+
+			active.Visible = true;
+			active.BringIntoView();
+			ultraToolbarsManager.Ribbon.SelectedTab = active;
+			
+			ultraToolbarsManager.EventManager.AllEventsEnabled = true;
+		}
 
 		private void OnFormClosed(object sender, System.EventArgs e) {
 		
@@ -107,31 +132,31 @@ namespace RssBandit.UI.Forms
 
 		private void OnBeforeNodeActivate(object sender, Infragistics.Win.UltraWinTree.CancelableNodeEventArgs e)
 		{
-			foreach (RibbonTab ctg in ultraToolbarsManager.Ribbon.Tabs)
-				if (ctg.ContextualTabGroup != null)
-					ctg.Visible = false;
-
-			RibbonTab active = null;
 			if (e.TreeNode.Tag.ToString() == "F")
 			{
-				active = ultraToolbarsManager.Ribbon.Tabs["ribFeed"];
+				ActivateContextRibbon("ribFeed");
 			}
 			if (e.TreeNode.Tag.ToString() == "C")
 			{
-				active = ultraToolbarsManager.Ribbon.Tabs["ribFolder"];
+				ActivateContextRibbon("ribFolder");
 			}
 			if (e.TreeNode.Tag.ToString() == "S")
 			{
-				active = ultraToolbarsManager.Ribbon.Tabs["ribSearch"];
-			}
-
-			if (active != null)
-			{
-				active.Visible = true;
-				active.BringIntoView();
-				ultraToolbarsManager.Ribbon.SelectedTab = active;
+				ActivateContextRibbon("ribSearch");
 			}
 		}
 
+		private void OnToolbarAfterToolActivate(object sender, ToolEventArgs e)
+		{
+			
+		}
+
+		
+
+		private void OnToolbarAfterToolEnterEditMode(object sender, AfterToolEnterEditModeEventArgs e)
+		{
+			if (e.Tool.Key == "txtSearchWeb")
+				ActivateContextRibbon("ribSearch");
+		}
 	}
 }
