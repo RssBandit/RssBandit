@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{66B29922-166D-4E86-9F62-0CD9FA6B998A}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -171,12 +171,41 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <EmbeddedResource Include="Resources\filter.gif" />
+    <Content Include="Resources\flag.blue.gif" />
+    <Content Include="Resources\flag.clear.gif" />
+    <Content Include="Resources\flag.complete.gif" />
+    <Content Include="Resources\flag.gif" />
+    <Content Include="Resources\flag.green.gif" />
+    <Content Include="Resources\flag.orange.gif" />
+    <Content Include="Resources\flag.purple.gif" />
+    <Content Include="Resources\flag.red.gif" />
+    <Content Include="Resources\flag.reply.gif" />
+    <Content Include="Resources\flag.yellow.gif" />
+    <Content Include="Resources\manage_identities.png" />
+    <Content Include="Resources\not.watched.gif" />
+    <Content Include="Resources\post_item.gif" />
+    <Content Include="Resources\read.gif" />
+    <Content Include="Resources\unflag.GIF" />
+    <Content Include="Resources\unread.gif" />
+    <None Include="Resources\unread_envelope.gif" />
+    <None Include="Resources\watch_icon.gif" />
+    <None Include="Resources\webpage_icon.gif" />
+    <EmbeddedResource Include="Resources\rules.gif" />
+    <EmbeddedResource Include="Resources\properties.gif" />
+    <EmbeddedResource Include="Resources\settings_icon.png" />
+    <EmbeddedResource Include="Resources\newsgroups.png" />
+    <EmbeddedResource Include="Resources\podcasts.gif" />
+    <EmbeddedResource Include="Resources\facebook.ico" />
+    <EmbeddedResource Include="Resources\google.ico" />
+    <EmbeddedResource Include="Resources\newsgator.png" />
+    <EmbeddedResource Include="Resources\windows.ico" />
     <None Include="Resources\move.2.folder.16.png" />
     <None Include="Resources\move.2.folder.32.png" />
     <None Include="Resources\rename.16.png" />
     <None Include="Resources\add.folder.32.png" />
     <None Include="Resources\refresh.feed.32.png" />
-    <None Include="Resources\refresh.folder.32.png" />
+    <EmbeddedResource Include="Resources\refresh.folder.32.png" />
     <None Include="Resources\refresh.all.feedsources.32.png" />
     <None Include="Resources\Go.32.png" />
     <None Include="Resources\mark.feed.read.16.png" />

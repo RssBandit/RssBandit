@@ -206,7 +206,7 @@ namespace Ribbon.WindowsApplication
 			this.ultraToolbarsManager.DockWithinContainerBaseType = typeof(System.Windows.Forms.Form);
 			this.ultraToolbarsManager.ImageListSmall = this.imageList16;
 			ribbonTab1.Caption = "ribbon1";
-			ribbonGroup1.Caption = "ribbonGroup1";
+			ribbonGroup1.Caption = "Properties";
 			ribbonGroup1.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool6});
 			ribbonTab1.Groups.AddRange(new Infragistics.Win.UltraWinToolbars.RibbonGroup[] {
