@@ -346,15 +346,16 @@ namespace RssBandit.WinGui.Dialogs {
 					case RemoteStorageProtocolType.dasBlog:
 						comboRemoteStorageProtocol.SelectedIndex = 2;
 						break;
+                    /* 
 					case RemoteStorageProtocolType.NewsgatorOnline:
 						comboRemoteStorageProtocol.SelectedIndex = 3; 
 						textRemoteStorageLocation.Enabled = false;
 						break;
-						/*	case RemoteStorageProtocolType.dasBlog_1_3:
+							case RemoteStorageProtocolType.dasBlog_1_3:
 						comboRemoteStorageProtocol.SelectedIndex = 3;
 						break; */
 					case RemoteStorageProtocolType.WebDAV:
-						comboRemoteStorageProtocol.SelectedIndex = 4;
+						comboRemoteStorageProtocol.SelectedIndex = 3;
 						break;
 					default:
 						comboRemoteStorageProtocol.SelectedIndex = -1;
