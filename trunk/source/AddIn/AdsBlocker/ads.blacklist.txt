@@ -5,5 +5,3 @@
 #
 feeds\.feedburner\.com     # blocks the feedburner image ads backlinks
 googleadservices\.com      # blocks the google image ads
-doubleclick\.net
-pheedo\.com
