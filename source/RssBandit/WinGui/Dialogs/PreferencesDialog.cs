@@ -329,8 +329,7 @@ namespace RssBandit.WinGui.Dialogs {
 					case 0: return RemoteStorageProtocolType.UNC;
 					case 1: return RemoteStorageProtocolType.FTP;
 					case 2: return RemoteStorageProtocolType.dasBlog;
-					case 3: return RemoteStorageProtocolType.NewsgatorOnline;
-					case 4: return RemoteStorageProtocolType.WebDAV;
+					case 3: return RemoteStorageProtocolType.WebDAV;
 					case -1: return RemoteStorageProtocolType.Unknown; // no item selected
 					default: throw new InvalidOperationException("No RemoteStorageProtocolType for selected index: " + comboRemoteStorageProtocol.SelectedIndex);
 				}

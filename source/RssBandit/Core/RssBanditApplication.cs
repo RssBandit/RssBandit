@@ -2004,10 +2004,10 @@ namespace RssBandit
                 case 2: //"dasBlog"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.dasBlog;
                     break;
-                case 3: //"NewsgatorOnline"
+               /* case 3: //"NewsgatorOnline"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.NewsgatorOnline;
-                    break;
-                case 4: //"WebDAV"
+                    break; */ 
+                case 3: //"WebDAV"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.WebDAV;
                     break;
             }
