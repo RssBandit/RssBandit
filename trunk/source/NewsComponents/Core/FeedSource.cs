@@ -1425,7 +1425,7 @@ namespace NewsComponents
         /// cache. This value is used for all feeds unless one is specified on 
         /// the particular feed or its category
         /// </summary>
-        public TimeSpan MaxItemAge { get; set; }
+        public TimeSpan MaxItemAge { get; set; } 
 
         /// <summary>
         /// Gets or sets the stylesheet for displaying feeds
@@ -1511,28 +1511,7 @@ namespace NewsComponents
         /// Gets or sets whether a toast windows should be displayed on a successful download
         /// of an enclosure.
         /// </summary>
-        public static bool EnclosureAlert { get; set; }
-
-		///// <summary>
-		///// Gets or sets which properties of a NewsItem should be made columns in the RSS Bandit listview
-		///// </summary>
-		//public string FeedColumnLayout { get; set; }
-
-		///// <summary>
-		///// Accesses the list of user specified layouts (currently listview only) 
-		///// </summary>
-		//public FeedColumnLayoutCollection ColumnLayouts
-		//{
-		//    get
-		//    {
-		//        if (layouts == null)
-		//        {
-		//            layouts = new FeedColumnLayoutCollection();
-		//        }
-
-		//        return layouts;
-		//    }
-		//}
+        public static bool EnclosureAlert { get; set; }		
 
         /// <summary>
         /// Accesses the list of UserIdentity objects.
@@ -3033,23 +3012,6 @@ namespace NewsComponents
         }
 
 
-		///// <summary>
-		///// Helper function that gets the listview layout with the specified ID from the
-		///// Arraylist
-		///// </summary>
-		///// <param name="id"></param>
-		///// <param name="layouts"></param>
-		///// <returns></returns>
-		//private static listviewLayout FindLayout(IEquatable<string> id, IEnumerable<listviewLayout> layouts)
-		//{
-		//    foreach (var layout in layouts)
-		//    {
-		//        if (id.Equals(layout.ID))
-		//            return layout;
-		//    }
-		//    return null;
-		//}
-
         /// <summary>
         /// Helper function breaks up a string containing quote characters into 
         ///	a series of XPath concat() calls. 
@@ -3160,38 +3122,7 @@ namespace NewsComponents
 
                 if (feeds != null)
                 {
-                    /* 
-					 * not anymore required to store that in feedlist.
-					 * now provided via config/static:
-					 * 
-                    feedlist.refreshrate = this.refreshrate;
-                    feedlist.refreshrateSpecified = true;
-                    feedlist.downloadenclosures = this.downloadenclosures;
-                    feedlist.downloadenclosuresSpecified = true;
-                    feedlist.enclosurealert = this.enclosurealert;
-                    feedlist.enclosurealertSpecified = true;
-
-                    feedlist.createsubfoldersforenclosures = this.createsubfoldersforenclosures;
-                    feedlist.createsubfoldersforenclosuresSpecified = true;
-
-                    feedlist.numtodownloadonnewfeed = this.numtodownloadonnewfeed;
-                    feedlist.numtodownloadonnewfeedSpecified = true;
-
-                    feedlist.enclosurecachesize = this.enclosurecachesize;
-                    feedlist.enclosurecachesizeSpecified = true;
-*/
-                    //feedlist.maxitemage = XmlConvert.ToString(this.maxitemage);
-                    //feedlist.listviewlayout = FeedColumnLayout;
-                    /* not anymore required to store that in feedlist/now provided static:
-                    feedlist.stylesheet = this.stylesheet;
-					feedlist.enclosurefolder = this.EnclosureFolder;
-					
-                    feedlist.podcastfolder = PodcastFolder;
-                    feedlist.podcastfileexts = PodcastFileExtensionsAsString;
-                     not anymore required to store that in feedlist/now provided static:
-                    feedlist.markitemsreadonexit = this.markitemsreadonexit;
-                    feedlist.markitemsreadonexitSpecified = true;
-					*/
+                  
 
                     // refactored props that do not need anymore stored in feedlist:
                     feedlist.markitemsreadonexitSpecified = false;
@@ -3247,36 +3178,6 @@ namespace NewsComponents
 
                 //we don't want to write out empty <categories /> into the schema. 				
                 feedlist.categories = c.Count == 0 ? null : c;
-
-
-				//var lvl = new List<listviewLayout>(layouts.Count);
-				///* sometimes we get nulls in the arraylist, remove them */
-				//List<string> toRemove = new List<string>();
-				//foreach (string k in layouts.Keys)
-				//{
-				//    var s = layouts[k];
-				//    if (s == null)
-				//        toRemove.Add(k);
-				//    else
-				//        lvl.Add(new listviewLayout(k, s));
-				//}
-				//for (int i = 0; i < layouts.Count; i++)
-				//{
-					
-				//    FeedColumnLayoutEntry s = layouts[i];
-				//    if (s.Value == null)
-				//    {
-				//        layouts.RemoveAt(i);
-				//        i--;
-				//    }
-				//    else
-				//    {
-				//        lvl.Add(new listviewLayout(s.Key, s.Value));
-				//    }
-				//}
-
-                //we don't want to write out empty <listview-layouts /> into the schema. 				
-                //feedlist.listviewLayouts = lvl.Count == 0 ? null : lvl;
 
 				// NNTP is saved now separately:
 				feedlist.nntpservers = null;

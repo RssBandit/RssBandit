@@ -83,6 +83,7 @@ namespace RssBandit.WinGui.Interfaces
         void UpdateReadStatus();
         void UpdateCommentStatus();
         bool Modified { get; set; }
+        string ColumnLayout { get; set; }
     }
 
     /// <summary>
