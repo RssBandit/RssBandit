@@ -192,6 +192,8 @@ namespace RssBandit.WinGui.Controls
             set { itemsFeed.Modified = value; }
         }
 
+        protected virtual string ColumnLayout { get; set; }
+
         #endregion
 
 		#region ISmartFolder Members
@@ -256,6 +258,8 @@ namespace RssBandit.WinGui.Controls
 			get { return this.Modified; }
 			set { this.Modified = value; }
 		}
+
+        string ISmartFolder.ColumnLayout { get; set; }
 
 		#endregion
 	}

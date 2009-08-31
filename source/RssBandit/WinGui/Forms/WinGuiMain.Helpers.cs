@@ -2507,7 +2507,7 @@ namespace RssBandit.WinGui.Forms
 					layout = owner.GlobalSearchFolderColumnLayout;
 					break;
 				case FeedNodeType.SmartFolder:
-					layout = owner.GlobalSpecialFolderColumnLayout;
+					layout = owner.GetSmartFolderColumnLayout(feedsNode as ISmartFolder) ?? owner.GlobalSpecialFolderColumnLayout;
 					break;
 			}
 			
@@ -2538,7 +2538,7 @@ namespace RssBandit.WinGui.Forms
 						owner.GlobalSearchFolderColumnLayout = layout;
 						break;
 					case FeedNodeType.SmartFolder:
-						owner.GlobalSpecialFolderColumnLayout = layout;
+                        owner.SetSmartFolderColumnLayout(feedsNode as ISmartFolder, layout); 
 						break;
 				}
             }

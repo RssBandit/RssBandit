@@ -2864,6 +2864,159 @@ namespace RssBandit
 			set { columnLayoutManager.GlobalSpecialFolderColumnLayout = value; }
 		}
 
+        /// <summary>
+        /// Resets the column layout for a particular smart folder to null. 
+        /// </summary>
+        /// <param name="folder">The smart folder</param>
+        public void ResetSmartFolderColumnLayout(ISmartFolder folder)
+        {
+            if (folder != null)
+            {
+                folder.ColumnLayout = null;
+                UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
+                if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                {
+                    FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                    entry.UnreadItemsColumnLayoutId = null;
+                    feedlistModified = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the individual FeedColumnLayout for a smart folder such as the unread items folder. 
+        /// </summary>
+        /// <param name="folder">The smart folder</param>
+        public void SetSmartFolderColumnLayout(ISmartFolder folder, FeedColumnLayout layout)
+        {
+            if (folder == null)
+                return;
+
+            if (layout == null)
+            {
+                ResetSmartFolderColumnLayout(folder); 
+                return;
+            }
+
+            if (layout.LayoutType != LayoutType.IndividualLayout)
+                return; // not a layout format we have to store for a smart folder 
+
+            string key = folder.ColumnLayout;                             
+            FeedColumnLayout global = GlobalSpecialFolderColumnLayout;
+
+            if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key)) //not found
+            {
+                if (!layout.Equals(global, true))
+                {
+                    string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                    if (known != null)
+                    {
+                        folder.ColumnLayout =  known;
+                    }
+                    else
+                    {
+                        key = FeedColumnLayoutCollection.CreateNewKey();
+                        columnLayoutManager.ColumnLayouts.Add(key, layout);
+                        folder.ColumnLayout = key;                       
+                    }
+                    
+                    //set column layout on associated FeedSource 
+                    UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
+                    if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                    {
+                        FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                        entry.UnreadItemsColumnLayoutId = folder.ColumnLayout;                       
+                    }
+                    feedlistModified = true;
+                }
+                else
+                {
+                    // similar to global: store there
+                    GlobalSpecialFolderColumnLayout = layout;
+                }
+            }
+            else //matches existing layout
+            {
+                if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
+                {
+                    // check if layout modified
+                    if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
+                    {
+                        // check if just a simple resizing of columns						
+
+                        if (!layout.Equals(global, true))
+                        {
+                            //check if new layout is equivalent to current default
+                            string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+
+                            if (otherKnownSimilar != null)
+                            {
+                                //check if this layout is similar to an existing layout
+                                //source.ColumnLayouts[otherKnownSimilar] = new FeedColumnLayoutEntry(key, layout);	// refresh layout info
+                                folder.ColumnLayout = otherKnownSimilar;
+                                // set new key
+                            }
+                            else
+                            {
+                                //this is a brand new layout
+                                key = FeedColumnLayoutCollection.CreateNewKey();
+                                columnLayoutManager.ColumnLayouts.Add(key, layout);
+                                folder.ColumnLayout = key; 
+                            }
+                            //set column layout on associated FeedSource 
+                            UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
+                            if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                            {
+                                FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                                entry.UnreadItemsColumnLayoutId = folder.ColumnLayout;
+                            }
+                            feedlistModified = true;
+                        }
+                        else
+                        {
+                            //new layout is equivalent to the current default
+                            ResetSmartFolderColumnLayout(folder); 
+                            columnLayoutManager.ColumnLayouts.Remove(key);
+                        }
+                    }
+                    else
+                    {
+                        // this was a simple column resizing
+                        columnLayoutManager.ColumnLayouts[key] = layout;
+                        // refresh layout info
+                    }
+                    feedlistModified = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the individual FeedColumnLayout for a smart folder such as the unread items folder. 
+        /// </summary>
+        /// <param name="folder">The smart folder</param>
+        /// <returns>FeedColumnLayout</returns>
+        public FeedColumnLayout GetSmartFolderColumnLayout(ISmartFolder folder)
+        {
+            string layout = null;
+            if (folder != null)
+                layout = folder.ColumnLayout;
+
+            if (string.IsNullOrEmpty(layout))
+                return GlobalFeedColumnLayout;
+
+            FeedColumnLayout found;
+            if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out found))
+                return found;
+
+            // invalid key: cleanup
+            if (folder != null)
+            {
+                ResetSmartFolderColumnLayout(folder); 
+            }
+
+            return GlobalSpecialFolderColumnLayout;
+        }
+
 		/// <summary>
 		/// Returns the individual FeedColumnLayout for a feed, or
 		/// the global one.
