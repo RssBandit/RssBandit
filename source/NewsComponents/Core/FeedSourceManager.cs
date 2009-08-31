@@ -104,6 +104,12 @@ namespace NewsComponents
 			set { _serializedSourceType = value; }
 		}
 
+        /// <summary>
+        /// The identifier for the list view layout used for the unread items folder associated with this feed source. 
+        /// </summary>
+        [XmlAttribute("unread-items-column-layout")]
+        public string UnreadItemsColumnLayoutId{ get; set; }
+
 		private StringProperties _serializedSourceProperties = new StringProperties();
 		/// <summary>
 		/// Gets or sets the properties collection.
@@ -229,6 +235,10 @@ namespace NewsComponents
 			/// Property key for the password part of credentials
 			/// </summary>
 			public const string Password = "pwd";
+            /// <summary>
+            /// Property key used to identify the column layout for unread items for the feed source
+            /// </summary>
+            public const string UnreadItemsLayout = "unread-items-layout"; 
         }
 
         #endregion 
@@ -620,7 +630,7 @@ namespace NewsComponents
 			{
 				h.Add(PropertyKey.Domain, f.Source.SubscriptionLocation.Credentials.Domain);
 				h.Add(PropertyKey.UserName, f.Source.SubscriptionLocation.Credentials.UserName);
-				h.Add(PropertyKey.Password, CryptHelper.Encrypt(f.Source.SubscriptionLocation.Credentials.Password));
+				h.Add(PropertyKey.Password, CryptHelper.Encrypt(f.Source.SubscriptionLocation.Credentials.Password));                
 			}
 			return h;
 		}

@@ -661,12 +661,13 @@ namespace RssBandit.WinGui.Controls
 		public UnreadItemsNodePerSource(FeedSourceEntry entry, LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
 			base(itemStore, entry.Name, imageIndex, selectedImageIndex, menu)
 		{
+            base.ColumnLayout = entry.UnreadItemsColumnLayoutId; 
 			Text = entry.Name;
 			entryID = entry.ID;
 			DataKey = itemStore.link + "#" + entryID;
 		}
 
-		internal int SourceID { get { return entryID; } }
+		public int SourceID { get { return entryID; } }
 			
 		protected override void MarkItemRead(INewsItem item)
 		{
@@ -718,7 +719,7 @@ namespace RssBandit.WinGui.Controls
 				}
 				return count;
 			}
-		}
+		}      
 	}
     #endregion
 
@@ -884,7 +885,7 @@ namespace RssBandit.WinGui.Controls
         private readonly LocalFeedsFeed itemsFeed;
         //use a dictionary because we want fast access to objects
         private readonly List<INewsItem> items = new List<INewsItem>();
-
+   
         public FinderNode()
         {
         }
@@ -1072,6 +1073,8 @@ namespace RssBandit.WinGui.Controls
             get { return itemsFeed.Modified; }
             set { itemsFeed.Modified = value; }
         }
+
+        public string ColumnLayout { get; set; }
 
         #endregion
     }
