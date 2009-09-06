@@ -259,7 +259,10 @@ namespace RssBandit.WinGui.Controls
 			set { this.Modified = value; }
 		}
 
-        string ISmartFolder.ColumnLayout { get; set; }
+        string ISmartFolder.ColumnLayout {
+            get { return this.ColumnLayout; }
+            set { this.ColumnLayout = value; }
+        }
 
 		#endregion
 	}

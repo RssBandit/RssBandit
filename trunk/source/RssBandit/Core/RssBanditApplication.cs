@@ -3002,7 +3002,7 @@ namespace RssBandit
                 layout = folder.ColumnLayout;
 
             if (string.IsNullOrEmpty(layout))
-                return GlobalFeedColumnLayout;
+                return GlobalSpecialFolderColumnLayout;
 
             FeedColumnLayout found;
             if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out found))
