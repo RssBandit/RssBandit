@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -9,13 +10,13 @@
 
 #region usings
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Collections;
 using Infragistics.Win.UltraWinToolbars;
 using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Tools;
-using RssBandit.WinGui.Utility;
 using NewsComponents;
 using NewsComponents.Utils;
 #endregion
@@ -32,8 +33,8 @@ namespace RssBandit.WinGui.Utility
 		#region ivars
 		const int DefaultMaxEntries = 100;
 		
-		private int _maxEntries;
-		private ArrayList _historyEntries;
+		private readonly int _maxEntries;
+		private readonly List<HistoryEntry> _historyEntries;
 		private int _currentPosition;
 		#endregion
 
@@ -51,7 +52,7 @@ namespace RssBandit.WinGui.Utility
 		public History(int maxEntries) {
 			_maxEntries = (maxEntries > 0 ? maxEntries: DefaultMaxEntries);
 			_currentPosition = 0;
-			_historyEntries = new ArrayList(_maxEntries);	
+			_historyEntries = new List<HistoryEntry>(_maxEntries);	
 		}
 		#endregion
 
@@ -100,6 +101,18 @@ namespace RssBandit.WinGui.Utility
 			}
 		}
 
+		public HistoryEntry GetCurrent()
+		{
+			if (_historyEntries.Count > 0 && _currentPosition < _historyEntries.Count)
+			{
+				HistoryEntry ret = _historyEntries[_currentPosition];
+				// valid node?
+				if (ret.Node == null || ret.Node != null && ret.Node.Control != null)
+					return ret;
+			}
+			return null;
+		}
+
 		/// <summary>
 		/// Gets the next entry from history 
 		/// (Move forward operation)
@@ -123,14 +136,13 @@ namespace RssBandit.WinGui.Utility
 			}
 			
 			if(_historyEntries.Count != 0 && _currentPosition < _historyEntries.Count) {
-				HistoryEntry ret = (HistoryEntry)_historyEntries[_currentPosition];
+				HistoryEntry ret = _historyEntries[_currentPosition];
 				// valid node?
 				if (ret.Node == null || ret.Node != null && ret.Node.Control != null)
 					return ret;
-				else
-					return GetNextAt(index);
-			} else
-				return null;
+				return GetNextAt(index);
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -155,14 +167,13 @@ namespace RssBandit.WinGui.Utility
 				OnStateChanged();
 			}
 			if(_historyEntries.Count != 0) {
-				HistoryEntry ret = (HistoryEntry)_historyEntries[_currentPosition];
+				HistoryEntry ret = _historyEntries[_currentPosition];
 				// valid node?
 				if (ret.Node == null || ret.Node != null && ret.Node.Control != null)
 					return ret;
-				else
-					return GetPreviousAt(index);
-			} else
-				return null;
+				return GetPreviousAt(index);
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -201,12 +212,13 @@ namespace RssBandit.WinGui.Utility
 
 			ArrayList head = new ArrayList(maxEntries);
 			for (int i = _currentPosition + 1; i < Math.Min(_historyEntries.Count, _currentPosition + maxEntries + 1); i++) {
-				HistoryEntry he = (HistoryEntry)_historyEntries[i];
+				HistoryEntry he = _historyEntries[i];
 				if (he.Node != null) {
 					if (he.Node.Control == null)
 						continue;	// invalid ref (removed)
-					Image img = he.Node.ImageResolved;
-					//Image img = he.Node.Control.ImageList.Images[(int)he.Node.Override.NodeAppearance.Image];
+
+					//Image img = he.Node.ImageResolved;
+					Image img = he.Node.Control.ImageList.Images[he.Node.ImageIndex];
 					head.Add(new TextImageItem(he.ToString(), img ));
 				} else {
 					head.Add(new TextImageItem(he.ToString(), null));
@@ -233,17 +245,13 @@ namespace RssBandit.WinGui.Utility
 
 			ArrayList head = new ArrayList(maxEntries);
 			for (int i = _currentPosition - 1; i >= Math.Max(0, _currentPosition - maxEntries); i--) {
-				HistoryEntry he = (HistoryEntry)_historyEntries[i];
+				HistoryEntry he = _historyEntries[i];
 				if (he.Node != null) {
 					if (he.Node.Control == null)
 						continue;	// invalid ref (removed)
-					
-					Image img = null; 
-					if(he.Node.Override.NodeAppearance.Image is Image){
-						img = (Image) he.Node.Override.NodeAppearance.Image;
-					}else if (null != he.Node.Override.NodeAppearance.Image){
-						img = he.Node.Control.ImageList.Images[(int)he.Node.Override.NodeAppearance.Image];
-					}
+
+                    //Image img = he.Node.ImageResolved;
+                    Image img = he.Node.Control.ImageList.Images[he.Node.ImageIndex];
 					head.Add(new TextImageItem(he.ToString(), img ));
 				} else {
 					head.Add(new TextImageItem(he.ToString(), null));
@@ -281,9 +289,8 @@ namespace RssBandit.WinGui.Utility
 	/// <summary>
 	/// HistoryEntry class. The entries type used by History
 	/// </summary>
-	internal class HistoryEntry {
-		public HistoryEntry():this(null,null) {}
-		public HistoryEntry(TreeFeedsNodeBase feedsNode):this(feedsNode, null) {}
+	internal class HistoryEntry 
+	{
 		public HistoryEntry(TreeFeedsNodeBase feedsNode, INewsItem item) {
 			this.Node = feedsNode;
 			this.Item = item;
@@ -293,11 +300,11 @@ namespace RssBandit.WinGui.Utility
 		public override bool Equals(object obj) {
 			if (null == (obj as HistoryEntry))
 				return false;
-			if (Object.ReferenceEquals(this, obj))
+			if (ReferenceEquals(this, obj))
 				return true;
 			HistoryEntry o = obj as HistoryEntry;
-			if (Object.ReferenceEquals(this.Node, o.Node) &&
-				Object.ReferenceEquals(this.Item, o.Item))
+			if (ReferenceEquals(this.Node, o.Node) &&
+				ReferenceEquals(this.Item, o.Item))
 				return true;
 			if (this.Node == null || this.Item == null)
 				return false;
@@ -312,7 +319,8 @@ namespace RssBandit.WinGui.Utility
 				if (this.Item != null)
 					return this.Node.GetHashCode() ^ this.Item.GetHashCode();
 				return this.Node.GetHashCode();
-			} else if (this.Item != null) {
+			}
+			if (this.Item != null) {
 				return this.Item.GetHashCode();
 			}
 			return base.GetHashCode();
@@ -323,7 +331,8 @@ namespace RssBandit.WinGui.Utility
 				if (this.Item != null)
 					return StringHelper.ShortenByEllipsis(String.Format("{0} | {1}", this.Node.Text, this.Item.Title), 80);
 				return StringHelper.ShortenByEllipsis(this.Node.Text, 80);
-			} else if (this.Item != null) {
+			}
+			if (this.Item != null) {
 				return StringHelper.ShortenByEllipsis(String.Format("{0} | {1}", this.Item.FeedDetails.Title, this.Item.Title), 80);
 			}
 			return "?";
@@ -340,10 +349,10 @@ namespace RssBandit.WinGui.Utility
 		public event HistoryNavigationEventHandler OnNavigateForward;
 		
 		// only handles our onw created single navigation menu item commands:
-		private CommandMediator mediator = null;
+		private CommandMediator mediator;
 
-		private AppPopupMenuCommand _browserGoBackCommand = null;
-		private AppPopupMenuCommand _browserGoForwardCommand = null;
+		private AppPopupMenuCommand _browserGoBackCommand;
+		private AppPopupMenuCommand _browserGoForwardCommand;
 
 		public HistoryMenuManager() {
 			this.mediator = new CommandMediator();
@@ -354,8 +363,8 @@ namespace RssBandit.WinGui.Utility
 			this._browserGoForwardCommand = goForward;
 			// init:
 			Reset();
-			this._browserGoBackCommand.ToolbarsManager.ToolClick -= new ToolClickEventHandler(OnToolbarsManager_ToolClick);
-			this._browserGoBackCommand.ToolbarsManager.ToolClick += new ToolClickEventHandler(OnToolbarsManager_ToolClick);
+			this._browserGoBackCommand.ToolbarsManager.ToolClick -= OnToolbarsManager_ToolClick;
+			this._browserGoBackCommand.ToolbarsManager.ToolClick += OnToolbarsManager_ToolClick;
 		}
 		
 		/// <summary>
@@ -367,6 +376,73 @@ namespace RssBandit.WinGui.Utility
 			this._browserGoForwardCommand.Tools.Clear();
 		}
 		
+#if PHOENIX
+		internal static void SaveBrowserHistory(NavigationToolbar historyToolbar, ITabState state)
+		{
+			if (state == null)
+				return;
+
+			state.CurrentHistoryItem = null;
+			state.GoBackHistoryItems = null;
+			state.GoForwardHistoryItems = null;
+
+			if (historyToolbar.CurrentItem != null)
+			{
+				state.CurrentHistoryItem = (ITextImageItem)historyToolbar.CurrentItem.Tag;
+				
+				List <ITextImageItem> items = new List<ITextImageItem>(historyToolbar.BackHistoryCount);
+				foreach (var hitem in historyToolbar.BackHistory)
+				{
+					items.Add((ITextImageItem)hitem.Tag);
+				}
+				state.GoBackHistoryItems = items.ToArray();
+
+				items = new List<ITextImageItem>(historyToolbar.ForwardHistoryCount);
+				foreach (var hitem in historyToolbar.ForwardHistory)
+				{
+					items.Add((ITextImageItem)hitem.Tag);
+				}
+				state.GoForwardHistoryItems = items.ToArray();
+			}
+		}
+
+		internal static void ResetBrowserHistory(NavigationToolbar historyToolbar, ITabState state)
+		{
+			historyToolbar.ResetNavigationHistory();
+
+			if (state == null || state.CurrentHistoryItem == null)
+				return;
+
+			List<NavigationHistoryItem> back = null;
+			List<NavigationHistoryItem> forward = null;
+
+			if (state.GoBackHistoryItems != null && state.GoBackHistoryItems.Length > 0)
+			{
+				back = new List<NavigationHistoryItem>(state.GoBackHistoryItems.Length);
+				for (int i = 0; i < state.GoBackHistoryItems.Length; i++)
+				{
+					ITextImageItem item = state.GoBackHistoryItems[i];
+					back.Add(new NavigationHistoryItem(item.Text, item));
+				}
+			}
+
+			if (state.GoForwardHistoryItems != null && state.GoForwardHistoryItems.Length > 0)
+			{
+				forward = new List<NavigationHistoryItem>(state.GoForwardHistoryItems.Length);
+				for (int i = 0; i < state.GoForwardHistoryItems.Length; i++)
+				{
+					ITextImageItem item = state.GoForwardHistoryItems[i];
+					forward.Add(new NavigationHistoryItem(item.Text, item));
+				}
+			}
+
+			historyToolbar.InitializeHistory(
+				back == null ? null : back.ToArray(),
+				forward == null ? null : forward.ToArray(),
+				new NavigationHistoryItem(state.CurrentHistoryItem.Text, state.CurrentHistoryItem));
+		}
+#endif
+
 		internal void ReBuildBrowserGoBackHistoryCommandItems(ITextImageItem[] items) {
 			
 			this._browserGoBackCommand.Tools.Clear();
@@ -382,13 +458,13 @@ namespace RssBandit.WinGui.Utility
 				
 				if (cmd == null) {
 					cmd = new AppButtonToolCommand(toolKey, 
-						this.mediator, new ExecuteCommandHandler(this.CmdBrowserGoBackHistoryItem),
+						this.mediator, this.CmdBrowserGoBackHistoryItem,
 						item.Text, String.Empty);
 					this._browserGoBackCommand.ToolbarsManager.Tools.Add(cmd);
 				}
 				if (cmd.Mediator == null) {
 					cmd.Mediator = this.mediator;
-					cmd.OnExecute += new ExecuteCommandHandler(this.CmdBrowserGoBackHistoryItem);
+					cmd.OnExecute += this.CmdBrowserGoBackHistoryItem;
 					this.mediator.RegisterCommand(toolKey, cmd);
 				} else
 				if (cmd.Mediator != this.mediator) {
@@ -396,7 +472,7 @@ namespace RssBandit.WinGui.Utility
 				}
 				
 				cmd.SharedProps.ShowInCustomizer = false;
-				cmd.SharedProps.AppearancesSmall.Appearance.Image = item.Image;
+                cmd.SharedProps.AppearancesSmall.Appearance.Image = item.Image;
 				cmd.SharedProps.Caption = item.Text;
 				cmd.Tag = i;
 				this._browserGoBackCommand.Tools.Add(cmd);
@@ -424,14 +500,14 @@ namespace RssBandit.WinGui.Utility
 				if (cmd == null) 
 				{
 					cmd = new AppButtonToolCommand(toolKey, 
-						this.mediator, new ExecuteCommandHandler(this.CmdBrowserGoForwardHistoryItem),
+						this.mediator, this.CmdBrowserGoForwardHistoryItem,
 						item.Text, String.Empty);
 					this._browserGoForwardCommand.ToolbarsManager.Tools.Add(cmd);
 				}
 				
 				if (cmd.Mediator == null) {
 					cmd.Mediator = this.mediator;
-					cmd.OnExecute += new ExecuteCommandHandler(this.CmdBrowserGoForwardHistoryItem);
+					cmd.OnExecute += this.CmdBrowserGoForwardHistoryItem;
 					this.mediator.RegisterCommand(toolKey, cmd);
 				} else
 				if (cmd.Mediator != this.mediator) {
@@ -439,7 +515,7 @@ namespace RssBandit.WinGui.Utility
 				}
 				
 				cmd.SharedProps.ShowInCustomizer = false;
-				cmd.SharedProps.AppearancesSmall.Appearance.Image = item.Image;
+                cmd.SharedProps.AppearancesSmall.Appearance.Image = item.Image;
 				cmd.SharedProps.Caption = item.Text;
 				cmd.Tag = i;
 				this._browserGoForwardCommand.Tools.Add(cmd);

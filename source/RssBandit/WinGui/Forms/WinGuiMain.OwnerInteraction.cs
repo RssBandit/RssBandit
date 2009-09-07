@@ -1045,10 +1045,18 @@ namespace RssBandit.WinGui.Forms
                 switch (action)
                 {
                     case BrowseAction.NavigateBack:
+#if PHOENIX
+						ultraToolbarsManager.NavigationToolbar.NavigateBack();
+#else
                         NavigateToHistoryEntry(_feedItemImpressionHistory.GetPrevious());
+#endif
                         break;
                     case BrowseAction.NavigateForward:
+#if PHOENIX
+						ultraToolbarsManager.NavigationToolbar.NavigateForward();
+#else
                         NavigateToHistoryEntry(_feedItemImpressionHistory.GetNext());
+#endif
                         break;
                     case BrowseAction.DoRefresh:
                         OnTreeFeedAfterSelectManually(TreeSelectedFeedsNode); //??
@@ -1271,7 +1279,26 @@ namespace RssBandit.WinGui.Forms
             if (_docContainer.ActiveDocument != _docFeedDetails)
                 _docContainer.ActiveDocument = _docFeedDetails;
         }
+#if PHOENIX
+		private void SaveDocumentState(Control doc)
+		{
+			if (doc == null)
+				return;
 
+			var state = doc.Tag as ITabState;
+			if (state == null)
+				return;
+			if (_docContainer.ActiveDocument == doc)
+			{
+				SetTitleText(state.Title);
+				UrlText = state.Url;
+
+				HistoryMenuManager.SaveBrowserHistory(
+					ultraToolbarsManager.NavigationToolbar,
+					state);
+			}
+		}
+#endif
         private void RefreshDocumentState(Control doc)
         {
             if (doc == null)
@@ -1291,12 +1318,17 @@ namespace RssBandit.WinGui.Forms
             {
                 SetTitleText(state.Title);
                 UrlText = state.Url;
-
+#if PHOENIX  			
+				HistoryMenuManager.ResetBrowserHistory(
+					ultraToolbarsManager.NavigationToolbar, 
+					state);
+#else              
                 historyMenuManager.ReBuildBrowserGoBackHistoryCommandItems(state.GoBackHistoryItems(10));
                 historyMenuManager.ReBuildBrowserGoForwardHistoryCommandItems(state.GoForwardHistoryItems(10));
 
                 owner.Mediator.SetEnabled(state.CanGoBack, "cmdBrowserGoBack");
                 owner.Mediator.SetEnabled(state.CanGoForward, "cmdBrowserGoForward");
+#endif
             }
         }
 

@@ -447,10 +447,12 @@ namespace RssBandit.WinGui.Forms
             toolbarHelper = new ToolbarHelper(ultraToolbarsManager);
 
             historyMenuManager = new HistoryMenuManager();
+#if !PHOENIX
 			historyMenuManager.OnNavigateBack += OnHistoryNavigateGoBackItemClick;
 			historyMenuManager.OnNavigateForward += OnHistoryNavigateGoForwardItemClick;
-			//ultraToolbarsManager.AfterNavigation += OnToolbarAfterHistoryNavigation;
-
+#else
+            ultraToolbarsManager.AfterNavigation += OnToolbarAfterHistoryNavigation;
+#endif
             _Main_Toolbars_Dock_Area_Left = new UltraToolbarsDockArea();
             _Main_Toolbars_Dock_Area_Right = new UltraToolbarsDockArea();
             _Main_Toolbars_Dock_Area_Top = new UltraToolbarsDockArea();
