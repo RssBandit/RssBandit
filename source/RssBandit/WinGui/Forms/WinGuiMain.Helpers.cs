@@ -1850,9 +1850,9 @@ namespace RssBandit.WinGui.Forms
 
             unreadFeeds = unreadMessages = 0;
 
-            foreach (FeedSourceEntry entry in owner.FeedSources.Sources)
+            foreach (FeedSourceEntry entry in owner.FeedSources.Sources.ToArray())
             {
-                foreach (INewsFeed f in entry.Source.GetFeeds().Values)
+                foreach (INewsFeed f in entry.Source.GetFeeds().Values.ToArray())
                 {
                     if (f.containsNewMessages)
                     {
