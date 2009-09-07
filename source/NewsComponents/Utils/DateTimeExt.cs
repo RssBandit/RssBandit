@@ -24,11 +24,8 @@ namespace NewsComponents.Utils
 
 		//private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(DateTimeExt));
 
-		private static readonly Regex rfc2822 = new Regex(@"\s*(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*,\s*)?(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{2,})\s+(\d{2})\s*:\s*(\d{2})\s*(?::\s*(\d{2}))?\s+([+\-]\d{4}|UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])", RegexOptions.Compiled);
-		private static readonly List<string> months = new List<string>(new string[]{"ZeroIndex","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" });
-		
-		//private static TimeSpan dayLightDelta = TimeZone.CurrentTimeZone.GetDaylightChanges(DateTime.Now.Year).Delta;
-	
+        private static readonly Regex rfc2822 = new Regex(@"\s*(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*,\s*)?(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{2,})\s+(\d{1,2})\s*:\s*(\d{2})\s*(?::\s*(\d{2}))?\s+([+\-]\d{4}|UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Z])", RegexOptions.Compiled);
+        private static readonly List<string> months = new List<string>(new string[] { "ZeroIndex", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" });
 	
 		/// <summary>
 		/// Converts an ISO 8601 date to a DateTime object. Helper method needed to 
@@ -84,7 +81,9 @@ namespace NewsComponents.Utils
 		/// Parse is able to parse RFC2822/RFC822 formatted dates.
 		/// It has a fallback mechanism: if the string does not match,
 		/// the normal DateTime.Parse() function is called.
-		/// </summary>
+        /// DateTime instance with date and time converted to Universal Time
+        /// is returned.
+        /// </summary>
 		/// <param name="dateTimeString">DateTime String to parse</param>
 		/// <returns>DateTime instance with date and time converted to Universal Time</returns>
 		/// <exception cref="FormatException">On format errors parsing the datetime</exception>
@@ -111,7 +110,7 @@ namespace NewsComponents.Utils
 					int ss = Int32.Parse("0" + m.Groups[6].Value, CultureInfo.InvariantCulture);	// optional (may get lenght zero)
 					string zone =  m.Groups[7].Value;
 
-					DateTime xd = new DateTime(yy, mth, dd, hh, mm, ss);
+                    DateTime xd = new DateTime(yy, mth, dd, hh, mm, ss, DateTimeKind.Utc);
 					return xd.AddHours(RFCTimeZoneToGMTBias(zone) * -1);
 				}
 				catch (Exception e)
@@ -128,8 +127,6 @@ namespace NewsComponents.Utils
 			// old code was:
 			//return DateTime.Parse(dateTimeString);
 			return DateTime.Parse(dateTimeString, null, DateTimeStyles.AdjustToUniversal);
-			// Unreachable code:
-			//return DateTime.Now.ToUniversalTime();
 		}
 
 		private struct TZB
@@ -222,7 +219,7 @@ namespace NewsComponents.Utils
       
 				}
 				
-				return toReturn; //.ToLocalTime(); //we treat all dates in feeds as if they are local time (later)
+				return toReturn; 
 			
 			}catch(IndexOutOfRangeException){
 			  
