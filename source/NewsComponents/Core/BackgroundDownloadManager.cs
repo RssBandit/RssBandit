@@ -798,9 +798,10 @@ namespace NewsComponents
             //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
 
             DownloadRegistryManager.Current.UpdateTask(e.Task);
-
-            var downloader = (IDownloader) sender;
-            Release(downloader);
+            if (e.Task.Downloader != null)
+            {
+                Release(e.Task.Downloader);
+            }
         }
 
         /// <summary>
