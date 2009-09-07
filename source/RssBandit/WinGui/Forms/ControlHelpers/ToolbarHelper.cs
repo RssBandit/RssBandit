@@ -8,12 +8,16 @@
  */
 #endregion
 
+#undef USE_IG_URL_COMBOBOX
+
 using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Infragistics.Win;
+using Infragistics.Win.UltraWinEditors;
 using Infragistics.Win.UltraWinToolbars;
 using NewsComponents.Utils;
 using RssBandit.Resources;
@@ -22,6 +26,7 @@ using RssBandit.WebSearch;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Tools;
 using RssBandit.WinGui.Utility;
+using AutoCompleteMode=System.Windows.Forms.AutoCompleteMode;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.WinGui.Forms.ControlHelpers
@@ -46,18 +51,24 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			this.main = main;
 			this.owner = owner;
 			this.shortcutHandler = shortcutHandler;
-			
-			UltraToolbar webBrowser = new UltraToolbar(Resource.Toolbar.WebTools);
+
 			UltraToolbar mainMenu = new UltraToolbar(Resource.Toolbar.MenuBar);
 			UltraToolbar mainTools = new UltraToolbar(Resource.Toolbar.MainTools);
 			UltraToolbar searchTools = new UltraToolbar(Resource.Toolbar.SearchTools);
 			
-			webBrowser.DockedColumn = 0;
-			webBrowser.DockedRow = 2;
-			webBrowser.FloatingSize = new Size(100, 20);
-			webBrowser.Text = SR.MainForm_MainWebToolbarCaption;
-			
-			mainMenu.DockedColumn = 0;
+#if !PHOENIX
+            UltraToolbar webBrowser = new UltraToolbar(Resource.Toolbar.WebTools);
+            webBrowser.DockedColumn = 0;
+            webBrowser.DockedRow = 2;
+            webBrowser.FloatingSize = new Size(100, 20);
+            webBrowser.Text = SR.MainForm_MainWebToolbarCaption;
+#else
+			UltraToolbarBase webBrowser = this.manager.NavigationToolbar; 
+			// show the new NavigationManager toolbar:
+			this.manager.NavigationToolbar.Visible = true;
+			this.manager.NavigationToolbar.Key = Resource.Toolbar.WebTools;
+#endif
+            mainMenu.DockedColumn = 0;
 			mainMenu.DockedRow = 0;
 			mainMenu.IsMainMenuBar = true;
 			mainMenu.Text = SR.MainForm_MainMenuToolbarCaption;
@@ -69,14 +80,21 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			searchTools.DockedColumn = 1;
 			searchTools.DockedRow = 2;
 			searchTools.Text = SR.MainForm_MainSearchToolbarCaption;
-			
-			this.manager.Toolbars.AddRange(
+#if PHOENIX
+            this.manager.Toolbars.AddRange(
+				new UltraToolbar[] {mainMenu, mainTools, searchTools});
+#else
+            this.manager.Toolbars.AddRange(
 				new UltraToolbar[] {webBrowser, mainMenu, mainTools, searchTools});
-			
+#endif	
 			InitMenuBar();
 			
 			CreateMainToolbar(this.manager.Toolbars[Resource.Toolbar.MainTools]);
-			CreateBrowserToolbar(this.manager.Toolbars[Resource.Toolbar.WebTools]);
+#if PHOENIX
+            CreateBrowserToolbar(webBrowser);
+#else
+            CreateBrowserToolbar(this.manager.Toolbars[Resource.Toolbar.WebTools]);
+#endif
 			CreateSearchToolbar(this.manager.Toolbars[Resource.Toolbar.SearchTools]);
 			
 			this.main = null;
@@ -714,26 +732,55 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		}
 		#endregion
 		
+        //class UltraComboEditorEx: UltraComboEditor
+        //{
+        //    private EmbeddableEditorBase editor;
+        //    public override EmbeddableEditorBase Editor
+        //    {
+        //        get
+        //        {
+        //            if (editor == null)
+        //            {
+        //                editor = new UltraTextEditor().Editor;
+        //            }
+        //            return editor;
+        //        }
+        //    }
+        //    protected override void Dispose(bool disposing)
+        //    {
+        //        if (disposing)
+        //        {
+        //            if (editor != null)
+        //            {
+        //                editor.Dispose();
+        //                editor = null;
+        //            }
+        //        }
+        //        base.Dispose(disposing);
+        //    }
+        //}
+
 		private void CreateBrowserToolbar(UltraToolbarBase tb) 
 		{
-			AppPopupMenuCommand tool0 = new AppPopupMenuCommand(
-				"cmdBrowserGoBack", owner.Mediator, owner.CmdBrowserGoBack,
-				SR.MenuBrowserNavigateBackCaption, SR.MenuBrowserNavigateBackDesc,
-				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoBack);
-			
-			tool0.Enabled = false;
-			tool0.DropDownArrowStyle = DropDownArrowStyle.Segmented;
-			tool0.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
-			
-			AppPopupMenuCommand tool1 = new AppPopupMenuCommand(
-				"cmdBrowserGoForward", owner.Mediator, owner.CmdBrowserGoForward,
-				SR.MenuBrowserNavigateForwardCaption, SR.MenuBrowserNavigateForwardDesc,
-				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoForward);
+#if !PHOENIX
+            AppPopupMenuCommand tool0 = new AppPopupMenuCommand(
+                "cmdBrowserGoBack", owner.Mediator, owner.CmdBrowserGoBack,
+                SR.MenuBrowserNavigateBackCaption, SR.MenuBrowserNavigateBackDesc,
+                Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoBack);
 
-			tool1.Enabled = false;
-			tool1.DropDownArrowStyle = DropDownArrowStyle.Segmented;
-			tool1.SharedProps.DisplayStyle = ToolDisplayStyle.ImageOnlyOnToolbars;
+            tool0.Enabled = false;
+            tool0.DropDownArrowStyle = DropDownArrowStyle.Segmented;
+            tool0.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
+            AppPopupMenuCommand tool1 = new AppPopupMenuCommand(
+                "cmdBrowserGoForward", owner.Mediator, owner.CmdBrowserGoForward,
+                SR.MenuBrowserNavigateForwardCaption, SR.MenuBrowserNavigateForwardDesc,
+                Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.GoForward);
+
+            tool1.Enabled = false;
+            tool1.DropDownArrowStyle = DropDownArrowStyle.Segmented;
+            tool1.SharedProps.DisplayStyle = ToolDisplayStyle.ImageOnlyOnToolbars;
+#endif
 			AppButtonToolCommand tool2 = new AppButtonToolCommand(
 				"cmdBrowserCancelNavigation", owner.Mediator, owner.CmdBrowserCancelNavigation,
 				SR.MenuBrowserNavigateCancelCaption, SR.MenuBrowserNavigateCancelDesc,
@@ -748,21 +795,23 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			urlDropdownContainerTool.SharedProps.Caption = SR.MenuBrowserNavigateComboBoxCaption;
 			urlDropdownContainerTool.SharedProps.StatusText = SR.MenuBrowserNavigateComboBoxDesc;
 			urlDropdownContainerTool.SharedProps.MinWidth = 330;
+		    urlDropdownContainerTool.SharedProps.Spring = true;
 
 #if USE_IG_URL_COMBOBOX		
 			//TODO: future usage of the IG dropdown combo editor with item image support. 
 			// But for now auto-completion is not yet full featured and 
 			// we cannot apply/use the UrlExtender helper class:
 			UltraComboEditor ultraComboEditor = new UltraComboEditor();
-			ultraComboEditor.Name = "urlComboBox";
+		    ultraComboEditor.Name = "urlComboBox";
 			// interconnect:
 			urlDropdownContainerTool.Control = ultraComboEditor;
-			main.Controls.Add(ultraComboEditor);
+            main.UrlComboBox = ultraComboEditor;
+            main.Controls.Add(ultraComboEditor);
 			
 			ultraComboEditor.AllowDrop = true;
-			ultraComboEditor.AutoComplete = true;
-			ultraComboEditor.DisplayStyle = Infragistics.Win.EmbeddableElementDisplayStyle.Office2003;
-			ultraComboEditor.DropDownButtonDisplayStyle = Infragistics.Win.ButtonDisplayStyle.OnMouseEnter;
+            ultraComboEditor.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.SuggestAppend;
+			ultraComboEditor.DisplayStyle = EmbeddableElementDisplayStyle.Office2007;
+			ultraComboEditor.DropDownButtonDisplayStyle = ButtonDisplayStyle.OnMouseEnter;
 			ultraComboEditor.ShowOverflowIndicator = true;
 			ultraComboEditor.NullText = SR.MainForm_ToolUrlDropdownCueText;
 			
@@ -775,7 +824,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			ultraComboEditor.ItemAppearance = a;
 			
 			a = new Infragistics.Win.Appearance();
-			a.ForeColor = System.Drawing.SystemColors.GrayText;
+			a.ForeColor = SystemColors.GrayText;
 			ultraComboEditor.NullTextAppearance = a;
 #else			
 			ComboBox navigateComboBox = new ComboBox();
@@ -785,7 +834,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			navigateComboBox.KeyPress += WinGuiMain.OnAnyEnterKeyPress;
 			navigateComboBox.DragOver += WinGuiMain.OnNavigateComboBoxDragOver;
 			navigateComboBox.DragDrop += main.OnNavigateComboBoxDragDrop;
-
+		    
 			navigateComboBox.AllowDrop = true;
 			navigateComboBox.Width = 330;
 			// interconnect:
@@ -814,17 +863,24 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuBrowserNewExternalWindowCaption, SR.MenuBrowserNewExternalWindowDesc, 
 				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.OpenInExternalBrowser);
 
+#if PHOENIX
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {tool0,tool1,tool2,tool3,urlDropdownContainerTool,tool5,tool6,tool7});
+			this.manager.Tools.AddRange(new ToolBase[] {tool2,tool3,urlDropdownContainerTool,tool5,tool6,tool7});
 
-			tb.Tools.AddRange(new ToolBase[]{tool0,tool1,tool2,tool3,urlDropdownContainerTool,tool5,tool6,tool7});
-			foreach (ToolBase tool in tb.Tools) {
+			tb.Tools.AddRange(new ToolBase[]{tool2,tool3,urlDropdownContainerTool,tool5,tool6,tool7});	
+#else
+            // must be added to the toolbar first:
+            this.manager.Tools.AddRange(new ToolBase[] {tool0,tool1, tool2, tool3, urlDropdownContainerTool, tool5, tool6, tool7 });
+
+            tb.Tools.AddRange(new ToolBase[] {tool0,tool1, tool2, tool3, urlDropdownContainerTool, tool5, tool6, tool7 });
+            // set the both menu dropdowns within history manager:
+            main.historyMenuManager.SetControls(tool0, tool1);
+#endif
+            foreach (ToolBase tool in tb.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryBrowse;
 			}
 			
-			// set the both menu dropdowns within history manager:
-			main.historyMenuManager.SetControls(tool0, tool1);
-
+			
 			// now we can set instance properties:
 			ToolBase t = tb.Tools["cmdBrowserNewTab"];
 			t.InstanceProps.IsFirstInGroup = true;

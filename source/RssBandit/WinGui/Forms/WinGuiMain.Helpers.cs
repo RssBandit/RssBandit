@@ -1,4 +1,6 @@
-﻿using System;
+﻿#undef USE_IG_URL_COMBOBOX
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,6 +25,7 @@ using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using SortOrder=System.Windows.Forms.SortOrder;
+using Infragistics.Win.UltraWinEditors;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -56,6 +59,21 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
+#if USE_IG_URL_COMBOBOX	
+        private UltraComboEditor _urlComboBox;
+        internal UltraComboEditor UrlComboBox
+        {
+            get
+            {
+                if (_urlComboBox == null)
+                {
+                    Debug.Assert(false, "UrlComboBox control not yet initialized (by ToolbarHelper)");
+                }
+                return _urlComboBox;
+            }
+            set { _urlComboBox = value; }
+        }
+#else
         private ComboBox _urlComboBox;
 
         internal ComboBox UrlComboBox
@@ -70,7 +88,7 @@ namespace RssBandit.WinGui.Forms
             }
             set { _urlComboBox = value; }
         }
-
+#endif
         private ComboBox _searchComboBox;
 
         internal ComboBox SearchComboBox
@@ -114,12 +132,16 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        protected void AddUrlToHistory(string newUrl)
+        protected void AddUrlToHistoryDropdown(string newUrl)
         {
             if (!newUrl.Equals("about:blank"))
             {
                 UrlComboBox.Items.Remove(newUrl);
+#if USE_IG_URL_COMBOBOX
+                UrlComboBox.Items.Insert(0, newUrl, newUrl);
+#else
                 UrlComboBox.Items.Insert(0, newUrl);
+#endif
             }
         }
 

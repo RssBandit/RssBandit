@@ -53,8 +53,14 @@ namespace RssBandit.WinGui.Interfaces
         bool CanClose { get; set; }
         bool CanGoBack { get; set; }
         bool CanGoForward { get; set; }
+#if PHOENIX
+		ITextImageItem[] GoBackHistoryItems { get; set; }
+		ITextImageItem[] GoForwardHistoryItems { get; set; }
+#else
         ITextImageItem[] GoBackHistoryItems(int maxItems);
         ITextImageItem[] GoForwardHistoryItems(int maxItems);
+#endif
+		ITextImageItem CurrentHistoryItem { get; set; }
     }
 
     public interface ITextImageItem

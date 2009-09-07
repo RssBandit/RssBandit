@@ -92,7 +92,7 @@ namespace RssBandit.WinGui.Forms
         /// If you forget this, you will always get your old toolbars layout
         /// restored from the users local machine.
         /// </remarks>
-        private const int _currentToolbarsVersion = 14;
+        private const int _currentToolbarsVersion = 17;
 
         /// <summary>
         /// To be raised by one on every UltraExplorerBar docks modification like new groups!
@@ -1026,7 +1026,7 @@ namespace RssBandit.WinGui.Forms
 			// 
 			this.ultraToolTipManager.ContainingControl = this;
 			this.ultraToolTipManager.DisplayStyle = Infragistics.Win.ToolTipDisplayStyle.Office2007;
-        	this.ultraToolTipManager.ToolTipTextStyle = Infragistics.Win.ToolTipTextStyle.Formatted;
+			this.ultraToolTipManager.ToolTipTextStyle = Infragistics.Win.ToolTipTextStyle.Formatted;
 			// 
 			// panelFeedDetails
 			// 
@@ -1120,7 +1120,7 @@ namespace RssBandit.WinGui.Forms
 			this.listFeedItemsO.Size = new System.Drawing.Size(287, 100);
 			this.listFeedItemsO.TabIndex = 1;
 			this.listFeedItemsO.Visible = false;
-            this.listFeedItemsO.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
+			this.listFeedItemsO.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
 			// 
 			// listFeedItems
 			// 
@@ -1565,17 +1565,27 @@ namespace RssBandit.WinGui.Forms
         }
 
         public string Url { get; set; }
-
+#if PHOENIX
+        public ITextImageItem[] GoBackHistoryItems
+        {
+			get; set;
+#else
         public ITextImageItem[] GoBackHistoryItems(int maxItems)
         {
-            return _feedItemImpressionHistory.GetHeadOfPreviousEntries(maxItems);
+			return _feedItemImpressionHistory.GetHeadOfPreviousEntries(maxItems); 
+#endif
         }
-
+#if PHOENIX
+        public ITextImageItem[] GoForwardHistoryItems
+        {
+			get; set; 
+#else
         public ITextImageItem[] GoForwardHistoryItems(int maxItems)
         {
             return _feedItemImpressionHistory.GetHeadOfNextEntries(maxItems);
+#endif
         }
-
+		public ITextImageItem CurrentHistoryItem { get; set; }
         #endregion
 
         /// <summary>
@@ -2018,7 +2028,15 @@ namespace RssBandit.WinGui.Forms
         {
             if (feedsNode == null && item == null) return;
             if (_navigationActionInProgress) return; // back/forward,... pressed
-            _feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
+        	HistoryEntry entry = new HistoryEntry(feedsNode, item);
+#if PHOENIX
+            // we have to switch off events:
+        	ultraToolbarsManager.EventManager.AllEventsEnabled = false;
+			ultraToolbarsManager.NavigationToolbar.NavigateTo(new NavigationHistoryItem(entry.ToString(), entry));
+			ultraToolbarsManager.EventManager.AllEventsEnabled = true;
+#else
+			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
+#endif
         }
 
         private void AutoSubscribeFeed(TreeFeedsNodeBase parent, string feedUrl)
