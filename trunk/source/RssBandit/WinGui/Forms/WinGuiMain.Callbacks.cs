@@ -1005,7 +1005,13 @@ namespace RssBandit.WinGui.Forms
         #endregion
 
         #region CmdBrowserHistoryItem commands
-
+#if PHOENIX
+		private void OnToolbarAfterHistoryNavigation(object sender, AfterNavigationEventArgs e)
+		{
+			// back AND forward:
+			NavigateToHistoryEntry((HistoryEntry)e.CurrentItem.Tag);
+		}
+#else
         private void OnHistoryNavigateGoBackItemClick(object sender, HistoryNavigationEventArgs e)
         {
             NavigateToHistoryEntry(_feedItemImpressionHistory.GetPreviousAt(e.Index));
@@ -1015,7 +1021,7 @@ namespace RssBandit.WinGui.Forms
         {
             NavigateToHistoryEntry(_feedItemImpressionHistory.GetNextAt(e.Index));
         }
-
+#endif
         #endregion
 
         #region CmdFeed commands
@@ -1836,6 +1842,9 @@ namespace RssBandit.WinGui.Forms
 
         private void OnDocContainerActiveDocumentChanged(object sender, ActiveDocumentEventArgs e)
         {
+#if PHOENIX
+        	SaveDocumentState(e.PreviousActiveDocument);
+#endif
             RefreshDocumentState(e.NewActiveDocument);
             DeactivateWebProgressInfo();
         }
@@ -2057,9 +2066,11 @@ namespace RssBandit.WinGui.Forms
                     ultraToolbarsManager.Tools["cmdSearchDropdownContainer"].Control = SearchComboBox;
 
                     // restore the other dynamic menu handlers:
+#if !PHOENIX
                     historyMenuManager.SetControls(
-                        (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdBrowserGoBack"],
-                        (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdBrowserGoForward"]);
+                        (AppPopupMenuCommand)ultraToolbarsManager.Tools["cmdBrowserGoBack"],
+                        (AppPopupMenuCommand)ultraToolbarsManager.Tools["cmdBrowserGoForward"]);
+#endif
                     owner.BackgroundDiscoverFeedsHandler.SetControls(
                         (AppPopupMenuCommand) ultraToolbarsManager.Tools["cmdDiscoveredFeedsDropDown"],
                         (AppButtonToolCommand) ultraToolbarsManager.Tools["cmdDiscoveredFeedsListClear"]);
@@ -4069,7 +4080,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
                 {
-                    AddUrlToHistory(e.url);
+                    AddUrlToHistoryDropdown(e.url);
 
                     var doc = (DockControl) hc.Tag;
                     var state = (ITabState) doc.Tag;
@@ -4100,7 +4111,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
                 {
-                    AddUrlToHistory(e.url);
+                    AddUrlToHistoryDropdown(e.url);
 
                     var doc = (DockControl) hc.Tag;
                     var state = (ITabState) doc.Tag;

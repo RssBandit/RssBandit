@@ -556,6 +556,23 @@ namespace RssBandit.WinGui.Utility {
 			get { return _canGoForward;  }
 			set { _canGoForward = value; }
 		}
+#if PHOENIX
+		public ITextImageItem[] GoBackHistoryItems
+		{
+			get { return EmptyHistoryItems; }
+			set {  }
+		}
+
+		public ITextImageItem[] GoForwardHistoryItems
+		{
+			get { return EmptyHistoryItems; }
+			set {  }
+		}
+#endif
+		public ITextImageItem CurrentHistoryItem
+		{
+			get; set;
+		}
 
 		public string Title
 		{
@@ -567,17 +584,19 @@ namespace RssBandit.WinGui.Utility {
 			get	{ return _currentUrl;  }
 			set { _currentUrl = value; }
 		}
+#if !PHOENIX
+        public ITextImageItem[] GoBackHistoryItems(int maxItems)
+        {
+            //TODO: impl. by IEControl
+            return EmptyHistoryItems;
+        }
 
-		public ITextImageItem[] GoBackHistoryItems(int maxItems) {
-			//TODO: impl. by IEControl
-			return EmptyHistoryItems;
-		}
-		
-		public  ITextImageItem[] GoForwardHistoryItems(int maxItems) {
-			//TODO: impl. by IEControl
-			return EmptyHistoryItems;
-		}
-
+        public ITextImageItem[] GoForwardHistoryItems(int maxItems)
+        {
+            //TODO: impl. by IEControl
+            return EmptyHistoryItems;
+        }
+#endif
 		#endregion
 
 	}
