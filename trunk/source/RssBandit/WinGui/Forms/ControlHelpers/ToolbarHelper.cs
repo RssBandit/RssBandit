@@ -451,7 +451,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
                 tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
             }
 
-			// must be added to the toolbar first:
+           // must be added to the toolbar first:
             this.manager.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, tbDownload, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
             mc.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, tbDownload, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
 			foreach (ToolBase tool in mc.Tools) {
