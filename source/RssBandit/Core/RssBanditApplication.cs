@@ -605,7 +605,7 @@ namespace RssBandit
 #endif
 
         }
-
+     
         private void DispatcherThread()
         {
             _dispatcher = Dispatcher.CurrentDispatcher;

@@ -82,6 +82,13 @@ namespace RssBandit.WinGui.Forms
         /// <param name="e">The <see cref="Infragistics.Win.UltraWinToolbars.BeforeToolDropdownEventArgs"/> instance containing the event data.</param>
         private void OnToolbarBeforeToolDropdown(object sender, BeforeToolDropdownEventArgs e)
         {
+         
+            /* 
+             * Make sure column chooser is visible. For some reason this menu item is set to invisible by a code path 
+             * I haven't been able to track down - Dare. 
+             */ 
+            owner.Mediator.SetVisible("cmdColumnChooserMain"); 
+
             if (e.Tool.Key == "mnuViewToolbars")
             {
                 owner.Mediator.SetChecked(toolbarHelper.IsToolbarVisible(Resource.Toolbar.MainTools),
