@@ -721,8 +721,16 @@ namespace RssBandit.WinGui.Forms
 			}
 			catch (Exception e)
 			{
+                Uri faviconUri = null;
+                string faviconUrl = null; 
+
+                if (feed != null)
+                {
+                     faviconUrl = Uri.TryCreate(feed.link, UriKind.Absolute, out faviconUri) ?
+                        "http://" + faviconUri.Host + "/" + feed.favicon : feed.favicon;
+                }
 				//we had an issue loading or resizing the icon
-				_log.Error("Error in ApplyFavicons(): {0}", e);
+				_log.Error(String.Format("Error in ApplyFavicons(): {0}", faviconUrl), e);
 			}
 
 			#region old code (for reference)
