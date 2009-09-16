@@ -87,7 +87,8 @@ namespace NewsComponents.Storage
 		/// </summary>
 		/// <param name="contentId">The content id.</param>
 		/// <param name="data">The data.</param>
-		void SaveBinaryContent(string contentId, byte[] data);
+		/// <returns>The location Uri for embedding purposes</returns>
+		Uri SaveBinaryContent(string contentId, byte[] data);
 
 		/// <summary>
 		/// Gets the binary content, if any.

@@ -81,9 +81,9 @@ namespace NewsComponents.Net
 			try {
 				if (WebRequestCompleted != null) {
 					if (this.movedPermanently)
-						WebRequestCompleted(requestUri, this.ResponseStream, newUri, eTag, lastModfied, result, this.Priority);
+						WebRequestCompleted(requestUri, this.ResponseStream, this.Response, newUri, eTag, lastModfied, result, this.Priority);
 					else
-						WebRequestCompleted(requestUri, this.ResponseStream, null, eTag, lastModfied, result, this.Priority);
+                        WebRequestCompleted(requestUri, this.ResponseStream, this.Response, null, eTag, lastModfied, result, this.Priority);
 				}
 			} catch { /* ignore ex. thrown in callback */ }
 			

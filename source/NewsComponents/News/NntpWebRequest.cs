@@ -1,12 +1,22 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using NewsComponents.Resources;
-using NewsComponents.Utils;
-
+using Org.Mime4Net.Mime.Message;
 
 namespace NewsComponents.News {
 
@@ -508,7 +518,7 @@ namespace NewsComponents.News {
 						case "POST":
 							requestStream.Position = 0; 						
 							client.Post(new UTF8Encoding().GetString(this.requestStream.ToArray())); 						
-							response = new NntpWebResponse(NntpStatusCode.OK);
+							response = new NntpWebResponse(NntpStatusCode.OK, RequestUri);
 							break;
 					
 						case "LIST":
@@ -517,18 +527,14 @@ namespace NewsComponents.News {
 							client.Groups(sw); 
 							sw.Flush();
 							newsgroupListStream.Position = 0;
-							response = new NntpWebResponse(NntpStatusCode.OK, newsgroupListStream);
+                            response = new NntpWebResponse(NntpStatusCode.OK, newsgroupListStream, RequestUri);
 							break;
 					
 						case "NEWNEWS":
 							client.SelectGroup(requestUri.PathAndQuery.Substring(1)); 
-						
-							newsgroupListStream = new MemoryStream();
-							sw  = new StreamWriter(newsgroupListStream); 
-							sw.Flush(); 
-							client.GetNntpMessages(ifModifiedSince, downloadCount, sw); 
-							newsgroupListStream.Position = 0;
-							response = new NntpWebResponse(NntpStatusCode.OK, newsgroupListStream);						
+							IList<MimeMessage> msgs = client.GetNntpMessages(ifModifiedSince, downloadCount);
+                            response = new NntpWebResponse(NntpStatusCode.OK, Stream.Null, RequestUri);
+					        response.Articles = msgs;
 							break;
 
 						default: 

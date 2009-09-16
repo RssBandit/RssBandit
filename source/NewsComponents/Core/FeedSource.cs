@@ -4492,13 +4492,14 @@ namespace NewsComponents
         /// Called on successful completion of a Web request for a feed
         /// </summary>
         /// <param name="requestUri">The request URI</param>
-        /// <param name="response">The Response as a stream</param>
+        /// <param name="responseStream">The response stream.</param>
+        /// <param name="response">The original Response</param>
         /// <param name="newUri">The new URI of a 3xx HTTP response was originally received</param>
         /// <param name="eTag">The etag</param>
         /// <param name="lastModified">The last modified date of the result</param>
         /// <param name="result">The HTTP result</param>
         /// <param name="priority">The priority of the request</param>
-        protected virtual void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag,
+        protected virtual void OnRequestComplete(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag,
                                                  DateTime lastModified,
                                                  RequestResult result, int priority)
         {
@@ -4565,7 +4566,7 @@ namespace NewsComponents
                     if ((requestUri.Scheme == NntpWebRequest.NntpUriScheme) ||
                         (requestUri.Scheme == NntpWebRequest.NewsUriScheme))
                     {
-                        fi = NntpParser.GetItemsForNewsGroup(theFeed, response, false);
+                        fi = NntpParser.GetItemsForNewsGroup(theFeed, responseStream, response, UserCacheDataService, false);
                     }
                     else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.FacebookApiUrl))
                     {
@@ -4596,16 +4597,16 @@ namespace NewsComponents
                         MemoryStream stream = new MemoryStream();                          
                         XmlWriter writer = XmlWriter.Create(stream, fbTransform.OutputSettings);
 
-                        fbTransform.Transform(XmlReader.Create(response), writer);
-                        response.Close();
+                        fbTransform.Transform(XmlReader.Create(responseStream), writer);
+                        responseStream.Close();
                         stream.Seek(0, SeekOrigin.Begin);
-                        response = stream;
+                        responseStream = stream;
 
-                        fi = RssParser.GetItemsForFeed(theFeed, response, false); 
+                        fi = RssParser.GetItemsForFeed(theFeed, responseStream, false); 
                     }
                     else
                     {
-                        fi = RssParser.GetItemsForFeed(theFeed, response, false);
+                        fi = RssParser.GetItemsForFeed(theFeed, responseStream, false);
                     }
 
                     IInternalFeedDetails fiFromCache = null;
@@ -4818,8 +4819,8 @@ namespace NewsComponents
             }
             finally
             {
-                if (response != null)
-                    response.Close();
+                if (responseStream != null)
+                    responseStream.Close();
             }
         }
 
@@ -4900,7 +4901,7 @@ namespace NewsComponents
             return null;
         }
 
-        private void OnFaviconRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag,
+        private void OnFaviconRequestComplete(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag,
                                               DateTime lastModified, RequestResult result, int priority)
         {
             Trace("AsyncRequest.OnFaviconRequestComplete: '{0}': {1}", requestUri.ToString(), result);
@@ -4916,12 +4917,12 @@ namespace NewsComponents
                 if (result == RequestResult.OK)
                 {
                     //write favicon to feed cache location 
-                    var br = new BinaryReader(response);
-                    var bytes = new byte[response.Length];
+                    var br = new BinaryReader(responseStream);
+                    var bytes = new byte[responseStream.Length];
                     // don't write null length files:
                     if (bytes.Length > 0)
                     {
-                        bytes = br.ReadBytes((int) response.Length);
+                        bytes = br.ReadBytes((int)responseStream.Length);
                         // check for some known common image formats:
                         string ext = GetExtensionForDetectedImage(bytes);
                         if (ext != null)
@@ -4985,8 +4986,8 @@ namespace NewsComponents
             }
             finally
             {
-                if (response != null)
-                    response.Close();
+                if (responseStream != null)
+                    responseStream.Close();
             }
         }
 
