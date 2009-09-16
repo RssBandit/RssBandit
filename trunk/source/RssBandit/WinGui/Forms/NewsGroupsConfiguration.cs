@@ -819,12 +819,23 @@ namespace RssBandit.WinGui.Forms
 			if (DefinitionsModified != null)
 				DefinitionsModified(this, EventArgs.Empty);
 
-			this.btnApply.Enabled = false;
+            userIdentities.Clear();
+            nntpServers.Clear();
+            listAccounts.Clear();
+		    treeServers.Nodes.Clear();
+
+            this.InitializeWidgets(application.Identities, application.CurrentNntpServers);
+
+		    this.btnApply.Enabled = false;
 		}
 
-		private void btnOK_Click(object sender, EventArgs e) {
+		private void btnOK_Click(object sender, EventArgs e) 
+        {
 			this.Hide();
-			this.btnApply_Click(sender, e);
+            
+            if (DefinitionsModified != null)
+                DefinitionsModified(this, EventArgs.Empty);
+
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
