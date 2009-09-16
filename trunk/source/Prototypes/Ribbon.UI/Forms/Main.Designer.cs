@@ -528,7 +528,7 @@ namespace RssBandit.UI.Forms
             this._Form1_Toolbars_Dock_Area_Left.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
             this._Form1_Toolbars_Dock_Area_Left.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Left;
             this._Form1_Toolbars_Dock_Area_Left.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Form1_Toolbars_Dock_Area_Left.InitialResizeAreaExtent = 8;
+            this._Form1_Toolbars_Dock_Area_Left.InitialResizeAreaExtent = 4;
             resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Left, "_Form1_Toolbars_Dock_Area_Left");
             this._Form1_Toolbars_Dock_Area_Left.Name = "_Form1_Toolbars_Dock_Area_Left";
             this._Form1_Toolbars_Dock_Area_Left.ToolbarsManager = this.ultraToolbarsManager;
@@ -1588,7 +1588,7 @@ namespace RssBandit.UI.Forms
             this._Form1_Toolbars_Dock_Area_Right.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
             this._Form1_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
             this._Form1_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Form1_Toolbars_Dock_Area_Right.InitialResizeAreaExtent = 8;
+            this._Form1_Toolbars_Dock_Area_Right.InitialResizeAreaExtent = 4;
             resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Right, "_Form1_Toolbars_Dock_Area_Right");
             this._Form1_Toolbars_Dock_Area_Right.Name = "_Form1_Toolbars_Dock_Area_Right";
             this._Form1_Toolbars_Dock_Area_Right.ToolbarsManager = this.ultraToolbarsManager;
