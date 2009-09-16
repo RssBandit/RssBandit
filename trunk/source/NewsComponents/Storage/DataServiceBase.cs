@@ -68,12 +68,13 @@ namespace NewsComponents.Storage
 		/// <param name="item"></param>
 		public abstract void LoadItemContent(INewsItem item);
 
-		/// <summary>
-		/// Saves the content of the binary data.
-		/// </summary>
-		/// <param name="contentId">The content id.</param>
-		/// <param name="data">The data.</param>
-		public abstract void SaveBinaryContent(string contentId, byte[] data);
+        /// <summary>
+        /// Saves the content of the binary data.
+        /// </summary>
+        /// <param name="contentId">The content id.</param>
+        /// <param name="data">The data.</param>
+        /// <returns>The location Uri for embedding purposes</returns>
+        public abstract Uri SaveBinaryContent(string contentId, byte[] data);
 
 		/// <summary>
 		/// Gets the binary content, if any.

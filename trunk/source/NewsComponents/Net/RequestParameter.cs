@@ -31,7 +31,7 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// Called on every queued request, when the real fetch is finished.
 	/// </summary>
-	public delegate void RequestCompleteCallback(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified, RequestResult result, int priority);
+	public delegate void RequestCompleteCallback(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag, DateTime lastModified, RequestResult result, int priority);
 	/// <summary>
 	/// Called infrequently as bytes are transferred for the file. 
 	/// </summary>

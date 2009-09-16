@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>10.0.20506</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -141,6 +141,10 @@
     <Reference Include="Lucene.Net">
       <Name>Lucene.Net</Name>
       <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Org.Mime4Net, Version=1.8.3189.15060, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

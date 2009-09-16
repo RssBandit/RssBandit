@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NewsComponents.Net;
 using NewsComponents.Resources;
-using NewsComponents.Utils;
+using Org.Mime4Net.Mime.Message;
 
 namespace NewsComponents.News {
 
@@ -131,11 +132,8 @@ namespace NewsComponents.News {
 	/// <summary>
 	///  A collection of NntpMessage objects
 	/// </summary>
-	internal class NntpMessages
-		: ReadOnlyCollectionBase{
-            
-		internal NntpMessages(){;}
-
+	internal class NntpMessages: ReadOnlyCollectionBase
+    {
 		internal void Add(NntpMessage oMsg){
 			InnerList.Add(oMsg);
 		}
@@ -199,10 +197,10 @@ namespace NewsComponents.News {
     /// </remarks>
     internal class NntpClient: IDisposable{
 
-		/// <summary>
-		/// Matches headers
-		/// </summary>
-		static readonly Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
+        ///// <summary>
+        ///// Matches headers
+        ///// </summary>
+        //static readonly Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
              
 		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(NntpClient));
 
@@ -221,7 +219,11 @@ namespace NewsComponents.News {
 		/// Instantiates class. Port defaults to 119. 
 		/// </summary>
 		/// <param name="Server">The server to connect to</param>
-		internal NntpClient(string Server): this(Server, 119){;}
+		internal NntpClient(string Server): 
+            this(Server, 119)
+		{
+		    
+		}
 		
 			       
 		/// <summary>
@@ -266,11 +268,16 @@ namespace NewsComponents.News {
     	/// <summary>
         ///  Disconnect and cleanup
         /// </summary>
-        public void Dispose(){
-            if( socket != null){
-                Send("QUIT");
-                GetData(false);
-                socket.Close(); 
+        public void Dispose()
+        {
+            if (socket != null)
+            {
+                if (socket.Connected)
+                {
+                    Send("QUIT");
+                    GetData(false);
+                }
+                socket.Close();
             }
             socket = null;
         }
@@ -286,10 +293,11 @@ namespace NewsComponents.News {
             
 			if(responseCode == 281){
                 return true;
-            }else if(responseCode == 381){
+            }
+            if(responseCode == 381){
                 responseCode = SendAndParseResponse("AUTHINFO PASS " + password);
             
-				if(responseCode < 300){
+                if(responseCode < 300){
                     return true;
                 }
             }
@@ -406,125 +414,238 @@ namespace NewsComponents.News {
 			}
 		}
 
-        internal void Decode(NntpMessage message, StreamCreator streamCreator)
-        {
-            NntpMessage[] parts = new NntpMessage[1];
-            parts[0] = message;
-            DecodeMultiPart(parts, streamCreator);
-        }
+        //internal void Decode(NntpMessage message, StreamCreator streamCreator)
+        //{
+        //    NntpMessage[] parts = new NntpMessage[1];
+        //    parts[0] = message;
+        //    DecodeMultiPart(parts, streamCreator);
+        //}
 
-        internal void DecodeMultiPart(NntpMessage[] parts, StreamCreator streamCreator)
+        //internal void DecodeMultiPart(NntpMessage[] parts, StreamCreator streamCreator)
+        //{
+        //    //Regex split = new Regex(Environment.NewLine);
+        //    //Regex uuencodeFilePattern = new Regex(@"^begin\s\d\d\d\s+(?<1>.+)\s*");
+        //    //Regex yencodeFilePattern = new Regex(@"^\=ybegin .*name=(?<1>.+)$");
+        //    bool bLookingForBegin = true;
+        //    bool bIsYenc = false;
+        //    Stream fileStream = null;
+        //    try
+        //    {
+        //        // If parts are missing, don't decode...
+        //        for(int i = 0; i < parts.Length; i++)
+        //        {
+        //            if(parts[i] == null)
+        //            {
+        //                return;
+        //            }
+        //        }
+
+        //        for(int i = 0; i < parts.Length; i++)
+        //        {
+        //            NntpMessage msg = parts[i];
+        //            EnsureBody(msg);
+        //            string body = msg.Body;
+        //            string[] lines = split.Split(body);
+        //            for(int j = 0; j < lines.Length; j++)
+        //            {
+        //                string line = lines[j];
+        //                if(bLookingForBegin)
+        //                {
+        //                    Match m = uuencodeFilePattern.Match(line);
+        //                    if(m.Success)
+        //                    {
+        //                        bLookingForBegin = false;
+        //                        string fileName = CleanFileName(m.Groups[1].Value);
+        //                        streamCreator(fileName, out fileStream);
+        //                        if(fileStream == null)
+        //                        {
+        //                            return;
+        //                        }
+        //                    }
+        //                    m = yencodeFilePattern.Match(line);
+        //                    if(m.Success)
+        //                    {
+        //                        bIsYenc = true;
+        //                        bLookingForBegin = false;
+        //                        string fileName = CleanFileName(m.Groups[1].Value);
+        //                        streamCreator(fileName, out fileStream);
+        //                        if(fileStream == null)
+        //                        {
+        //                            return;
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if(bIsYenc)
+        //                    {
+        //                        if(line.StartsWith("=y"))
+        //                        {
+        //                            continue;
+        //                        }
+        //                    {
+        //                        char[] lineBufChars = line.ToCharArray();
+        //                        byte[] lineBuf = new byte[lineBufChars.Length];
+        //                        for(int k = 0; k < lineBuf.Length; k++)
+        //                        {
+        //                            lineBuf[k] = (byte) lineBufChars[k];
+        //                        }
+
+        //                        byte[] decoded = new byte[lineBuf.Length];
+        //                        int length = yydecode(decoded, 0, lineBuf, 0, lineBuf.Length);
+        //                        fileStream.Write(decoded,0,length);
+        //                    }
+        //                    }
+        //                    else
+        //                    {
+        //                        if(line.Length == 0 || line == "end")
+        //                        {
+        //                            break;
+        //                        }
+        //                        byte[] lineBuf = Encoding.ASCII.GetBytes(line);
+        //                        byte[] decoded = new byte[lineBuf.Length];
+        //                        int length = uudecode(decoded, 0, lineBuf, 0, lineBuf.Length);
+        //                        fileStream.Write(decoded,0,length);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    finally 
+        //    {
+        //        if(fileStream != null)
+        //        {
+        //            fileStream.Close();
+        //        }
+        //    }
+        //}
+
+        static readonly Regex uuencodeFilePattern = new Regex(@"^begin\s\d\d\d\s+(?<1>.+)\s*");
+        static readonly Regex yencodeFilePattern = new Regex(@"^\=ybegin .*name=(?<1>.+)$");
+        static readonly Regex split = new Regex(Environment.NewLine);
+
+        internal delegate string EmbeddedBinaryWriter(string fileName, byte[] binaryContent);
+        internal delegate string LineTransformer(string line);
+
+        internal static StringBuilder DecodeBody(StringBuilder body, EmbeddedBinaryWriter writer, LineTransformer lineTransform)
         {
-            Regex split = new Regex(Environment.NewLine);
-            Regex uuencodeFilePattern = new Regex(@"^begin\s\d\d\d\s+(?<1>.+)\s*");
-            Regex yencodeFilePattern = new Regex(@"^\=ybegin .*name=(?<1>.+)$");
             bool bLookingForBegin = true;
             bool bIsYenc = false;
-            Stream fileStream = null;
+            MemoryStream stream = null;
+            string fileName = null;
+            StringBuilder result = new StringBuilder(body.Length);
+            
             try
             {
-                // If parts are missing, don't decode...
-                for(int i = 0; i < parts.Length; i++)
+                
+                string[] lines = split.Split(body.ToString());
+                for (int j = 0; j < lines.Length; j++)
                 {
-                    if(parts[i] == null)
+                    string line = lines[j];
+                    
+                    if (bLookingForBegin)
                     {
-                        return;
-                    }
-                }
-
-                for(int i = 0; i < parts.Length; i++)
-                {
-                    NntpMessage msg = parts[i];
-                    EnsureBody(msg);
-                    string body = msg.Body;
-                    string[] lines = split.Split(body);
-                    for(int j = 0; j < lines.Length; j++)
-                    {
-                        string line = lines[j];
-                        if(bLookingForBegin)
+                        Match m = uuencodeFilePattern.Match(line);
+                        if (m.Success)
                         {
-                            Match m = uuencodeFilePattern.Match(line);
-                            if(m.Success)
-                            {
-                                bLookingForBegin = false;
-                                string fileName = CleanFileName(m.Groups[1].Value);
-                                streamCreator(fileName, out fileStream);
-                                if(fileStream == null)
-                                {
-                                    return;
-                                }
-                            }
-                            m = yencodeFilePattern.Match(line);
-                            if(m.Success)
-                            {
-                                bIsYenc = true;
-                                bLookingForBegin = false;
-                                string fileName = CleanFileName(m.Groups[1].Value);
-                                streamCreator(fileName, out fileStream);
-                                if(fileStream == null)
-                                {
-                                    return;
-                                }
-                            }
+                            bLookingForBegin = false;
+                            fileName = CleanFileName(m.Groups[1].Value);
+                            stream = new MemoryStream();
                         }
                         else
                         {
-                            if(bIsYenc)
+                            m = yencodeFilePattern.Match(line);
+                            if (m.Success)
                             {
-                                if(line.StartsWith("=y"))
-                                {
-                                    continue;
-                                }
-                            {
-                                char[] lineBufChars = line.ToCharArray();
-                                byte[] lineBuf = new byte[lineBufChars.Length];
-                                for(int k = 0; k < lineBuf.Length; k++)
-                                {
-                                    lineBuf[k] = (byte) lineBufChars[k];
-                                }
-
-                                byte[] decoded = new byte[lineBuf.Length];
-                                int length = yydecode(decoded, 0, lineBuf, 0, lineBuf.Length);
-                                fileStream.Write(decoded,0,length);
-                            }
+                                bIsYenc = true;
+                                bLookingForBegin = false;
+                                fileName = CleanFileName(m.Groups[1].Value);
+                                stream = new MemoryStream();
                             }
                             else
-                            {
-                                if(line.Length == 0 || line == "end")
-                                {
-                                    break;
-                                }
-                                byte[] lineBuf = Encoding.ASCII.GetBytes(line);
-                                byte[] decoded = new byte[lineBuf.Length];
-                                int length = uudecode(decoded, 0, lineBuf, 0, lineBuf.Length);
-                                fileStream.Write(decoded,0,length);
-                            }
+                                result.AppendLine(lineTransform(line));
                         }
                     }
+                    else
+                    {
+                        
+                        if (bIsYenc)
+                        {
+                            if (line.StartsWith("=y"))
+                            {
+                                stream.Flush();
+                                stream.Seek(0, SeekOrigin.Begin);
+                                string newContent = writer(fileName, stream.GetBuffer());
+                                result.AppendLine(newContent);
+                                stream.Dispose();
+                                stream = null;
+                                bLookingForBegin = true;
+                                continue;
+                            }
+
+                            char[] lineBufChars = line.ToCharArray();
+                            byte[] lineBuf = new byte[lineBufChars.Length];
+                            for (int k = 0; k < lineBuf.Length; k++)
+                            {
+                                lineBuf[k] = (byte)lineBufChars[k];
+                            }
+
+                            byte[] decoded = new byte[lineBuf.Length];
+                            int length = yydecode(decoded, 0, lineBuf, 0, lineBuf.Length);
+                            stream.Write(decoded, 0, length);
+
+                        }
+                        else
+                        {
+                            if (line.Length == 0 || line == "end")
+                            {
+                                stream.Flush();
+                                stream.Seek(0, SeekOrigin.Begin);
+                                string newContent = writer(fileName, stream.GetBuffer());
+                                result.AppendLine(newContent);
+                                stream.Dispose();
+                                stream = null;
+                                bLookingForBegin = true;
+                                continue;
+                            }
+
+                            byte[] lineBuf = Encoding.ASCII.GetBytes(line);
+                            byte[] decoded = new byte[lineBuf.Length];
+                            int length = uudecode(decoded, 0, lineBuf, 0, lineBuf.Length);
+                            stream.Write(decoded, 0, length);
+                        }
+                        
+                    }
+
                 }
+
             }
-            finally 
+            finally
             {
-                if(fileStream != null)
+                if (stream != null)
                 {
-                    fileStream.Close();
+                    stream.Dispose();
                 }
             }
+
+            return result;
         }
 
-        internal void EnsureBody(NntpMessage msg)
-        {
-            if(msg.Body == "")
-            {
-                // now ask for the body
-                Send("BODY " + msg.Id);
-                string sData = GetData(true);
-                if(sData.Length > 1 && sData[0] == '2')
-                {
-                    msg.SetBody(Split.Split(sData));
-                }
-            }
-        }
+        
+							
+        //internal void EnsureBody(NntpMessage msg)
+        //{
+        //    if(msg.Body == "")
+        //    {
+        //        // now ask for the body
+        //        Send("BODY " + msg.Id);
+        //        string sData = GetData(true);
+        //        if(sData.Length > 1 && sData[0] == '2')
+        //        {
+        //            msg.SetBody(Split.Split(sData));
+        //        }
+        //    }
+        //}
 
         // uuencode/uudecode is the original netnews way of encoding data
 
@@ -614,64 +735,64 @@ namespace NewsComponents.News {
             return d-decodedStart;
         }
 
-        internal static void GroupFiles(NntpMessages messages, SortedList multiFiles)
-        {
-            Regex[] multipartPatterns = new Regex[2];
-            multipartPatterns[0] = new Regex(@"(?<1>.*)\s*\((?<2>\d+)/(?<3>\d+)\)"); // filename (#/#)
-            multipartPatterns[1] = new Regex(@"(?<1>.*)\s*\[(?<2>\d+)/(?<3>\d+)\]"); // filename [#/#]
-            foreach(NntpMessage oMsg in messages)
-            {
-                string subject = oMsg.Headers["subject"];
-                if(subject != null)
-                {
-                    foreach(Regex multipart in multipartPatterns)
-                    {
-                        Match m = multipart.Match(subject);
-                        if(m.Success)
-                        {
-                            string file = m.Groups[1].Value;
-                            int part = Convert.ToInt32(m.Groups[2].Value);
-                            int whole = Convert.ToInt32(m.Groups[3].Value);
-                            if(part <= 0 || part > whole)
-                            {
-                                continue;
-                            }
-                            NntpMessage[] v;
-                            if( multiFiles.Contains(file) )
-                            {
-                                v = (NntpMessage[]) multiFiles[file];
-                            }
-                            else
-                            {
-                                v = new NntpMessage[whole];
-                                multiFiles.Add(file,v);
-                            }
-                            if(v[part-1] != null)
-                            {
-                                // Go with original over Reply
-                                NntpMessage old = v[part-1];
-                                string oldSubject = old.Headers["subject"];
-                                if(! oldSubject.StartsWith("Re:"))
-                                {
-                                    continue;
-                                }
-                            }
-                            v[part-1] = oMsg;
-                            goto nextPart;
-                        }
-                    }
+        //internal static void GroupFiles(NntpMessages messages, SortedList multiFiles)
+        //{
+        //    Regex[] multipartPatterns = new Regex[2];
+        //    multipartPatterns[0] = new Regex(@"(?<1>.*)\s*\((?<2>\d+)/(?<3>\d+)\)"); // filename (#/#)
+        //    multipartPatterns[1] = new Regex(@"(?<1>.*)\s*\[(?<2>\d+)/(?<3>\d+)\]"); // filename [#/#]
+        //    foreach(NntpMessage oMsg in messages)
+        //    {
+        //        string subject = oMsg.Headers["subject"];
+        //        if(subject != null)
+        //        {
+        //            foreach(Regex multipart in multipartPatterns)
+        //            {
+        //                Match m = multipart.Match(subject);
+        //                if(m.Success)
+        //                {
+        //                    string file = m.Groups[1].Value;
+        //                    int part = Convert.ToInt32(m.Groups[2].Value);
+        //                    int whole = Convert.ToInt32(m.Groups[3].Value);
+        //                    if(part <= 0 || part > whole)
+        //                    {
+        //                        continue;
+        //                    }
+        //                    NntpMessage[] v;
+        //                    if( multiFiles.Contains(file) )
+        //                    {
+        //                        v = (NntpMessage[]) multiFiles[file];
+        //                    }
+        //                    else
+        //                    {
+        //                        v = new NntpMessage[whole];
+        //                        multiFiles.Add(file,v);
+        //                    }
+        //                    if(v[part-1] != null)
+        //                    {
+        //                        // Go with original over Reply
+        //                        NntpMessage old = v[part-1];
+        //                        string oldSubject = old.Headers["subject"];
+        //                        if(! oldSubject.StartsWith("Re:"))
+        //                        {
+        //                            continue;
+        //                        }
+        //                    }
+        //                    v[part-1] = oMsg;
+        //                    goto nextPart;
+        //                }
+        //            }
 
-                    // If we got here, none of the multipart patterns matched
-                {
-                    NntpMessage[] v = new NntpMessage[1];
-                    v[0] = oMsg;
-                    multiFiles.Add(oMsg.Id,v);
-                }
+        //            // If we got here, none of the multipart patterns matched
+        //        {
+        //            NntpMessage[] v = new NntpMessage[1];
+        //            v[0] = oMsg;
+        //            multiFiles.Add(oMsg.Id,v);
+        //        }
 
-                nextPart:;
-                }
-            }
-        }
+        //        nextPart:;
+        //        }
+        //    }
+        //}
 
 
         private readonly Encoding ASCII = Encoding.ASCII;
@@ -787,7 +908,7 @@ namespace NewsComponents.News {
                     {
                         break;
                     }
-                    else if((bError || !expectLongResponse) && sb.Length >= 2 && sb.ToString(sb.Length-2,2) == "\r\n")
+                    if((bError || !expectLongResponse) && sb.Length >= 2 && sb.ToString(sb.Length-2,2) == "\r\n")
                     {
                         break;
                     }
@@ -800,24 +921,105 @@ namespace NewsComponents.News {
             while(iBytes > 0);
         }
 
+        private readonly byte[] bytesRecv = new byte[4096];
+        private readonly char[] bytesRecvChars = new Char[4096];
+        private readonly StringBuilder sBuilder = new StringBuilder(4096);
+
+        private Stream GetArticleDataStream(out int code)
+        {
+            int iBytes;
+            code = 423; // not found
+            sBuilder.Length = 0;
+            StringWriter writer = new StringWriter(sBuilder);
+            
+            bool firstLine = true;
+            bool bError = false;
+            MemoryStream stream = new MemoryStream();
+            
+            do
+            {
+                try
+                {
+                    int articleHeaderOffset = 0;
+                    
+                    // We use Receive so we don't have to wait for timeouts at the
+                    // end of variable-sized responses from the NNTP server.
+                    iBytes = socket.Receive(bytesRecv, 0, bytesRecv.Length);
+                    for (int i = 0; i < iBytes; i++)
+                    {
+                        bytesRecvChars[i] = (char)bytesRecv[i];
+                        if (firstLine && articleHeaderOffset == 0 && i > 0)
+                        {
+                            if (bytesRecvChars[i - 1] == '\r' &&
+                                bytesRecvChars[i] == '\n')
+                                articleHeaderOffset = i+1;
+                        }
+                    }
+                    
+                    // need wrapped StringBuilder to find DotEnd:
+                    writer.Write(bytesRecvChars, 0, iBytes);
+                    
+                    if (firstLine)
+                    {
+                        if (iBytes >= 3)
+                        {
+                            string codeString = new string(bytesRecvChars, 0, 3);
+                            code = Convert.ToInt32(codeString);
+                            firstLine = false;
+                            if (code > 299)
+                            {
+                                bError = true;
+                            }
+                        }
+                    }
+
+                    if (sBuilder.Length >= 5 && sBuilder.ToString(sBuilder.Length - 5, 5) == "\r\n.\r\n")
+                    {
+                        stream.Write(bytesRecv, articleHeaderOffset, iBytes - articleHeaderOffset);
+                        // remove DotEnd:
+                        stream.SetLength(stream.Length - 3);
+                        break;
+                    }
+
+                    if (bError)
+                    {
+                        break;
+                    }
+
+                    if (iBytes > 0)
+                        stream.Write(bytesRecv, articleHeaderOffset, iBytes - articleHeaderOffset);
+                    
+                }
+                catch (Exception ex)
+                {
+                    throw new NntpWebException(ex.Message, ex);
+                }
+
+            }
+            while (iBytes > 0);
+            
+            stream.Flush();
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
+        }
+
         // select a particular group
         internal void SelectGroup(string GroupName)
         {
-            string sData;
-
             Send("GROUP " + GroupName);
-            sData = GetData(false);
+            string sData = GetData(false);
             // check for errors
             if( sData.Substring(0,3) == "411")
             {
                 throw new NntpWebException("No such group: " + GroupName);
 			}
-			else if (sData.Substring(0, 3) == "550")
-			{
-				throw new NntpWebException("Invalid newsgroup: " + GroupName);
-			}
-            
-			string[] messageNumbers = sData.Split(' ');
+            if (sData.Substring(0, 3) == "550")
+            {
+                throw new NntpWebException("Invalid newsgroup: " + GroupName);
+            }
+
+            string[] messageNumbers = sData.Split(' ');
         	// index 0 is the response code
 			//currGroupMsgCount = Convert.ToInt32( messageNumbers[1] );
 			firstMsg = Convert.ToInt32( messageNumbers[2] );
@@ -833,15 +1035,14 @@ namespace NewsComponents.News {
 		/// <param name="since">The date</param>
 		/// <param name="downloadCount">Indicates the number of articles that should be 
 		/// downloaded if the news server doesn't understand the NEWNEWS request</param>
-		/// <param name="sw">used for writing the server response</param>
-		internal void GetNntpMessages(DateTime since, int downloadCount, TextWriter sw){
-
+		internal IList<MimeMessage> GetNntpMessages(DateTime since, int downloadCount)
+        {
+            IList<MimeMessage> toReturn;
 			IDictionary capabilities = this.GetCapabilities(null);
-			string sData; 
-			since = since.ToUniversalTime(); 
+		    since = since.ToUniversalTime(); 
 			
 			Send(String.Format("NEWNEWS {0} {1} GMT", this.CurrGroup, since.ToString("yyMMdd HHmmss")));
-			sData = GetData(true); 
+			string sData = GetData(true); 
 
 			// capabilities are a RFC3977 feature, not widely impl. by servers
 			// borland news server returns "230 newnews disabled by admin, empty list follows \r\n.\r\n"
@@ -865,46 +1066,52 @@ namespace NewsComponents.News {
 					messageIds.Add(sList[i]);
 				}
 
-				GetNntpMessages(messageIds, downloadCount, sw); 
+                toReturn = GetNntpMessages(messageIds, downloadCount); 
 
 			}else{ //the NEWNEWS method may not be supported so we use our backup technique
-				int last = this.LastMsg; //this.FirstMsg;
+                if (this.LastMsg < this.FirstMsg)
+                {
+                    // empty group, no articles (see http://tools.ietf.org/html/rfc3977#section-6.1.1)
+                    return new List<MimeMessage>(0);
+                }
+			    int last = this.LastMsg; //this.FirstMsg;
 				int first =  Math.Max(last - downloadCount, this.FirstMsg); //Math.Min(first + downloadCount, this.LastMsg);
-				GetNntpMessages(first, last, sw); 
+                toReturn = GetNntpMessages(first, last); 
 			}
 
-			//flush writer to ensure all data gets written to underlying stream
-			sw.Flush(); 
-		}
+		    return toReturn;
+        }
 
-         /// <summary>
-         /// Retrieve a message from the server
-         /// </summary>
-         /// <param name="id">the parameter that identifies the message to retrieve</param>
-         /// <param name="sw">used for writing the server response</param>
-        internal void GetNntpMessage(string id,  TextWriter sw){
-                   
-			try{
-				string sDump = String.Empty, sData; 	
+        /// <summary>
+        /// Retrieve a message from the server
+        /// </summary>
+        /// <param name="id">the parameter that identifies the message to retrieve</param>
+        internal MimeMessage GetNntpMessage(string id)
+        {
+            MimeMessage msg = null;
+            try
+            {
+                Send("ARTICLE " + id);
 
-				Send("ARTICLE " + id);								
+                int code;
+                using (Stream s = GetArticleDataStream(out code)) 
+                {
+                    //article with that ID not found, shouldn't happen but sometimes does
+                    if (code == 423 || code == 430)
+                    {
+                        return null;
+                    }
 
-				do{ 
-					sData = GetData(true);						
-					sDump = sDump + sData;                
-					
-					//article with that ID not found, shouldn't happen but sometimes does
-					if(sData.StartsWith("423") || sData.StartsWith("430")){
-						break; 
-					}
+                    //TODO: Decide whether we propagate an exception here on error             
+                    if (code >= 200 && code <= 299)
+                    {
+                        msg = new MimeMessage(s, StreamDefaultEncoding.ASCII);
+                    }
+                }
 
-				}while((sData.EndsWith(".\r\n")!= true) && (sData.Length > 0));          
-
-				//TODO: Decide whether we propagate an exception here on error             
-				if(sData.Length > 0 && sData[0] == '2'){               
-					sw.Write(sData); 
-				}
-			}catch(Exception e){_log.Error("GetNntpMessage() failed", e);}
+            }
+            catch (Exception e) { _log.Error("GetNntpMessage() failed", e); }
+            return msg;
         }
 
        
@@ -914,22 +1121,22 @@ namespace NewsComponents.News {
 		/// </summary>
 		/// <param name="oMsgs">a list of message ids</param>
 		/// <param name="downloadCount">The maximum number of messages that should be downloaded</param>
-		/// <param name="sw">the TextWriter for writing the servers response</param>
-        internal void GetNntpMessages(StringCollection oMsgs, int downloadCount, TextWriter sw)
+		internal IList<MimeMessage> GetNntpMessages(StringCollection oMsgs, int downloadCount)
         {            
-			int downloaded = 0; 
-
+			int downloaded = 0;
+            IList<MimeMessage> chunkInfo = new List<MimeMessage>(downloadCount);
 			for(int i = oMsgs.Count; i-->0;){
              
-				string sId = oMsgs[i]; 								    
-				GetNntpMessage(sId, sw);               
-				downloaded++;    
-				
-				if(downloaded == downloadCount){
+				string sId = oMsgs[i];
+                MimeMessage msg = GetNntpMessage(sId);
+                if (msg != null)
+                    chunkInfo.Add(msg);
+                downloaded++;
+			    if(downloaded == downloadCount){
 					break;
 				}
             }//foreach          
-        
+            return chunkInfo;
 		}
 		
 
@@ -938,38 +1145,41 @@ namespace NewsComponents.News {
 		/// </summary>
 		/// <param name="first">the start of the range</param>
 		/// <param name="last">the end of the range</param>
-		/// <param name="sw">the TextWriter for writing the servers response</param>
-        internal void GetNntpMessages(int first, int last, TextWriter sw)
-        {            
-
-            for(int i = first; i <= last; i++){            
-                GetNntpMessage(i.ToString(), sw);               
-            }			     
-        }
-
-        internal NntpMessages GetNntpMessages(int first, int last, string header)
+        internal IList<MimeMessage> GetNntpMessages(int first, int last)
         {
-            NntpMessages oList = new NntpMessages();
-        	// http://tools.ietf.org/html/rfc2980 (XHDR extension):
-            string result = SendCommand("XHDR " + header + " " + first + "-" + last, true);
-           
-            if(result.Length > 0 && result[0] == '2')
-            {
-                string[] lines = this.Split.Split(result);
-                for(int i = 1; i < lines.Length - 2; i++)
-                {
-                    string line = lines[i];
-                    Match m = xheaderResult.Match(line);
-                    if(m.Success)
-                    {
-                        NntpMessage oMsg = new NntpMessage();
-                        oMsg.SetXHeader(m.Groups[1].Value, header, m.Groups[2].Value);
-                        oList.Add(oMsg);
-                    }
-                }
+            IList<MimeMessage> chunkInfo = new List<MimeMessage>(last - first);
+			
+            for(int i = first; i <= last; i++){
+                MimeMessage msg = GetNntpMessage(i.ToString());
+                if (msg != null)
+                    chunkInfo.Add(msg);
             }
-            return oList;
+            return chunkInfo; 
         }
+
+        //internal NntpMessages GetNntpMessages(int first, int last, string header)
+        //{
+        //    NntpMessages oList = new NntpMessages();
+        //    // http://tools.ietf.org/html/rfc2980 (XHDR extension):
+        //    string result = SendCommand("XHDR " + header + " " + first + "-" + last, true);
+           
+        //    if(result.Length > 0 && result[0] == '2')
+        //    {
+        //        string[] lines = this.Split.Split(result);
+        //        for(int i = 1; i < lines.Length - 2; i++)
+        //        {
+        //            string line = lines[i];
+        //            Match m = xheaderResult.Match(line);
+        //            if(m.Success)
+        //            {
+        //                NntpMessage oMsg = new NntpMessage();
+        //                oMsg.SetXHeader(m.Groups[1].Value, header, m.Groups[2].Value);
+        //                oList.Add(oMsg);
+        //            }
+        //        }
+        //    }
+        //    return oList;
+        //}
 
 		/// <summary>
 		/// Gets the capabilities of the NNTP server.
@@ -1005,15 +1215,3 @@ namespace NewsComponents.News {
         }
     }
 }
-
-#region CVS Version Log
-/*
- * $Log: NntpClient.cs,v $
- * Revision 1.15  2007/05/10 17:02:33  t_rendelmann
- * fixed: borland NNTP server does not return posts
- *
- * Revision 1.14  2007/04/30 10:02:38  t_rendelmann
- * changed: replaced Console.Write with log messaging
- *
- */
-#endregion

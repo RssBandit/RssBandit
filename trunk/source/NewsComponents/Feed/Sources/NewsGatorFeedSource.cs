@@ -728,17 +728,18 @@ namespace NewsComponents.Feed
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Called on successful completion of a Web request for a feed
         /// </summary>
         /// <param name="requestUri">The request URI</param>
-        /// <param name="response">The Response as a stream</param>
+        /// <param name="responseStream">The response stream.</param>
+        /// <param name="response">The original Response</param>
         /// <param name="newUri">The new URI of a 3xx HTTP response was originally received</param>
         /// <param name="eTag">The etag</param>
         /// <param name="lastModified">The last modified date of the result</param>
         /// <param name="result">The HTTP result</param>
         /// <param name="priority">The priority of the request</param>
-        protected override void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+        protected override void OnRequestComplete(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag, DateTime lastModified,
                                     RequestResult result, int priority)
         {
             //find the feed that has the requestUri as it's syncXmlUrl
@@ -812,7 +813,7 @@ namespace NewsComponents.Feed
                     //Update our recently read stories. This is very necessary for 
                     //dynamically generated feeds which always return 200(OK) even if unchanged							
 
-                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, response, false /* cachedStream */, false /* markitemsread */);
+                    IInternalFeedDetails fi = RssParser.GetItemsForFeed(theFeed, responseStream, false /* cachedStream */, false /* markitemsread */);
                     IInternalFeedDetails fiFromCache = null;
 
                     // Sometimes we may not have loaded feed from cache. So ensure it is 
@@ -1026,8 +1027,8 @@ namespace NewsComponents.Feed
             }
             finally
             {
-                if (response != null)
-                    response.Close();
+                if (responseStream != null)
+                    responseStream.Close();
             }
         }
 

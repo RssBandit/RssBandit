@@ -136,7 +136,7 @@ namespace NewsComponents.Net
                                                                    Convert.ToInt32(maxWaitTime.TotalSeconds), 
                                                                    null /* cookie */, null /* body */, null /* newsGatorAPIToken */);
 
-            OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), null, null,
+            OnRequestComplete(new Uri(task.DownloadItem.Enclosure.Url), response.GetResponseStream(), response, null, null,
                               DateTime.MinValue, RequestResult.OK, 0);
         }
 
@@ -260,14 +260,14 @@ namespace NewsComponents.Net
         /// <summary>
         /// Called on every queued request, when the real fetch is finished.
         /// </summary>
-        public void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+        public void OnRequestComplete(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag, DateTime lastModified,
                                       RequestResult result, int priority)
         {
             string fileLocation = Path.Combine(currentTask.DownloadFilesBase, currentTask.DownloadItem.File.LocalName);
 
             //write file to disk from memory stream
-            FileHelper.WriteStreamWithRename(fileLocation, response);
-            response.Close();
+            FileHelper.WriteStreamWithRename(fileLocation, responseStream);
+            responseStream.Close();
 
             OnDownloadCompleted(new TaskEventArgs(currentTask));
         }
