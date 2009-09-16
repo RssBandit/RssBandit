@@ -332,17 +332,18 @@ namespace NewsComponents.Feed
         /// Called on successful completion of a Web request for a feed
         /// </summary>
         /// <param name="requestUri">The request URI</param>
-        /// <param name="response">The Response as a stream</param>
+        /// <param name="responseStream">The response stream.</param>
+        /// <param name="response">The original Response</param>
         /// <param name="newUri">The new URI of a 3xx HTTP response was originally received</param>
         /// <param name="eTag">The etag</param>
         /// <param name="lastModified">The last modified date of the result</param>
         /// <param name="result">The HTTP result</param>
         /// <param name="priority">The priority of the request</param>
-        protected override void OnRequestComplete(Uri requestUri, Stream response, Uri newUri, string eTag, DateTime lastModified,
+        protected override void OnRequestComplete(Uri requestUri, Stream responseStream, WebResponse response, Uri newUri, string eTag, DateTime lastModified,
                                     RequestResult result, int priority)
         {
             Uri feedUri = CreateFeedUriFromDownloadUri(requestUri);
-            base.OnRequestComplete(feedUri, response, newUri, eTag, lastModified, result, priority); 
+            base.OnRequestComplete(feedUri, responseStream, response, newUri, eTag, lastModified, result, priority); 
         }
 
         /// <summary>

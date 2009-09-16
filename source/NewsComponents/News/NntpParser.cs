@@ -1,24 +1,25 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+
 using System; 
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 using System.Net;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using NewsComponents.Utils;
+using NewsComponents.Storage;
 using NewsComponents.Feed;
-using NewsComponents.RelationCosmos;
+using System.Diagnostics;
+using Org.Mime4Net.Mime.Field;
+using Org.Mime4Net.Mime.Message;
 
 namespace NewsComponents.News{
 
@@ -139,170 +140,233 @@ namespace NewsComponents.News{
 		}
 
 
-		/// <summary>
-		/// Reads the list of articles from the stream and returns the feed item.
-		/// </summary>	
-		/// <param name="f">Information about the feed. This information is updated based
-		/// on the results of processing the feed. </param>
-		/// <param name="newsgroupListStream">A stream containing an nntp news group list.</param>				
-		/// <param name="cachedStream">Flag states update last retrieved date on feed only 
-		/// if the item was not cached. Indicates whether the lastretrieved date is updated
-		/// on the NewsFeed object passed in. </param>
-		/// <returns>A FeedInfo containing the NewsItem objects</returns>		
-		public static FeedInfo GetItemsForNewsGroup(INewsFeed f, Stream newsgroupListStream, bool cachedStream) {
-			
+        /// <summary>
+        /// Reads the list of articles from the stream and returns the feed item.
+        /// </summary>
+        /// <param name="f">Information about the feed. This information is updated based
+        /// on the results of processing the feed.</param>
+        /// <param name="newsgroupListStream">A stream containing an nntp news group list.</param>
+        /// <param name="response">The response.</param>
+        /// <param name="cacheDataService">The cache data service to store embedded binary content.</param>
+        /// <param name="cachedStream">Flag states update last retrieved date on feed only
+        /// if the item was not cached. Indicates whether the lastretrieved date is updated
+        /// on the NewsFeed object passed in.</param>
+        /// <returns>
+        /// A FeedInfo containing the NewsItem objects
+        /// </returns>
+        internal static FeedInfo GetItemsForNewsGroup(INewsFeed f, Stream newsgroupListStream, WebResponse response, IUserCacheDataService cacheDataService, bool cachedStream) 
+        {
+           
 			int readItems = 0;
             List<INewsItem> items = new List<INewsItem>(); 
-			NewsItem item; 
-			string currentLine, title, author, parentId, headerName, headerValue, id; 
-			StringBuilder content = new StringBuilder(); 
+			NewsItem item;
+
+            StringBuilder content = new StringBuilder(); 
 #if DEBUG
 			// just to have the source for the item to build to track down issues:
 			StringBuilder itemSource = new StringBuilder(); 
 #endif
-			DateTime pubDate; 
-			int colonPos; 
-			TextReader reader    = new StreamReader(newsgroupListStream); 	
+            NntpWebResponse nntpResponse = (NntpWebResponse)response;
+			
 			FeedInfo fi = new FeedInfo(f.id, f.cacheurl, items, f.title, f.link, String.Empty);
-			
-			try{
 
-				while(reader.ReadLine()!= null){ //skip NNTP status code
-			
-					/* headers loop */				
-					title = author = parentId = id = null; 
-					pubDate = DateTime.Now;
-					content.Remove(0, content.Length); 
+            try
+            {
+                foreach (MimeMessage msg in nntpResponse.Articles)
+                {
+                    string parentId;
+                    string id;
+                    string author = parentId = id = null;
+                    DateTime pubDate = DateTime.UtcNow;
+                    
+                    content.Length = 0;
+
+                    string title;
+                    if (msg.Subject != null)
+                        title = EscapeXML(msg.Subject.Value);
+                    else
+                        title = "";
+
+                    UnstructuredField fld = msg.Header.GetField(MimeField.MessageID) as UnstructuredField;
+                    if (fld != null)
+                        id = fld.Value;
+
+                    MailboxListField mfld = msg.Header.GetField(MimeField.From) as MailboxListField;
+                    if (mfld != null && mfld.MailboxList.Count > 0)
+                        author = mfld.MailboxList[0].AddressString;
+
+                    fld = msg.Header.GetField(MimeField.References) as UnstructuredField;
+                    if (fld != null)
+                    {
+                        // returns the hierarchy path: the last one is our real parent:
+                        string[] singleRefs = fld.Value.Split(' ');
+                        if (singleRefs.Length > 0)
+                            parentId = CreateGoogleUrlFromID(singleRefs[singleRefs.Length - 1]);
+                    }
+                    DateTimeField dfld = msg.Header.GetField(MimeField.Date) as DateTimeField;
+                    if (dfld != null)
+                        pubDate = dfld.DateValue;
+
+                    ITextBody txtBody = msg.Body as ITextBody;
+                    if (txtBody != null)
+                    {
+                        content.Append(txtBody.Reader.ReadToEnd());
+
+                        content = NntpClient.DecodeBody(content,
+                            (fileName, bytes) =>
+                            {
+                                string name = PrepareEmbeddedFileUrl(fileName, id, nntpResponse.ResponseUri);
+                                // we replace the uuencoded/yencoded binary content with a clickable link:
+                                if (IsImage(fileName))
+                                    return String.Format("<img src='{1}' alt='{0}'></img>", fileName,
+                                        cacheDataService.SaveBinaryContent(name, bytes).AbsoluteUri);
+                                return String.Format("<a href='{1}'>{0}</a>", fileName,
+                                    cacheDataService.SaveBinaryContent(name, bytes).AbsoluteUri);
+                            },
+                            line =>
+                            {
+                                // escape HTML/XML special chars: 
+                                return line.Replace("<", "&lt;").Replace("]]>", "]]&gt;");
+                            });
+
+                        content = content.Replace(Environment.NewLine, "<br>");
+                    }
+
+                    if (id != null)
+                    {
+                        item = new NewsItem(f, title, CreateGoogleUrlFromID(id), content.ToString(), author, pubDate, id, parentId);
+                        item.FeedDetails = fi;
+                        item.CommentStyle = SupportedCommentStyle.NNTP;
+                        item.Enclosures = Collections.GetList<IEnclosure>.Empty;
+                        items.Add(item);
+                        FeedSource.ReceivingNewsChannelServices.ProcessItem(item);
+                    }
+                    else
+                    {
 #if DEBUG
-					itemSource.Remove(0, itemSource.Length);
-#endif
-
-
-					while(((currentLine = reader.ReadLine()) != null) && 
-						(currentLine.Trim().Length > 0)){ //TODO: Get rid of Trim() call								
-#if DEBUG
-						itemSource.Append(currentLine);
-#endif
-						colonPos = currentLine.IndexOf(":");
-
-						if(colonPos > 0){
-							headerName  = currentLine.Substring(0, colonPos).ToLower();
-							headerValue = currentLine.Substring(colonPos + 2); //skip whitespace after colon
-
-							switch(headerName){
-								case "subject" : 
-									title = HeaderDecode(headerValue); 
-									break; 
-								case "from": 
-									author = HeaderDecode(headerValue);
-									break; 
-								case "references":	//some posts may have multiple ids in References header
-									int spaceIndex = headerValue.LastIndexOf(" "); 
-									spaceIndex = ((spaceIndex != - 1) && (spaceIndex + 1 < headerValue.Length) ? spaceIndex : -1); //avoid IndexOutOfBoundsException
-									parentId = (spaceIndex == -1 ? headerValue : headerValue.Substring(spaceIndex + 1)); 
-									break;
-								case "date": 
-									pubDate = DateTimeExt.Parse(headerValue); 
-									break; 
-								case "message-id":
-									id = headerValue;
-									break; 
-								default: 
-									break;//ignore other NNTP headers
-							}
-
-						}//if(colonPos > 0}					
-
-					}//
-
-					/* content loop */
-				
-					while(((currentLine = reader.ReadLine()) != null) && 
-						(currentLine.Equals(".")!= true)){					
-#if DEBUG
-						itemSource.Append(currentLine);
-#endif
-						content.Append(currentLine.Replace("<", "&lt;").Replace("]]>", "]]&gt;")); 
-						content.Append("<br>");
-					}
-
-					if (id != null) {
-						item = new NewsItem(f, title, CreateGoogleUrlFromID(id), content.ToString(), author, pubDate, id,  parentId); 					
-						item.FeedDetails = fi;
-						item.CommentStyle = SupportedCommentStyle.NNTP;
-                        item.Enclosures = NewsComponents.Collections.GetList<IEnclosure>.Empty; 
-						items.Add(item); 
-						FeedSource.ReceivingNewsChannelServices.ProcessItem(item);
-					} else {
-#if DEBUG
-						_log.Warn("No message-id header found for item:\r\n" + itemSource.ToString() );
+                        _log.Warn("No message-id header found for item:\r\n" + itemSource.ToString());
 #else
 						_log.Warn("No message-id header found for item." );
 #endif
-					}
-					/* reader.ReadLine(); //read blank line after the item */ 
-				}
+                    }
+
+                }
 
 
-				//update last retrieved date on feed only if the item was not cached.
-				if (!cachedStream) {
-					f.lastretrieved = new DateTime(DateTime.Now.Ticks);
-					f.lastretrievedSpecified = true;
-				}
-			
-				//any new items in feed? 
-				if((items.Count== 0) || (readItems == items.Count)){
-					f.containsNewMessages = false; 
-				}else{
-					f.containsNewMessages = true; 
-				}
+                //update last retrieved date on feed only if the item was not cached.)
+                if (!cachedStream)
+                {
+                    f.lastretrieved = new DateTime(DateTime.Now.Ticks);
+                    f.lastretrievedSpecified = true;
+                }
 
-				FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
-                FeedSource.RelationCosmosAddRange(items); 
-                fi.itemsList.AddRange(items); 
- 
-			}
-			catch(Exception e)
-			{
-				System.Diagnostics.Trace.WriteLine(e); 
-			} finally {
-				reader.Close();
-			}
+                //any new items in feed? 
+                if ((items.Count == 0) || (readItems == items.Count))
+                {
+                    f.containsNewMessages = false;
+                }
+                else
+                {
+                    f.containsNewMessages = true;
+                }
 
-			
-			return fi; 
-		}
-	
-		private static Regex BQHeaderEncodingRegex = new Regex(@"=\?([^?]+)\?([^?]+)\?([^?]+)\?=" , RegexOptions.Compiled);
+                FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
+                FeedSource.RelationCosmosAddRange(items);
+                fi.itemsList.AddRange(items);
+
+            }
+            catch (Exception e)
+            {
+                _log.Error("Retriving NNTP articles from " + nntpResponse.ResponseUri + " caused an exception", e);
+            }
+            
+
+            return fi;
+        }
+        
+        private static bool IsImage(string name)
+        {
+            if (name != null)
+            {
+                name = name.ToLower();
+                if (name.Length > 3)
+                {
+                    name = name.Substring(name.Length - 4);
+                    if (name.Equals(".gif") ||
+                        name.Equals(".jpg") ||
+                        name.Equals(".bmp") ||
+                        name.Equals(".wmf") ||
+                        name.Equals(".png") ||
+                        name.Equals(".ico") )
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private static string PrepareEmbeddedFileUrl(string name, string postId, Uri uri)
+        {
+            string path;
+            postId = postId ?? "";
+            
+            if (uri.IsFile || uri.IsUnc)
+            {
+                path = String.Format("{0}.{1}.{2}", uri.GetHashCode() , postId.GetHashCode(), name);
+            }
+            else
+            {
+                path = String.Format("{0}.{1}.{2}.{3}.{4}.{5}", uri.Host, uri.Port, uri.GetHashCode(), uri.PathAndQuery.Replace("/", "-"), postId.GetHashCode(), name);
+            }
+            return path.Replace("-", "");
+        }
+        
+
+        private static string EscapeXML(String s)
+        {
+            return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+            
+        }
+
+        /// <summary>
+        /// Creates the google URL from ID.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns></returns>
+        internal static string CreateGoogleUrlFromID(string id)
+        {
+            return GoogleGroupsUrl + id.Substring(1, id.Length - 2).Replace("#", "%23");
+        }
+
+        //private static Regex BQHeaderEncodingRegex = new Regex(@"=\?([^?]+)\?([^?]+)\?([^?]+)\?=" , RegexOptions.Compiled);
 		
-		/// <summary>
-		/// Decodes a string according to RFC 2047
-		/// </summary>
-		/// <param name="line">The string to decode</param>
-		/// <returns>The decoded string</returns>
-		public static string HeaderDecode( string line ) {
+        ///// <summary>
+        ///// Decodes a string according to RFC 2047
+        ///// </summary>
+        ///// <param name="line">The string to decode</param>
+        ///// <returns>The decoded string</returns>
+        //public static string HeaderDecode( string line ) {
 			
-			Match m = BQHeaderEncodingRegex.Match(line);
-			if (m.Success) {
-				StringBuilder ms = new StringBuilder(line);
-				while ( m.Success ) {
-					string oStr = m.Groups[0].ToString();
-					string encoding = m.Groups[1].ToString();
-					string method = m.Groups[2].ToString();
-					string content = m.Groups[3].ToString();
+        //    Match m = BQHeaderEncodingRegex.Match(line);
+        //    if (m.Success) {
+        //        StringBuilder ms = new StringBuilder(line);
+        //        while ( m.Success ) {
+        //            string oStr = m.Groups[0].ToString();
+        //            string encoding = m.Groups[1].ToString();
+        //            string method = m.Groups[2].ToString();
+        //            string content = m.Groups[3].ToString();
 					
-					if (method == "b" || method== "B")
-						content = Base64Decode(encoding, content);
-					else if (method == "q" || method== "Q")
-						content = QDecode(encoding, content);
+        //            if (method == "b" || method== "B")
+        //                content = Base64Decode(encoding, content);
+        //            else if (method == "q" || method== "Q")
+        //                content = QDecode(encoding, content);
 					
-					ms.Replace(oStr, content);
-					m = m.NextMatch();
-				}
-				return ms.ToString();
-			}
-			return line;
-		}
+        //            ms.Replace(oStr, content);
+        //            m = m.NextMatch();
+        //        }
+        //        return ms.ToString();
+        //    }
+        //    return line;
+        //}
 
 		#region	cause IndexOutOfRange failures...
 //		/// <summary>
@@ -364,108 +428,89 @@ namespace NewsComponents.News{
 //		}
 		#endregion
   
-		/// <summary>
-		/// Decodes a string according to the "Q" encoding rules of RFC 2047
-		/// </summary>
-		/// <param name="encoding">The string's encoding</param>
-		/// <param name="text">The string to decode</param>
-		/// <returns>The decoded string</returns>
-		public static string QDecode(string encoding, string text){
+        ///// <summary>
+        ///// Decodes a string according to the "Q" encoding rules of RFC 2047
+        ///// </summary>
+        ///// <param name="encoding">The string's encoding</param>
+        ///// <param name="text">The string to decode</param>
+        ///// <returns>The decoded string</returns>
+        //public static string QDecode(string encoding, string text){
 
-			StringBuilder decoded = new StringBuilder(); 
-			Encoding decoder = Encoding.GetEncoding(encoding);  
+        //    StringBuilder decoded = new StringBuilder(); 
+        //    Encoding decoder = Encoding.GetEncoding(encoding);  
 
-			for(int i =0; i < text.Length; i++){
+        //    for(int i =0; i < text.Length; i++){
 
-				if(text[i] == '='){
+        //        if(text[i] == '='){
 
-					string current = String.Empty + text[i + 1] + text[i + 2];
-					byte theByte = Byte.Parse(current, NumberStyles.HexNumber);     
-					byte[] bytes = new byte[]{theByte};
+        //            string current = String.Empty + text[i + 1] + text[i + 2];
+        //            byte theByte = Byte.Parse(current, NumberStyles.HexNumber);     
+        //            byte[] bytes = new byte[]{theByte};
 	
-					decoded.Append(decoder.GetString(bytes));
+        //            decoded.Append(decoder.GetString(bytes));
 	
-					i+=2; 
-				}else if(text[i] == '_'){
+        //            i+=2; 
+        //        }else if(text[i] == '_'){
 	
-					byte theByte = Byte.Parse("20", NumberStyles.HexNumber);     
-					byte[] bytes = new byte[]{theByte};
+        //            byte theByte = Byte.Parse("20", NumberStyles.HexNumber);     
+        //            byte[] bytes = new byte[]{theByte};
 	
-					decoded.Append(decoder.GetString(bytes));      	 
+        //            decoded.Append(decoder.GetString(bytes));      	 
 	
-				}else{
-					decoded.Append(text[i]);     
-				}
+        //        }else{
+        //            decoded.Append(text[i]);     
+        //        }
       
-			}//for 
+        //    }//for 
 
-			return decoded.ToString(); 
-		}
+        //    return decoded.ToString(); 
+        //}
 
-		/// <summary>
-		/// Decodes a string according to the "B" encoding rules of RFC 2047
-		/// </summary>
-		/// <param name="encoding">The string's encoding</param>
-		/// <param name="text">The string to decode</param>
-		/// <returns>The decoded string</returns>
-		public static string Base64Decode(string encoding, string text){
+        ///// <summary>
+        ///// Decodes a string according to the "B" encoding rules of RFC 2047
+        ///// </summary>
+        ///// <param name="encoding">The string's encoding</param>
+        ///// <param name="text">The string to decode</param>
+        ///// <returns>The decoded string</returns>
+        //public static string Base64Decode(string encoding, string text){
 
-			Encoding decoder = Encoding.GetEncoding(encoding);   
-			byte[] textAsByteArray = Convert.FromBase64String(text);
+        //    Encoding decoder = Encoding.GetEncoding(encoding);   
+        //    byte[] textAsByteArray = Convert.FromBase64String(text);
     
-			return decoder.GetString(textAsByteArray);     
-		}
+        //    return decoder.GetString(textAsByteArray);     
+        //}
 
 
-		/// <summary>
-		/// Gets the indexes of encoded words within the string. 
-		/// </summary>
-		/// <param name="str">The target string</param>
-		/// <returns>An array list containing pairs of start and end indexes of encoded
-		/// words within the string</returns>
-		public static ArrayList GetEncodedWordIndexes(string str){
+        ///// <summary>
+        ///// Gets the indexes of encoded words within the string. 
+        ///// </summary>
+        ///// <param name="str">The target string</param>
+        ///// <returns>An array list containing pairs of start and end indexes of encoded
+        ///// words within the string</returns>
+        //public static ArrayList GetEncodedWordIndexes(string str){
 
-			ArrayList list = new ArrayList(); 
-			int begin = -1; 
+        //    ArrayList list = new ArrayList(); 
+        //    int begin = -1; 
     
-			for(int i =0; i < str.Length; i++){
+        //    for(int i =0; i < str.Length; i++){
 
-				if((i != 0) && (str[i] == '?') && ((i + 1) != str.Length)){
-					if((begin == -1) && (str[i-1]== '=')){
-						begin = i -1;
-					}else if(str[i+1]== '='){
-						i++; 
-						list.Add(new int[]{begin, i});	
-						begin = -1; 
-					}
-				}//if((i!=0)...)
-			}
+        //        if((i != 0) && (str[i] == '?') && ((i + 1) != str.Length)){
+        //            if((begin == -1) && (str[i-1]== '=')){
+        //                begin = i -1;
+        //            }else if(str[i+1]== '='){
+        //                i++; 
+        //                list.Add(new int[]{begin, i});	
+        //                begin = -1; 
+        //            }
+        //        }//if((i!=0)...)
+        //    }
 
-			return list; 
+        //    return list; 
 
-		}
+        //}
 
 	
-		/// <summary>
-		/// Creates the google URL from ID.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <returns></returns>
-		internal static string CreateGoogleUrlFromID(string id) {
-			return GoogleGroupsUrl + id.Substring(1, id.Length - 2).Replace("#","%23");
-		}
+		
 	}
 
 }
-
-#region CVS Version Log
-/*
- * $Log: NntpParser.cs,v $
- * Revision 1.24  2006/10/19 19:49:05  t_rendelmann
- * fixed: title/author encoding failures (e.g. in german news groups)
- *
- * Revision 1.23  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- */
-#endregion

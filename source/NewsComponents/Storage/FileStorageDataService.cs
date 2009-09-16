@@ -338,12 +338,13 @@ namespace NewsComponents.Storage {
 			 		
 		}
 
-		/// <summary>
-		/// Saves the content of the binary data.
-		/// </summary>
-		/// <param name="contentId">The content id.</param>
-		/// <param name="data">The data.</param>
-		public override void SaveBinaryContent(string contentId, byte[] data)
+        /// <summary>
+        /// Saves the content of the binary data.
+        /// </summary>
+        /// <param name="contentId">The content id.</param>
+        /// <param name="data">The data.</param>
+        /// <returns>The location Uri for embedding purposes</returns>
+        public override Uri SaveBinaryContent(string contentId, byte[] data)
 		{
 			string fileName = Path.Combine(CacheLocation, contentId);
 			using (FileStream fs = FileHelper.OpenForWrite(fileName))
@@ -352,6 +353,7 @@ namespace NewsComponents.Storage {
 				bw.Write(data);
 				bw.Flush();
 			}
+            return new Uri(fileName);
 		}
 		/// <summary>
 		/// Gets the binary content, if any.

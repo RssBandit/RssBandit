@@ -21,7 +21,6 @@ using System.Xml;
 using System.Xml.XPath;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
-using NewsComponents.News;
 using NewsComponents.RelationCosmos;
 using NewsComponents.Utils;
 
@@ -540,8 +539,7 @@ namespace NewsComponents
                 if (!string.IsNullOrEmpty(p_parentId))
                 {
                     // dealing with the relationcosmos string comparer (references only!):
-                    string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(
-                        NntpParser.CreateGoogleUrlFromID(p_parentId));
+                    string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(p_parentId);
 
                     if (ReferenceEquals(outgoingRelationships, GetList<string>.Empty))
                     {
