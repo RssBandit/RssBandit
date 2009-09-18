@@ -2490,4 +2490,19 @@ Error: {1}</value>
   <data name="FacebookConnectFormTitle" xml:space="preserve">
     <value>Facebook Login</value>
   </data>
+  <data name="GroupByTime_LastMonth" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="GroupByTime_LastWeek" xml:space="preserve">
+    <value>Last Week</value>
+  </data>
+  <data name="GroupByTime_Older" xml:space="preserve">
+    <value>Older</value>
+  </data>
+  <data name="GroupByTime_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="GroupByTime_Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
 </root>
