@@ -2807,9 +2807,8 @@ Error: {1}</comment>
     <value>Afficher les propriétés de la source du flux</value>
     <comment>Show the feed source properties</comment>
   </data>
-  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
-    <value>Un erreur d'autorisation est survenue lors de la tentative de chargement de la liste des flux pour "{0}": {1}</value>
-    <comment>An authorization exception occured while attempting to load the feed list for "{0}": {1}</comment>
+  <data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
   </data>
   <data name="TreeFeedNodeType_Category" xml:space="preserve">
     <value>Dossier de catégorie</value>
@@ -2859,4 +2858,34 @@ Error: {1}</comment>
     <value>Sélectionnez un des certificats affiché ci-dessous pour l'assigner au flux actuel:</value>
     <comment>Select one of the displayed certificates below to assign it to the current feed:</comment>
   </data>
-</root>
+<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+    <value>Facebook News Feed</value>
+  </data>
+	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+    <value>Container of news feed from Facebook</value>
+  </data>
+	<data name="ExceptionFacebookAuthToken" space="preserve">
+    <value>An error occured while trying to obtain a Facebook authorization token</value>
+  </data>
+	<data name="ExceptionFacebookLogin" space="preserve">
+    <value>Facebook login failure</value>
+  </data>
+	<data name="FacebookConnectFormTitle" space="preserve">
+    <value>Facebook Login</value>
+  </data>
+	<data name="GroupByTime_LastMonth" space="preserve">
+    <value>Last Month</value>
+  </data>
+	<data name="GroupByTime_LastWeek" space="preserve">
+    <value>Last Week</value>
+  </data>
+	<data name="GroupByTime_Older" space="preserve">
+    <value>Older</value>
+  </data>
+	<data name="GroupByTime_Today" space="preserve">
+    <value>Today</value>
+  </data>
+	<data name="GroupByTime_Yesterday" space="preserve">
+    <value>Yesterday</value>
+  </data>
+	</root>

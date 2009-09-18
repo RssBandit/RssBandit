@@ -1,30 +1,17 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
-#region CVS Version Log
-/*
- * $Log: UltraTreeExtended.cs,v $
- * Revision 1.6  2007/02/17 20:26:43  carnage4life
- * Incomplete attempt to fix multiselect issues in Outlook 2003 listview
- *
- * Revision 1.5  2006/09/27 00:12:24  carnage4life
- * Fixed issue where items from the previous day were showing up in "Today" and "Yesterday" groups in the Outlook 2003 view
- *
- * Revision 1.4  2006/09/22 15:35:44  t_rendelmann
- * added CVS header and change history
- *
- */
-#endregion
-
 using System;
 using System.Collections;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
 using Infragistics.Win.UltraWinTree;
@@ -35,11 +22,11 @@ namespace RssBandit.WinGui.Controls
 {
 	public class UltraTreeNodeExtended : UltraTreeNode
 	{
-		private INewsItem _newsItem = null;
+		private INewsItem _newsItem;
 		private DateTime _datetime = DateTime.MinValue;
-		private ThreadedListViewItem _nodeOwner = null;
-		private bool _isGroupOneDay = false;
-		private bool _isCommentUpdating = false;
+		private ThreadedListViewItem _nodeOwner;
+		private bool _isGroupOneDay;
+		private bool _isCommentUpdating;
 		private Rectangle _flagRectangle = Rectangle.Empty;
 		private Rectangle _commentsRectangle = Rectangle.Empty;
 		private Rectangle _enclosureRectangle = Rectangle.Empty;
@@ -109,14 +96,13 @@ namespace RssBandit.WinGui.Controls
 			UltraTreeNodeExtended n2 = yc.Node as UltraTreeNodeExtended;
 			if(n1==null && n2==null) 
 				return 0;
-			else if(n1==null)
-				return -1;
-			else if(n2==null)
-				return 1;
-			if(n1.Level==2 && n2.Level==2)
+		    if(n1==null)
+		        return -1;
+		    if(n2==null)
+		        return 1;
+		    if(n1.Level==2 && n2.Level==2)
 				return n1.DateTime.CompareTo(n2.DateTime); //We want the comments to be in ascending order
-			else
-				return n2.DateTime.CompareTo(n1.DateTime);
+		    return n2.DateTime.CompareTo(n1.DateTime);
 		}
 	}
 	
@@ -219,13 +205,13 @@ namespace RssBandit.WinGui.Controls
 			if(dt>dt0)
 			{
 				isGroupOneDay = true;
-				return "Today";
+                return SR.GroupByTime_Today;
 			}
 			if(dt>dt0.AddDays(-1))
 			{
 				isGroupOneDay = true;
 				dt0 = dt0.AddDays(-1);
-				return "Yesterday";
+				return SR.GroupByTime_Yesterday;
 			}
 			//
 			dt0 = dt0.AddDays(-1);
@@ -235,7 +221,8 @@ namespace RssBandit.WinGui.Controls
 				if(dt>dt0)
 				{
 					isGroupOneDay = true;
-					return dt0.DayOfWeek.ToString();
+					//return dt0.DayOfWeek.ToString();
+				    return CultureInfo.CurrentUICulture.DateTimeFormat.DayNames[(int)dt0.DayOfWeek];
 				}
 			}
 			//Last Week
@@ -243,18 +230,18 @@ namespace RssBandit.WinGui.Controls
 			{
 				isGroupOneDay = false;
 				dt0 = dt0.AddDays(-7);
-				return "Last Week";
+				return SR.GroupByTime_LastWeek;
 			}
 			if(dt>dt0.AddDays(-dt0.Day+1))
 			{
 				isGroupOneDay = false;
 				dt0 = dt0.AddDays(-dt0.Day+1);
-				return "Last Month";
+				return SR.GroupByTime_LastMonth;
 			}
 			//
 			isGroupOneDay = false;
 			dt0 = DateTime.MinValue;
-			return "Older";
+			return SR.GroupByTime_Older;
 		}
 		
 		public UltraTreeNodeExtended GetFromLVI(ThreadedListViewItem item)
@@ -267,7 +254,7 @@ namespace RssBandit.WinGui.Controls
 		public void Add(ThreadedListViewItem item)
 		{
 			INewsItem ni = (INewsItem) item.Key;
-			UltraTreeNodeExtended root = null;
+			UltraTreeNodeExtended root;
 			if(item.IsComment)
 			{
 				//IsComment
@@ -358,7 +345,7 @@ namespace RssBandit.WinGui.Controls
 			this.EndUpdate();
 		}
 
-		private void ConfigureComment(UltraTreeNodeExtended n, INewsItem ni)
+		private static void ConfigureComment(UltraTreeNodeExtended n, INewsItem ni)
 		{
 			n.Override.ItemHeight = COMMENT_HEIGHT;
 			n.Cells[0].Value = ni.Title;
