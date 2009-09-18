@@ -2351,8 +2351,8 @@ NO を選択した場合、後ほど再度確認が表示されます。</value>
     <value>フィードの取得</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
-  <data name="WindowsSoundControlPanelNewItemsReceived" xml:space="preserve">
-    <value>新規記事 {0} 件を受信</value>
+  <data name="WindowsSoundControlPanelNewItemsReceived" space="preserve">
+    <value>New Item(s) Received</value>
     <comment> Windows Sound Control Panel - sound caption</comment>
   </data>
   <data name="WindowsSoundControlPanelNewAttachmentDownloaded" xml:space="preserve">
@@ -2724,8 +2724,8 @@ NO を選択した場合、後ほど再度確認が表示されます。</value>
   <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
     <value>フィードのプロパティのダイアログを開く...</value>
   </data>
-  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
-    <value>フィード一覧の読み込み試行中に承認例外が発生 "{0}": {1}</value>
+  <data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
   </data>
   <data name="TreeFeedNodeType_Category" xml:space="preserve">
     <value>カテゴリフォルダ</value>
@@ -2763,4 +2763,34 @@ NO を選択した場合、後ほど再度確認が表示されます。</value>
   <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
     <value>クライアント証明書を選択してください。</value>
   </data>
-</root>
+<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+    <value>Facebook News Feed</value>
+  </data>
+	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+    <value>Container of news feed from Facebook</value>
+  </data>
+	<data name="ExceptionFacebookAuthToken" space="preserve">
+    <value>An error occured while trying to obtain a Facebook authorization token</value>
+  </data>
+	<data name="ExceptionFacebookLogin" space="preserve">
+    <value>Facebook login failure</value>
+  </data>
+	<data name="FacebookConnectFormTitle" space="preserve">
+    <value>Facebook Login</value>
+  </data>
+	<data name="GroupByTime_LastMonth" space="preserve">
+    <value>Last Month</value>
+  </data>
+	<data name="GroupByTime_LastWeek" space="preserve">
+    <value>Last Week</value>
+  </data>
+	<data name="GroupByTime_Older" space="preserve">
+    <value>Older</value>
+  </data>
+	<data name="GroupByTime_Today" space="preserve">
+    <value>Today</value>
+  </data>
+	<data name="GroupByTime_Yesterday" space="preserve">
+    <value>Yesterday</value>
+  </data>
+	</root>
