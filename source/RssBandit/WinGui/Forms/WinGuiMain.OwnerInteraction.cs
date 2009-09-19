@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using Genghis.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
 using IEControl;
 using Infragistics.Win.UltraWinTree;
@@ -2731,11 +2732,14 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         public void RemoveSelectedFeedItems()
         {
-            IList<ThreadedListViewItem> selectedItems = GetSelectedLVItems();
-            if (selectedItems.Count == 0)
-                return;
+            using (new CursorChanger(Cursors.WaitCursor))
+            {
+                IList<ThreadedListViewItem> selectedItems = GetSelectedLVItems();
+                if (selectedItems.Count == 0)
+                    return;
 
-            RemoveListviewItems(selectedItems, true, true, true);
+                RemoveListviewItems(selectedItems, true, true, true);
+            }
         }
 
         /// <summary>
