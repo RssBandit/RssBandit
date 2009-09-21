@@ -4180,57 +4180,28 @@ namespace RssBandit.WinGui.Forms
         {
 			ConfiguredWebBrowserNewWindowAction(e.url, true);
 			e.Cancel = true;
-			
-			//try
-			//{
-			//    bool userNavigates = _webUserNavigated;
-			//    bool forceNewTab = _webForceNewTab;
-
-			//    _webForceNewTab = _webUserNavigated = false; // reset
-
-			//    e.Cancel = true;
-
-			//    string url = e.url;
-			//    _log.Debug("OnWebNewWindow(): '" + url + "'");
-
-			//    bool forceSetFocus = true;
-			//    // Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);
-
-			//    if (UrlRequestHandledExternally(url, forceNewTab))
-			//    {
-			//        return;
-			//    }
-
-			//    if (userNavigates)
-			//    {
-			//        // Delay gives time to the sender control to cancel request
-			//        DelayTask(DelayedTasks.NavigateToWebUrl, new object[] {url, null, true, forceSetFocus});
-			//    }
-			//}
-			//catch (Exception ex)
-			//{
-			//    _log.Error("OnWebNewWindow(): " + e.url, ex);
-			//}
         }
 
 		// because this event gets fired without a BeforeNavigate(), we
 		// have to handle such things like "Ctrl-Click" again here
 		private void OnWebNewWindow3(object sender, BrowserNewWindow3Event e)
 		{
-			if (IEControl.Interop.NWMF.NWMF_FORCETAB == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCETAB))
-			{
-				bool forceSetFocus = true;
-				// if Ctrl-Click is true, Tab should open in background:
-				if ((ModifierKeys & Keys.Control) == Keys.Control)
-					forceSetFocus = false;
-				ConfiguredWebBrowserNewWindowAction(e.bstrUrl, forceSetFocus);
-			} 
-			else
-			{
-				owner.NavigateToUrlInExternalBrowser(e.bstrUrl);
-			}
-
-			// if we do not cancel here, we would get the OnWebNewWindow event too:
+            if (IEControl.Interop.NWMF.NWMF_USERINITED == (e.dwFlags & IEControl.Interop.NWMF.NWMF_USERINITED))
+            {
+                if (IEControl.Interop.NWMF.NWMF_FORCEWINDOW == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCEWINDOW))
+                {
+                    owner.NavigateToUrlInExternalBrowser(e.bstrUrl);
+                } 
+                else
+                {
+                    bool forceSetFocus = true;
+                    // if Ctrl-Click is true, Tab should open in background:
+                    if ((ModifierKeys & Keys.Control) == Keys.Control)
+                        forceSetFocus = false;
+                    ConfiguredWebBrowserNewWindowAction(e.bstrUrl, forceSetFocus);
+                }
+            }
+		    // if we do not cancel here, we would get the OnWebNewWindow event too:
 			e.Cancel = true;
 		}
 
