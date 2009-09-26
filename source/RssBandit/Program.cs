@@ -31,11 +31,10 @@ namespace RssBandit
             bool running = true;
 
             Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             // This might fix the SEHException raised sometimes. See issue:
             // https://sourceforge.net/tracker/?func=detail&aid=2335753&group_id=96589&atid=615248
             Application.DoEvents();
-
-            Application.SetCompatibleTextRenderingDefault(false);
 
 			// child threads should impersonate the current windows user
 			AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.WindowsPrincipal);
