@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -42,7 +43,8 @@ namespace IEControl
 	CLSCompliant(false),
 	ComVisible(false)
 	]
-	public class HtmlControl : AxHost {
+	public class HtmlControl : AxHost , IMessageFilter
+    {
         
 		///<summary>
 		///</summary>
@@ -62,7 +64,9 @@ namespace IEControl
 		private DocHostUIHandler uiHandler;
 		private Interop.IWebBrowser2Application iwb2app;
 		private bool ie7BuildInZoomEnabled;
-        
+        private int currentOpticalZoomFactor = 100;
+        private const int zoomStep = 5;
+
 		string url = String.Empty;
 		string html = String.Empty;
 		string body = String.Empty;
@@ -103,6 +107,11 @@ namespace IEControl
 		#endregion
 
 		#region public events
+
+        /// <summary>
+        /// Occurs when optical zoom factor changed.
+        /// </summary>
+	    public event EventHandler OpticalZoomFactorChanged;
 		///<summary>
 		///</summary>
 		public event BrowserPrivacyImpactedStateChangeEventHandler PrivacyImpactedStateChange;
@@ -349,12 +358,15 @@ namespace IEControl
 			if (oleCtrl != null)
 				oleCtrl.OnAmbientPropertyChange(HTMLDispIDs.DISPID_AMBIENT_DLCONTROL);
 
+            System.Windows.Forms.Application.AddMessageFilter(this);
 		}
 
 		
 
 		// this can be called multiple times in the lifetime of the control!!!
-		void SelfHandleDestroyed(object s, EventArgs e) {
+		void SelfHandleDestroyed(object s, EventArgs e) 
+        {
+            System.Windows.Forms.Application.RemoveMessageFilter(this);
 			if (ocx_v1 != null) {
 				ocx_v1.NewWindow -=  this.RaiseOnNewBrowserWindow;
 			}
@@ -411,21 +423,65 @@ namespace IEControl
 			}
 			base.Dispose (disposing);
 		}
-		
+
+      
 		/// <summary>
-		/// Workaround/BugBug: handle OnQuit
+		/// Workaround/BugBug: handle OnQuit/Zoom in IE8
 		/// </summary>
 		/// <param name="m"></param>
 		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
 		protected override void WndProc(ref Message m)
 		{
-			if (m.Msg == Interop.WM_CLOSE) {
-				if (! this.RaiseOnQuit(this, EventArgs.Empty))
-					base.WndProc (ref m);
-			} else {
-				base.WndProc (ref m);
+            switch (m.Msg)
+            {
+                
+                case Interop.WM_CLOSE:
+                {
+                    if (this.RaiseOnQuit(this, EventArgs.Empty))
+                        return;
+                    break;
+                }
+
 			}
+
+            base.WndProc(ref m);
 		}
+
+        /// <summary>
+        /// Gets or sets the optical zoom factor.
+        /// </summary>
+        /// <value>The optical zoom factor.</value>
+	    public int OpticalZoomFactor
+	    {
+            get { return this.currentOpticalZoomFactor; }
+            set
+            {
+                if (value >= 10 && value <= 1000)
+                {
+                    currentOpticalZoomFactor = value;
+                    ApplyOpticalZoom(currentOpticalZoomFactor);
+                    if (OpticalZoomFactorChanged != null)
+                        OpticalZoomFactorChanged(this, EventArgs.Empty);
+                }
+                else
+                    throw new InvalidOperationException(String.Format(
+                        "Invalid zoomfactor: {0}. Allowed values are between 10 and 1000", value));
+            }
+	    }
+
+        /// <summary>
+        /// Sets the optical zoom factor (10...1000).
+        /// </summary>
+        /// <param name="factor">The factor.</param>
+        private void ApplyOpticalZoom(int factor)
+        {
+            if (CurrentIEVersion.Major >= 7)
+            {
+                object inval = factor;
+                object outval = 0;
+                ExecWB((OLECMDID)Interop.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref inval, ref outval);
+            }
+        }
 
 		/// <summary>
 		/// Just clear the browser window.
@@ -2265,7 +2321,68 @@ namespace IEControl
 				TranslateAccelerator(this, e);
 		}
 
-	}
+
+        #region IMessageFilter Members
+
+        
+        bool IsMessageForMe(Message m)
+        {
+            
+            IntPtr hwnd;
+
+            Interop.IOleWindow oleWindow = null;
+            try
+            {
+                oleWindow = this.Document2 as Interop.IOleWindow;
+            }
+            catch { }
+
+            if (oleWindow == null)
+                return false;
+
+            oleWindow.GetWindow(out hwnd);
+
+            if (m.HWnd == hwnd)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        bool IMessageFilter.PreFilterMessage(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case Interop.WM_MOUSEWHEEL:
+                {
+                    if (ModifierKeys != Keys.None)
+                    {
+                        if (ModifierKeys == Keys.Control && CurrentIEVersion.Major >= 7
+                            && IsMessageForMe(m))
+                        {
+                            int delta = Interop.SignedHIWORD(m.WParam);
+                            if (delta > 0)
+                            {
+                                OpticalZoomFactor += zoomStep;
+                            }
+                            else
+                            {
+                                OpticalZoomFactor -= zoomStep;
+                            }
+                            
+                            return true;
+                        }
+                    }
+
+                    break;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+    }
 
 	///<summary>
 	///Summary of AxWebBrowserEventMulticaster

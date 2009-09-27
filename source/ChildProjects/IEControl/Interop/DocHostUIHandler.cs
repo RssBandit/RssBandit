@@ -143,6 +143,11 @@ namespace IEControl
 			if (hostControl.FlatScrollBars) {
 				flags |= Interop.DOCHOSTUIFLAG_FLAT_SCROLLBAR;
 			}
+            // Opt-In to High DPI Behavior for Web Browser Controls (WebOCs -if IE8)
+            // http://msdn.microsoft.com/en-us/library/cc849094(VS.85).aspx
+            if (HtmlControl.CurrentIEVersion.Major >= 8)
+                flags |= Interop.DOCHOSTUIFLAG_DPI_AWARE;
+
 			info.dwFlags = flags;
 			return Interop.S_OK;
 		}
