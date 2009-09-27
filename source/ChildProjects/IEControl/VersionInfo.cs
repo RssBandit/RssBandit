@@ -6,4 +6,4 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyVersion("1.1.113.8147")]
+[assembly: AssemblyVersion("1.1.113.9270")]
