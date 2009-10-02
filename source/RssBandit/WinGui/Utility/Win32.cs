@@ -8,7 +8,6 @@
  */
 #endregion
 
-
 using System;
 using System.Globalization;
 using System.IO;
@@ -26,6 +25,7 @@ using System.Windows.Media.Imaging;
 using Interop.ThumbCache;
 using Microsoft.Win32;
 using NewsComponents.Utils;
+using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using Application=System.Windows.Forms.Application;
 using Logger = RssBandit.Common.Logging;
@@ -36,10 +36,242 @@ namespace RssBandit
 	/// Common used Win32 Interop decl.
 	/// </summary>
 	[System.Security.SuppressUnmanagedCodeSecurity]
-	internal sealed class Win32 {
+	internal sealed class Win32 
+    {
 
 		#region enum/consts
-		public enum ShowWindowStyles : short {
+
+        /// <summary>
+        /// wProductType consts. 
+        /// Any additional information about the system. 
+        /// This can be one of the following values.
+        /// See http://msdn.microsoft.com/en-us/library/ms724833(VS.85).aspx
+        /// </summary>
+	    public const int VER_NT_WORKSTATION = 1;
+        public const int VER_NT_DOMAIN_CONTROLLER = 2;
+        public const int VER_NT_SERVER = 3;
+
+        /// <summary>
+        /// Windows Suite enum mask
+        /// </summary>
+        /// <remarks>
+        /// Relying on version information is not the best way to test for a feature. 
+        /// Instead, refer to the documentation for the feature of interest. For more 
+        /// information on common techniques for feature detection, see Operating System 
+        /// Version.
+        /// If you must require a particular operating system, be sure to use it as a minimum 
+        /// supported version, rather than design the test for the one operating system. 
+        /// This way, your detection code will continue to work on future versions of Windows.
+        /// Note that you should not solely rely upon the VER_SUITE_SMALLBUSINESS flag 
+        /// to determine whether Small Business Server has been installed on the system, 
+        /// as both this flag and the VER_SUITE_SMALLBUSINESS_RESTRICTED flag are set 
+        /// when this product suite is installed. If you upgrade this installation to 
+        /// Windows Server, Standard Edition, the VER_SUITE_SMALLBUSINESS_RESTRICTED flag 
+        /// will be unset — however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
+        /// In this case, this indicates that Small Business Server was once installed on 
+        /// this system. If this installation is further upgraded to Windows Server, 
+        /// Enterprise Edition, the VER_SUITE_SMALLBUSINESS key will remain set.
+        /// To determine whether a Win32-based application is running on WOW64, 
+        /// call the Win32 API IsWow64Process function.
+        /// </remarks>
+        [Flags]
+        public enum WindowsSuite
+        {
+            /// <summary>
+            /// Windows NT Server
+            /// </summary>
+            VER_SERVER_NT = unchecked((int)0x80000000),
+            /// <summary>
+            /// Windows NT Workstation
+            /// </summary>
+            VER_WORKSTATION_NT = 0x40000000,
+            /// <summary>
+            /// Microsoft Small Business Server was once installed on the system, 
+            /// but may have been upgraded to another version of Windows. 
+            /// Refer to the Remarks section for more information about this bit flag.
+            /// </summary>
+            VER_SUITE_SMALLBUSINESS = 0x00000001,
+            /// <summary>
+            /// Windows Server 2003, Enterprise Edition, Windows 2000 Advanced Server, 
+            /// or Windows NT 4.0 Enterprise Edition, is installed. 
+            /// Refer to the Remarks section for more information about this bit flag.
+            /// </summary>
+            VER_SUITE_ENTERPRISE = 0x00000002,
+            /// <summary>
+            /// Microsoft BackOffice components are installed.
+            /// </summary>
+            VER_SUITE_BACKOFFICE = 0x00000004,
+            /// <summary>
+            /// ?
+            /// </summary>
+            VER_SUITE_COMMUNICATIONS = 0x00000008,
+            /// <summary>
+            /// Terminal Services is installed.
+            /// </summary>
+            VER_SUITE_TERMINAL = 0x00000010,
+            /// <summary>
+            /// Microsoft Small Business Server is installed with the restrictive client license in force. 
+            /// Refer to the Remarks section for more information about this bit flag.
+            /// </summary>
+            VER_SUITE_SMALLBUSINESS_RESTRICTED = 0x00000020,
+            /// <summary>
+            /// ?
+            /// </summary>
+            VER_SUITE_EMBEDDEDNT = 0x00000040,
+            /// <summary>
+            /// Windows Server 2003, Datacenter Edition or Windows 2000 Datacenter Server is installed.
+            /// </summary>
+            VER_SUITE_DATACENTER = 0x00000080,
+            /// <summary>
+            /// Terminal Services is installed, but only one interactive session is supported.
+            /// </summary>
+            VER_SUITE_SINGLEUSERTS = 0x00000100,
+            /// <summary>
+            /// Windows XP Home Edition is installed.
+            /// </summary>
+            VER_SUITE_PERSONAL = 0x00000200,
+            /// <summary>
+            /// Windows Server 2003, Web Edition is installed.
+            /// </summary>
+            VER_SUITE_BLADE = 0x00000400,
+            /// <summary>
+            /// ?
+            /// </summary>
+            VER_SUITE_EMBEDDED_RESTRICTED = 0x00000800,
+            /// <summary>
+            /// Windows Storage Server 2003 R2 or Windows Storage Server 2003is installed
+            /// </summary>
+            VER_SUITE_STORAGE_SERVER = 0x00002000,
+            /// <summary>
+            /// Windows Server 2003, Compute Cluster Edition is installed.
+            /// </summary>
+            VER_SUITE_COMPUTE_SERVER = 0x00004000,
+            /// <summary>
+            /// Windows Home Server is installed.
+            /// </summary>
+            VER_SUITE_WH_SERVER = 0x00008000,
+        }
+
+        /// <summary>
+        /// See also: http://msdn.microsoft.com/en-us/library/ms724358(VS.85).aspx
+        /// </summary>
+        internal static class WindowsProductType
+        {
+            #region consts
+
+            private const uint PRODUCT_UNLICENSED = 0xABCDABCD;
+            private const uint PRODUCT_BUSINESS =0x00000006;
+            private const uint PRODUCT_BUSINESS_N = 0x00000010;
+            private const uint PRODUCT_CLUSTER_SERVER = 0x00000012;
+            private const uint PRODUCT_DATACENTER_SERVER = 0x00000008;
+            private const uint PRODUCT_DATACENTER_SERVER_CORE = 0x0000000C;
+            private const uint PRODUCT_DATACENTER_SERVER_CORE_V = 0x00000027;
+            private const uint PRODUCT_DATACENTER_SERVER_V = 0x00000025;
+            private const uint PRODUCT_ENTERPRISE = 0x00000004;
+            private const uint PRODUCT_ENTERPRISE_E = 0x00000046;
+            private const uint PRODUCT_ENTERPRISE_N = 0x0000001B;
+            private const uint PRODUCT_ENTERPRISE_SERVER = 0x0000000A;
+            private const uint PRODUCT_ENTERPRISE_SERVER_CORE = 0x0000000E;
+            private const uint PRODUCT_ENTERPRISE_SERVER_CORE_V = 0x00000029;
+            private const uint PRODUCT_ENTERPRISE_SERVER_IA64 = 0x0000000F;
+            private const uint PRODUCT_ENTERPRISE_SERVER_V = 0x00000026;
+            private const uint PRODUCT_HOME_BASIC = 0x00000002;
+            private const uint PRODUCT_HOME_BASIC_E = 0x00000043;
+            private const uint PRODUCT_HOME_BASIC_N = 0x00000005;
+            private const uint PRODUCT_HOME_PREMIUM = 0x00000003;
+            private const uint PRODUCT_HOME_PREMIUM_E = 0x00000044;
+            private const uint PRODUCT_HOME_PREMIUM_N = 0x0000001A;
+            private const uint PRODUCT_HYPERV = 0x0000002A;
+            private const uint PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT = 0x0000001E;
+            private const uint PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING = 0x00000020;
+            private const uint PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY = 0x0000001F;
+            private const uint PRODUCT_PROFESSIONAL = 0x00000030;
+            private const uint PRODUCT_PROFESSIONAL_E = 0x00000045;
+            private const uint PRODUCT_PROFESSIONAL_N = 0x00000031;
+            private const uint PRODUCT_SERVER_FOR_SMALLBUSINESS = 0x00000018;
+            private const uint PRODUCT_SERVER_FOR_SMALLBUSINESS_V = 0x00000023;
+            private const uint PRODUCT_SERVER_FOUNDATION = 0x00000021;
+            private const uint PRODUCT_SMALLBUSINESS_SERVER = 0x00000009;
+            private const uint PRODUCT_STANDARD_SERVER = 0x00000007;
+            private const uint PRODUCT_STANDARD_SERVER_CORE = 0x0000000D;
+            private const uint PRODUCT_STANDARD_SERVER_CORE_V = 0x00000028;
+            private const uint PRODUCT_STANDARD_SERVER_V = 0x00000024;
+            private const uint PRODUCT_STARTER = 0x0000000B;
+            private const uint PRODUCT_STARTER_E = 0x00000042;
+            private const uint PRODUCT_STARTER_N = 0x0000002F;
+            private const uint PRODUCT_STORAGE_ENTERPRISE_SERVER = 0x00000017;
+            private const uint PRODUCT_STORAGE_EXPRESS_SERVER = 0x00000014;
+            private const uint PRODUCT_STORAGE_STANDARD_SERVER = 0x00000015;
+            private const uint PRODUCT_STORAGE_WORKGROUP_SERVER = 0x00000016;
+            private const uint PRODUCT_UNDEFINED = 0x00000000;
+            private const uint PRODUCT_ULTIMATE = 0x00000001;
+            private const uint PRODUCT_ULTIMATE_E = 0x00000047;
+            private const uint PRODUCT_ULTIMATE_N = 0x0000001C;
+            private const uint PRODUCT_WEB_SERVER = 0x00000011;
+            private const uint PRODUCT_WEB_SERVER_CORE = 0x0000001D;
+
+            #endregion
+
+            internal static string Get(uint type)
+            {
+                switch (type)
+                {
+                    case PRODUCT_UNDEFINED: return "Unknown product";
+                    case PRODUCT_UNLICENSED: return "Not licensed";
+                    case PRODUCT_BUSINESS: return "Business Edition";
+                    case PRODUCT_BUSINESS_N: return "Business Edition N";
+                    case PRODUCT_CLUSTER_SERVER: return "HPC Edition";
+                    case PRODUCT_DATACENTER_SERVER: return "Server Datacenter Edition (full installation)";
+                    case PRODUCT_DATACENTER_SERVER_CORE: return "Server Datacenter Edition (core installation)";
+                    case PRODUCT_DATACENTER_SERVER_CORE_V: return "Server Datacenter Edition without Hyper-V (core installation)";
+                    case PRODUCT_DATACENTER_SERVER_V: return "Server Datacenter Edition without Hyper-V (full installation)";
+                    case PRODUCT_ENTERPRISE: return "Enterprise Edition";
+                    case PRODUCT_ENTERPRISE_E: return "Enterprise Edition E";
+                    case PRODUCT_ENTERPRISE_N: return "Enterprise Edition N";
+                    case PRODUCT_ENTERPRISE_SERVER: return "Server Enterprise Edition (full installation)";
+                    case PRODUCT_ENTERPRISE_SERVER_CORE: return "Server Enterprise Edition (core installation)";
+                    case PRODUCT_ENTERPRISE_SERVER_CORE_V: return "Server Enterprise Edition without Hyper-V (core installation)";
+                    case PRODUCT_ENTERPRISE_SERVER_IA64: return "Server Enterprise Edition for Itanium-based Systems";
+                    case PRODUCT_ENTERPRISE_SERVER_V: return "Server Enterprise Edition without Hyper-V (full installation)";
+                    case PRODUCT_HOME_BASIC: return "Home Basic Edition";
+                    case PRODUCT_HOME_BASIC_E: return "Home Basic Edition E";
+                    case PRODUCT_HOME_BASIC_N: return "Home Basic Edition N";
+                    case PRODUCT_HOME_PREMIUM: return "Home Premium Edition";
+                    case PRODUCT_HOME_PREMIUM_E: return "Home Premium Edition E";
+                    case PRODUCT_HOME_PREMIUM_N: return "Home Premium Edition N";
+                    case PRODUCT_HYPERV: return "Microsoft Hyper-V Server Edition";
+                    case PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT: return "Windows Essential Business Server Management Server";
+                    case PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING: return "Windows Essential Business Server Messaging Server";
+                    case PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY: return "Windows Essential Business Server Security Server";
+                    case PRODUCT_PROFESSIONAL: return "Professional Edition";
+                    case PRODUCT_PROFESSIONAL_E: return "Professional Edition E";
+                    case PRODUCT_PROFESSIONAL_N: return "Professional Edition N";
+                    case PRODUCT_SERVER_FOR_SMALLBUSINESS: return "Windows Server 2008 for Windows Essential Server Solutions";
+                    case PRODUCT_SERVER_FOR_SMALLBUSINESS_V: return "Windows Server 2008 without Hyper-V for Windows Essential Server Solutions";
+                    case PRODUCT_SERVER_FOUNDATION: return "Server Foundation Edition";
+                    case PRODUCT_SMALLBUSINESS_SERVER: return "Windows Small Business Server";
+                    case PRODUCT_STANDARD_SERVER: return "Server Standard Edition (full installation)";
+                    case PRODUCT_STANDARD_SERVER_CORE: return "Server Standard Edition (core installation)";
+                    case PRODUCT_STANDARD_SERVER_CORE_V: return "Server Standard Edition without Hyper-V (core installation)";
+                    case PRODUCT_STANDARD_SERVER_V: return "Server Standard Edition without Hyper-V (full installation)";
+                    case PRODUCT_STARTER: return "Starter Edition";
+                    case PRODUCT_STARTER_E: return "Starter Edition E";
+                    case PRODUCT_STARTER_N: return "Starter Edition N";
+                    case PRODUCT_STORAGE_ENTERPRISE_SERVER: return "Storage Server Enterprise Edition";
+                    case PRODUCT_STORAGE_EXPRESS_SERVER: return "Storage Server Express Edition";
+                    case PRODUCT_STORAGE_STANDARD_SERVER: return "Storage Server Standard Edition";
+                    case PRODUCT_STORAGE_WORKGROUP_SERVER: return "Storage Server Workgroup Edition";
+                    case PRODUCT_ULTIMATE: return "Ultimate Edition";
+                    case PRODUCT_ULTIMATE_E: return "Ultimate Edition E";
+                    case PRODUCT_ULTIMATE_N: return "Ultimate Edition N";
+                    case PRODUCT_WEB_SERVER: return "Web Server Edition (full installation)";
+                    case PRODUCT_WEB_SERVER_CORE: return "Web Server Edition (core installation)";
+                    default: return String.Empty;
+                }
+            }
+        }
+
+        public enum ShowWindowStyles : short {
 			SW_HIDE				= 0,
 			SW_SHOWNORMAL	= 1,
 			SW_NORMAL           = 1,
@@ -442,7 +674,426 @@ namespace RssBandit
 			public byte wProductType;  
 			public byte wReserved;
 		}
-		#endregion
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct SYSTEM_INFO
+        {
+            public ushort processorArchitecture;
+            ushort reserved;
+            public uint pageSize;
+            public IntPtr minimumApplicationAddress;
+            public IntPtr maximumApplicationAddress;
+            public IntPtr activeProcessorMask;
+            public uint numberOfProcessors;
+            public uint processorType;
+            public uint allocationGranularity;
+            public ushort processorLevel;
+            public ushort processorRevision;
+        }
+
+        internal const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
+        internal const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
+        internal const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
+        internal const ushort PROCESSOR_ARCHITECTURE_UNKNOWN = 0xffff;
+
+        internal delegate void GetNativeSystemInfoInvoker(ref SYSTEM_INFO lpSystemInfo);
+        // see http://msdn.microsoft.com/en-us/library/ms724358(VS.85).aspx
+        internal delegate bool GetProductInfoInvoker(int dwOSMajorVersion,
+            int dwOSMinorVersion,int dwSpMajorVersion,int dwSpMinorVersion,
+            out uint pdwReturnedProductType);
+		
+        /// <summary>
+		/// Flags used with the Windows API (User32.dll):GetSystemMetrics(SystemMetric smIndex)
+		///   
+		/// This Enum and declaration signature was written by Gabriel T. Sharp
+		/// ai_productions@verizon.net or osirisgothra@hotmail.com
+		/// Obtained on pinvoke.net, please contribute your code to support the wiki!
+		/// </summary>
+		internal enum SystemMetric
+		{
+			/// <summary>
+			///  Width of the screen of the primary display monitor, in pixels. This is the same values obtained by calling GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, HORZRES).
+			/// </summary>
+			SM_CXSCREEN = 0,
+			/// <summary>
+			/// Height of the screen of the primary display monitor, in pixels. This is the same values obtained by calling GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, VERTRES).
+			/// </summary>
+			SM_CYSCREEN = 1,
+			/// <summary>
+			/// Width of a horizontal scroll bar, in pixels.
+			/// </summary>
+			SM_CYVSCROLL = 2,
+			/// <summary>
+			/// Height of a horizontal scroll bar, in pixels.
+			/// </summary>
+			SM_CXVSCROLL = 3,
+			/// <summary>
+			/// Height of a caption area, in pixels.
+			/// </summary>
+			SM_CYCAPTION = 4,
+			/// <summary>
+			/// Width of a window border, in pixels. This is equivalent to the SM_CXEDGE value for windows with the 3-D look. 
+			/// </summary>
+			SM_CXBORDER = 5,
+			/// <summary>
+			/// Height of a window border, in pixels. This is equivalent to the SM_CYEDGE value for windows with the 3-D look. 
+			/// </summary>
+			SM_CYBORDER = 6,
+			/// <summary>
+			/// Thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels. SM_CXFIXEDFRAME is the height of the horizontal border and SM_CYFIXEDFRAME is the width of the vertical border. 
+			/// </summary>
+			SM_CXDLGFRAME = 7,
+			/// <summary>
+			/// Thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels. SM_CXFIXEDFRAME is the height of the horizontal border and SM_CYFIXEDFRAME is the width of the vertical border. 
+			/// </summary>
+			SM_CYDLGFRAME = 8,
+			/// <summary>
+			/// Height of the thumb box in a vertical scroll bar, in pixels
+			/// </summary>
+			SM_CYVTHUMB = 9,
+			/// <summary>
+			/// Width of the thumb box in a horizontal scroll bar, in pixels.
+			/// </summary>
+			SM_CXHTHUMB = 10,
+			/// <summary>
+			/// Default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions specified by SM_CXICON and SM_CYICON
+			/// </summary>
+			SM_CXICON = 11,
+			/// <summary>
+			/// Default height of an icon, in pixels. The LoadIcon function can load only icons with the dimensions SM_CXICON and SM_CYICON.
+			/// </summary>
+			SM_CYICON = 12,
+			/// <summary>
+			/// Width of a cursor, in pixels. The system cannot create cursors of other sizes.
+			/// </summary>
+			SM_CXCURSOR = 13,
+			/// <summary>
+			/// Height of a cursor, in pixels. The system cannot create cursors of other sizes.
+			/// </summary>
+			SM_CYCURSOR = 14,
+			/// <summary>
+			/// Height of a single-line menu bar, in pixels.
+			/// </summary>
+			SM_CYMENU = 15,
+			/// <summary>
+			/// Width of the client area for a full-screen window on the primary display monitor, in pixels. To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars, call the SystemParametersInfo function with the SPI_GETWORKAREA value.
+			/// </summary>
+			SM_CXFULLSCREEN = 16,
+			/// <summary>
+			/// Height of the client area for a full-screen window on the primary display monitor, in pixels. To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars, call the SystemParametersInfo function with the SPI_GETWORKAREA value.
+			/// </summary>
+			SM_CYFULLSCREEN = 17,
+			/// <summary>
+			/// For double byte character set versions of the system, this is the height of the Kanji window at the bottom of the screen, in pixels
+			/// </summary>
+			SM_CYKANJIWINDOW = 18,
+			/// <summary>
+			/// Nonzero if a mouse with a wheel is installed; zero otherwise
+			/// </summary>
+			SM_MOUSEWHEELPRESENT = 75,
+			/// <summary>
+			/// Height of the arrow bitmap on a vertical scroll bar, in pixels.
+			/// </summary>
+			SM_CYHSCROLL = 20,
+			/// <summary>
+			/// Width of the arrow bitmap on a horizontal scroll bar, in pixels.
+			/// </summary>
+			SM_CXHSCROLL = 21,
+			/// <summary>
+			/// Nonzero if the debug version of User.exe is installed; zero otherwise.
+			/// </summary>
+			SM_DEBUG = 22,
+			/// <summary>
+			/// Nonzero if the left and right mouse buttons are reversed; zero otherwise.
+			/// </summary>
+			SM_SWAPBUTTON = 23,
+			/// <summary>
+			/// Reserved for future use
+			/// </summary>
+			SM_RESERVED1 = 24,
+			/// <summary>
+			/// Reserved for future use
+			/// </summary>
+			SM_RESERVED2 = 25,
+			/// <summary>
+			/// Reserved for future use
+			/// </summary>
+			SM_RESERVED3 = 26,
+			/// <summary>
+			/// Reserved for future use
+			/// </summary>
+			SM_RESERVED4 = 27,
+			/// <summary>
+			/// Minimum width of a window, in pixels.
+			/// </summary>
+			SM_CXMIN = 28,
+			/// <summary>
+			/// Minimum height of a window, in pixels.
+			/// </summary>
+			SM_CYMIN = 29,
+			/// <summary>
+			/// Width of a button in a window's caption or title bar, in pixels.
+			/// </summary>
+			SM_CXSIZE = 30,
+			/// <summary>
+			/// Height of a button in a window's caption or title bar, in pixels.
+			/// </summary>
+			SM_CYSIZE = 31,
+			/// <summary>
+			/// Thickness of the sizing border around the perimeter of a window that can be resized, in pixels. SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
+			/// </summary>
+			SM_CXFRAME = 32,
+			/// <summary>
+			/// Thickness of the sizing border around the perimeter of a window that can be resized, in pixels. SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
+			/// </summary>
+			SM_CYFRAME = 33,
+			/// <summary>
+			/// Minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. A window can override this value by processing the WM_GETMINMAXINFO message.
+			/// </summary>
+			SM_CXMINTRACK = 34,
+			/// <summary>
+			/// Minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. A window can override this value by processing the WM_GETMINMAXINFO message
+			/// </summary>
+			SM_CYMINTRACK = 35,
+			/// <summary>
+			/// Width of the rectangle around the location of a first click in a double-click sequence, in pixels. The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider the two clicks a double-click
+			/// </summary>
+			SM_CXDOUBLECLK = 36,
+			/// <summary>
+			/// Height of the rectangle around the location of a first click in a double-click sequence, in pixels. The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider the two clicks a double-click. (The two clicks must also occur within a specified time.) 
+			/// </summary>
+			SM_CYDOUBLECLK = 37,
+			/// <summary>
+			/// Width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CXICON
+			/// </summary>
+			SM_CXICONSPACING = 38,
+			/// <summary>
+			/// Height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CYICON.
+			/// </summary>
+			SM_CYICONSPACING = 39,
+			/// <summary>
+			/// Nonzero if drop-down menus are right-aligned with the corresponding menu-bar item; zero if the menus are left-aligned.
+			/// </summary>
+			SM_MENUDROPALIGNMENT = 40,
+			/// <summary>
+			/// Nonzero if the Microsoft Windows for Pen computing extensions are installed; zero otherwise.
+			/// </summary>
+			SM_PENWINDOWS = 41,
+			/// <summary>
+			/// Nonzero if User32.dll supports DBCS; zero otherwise. (WinMe/95/98): Unicode
+			/// </summary>
+			SM_DBCSENABLED = 42,
+			/// <summary>
+			/// Number of buttons on mouse, or zero if no mouse is installed.
+			/// </summary>
+			SM_CMOUSEBUTTONS = 43,
+			/// <summary>
+			/// Identical Values Changed After Windows NT 4.0  
+			/// </summary>
+			SM_CXFIXEDFRAME = SM_CXDLGFRAME,
+			/// <summary>
+			/// Identical Values Changed After Windows NT 4.0
+			/// </summary>
+			SM_CYFIXEDFRAME = SM_CYDLGFRAME,
+			/// <summary>
+			/// Identical Values Changed After Windows NT 4.0
+			/// </summary>
+			SM_CXSIZEFRAME = SM_CXFRAME,
+			/// <summary>
+			/// Identical Values Changed After Windows NT 4.0
+			/// </summary>
+			SM_CYSIZEFRAME = SM_CYFRAME,
+			/// <summary>
+			/// Nonzero if security is present; zero otherwise.
+			/// </summary>
+			SM_SECURE = 44,
+			/// <summary>
+			/// Width of a 3-D border, in pixels. This is the 3-D counterpart of SM_CXBORDER
+			/// </summary>
+			SM_CXEDGE = 45,
+			/// <summary>
+			/// Height of a 3-D border, in pixels. This is the 3-D counterpart of SM_CYBORDER
+			/// </summary>
+			SM_CYEDGE = 46,
+			/// <summary>
+			/// Width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. This value is always greater than or equal to SM_CXMINIMIZED.
+			/// </summary>
+			SM_CXMINSPACING = 47,
+			/// <summary>
+			/// Height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. This value is always greater than or equal to SM_CYMINIMIZED.
+			/// </summary>
+			SM_CYMINSPACING = 48,
+			/// <summary>
+			/// Recommended width of a small icon, in pixels. Small icons typically appear in window captions and in small icon view
+			/// </summary>
+			SM_CXSMICON = 49,
+			/// <summary>
+			/// Recommended height of a small icon, in pixels. Small icons typically appear in window captions and in small icon view.
+			/// </summary>
+			SM_CYSMICON = 50,
+			/// <summary>
+			/// Height of a small caption, in pixels
+			/// </summary>
+			SM_CYSMCAPTION = 51,
+			/// <summary>
+			/// Width of small caption buttons, in pixels.
+			/// </summary>
+			SM_CXSMSIZE = 52,
+			/// <summary>
+			/// Height of small caption buttons, in pixels.
+			/// </summary>
+			SM_CYSMSIZE = 53,
+			/// <summary>
+			/// Width of menu bar buttons, such as the child window close button used in the multiple document interface, in pixels.
+			/// </summary>
+			SM_CXMENUSIZE = 54,
+			/// <summary>
+			/// Height of menu bar buttons, such as the child window close button used in the multiple document interface, in pixels.
+			/// </summary>
+			SM_CYMENUSIZE = 55,
+			/// <summary>
+			/// Flags specifying how the system arranged minimized windows
+			/// </summary>
+			SM_ARRANGE = 56,
+			/// <summary>
+			/// Width of a minimized window, in pixels.
+			/// </summary>
+			SM_CXMINIMIZED = 57,
+			/// <summary>
+			/// Height of a minimized window, in pixels.
+			/// </summary>
+			SM_CYMINIMIZED = 58,
+			/// <summary>
+			/// Default maximum width of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing the WM_GETMINMAXINFO message.
+			/// </summary>
+			SM_CXMAXTRACK = 59,
+			/// <summary>
+			/// Default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing the WM_GETMINMAXINFO message.
+			/// </summary>
+			SM_CYMAXTRACK = 60,
+			/// <summary>
+			/// Default width, in pixels, of a maximized top-level window on the primary display monitor.
+			/// </summary>
+			SM_CXMAXIMIZED = 61,
+			/// <summary>
+			/// Default height, in pixels, of a maximized top-level window on the primary display monitor.
+			/// </summary>
+			SM_CYMAXIMIZED = 62,
+			/// <summary>
+			/// Least significant bit is set if a network is present; otherwise, it is cleared. The other bits are reserved for future use
+			/// </summary>
+			SM_NETWORK = 63,
+			/// <summary>
+			/// Value that specifies how the system was started: 0-normal, 1-failsafe, 2-failsafe /w net
+			/// </summary>
+			SM_CLEANBOOT = 67,
+			/// <summary>
+			/// Width of a rectangle centered on a drag point to allow for limited movement of the mouse pointer before a drag operation begins, in pixels. 
+			/// </summary>
+			SM_CXDRAG = 68,
+			/// <summary>
+			/// Height of a rectangle centered on a drag point to allow for limited movement of the mouse pointer before a drag operation begins. This value is in pixels. It allows the user to click and release the mouse button easily without unintentionally starting a drag operation.
+			/// </summary>
+			SM_CYDRAG = 69,
+			/// <summary>
+			/// Nonzero if the user requires an application to present information visually in situations where it would otherwise present the information only in audible form; zero otherwise. 
+			/// </summary>
+			SM_SHOWSOUNDS = 70,
+			/// <summary>
+			/// Width of the default menu check-mark bitmap, in pixels.
+			/// </summary>
+			SM_CXMENUCHECK = 71,
+			/// <summary>
+			/// Height of the default menu check-mark bitmap, in pixels.
+			/// </summary>
+			SM_CYMENUCHECK = 72,
+			/// <summary>
+			/// Nonzero if the computer has a low-end (slow) processor; zero otherwise
+			/// </summary>
+			SM_SLOWMACHINE = 73,
+			/// <summary>
+			/// Nonzero if the system is enabled for Hebrew and Arabic languages, zero if not.
+			/// </summary>
+			SM_MIDEASTENABLED = 74,
+			/// <summary>
+			/// Nonzero if a mouse is installed; zero otherwise. This value is rarely zero, because of support for virtual mice and because some systems detect the presence of the port instead of the presence of a mouse.
+			/// </summary>
+			SM_MOUSEPRESENT = 19,
+			/// <summary>
+			/// Windows 2000 (v5.0+) Coordinate of the top of the virtual screen
+			/// </summary>
+			SM_XVIRTUALSCREEN = 76,
+			/// <summary>
+			/// Windows 2000 (v5.0+) Coordinate of the left of the virtual screen
+			/// </summary>
+			SM_YVIRTUALSCREEN = 77,
+			/// <summary>
+			/// Windows 2000 (v5.0+) Width of the virtual screen
+			/// </summary>
+			SM_CXVIRTUALSCREEN = 78,
+			/// <summary>
+			/// Windows 2000 (v5.0+) Height of the virtual screen
+			/// </summary>
+			SM_CYVIRTUALSCREEN = 79,
+			/// <summary>
+			/// Number of display monitors on the desktop
+			/// </summary>
+			SM_CMONITORS = 80,
+			/// <summary>
+			/// Windows XP (v5.1+) Nonzero if all the display monitors have the same color format, zero otherwise. Note that two displays can have the same bit depth, but different color formats. For example, the red, green, and blue pixels can be encoded with different numbers of bits, or those bits can be located in different places in a pixel's color value. 
+			/// </summary>
+			SM_SAMEDISPLAYFORMAT = 81,
+			/// <summary>
+			/// Windows XP (v5.1+) Nonzero if Input Method Manager/Input Method Editor features are enabled; zero otherwise
+			/// </summary>
+			SM_IMMENABLED = 82,
+			/// <summary>
+			/// Windows XP (v5.1+) Width of the left and right edges of the focus rectangle drawn by DrawFocusRect. This value is in pixels. 
+			/// </summary>
+			SM_CXFOCUSBORDER = 83,
+			/// <summary>
+			/// Windows XP (v5.1+) Height of the top and bottom edges of the focus rectangle drawn by DrawFocusRect. This value is in pixels. 
+			/// </summary>
+			SM_CYFOCUSBORDER = 84,
+			/// <summary>
+			/// Nonzero if the current operating system is the Windows XP Tablet PC edition, zero if not.
+			/// </summary>
+			SM_TABLETPC = 86,
+			/// <summary>
+			/// Nonzero if the current operating system is the Windows XP, Media Center Edition, zero if not.
+			/// </summary>
+			SM_MEDIACENTER = 87,
+			/// <summary>
+			/// Metrics Other
+			/// </summary>
+			SM_CMETRICS_OTHER = 76,
+			/// <summary>
+			/// Metrics Windows 2000
+			/// </summary>
+			SM_CMETRICS_2000 = 83,
+			/// <summary>
+			/// Metrics Windows NT
+			/// </summary>
+			SM_CMETRICS_NT = 88,
+            /// <summary>
+            /// The build number if the system is Windows Server 2003 R2; otherwise, 0.
+            /// </summary>
+            SM_SERVERR2 = 89,
+			/// <summary>
+			/// Windows XP (v5.1+) This system metric is used in a Terminal Services environment. If the calling process is associated with a Terminal Services client session, the return value is nonzero. If the calling process is associated with the Terminal Server console session, the return value is zero. The console session is not necessarily the physical console - see WTSGetActiveConsoleSessionId for more information. 
+			/// </summary>
+			SM_REMOTESESSION = 0x1000,
+			/// <summary>
+			/// Windows XP (v5.1+) Nonzero if the current session is shutting down; zero otherwise
+			/// </summary>
+			SM_SHUTTINGDOWN = 0x2000,
+			/// <summary>
+			/// Windows XP (v5.1+) This system metric is used in a Terminal Services environment. Its value is nonzero if the current session is remotely controlled; zero otherwise
+			/// </summary>
+			SM_REMOTECONTROL = 0x2001,
+		}
+		
+        #endregion
 
 		#region interop decl.
 		[DllImport("User32.dll")] public static extern
@@ -486,6 +1137,27 @@ namespace RssBandit
 		
 		[DllImport("Kernel32.dll", CharSet=CharSet.Auto)] public static extern 
 			void GetStartupInfo(ref API_STARTUPINFO info);
+
+        [DllImport("user32.dll")]
+        internal static extern int GetSystemMetrics(SystemMetric smIndex);
+			
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        internal static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        /// <summary>
+        /// only comes in an ANSI flavor, hence we help the runtime by telling 
+        /// it to always use ANSI when marshalling the string parameter. 
+        /// We also prevent the runtime looking for a non-existent GetProcAddressA, 
+        /// because the default for C# is to set ExactSpelling to false
+        /// </summary>
+        /// <param name="hModule"></param>
+        /// <param name="procName"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true, BestFitMapping = false)]
+        internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+        [DllImport("kernel32.dll")]
+        internal static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
 		/// <summary>
 		/// Implemented by many of the Microsoft® Windows® Shell dynamic-link libraries 
@@ -1666,55 +2338,231 @@ namespace RssBandit
 		[EnvironmentPermission(SecurityAction.Assert, Unrestricted=true)]
 		static Win32() 
 		{
+            StringBuilder dispStr = new StringBuilder("Microsoft ");
+
 			_os = Environment.OSVersion;
-			if (_os.Platform == PlatformID.Win32Windows) {
+            _osvi = new OSVERSIONINFOEX();
+            _osvi.dwOSVersionInfoSize = Marshal.SizeOf(_osvi);
+            if (!GetVersionEx(ref _osvi))
+            {
+                int err = Marshal.GetLastWin32Error();
+                _log.Error("Requesting Windows VersionInfo using GetVersionEx() caused an windows error (Code: " + err + ").");
+            }
+
+			if (_os.Platform == PlatformID.Win32Windows) 
+            {
 				IsWin9x = true;
-			} else {
-				try {
-					IsAspNetServer = Thread.GetDomain().GetData(".appDomain") != null;
-				}
+                dispStr.AppendFormat("{0} ", "Windows 9x");
+			} 
+            else 
+            {
+				try { IsAspNetServer = Thread.GetDomain().GetData(".appDomain") != null; }
 				catch { /* all */ }
 
 				IsWinNt = true;
 				
-				int spMajor, spMinor;
-				GetWindowsServicePackInfo(out spMajor, out spMinor);
-				
-				if ((_os.Version.Major == 5) && (_os.Version.Minor == 0)) {
+                // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+
+                _systemInfo = new SYSTEM_INFO();
+                IntPtr pGNSI = GetProcAddress(GetModuleHandle("kernel32.dll"), "GetNativeSystemInfo");
+                if (IntPtr.Zero != pGNSI)
+                {
+                    var invoker = (GetNativeSystemInfoInvoker)Marshal.GetDelegateForFunctionPointer(pGNSI, typeof(GetNativeSystemInfoInvoker));
+                    invoker(ref _systemInfo);
+                }
+                else
+                    GetSystemInfo(ref _systemInfo);
+
+                // The algorithm used is mostly similar to that: 
+                // http://msdn.microsoft.com/en-us/library/ms724429(VS.85).aspx
+                if (_os.Version.Major > 6)
+                {
+                    // just to get the VERY NEW WINDOWS versions:
+                    dispStr.AppendFormat("Windows {0} ", _os.Version);
+                }
+
+                if (_os.Version.Major == 6)
+                {
+                    if (_os.Version.Minor == 0)
+                    {
+                        if (_osvi.wProductType == VER_NT_WORKSTATION)
+                        {
+                            IsVista = true; 
+                            dispStr.Append("Windows Vista ");
+                        }
+                        else
+                        {
+                            IsWin2k8 = true;
+                            dispStr.Append("Windows Server 2008 ");
+                        }
+                    }
+
+                    if (_os.Version.Minor == 1)
+                    {
+                        if (_osvi.wProductType == VER_NT_WORKSTATION)
+                        {
+                            IsWin7 = true;
+                            dispStr.Append("Windows 7 ");
+                        }
+                        else
+                        {
+                            IsWin2k8R2 = true;
+                            dispStr.Append("Windows Server 2008 R2 ");
+                        }
+                    }
+
+                    if (_os.Version.Minor > 1)
+                    {
+                        // just to get the VERY NEW WINDOWS versions:
+                        dispStr.AppendFormat("Windows {0} ", _os.Version);
+                    }
+
+                    dispStr.Append(GetProductInfo());
+
+                } // if (_os.Version.Major == 6)
+
+                if ((_os.Version.Major == 5) && (_os.Version.Minor == 2))
+                {
+                    IsWin2k3 = true;
+                    if (0 != GetSystemMetrics(SystemMetric.SM_SERVERR2))
+                        dispStr.Append("Windows Server 2003 R2, ");
+                    else if (GetWindowsSuiteInfo() == WindowsSuite.VER_SUITE_STORAGE_SERVER)
+                        dispStr.Append("Windows Storage Server 2003");
+                    else if (GetWindowsSuiteInfo() == WindowsSuite.VER_SUITE_WH_SERVER)
+                        dispStr.Append("Windows Home Server");
+                    else if (_osvi.wProductType == VER_NT_WORKSTATION &&
+                             _systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+                    {
+                        dispStr.Append("Windows XP Professional x64 Edition");
+                    }
+                    else dispStr.Append("Windows Server 2003, ");
+
+                    // Test for the server type.
+                    if (_osvi.wProductType != VER_NT_WORKSTATION)
+                    {
+                        if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_IA64)
+                        {
+                            if (IsWindowsSuite(WindowsSuite.VER_SUITE_DATACENTER))
+                                dispStr.Append("Datacenter Edition for Itanium-based Systems");
+                            else if (IsWindowsSuite(WindowsSuite.VER_SUITE_ENTERPRISE))
+                                dispStr.Append("Enterprise Edition for Itanium-based Systems");
+                        }
+
+                        else if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+                        {
+                            if (IsWindowsSuite(WindowsSuite.VER_SUITE_DATACENTER))
+                                dispStr.Append("Datacenter x64 Edition");
+                            else if (IsWindowsSuite(WindowsSuite.VER_SUITE_ENTERPRISE))
+                                dispStr.Append("Enterprise x64 Edition");
+                            else dispStr.Append("Standard x64 Edition");
+                        }
+
+                        else
+                        {
+                            if (IsWindowsSuite(WindowsSuite.VER_SUITE_COMPUTE_SERVER))
+                                dispStr.Append("Compute Cluster Edition");
+                            else if (IsWindowsSuite(WindowsSuite.VER_SUITE_DATACENTER))
+                                dispStr.Append("Datacenter Edition");
+                            else if (IsWindowsSuite(WindowsSuite.VER_SUITE_ENTERPRISE))
+                                dispStr.Append("Enterprise Edition");
+                            else if (IsWindowsSuite(WindowsSuite.VER_SUITE_BLADE))
+                                dispStr.Append("Web Edition");
+                            else dispStr.Append("Standard Edition");
+                        }
+                    }
+
+                } // if ((_os.Version.Major == 5) && (_os.Version.Minor == 2))
+
+                if ((_os.Version.Major == 5) && (_os.Version.Minor == 1))
+                {
+                    IsWinXP = true;
+                    dispStr.Append("Windows XP ");
+                    if (IsWindowsSuite(WindowsSuite.VER_SUITE_PERSONAL))
+                        dispStr.Append("Home Edition");
+                    else dispStr.Append("Professional");
+
+                } // if ((_os.Version.Major == 5) && (_os.Version.Minor == 1))
+
+			    if ((_os.Version.Major == 5) && (_os.Version.Minor == 0)) 
+                {
 					IsWin2K = true;
-					IsWinHttp51 = (spMajor >= 3);
-				} else {
-					IsPostWin2K = true;
-					if ((_os.Version.Major == 5) && (_os.Version.Minor == 1)) {
-						IsWinHttp51 = (spMajor >= 1);
-					}
-					else {
-						IsWinHttp51 = true;
-						IsWin2k3 = true;
-					}
-				}
+                    dispStr.Append("Windows 2000 ");
+
+                    if (_osvi.wProductType == VER_NT_WORKSTATION)
+                    {
+                        dispStr.Append("Professional");
+                    }
+                    else
+                    {
+                        if (IsWindowsSuite(WindowsSuite.VER_SUITE_DATACENTER))
+                            dispStr.Append("Datacenter Server");
+                        else if (IsWindowsSuite(WindowsSuite.VER_SUITE_ENTERPRISE))
+                            dispStr.Append("Advanced Server");
+                        else dispStr.Append("Server");
+                    }
+                } // if ((_os.Version.Major == 5) && (_os.Version.Minor == 0)) 
+                
 			}
-			
-			IEVersion = Registry.GetInternetExplorerVersion();
+
+            // Include service pack (if any) and build number.
+
+            if (!String.IsNullOrEmpty(_osvi.szCSDVersion))
+                dispStr.AppendFormat(" {0}", _osvi.szCSDVersion);
+
+            dispStr.AppendFormat(" (build {0})", _osvi.dwBuildNumber);
+
+            if (_os.Version.Major >= 6)
+            {
+                if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+                    dispStr.Append(", 64-bit");
+                else if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
+                    dispStr.Append(", 32-bit");
+            }
+
+            _osDisplayString = dispStr.ToString();
+            IEVersion = Registry.GetInternetExplorerVersion();
 
 		}
 
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Win32));
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(Win32));
 		private static int _paintFrozen;
 		private static readonly OperatingSystem _os;
 
 		// General info fields
 		internal static readonly bool IsAspNetServer;
-		internal static readonly bool IsPostWin2K;
 		internal static readonly bool IsWin2K;
 		internal static readonly bool IsWin2k3;
-		internal static readonly bool IsWin9x;
-		internal static readonly bool IsWinHttp51;
-		internal static readonly bool IsWinNt;
+        internal static readonly bool IsWin2k8;
+	    internal static readonly bool IsWin2k8R2;
+        internal static readonly bool IsWin9x;  // opposite of IsWinNt
+		internal static readonly bool IsWinNt;  // opposite of IsWin9x
+        internal static readonly bool IsWinXP;
+        internal static readonly bool IsVista;
+        internal static readonly bool IsWin7;
 		
 		internal static readonly Version IEVersion;
+        private static readonly SYSTEM_INFO _systemInfo;
+	    private static readonly OSVERSIONINFOEX _osvi;
+        private static readonly string _osDisplayString;
 
 		#region General
+        /// <summary>
+        /// Gets a value indicating whether the process runs with 64 bit or not.
+        /// </summary>
+        /// <value><c>true</c> if [is64 bit]; otherwise, <c>false</c>.</value>
+        public static bool Is64Bit
+        {
+            get { return IntPtr.Size == 8; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the process runs with 32 bit or not.
+        /// </summary>
+        /// <value><c>true</c> if [is32 bit]; otherwise, <c>false</c>.</value>
+        public static bool Is32Bit
+        {
+            get { return IntPtr.Size == 4; }
+        }
 
 		/// <summary>
 		/// Returns true, if the OS is at least Windows 2000 (or higher), else false.
@@ -1804,22 +2652,143 @@ namespace RssBandit
 				        (IEVersion.Major == 6 && IEVersion.Minor > 0 ));
 			}
 		}
-		
+
+        /// <summary>
+        /// Gets the bit size of the computer system.
+        /// </summary>
+        /// <value>The size of the system bit.</value>
+        public static ProcessorArchitecture ProcessorArchitecture
+        {
+            get
+            {
+                // see also: http://msdn2.microsoft.com/en-us/library/ms724958.aspx
+                if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
+                    return ProcessorArchitecture.X86;
+                if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_IA64)
+                    return ProcessorArchitecture.IA64;
+                if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+                    return ProcessorArchitecture.Amd64;
+                if (_systemInfo.processorArchitecture == PROCESSOR_ARCHITECTURE_UNKNOWN)
+                    return ProcessorArchitecture.None;
+                return ProcessorArchitecture.None;
+            }
+        }
+
 		/// <summary>
 		/// Gets the windows service pack info.
 		/// </summary>
 		/// <param name="servicePackMajor">The service pack major.</param>
 		/// <param name="servicePackMinor">The service pack minor.</param>
-		public static void GetWindowsServicePackInfo(out int servicePackMajor, out int servicePackMinor) {
-			OSVERSIONINFOEX ifex = new OSVERSIONINFOEX();
-			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
-			if (!GetVersionEx(ref ifex)) {
-				int err = Marshal.GetLastWin32Error();
-				throw new Exception("Requesting Windows Service Pack Information caused an windows error (Code: " + err.ToString() +").");
-			}
-			servicePackMajor = ifex.wServicePackMajor;
-			servicePackMinor = ifex.wServicePackMinor;
+		public static void GetWindowsServicePackInfo(out int servicePackMajor, out int servicePackMinor) 
+        {
+			servicePackMajor = _osvi.wServicePackMajor;
+			servicePackMinor = _osvi.wServicePackMinor;
 		}
+
+        /// <summary>
+        /// Gets the windows suite info.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="BanditApplicationException">If there was a Win32 issue</exception>
+        public static WindowsSuite GetWindowsSuiteInfo()
+        {
+            return (WindowsSuite)_osvi.wSuiteMask;
+        }
+        /// <summary>
+        /// Determines whether is windows suite info set to the specified info.
+        /// </summary>
+        /// <param name="info">The info.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is windows suite] [the specified info]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsWindowsSuite(WindowsSuite info)
+        {
+            return ((WindowsSuite)_osvi.wSuiteMask & info) == info;
+        }
+
+        /// <summary>
+        /// Format the window's suite as a string.
+        /// </summary>
+        /// <param name="suite">The suite.</param>
+        /// <returns></returns>
+        public static string WindowsSuiteToString(WindowsSuite suite)
+        {
+            var sb = new StringBuilder();
+            if ((suite & WindowsSuite.VER_SERVER_NT) != 0)
+                sb.Append("NT Server, ");
+            if ((suite & WindowsSuite.VER_WORKSTATION_NT) != 0)
+                sb.Append("NT WorkStation, ");
+            if ((suite & WindowsSuite.VER_SUITE_SMALLBUSINESS) != 0)
+                sb.Append("Small Business Server, ");
+            if ((suite & WindowsSuite.VER_SUITE_SMALLBUSINESS_RESTRICTED) != 0)
+                sb.Append("Small Business Server (restricted license), ");
+            if ((suite & WindowsSuite.VER_SUITE_ENTERPRISE) != 0)
+            {
+                if (IsWin2K)
+                    sb.Append("Advanced Server, ");
+                else
+                    sb.Append("Enterprise Edition, ");
+            }
+            if ((suite & WindowsSuite.VER_SUITE_BACKOFFICE) != 0)
+                sb.Append("BackOffice installed, ");
+            if ((suite & WindowsSuite.VER_SUITE_COMMUNICATIONS) != 0)
+                sb.Append("Communications, ");
+            if ((suite & WindowsSuite.VER_SUITE_TERMINAL) != 0)
+                sb.Append("Terminal Services installed, ");
+            if ((suite & WindowsSuite.VER_SUITE_SINGLEUSERTS) != 0)
+                sb.Append("Terminal Service installed (one interactive session only), ");
+            if ((suite & WindowsSuite.VER_SUITE_EMBEDDEDNT) != 0)
+                sb.Append("Embedded NT, ");
+            if ((suite & WindowsSuite.VER_SUITE_EMBEDDED_RESTRICTED) != 0)
+                sb.Append("Embedded (restricted), ");
+            if ((suite & WindowsSuite.VER_SUITE_DATACENTER) != 0)
+            {
+                if (IsWin2K)
+                    sb.Append("Datacenter Server, ");
+                else
+                    sb.Append("Datacenter Edition, ");
+            }
+            if ((suite & WindowsSuite.VER_SUITE_PERSONAL) != 0)
+                sb.Append("Home Edition, ");
+            if ((suite & WindowsSuite.VER_SUITE_BLADE) != 0)
+                sb.Append("Web Edition, ");
+
+            // remove ", "
+            if (sb.Length > 2)
+                sb.Remove(sb.Length - 2, 2);
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets the product info, if available (supported with Win.Major == 6), 
+        /// else returns an empty string.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetProductInfo()
+        {
+            if (_os.Version.Major == 6)
+            {
+                IntPtr pGPI = GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
+                if (pGPI != IntPtr.Zero)
+                {
+                    var invoker = (GetProductInfoInvoker)Marshal.GetDelegateForFunctionPointer(pGPI, typeof(GetProductInfoInvoker));
+                    uint dwType;
+                    if (invoker(_os.Version.Major, _os.Version.Minor, 0, 0, out dwType))
+                        return WindowsProductType.Get(dwType);
+                }
+            }
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Gets the OS version display string.
+        /// </summary>
+        /// <value>The OS version display string.</value>
+        public static string OSVersionDisplayString
+        {
+            get { return _osDisplayString; }
+        }
 
 		/// <summary>
 		/// API Wrapper to retrive the startup process window state.
