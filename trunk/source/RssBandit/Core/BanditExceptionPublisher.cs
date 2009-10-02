@@ -29,11 +29,7 @@ namespace RssBandit
 		private string m_LogName = Path.Combine(Path.GetTempPath(), "rssbandit.error.log");
 		private string m_OpMail = String.Empty;
 
-		/// <summary>
-		/// Constructor for the Exception publisher
-		/// </summary>
-		public BanditExceptionPublisher()	{}
-
+        
 		// Provide implementation of the IPublishException interface
 		// This contains the single Publish method.
 		void IExceptionPublisher.Publish(Exception exception, NameValueCollection AdditionalInfo, NameValueCollection ConfigSettings)
@@ -41,8 +37,7 @@ namespace RssBandit
 			// Load Config values if they are provided.
 			if (ConfigSettings != null)
 			{
-				if (ConfigSettings["fileName"] != null &&  
-					ConfigSettings["fileName"].Length > 0)
+				if (!string.IsNullOrEmpty(ConfigSettings["fileName"]))
                 {
 #if ALT_CONFIG_PATH
 
@@ -53,27 +48,29 @@ namespace RssBandit
 #endif
 
                 }
-				if (ConfigSettings["operatorMail"] !=null && 
-					ConfigSettings["operatorMail"].Length > 0)
+				if (!string.IsNullOrEmpty(ConfigSettings["operatorMail"]))
 				{
 					m_OpMail = ConfigSettings["operatorMail"];
 				}
 			}
-			// Create StringBuilder to maintain publishing information.
-			StringBuilder strInfo = new StringBuilder();
+
+            // Create StringBuilder to maintain publishing information.
+            StringBuilder strInfo = new StringBuilder();
+            
+            // Record General information.
+            int bits = (Win32.Is32Bit ? 32 : (Win32.Is64Bit ? 64 : 0));
+            strInfo.AppendFormat("{0}General Information{0}", Environment.NewLine);
+            strInfo.AppendFormat("{0}{1} ({2}-bit)", Environment.NewLine, RssBanditApplication.Caption, bits);
+            strInfo.AppendFormat("{0}OS Version: {1}", Environment.NewLine, Win32.OSVersionDisplayString);
+            strInfo.AppendFormat("{0}OS-Culture: {1}", Environment.NewLine, System.Globalization.CultureInfo.InstalledUICulture.Name);
+            strInfo.AppendFormat("{0}Framework Version: .NET CLR {1}", Environment.NewLine, System.Runtime.InteropServices.RuntimeEnvironment.GetSystemVersion());
+            strInfo.AppendFormat("{0}Thread-Culture: {1}", Environment.NewLine, System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+            strInfo.AppendFormat("{0}UI-Culture: {1}", Environment.NewLine, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+            strInfo.AppendFormat("{0}IE-Version: {1}", Environment.NewLine, Win32.IEVersion);
 
 			// Record the contents of the AdditionalInfo collection.
 			if (AdditionalInfo != null)
 			{
-				// Record General information.
-				strInfo.AppendFormat("{0}General Information{0}", Environment.NewLine);
-				strInfo.AppendFormat("{0}{1}", Environment.NewLine, RssBanditApplication.Caption);
-				strInfo.AppendFormat("{0}OS Version: {1}", Environment.NewLine, Environment.OSVersion.ToString());
-				strInfo.AppendFormat("{0}OS-Culture: {1}", Environment.NewLine, System.Globalization.CultureInfo.InstalledUICulture.Name);
-				strInfo.AppendFormat("{0}Framework Version: .NET CLR {1}", Environment.NewLine, System.Runtime.InteropServices.RuntimeEnvironment.GetSystemVersion());
-				strInfo.AppendFormat("{0}Thread-Culture: {1}", Environment.NewLine, System.Threading.Thread.CurrentThread.CurrentCulture.Name);
-				strInfo.AppendFormat("{0}UI-Culture: {1}", Environment.NewLine, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-
 				strInfo.AppendFormat("{0}Additonal Info:", Environment.NewLine);
 				foreach (string i in AdditionalInfo)
 				{
@@ -104,5 +101,6 @@ namespace RssBandit
                 mailer.Send("CustomSender@mycompany.com", m_OpMail, subject, body);
 			}
 		}
+
 	}
 }
