@@ -334,7 +334,11 @@
 			<command>cmdShowNewItemsReceivedBalloon</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
-	</menu>
+    <shortcut>
+      <command>cmdBrowserNewTab</command>
+      <shortcutEnumValue>CtrlT</shortcutEnumValue>
+    </shortcut>
+  </menu>
 	<keyboardCombinations>
 		<shortcut>
 			<command>ExpandListViewItem</command>
