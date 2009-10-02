@@ -34,7 +34,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 	/// <summary>
 	/// Just a helper class to create IG Toolbars.
 	/// </summary>
-	internal class ToolbarHelper
+	internal sealed class ToolbarHelper
 	{
 		private readonly UltraToolbarsManager manager;
 		private WinGuiMain main;
@@ -42,8 +42,11 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private ShortcutHandler shortcutHandler;
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditApplication));
 		
-		public ToolbarHelper(UltraToolbarsManager manager) {
+		public ToolbarHelper(UltraToolbarsManager manager) 
+        {
 			this.manager = manager;
+		    this.manager.ShowToolTips = true;
+		    this.manager.ShowShortcutsInToolTips = true;
 		}
 
 		public void CreateToolbars(WinGuiMain main, RssBanditApplication owner, ShortcutHandler shortcutHandler) {
@@ -856,7 +859,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			AppButtonToolCommand tool6 = new AppButtonToolCommand(
 				"cmdBrowserNewTab", owner.Mediator, owner.CmdBrowserCreateNewTab,
 				SR.MenuBrowserNewTabCaption, SR.MenuBrowserNewTabDesc, 
-				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.OpenNewTab);
+				Resource.ToolItemImage.BrowserItemImageOffset + Resource.BrowserItemImage.OpenNewTab,
+                shortcutHandler);
 
 			AppButtonToolCommand tool7 = new AppButtonToolCommand(
 				"cmdBrowserNewExternalWindow", owner.Mediator, main.CmdOpenLinkInExternalBrowser,

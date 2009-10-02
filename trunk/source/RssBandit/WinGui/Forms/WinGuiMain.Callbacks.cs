@@ -3866,7 +3866,7 @@ namespace RssBandit.WinGui.Forms
             if (e.KeyCode == Keys.Return && e.Control == false)
             {
                 // CTRL-ENTER is Url expansion
-                DetailTabNavigateToUrl(UrlText, null, e.Shift, false);
+                DetailTabNavigateToUrl(UrlText, null, e.Shift, true);
             }
         }
 
@@ -4261,7 +4261,8 @@ namespace RssBandit.WinGui.Forms
                 bool ctrlOnly = (ctrl && !shift && !alt);
                 bool ctrlShift = (ctrl && shift && !alt);
 
-                if (_shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData))
+                // Fix 504646: do not capture "RIGHT-ALT-N" (https://sourceforge.net/tracker/?func=detail&aid=1504646&group_id=96589&atid=615248)
+                if (ctrlOnly && _shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData))
                 {
                     // capture Ctrl-N event or whichever combination is configured (new window)
                     owner.CmdBrowserCreateNewTab(null);
