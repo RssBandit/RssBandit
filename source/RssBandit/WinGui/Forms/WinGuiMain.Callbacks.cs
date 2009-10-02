@@ -4251,6 +4251,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
+                HtmlControl htmlControl = (HtmlControl) sender;
                 // we use Control.ModifierKeys, because e.Shift etc. is not always set!
                 bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
                 bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
@@ -4289,7 +4290,7 @@ namespace RssBandit.WinGui.Forms
                     // support: continue tab order throw the other controls than IEControl
                     if (e.KeyCode == Keys.Tab && noModifier)
                     {
-                        if (htmlDetail.Document2 != null && null == htmlDetail.Document2.GetActiveElement())
+                        if (htmlControl.Document2 != null && null == htmlControl.Document2.GetActiveElement())
                         {
                             // one turn around within ALink element classes
                             if (treeFeeds.Visible)
@@ -4306,18 +4307,24 @@ namespace RssBandit.WinGui.Forms
                     }
                     else if (e.KeyCode == Keys.Tab && shiftOnly)
                     {
-                        if (htmlDetail.Document2 != null && null == htmlDetail.Document2.GetActiveElement())
+
+                        if (htmlControl.Document2 != null)
                         {
-                            // one reverse turn around within ALink element classes
-                            if (listFeedItems.Visible)
+                            object element = htmlControl.Document2.GetActiveElement();
+                            
+                            if (null == element || element.GetType().Name == "HTMLBodyClass")
                             {
-                                listFeedItems.Focus();
-                                e.Handled = true;
-                            }
-                            else if (treeFeeds.Visible)
-                            {
-                                treeFeeds.Focus();
-                                e.Handled = true;
+                                // one reverse turn around within ALink element classes
+                                if (listFeedItems.Visible)
+                                {
+                                    listFeedItems.Focus();
+                                    e.Handled = true;
+                                }
+                                else if (treeFeeds.Visible)
+                                {
+                                    treeFeeds.Focus();
+                                    e.Handled = true;
+                                }
                             }
                         }
                     }
