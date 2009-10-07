@@ -1,6 +1,7 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -293,7 +294,8 @@ namespace NewsComponents.Utils
 
 			//have to do this because XmlQualifiedName.Equals() is stupid
 			foreach(XmlQualifiedName qname in elements.Keys){						
-				if (qname.Namespace.Equals(elementNamespace) && qname.Name.IndexOf(elementName) >= 0) {
+				if (qname.Namespace.Equals(elementNamespace, StringComparison.Ordinal) && 
+                    qname.Name.IndexOf(elementName, StringComparison.Ordinal) >= 0) {
 					return qname;
 				}
 			}
@@ -314,8 +316,10 @@ namespace NewsComponents.Utils
 
 			List<XmlQualifiedName> names = new List<XmlQualifiedName>();
 			//have to do this because XmlQualifiedName.Equals() is stupid
-			foreach(XmlQualifiedName qname in elements.Keys){						
-				if (qname.Namespace.Equals(elementNamespace) && qname.Name.IndexOf(elementName) >= 0) {
+			foreach(XmlQualifiedName qname in elements.Keys){
+                if (qname.Namespace.Equals(elementNamespace, StringComparison.Ordinal) &&
+                    qname.Name.IndexOf(elementName, StringComparison.Ordinal) >= 0)
+                {
 					names.Add(qname);
 				}
 			}
@@ -515,12 +519,3 @@ namespace NewsComponents.Utils
 	}
 
 }
-
-#region CVS Version Log
-/*
- * $Log: RssHelper.cs,v $
- * Revision 1.15  2006/11/21 06:34:52  t_rendelmann
- * fixed: ThreadAbortException can occur while sorting
- *
- */
-#endregion

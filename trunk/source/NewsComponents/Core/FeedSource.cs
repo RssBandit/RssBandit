@@ -2711,22 +2711,23 @@ namespace NewsComponents
         /// <param name="item">the item to delete</param>
         public virtual void DeleteItem(INewsItem item)
         {
+            IFeedDetails fi;
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) &&
-				itemsTable.ContainsKey(item.Feed.link))
+				itemsTable.TryGetValue(item.Feed.link, out fi))
             {
                 /* 
 				 * There is no attempt to load feed from disk because it is 
 				 * assumed that for this to be called the feed was already loaded
 				 * since we have an item from the feed */
 
-                var fi = itemsTable[item.Feed.link] as FeedInfo;
+                //var fi = itemsTable[item.Feed.link] as FeedInfo;
 
                 if (fi != null)
                 {
-                    lock (fi.itemsList)
+                    lock (fi.ItemsList)
                     {
                         item.Feed.AddDeletedStory(item.Id);
-                        fi.itemsList.Remove(item);
+                        fi.ItemsList.Remove(item);
                     }
                 } //if(fi != null)
             } //if(item.Feed != null) 
@@ -2740,23 +2741,23 @@ namespace NewsComponents
         {
             if (feed != null && !string.IsNullOrEmpty(feed.link) && feedsTable.ContainsKey(feed.link))
             {
-                var fi = itemsTable[feed.link] as FeedInfo;
+                var fi = itemsTable[feed.link];
 
                 //load feed from disk 
                 if (fi == null)
                 {
-                    fi = (FeedInfo) GetFeed(feed);
+                    fi = GetFeed(feed);
                 }
 
                 if (fi != null)
                 {
-                    lock (fi.itemsList)
+                    lock (fi.ItemsList)
                     {
-                        foreach (var item in fi.itemsList)
+                        foreach (var item in fi.ItemsList)
                         {
                             feed.AddDeletedStory(item.Id);
                         }
-                        fi.itemsList.Clear();
+                        fi.ItemsList.Clear();
                     }
                 } //if(fi != null)		
 
@@ -2770,9 +2771,10 @@ namespace NewsComponents
         /// <param name="feedUrl">the URL of the feed</param>
         public void DeleteAllItemsInFeed(string feedUrl)
         {
-            if (feedsTable.ContainsKey(feedUrl))
+            INewsFeed feed;
+            if (!string.IsNullOrEmpty(feedUrl) && feedsTable.TryGetValue(feedUrl, out feed))
             {
-                DeleteAllItemsInFeed(feedsTable[feedUrl]);
+                DeleteAllItemsInFeed(feed);
             }
         }
 
@@ -2785,20 +2787,20 @@ namespace NewsComponents
         {
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) && feedsTable.ContainsKey(item.Feed.link))
             {
-                var fi = itemsTable[item.Feed.link] as FeedInfo;
+                var fi = itemsTable[item.Feed.link];
 
                 //load feed from disk 
                 if (fi == null)
                 {
-                    fi = (FeedInfo) GetFeed(item.Feed);
+                    fi = GetFeed(item.Feed);
                 }
 
                 if (fi != null)
                 {
-                    lock (fi.itemsList)
+                    lock (fi.ItemsList)
                     {
                         item.Feed.RemoveDeletedStory(item.Id);
-                        fi.itemsList.Add(item);
+                        fi.ItemsList.Add(item);
                     }
                 } //if(fi != null)
 
