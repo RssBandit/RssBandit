@@ -129,7 +129,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 462</value>
+    <value>110, 465</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 25</value>
@@ -163,7 +163,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 462</value>
+    <value>205, 465</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 25</value>
@@ -327,7 +327,7 @@
     <value>optionSectionPanel1</value>
   </data>
   <data name="&gt;&gt;optionSectionPanel1.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;optionSectionPanel1.Parent" xml:space="preserve">
     <value>tabGeneral</value>
@@ -369,7 +369,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnApply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>302, 462</value>
+    <value>302, 465</value>
   </data>
   <data name="btnApply.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 25</value>
@@ -2181,7 +2181,7 @@
     <value>sectionPanelGeneralStartup</value>
   </data>
   <data name="&gt;&gt;sectionPanelGeneralStartup.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelGeneralStartup.Parent" xml:space="preserve">
     <value>tabGeneral</value>
@@ -2528,7 +2528,7 @@
     <value>sectionPanelGeneralBehavior</value>
   </data>
   <data name="&gt;&gt;sectionPanelGeneralBehavior.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelGeneralBehavior.Parent" xml:space="preserve">
     <value>tabGeneral</value>
@@ -2537,10 +2537,10 @@
     <value>2</value>
   </data>
   <data name="tabGeneral.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 40</value>
+    <value>4, 46</value>
   </data>
   <data name="tabGeneral.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 401</value>
+    <value>377, 402</value>
   </data>
   <data name="tabGeneral.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3006,7 +3006,7 @@
     <value>sectionPanelRemoteStorageFeedlist</value>
   </data>
   <data name="&gt;&gt;sectionPanelRemoteStorageFeedlist.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelRemoteStorageFeedlist.Parent" xml:space="preserve">
     <value>tabRemoteStorage</value>
@@ -3159,7 +3159,7 @@
     <value>sectionPanelDisplayGeneral</value>
   </data>
   <data name="&gt;&gt;sectionPanelDisplayGeneral.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelDisplayGeneral.Parent" xml:space="preserve">
     <value>tabNewsItems</value>
@@ -3490,7 +3490,7 @@
     <value>sectionPanelDisplayItemFormatting</value>
   </data>
   <data name="&gt;&gt;sectionPanelDisplayItemFormatting.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelDisplayItemFormatting.Parent" xml:space="preserve">
     <value>tabNewsItems</value>
@@ -3748,7 +3748,7 @@
     <value>sectionPanelFeedsCommentDefs</value>
   </data>
   <data name="&gt;&gt;sectionPanelFeedsCommentDefs.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelFeedsCommentDefs.Parent" xml:space="preserve">
     <value>tabFeeds</value>
@@ -4120,7 +4120,7 @@
     <value>sectionPanelFeedsTimings</value>
   </data>
   <data name="&gt;&gt;sectionPanelFeedsTimings.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelFeedsTimings.Parent" xml:space="preserve">
     <value>tabFeeds</value>
@@ -4849,7 +4849,7 @@
     <value>sectionPanelWebBrowserSecurity</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebBrowserSecurity.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebBrowserSecurity.Parent" xml:space="preserve">
     <value>tabWebBrowser</value>
@@ -5200,7 +5200,7 @@
     <value>sectionPanelWebBrowserOnNewWindow</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebBrowserOnNewWindow.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebBrowserOnNewWindow.Parent" xml:space="preserve">
     <value>tabWebBrowser</value>
@@ -5430,9 +5430,6 @@
   <data name="listSearchEngines.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="columnHeader0.Text" xml:space="preserve">
-    <value />
-  </data>
   <data name="columnHeader0.Width" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
@@ -5562,7 +5559,7 @@
     <value>sectionPanelWebSearchEngines</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebSearchEngines.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelWebSearchEngines.Parent" xml:space="preserve">
     <value>tabWebSearch</value>
@@ -6215,7 +6212,7 @@
     <value>sectionPanelNetworkConnectionProxy</value>
   </data>
   <data name="&gt;&gt;sectionPanelNetworkConnectionProxy.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelNetworkConnectionProxy.Parent" xml:space="preserve">
     <value>tabNetConnection</value>
@@ -6704,7 +6701,7 @@
     <value>sectionPanelFontsSubscriptions</value>
   </data>
   <data name="&gt;&gt;sectionPanelFontsSubscriptions.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelFontsSubscriptions.Parent" xml:space="preserve">
     <value>tabFonts</value>
@@ -6876,7 +6873,7 @@
     <value>sectionPanelEnclosurePodcasts</value>
   </data>
   <data name="&gt;&gt;sectionPanelEnclosurePodcasts.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelEnclosurePodcasts.Parent" xml:space="preserve">
     <value>tabEnclosures</value>
@@ -7353,7 +7350,7 @@
     <value>sectionPanelEnclosureGeneral</value>
   </data>
   <data name="&gt;&gt;sectionPanelEnclosureGeneral.Type" xml:space="preserve">
-    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.7.0.760, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.WinGui.Controls.OptionSectionPanel, RSSBandit, Version=1.8.0.894, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;sectionPanelEnclosureGeneral.Parent" xml:space="preserve">
     <value>tabEnclosures</value>
@@ -7386,16 +7383,19 @@
     <value>8</value>
   </data>
   <data name="tabPrefs.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>49, 18</value>
+    <value>49, 21</value>
   </data>
   <data name="tabPrefs.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 7</value>
+  </data>
+  <data name="tabPrefs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 3</value>
   </data>
   <data name="tabPrefs.ShowToolTips" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="tabPrefs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>385, 445</value>
+    <value>385, 452</value>
   </data>
   <data name="tabPrefs.TabIndex" type="System.Int32, mscorlib">
     <value>300</value>
