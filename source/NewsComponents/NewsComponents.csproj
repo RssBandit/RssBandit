@@ -142,7 +142,7 @@
       <Name>Lucene.Net</Name>
       <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Org.Mime4Net, Version=1.8.3189.15060, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
+    <Reference Include="Org.Mime4Net, Version=1.8.3189.15061, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
     </Reference>
