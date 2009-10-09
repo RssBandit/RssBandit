@@ -9,13 +9,13 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Xml;
 using System.Xml.XPath; 
 using System.Xml.Xsl;
 using System.IO;
 using System.Windows.Forms;
-using System.Collections.Specialized;
 
 using NewsComponents;
 using NewsComponents.Feed;
@@ -41,11 +41,23 @@ namespace RssBandit.WinGui.Utility
 
 		public const string SearchTemplateId = ":*<>?"; 
 
-		//the table of XSLT transforms
-		private readonly ListDictionary stylesheetTable = new ListDictionary(); 
+		//the item of the table of XSLT stylesheets
+        struct StylesheetDescriptor
+        {
+            /// <summary>
+            /// The XSL Compiled Transform object
+            /// </summary>
+            public XslCompiledTransform CompiledTransform;
+            /// <summary>
+            /// The full path to the stylesheet used.
+            /// Can e used to resolve relative images, etc.
+            /// </summary>
+            public string Location;
+        }
+
+        private readonly IDictionary<string, StylesheetDescriptor> stylesheetTable = new Dictionary<string, StylesheetDescriptor>(17); 
 
 		static NewsItemFormatter() {
-			//_defaultTmpl = Resource.Manager["XSLT_DefaultTemplate"];
 			using (Stream xsltStream = Resource.GetStream("Resources.DefaultTemplate.xslt")) {
 				_defaultTmpl = new StreamReader(xsltStream).ReadToEnd();	
 			}
@@ -69,7 +81,7 @@ namespace RssBandit.WinGui.Utility
 		/// <param name="name">The name of the stylesheet</param>
 		/// <returns>Tests whether the </returns>
 		public bool ContainsXslStyleSheet(string name){
-		 return this.stylesheetTable.Contains(name); 
+		 return this.stylesheetTable.ContainsKey(name); 
 		}
 
 		/// <summary>
@@ -100,11 +112,11 @@ namespace RssBandit.WinGui.Utility
 
 				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
 				
-				if(this.stylesheetTable.Contains(name)){
+				if(this.stylesheetTable.ContainsKey(name)){
 					this.stylesheetTable.Remove(name); 
 				}
 
-				this.stylesheetTable.Add(name, transform); 
+				this.stylesheetTable.Add(name, new StylesheetDescriptor {Location = name, CompiledTransform  = transform}); 
 				
 			}catch (XsltCompileException e)
 			{
@@ -165,10 +177,10 @@ namespace RssBandit.WinGui.Utility
 
 				XslCompiledTransform transform; 
 				
-				if(this.stylesheetTable.Contains(stylesheet)){
-                    transform = (XslCompiledTransform)this.stylesheetTable[stylesheet];
+				if(this.stylesheetTable.ContainsKey(stylesheet)){
+                    transform = this.stylesheetTable[stylesheet].CompiledTransform;
 				}else{
-                    transform = (XslCompiledTransform)this.stylesheetTable[String.Empty];
+                    transform = this.stylesheetTable[String.Empty].CompiledTransform;
 				}	
 				
 				// support simple localizations (some common predefined strings to display):
