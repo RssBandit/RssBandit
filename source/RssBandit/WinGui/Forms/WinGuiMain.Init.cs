@@ -220,7 +220,7 @@ namespace RssBandit.WinGui.Forms
 
         private void InitToaster()
         {
-            toastNotifier = new ToastNotifier(
+            toastNotifier = new ToastNotifier(null, //this.ultraDesktopAlert,
                 OnExternalActivateFeedItem,
                 OnExternalDisplayFeedProperties,
                 OnExternalActivateFeed,

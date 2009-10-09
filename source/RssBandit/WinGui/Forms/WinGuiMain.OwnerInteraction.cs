@@ -2116,7 +2116,7 @@ namespace RssBandit.WinGui.Forms
                         // if (feed.containsNewMessages) No longer applies due to syncing state from Google Reader & NewsGator Online
                     {
                         // if (modified)
-                    
+                        int unreadBefore = tn.UnreadCount;
                         unread = FilterUnreadFeedItems(items, true);
                         UnreadItemsNodeRemoveItems(unread);
                         UnreadItemsNode.Items.AddRange(unread);
@@ -2128,7 +2128,7 @@ namespace RssBandit.WinGui.Forms
                               feed.alertEnabled)) && modified)
                         {
                             // new flag on feed, states if toast is enabled (off by default)
-                            toastNotifier.Alert(tn.Text, tn.UnreadCount, unread);
+                            toastNotifier.Alert(tn.Text, unreadBefore, unread);
                         }
                     }
 
