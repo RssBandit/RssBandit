@@ -1,14 +1,15 @@
-#region CVS Version Header
+#region Version Info Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
  */
 #endregion
 
+
 using System;
-using System.IO;
 using System.Collections;
 using System.Windows.Forms;
 using Genghis.Windows.Forms;
@@ -20,7 +21,7 @@ using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Forms
 {
-	public abstract class ToastNotify : Genghis.Windows.Forms.AniForm
+	public abstract class ToastNotify : AniForm
 	{
 		protected ItemActivateCallback itemActivateCallback;
 		protected DisplayFeedPropertiesCallback displayFeedPropertiesCallback;
@@ -53,14 +54,7 @@ namespace RssBandit.WinGui.Forms
 			Init(null, null, null, null);
 		}
 
-		/// <summary>
-		/// Init the ToastNotify with the needed callbacks.
-		/// </summary>
-		/// <param name="onItemActivateCallback"></param>
-		/// <param name="onFeedPropertiesDialog"></param>
-		protected void Init(ItemActivateCallback onItemActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
-			Init(onItemActivateCallback, onFeedPropertiesDialog, null, null); 
-		}
+      
 
 		/// <summary>
 		/// Init the ToastNotify with the needed callbacks.
@@ -72,15 +66,7 @@ namespace RssBandit.WinGui.Forms
 			Init(onItemActivateCallback, onFeedPropertiesDialog, onFeedActivateCallback, null); 
 		}
 
-		/// <summary>
-		/// Init the ToastNotify with the needed callbacks.
-		/// </summary>
-		/// <param name="enclosureActivateCallback"></param>
-		/// <param name="onFeedPropertiesDialog"></param>
-		protected void Init(EnclosureActivateCallback enclosureActivateCallback, DisplayFeedPropertiesCallback onFeedPropertiesDialog){
-			Init(null, onFeedPropertiesDialog, null, enclosureActivateCallback); 
-		}
-
+       
 		/// <summary>
 		/// Init the ToastNotify with the needed callbacks.
 		/// </summary>
@@ -106,7 +92,7 @@ namespace RssBandit.WinGui.Forms
 			InitializeComponent();
 			// our "stacking" implemetation is reduced to provide only one stack of toasts only
 			// not flooding the whole screen...
-			this.StackMode = Genghis.Windows.Forms.StackMode.FirstAvailable;
+			this.StackMode = StackMode.FirstAvailable;
 			this.Placement = FormPlacement.Tray;
 			this.linkLabels[0] = this.linkLabel1;
 			this.linkLabels[1] = this.linkLabel2;
