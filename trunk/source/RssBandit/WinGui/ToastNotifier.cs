@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using Infragistics.Win.Misc;
 using NewsComponents;
 using NewsComponents.Net;
 using NewsComponents.Feed;
@@ -41,25 +41,26 @@ namespace RssBandit.WinGui
 		private const int TOASTWINDOW_OFFSET = 2;
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditApplication));
 
-		private ItemActivateCallback				_itemActivateCallback;
-		private DisplayFeedPropertiesCallback	_displayFeedPropertiesCallback;
-		private FeedActivateCallback				_feedActivateCallback;
-		private EnclosureActivateCallback         _enclosureActivateCallback;
+	    private UltraDesktopAlert alertWindow;
+		private readonly ItemActivateCallback _itemActivateCallback;
+        private readonly DisplayFeedPropertiesCallback _displayFeedPropertiesCallback;
+        private readonly FeedActivateCallback _feedActivateCallback;
+        private readonly EnclosureActivateCallback _enclosureActivateCallback;
 
 		private int _usedToastWindowLocations;
 		private object SyncRoot = new object();
-		//private ArrayList	_toastWindows;
-		private bool			_disposing = false;
-		//private int			_openWindowsCount = 0;
+		private bool _disposing;
 		#endregion
 
 		#region ctor()'s
-		public ToastNotifier():this(null, null, null, null) {}
-		public ToastNotifier(ItemActivateCallback onItemActivateCallback, 
+		
+        public ToastNotifier(UltraDesktopAlert alert,
+            ItemActivateCallback onItemActivateCallback, 
 			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
 			FeedActivateCallback onFeedActivateCallback, 
-			EnclosureActivateCallback onEnclosureActivateCallback) {
-			//this._toastWindows = new ArrayList(5);
+			EnclosureActivateCallback onEnclosureActivateCallback) 
+        {
+		    alertWindow = alert;
 			this._usedToastWindowLocations = 0;
 			this._itemActivateCallback = onItemActivateCallback;
 			this._displayFeedPropertiesCallback = onFeedPropertiesDialog;
@@ -131,6 +132,16 @@ namespace RssBandit.WinGui
 			if (_disposing)
 				return;
 
+            // should be used in Phoenix, needs more UI cleanup here
+            if (alertWindow != null)
+            {
+                UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
+                windowInfo.Caption = feedName;
+                windowInfo.Text = "Display " + dispItemCount + " items of " + items.Count;
+                windowInfo.Data = items;
+                alertWindow.Show(windowInfo);
+                return; // if (toastObject is INewsItem) NewsItemToastNotify...
+            }
           
 			//lock (_toastWindows) {
 				ToastNotify theWindow = this.GetToastWindow(items[0]);

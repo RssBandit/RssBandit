@@ -2126,7 +2126,7 @@ namespace RssBandit.WinGui.Forms
                         tn.UnreadCount < unread.Count)
                     {
                         //test flag on feed, if toast enabled
-                        toastNotifier.Alert(tn.Text, unread.Count, unread);
+                        toastNotifier.Alert(tn.Text, tn.UnreadCount, unread);
                     }
 
                     if (tn.UnreadCount != unread.Count)

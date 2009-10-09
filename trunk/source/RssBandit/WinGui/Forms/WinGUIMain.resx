@@ -124,7 +124,7 @@
     <value>138, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>85</value>
+    <value>123</value>
   </metadata>
   <data name="htmlDetail.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -140,8 +140,8 @@
   <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALCwAA
-        CwsBbQSEtwAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALCgAA
+        CwoBv0NmUwAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
         hMDJbw0EEWWYAeXTQRAEZQQFRkCGAQYRkGH4noEB5FNARFFEVMzf3ndKyvxgT3V255z/ee9773vu/3ef
         +zz3nfcewOb/+pMA7qba6Ta/tUy3KaieZtModLpmmk27uG8X/T9Uh+iTVCz0+GDz3hi/q7n0kGReZ/8M
         5YtH0Lp3PafCnWnZNoMW99F0rHuBbo8X6dk2jkvy8VxWvCT0BySInw1ArLi72u5Zqtb/Xcx586+3NInu
@@ -1814,5 +1814,8 @@
   </metadata>
   <metadata name="_timerDispatchResultsToUI.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>137, 91</value>
+  </metadata>
+  <metadata name="ultraDesktopAlert.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>630, 51</value>
   </metadata>
 </root>
