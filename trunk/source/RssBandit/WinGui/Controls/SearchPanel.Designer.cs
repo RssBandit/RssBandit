@@ -293,9 +293,9 @@ namespace RssBandit.WinGui.Controls
             this.optionSetItemAge.CheckedIndex = 0;
             appearance4.BackColorDisabled = System.Drawing.Color.Transparent;
             this.optionSetItemAge.ItemAppearance = appearance4;
-            valueListItem1.DataValue = global::RssBandit.Resources.InfragisticsWin.LS_RegexUITypeEditorForm_EditBox_FontName;
+            valueListItem1.DataValue = "";
             valueListItem1.DisplayText = "&Newer than";
-            valueListItem2.DataValue = global::RssBandit.Resources.InfragisticsWin.LS_RegexUITypeEditorForm_EditBox_FontName;
+            valueListItem2.DataValue = "";
             valueListItem2.DisplayText = "&Older than";
             this.optionSetItemAge.Items.AddRange(new Infragistics.Win.ValueListItem[] {
             valueListItem1,
