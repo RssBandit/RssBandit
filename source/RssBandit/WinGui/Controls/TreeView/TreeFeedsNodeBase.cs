@@ -470,7 +470,24 @@ namespace RssBandit.WinGui.Controls
 
 		}
 
+        /// <summary>
+        /// Resets the read status starting with this instance Node to zero.
+        /// </summary>
+        public void ResetReadStatus()
+        {
+            this.UnreadCount = 0;
 
+            for (TreeFeedsNodeBase t = this.FirstNode; t != null; t = t.NextNode)
+            {
+                t.ResetReadStatus(); // recursive!
+            }
+        }
+
+        /// <summary>
+        /// Updates the read status. Works upwards the node hierarchy.
+        /// </summary>
+        /// <param name="thisNode">The this node.</param>
+        /// <param name="readCounter">The read counter.</param>
 		public void UpdateReadStatus(TreeFeedsNodeBase thisNode, int readCounter) 
 		{
 			//_log.DebugFormat("called at node {0}, with thisNode = {1}, readCounter = {2}", this.FullPath, thisNode == null ? "null" : thisNode.Text, readCounter);

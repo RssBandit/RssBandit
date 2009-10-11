@@ -2386,10 +2386,12 @@ namespace RssBandit.WinGui.Forms
             if (selectedNode.Type == FeedNodeType.Root)
             {
                 // all
-				UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
+				//UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
+                UnreadItemsNodeRemoveAllItems(entry);
 				entry.Source.MarkAllCachedItemsAsRead();
 				owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
-				UpdateTreeNodeUnreadStatus(selectedNode, 0);
+                selectedNode.ResetReadStatus();
+                //UpdateTreeNodeUnreadStatus(selectedNode, 0);
                 
 				//ResetFindersReadStatus();
                 //SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);

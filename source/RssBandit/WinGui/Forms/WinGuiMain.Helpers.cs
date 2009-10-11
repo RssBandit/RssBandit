@@ -1706,6 +1706,14 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
+        private void UnreadItemsNodeRemoveAllItems(FeedSourceEntry entry)
+        {
+            if (entry == null) return;
+            //TODO: make a ISmartFolder interface method extension that works with FeedSourceEntry types
+            UnreadItemsNode instance = (UnreadItemsNode)this.UnreadItemsNode;
+            instance.MarkAllItemsRead(entry);
+        }
+
         /// <summary>
         /// Remove unread items of the feed f from the unread item tree node container.
         /// </summary>
