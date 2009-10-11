@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/rss/1.0/" xmlns:fd="http://www.bradsoft.com/feeddemon/xmlns/1.0/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
+<xsl:output method="html"/>
+
+
+<!-- type 1 if you want sticky notes to be randomly auto-displaced in group/channel newspaper view, otherwise type 0 -->
+<xsl:variable name="AUTODISPLACE" select="1"/>
+
+<xsl:variable name="common-styles">
+<style type="text/css">
+
+body {
+	font-family: Comic Sans MS;
+	background-color: #F8CC6E; }
+
+div.channeltitle,
+div.newsitem,
+div.readnewsitem,
+div.flaggednewsitem {
+	display: block;
+	position: relative;
+
+	width: 500px;
+
+	border-top: 2px solid #666666;
+	margin: 20px 20px 20px 20px;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666',direction=135,strength=4);
+	background-color: #FFFFAE; }
+	
+div.readnewsitem {
+	background-color: #EEEEFE;
+	background-color: #ECDCC2;	}
+	
+div.flaggednewsitem {
+	background-color: #FF7D7D;	}
+	
+
+div.channeltitle {
+	display: block;
+	width: 50%;
+	height: 40px;
+	overflow: visible;
+
+	padding: 10px 10px 10px 10px;
+	
+	font-size: 160%;
+	text-align: center; }
+
+div.newsitemtitle {
+	display: block;
+	overflow: visible;	
+	height: 40px;
+
+	padding: 10px 10px 10px 10px;
+
+	font-size: 140%;
+	text-align: center; }
+
+
+div.newsitemcontent {
+	display: block;
+	overflow: auto;
+
+	padding: 10px 10px 10px 10px;
+
+	font-size: 80%; }
+
+div.readnewsitemdate,
+div.flaggednewsitemdate,
+div.newsitemdate {
+	display: block;
+	padding: 3px 15px 0px 15px;
+
+	height: 10px;
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#AF984A,endColorStr=#FFFFAE);
+
+	text-align: right;
+	font-size: 75%;
+	color: gray; }
+
+div.readnewsitemdate {
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#D1AD73,endColorStr=#ECDCC2); }
+div.flaggednewsitemdate {
+	filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#B04A4A,endColorStr=#FF7D7D); }
+
+
+div.newsitemfooter {
+	display: block;
+	padding: 3px 15px 10px 15px;
+	text-align: right;
+	font-size: 75%;
+	color: gray; }
+	
+div.newsitemdate a,
+div.newsitemtitle a,
+div.channeltitle a {
+	text-decoration: none;
+	color: black;
+	font-family: Comic Sans MS; }
+
+blockquote { 
+	margin-left: 20px; 
+	margin-right: 20px; }
+
+i,
+em { font-style: normal;	}
+
+code, 
+pre, 
+tt { font-size: 90%; }
+
+a { color: black; }
+
+a:hover { color: blue; }
+
+a img { border: 1px solid black; }
+
+a:hover img { border: 1px solid blue; }
+
+</style>
+</xsl:variable>
+
+<xsl:variable name="StartupScript">
+<script type="text/javascript" language="JavaScript1.3">
+<![CDATA[
+function StartUp()
+{
+	maxWidth = window.document.body.clientWidth - 40;
+
+	for(i = 0; i < 0 + 1*document.all.length; i++)
+	{
+		obj = document.all(i);
+		if( obj.tagName == 'DIV' && ( obj.className == 'newsitem' || obj.className == 'readnewsitem' || obj.className == 'flaggednewsitem' ) )
+		{
+			width = Math.round( Math.random() * 200 ) + 400;
+			obj.style.width = width;
+			obj.style.left = Math.round( Math.random() * (maxWidth - width) );
+		}
+	}
+}
+]]>
+</script>
+</xsl:variable>
+
+<!-- newsitem  -->
+<xsl:template match="item">
+	<div class="newsitem">
+		<xsl:if test="fd:state[@read='1']">
+			<xsl:attribute name="class">readnewsitem</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="fd:state[@flagged='1']">
+			<xsl:attribute name="class">flaggednewsitem</xsl:attribute>
+		</xsl:if>
+
+		<div class="newsitemdate">
+			<xsl:if test="fd:state[@read='1']">
+				<xsl:attribute name="class">readnewsitemdate</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="fd:state[@flagged='1']">
+				<xsl:attribute name="class">flaggednewsitemdate</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="fd:dateDisplay"/>
+		</div>
+
+		<div class="newsitemtitle">
+			<a href="{link}" title="Click to open the newsitem's link.&#10;Hold SHIFT to open it in a new window">
+				<xsl:attribute name="class"><xsl:choose><xsl:when test="fd:state[@flagged='1']">flagged</xsl:when><xsl:when test="fd:state[@read='1']">read</xsl:when></xsl:choose></xsl:attribute>
+				<xsl:value-of select="title" disable-output-escaping="yes"/>
+			</a>
+		</div>
+		<div class="newsitemcontent">
+			<xsl:value-of select="description" disable-output-escaping="yes"/>
+		</div>
+
+		<xsl:if test="category">
+			<div class="newsitemfooter">
+				<br/>Category: <b>
+					<xsl:value-of select="category" disable-output-escaping="yes"/>
+				</b>
+			</div>
+		</xsl:if>
+		<xsl:if test="dc:subject">
+			<div class="newsitemfooter">
+		Subject: <b>
+					<xsl:value-of select="dc:subject" disable-output-escaping="yes"/>
+				</b>
+			</div>
+		</xsl:if>
+		<xsl:if test="author">
+			<div class="newsitemfooter">
+		Author: <b>
+					<xsl:value-of select="author" disable-output-escaping="yes"/>
+				</b>
+			</div>
+		</xsl:if>
+		<xsl:if test="comments">
+			<div class="newsitemfooter">
+				<a href="{comments}">[Comments]</a>
+			</div>
+		</xsl:if>
+		<xsl:if test="enclosure">
+			<div class="newsitemfooter">
+				<a href="{enclosure/@url}" title="{enclosure/@type} :   {enclosure/@url}"> [Enclosure : <xsl:value-of select="round( enclosure/@length div 1024 )"/> kB ]</a>
+			</div>
+		</xsl:if>
+		<xsl:if test="/newspaper/@type='newsitem'">
+			<div class="newsitemfooter">
+				<!-- 
+			Important: use 'source' element here so that source channel shows for 
+			newsbins and watches.  For other channels, FeedDemon sets the source
+			to the channel itself.
+		-->
+		Source: <a href="{source/@htmlUrl}">
+					<xsl:value-of select="source" disable-output-escaping="yes"/>
+				</a>
+		|
+		<a href="{source/@url}">RSS</a> |
+	</div>
+		</xsl:if>
+	</div>
+</xsl:template>
+<!-- channel  -->
+<xsl:template match="channel">
+	<center>
+		<div class="channeltitle">
+			<a href="{link}" title="Click to open the channel's homepage.&#10;Hold SHIFT to open it in a new window">
+				<xsl:value-of select="title"/>
+			</a>
+		</div>
+	</center>
+	<xsl:for-each select="item">
+		<xsl:sort select="fd:sortKey" data-type="number" order="ascending"/>
+		<xsl:apply-templates select="."/>
+	</xsl:for-each>
+</xsl:template>
+<!-- channel/group newspaper -->
+<xsl:template match="newspaper[@type='group' or @type='channel']">
+	<html>
+		<head>
+			<title>Group/Channel Newspaper</title>
+			<base href="{//item/channel}" />
+			<xsl:copy-of select="$common-styles"/>
+			<xsl:copy-of select="$StartupScript"/>
+		</head>
+		<body>
+		<xsl:if test="$AUTODISPLACE = 1">
+			<xsl:attribute name="onload">StartUp();</xsl:attribute>
+		</xsl:if>
+			<xsl:for-each select="channel">
+				<xsl:apply-templates select="."/>
+			</xsl:for-each>
+		</body>
+	</html>
+</xsl:template>
+<!-- single news item -->
+<xsl:template match="newspaper[@type='newsitem']">
+	<html>
+		<head>
+			<title>News Item</title>
+			<base href="{//item/link}" />
+			<xsl:copy-of select="$common-styles"/>
+		</head>
+		<body>
+			<xsl:for-each select="channel/item">
+				<xsl:apply-templates select="."/>
+			</xsl:for-each>
+		</body>
+	</html>
+</xsl:template>
+</xsl:stylesheet>

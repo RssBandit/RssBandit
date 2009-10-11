@@ -1,0 +1,343 @@
+		<xsl:stylesheet version='1.0' 
+				xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+				xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+				xmlns:xhtml='http://www.w3.org/1999/xhtml'
+				xmlns:slash='http://purl.org/rss/1.0/modules/slash/'
+				xmlns:dc='http://purl.org/dc/elements/1.1/'
+				exclude-result-prefixes='content slash dc'>
+
+		  <xsl:output method='xml' indent='yes' /> 
+
+
+		  <!-- channel group newspaper -->
+		  <xsl:template match="newspaper[@type='group']">
+		    <html>
+		      <head>
+			<title><xsl:value-of select='title'/></title>
+			<!-- <base href="{//item/link}" /> -->
+			<style><![CDATA[
+			body		
+			{
+			background:#000DCC;
+			color:#AAAAFF;
+			font: 10pt terminal;
+			margin:2pt; 
+			padding:0pt; 
+			}
+			.title		
+			{
+			color:yellow;
+			}
+			.date
+			{
+			color:#dddddd; 
+			}
+			.author
+			{
+			color:#dddddd;
+			}
+			div.content 
+			{
+			line-height: 14pt;
+			}
+			a
+			{
+			text-decoration: none;
+			}
+			td.title a:link      
+			{ 
+			color:#FFFFFF;
+			}
+			td.title a:visited   
+			{ 
+			color:#FFFFFF;
+			}
+			td.title a:hover		 
+			{ 
+			color:#FF0000;
+			}
+			a:link      
+			{ 
+			color:#FFFFFF;
+			}
+			a:visited   
+			{
+			color:#FFFFFF;
+			}
+			a:hover		
+			{ 
+			color:#FF0000;
+			}
+			]]></style>
+		      </head>
+		      <body>
+			<p align="center" style="margin-top: 10px">**** COMMODORE 64 BASIC V2 ****</p>
+			<p align="center">64K RAM SYSTEM <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>38911 BASIC BYTES FREE</p>
+			<p>READY.</p>
+			 <xsl:for-each select="//channel">
+			<p class="title"><a href="{current()/title}"><xsl:value-of  disable-output-escaping='yes' select='current()/title'/></a></p>
+			  <xsl:for-each select='current()//item'>
+			  <p><xsl:value-of select='current()/category'/></p>
+			  <div class='content'>
+			    <xsl:choose>
+			      <xsl:when test='current()/author'>
+				AUTHOR: <span class="author"><xsl:value-of select='current()/author'/></span><br />
+			      </xsl:when>
+			      <xsl:when test='current()/dc:creator'>
+				AUTHOR: <span class="author"><xsl:value-of select='current()/dc:creator'/></span><br />
+			      </xsl:when>				
+			    </xsl:choose>
+			    TITLE: <a href="{current()/link}"><span class="title"><xsl:value-of disable-output-escaping='yes' select='current()/title' /></span></a><br/>
+			    DATE: <span class="date"><xsl:value-of select='current()/pubDate' /></span><br/><br/>
+			    <xsl:choose>
+			      <xsl:when test='current()/xhtml:body'>
+				<xsl:copy-of select='current()/xhtml:body'/> 
+			      </xsl:when>
+			      <xsl:when test='current()/content:encoded'>
+				<xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+			      </xsl:when>
+			      <xsl:otherwise> 
+				<xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+			      </xsl:otherwise>
+			      </xsl:choose><br/><br/>
+			    </div>
+			    <xsl:choose> 
+			      <xsl:when test='current()/comments'>
+				<a>
+				  <xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/></xsl:attribute>
+				  COMMENTS:(<xsl:value-of select='current()/slash:comments'/>)
+				</a> 
+			      </xsl:when>
+			      <xsl:when test='current()/slash:comments'>1: 
+			      <a>
+				<xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/></xsl:attribute>
+				COMMENTS:(<xsl:value-of select='current()/slash:comments'/>)
+			      </a>
+			    </xsl:when>
+			    </xsl:choose><br/>
+			    <p><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text></p>	
+			  </xsl:for-each>
+			 </xsl:for-each>
+			</body>
+		      </html>
+		    </xsl:template>
+
+		    <!-- channel newspaper -->
+		    <xsl:template match="newspaper[@type='channel']">
+		      <html>
+			<head>
+			  <title><xsl:value-of select='//channel/title'/></title>
+			  <base href="{//channel/link}" />
+			  <style><![CDATA[
+			  body		
+			  {
+			  background:#000DCC;
+			  color:#AAAAFF;
+			  font: 10pt terminal;
+			  margin:2pt; 
+			  padding:0pt; 
+			  }
+			  .title		
+			  {
+			  color:yellow;
+			  }
+			  .date
+			  {
+			  color:#dddddd; 
+			  }
+			  .author
+			  {
+			  color:#dddddd;
+			  }
+			  div.content 
+			  {
+			  line-height: 14pt;
+			  }
+			  a
+			  {
+			  text-decoration: none;
+			  }
+			  td.title a:link      
+			  { 
+			  color:#FFFFFF;
+			  }
+			  td.title a:visited   
+			  { 
+			  color:#FFFFFF;
+			  }
+			  td.title a:hover		 
+			  { 
+			  color:#FF0000;
+			  }
+			  a:link      
+			  { 
+			  color:#FFFFFF;
+			  }
+			  a:visited   
+			  {
+			  color:#FFFFFF;
+			  }
+			  a:hover		
+			  { 
+			  color:#FF0000;
+			  }
+			  ]]></style>
+			</head>
+			<body>
+			  <p align="center" style="margin-top: 10px">**** COMMODORE 64 BASIC V2 ****</p>
+			  <p align="center">64K RAM SYSTEM <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>38911 BASIC BYTES FREE</p>
+			  <p>READY.</p> 
+			  <p class="title"><a href="{//channel/title}"><xsl:value-of  disable-output-escaping='yes' select='//channel/title'/></a></p>
+			  <xsl:for-each select='//item'>
+			  <p><xsl:value-of select='current()/category'/></p>
+			  <div class='content'>
+			    <xsl:choose>
+			      <xsl:when test='current()/author'>
+				AUTHOR: <span class="author"><xsl:value-of select='current()/author'/></span><br />
+			      </xsl:when>
+			      <xsl:when test='current()/dc:creator'>
+				AUTHOR: <span class="author"><xsl:value-of select='current()/dc:creator'/></span><br />
+			      </xsl:when>				
+			    </xsl:choose>
+			    TITLE: <a href="{current()/link}"><span class="title"><xsl:value-of disable-output-escaping='yes' select='current()/title' /></span></a><br/>
+			    DATE: <span class="date"><xsl:value-of select='current()/pubDate' /></span><br/><br/>
+			    <xsl:choose>
+			      <xsl:when test='current()/xhtml:body'>
+				<xsl:copy-of select='current()/xhtml:body'/> 
+			      </xsl:when>
+			      <xsl:when test='current()/content:encoded'>
+				<xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+			      </xsl:when>
+			      <xsl:otherwise> 
+				<xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+			      </xsl:otherwise>
+			      </xsl:choose><br/><br/>
+			    </div>
+			    <xsl:choose> 
+			      <xsl:when test='current()/comments'>
+				<a>
+				  <xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/></xsl:attribute>
+				  COMMENTS:(<xsl:value-of select='current()/slash:comments'/>)
+				</a> 
+			      </xsl:when>
+			      <xsl:when test='current()/slash:comments'>1: 
+			      <a>
+				<xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/></xsl:attribute>
+				COMMENTS:(<xsl:value-of select='current()/slash:comments'/>)
+			      </a>
+			    </xsl:when>
+			    </xsl:choose><br/>
+			    <p><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text></p>	
+			  </xsl:for-each>
+			  </body>
+			</html>
+		      </xsl:template>
+
+		      <!-- single news item -->
+		      <xsl:template match="newspaper[@type='newsitem']">
+			<html>
+			  <head>
+			    <title><xsl:value-of select='//item/title'/></title>
+			    <base href="{//item/link}" />
+			    <style><![CDATA[
+			    body		
+			    {
+			    background:#000DCC;
+			    color:#AAAAFF;
+			    font: 10pt terminal;
+			    margin:2pt; 
+			    padding:0pt; 
+			    }
+			    .title		
+			    {
+			    color:yellow;
+			    }
+			    .date
+			    {
+			    color:#dddddd; 
+			    }
+			    .author
+			    {
+			    color:#dddddd;
+			    }
+			    div.content 
+			    {
+			    line-height: 14pt;
+			    }
+			    a
+			    {
+			    text-decoration: none;
+			    }
+			    td.title a:link      
+			    { 
+			    color:#FFFFFF;
+			    }
+			    td.title a:visited   
+			    { 
+			    color:#FFFFFF;
+			    }
+			    td.title a:hover		 
+			    { 
+			    color:#FF0000;
+			    }
+			    a:link      
+			    { 
+			    color:#FFFFFF;
+			    }
+			    a:visited   
+			    {
+			    color:#FFFFFF;
+			    }
+			    a:hover		
+			    { 
+			    color:#FF0000;
+			    }
+			    ]]></style>
+			  </head>
+			  <body>
+			    <p align="center" style="margin-top: 10px">**** COMMODORE 64 BASIC V2 ****</p>
+			    <p align="center">64K RAM SYSTEM <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text>38911 BASIC BYTES FREE</p>
+			    <p>READY.</p>
+			    <p><xsl:value-of select='//item/category'/></p>
+			    <div class='content'>
+			      <xsl:choose>
+				<xsl:when test='//item/author'>
+				  AUTHOR: <span class="author"><xsl:value-of select='//item/author'/></span><br />
+				</xsl:when>
+				<xsl:when test='//item/dc:creator'>
+				  AUTHOR: <span class="author"><xsl:value-of select='//item/dc:creator'/></span><br />
+				</xsl:when>				
+			      </xsl:choose>
+			      TITLE: <a href="{//item/link}"><span class="title"><xsl:value-of disable-output-escaping='yes' select='//item/title' /></span></a><br/>
+			      DATE: <span class="date"><xsl:value-of select='//item/pubDate' /></span><br/><br/>
+			      <xsl:choose>
+				<xsl:when test='//item/xhtml:body'>
+				  <xsl:copy-of select='//item/xhtml:body'/> 
+				</xsl:when>
+				<xsl:when test='//item/content:encoded'>
+				  <xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/>
+				</xsl:when>
+				<xsl:otherwise> 
+				  <xsl:value-of disable-output-escaping='yes' select='//item/description'/>
+				</xsl:otherwise>
+				</xsl:choose><br/><br/>
+			      </div>
+			      <xsl:choose> 
+				<xsl:when test='//item/comments'>
+				  <a>
+				    <xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='//item/comments'/></xsl:attribute>
+				    COMMENTS:(<xsl:value-of select='//item/slash:comments'/>)
+				  </a> 
+				</xsl:when>
+				<xsl:when test='//item/slash:comments'>1: 
+				<a>
+				  <xsl:attribute name="href"><xsl:value-of  disable-output-escaping='yes' select='//item/comments'/></xsl:attribute>
+				  COMMENTS:(<xsl:value-of select='//item/slash:comments'/>)
+				</a>
+			      </xsl:when>
+			      </xsl:choose><br/>			    
+			    </body>
+			  </html>
+			</xsl:template>
+
+		      </xsl:stylesheet>
