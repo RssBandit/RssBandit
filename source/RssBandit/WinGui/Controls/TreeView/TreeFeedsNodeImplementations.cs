@@ -534,6 +534,35 @@ namespace RssBandit.WinGui.Controls
 
     	#endregion
 
+        internal void MarkAllItemsRead(FeedSourceEntry entry)
+        {
+            if (entry == null) return;
+            
+            UnreadItemsNodePerSource child;
+            childrenBySourceID.TryGetValue(entry.ID, out child);
+
+            for (int i = itemsFeed.Items.Count - 1; i >= 0; i--)
+            {
+                INewsItem item = itemsFeed.Items[i];
+                FeedSourceEntry owner = app.FeedSources.SourceOf(item.Feed);
+                if (owner != null && owner.ID.Equals(entry.ID))
+                {
+                    itemsFeed.Items.RemoveAt(i);
+                    if (child != null)
+                    {
+                        // child handle this:
+                        child.UpdateReadStatus(child, -1);
+                    }
+                    else
+                    {
+                        // handle by myself:
+                        UpdateReadStatus(this, -1);
+                    }
+                }
+            }
+
+        }
+
     	#region base class overrides
 
     	protected override void MarkItemRead(INewsItem item)
