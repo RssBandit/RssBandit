@@ -1224,7 +1224,8 @@ namespace RssBandit.WinGui.Forms
         }
 
         public void RefreshTreeFeedContextMenus(TreeFeedsNodeBase feedsNode)
-        {
+        {           
+
             owner.Mediator.SetEnabled(false, "cmdColumnChooserResetToDefault");
             if (feedsNode.Type == FeedNodeType.Feed || feedsNode.Type == FeedNodeType.Category)
             {
@@ -1280,6 +1281,13 @@ namespace RssBandit.WinGui.Forms
 				}
                 if ((feedsNode as FinderRootNode) != null)
                     owner.Mediator.SetEnabled("+cmdDeleteAllFinders", "-cmdDeleteFinder", "-cmdShowFinderProperties");
+            }
+
+            //we don't want people to be able to change properties of Facebook feed source
+            FeedSourceEntry fse = FeedSourceEntryOf(feedsNode);
+            if ((fse != null) && (fse.SourceType == FeedSourceType.Facebook))
+            {
+                owner.Mediator.SetEnabled(false, "cmdShowFeedProperties");
             }
         }
 
