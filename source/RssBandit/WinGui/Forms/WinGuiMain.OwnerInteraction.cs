@@ -3049,6 +3049,22 @@ namespace RssBandit.WinGui.Forms
 
 
         /// <summary>
+        /// Launches the post reply form from an item in the reading pane
+        /// </summary>
+        /// <param name="id">The ID of the RSS item</param>
+        public void PostReplyFromReadingPane(string id)
+        {
+            ThreadedListViewItem lvItem = GetListViewItem(id);
+
+            if (lvItem != null)
+            {
+                lvItem.Selected = true;
+                this.CurrentSelectedFeedItem = lvItem.Key as INewsItem;
+                owner.CmdPostReplyToItem(null); 
+            }
+        }
+
+        /// <summary>
         /// Toggles the identified item's read/unread state. 
         /// </summary>
         /// <param name="id">The ID of the RSS item</param>
