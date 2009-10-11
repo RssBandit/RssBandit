@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{25DA185B-B6FD-4F9C-AD5D-6A9ED29A4FD2}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.971">
+    <Product Id="{bb3cf1d5-2160-4dd4-a458-c737c1dc9912}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.972">
         <Package Comments="A desktop news aggregator" Compressed="yes" InstallerVersion="200" Languages="1033" Manufacturer="Dare Obasanjo &amp; Torsten Rendelmann" Platform="x86" />
         <Binary Id="MSVBDPCADLL" SourceFile=".\Binary\MSVBDPCADLL" />
         <Binary Id="VSDNETCFG" SourceFile=".\Binary\VSDNETCFG" />
@@ -91,10 +91,10 @@
             </Component>
             <Component Id="C__AA3663A956E79BB13B90FD412BDBAE8E" Guid="{7C7DF56A-E1F9-B3B8-DC91-FA3CE24C93E9}">
                 <File Id="_AA3663A956E79BB13B90FD412BDBAE8E" Name="Infragistics2.Win.UltraWinEditors.v8.3.dll" KeyPath="yes" ShortName="INFRAG~4.DLL" Assembly=".net" AssemblyManifest="_AA3663A956E79BB13B90FD412BDBAE8E" AssemblyApplication="_AA3663A956E79BB13B90FD412BDBAE8E" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v8.3.dll" />
-            </Component> <!--
+            </Component> 
             <Component Id="C__B2688D3D145B84A4890D470E8C0A1662" Guid="{4EB1DB00-775D-8D2E-FF04-C6F63794BCA9}">
-                <File Id="_B2688D3D145B84A4890D470E8C0A1662" Name="Infragistics2.Win.v8.2.dll" KeyPath="yes" ShortName="INFRAG~5.DLL" Assembly=".net" AssemblyManifest="_B2688D3D145B84A4890D470E8C0A1662" AssemblyApplication="_B2688D3D145B84A4890D470E8C0A1662" DiskId="1" Source="..\..\Common\Libraries\" />
-            </Component> -->
+                <File Id="_B2688D3D145B84A4890D470E8C0A1662" Name="Infragistics2.Shared.v8.3.dll" KeyPath="yes" ShortName="INFRAG~5.DLL" Assembly=".net" AssemblyManifest="_B2688D3D145B84A4890D470E8C0A1662" AssemblyApplication="_B2688D3D145B84A4890D470E8C0A1662" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Shared.v8.3.dll" />
+            </Component> 
             <Component Id="C__B433CA72E8CCC75E08503EFA0745653A" Guid="{2C1E430E-DEAE-2ACF-70F3-033D19A403D0}">
                 <File Id="_B433CA72E8CCC75E08503EFA0745653A" Name="SandDock.dll" KeyPath="yes" ShortName="SANDDOCK.DLL" Assembly=".net" AssemblyManifest="_B433CA72E8CCC75E08503EFA0745653A" AssemblyApplication="_B433CA72E8CCC75E08503EFA0745653A" DiskId="1" Source="..\..\Common\Libraries\SandDock.dll" />
             </Component>
@@ -978,7 +978,7 @@
             <ComponentRef Id="C__9284D6B8FD7D212FA042D8AFDB56602D" Primary="yes" />
             <ComponentRef Id="C__A103E744EA22E525A3002B3FB1E63F07" Primary="yes" />
             <ComponentRef Id="C__AA3663A956E79BB13B90FD412BDBAE8E" Primary="yes" />
-       <!-- <ComponentRef Id="C__B2688D3D145B84A4890D470E8C0A1662" Primary="yes" /> -->
+            <ComponentRef Id="C__B2688D3D145B84A4890D470E8C0A1662" Primary="yes" /> 
             <ComponentRef Id="C__B433CA72E8CCC75E08503EFA0745653A" Primary="yes" />
        <!-- <ComponentRef Id="C__B4BE518F5C0F182F524A005024825EE2" Primary="yes" /> -->
             <ComponentRef Id="C__B7DA2F2A8F6C2203992FAC5A50EC4D68" Primary="yes" />
@@ -1798,8 +1798,8 @@
             </Dialog>
         </UI>
         <Upgrade Id="{108879A4-BD9B-414D-9C91-852BA402EF72}">
-            <UpgradeVersion Maximum="1.9.971" Property="PREVIOUSVERSIONSINSTALLED" />
-            <UpgradeVersion Minimum="1.9.971" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
+            <UpgradeVersion Maximum="1.9.972" Property="PREVIOUSVERSIONSINSTALLED" />
+            <UpgradeVersion Minimum="1.9.972" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
         </Upgrade>
         <InstallExecuteSequence>
             <Custom Action="DIRCA_CheckFX" Sequence="1" />
