@@ -1715,7 +1715,7 @@ namespace NewsComponents.Feed
                 catch (Exception e) /* thrown if Windows RSS platform can't parse the date */
                 {
                     _log.Error("Exception in WindowsRssNewsItem.Date on attempting to read IFeedItem.PubDate:", e); 
-                    return DateTime.Now;                    
+                    return DateTime.UtcNow;                    
                 }
             }
             set { /* can't set IFeedItem.PubDate */ }
