@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -263,16 +263,6 @@
       <Name>WizardFramework</Name>
       <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
-      <Name>NewsComponents</Name>
-      <Project>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
-      <Name>RssBandit.AppServices</Name>
-      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <Reference Include="Infragistics2.Shared.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>C:\Program Files\Infragistics\NetAdvantage for .NET 2008 Vol. 3 CLR 2.0\windows forms\bin\Infragistics2.Shared.v8.3.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -2389,6 +2379,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
+      <Project>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</Project>
+      <Name>NewsComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RssBandit.AppServices\RssBandit.AppServices.csproj">
+      <Project>{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}</Project>
+      <Name>RssBandit.AppServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
