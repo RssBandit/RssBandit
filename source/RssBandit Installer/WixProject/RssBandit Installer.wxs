@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{25DA185B-B6FD-4F9C-AD5D-6A9ED29A4FD2}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.8.965">
+    <Product Id="{25DA185B-B6FD-4F9C-AD5D-6A9ED29A4FD2}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.971">
         <Package Comments="A desktop news aggregator" Compressed="yes" InstallerVersion="200" Languages="1033" Manufacturer="Dare Obasanjo &amp; Torsten Rendelmann" Platform="x86" />
         <Binary Id="MSVBDPCADLL" SourceFile=".\Binary\MSVBDPCADLL" />
         <Binary Id="VSDNETCFG" SourceFile=".\Binary\VSDNETCFG" />
@@ -131,7 +131,7 @@
                 <RegistryValue Id="_4A4463EC88B8460385BD963DBACE22B1" Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="InstallPath" Value="[TARGETDIR]" Type="string" KeyPath="yes" />
             </Component>
             <Component Id="C__001EA09C36741DAF291D0F0B5B2261D0" Guid="{AF9B3C91-7C1F-4AE8-6650-010A0F17CB33}">
-                <File Id="_001EA09C36741DAF291D0F0B5B2261D0" Name="RSSBandit.exe" KeyPath="yes" ShortName="RSSBAN~1.EXE" Assembly=".net" AssemblyManifest="_001EA09C36741DAF291D0F0B5B2261D0" AssemblyApplication="_001EA09C36741DAF291D0F0B5B2261D0" DiskId="1" Source="..\..\RssBandit\obj\\x86\Release\RSSBandit.exe" />
+                <File Id="_001EA09C36741DAF291D0F0B5B2261D0" Name="RSSBandit.exe" KeyPath="yes" ShortName="RSSBAN~1.EXE" Assembly=".net" AssemblyManifest="_001EA09C36741DAF291D0F0B5B2261D0" AssemblyApplication="_001EA09C36741DAF291D0F0B5B2261D0" DiskId="1" Source="..\..\RssBandit\obj\x86\Release\RSSBandit.exe" />
                 <Shortcut Id="_60120C3E20F04F1CAA95109222F3A0DE" Directory="DesktopFolder" Name="RSS Bandit" ShortName="RSSBAN~3" Icon="_081A13158370D2FE32C81D.exe" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
                 <Shortcut Id="_DF84DBD4C6FB4B9CB40154E58A459F1F" Directory="_181A34A023A645799A08BC7FD4623B25" Name="RSS Bandit" ShortName="RSSBAN~4" Icon="_703AA4C73082E0A66EBFB0.exe" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
             </Component>
@@ -614,129 +614,159 @@
             </Directory>
             <Directory Id="_BA07AA9E84F54D39AC095072622EDE20" Name="templates" ShortName="TEMPLA~1">
                 <Component Id="C__03FC9A1F0B448EFB81F0E78EFA2F625D" Guid="{D628FC88-E698-F454-9D5B-0B19F3C83A1B}">
-                    <File Id="_03FC9A1F0B448EFB81F0E78EFA2F625D" Name="formal-red.fdxsl" KeyPath="yes" ShortName="FORMAL~1.FDX" DiskId="1" Source=".\File\_03FC9A1F0B448EFB81F0E78EFA2F625D" />
+                    <File Id="_03FC9A1F0B448EFB81F0E78EFA2F625D" Name="formal-red.fdxsl" KeyPath="yes" ShortName="FORMAL~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\formal-red.fdxsl" />
                 </Component>
                 <Component Id="C__179AA607B7A8F368FE4761004BE39FE4" Guid="{F12E6D03-C424-70E7-5561-C7D475211C3B}">
-                    <File Id="_179AA607B7A8F368FE4761004BE39FE4" Name="unwise-terminal.fdxsl" KeyPath="yes" ShortName="UNWISE~1.FDX" DiskId="1" Source=".\File\_179AA607B7A8F368FE4761004BE39FE4" />
+                    <File Id="_179AA607B7A8F368FE4761004BE39FE4" Name="unwise-terminal.fdxsl" KeyPath="yes" ShortName="UNWISE~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\unwise-terminal.fdxsl" />
                 </Component>
                 <Component Id="C__30AE4F3CBCE54824FF7EE13185A74408" Guid="{13FB12E6-AC85-CF00-7C7A-4D5D70456673}">
-                    <File Id="_30AE4F3CBCE54824FF7EE13185A74408" Name="Polaroid.fdxsl" KeyPath="yes" ShortName="POLARO~1.FDX" DiskId="1" Source=".\File\_30AE4F3CBCE54824FF7EE13185A74408" />
+                    <File Id="_30AE4F3CBCE54824FF7EE13185A74408" Name="Polaroid.fdxsl" KeyPath="yes" ShortName="POLARO~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\Polaroid.fdxsl" />
                 </Component>
                 <Component Id="C__34B408E81AE52941F9715299D10C7EEE" Guid="{26B746CC-098F-A6FC-0577-3B2CA75223C4}">
-                    <File Id="_34B408E81AE52941F9715299D10C7EEE" Name="outlook-express.fdxsl" KeyPath="yes" ShortName="OUTLOO~1.FDX" DiskId="1" Source=".\File\_34B408E81AE52941F9715299D10C7EEE" />
+                    <File Id="_34B408E81AE52941F9715299D10C7EEE" Name="outlook-express.fdxsl" KeyPath="yes" ShortName="OUTLOO~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\outlook-express.fdxsl" />
                 </Component>
                 <Component Id="C__44032D400C655F87767CC57D7B7AA76E" Guid="{50F6930E-D4F2-20BE-74E0-0F480570A694}">
-                    <File Id="_44032D400C655F87767CC57D7B7AA76E" Name="Sticky Notes.fdxsl" KeyPath="yes" ShortName="STICKY~1.FDX" DiskId="1" Source=".\File\_44032D400C655F87767CC57D7B7AA76E" />
+                    <File Id="_44032D400C655F87767CC57D7B7AA76E" Name="Sticky Notes.fdxsl" KeyPath="yes" ShortName="STICKY~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\Sticky Notes.fdxsl" />
                 </Component>
                 <Component Id="C__6B871125B427399E5D7FA11A87ED88DB" Guid="{6FE16969-7960-58EA-B928-2E03FD3D1AFA}">
-                    <File Id="_6B871125B427399E5D7FA11A87ED88DB" Name="readme.htm" KeyPath="yes" ShortName="README.HTM" DiskId="1" Source=".\File\_6B871125B427399E5D7FA11A87ED88DB" />
+                    <File Id="_6B871125B427399E5D7FA11A87ED88DB" Name="readme.htm" KeyPath="yes" ShortName="README.HTM" DiskId="1" Source="..\..\RssBandit\templates\readme.htm" />
                 </Component>
                 <Component Id="C__784002ACEDD64C9AD2460AE561F2D8D5" Guid="{3E30A716-92BA-B821-142C-2510E0215EC6}">
-                    <File Id="_784002ACEDD64C9AD2460AE561F2D8D5" Name="Headlines.fdxsl" KeyPath="yes" ShortName="HEADLI~1.FDX" DiskId="1" Source=".\File\_784002ACEDD64C9AD2460AE561F2D8D5" />
+                    <File Id="_784002ACEDD64C9AD2460AE561F2D8D5" Name="Headlines.fdxsl" KeyPath="yes" ShortName="HEADLI~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\Headlines.fdxsl" />
                 </Component>
                 <Component Id="C__795881E66B4938C49212C0F5213E01D5" Guid="{F01164A2-F64F-29CD-2301-22A1D2A29623}">
-                    <File Id="_795881E66B4938C49212C0F5213E01D5" Name="DOS.fdxsl" KeyPath="yes" ShortName="DOS~1.FDX" DiskId="1" Source=".\File\_795881E66B4938C49212C0F5213E01D5" />
+                    <File Id="_795881E66B4938C49212C0F5213E01D5" Name="DOS.fdxsl" KeyPath="yes" ShortName="DOS~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\DOS.fdxsl" />
                 </Component>
                 <Component Id="C__7CB49B77C99FBC7995CD8470309C9AAD" Guid="{191323CA-DE8D-BE2A-0C86-0A45F0303E08}">
-                    <File Id="_7CB49B77C99FBC7995CD8470309C9AAD" Name="kuro5hin.fdxsl" KeyPath="yes" ShortName="KURO5H~1.FDX" DiskId="1" Source=".\File\_7CB49B77C99FBC7995CD8470309C9AAD" />
+                    <File Id="_7CB49B77C99FBC7995CD8470309C9AAD" Name="kuro5hin.fdxsl" KeyPath="yes" ShortName="KURO5H~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\kuro5hin.fdxsl" />
                 </Component>
                 <Component Id="C__8EA340BDCAC57C153613B8CECF9DDBB3" Guid="{42C21D48-CD12-4DE8-F7AF-7004467C04B6}">
-                    <File Id="_8EA340BDCAC57C153613B8CECF9DDBB3" Name="C64.fdxsl" KeyPath="yes" ShortName="C64~1.FDX" DiskId="1" Source=".\File\_8EA340BDCAC57C153613B8CECF9DDBB3" />
+                    <File Id="_8EA340BDCAC57C153613B8CECF9DDBB3" Name="C64.fdxsl" KeyPath="yes" ShortName="C64~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\C64.fdxsl" />
                 </Component>
                 <Component Id="C__9A58E35714268E2CF47BBDC4E2D0D2E8" Guid="{4940F9A0-09F4-452D-5640-F5285D6C0727}">
-                    <File Id="_9A58E35714268E2CF47BBDC4E2D0D2E8" Name="holiday-halloween.fdxsl" KeyPath="yes" ShortName="HOLIDA~1.FDX" DiskId="1" Source=".\File\_9A58E35714268E2CF47BBDC4E2D0D2E8" />
+                    <File Id="_9A58E35714268E2CF47BBDC4E2D0D2E8" Name="holiday-halloween.fdxsl" KeyPath="yes" ShortName="HOLIDA~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\holiday-halloween.fdxsl" />
                 </Component>
                 <Component Id="C__A94DE461291E0D30A848989A0440270C" Guid="{A1F668E0-72D1-DA9C-1A2A-AA1F2F50C6C8}">
-                    <File Id="_A94DE461291E0D30A848989A0440270C" Name="slashdot.fdxsl" KeyPath="yes" ShortName="SLASHD~1.FDX" DiskId="1" Source=".\File\_A94DE461291E0D30A848989A0440270C" />
+                    <File Id="_A94DE461291E0D30A848989A0440270C" Name="slashdot.fdxsl" KeyPath="yes" ShortName="SLASHD~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\slashdot.fdxsl" />
                 </Component>
                 <Component Id="C__B91A37BFDEC47C0AC1DDFC6188831912" Guid="{E3BE54D9-2EA9-217A-F904-6F927226DD33}">
-                    <File Id="_B91A37BFDEC47C0AC1DDFC6188831912" Name="outlook2003-orange.fdxsl" KeyPath="yes" ShortName="OUTLOO~2.FDX" DiskId="1" Source=".\File\_B91A37BFDEC47C0AC1DDFC6188831912" />
+                    <File Id="_B91A37BFDEC47C0AC1DDFC6188831912" Name="outlook2003-orange.fdxsl" KeyPath="yes" ShortName="OUTLOO~2.FDX" DiskId="1" Source="..\..\RssBandit\templates\outlook2003-orange.fdxsl" />
                 </Component>
                 <Component Id="C__B9A32A58CAFB251E23AB233A1005DC00" Guid="{BAC8B278-7E41-C726-30B0-A7A9056FB27D}">
-                    <File Id="_B9A32A58CAFB251E23AB233A1005DC00" Name="neo-blue.fdxsl" KeyPath="yes" ShortName="NEO-BL~1.FDX" DiskId="1" Source=".\File\_B9A32A58CAFB251E23AB233A1005DC00" />
+                    <File Id="_B9A32A58CAFB251E23AB233A1005DC00" Name="neo-blue.fdxsl" KeyPath="yes" ShortName="NEO-BL~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\neo-blue.fdxsl" />
                 </Component>
                 <Component Id="C__EB01AE6339C4A2351888AD967714A7CA" Guid="{60E45485-D18F-07D2-9B92-E68FB37330AD}">
-                    <File Id="_EB01AE6339C4A2351888AD967714A7CA" Name="Film.fdxsl" KeyPath="yes" ShortName="FILM~1.FDX" DiskId="1" Source=".\File\_EB01AE6339C4A2351888AD967714A7CA" />
+                    <File Id="_EB01AE6339C4A2351888AD967714A7CA" Name="Film.fdxsl" KeyPath="yes" ShortName="FILM~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\Film.fdxsl" />
                 </Component>
                 <Component Id="C__EBF1945FE2432694EC4AC8318CC512DF" Guid="{98D80E60-22B1-04F2-9D9C-05D4A0FA2D9E}">
-                    <File Id="_EBF1945FE2432694EC4AC8318CC512DF" Name="aura-8.fdxsl" KeyPath="yes" ShortName="AURA-8~1.FDX" DiskId="1" Source=".\File\_EBF1945FE2432694EC4AC8318CC512DF" />
+                    <File Id="_EBF1945FE2432694EC4AC8318CC512DF" Name="aura-8.fdxsl" KeyPath="yes" ShortName="AURA-8~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\aura-8.fdxsl" />
+                </Component>
+                <Component Id="C__facebook.fdxsl" Guid="{e55814f0-43ad-4515-86fa-1e89e0a20936}">
+                 <File Id="facebook.fdxsl" Name="facebook.fdxsl" KeyPath="yes" ShortName="FACEBO~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\facebook.fdxsl" />
+                </Component>
+                <Component Id="C__Expandoplus.fdxsl" Guid="{0f5ca0fc-8395-43c5-b28a-f1091fc6cbfa}">
+                 <File Id="Expandoplus.fdxsl" Name="Expando-plus.fdxsl" KeyPath="yes" ShortName="EXPAND~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\Expando-plus.fdxsl" />
                 </Component>
                 <Directory Id="_049386181A6C4DD5BBCEEE69727E2235" Name="images" ShortName="IMAGES">
                     <Component Id="C__008E0A1EC1F4E0CFB4B441E451BD9A0B" Guid="{44C56893-04E7-61DF-8046-E6064821D289}">
-                        <File Id="_008E0A1EC1F4E0CFB4B441E451BD9A0B" Name="leftarrow.GIF" KeyPath="yes" ShortName="LEFTAR~1.GIF" DiskId="1" Source=".\File\_008E0A1EC1F4E0CFB4B441E451BD9A0B" />
+                        <File Id="_008E0A1EC1F4E0CFB4B441E451BD9A0B" Name="leftarrow.GIF" KeyPath="yes" ShortName="LEFTAR~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\leftarrow.GIF" />
                     </Component>
                     <Component Id="C__0C4928EACF1FD2D6B184207CC894039F" Guid="{A4DF7F91-B447-7A98-BD69-A3AF85F42480}">
-                        <File Id="_0C4928EACF1FD2D6B184207CC894039F" Name="flag.reply.gif" KeyPath="yes" ShortName="FLAGRE~1.GIF" DiskId="1" Source=".\File\_0C4928EACF1FD2D6B184207CC894039F" />
+                        <File Id="_0C4928EACF1FD2D6B184207CC894039F" Name="flag.reply.gif" KeyPath="yes" ShortName="FLAGRE~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.reply.gif" />
                     </Component>
                     <Component Id="C__0CD2E605C2B02BB2CA2B1C193CBB7237" Guid="{D4AB1965-0ADB-29E0-0D9F-D3C539743004}">
-                        <File Id="_0CD2E605C2B02BB2CA2B1C193CBB7237" Name="shared.png" KeyPath="yes" ShortName="SHARED.PNG" DiskId="1" Source=".\File\_0CD2E605C2B02BB2CA2B1C193CBB7237" />
+                        <File Id="_0CD2E605C2B02BB2CA2B1C193CBB7237" Name="shared.png" KeyPath="yes" ShortName="SHARED.PNG" DiskId="1" Source="..\..\RssBandit\templates\images\shared.png" />
                     </Component>
                     <Component Id="C__0F570B0129E29EDF05F67386A63B4D56" Guid="{A8A4986A-90FF-C61B-2A48-A599BD9EC0AA}">
-                        <File Id="_0F570B0129E29EDF05F67386A63B4D56" Name="bg_film_right.gif" KeyPath="yes" ShortName="BG_FIL~1.GIF" DiskId="1" Source=".\File\_0F570B0129E29EDF05F67386A63B4D56" />
+                        <File Id="_0F570B0129E29EDF05F67386A63B4D56" Name="bg_film_right.gif" KeyPath="yes" ShortName="BG_FIL~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\bg_film_right.gif" />
                     </Component>
                     <Component Id="C__18018F148F3B9496B140BDDE4329F891" Guid="{FA7C26B2-EA5C-6C2B-75B7-173DDE5DE0BE}">
-                        <File Id="_18018F148F3B9496B140BDDE4329F891" Name="flag.clear.gif" KeyPath="yes" ShortName="FLAGCL~1.GIF" DiskId="1" Source=".\File\_18018F148F3B9496B140BDDE4329F891" />
+                        <File Id="_18018F148F3B9496B140BDDE4329F891" Name="flag.clear.gif" KeyPath="yes" ShortName="FLAGCL~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.clear.gif" />
                     </Component>
                     <Component Id="C__24EB2B0211DFADB9CA2F26F3C59FF19A" Guid="{D383C267-BD0D-7363-F049-A5AA8161BB78}">
-                        <File Id="_24EB2B0211DFADB9CA2F26F3C59FF19A" Name="clip.gif" KeyPath="yes" ShortName="CLIP.GIF" DiskId="1" Source=".\File\_24EB2B0211DFADB9CA2F26F3C59FF19A" />
+                        <File Id="_24EB2B0211DFADB9CA2F26F3C59FF19A" Name="clip.gif" KeyPath="yes" ShortName="CLIP.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\clip.gif" />
                     </Component>
                     <Component Id="C__38B9D7CC26C0BE063CC14AB83E5F4C12" Guid="{6BF8C249-DB4F-D294-CAC2-5AE35DE5A744}">
-                        <File Id="_38B9D7CC26C0BE063CC14AB83E5F4C12" Name="been.watched.gif" KeyPath="yes" ShortName="BEENWA~1.GIF" DiskId="1" Source=".\File\_38B9D7CC26C0BE063CC14AB83E5F4C12" />
+                        <File Id="_38B9D7CC26C0BE063CC14AB83E5F4C12" Name="been.watched.gif" KeyPath="yes" ShortName="BEENWA~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\been.watched.gif" />
                     </Component>
                     <Component Id="C__3F37D6E6C5608BE5A487E5A1C24AB416" Guid="{7A0227F2-5B81-D9DB-952A-01515AE208BE}">
-                        <File Id="_3F37D6E6C5608BE5A487E5A1C24AB416" Name="rightarrow.GIF" KeyPath="yes" ShortName="RIGHTA~1.GIF" DiskId="1" Source=".\File\_3F37D6E6C5608BE5A487E5A1C24AB416" />
+                        <File Id="_3F37D6E6C5608BE5A487E5A1C24AB416" Name="rightarrow.GIF" KeyPath="yes" ShortName="RIGHTA~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\rightarrow.GIF" />
                     </Component>
                     <Component Id="C__4026F2A6F3F2EE087C923F6EC2CCD952" Guid="{AFC83A2A-B719-C37A-FD6C-98ABD44FF3DF}">
-                        <File Id="_4026F2A6F3F2EE087C923F6EC2CCD952" Name="not.watched.gif" KeyPath="yes" ShortName="NOTWAT~1.GIF" DiskId="1" Source=".\File\_4026F2A6F3F2EE087C923F6EC2CCD952" />
+                        <File Id="_4026F2A6F3F2EE087C923F6EC2CCD952" Name="not.watched.gif" KeyPath="yes" ShortName="NOTWAT~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\not.watched.gif" />
                     </Component>
                     <Component Id="C__5448B3523434B9B9698080C9137ADD5C" Guid="{9BC9F9DF-4CB3-8CB2-C02E-49C1537DE433}">
-                        <File Id="_5448B3523434B9B9698080C9137ADD5C" Name="flag.orange.gif" KeyPath="yes" ShortName="FLAGOR~1.GIF" DiskId="1" Source=".\File\_5448B3523434B9B9698080C9137ADD5C" />
+                        <File Id="_5448B3523434B9B9698080C9137ADD5C" Name="flag.orange.gif" KeyPath="yes" ShortName="FLAGOR~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.orange.gif" />
                     </Component>
                     <Component Id="C__672672DA3EDD0394C3E48E8F5BA16E02" Guid="{A2BF993A-48C9-7AC5-423E-4957510E5782}">
-                        <File Id="_672672DA3EDD0394C3E48E8F5BA16E02" Name="unflag.GIF" KeyPath="yes" ShortName="UNFLAG.GIF" DiskId="1" Source=".\File\_672672DA3EDD0394C3E48E8F5BA16E02" />
+                        <File Id="_672672DA3EDD0394C3E48E8F5BA16E02" Name="unflag.GIF" KeyPath="yes" ShortName="UNFLAG.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\unflag.GIF" />
                     </Component>
                     <Component Id="C__75C6764B735D45AB5DE9BD70EA585F80" Guid="{5A819D0D-7CF6-3841-8DB4-8045DF69AFA7}">
-                        <File Id="_75C6764B735D45AB5DE9BD70EA585F80" Name="flag.purple.gif" KeyPath="yes" ShortName="FLAGPU~1.GIF" DiskId="1" Source=".\File\_75C6764B735D45AB5DE9BD70EA585F80" />
+                        <File Id="_75C6764B735D45AB5DE9BD70EA585F80" Name="flag.purple.gif" KeyPath="yes" ShortName="FLAGPU~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.purple.gif" />
                     </Component>
                     <Component Id="C__80EB38CE75870E0CE8FCCED131715EEF" Guid="{1AEF0B74-4948-6E9F-42E8-A2C51F9EB852}">
-                        <File Id="_80EB38CE75870E0CE8FCCED131715EEF" Name="bg_film_left.gif" KeyPath="yes" ShortName="BG_FIL~2.GIF" DiskId="1" Source=".\File\_80EB38CE75870E0CE8FCCED131715EEF" />
+                        <File Id="_80EB38CE75870E0CE8FCCED131715EEF" Name="bg_film_left.gif" KeyPath="yes" ShortName="BG_FIL~2.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\bg_film_left.gif" />
                     </Component>
                     <Component Id="C__85DA2624399154865A466F525D4CB336" Guid="{0658E244-F392-C000-64C9-2D5FE22707ED}">
-                        <File Id="_85DA2624399154865A466F525D4CB336" Name="aura-8.jpg" KeyPath="yes" ShortName="AURA-8.JPG" DiskId="1" Source=".\File\_85DA2624399154865A466F525D4CB336" />
+                        <File Id="_85DA2624399154865A466F525D4CB336" Name="aura-8.jpg" KeyPath="yes" ShortName="AURA-8.JPG" DiskId="1" Source="..\..\RssBandit\templates\images\aura-8.jpg" />
                     </Component>
                     <Component Id="C__87F7EEB828AF4520A55CE6AA7E3DC861" Guid="{1240528D-7659-4271-9F38-A7A9E4A35F77}">
-                        <File Id="_87F7EEB828AF4520A55CE6AA7E3DC861" Name="unread.gif" KeyPath="yes" ShortName="UNREAD.GIF" DiskId="1" Source=".\File\_87F7EEB828AF4520A55CE6AA7E3DC861" />
+                        <File Id="_87F7EEB828AF4520A55CE6AA7E3DC861" Name="unread.gif" KeyPath="yes" ShortName="UNREAD.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\unread.gif" />
                     </Component>
                     <Component Id="C__8BB5473A661E92127206CA66B678F2C2" Guid="{B6A1C72E-ACB9-3B64-38B1-432358055146}">
-                        <File Id="_8BB5473A661E92127206CA66B678F2C2" Name="newsbin.gif" KeyPath="yes" ShortName="NEWSBIN.GIF" DiskId="1" Source=".\File\_8BB5473A661E92127206CA66B678F2C2" />
+                        <File Id="_8BB5473A661E92127206CA66B678F2C2" Name="newsbin.gif" KeyPath="yes" ShortName="NEWSBIN.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\newsbin.gif" />
                     </Component>
                     <Component Id="C__9D3AFBEE9BFC14775F529EE32C84C2A0" Guid="{4E7E6C5D-379B-5373-8E1B-D078A5614A50}">
-                        <File Id="_9D3AFBEE9BFC14775F529EE32C84C2A0" Name="flag.green.gif" KeyPath="yes" ShortName="FLAGGR~1.GIF" DiskId="1" Source=".\File\_9D3AFBEE9BFC14775F529EE32C84C2A0" />
+                        <File Id="_9D3AFBEE9BFC14775F529EE32C84C2A0" Name="flag.green.gif" KeyPath="yes" ShortName="FLAGGR~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.green.gif" />
                     </Component>
                     <Component Id="C__AA4C833FA986C8E2AABD6BC2F67DFE88" Guid="{B5B69C07-AE86-41A5-8C7E-69F77C3A37D5}">
-                        <File Id="_AA4C833FA986C8E2AABD6BC2F67DFE88" Name="flag.yellow.gif" KeyPath="yes" ShortName="FLAGYE~1.GIF" DiskId="1" Source=".\File\_AA4C833FA986C8E2AABD6BC2F67DFE88" />
+                        <File Id="_AA4C833FA986C8E2AABD6BC2F67DFE88" Name="flag.yellow.gif" KeyPath="yes" ShortName="FLAGYE~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.yellow.gif" />
                     </Component>
                     <Component Id="C__B9F8B10BDFD682669E95757908AF1AD6" Guid="{0DEDDAB9-827B-2E76-BFCE-17105D0FCA5F}">
-                        <File Id="_B9F8B10BDFD682669E95757908AF1AD6" Name="flag.complete.gif" KeyPath="yes" ShortName="FLAGCO~1.GIF" DiskId="1" Source=".\File\_B9F8B10BDFD682669E95757908AF1AD6" />
+                        <File Id="_B9F8B10BDFD682669E95757908AF1AD6" Name="flag.complete.gif" KeyPath="yes" ShortName="FLAGCO~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.complete.gif" />
                     </Component>
                     <Component Id="C__BFFABCBB179D6D2FCED86004197CA539" Guid="{0BDCFACD-1614-775F-C9A5-E92EC939783D}">
-                        <File Id="_BFFABCBB179D6D2FCED86004197CA539" Name="unshared.gif" KeyPath="yes" ShortName="UNSHARED.GIF" DiskId="1" Source=".\File\_BFFABCBB179D6D2FCED86004197CA539" />
+                        <File Id="_BFFABCBB179D6D2FCED86004197CA539" Name="unshared.gif" KeyPath="yes" ShortName="UNSHARED.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\unshared.gif" />
                     </Component>
                     <Component Id="C__C7CB4781CDED95940C6A058DA0427C32" Guid="{5DC9F363-5218-A95F-180A-6FE6BC83E39B}">
-                        <File Id="_C7CB4781CDED95940C6A058DA0427C32" Name="flag.gif" KeyPath="yes" ShortName="FLAG.GIF" DiskId="1" Source=".\File\_C7CB4781CDED95940C6A058DA0427C32" />
+                        <File Id="_C7CB4781CDED95940C6A058DA0427C32" Name="flag.gif" KeyPath="yes" ShortName="FLAG.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.gif" />
                     </Component>
                     <Component Id="C__C9C4EA09951CE4DFD07A02301A3827D1" Guid="{4E8EAAD8-79CC-69A2-4DB3-273028005C25}">
-                        <File Id="_C9C4EA09951CE4DFD07A02301A3827D1" Name="play.gif" KeyPath="yes" ShortName="PLAY.GIF" DiskId="1" Source=".\File\_C9C4EA09951CE4DFD07A02301A3827D1" />
+                        <File Id="_C9C4EA09951CE4DFD07A02301A3827D1" Name="play.gif" KeyPath="yes" ShortName="PLAY.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\play.gif" />
                     </Component>
                     <Component Id="C__D99D816F8A5495253A2D2A61BDA8B891" Guid="{2E75A405-0CD6-7B78-FA1D-5125B852D24A}">
-                        <File Id="_D99D816F8A5495253A2D2A61BDA8B891" Name="flag.blue.gif" KeyPath="yes" ShortName="FLAGBL~1.GIF" DiskId="1" Source=".\File\_D99D816F8A5495253A2D2A61BDA8B891" />
+                        <File Id="_D99D816F8A5495253A2D2A61BDA8B891" Name="flag.blue.gif" KeyPath="yes" ShortName="FLAGBL~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.blue.gif" />
                     </Component>
                     <Component Id="C__E5825ECC62383412D071D8F3B4CDFDEE" Guid="{A69B6820-0F45-D3FB-35DE-48B8316B5EC9}">
-                        <File Id="_E5825ECC62383412D071D8F3B4CDFDEE" Name="read.gif" KeyPath="yes" ShortName="READ.GIF" DiskId="1" Source=".\File\_E5825ECC62383412D071D8F3B4CDFDEE" />
+                        <File Id="_E5825ECC62383412D071D8F3B4CDFDEE" Name="read.gif" KeyPath="yes" ShortName="READ.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\read.gif" />
                     </Component>
                     <Component Id="C__EBEA3DF7E091958BDB4C7008FCC7FF72" Guid="{2B1FFB93-DC0C-3C22-B9AB-C7D4EB08F2FC}">
-                        <File Id="_EBEA3DF7E091958BDB4C7008FCC7FF72" Name="flag.red.gif" KeyPath="yes" ShortName="FLAGRE~2.GIF" DiskId="1" Source=".\File\_EBEA3DF7E091958BDB4C7008FCC7FF72" />
+                        <File Id="_EBEA3DF7E091958BDB4C7008FCC7FF72" Name="flag.red.gif" KeyPath="yes" ShortName="FLAGRE~2.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\flag.red.gif" />
                     </Component>
+                    <Component Id="C__fb_play_button.png" Guid="{1b407505-382e-4f0d-92a8-ebd0792c069e}">
+                     <File Id="fb_play_button.png" Name="fb_play_button.png" KeyPath="yes" ShortName="FB~2.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\fb_play_button.png" />
+                    </Component>
+                    <Component Id="C__bg_fb_comment.gif" Guid="{052ab19a-0dd5-41de-9db8-966b44aece31}">
+                     <File Id="bg_fb_comment.gif" Name="bg_fb_comment.gif" KeyPath="yes" ShortName="BG~2.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\bg_fb_comment.gif" />
+                    </Component>
+                  <Component Id="C__unreaditem.gif" Guid="{1554318a-ed6a-442b-8414-3fe070150e93}">
+                    <File Id="unreaditem.gif" Name="unreaditem.gif" KeyPath="yes" ShortName="UNREAD~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\unreaditem.gif" />
+                  </Component>
+                  <Component Id="C__linknewbw.gif" Guid="{937ed9ee-68bd-4c34-a592-ad8c8b1073cb}">
+                    <File Id="linknewbw.gif" Name="linknew-bw.gif" KeyPath="yes" ShortName="LINKNE~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\linknew-bw.gif" />
+                  </Component>
+                  <Component Id="C__enclosurebw.png" Guid="{f36e917d-b947-4795-be98-fcde63ae9a92}">
+                    <File Id="enclosurebw.png" Name="enclosure-bw.png" KeyPath="yes" ShortName="ENCLOS~1.PNG" DiskId="1" Source="..\..\RssBandit\templates\images\enclosure-bw.png" />
+                  </Component>
+                  <Component Id="C__commentsbw.gif" Guid="{420d1c6e-af37-4d59-9807-4022989898d3}">
+                    <File Id="commentsbw.gif" Name="comments-bw.gif" KeyPath="yes" ShortName="COMMEN~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\comments-bw.gif" />
+                  </Component>
+                  <Component Id="C__arrowrightbw.gif" Guid="{49ccd0d8-f5e7-4b28-bbea-0aa6923fa43a}">
+                    <File Id="arrowrightbw.gif" Name="arrowright-bw.gif" KeyPath="yes" ShortName="ARROWR~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\arrowright-bw.gif" />
+                  </Component>
+                  <Component Id="C__arrowdownbw.gif" Guid="{00a1076c-9249-4a26-98ba-125963547b83}">
+                    <File Id="arrowdownbw.gif" Name="arrowdown-bw.gif" KeyPath="yes" ShortName="ARROWD~1.GIF" DiskId="1" Source="..\..\RssBandit\templates\images\arrowdown-bw.gif" />
+                  </Component>
                 </Directory>
             </Directory>
             <Directory Id="_FD4BDADD640F4983B7A20B98BBF1FA9E" Name="Media" ShortName="MEDIA">
@@ -1131,6 +1161,16 @@
             <ComponentRef Id="C__BBF50B308B7B8519532ED1CF8698152B" />
             <ComponentRef Id="C__DA517C84342B46EC308628EF30DFF0B6" Primary="yes" />
             <ComponentRef Id="C__CE6744E8320FBA79C63EBDA302462569" Primary="yes" />
+            <ComponentRef Id="C__facebook.fdxsl" Primary="yes"/>
+            <ComponentRef Id="C__Expandoplus.fdxsl" Primary="yes"/>
+            <ComponentRef Id="C__fb_play_button.png" Primary="yes"/>
+            <ComponentRef Id="C__bg_fb_comment.gif" Primary="yes"/>
+            <ComponentRef Id="C__unreaditem.gif" Primary="yes"/>
+            <ComponentRef Id="C__linknewbw.gif" Primary="yes"/>
+            <ComponentRef Id="C__enclosurebw.png" Primary="yes" />
+            <ComponentRef Id="C__commentsbw.gif" Primary="yes" />
+            <ComponentRef Id="C__arrowrightbw.gif" Primary="yes" />
+            <ComponentRef Id="C__arrowdownbw.gif" Primary="yes" />
         </Feature>
         <Icon Id="_6FEFF9B68218417F98F549.exe" SourceFile=".\Icon\_6FEFF9B68218417F98F549.exe" />
         <Icon Id="_9446994FA0403609C0421E.exe" SourceFile=".\Icon\_9446994FA0403609C0421E.exe" />
@@ -1758,8 +1798,8 @@
             </Dialog>
         </UI>
         <Upgrade Id="{108879A4-BD9B-414D-9C91-852BA402EF72}">
-            <UpgradeVersion Maximum="1.8.965" Property="PREVIOUSVERSIONSINSTALLED" />
-            <UpgradeVersion Minimum="1.8.965" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
+            <UpgradeVersion Maximum="1.9.971" Property="PREVIOUSVERSIONSINSTALLED" />
+            <UpgradeVersion Minimum="1.9.971" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
         </Upgrade>
         <InstallExecuteSequence>
             <Custom Action="DIRCA_CheckFX" Sequence="1" />
