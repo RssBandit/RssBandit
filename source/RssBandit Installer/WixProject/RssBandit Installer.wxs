@@ -109,10 +109,14 @@
             </Component>
             <Component Id="C__BF50BAC05F1148A9116DBA4F68314D53" Guid="{47569284-88BB-0E05-4288-354113D1FE88}">
                 <File Id="_BF50BAC05F1148A9116DBA4F68314D53" Name="Infragistics2.Win.UltraWinToolbars.v8.3.dll" KeyPath="yes" ShortName="INFRAG~7.DLL" Assembly=".net" AssemblyManifest="_BF50BAC05F1148A9116DBA4F68314D53" AssemblyApplication="_BF50BAC05F1148A9116DBA4F68314D53" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v8.3.dll" />
-            </Component>
+            </Component> 
+          <!-- <Component Id="C__C0B5AE9336D7B4284F1FB54B3B2E2547" Guid="{32c78715-fe7f-469c-a575-a66893157438}">
+            <File Id="_C0B5AE9336D7B4284F1FB54B3B2E2547" Name="log4net.dll" KeyPath="yes" ShortName="LOG4NET.DLL" Assembly=".net" AssemblyManifest="_C0B5AE9336D7B4284F1FB54B3B2E2547" AssemblyApplication="_C0B5AE9336D7B4284F1FB54B3B2E2547" DiskId="1" Source="..\..\Common\Libraries\log4net.dll" />
+          </Component> -->            
             <Component Id="C__C0B5AE9336D7B4284F1FB54B3B2E2547" Guid="{49FC8CBC-8F88-AC49-4D47-C0438C6C3F5F}">
                 <File Id="_C0B5AE9336D7B4284F1FB54B3B2E2547" Name="log4net.dll" KeyPath="yes" ShortName="LOG4NET.DLL" Assembly=".net" AssemblyManifest="_C0B5AE9336D7B4284F1FB54B3B2E2547" AssemblyApplication="_C0B5AE9336D7B4284F1FB54B3B2E2547" DiskId="1" Source="..\..\Common\Libraries\log4net.dll" />
-            </Component>
+                <RemoveFile Name="log4net.dll" On="install" Id="_C0B5AE9336D7B4284F1FB54B3B2E2547"/>
+            </Component> 
             <Component Id="C__E6466DAC721855542BAA3903DEAC3784" Guid="{2585A12E-1DCD-98AB-8B66-1AEC91D5AAAE}">
                 <File Id="_E6466DAC721855542BAA3903DEAC3784" Name="Infragistics2.Win.UltraWinExplorerBar.v8.3.dll" KeyPath="yes" ShortName="INFRAG~8.DLL" Assembly=".net" AssemblyManifest="_E6466DAC721855542BAA3903DEAC3784" AssemblyApplication="_E6466DAC721855542BAA3903DEAC3784" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v8.3.dll" />
             </Component>
