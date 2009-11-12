@@ -225,7 +225,7 @@
     <value>Search</value>
   </data>
   <data name="ultraTree1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 217</value>
+    <value>135, 192</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ultraTree1.TabIndex" type="System.Int32, mscorlib">
@@ -247,7 +247,7 @@
     <value>0, 25</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 217</value>
+    <value>135, 192</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -319,7 +319,7 @@
     <value>135, 0</value>
   </data>
   <data name="splitter2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>3, 320</value>
+    <value>3, 295</value>
   </data>
   <data name="splitter2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -367,7 +367,7 @@
     <value>0, 143</value>
   </data>
   <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>526, 177</value>
+    <value>526, 152</value>
   </data>
   <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -451,7 +451,7 @@
     <value>135, 0</value>
   </data>
   <data name="panel_list_detail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>526, 320</value>
+    <value>526, 295</value>
   </data>
   <data name="panel_list_detail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -575,7 +575,7 @@
     <value>0, 0</value>
   </data>
   <data name="ultraExplorerBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 320</value>
+    <value>135, 295</value>
   </data>
   <data name="ultraExplorerBar.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -596,10 +596,10 @@
     <value>Fill</value>
   </data>
   <data name="Form1_Fill_Panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 191</value>
+    <value>4, 216</value>
   </data>
   <data name="Form1_Fill_Panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>661, 320</value>
+    <value>661, 295</value>
   </data>
   <data name="Form1_Fill_Panel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -650,10 +650,10 @@
     <value>5</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Left.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 191</value>
+    <value>0, 216</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Left.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 320</value>
+    <value>4, 295</value>
   </data>
   <metadata name="ultraToolbarsManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
@@ -668,10 +668,10 @@
     <value>798, 534</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Location" type="System.Drawing.Point, System.Drawing">
-    <value>665, 191</value>
+    <value>665, 216</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 320</value>
+    <value>133, 295</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Right.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Right</value>
@@ -689,7 +689,7 @@
     <value>0, 0</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Top.Size" type="System.Drawing.Size, System.Drawing">
-    <value>798, 191</value>
+    <value>798, 216</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Top.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Top</value>
@@ -2307,17 +2307,17 @@
   <data name="&gt;&gt;imageList1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
-    <value>ultraToolbarsManager</value>
-  </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
   <data name="&gt;&gt;ultraToolTipManager1.Name" xml:space="preserve">
     <value>ultraToolTipManager1</value>
   </data>
   <data name="&gt;&gt;ultraToolTipManager1.Type" xml:space="preserve">
     <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
+    <value>ultraToolbarsManager</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
@@ -2328,8 +2328,8 @@
   <data name="ultraToolbarsManager.Ribbon.ApplicationMenuButtonImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAASRgAA
-        EkYBeqTtrwAACWdJREFUWEe9lwlUlWUax5+Xe1kumywaCAkukyWmMrnkgoyoQaZZTQ6Zxy3H3UQ0x63E
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAASRQAA
+        EkUB1x3MwgAACWdJREFUWEe9lwlUlWUax5+Xe1kumywaCAkukyWmMrnkgoyoQaZZTQ6Zxy3H3UQ0x63E
         XShxIVNzn9wNUzLcwoVQEcSNo+ECiEqaS6IhO/f+n3ne67WxSSdnnDPvOb/zvc/3nfv9n+19v/cSPf1Q
         8grN/2XYiYpRcFKK3Ax25CF4ydxT7tUQXARHwfC/dsogIk5enlTzlTbUetoAGrN5Ki3bO5+27ltA27dN
         ow3xAymuRwi961uTguwU1RYH3AUHQTv9Xw8lwo4Bdcg3djhFFyQ7nEReOwvfiWIuXcBcvoa5bB3zvWXM
@@ -2765,8 +2765,8 @@
   <data name="appearance15.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAASRgAA
-        EkYBeqTtrwAAA0FJREFUOE9FkmlPG1cUhl+q/C//iWK1iqp+aj9UatI1bRrCdWxIwYAxGGwmMF5SCEpC
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAASRQAA
+        EkUB1x3MwgAAA0FJREFUOE9FkmlPG1cUhl+q/C//iWK1iqp+aj9UatI1bRrCdWxIwYAxGGwmMF5SCEpC
         7ERqm5pgm2AoLbjBu4fFOyYhkJphMWYxp2eMol7pmatZnvecOTMt24syQA3mAmj5AHxgeGnnvOJbLSip
         V1A7v4KTRgvo8u7/qxp3Yy/hwV7Shb24C9WYhpORUY2OQZmVEPRJ8E3KcMpOjNxzwi65MDTixqDDA1QT
         LLKsppy8yxw2xoxCTUpQ43ZUlgaRDg4g4rch+NQGx4gkwrN+8Xh8GB6XBKhpJ/YVJw4Umfcx7GdGGQmH
@@ -3438,15 +3438,6 @@
   <data name="buttonTool78.SharedProps.CustomizerCaption" xml:space="preserve">
     <value>New Google Reader Feed Source command</value>
   </data>
-  <data name="buttonTool79.SharedProps.Caption" xml:space="preserve">
-    <value>Add NewsGator Online subscriptions</value>
-  </data>
-  <data name="buttonTool79.SharedProps.Category" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="buttonTool79.SharedProps.CustomizerCaption" xml:space="preserve">
-    <value>New Newsgator Online Feed Source command</value>
-  </data>
   <data name="buttonTool80.SharedProps.Caption" xml:space="preserve">
     <value>Add Windows Common Feed List</value>
   </data>
@@ -3560,6 +3551,24 @@
   </data>
   <data name="buttonTool136.SharedProps.Caption" xml:space="preserve">
     <value>Forward</value>
+  </data>
+  <data name="buttonTool139.SharedProps.Caption" xml:space="preserve">
+    <value>Print Preview...</value>
+  </data>
+  <data name="buttonTool139.SharedProps.Category" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="buttonTool139.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Print Preview</value>
+  </data>
+  <data name="buttonTool140.SharedProps.Caption" xml:space="preserve">
+    <value>Print...</value>
+  </data>
+  <data name="buttonTool140.SharedProps.Category" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="buttonTool140.SharedProps.CustomizerCaption" xml:space="preserve">
+    <value>Print</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Left</value>
