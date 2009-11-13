@@ -137,7 +137,8 @@ namespace NewsComponents.Net
 						ThreadPool.RegisterWaitForSingleObject (result.AsyncWaitHandle, myAsyncWebRequest.TimeoutCallback, state, state.Request.Timeout, true);
 					}
 					catch (Exception responseException) {
-						state.OnRequestException(responseException);
+                        _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
+                        state.OnRequestException(responseException);
 						myAsyncWebRequest.FinalizeWebRequest(state);
 
 					}
