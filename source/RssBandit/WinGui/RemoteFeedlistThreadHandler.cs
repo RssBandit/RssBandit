@@ -281,7 +281,8 @@ namespace RssBandit.WinGui
                             catch (Exception ex)
                             {
                                 //ToDO: Add support for switching between active and passive mode
-                                _log.Error("FTP Upload Error", ex);
+                                p_operationException = ex; 
+                                _log.Error("FTP Upload Error", ex);                             
                             }
 
                             //close zip stream 
@@ -356,6 +357,7 @@ namespace RssBandit.WinGui
             {
                 p_operationException = ex;
                 _log.Error("RunUpload(" + syncFormat + ") Exception", ex);
+                
             }
             finally
             {
@@ -462,6 +464,7 @@ namespace RssBandit.WinGui
                         catch (Exception ex)
                         {
                             //ToDO: Add support for switching between active and passive mode
+                            this.p_operationException = ex; 
                             _log.Error("FTP Upload Error", ex);
                         }
 
