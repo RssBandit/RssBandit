@@ -1114,7 +1114,7 @@ namespace RssBandit
             }
 
 			string errorMessage;
-			if (TryUploadFeedlistAndState(false, out errorMessage))
+			if (!TryUploadFeedlistAndState(false, out errorMessage))
 			{
 				MessageError(errorMessage);
 			}
