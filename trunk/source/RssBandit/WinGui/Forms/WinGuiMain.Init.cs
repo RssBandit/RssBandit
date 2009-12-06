@@ -19,7 +19,8 @@ using RssBandit.WinGui.Forms.ControlHelpers;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
-
+using Microsoft.WindowsAPICodePack;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -36,6 +37,7 @@ namespace RssBandit.WinGui.Forms
             Move += OnFormMove;
             Activated += OnFormActivated;
             Deactivate += OnFormDeactivate;
+            Shown += OnFormShown;
 
             owner.PreferencesChanged += OnPreferencesChanged;
 			owner.FeedSourceFeedDeleted += OnFeedDeleted;
@@ -65,10 +67,35 @@ namespace RssBandit.WinGui.Forms
             InitDocumentManager();
             InitContextMenus();
             InitTrayIcon();
-            InitWidgets();
+            InitWidgets();                    
         }
 
-		
+
+        #region Windows 7 related initialization procedures 
+
+        protected void InitWin7Components()
+        {
+            jumpList   = JumpList.CreateJumpList();
+            pictureBox = new PictureBox(); 
+            jlcRecent  = new JumpListCustomCategory(SR.JumpListRecentCategory);
+            jlcTasks   = new JumpListCustomCategory(SR.JumpListTasksCategory);
+
+            //
+            //thumbnail toolbar button setup
+            //
+            buttonAdd = new ThumbnailToolbarButton(Properties.Resources.RssDiscovered1, SR.ThumbnailButtonAdd);
+            buttonAdd.Enabled = true;
+            buttonAdd.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonAddClicked);
+
+            buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.feedRefresh, SR.ThumbnailButtonRefresh);
+            buttonRefresh.Enabled = true;
+            buttonRefresh.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonRefreshClick);
+
+            TaskbarManager.Instance.ThumbnailToolbars.AddButtons(this.Handle, buttonAdd, buttonRefresh);            
+        }
+
+        #endregion 
+
         // set/reset major UI colors
         protected void InitColors()
         {

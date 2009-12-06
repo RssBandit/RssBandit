@@ -2505,4 +2505,16 @@ Error: {1}</value>
   <data name="GroupByTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="JumpListRecentCategory" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="JumpListTasksCategory" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="ThumbnailButtonAdd" xml:space="preserve">
+    <value>Add New Subscription</value>
+  </data>
+  <data name="ThumbnailButtonRefresh" xml:space="preserve">
+    <value>Update All Feeds</value>
+  </data>
 </root>
