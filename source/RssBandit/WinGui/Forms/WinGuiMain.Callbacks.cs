@@ -32,6 +32,8 @@ using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using TD.SandDock;
 using TD.SandDock.Rendering;
+using Microsoft.WindowsAPICodePack;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -1156,6 +1158,15 @@ namespace RssBandit.WinGui.Forms
                 OnFormLoad(this, new EventArgs());
             // init idle task event handler:
             Application.Idle += OnApplicationIdle;
+        }
+
+        private  void OnFormShown(object sender, System.EventArgs e){
+            
+            //support for Windows 7 taskbar features
+            if (TaskbarManager.IsPlatformSupported)
+            {
+                InitWin7Components();
+            }           
         }
 
         private void OnFormLoad(object sender, EventArgs eva)
