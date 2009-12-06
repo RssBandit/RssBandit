@@ -204,11 +204,11 @@
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack>
+    <Reference Include="Microsoft.WindowsAPICodePack">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
