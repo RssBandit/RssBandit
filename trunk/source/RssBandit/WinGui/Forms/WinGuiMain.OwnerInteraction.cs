@@ -1404,6 +1404,15 @@ namespace RssBandit.WinGui.Forms
                 if (TaskbarManager.IsPlatformSupported)
                 {
                     TaskbarManager.Instance.SetProgressState(ConvertAppTrayStateToTaskBarState(state));
+
+                    if (state == ApplicationTrayState.NewUnreadFeeds || state == ApplicationTrayState.NewUnreadFeedsReceived)
+                    {
+                        TaskbarManager.Instance.SetOverlayIcon(this.Handle, Properties.Resources.envelope_icon, String.Empty);
+                    }
+                    else if(state == ApplicationTrayState.BusyRefreshFeeds)
+                    {
+                        TaskbarManager.Instance.SetOverlayIcon(this.Handle, null, null); 
+                    }
                 }
 
                 StatusBarPanel p = statusBarRssParser; //_status.Panels[3];

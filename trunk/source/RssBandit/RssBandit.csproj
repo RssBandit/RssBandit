@@ -473,6 +473,7 @@
     <None Include="Resources\New_Certificate_16.png" />
     <None Include="Resources\View_Certificate_16.png" />
     <Resource Include="Resources\error.png" />
+    <None Include="Resources\envelope_icon.ICO" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
