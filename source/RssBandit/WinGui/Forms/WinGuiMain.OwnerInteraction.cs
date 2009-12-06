@@ -28,6 +28,8 @@ using RssBandit.WinGui.Tools;
 using RssBandit.WinGui.Utility;
 using TD.SandDock;
 
+using Microsoft.WindowsAPICodePack.Taskbar;
+
 namespace RssBandit.WinGui.Forms
 {
     internal partial class WinGuiMain
@@ -1384,10 +1386,26 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
+        /// <summary>
+        /// Converts an application tray state to a particular Windows 7 taskbar progress bar state
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        private static TaskbarProgressBarState ConvertAppTrayStateToTaskBarState(ApplicationTrayState state)
+        {
+            return state == ApplicationTrayState.BusyRefreshFeeds ? TaskbarProgressBarState.Indeterminate : TaskbarProgressBarState.NoProgress;
+        }
+
         public void SetGuiStateFeedback(string text, ApplicationTrayState state)
         {
             try
             {
+                //set appropriate taskbar and overlay icon behavior in Windows 7
+                if (TaskbarManager.IsPlatformSupported)
+                {
+                    TaskbarManager.Instance.SetProgressState(ConvertAppTrayStateToTaskBarState(state));
+                }
+
                 StatusBarPanel p = statusBarRssParser; //_status.Panels[3];
                 if (state == ApplicationTrayState.NormalIdle)
                 {
@@ -1395,7 +1413,7 @@ namespace RssBandit.WinGui.Forms
                     if (!string.IsNullOrEmpty(text))
                     {
                         SetGuiStateFeedback(text);
-                    }
+                    }                   
                 }
                 else
                 {

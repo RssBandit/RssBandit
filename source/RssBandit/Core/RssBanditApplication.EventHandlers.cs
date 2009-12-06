@@ -368,7 +368,7 @@ namespace RssBandit
                                                     result = fcd.ShowDialog();
                                                 }                                             
                                             }
-                                            catch (WebException we)
+                                            catch (WebException)
                                             {
                                                 MessageBox.Show(SR.ExceptionFacebookAuthToken, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }
