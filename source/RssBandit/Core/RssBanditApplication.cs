@@ -3542,11 +3542,18 @@ namespace RssBandit
             }
         }
 
+
+
         public void SynchronizeFeeds()
         {
-			using (var wiz = new SynchronizeFeedsWizard())
-			{
+            this.SynchronizeFeeds(FeedSourceType.Unknown); 
+        }
 
+        public void SynchronizeFeeds(FeedSourceType sourceType)
+        {
+        
+			using (var wiz = new SynchronizeFeedsWizard(sourceType))
+			{             
 				try
 				{
 					if (MainForm.IsHandleCreated)
@@ -5579,6 +5586,14 @@ namespace RssBandit
             {
                 CmdShowMainGui(null);
 
+                if (commandLineOptions.AddFacebook || commandLineOptions.AddGoogleReader)
+                {
+                    FeedSourceType newFeedSource = (commandLineOptions.AddFacebook ? FeedSourceType.Facebook : FeedSourceType.Google);
+
+                    if (IsFormAvailable(guiMain))
+                        guiMain.AddFeedSourceSynchronized(newFeedSource);
+                }                           
+
                 // fix of issue https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1404778&group_id=96589
                 // we use now a copy of the .SubscribeTo collection to allow users clicking twice or more to
                 // a "feed:uri" link while a subscription wizard window is still yet open:
@@ -5825,6 +5840,7 @@ namespace RssBandit
 				// allow users to specify commandline options via app.config:
 				StartInTaskbarNotificationAreaOnly = ReadAppSettingsEntry("ui.display.taskbar", false);
 				LocalCulture = ReadAppSettingsEntry("ui.display.culture", String.Empty);
+                AddFacebook = AddGoogleReader = false; 
 			}
 
             /// <summary>
@@ -5844,6 +5860,15 @@ namespace RssBandit
                 get { return subscribeTo; }
                 set { subscribeTo = value; }
             }
+
+            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "facebook", ShortName = "f",
+              Description = "CmdLineFacebookDesc", DescriptionIsResourceId = true)]
+            public bool AddFacebook { get; set; }
+
+            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "googlereader", ShortName = "g",
+              Description = "CmdLineGoogleReaderDesc", DescriptionIsResourceId = true)]
+            public bool AddGoogleReader { get; set; }
+
 
             [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h",
                 Description = "CmdLineHelpDesc", DescriptionIsResourceId = true)]

@@ -2511,6 +2511,24 @@ Error: {1}</value>
   <data name="JumpListTasksCategory" xml:space="preserve">
     <value>Tasks</value>
   </data>
+  <data name="CmdLineFacebookDesc" xml:space="preserve">
+    <value>Add Facebook as a feed source</value>
+  </data>
+  <data name="CmdLineGoogleReaderDesc" xml:space="preserve">
+    <value>Add Google Reader as a feed source</value>
+  </data>
+  <data name="JumpListAddFacebookCaption" xml:space="preserve">
+    <value>Add Facebook News Feed</value>
+  </data>
+  <data name="JumpListAddGoogleCaption" xml:space="preserve">
+    <value>Add Google Reader Feeds</value>
+  </data>
+  <data name="JumpListAddSubscriptionCaption" xml:space="preserve">
+    <value>Add New Subscription</value>
+  </data>
+  <data name="JumpListGoToWebsiteCaption" xml:space="preserve">
+    <value>Go to rssbandit.org</value>
+  </data>
   <data name="ThumbnailButtonAdd" xml:space="preserve">
     <value>Add New Subscription</value>
   </data>

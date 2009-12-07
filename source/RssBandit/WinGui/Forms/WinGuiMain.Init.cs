@@ -21,6 +21,7 @@ using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -77,8 +78,33 @@ namespace RssBandit.WinGui.Forms
         {
             jumpList   = JumpList.CreateJumpList();
             pictureBox = new PictureBox(); 
-            jlcRecent  = new JumpListCustomCategory(SR.JumpListRecentCategory);
-            jlcTasks   = new JumpListCustomCategory(SR.JumpListTasksCategory);
+          
+            
+ 
+            
+            //add tasks         
+            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddSubscriptionCaption)
+            {
+                IconReference = new IconReference(Path.Combine(Application.StartupPath, "Resources\\rss.ico"), 0),
+                Arguments     =  "http://www.example.com/feed.rss" 
+            });
+            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddFacebookCaption)
+            {
+                IconReference = new IconReference(Path.Combine(Application.StartupPath, "Resources\\facebook.ico"), 0),
+                Arguments = "-f"
+            });
+            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
+            {
+                IconReference = new IconReference(Path.Combine(Application.StartupPath, "Resources\\google.ico"), 0),
+                Arguments = "-g"
+            });
+            jumpList.AddUserTasks(new JumpListSeparator());
+            jumpList.AddUserTasks(new JumpListLink(Resource.OutgoingLinks.ProjectNewsUrl, SR.JumpListGoToWebsiteCaption)
+            {
+                IconReference = new IconReference(Application.ExecutablePath, 0)
+            }); 
+            jumpList.Refresh();
+            
 
             //
             //thumbnail toolbar button setup
