@@ -364,6 +364,24 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Facebook as a feed source.
+        /// </summary>
+        internal static string CmdLineFacebookDesc {
+            get {
+                return ResourceManager.GetString("CmdLineFacebookDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Google Reader as a feed source.
+        /// </summary>
+        internal static string CmdLineGoogleReaderDesc {
+            get {
+                return ResourceManager.GetString("CmdLineGoogleReaderDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prints this message.
         /// </summary>
         internal static string CmdLineHelpDesc {
@@ -2016,6 +2034,42 @@ namespace RssBandit.Resources {
         internal static string InvalidFeedURIBoxText {
             get {
                 return ResourceManager.GetString("InvalidFeedURIBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Facebook News Feed.
+        /// </summary>
+        internal static string JumpListAddFacebookCaption {
+            get {
+                return ResourceManager.GetString("JumpListAddFacebookCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Google Reader Feeds.
+        /// </summary>
+        internal static string JumpListAddGoogleCaption {
+            get {
+                return ResourceManager.GetString("JumpListAddGoogleCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New Subscription.
+        /// </summary>
+        internal static string JumpListAddSubscriptionCaption {
+            get {
+                return ResourceManager.GetString("JumpListAddSubscriptionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to rssbandit.org.
+        /// </summary>
+        internal static string JumpListGoToWebsiteCaption {
+            get {
+                return ResourceManager.GetString("JumpListGoToWebsiteCaption", resourceCulture);
             }
         }
         

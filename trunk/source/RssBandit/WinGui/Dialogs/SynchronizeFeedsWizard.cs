@@ -85,6 +85,26 @@ namespace RssBandit.WinGui.Forms
                 }
 
             }
+
+            private set
+            {
+                if (value == FeedSourceType.WindowsRSS)
+                {
+                    radioCommonFeedlist.Checked = true;
+                }
+                else if (value == FeedSourceType.Google)
+                {
+                    radioGoogleReader.Checked = true;
+                }
+                else if (value == FeedSourceType.NewsGator)
+                {
+                    radioNewsGator.Checked  = true;
+                }
+                else if (value == FeedSourceType.Facebook)
+                {
+                    radioFacebook.Checked = true;
+                }                
+            }
         }
 
         public string UserName
@@ -108,7 +128,7 @@ namespace RssBandit.WinGui.Forms
 
         #region ctor's
        
-        public SynchronizeFeedsWizard()
+        public SynchronizeFeedsWizard(FeedSourceType selectedFeedSource)
         {
 			//
 			// Required for Windows Form Designer support
@@ -128,6 +148,11 @@ namespace RssBandit.WinGui.Forms
             }
             
             this.wizard.SelectedPage = this.pageStartImport;
+
+            if (selectedFeedSource != FeedSourceType.DirectAccess && selectedFeedSource != FeedSourceType.Unknown)
+            {
+                this.SelectedFeedSource = selectedFeedSource; 
+            }
         }
 
         #endregion

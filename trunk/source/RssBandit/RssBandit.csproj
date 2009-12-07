@@ -474,6 +474,15 @@
     <None Include="Resources\View_Certificate_16.png" />
     <Resource Include="Resources\error.png" />
     <None Include="Resources\envelope_icon.ICO" />
+    <Content Include="Resources\facebook.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\google.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\rss.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

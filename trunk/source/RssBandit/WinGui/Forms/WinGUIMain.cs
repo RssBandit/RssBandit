@@ -274,11 +274,7 @@ namespace RssBandit.WinGui.Forms
         private PictureBox pictureBox;
         private ThumbnailToolbarButton buttonAdd;
         private ThumbnailToolbarButton buttonRefresh;
-        private JumpList jumpList;
-        private JumpListCustomCategory jlcRecent = new JumpListCustomCategory("Recent");
-        private JumpListCustomCategory jlcTasks = new JumpListCustomCategory("Tasks");
-      
-
+        private JumpList jumpList;       
 
         private IContainer components;
 
