@@ -58,13 +58,35 @@ namespace Jumplist
 
             //setup jumplist
             jumpList = JumpList.CreateJumpList();
-            category1.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "notepad.exe"), "SteveSi's Office Hours")); 
-            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint2.exe"), "Add Google Reader Feeds"));
-            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint3.exe"), "Add Facebook News Feed"));
-            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint4.exe"), "Refresh Feeds"));
-            jumpList.AddCustomCategories(category1, category2);           
+            category1.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "notepad.exe"), "SteveSi's Office Hours"));
+            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint2.exe"), "Add Google Reader Feeds")
+                {IconReference = new IconReference(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\google.bmp"), 0) 
+                });
+            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint3.exe"), "Add Facebook News Feed")
+            {
+                IconReference = new IconReference(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\facebook.ico"), 0)
+            });
+            category2.AddJumpListItems(new JumpListLink(Path.Combine(systemFolder, "mspaint4.exe"), "Refresh Feeds")
+            {
+                
+                IconReference = new IconReference(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\feedRefresh.ico"), 0)
+            });
+            jumpList.AddCustomCategories(category1, category2); 
+            jumpList.AddUserTasks(new JumpListSeparator());
+
+            JumpListCustomCategory empty = new JumpListCustomCategory(String.Empty); 
+            empty.AddJumpListItems(new JumpListLink("http://www.rssbandit.org", "Go to rssbandit.org")
+            {
+                IconReference = new IconReference(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Resources\\app.ico"), 0)
+            });
+
+            jumpList.AddCustomCategories(empty); 
+           
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
-            jumpList.Refresh(); 
+            jumpList.Refresh();
+
+            windowsTaskbar.SetOverlayIcon(this.Handle, Properties.Resources.envelope, "New Items");
+            // windowsTaskbar.SetOverlayIcon(this.Handle, null, null); <-- to clear
         }
 
         void buttonAdd_Click(object sender, EventArgs e)
