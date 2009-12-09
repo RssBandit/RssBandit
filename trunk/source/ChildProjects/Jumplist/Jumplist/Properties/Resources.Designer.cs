@@ -60,6 +60,20 @@ namespace Jumplist.Properties {
             }
         }
         
+        internal static System.Drawing.Icon App {
+            get {
+                object obj = ResourceManager.GetObject("App", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon envelope {
+            get {
+                object obj = ResourceManager.GetObject("envelope", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Icon feed {
             get {
                 object obj = ResourceManager.GetObject("feed", resourceCulture);
