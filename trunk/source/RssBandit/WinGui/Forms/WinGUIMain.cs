@@ -274,7 +274,9 @@ namespace RssBandit.WinGui.Forms
         private PictureBox pictureBox;
         private ThumbnailToolbarButton buttonAdd;
         private ThumbnailToolbarButton buttonRefresh;
-        private JumpList jumpList;       
+        private JumpList jumpList;
+        private JumpListCustomCategory jlcRecent; 
+
 
         private IContainer components;
 
@@ -2053,6 +2055,16 @@ namespace RssBandit.WinGui.Forms
 #else
 			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
 #endif
+
+            if (TaskbarManager.IsPlatformSupported)
+            {
+                AddHistoryEntryToJumpList(entry); 
+            }
+        }
+
+        private void AddHistoryEntryToJumpList(HistoryEntry entry)
+        {
+            string iconPath = (entry.Node != null ? RssBanditApplication.GetFeedIconPath() : RssBanditApplication.GetWebPageIconPath()); 
         }
 
         private void AutoSubscribeFeed(TreeFeedsNodeBase parent, string feedUrl)
