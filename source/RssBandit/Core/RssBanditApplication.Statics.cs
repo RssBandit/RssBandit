@@ -637,6 +637,7 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), "shortcutsettings.xml");
         }
 
+
         /// <summary>
         /// Gets the name of the settings file.
         /// </summary>
@@ -749,7 +750,46 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), ".preferences.xml");
         }
 
+        /// <summary>
+        /// Gets the path to the Google Reader icon used in the Windows 7 jump list
+        /// </summary>
+        /// <returns></returns>
+        public static string GetGoogleIconPath()
+        {
+            return Path.Combine(Application.StartupPath, "Resources\\google.ico");
+        }
 
+        /// <summary>
+        /// Gets the path to the Facebook icon used in the Windows 7 jump list
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFacebookIconPath()
+        {
+            return Path.Combine(Application.StartupPath, "Resources\\facebook.ico");
+        }
+
+        /// <summary>
+        /// Gets the path to the RSS icon used in the Windows 7 jump list
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFeedIconPath()
+        {
+            return Path.Combine(Application.StartupPath, "Resources\\rss.ico");
+        }
+
+
+
+        /// <summary>
+        /// Gets the path to the web page icon used in the Windows 7 jump list
+        /// </summary>
+        /// <returns></returns>
+        public static string GetWebPageIconPath()
+        {
+            return Path.Combine(Application.StartupPath, "Resources\\webpage.ico");
+        }
+
+
+        
         /// <summary>
         /// Handles errors that occur during schema validation of RSS feed list
         /// </summary>
