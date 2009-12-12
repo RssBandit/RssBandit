@@ -2536,6 +2536,6 @@ Error: {1}</value>
     <value>Update All Feeds</value>
   </data>
   <data name="CmdLineNavigateToDesc" xml:space="preserve">
-    <value>Open the specified URL in a tab or navigate to the specified feed item depending on if 1 or 2 parameters specified</value>
+    <value>Open the specified URL in a tab or navigate to the specified feed item</value>
   </data>
 </root>

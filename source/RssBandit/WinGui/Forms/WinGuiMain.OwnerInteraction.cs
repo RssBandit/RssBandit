@@ -3542,6 +3542,23 @@ namespace RssBandit.WinGui.Forms
 
 
         /// <summary>
+        /// Navigates to the specified URL or local feed item on the GUI thread, if required
+        /// </summary>
+        /// <param name="url">The webpage or feed item to navigate to</param>
+        /// <remarks>If the URL begins with 'http://' then it is a web page, if it begins with 'feed://' then 
+        /// it is a reference to a local feed item</remarks>
+        public void NavigateToUrlSynchronized(string url){
+
+            if (url.ToLower().StartsWith("http://"))
+            {
+                InvokeOnGui(delegate
+                {
+                    this.DetailTabNavigateToUrl(url, String.Empty, false, true);
+                });   
+            }
+        }
+
+        /// <summary>
         /// Calls/opens new feed source wizard on GUI thread, if required
         /// </summary>
         /// <param name="sourceType">the feed source to add</param>

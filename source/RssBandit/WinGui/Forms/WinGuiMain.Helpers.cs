@@ -138,9 +138,7 @@ namespace RssBandit.WinGui.Forms
         protected void AddUrlToHistoryDropdown(string newUrl)
         {
             if (!newUrl.Equals("about:blank"))
-            {
-                bool urlAlreadySeen = UrlComboBox.Items.Contains(newUrl); 
-
+            {              
                 UrlComboBox.Items.Remove(newUrl);
 #if USE_IG_URL_COMBOBOX
                 UrlComboBox.Items.Insert(0, newUrl, newUrl);
@@ -148,7 +146,7 @@ namespace RssBandit.WinGui.Forms
                 UrlComboBox.Items.Insert(0, newUrl);
 #endif
 
-                if (!urlAlreadySeen && TaskbarManager.IsPlatformSupported)
+                if (TaskbarManager.IsPlatformSupported)
                 {
                     AddUrlToJumpList(newUrl); 
                 }
@@ -157,21 +155,41 @@ namespace RssBandit.WinGui.Forms
 
         private void AddUrlToJumpList(string url)
         {          
-            string title = url;            
+            string title = url;
 
-            try
+            //Since we can't remove items from the jump list we should ensure 
+            //not to add an item twice. 
+            if (!jlcRecentContents.Contains(url))
             {
-                title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
+
+                try
+                {
+                    title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
+                }
+                catch (Exception) { /* we ignore any issues trying to get title of the page */ }
+
+                //remove an item from the jump list if we're at the max 
+                while (jlcRecentContents.Count >= jumpList.MaxSlotsInList)
+                {
+                    JumpListLink toRemove = new JumpListLink(Application.ExecutablePath, "Not Used")
+                    {
+                        Arguments = String.Concat("-n:", jlcRecentContents[0]) 
+                    };
+
+                    jlcRecent.RemoveJumpListLink(toRemove);
+                    jlcRecentContents.RemoveAt(0); 
+                }
+
+
+                jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
+                {
+                    IconReference = new IconReference(RssBanditApplication.GetWebPageIconPath(), 0),
+                    Arguments = String.Concat("-n:", url)
+                });
+
+                jlcRecentContents.Add(url); 
+                jumpList.Refresh();                               
             }
-            catch (Exception) { /* we ignore any issues trying to get title of the page */ }
-
-            jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
-            {
-                IconReference = new IconReference(RssBanditApplication.GetWebPageIconPath(), 0),
-                Arguments = String.Concat("-n ", url)
-            });
-            
-            jumpList.Refresh();           
         }
 
 		internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolderType)
