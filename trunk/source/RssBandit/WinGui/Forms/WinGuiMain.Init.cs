@@ -77,7 +77,8 @@ namespace RssBandit.WinGui.Forms
         protected void InitWin7Components()
         {
             jumpList   = JumpList.CreateJumpList();
-            jlcRecent = new JumpListCustomCategory(SR.JumpListRecentCategory); 
+            jlcRecent = new JumpListCustomCategory(SR.JumpListRecentCategory);
+            jumpList.AddCustomCategories(jlcRecent); 
             pictureBox = new PictureBox();                       
             
             //add tasks         

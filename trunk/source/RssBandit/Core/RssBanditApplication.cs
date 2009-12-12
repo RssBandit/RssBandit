@@ -5851,15 +5851,13 @@ namespace RssBandit
                 Description = "CmdLineStartInTaskbarDesc", DescriptionIsResourceId = true)]
             public bool StartInTaskbarNotificationAreaOnly { get; set; }
 
-            private StringCollection subscribeTo = new StringCollection();
+            [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "navigate", ShortName = "n",
+            Description = "CmdLineNavigateToDesc", DescriptionIsResourceId = true)]         
+            private List<string> NavigateTo { get; set; }
 
             [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl",
                 Description = "CmdLineSubscribeToDesc", DescriptionIsResourceId = true)]
-            public StringCollection SubscribeTo
-            {
-                get { return subscribeTo; }
-                set { subscribeTo = value; }
-            }
+            public List<string> SubscribeTo { get; set; }          
 
             [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "facebook", ShortName = "f",
               Description = "CmdLineFacebookDesc", DescriptionIsResourceId = true)]
