@@ -1,4 +1,4 @@
-﻿#undef USE_IG_URL_COMBOBOX
+﻿#undef USE_IG_UL_COMBOBOX
 
 using System;
 using System.Collections;
@@ -26,6 +26,9 @@ using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using SortOrder=System.Windows.Forms.SortOrder;
 using Infragistics.Win.UltraWinEditors;
+using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.WindowsAPICodePack.Shell;
+using System.Net;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -136,13 +139,39 @@ namespace RssBandit.WinGui.Forms
         {
             if (!newUrl.Equals("about:blank"))
             {
+                bool urlAlreadySeen = UrlComboBox.Items.Contains(newUrl); 
+
                 UrlComboBox.Items.Remove(newUrl);
 #if USE_IG_URL_COMBOBOX
                 UrlComboBox.Items.Insert(0, newUrl, newUrl);
 #else
                 UrlComboBox.Items.Insert(0, newUrl);
 #endif
+
+                if (!urlAlreadySeen && TaskbarManager.IsPlatformSupported)
+                {
+                    AddUrlToJumpList(newUrl); 
+                }
             }
+        }
+
+        private void AddUrlToJumpList(string url)
+        {          
+            string title = url;            
+
+            try
+            {
+                title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
+            }
+            catch (Exception) { /* we ignore any issues trying to get title of the page */ }
+
+            jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
+            {
+                IconReference = new IconReference(RssBanditApplication.GetWebPageIconPath(), 0),
+                Arguments = String.Concat("-n ", url)
+            });
+            
+            jumpList.Refresh();           
         }
 
 		internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolderType)

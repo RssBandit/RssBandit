@@ -391,6 +391,15 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open the specified URL in a tab or navigate to the specified feed item depending on if 1 or 2 parameters specified.
+        /// </summary>
+        internal static string CmdLineNavigateToDesc {
+            get {
+                return ResourceManager.GetString("CmdLineNavigateToDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Will reset the user interface to the default.
         /// </summary>
         internal static string CmdLineResetUIDesc {
