@@ -5592,7 +5592,13 @@ namespace RssBandit
 
                     if (IsFormAvailable(guiMain))
                         guiMain.AddFeedSourceSynchronized(newFeedSource);
-                }                           
+                }
+
+                if (!String.IsNullOrEmpty(commandLineOptions.NavigateTo))
+                {
+                    if (IsFormAvailable(guiMain))
+                        guiMain.NavigateToUrlSynchronized(commandLineOptions.NavigateTo);                          
+                }
 
                 // fix of issue https://sourceforge.net/tracker/?func=detail&atid=615248&aid=1404778&group_id=96589
                 // we use now a copy of the .SubscribeTo collection to allow users clicking twice or more to
@@ -5853,7 +5859,7 @@ namespace RssBandit
 
             [CommandLineArgument(CommandLineArgumentTypes.AtMostOnce, Name = "navigate", ShortName = "n",
             Description = "CmdLineNavigateToDesc", DescriptionIsResourceId = true)]         
-            private List<string> NavigateTo { get; set; }
+            public string NavigateTo { get; set; }
 
             [DefaultCommandLineArgument(CommandLineArgumentTypes.Multiple, Name = "feedUrl",
                 Description = "CmdLineSubscribeToDesc", DescriptionIsResourceId = true)]

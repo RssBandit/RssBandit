@@ -391,7 +391,7 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open the specified URL in a tab or navigate to the specified feed item depending on if 1 or 2 parameters specified.
+        ///   Looks up a localized string similar to Open the specified URL in a tab or navigate to the specified feed item.
         /// </summary>
         internal static string CmdLineNavigateToDesc {
             get {
