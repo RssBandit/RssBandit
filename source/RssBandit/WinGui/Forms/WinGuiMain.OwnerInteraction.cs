@@ -3553,8 +3553,33 @@ namespace RssBandit.WinGui.Forms
             {
                 InvokeOnGui(delegate
                 {
+                    //TODO: Add logic to select the specified tab if there is already a tab at that URL
                     this.DetailTabNavigateToUrl(url, String.Empty, false, true);
-                });   
+                });
+            }
+            else if (url.ToLower().StartsWith("feed://"))
+            {
+                url = url.Replace("feed://", "http://");
+                string[] itemLinks = url.Split('*');
+
+                if (itemLinks.Length == 2)
+                {
+                   FeedSourceEntry entry = owner.FeedSources.Sources.FirstOrDefault(fse => fse.Source.GetFeeds().ContainsKey(itemLinks[1]));
+
+                   if (entry != null)
+                   {
+                       INewsFeed feed = entry.Source.GetFeeds()[itemLinks[1]]; 
+                       SubscriptionRootNode root = GetSubscriptionRootNode(entry);
+                       TreeFeedsNodeBase tn = TreeHelper.FindNode(root, feed);
+
+                       var item = new SearchHitNewsItem(feed, String.Empty, itemLinks[0], String.Empty, String.Empty, DateTime.Now, itemLinks[0]);  
+
+                       InvokeOnGui(delegate
+                       {                           
+                           this.NavigateToNode(tn, item);
+                       });
+                   }
+                }
             }
         }
 
