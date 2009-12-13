@@ -153,20 +153,38 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void AddUrlToJumpList(string url)
-        {          
-            string title = url;
 
+        /// <summary>
+        /// Adds the specified URL to the Windows 7 jump list for the running application.
+        /// </summary>
+        /// <param name="url"></param>
+        private void AddUrlToJumpList(string url)
+        {
+            this.AddUrlToJumpList(url, null); 
+        }
+
+        /// <summary>
+        /// Adds the specified URL to the Windows 7 jump list for the running application.
+        /// </summary>
+        /// <param name="url"></param>
+        private void AddUrlToJumpList(string url, string title)
+        {                  
             //Since we can't remove items from the jump list we should ensure 
             //not to add an item twice. 
             if (!jlcRecentContents.Contains(url))
             {
-
                 try
                 {
-                    title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
+                    if (String.IsNullOrEmpty(title) && url.StartsWith("http://"))
+                    {
+                        title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
+                    }
+
                 }
-                catch (Exception) { /* we ignore any issues trying to get title of the page */ }
+                catch (Exception)
+                { /* we fallback to the URL as the title if any error retrieving it from the page */
+                    title = url;
+                }
 
                 //remove an item from the jump list if we're at the max 
                 while (jlcRecentContents.Count >= jumpList.MaxSlotsInList)
@@ -180,10 +198,11 @@ namespace RssBandit.WinGui.Forms
                     jlcRecentContents.RemoveAt(0); 
                 }
 
+                string iconPath = (url.StartsWith("feed://") ? RssBanditApplication.GetFeedIconPath() : RssBanditApplication.GetWebPageIconPath()); 
 
                 jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
                 {
-                    IconReference = new IconReference(RssBanditApplication.GetWebPageIconPath(), 0),
+                    IconReference = new IconReference(iconPath, 0),
                     Arguments = String.Concat("-n:", url)
                 });
 

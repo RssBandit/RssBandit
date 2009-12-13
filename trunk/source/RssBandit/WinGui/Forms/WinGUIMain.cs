@@ -2056,16 +2056,12 @@ namespace RssBandit.WinGui.Forms
 			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
 #endif
 
-            if (TaskbarManager.IsPlatformSupported)
+            if (item!= null && TaskbarManager.IsPlatformSupported)
             {
-                AddHistoryEntryToJumpList(entry); 
+                string urlToFeedAndItem = item.Link.Replace("http://", "feed://") + "*" + item.FeedLink; 
+                AddUrlToJumpList(urlToFeedAndItem, item.Title); 
             }
-        }
-
-        private void AddHistoryEntryToJumpList(HistoryEntry entry)
-        {
-            string iconPath = (entry.Node != null ? RssBanditApplication.GetFeedIconPath() : RssBanditApplication.GetWebPageIconPath()); 
-        }
+        }    
 
         private void AutoSubscribeFeed(TreeFeedsNodeBase parent, string feedUrl)
         {
