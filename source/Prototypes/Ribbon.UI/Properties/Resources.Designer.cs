@@ -235,6 +235,13 @@ namespace RssBandit.UI.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap envelope_open_comment_16 {
+            get {
+                object obj = ResourceManager.GetObject("envelope_open_comment_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap envelope_open_flag_32 {
             get {
                 object obj = ResourceManager.GetObject("envelope_open_flag_32", resourceCulture);
