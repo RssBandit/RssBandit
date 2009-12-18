@@ -164,6 +164,7 @@
     <None Include="Resources\envelope_open_32.png" />
     <None Include="Resources\envelope_open_flag_32.png" />
     <None Include="Resources\envelope_open_reply_32.png" />
+    <None Include="Resources\envelope_open_comment_16.png" />
     <Content Include="Resources\flag.gif" />
     <Content Include="Resources\flag.reply.gif" />
     <None Include="Resources\funnel_16.png" />
