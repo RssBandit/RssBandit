@@ -133,9 +133,6 @@
   <data name="Connected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\connected.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="flag.yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.yellow.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="manage_identities" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\manage_identities.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -148,14 +145,8 @@
   <data name="document_preferences_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\document_preferences_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\filter.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="UnreadFeedItemsXP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\unreadfeeditemsxp.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="flag.green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.green.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Plus_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\2003plus.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,7 +157,7 @@
   <data name="view" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\view.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="envelope.open.reply" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="envelope_open_reply_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envelope.open.reply.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="add_newsserver_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -204,9 +195,6 @@
   </data>
   <data name="flag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\flag.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="flag.purple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.purple.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="feedRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\feedrefresh.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -280,9 +268,6 @@
   <data name="search_folder_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\search_folder_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="flag.complete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.complete.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Html_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\html.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -295,10 +280,7 @@
   <data name="AniImagesXP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\aniimagesxp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="flag.clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.clear.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="delete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="delete_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\delete2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="move_2_folder_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -376,7 +358,52 @@
   <data name="nntp_doc_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\nntp.doc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="flag.blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\flag.blue.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="funnel_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\funnel_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_blue_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_blue_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_clear_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_clear_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_complete_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_complete_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_green_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_green_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_orange_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_orange_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_purple_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_purple_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_red_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_red_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag_yellow_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\flag_yellow_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subscribe_feedsources_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\subscribe_feedsources_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envelope_closed_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\envelope_closed_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envelope_open_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\envelope_open_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envelope_open_flag_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\envelope_open_flag_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envelope_open_reply_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\envelope_open_reply_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feed_doc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\feed.doc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nntp_doc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\nntp.doc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

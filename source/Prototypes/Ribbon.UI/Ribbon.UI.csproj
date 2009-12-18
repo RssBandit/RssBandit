@@ -160,22 +160,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
-    <EmbeddedResource Include="Resources\filter.gif" />
-    <Content Include="Resources\flag.blue.gif" />
-    <Content Include="Resources\flag.clear.gif" />
-    <Content Include="Resources\flag.complete.gif" />
+    <None Include="Resources\envelope_closed_32.png" />
+    <None Include="Resources\envelope_open_32.png" />
+    <None Include="Resources\envelope_open_flag_32.png" />
+    <None Include="Resources\envelope_open_reply_32.png" />
     <Content Include="Resources\flag.gif" />
-    <Content Include="Resources\flag.green.gif" />
-    <Content Include="Resources\flag.orange.gif" />
-    <Content Include="Resources\flag.purple.gif" />
-    <Content Include="Resources\flag.red.gif" />
     <Content Include="Resources\flag.reply.gif" />
-    <Content Include="Resources\flag.yellow.gif" />
+    <None Include="Resources\funnel_16.png" />
+    <Content Include="Resources\flag_blue_16.png" />
+    <Content Include="Resources\flag_clear_16.png" />
+    <Content Include="Resources\flag_complete_16.png" />
+    <Content Include="Resources\flag_green_16.png" />
+    <Content Include="Resources\flag_orange_16.png" />
+    <Content Include="Resources\flag_purple_16.png" />
+    <Content Include="Resources\flag_red_16.png" />
+    <Content Include="Resources\flag_yellow_16.png" />
     <Content Include="Resources\manage_identities.png" />
     <Content Include="Resources\not.watched.gif" />
     <Content Include="Resources\post_item.gif" />
     <Content Include="Resources\read.gif" />
-    <Content Include="Resources\unflag.GIF" />
+    <None Include="Resources\subscribe_feedsources_32.png" />
     <Content Include="Resources\unread.gif" />
     <None Include="Resources\unread_envelope.gif" />
     <None Include="Resources\watch_icon.gif" />
@@ -276,6 +280,12 @@
     </Compile>
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UrlComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\UrlComboBox.Designer.cs">
+      <DependentUpon>UrlComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

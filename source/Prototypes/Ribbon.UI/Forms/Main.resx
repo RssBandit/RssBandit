@@ -125,11 +125,11 @@
   <data name="ultraTree1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="appearance43.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAKwgAA
-        CsIB5m7GTwAAAltJREFUOE+FkltIFFEYxyeisMdegoIQekjooR4Dn0J6CVu6l4R5w1A0Q9CgNcswovUh
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAltJREFUOE+FkltIFFEYxyeisMdegoIQekjooR4Dn0J6CVu6l4R5w1A0Q9CgNcswovUh
         3RVyV13cUlBLvKFhKpgbajcVoiejdkOilkixvOTO7O6v74yXVUQb+DHznZnzO//vzNkGaOoqq+41Hwwj
         ZNb6yl1fqoO6oQW+fc5qrrndIuUfIWy+UAKFzfVCbptf+aVN3CnvJOFkhlWm7RW2bymIRCKEBT0UIWiE
         UYKJyXlTciwxrWhVspLggbNnw/JKYoSjAiVZQQQWYfdqC3ftnZsKFiXBXDDE9FyQr4EZ8kvqIjK5VDgQ
@@ -145,11 +145,11 @@
   <data name="ultraTreeNode2.Text" xml:space="preserve">
     <value>Carnage4Life</value>
   </data>
-  <data name="appearance44.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance26.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAKwgAA
-        CsIB5m7GTwAAAm9JREFUOE+FkmtIU2EYxxeR6Me+CAkiRGgJ2ZdCWFFhQkQzSYTADy2ksZHNhI1oa2Ws
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAm9JREFUOE+FkmtIU2EYxxeR6Me+CAkiRGgJ2ZdCWFFhQkQzSYTADy2ksZHNhI1oa2Ws
         wCnkLpDTJVsXtESWjgZeotKSIV7KKKmJbjJCRqVpXnLnbPv3vMddFNFe+HHOc877/t7/e9kBQMRabVOP
         8MLzYaHm4k9urQ5xvCj4fVL+3Harnco/RET4wQQMQ2M3PbZuVfpnuF3vQoGkXEPD9hA7txVEo1FECC4c
         RYiPgAm8gWVBcvLsJW1CEk9QY+3aND2T8JGkgEnikKCI2J1Ywh2Ta0vBKiVYCoUxtxTCdHAeVdX2KA3W
@@ -165,11 +165,11 @@
   <data name="ultraTreeNode4.Text" xml:space="preserve">
     <value>Bruno</value>
   </data>
-  <data name="appearance45.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance27.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAKwgAA
-        CsIB5m7GTwAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
         YYiSiSLiGVETiSyhgimoGV1AKvRPZOBluh0RJx7ayo2mU3s673uaF5CD1AsP5xzO8zzv+z7fOToAwn8V
         GezE3CW9abo4wTt5Uf996oJOni4S5DmLIPuvGWR/qSEolRnmfSUJprhmSzwu5mKs6xymSo34duMY5Pe9
         CH8Zxs/XHQiKl7HSmIm1zlysKzypwiDvMiBxvLxXkjFjP4tAXz3koTZEZj9hYzWC9UkPYo8LsOE+D6k8
@@ -184,11 +184,11 @@
   <data name="ultraTreeNode3.Text" xml:space="preserve">
     <value>Friends</value>
   </data>
-  <data name="appearance46.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance28.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAKwgAA
-        CsIB5m7GTwAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAg9JREFUOE+lU2tIU2EYPiOHcyiBEEEGJlkidJH8I4a/xD8by8guXn5E/TBiS4YgRCJM
         YYiSiSLiGVETiSyhgimoGV1AKvRPZOBluh0RJx7ayo2mU3s673uaF5CD1AsP5xzO8zzv+z7fOToAwn8V
         GezE3CW9abo4wTt5Uf996oJOni4S5DmLIPuvGWR/qSEolRnmfSUJprhmSzwu5mKs6xymSo34duMY5Pe9
         CH8Zxs/XHQiKl7HSmIm1zlysKzypwiDvMiBxvLxXkjFjP4tAXz3koTZEZj9hYzWC9UkPYo8LsOE+D6k8
@@ -203,11 +203,11 @@
   <data name="ultraTreeNode1.Text" xml:space="preserve">
     <value>My Feeds</value>
   </data>
-  <data name="ultraTreeNode5.LeftImages" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="appearance43.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAKwgAA
-        CsIB5m7GTwAAAoVJREFUOE+Vk2tIU2Ecxqeop3RaTWkTRepDiGRURhfICppI9SH6FHSxlFLKZU6QFEEI
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAoVJREFUOE+Vk2tIU2Ecxqeop3RaTWkTRepDiGRURhfICppI9SH6FHSxlFLKZU6QFEEI
         nc4ib3NiJG5WdLHU8oKhZKSlmZN5T6aCXSiJXZq7qrXz9D/hp86EeuEH57zv/3nO/33e8/oIaJhNRv9n
         jU25LrAX/IWiKIfVYjPOTrXpJyZvvux+NUMlSwS4Wt6YNhj86rXazo7hD5gFMOgCWoxA7biJzS8s/rot
         NjaRRMGEj1eDe5o6ecvQJGwk5hiz/0T7Zxc0Bjeqxl1IT0vrJeFuYq1Xgwp1zajODXxb9mB+yYM+8yKe
@@ -225,7 +225,7 @@
     <value>Search</value>
   </data>
   <data name="ultraTree1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 192</value>
+    <value>135, 152</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ultraTree1.TabIndex" type="System.Int32, mscorlib">
@@ -235,7 +235,7 @@
     <value>ultraTree1</value>
   </data>
   <data name="&gt;&gt;ultraTree1.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraTree1.Parent" xml:space="preserve">
     <value>ultraExplorerBarContainerControl1</value>
@@ -247,7 +247,7 @@
     <value>0, 25</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 192</value>
+    <value>135, 152</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -256,7 +256,7 @@
     <value>ultraExplorerBarContainerControl1</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBarContainerControl1.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBarContainerControl1.Parent" xml:space="preserve">
     <value>ultraExplorerBar</value>
@@ -271,7 +271,7 @@
     <value>0, 0</value>
   </data>
   <data name="ultraTree2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 177</value>
+    <value>135, 177</value>
   </data>
   <data name="ultraTree2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -280,7 +280,7 @@
     <value>ultraTree2</value>
   </data>
   <data name="&gt;&gt;ultraTree2.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinTree.UltraTree, Infragistics2.Win.UltraWinTree.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraTree2.Parent" xml:space="preserve">
     <value>ultraExplorerBarContainerControl2</value>
@@ -292,7 +292,7 @@
     <value>-10000, -10000</value>
   </data>
   <data name="ultraExplorerBarContainerControl2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 177</value>
+    <value>135, 177</value>
   </data>
   <data name="ultraExplorerBarContainerControl2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -304,7 +304,7 @@
     <value>ultraExplorerBarContainerControl2</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBarContainerControl2.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl, Infragistics2.Win.UltraWinExplorerBar.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBarContainerControl2.Parent" xml:space="preserve">
     <value>ultraExplorerBar</value>
@@ -336,28 +336,28 @@
   <data name="&gt;&gt;splitter2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="ultraNavigationBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 26</value>
+  <data name="urlComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 71</value>
   </data>
-  <data name="ultraNavigationBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>305, 24</value>
+  <data name="urlComboBox.NullText" xml:space="preserve">
+    <value>[empty]</value>
   </data>
-  <data name="ultraNavigationBar1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="urlComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>305, 21</value>
   </data>
-  <data name="ultraNavigationBar1.Text" xml:space="preserve">
-    <value>ultraNavigationBar1</value>
+  <data name="urlComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="&gt;&gt;ultraNavigationBar1.Name" xml:space="preserve">
-    <value>ultraNavigationBar1</value>
+  <data name="&gt;&gt;urlComboBox.Name" xml:space="preserve">
+    <value>urlComboBox</value>
   </data>
-  <data name="&gt;&gt;ultraNavigationBar1.Type" xml:space="preserve">
-    <value>Infragistics.Win.Misc.UltraNavigationBar, Infragistics2.Win.Misc.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  <data name="&gt;&gt;urlComboBox.Type" xml:space="preserve">
+    <value>RssBandit.UI.Forms.UrlComboBox, RssBandit, Version=1.0.3639.26413, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;ultraNavigationBar1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;urlComboBox.Parent" xml:space="preserve">
     <value>panel_list_detail</value>
   </data>
-  <data name="&gt;&gt;ultraNavigationBar1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;urlComboBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="richTextBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -436,7 +436,7 @@
     <value>ultraListView1</value>
   </data>
   <data name="&gt;&gt;ultraListView1.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinListView.UltraListView, Infragistics2.Win.UltraWinListView.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinListView.UltraListView, Infragistics2.Win.UltraWinListView.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraListView1.Parent" xml:space="preserve">
     <value>panel_list_detail</value>
@@ -471,40 +471,6 @@
   <data name="ultraExplorerBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
   </data>
-  <data name="appearance5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        SUVORK5CYII=
-</value>
-  </data>
   <data name="appearance6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -524,50 +490,6 @@
   <data name="ultraExplorerBarGroup1.Text" xml:space="preserve">
     <value>Tagged</value>
   </data>
-  <data name="appearance7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-</value>
-  </data>
   <data name="ultraExplorerBarGroup2.Text" xml:space="preserve">
     <value>Categorized</value>
   </data>
@@ -584,7 +506,7 @@
     <value>ultraExplorerBar</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBar.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinExplorerBar.UltraExplorerBar, Infragistics2.Win.UltraWinExplorerBar.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraExplorerBar.Parent" xml:space="preserve">
     <value>Form1_Fill_Panel</value>
@@ -641,7 +563,7 @@
     <value>ultraStatusBar1</value>
   </data>
   <data name="&gt;&gt;ultraStatusBar1.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinStatusBar.UltraStatusBar, Infragistics2.Win.UltraWinStatusBar.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinStatusBar.UltraStatusBar, Infragistics2.Win.UltraWinStatusBar.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;ultraStatusBar1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -677,7 +599,7 @@
     <value>_Form1_Toolbars_Dock_Area_Right</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Right.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Right.Parent" xml:space="preserve">
     <value>$this</value>
@@ -695,7 +617,7 @@
     <value>_Form1_Toolbars_Dock_Area_Top</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Top.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Top.Parent" xml:space="preserve">
     <value>$this</value>
@@ -713,7 +635,7 @@
     <value>_Form1_Toolbars_Dock_Area_Bottom</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Bottom.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Bottom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2307,17 +2229,17 @@
   <data name="&gt;&gt;imageList1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ultraToolTipManager1.Name" xml:space="preserve">
-    <value>ultraToolTipManager1</value>
-  </data>
-  <data name="&gt;&gt;ultraToolTipManager1.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
   <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
     <value>ultraToolbarsManager</value>
   </data>
   <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;ultraToolTipManager1.Name" xml:space="preserve">
+    <value>ultraToolTipManager1</value>
+  </data>
+  <data name="&gt;&gt;ultraToolTipManager1.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
@@ -2541,16 +2463,16 @@
         Di9c9u/qQuEqgRi3CHHGBTHj/Qv9T9wfCI9ZszjW2loAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="resource.Caption" xml:space="preserve">
+  <data name="buttonTool13.SharedPropsInternal.Caption" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="resource.Category" xml:space="preserve">
+  <data name="buttonTool13.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="resource.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool13.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Feed Subscription</value>
   </data>
-  <data name="resource.DescriptionOnMenu" xml:space="preserve">
+  <data name="buttonTool13.SharedPropsInternal.DescriptionOnMenu" xml:space="preserve">
     <value>Feed Subscription</value>
   </data>
   <data name="appearance10.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2621,16 +2543,16 @@
         r7xCYB+QJJxQiwbhN/xv+Br1X+tZR6a1+CCHAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="resource.Caption1" xml:space="preserve">
+  <data name="buttonTool14.SharedPropsInternal.Caption" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="resource.Category1" xml:space="preserve">
+  <data name="buttonTool14.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="resource.CustomizerCaption1" xml:space="preserve">
+  <data name="buttonTool14.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Nntp Subscription</value>
   </data>
-  <data name="resource.DescriptionOnMenu1" xml:space="preserve">
+  <data name="buttonTool14.SharedPropsInternal.DescriptionOnMenu" xml:space="preserve">
     <value>Newsgroup Subscription</value>
   </data>
   <data name="appearance12.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2704,16 +2626,16 @@
         AElFTkSuQmCC
 </value>
   </data>
-  <data name="resource.Caption2" xml:space="preserve">
+  <data name="buttonTool15.SharedPropsInternal.Caption" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="resource.Category2" xml:space="preserve">
+  <data name="buttonTool15.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="resource.CustomizerCaption2" xml:space="preserve">
+  <data name="buttonTool15.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Search Result Subscription</value>
   </data>
-  <data name="resource.DescriptionOnMenu2" xml:space="preserve">
+  <data name="buttonTool15.SharedPropsInternal.DescriptionOnMenu" xml:space="preserve">
     <value>Search Result Subscription</value>
   </data>
   <data name="listToolItem1.Text" xml:space="preserve">
@@ -2725,13 +2647,13 @@
   <data name="listToolItem3.Text" xml:space="preserve">
     <value>Black</value>
   </data>
-  <data name="resource.Caption3" xml:space="preserve">
+  <data name="listTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Color Scheme List</value>
   </data>
-  <data name="resource.Category3" xml:space="preserve">
+  <data name="listTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption3" xml:space="preserve">
+  <data name="listTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Color Scheme List</value>
   </data>
   <data name="appearance14.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2783,13 +2705,13 @@
         6e/Cfwb3nSpa9CknAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="resource.Caption4" xml:space="preserve">
+  <data name="buttonTool16.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Exit Bandit</value>
   </data>
-  <data name="resource.Category4" xml:space="preserve">
+  <data name="buttonTool16.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption4" xml:space="preserve">
+  <data name="buttonTool16.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Application Exit</value>
   </data>
   <data name="appearance16.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2812,22 +2734,22 @@
         Quf8BzSme/SM3uHXb2eS8qo5jDCWAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="resource.Caption5" xml:space="preserve">
+  <data name="buttonTool17.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="resource.Category5" xml:space="preserve">
+  <data name="buttonTool17.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption5" xml:space="preserve">
+  <data name="buttonTool17.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="resource.Caption6" xml:space="preserve">
+  <data name="textBoxTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Search the Web</value>
   </data>
-  <data name="resource.Category6" xml:space="preserve">
+  <data name="textBoxTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption6" xml:space="preserve">
+  <data name="textBoxTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Search the Web</value>
   </data>
   <data name="appearance17.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2848,22 +2770,22 @@
         r22DzwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="resource.Caption7" xml:space="preserve">
+  <data name="popupMenuTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Search the Web</value>
   </data>
-  <data name="resource.Category7" xml:space="preserve">
+  <data name="popupMenuTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption7" xml:space="preserve">
+  <data name="popupMenuTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Search the Web</value>
   </data>
-  <data name="resource.Caption8" xml:space="preserve">
+  <data name="buttonTool19.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Google</value>
   </data>
-  <data name="resource.Category8" xml:space="preserve">
+  <data name="buttonTool19.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption8" xml:space="preserve">
+  <data name="buttonTool19.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Search Using Google</value>
   </data>
   <data name="appearance18.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2876,13 +2798,13 @@
         uYrIjITIbCDNTACnZF687X17MAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="resource.Caption9" xml:space="preserve">
+  <data name="buttonTool20.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Select All</value>
   </data>
-  <data name="resource.Category9" xml:space="preserve">
+  <data name="buttonTool20.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption9" xml:space="preserve">
+  <data name="buttonTool20.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Select All</value>
   </data>
   <data name="appearance19.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2901,13 +2823,13 @@
         E5XJOIAKdaD+BNlcAMRmQAxKREQBkC2cUOeCQhpkMzc22wFYZNfEbl5r7gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="resource.Caption10" xml:space="preserve">
+  <data name="buttonTool21.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Cut</value>
   </data>
-  <data name="resource.Category10" xml:space="preserve">
+  <data name="buttonTool21.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption10" xml:space="preserve">
+  <data name="buttonTool21.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Cut</value>
   </data>
   <data name="appearance20.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2927,13 +2849,13 @@
         /+1ebN2YeXR0jh+fKLawhK3/Y/PGjUZe/wK91kF5nt3LuwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="resource.Caption11" xml:space="preserve">
+  <data name="buttonTool22.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="resource.Category11" xml:space="preserve">
+  <data name="buttonTool22.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption11" xml:space="preserve">
+  <data name="buttonTool22.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="appearance21.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2954,13 +2876,13 @@
         XE/EENkBZ9bf03/A/mMjvBt8D5jBamIjERFIlo3nf7D5s29hzW9BChCBDnDoHAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="resource.Caption12" xml:space="preserve">
+  <data name="buttonTool23.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Paste</value>
   </data>
-  <data name="resource.Category12" xml:space="preserve">
+  <data name="buttonTool23.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption12" xml:space="preserve">
+  <data name="buttonTool23.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="appearance22.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2982,37 +2904,37 @@
         GFfWuLrGYrywjzeO7TEi6WSIGNvrv+a/ATaDKn6l8wwqAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="resource.Caption13" xml:space="preserve">
+  <data name="buttonTool24.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="resource.Category13" xml:space="preserve">
+  <data name="buttonTool24.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="resource.CustomizerCaption13" xml:space="preserve">
+  <data name="buttonTool24.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="controlContainerTool1.SharedProps.Caption" xml:space="preserve">
+  <data name="controlContainerTool1.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Url</value>
   </data>
-  <data name="controlContainerTool1.SharedProps.Category" xml:space="preserve">
+  <data name="controlContainerTool1.SharedPropsInternal.Category" xml:space="preserve">
     <value>Navigation</value>
   </data>
-  <data name="controlContainerTool1.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="controlContainerTool1.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Url Navigation</value>
   </data>
-  <data name="taskPaneTool1.SharedProps.Caption" xml:space="preserve">
+  <data name="taskPaneTool1.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="taskPaneTool1.SharedProps.Category" xml:space="preserve">
+  <data name="taskPaneTool1.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool30.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool30.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Next Unread Item</value>
   </data>
-  <data name="buttonTool30.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool30.SharedPropsInternal.Category" xml:space="preserve">
     <value>Navigation</value>
   </data>
-  <data name="buttonTool30.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool30.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Move to next unread item</value>
   </data>
   <data name="appearance35.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -3064,31 +2986,31 @@
         V993cOe3b4+tXDj9w/p/R3KllQaxpwkAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="popupMenuTool4.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool4.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Feed</value>
   </data>
-  <data name="popupMenuTool4.SharedProps.Category" xml:space="preserve">
+  <data name="popupMenuTool4.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="popupMenuTool4.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="popupMenuTool4.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Feed dropdown menu</value>
   </data>
-  <data name="labelTool2.SharedProps.Caption" xml:space="preserve">
+  <data name="labelTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Selected Color Scheme</value>
   </data>
-  <data name="labelTool2.SharedProps.Category" xml:space="preserve">
+  <data name="labelTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="labelTool2.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="labelTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Selected Color Scheme Label</value>
   </data>
-  <data name="popupMenuTool6.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool6.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Subscribe to</value>
   </data>
-  <data name="popupMenuTool6.SharedProps.Category" xml:space="preserve">
+  <data name="popupMenuTool6.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="popupMenuTool6.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="popupMenuTool6.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Subscribe To Menu</value>
   </data>
   <data name="appearance33.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -3109,472 +3031,431 @@
         gg==
 </value>
   </data>
-  <data name="buttonTool37.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool37.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Bandit Options</value>
   </data>
-  <data name="buttonTool37.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool37.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="buttonTool37.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool37.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Options Tool</value>
   </data>
-  <data name="buttonTool2.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Import...</value>
   </data>
-  <data name="buttonTool2.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="buttonTool2.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Import Tool</value>
   </data>
-  <data name="buttonTool4.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool4.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Export...</value>
   </data>
-  <data name="buttonTool4.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool4.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="buttonTool4.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool4.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Export Tool</value>
   </data>
-  <data name="stateButtonTool2.SharedProps.Caption" xml:space="preserve">
+  <data name="stateButtonTool2.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Work Offline</value>
   </data>
-  <data name="stateButtonTool2.SharedProps.Category" xml:space="preserve">
+  <data name="stateButtonTool2.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="stateButtonTool2.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="stateButtonTool2.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Work Offline Tool</value>
   </data>
-  <data name="buttonTool41.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool41.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Next Unread Feed</value>
   </data>
-  <data name="buttonTool41.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool41.SharedPropsInternal.Category" xml:space="preserve">
     <value>Navigation</value>
   </data>
-  <data name="buttonTool41.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool41.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Next Unread Feed Tool</value>
   </data>
-  <data name="appearance38.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-</value>
-  </data>
-  <data name="popupMenuTool9.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool9.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Feed Source</value>
   </data>
-  <data name="popupMenuTool9.SharedProps.Category" xml:space="preserve">
+  <data name="popupMenuTool9.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="popupMenuTool9.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="popupMenuTool9.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Feed Source dropdown menu</value>
   </data>
-  <data name="popupMenuTool9.SharedProps.CustomizerDescription" xml:space="preserve">
+  <data name="popupMenuTool9.SharedPropsInternal.CustomizerDescription" xml:space="preserve">
     <value>Feed Sources Menu</value>
   </data>
-  <data name="buttonTool44.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool44.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Update All Feeds</value>
   </data>
-  <data name="buttonTool44.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool44.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool44.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool44.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Refresh All Command</value>
   </data>
-  <data name="buttonTool45.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool45.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Update Folder</value>
   </data>
-  <data name="buttonTool45.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool45.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool45.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool45.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Refresh Folder Command</value>
   </data>
-  <data name="buttonTool48.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool48.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Mark All Items as Read</value>
   </data>
-  <data name="buttonTool48.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool48.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool48.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool48.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Mark All Items Read Command</value>
   </data>
-  <data name="buttonTool49.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool49.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Top Stories</value>
   </data>
-  <data name="buttonTool49.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool49.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool49.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool49.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Top Stories Command</value>
   </data>
-  <data name="popupMenuTool12.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool12.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Navigation Pane</value>
   </data>
-  <data name="popupMenuTool12.SharedProps.Category" xml:space="preserve">
+  <data name="popupMenuTool12.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="popupMenuTool12.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="popupMenuTool12.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Navigation Pane Dropdown Menu</value>
   </data>
-  <data name="popupMenuTool13.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool13.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Reading Pane</value>
   </data>
-  <data name="popupMenuTool13.SharedProps.Category" xml:space="preserve">
+  <data name="popupMenuTool13.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="popupMenuTool13.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="popupMenuTool13.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Reading Pane Menu</value>
   </data>
-  <data name="buttonTool52.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool52.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Minimized</value>
   </data>
-  <data name="buttonTool52.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool52.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="buttonTool52.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool52.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Minimize Navigation Pane Tool</value>
   </data>
-  <data name="buttonTool53.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool53.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Off</value>
   </data>
-  <data name="buttonTool53.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool53.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="buttonTool53.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool53.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Hide Navigation Pane Command</value>
   </data>
-  <data name="buttonTool57.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool57.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Right</value>
   </data>
-  <data name="buttonTool57.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool57.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="buttonTool57.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool57.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Reading Pane Right Command</value>
   </data>
-  <data name="buttonTool58.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool58.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Bottom</value>
   </data>
-  <data name="buttonTool58.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool58.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="buttonTool58.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool58.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Reading Pane Bottom Command</value>
   </data>
-  <data name="buttonTool59.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool59.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Off</value>
   </data>
-  <data name="buttonTool59.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool59.SharedPropsInternal.Category" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="buttonTool59.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool59.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Reading Pane Off Command</value>
   </data>
-  <data name="buttonTool61.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool61.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Folder</value>
   </data>
-  <data name="buttonTool61.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool61.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool61.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool61.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Folder Tool</value>
   </data>
-  <data name="buttonTool63.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool63.SharedPropsInternal.Caption" xml:space="preserve">
     <value>New Subscription</value>
   </data>
-  <data name="buttonTool63.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool63.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool63.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool63.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Subscription Tool (Wizard)</value>
   </data>
-  <data name="buttonTool65.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool65.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Rename</value>
   </data>
-  <data name="buttonTool65.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool65.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool65.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool65.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Rename Folder Tool</value>
   </data>
-  <data name="buttonTool69.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool69.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="buttonTool69.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool69.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool69.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool69.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Copy Folder Tool</value>
   </data>
-  <data name="buttonTool70.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool70.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Move</value>
   </data>
-  <data name="buttonTool70.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool70.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool70.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool70.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Move Folder Tool</value>
   </data>
-  <data name="buttonTool71.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool71.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="buttonTool71.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool71.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool71.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool71.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Delete Folder Tool</value>
   </data>
-  <data name="buttonTool74.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool74.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Delete All Items</value>
   </data>
-  <data name="buttonTool74.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool74.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool74.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool74.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Delete All Items in Folder Command</value>
   </data>
-  <data name="buttonTool6.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool6.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Rename</value>
   </data>
-  <data name="buttonTool6.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool6.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool6.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool6.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Rename Feed Tool</value>
   </data>
-  <data name="buttonTool31.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool31.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="buttonTool31.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool31.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool31.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool31.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Copy Feed Tool</value>
   </data>
-  <data name="buttonTool32.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool32.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Move</value>
   </data>
-  <data name="buttonTool32.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool32.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool32.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool32.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Move Feed Tool</value>
   </data>
-  <data name="buttonTool36.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool36.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="buttonTool36.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool36.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool36.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool36.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Delete Feed Tool</value>
   </data>
-  <data name="buttonTool77.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool77.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Delete All Items</value>
   </data>
-  <data name="buttonTool77.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool77.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool77.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool77.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Delete All Items in Feed Tool</value>
   </data>
-  <data name="buttonTool26.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool26.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Add Facebook news feed</value>
   </data>
-  <data name="buttonTool26.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool26.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="buttonTool26.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool26.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Facebook Feed Source command</value>
   </data>
-  <data name="buttonTool78.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool78.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Add Google Reader subscriptions</value>
   </data>
-  <data name="buttonTool78.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool78.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="buttonTool78.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool78.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>New Google Reader Feed Source command</value>
   </data>
-  <data name="buttonTool80.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool80.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Add Windows Common Feed List</value>
   </data>
-  <data name="buttonTool80.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool80.SharedPropsInternal.Category" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="buttonTool80.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool80.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Add Windows Common Feed List command</value>
   </data>
-  <data name="buttonTool85.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool85.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Go!</value>
   </data>
-  <data name="buttonTool85.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool85.SharedPropsInternal.Category" xml:space="preserve">
     <value>Navigation</value>
   </data>
-  <data name="buttonTool85.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool85.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Navigate to Url command</value>
   </data>
-  <data name="buttonTool87.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool87.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Update Feed</value>
   </data>
-  <data name="buttonTool87.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool87.SharedPropsInternal.Category" xml:space="preserve">
     <value>Tasks</value>
   </data>
-  <data name="buttonTool87.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool87.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Refresh Feed command</value>
   </data>
-  <data name="buttonTool46.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool46.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Podcasts</value>
   </data>
-  <data name="buttonTool47.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool47.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Newsgroups</value>
   </data>
-  <data name="buttonTool92.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool92.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="buttonTool97.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool97.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Properties</value>
   </data>
-  <data name="buttonTool100.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool100.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Folder Settings</value>
   </data>
-  <data name="buttonTool101.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool101.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Podcast Settings</value>
   </data>
-  <data name="buttonTool104.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool104.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Update Folder</value>
   </data>
-  <data name="buttonTool112.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool112.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Post New Item</value>
   </data>
-  <data name="buttonTool113.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool113.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Manage Identities</value>
   </data>
-  <data name="buttonTool115.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool115.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Feed Homepage</value>
   </data>
-  <data name="buttonTool7.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool7.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Feed Settings</value>
   </data>
-  <data name="popupMenuTool16.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool16.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Rules</value>
   </data>
-  <data name="popupMenuTool17.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool17.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Filter</value>
   </data>
-  <data name="stateButtonTool4.SharedProps.Caption" xml:space="preserve">
+  <data name="stateButtonTool4.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Mark All Items as Read on Exit</value>
   </data>
-  <data name="stateButtonTool6.SharedProps.Caption" xml:space="preserve">
+  <data name="stateButtonTool6.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Show Only Unread Items</value>
   </data>
-  <data name="stateButtonTool8.SharedProps.Caption" xml:space="preserve">
+  <data name="stateButtonTool8.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Mark as Unread</value>
   </data>
-  <data name="popupMenuTool21.SharedProps.Caption" xml:space="preserve">
+  <data name="popupMenuTool21.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Follow Up</value>
   </data>
-  <data name="buttonTool75.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool75.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Post Reply</value>
   </data>
-  <data name="buttonTool76.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool76.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Watch</value>
   </data>
-  <data name="buttonTool119.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool119.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Item Link</value>
   </data>
-  <data name="buttonTool120.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool120.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Item Title as Hyperlink</value>
   </data>
-  <data name="buttonTool121.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool121.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Item Content</value>
   </data>
-  <data name="buttonTool129.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool129.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Follow Up</value>
   </data>
-  <data name="buttonTool130.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool130.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Read</value>
   </data>
-  <data name="buttonTool131.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool131.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Reply</value>
   </data>
-  <data name="buttonTool132.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool132.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Review</value>
   </data>
-  <data name="buttonTool133.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool133.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Complete</value>
   </data>
-  <data name="buttonTool134.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool134.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="buttonTool136.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool136.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Forward</value>
   </data>
-  <data name="buttonTool139.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool139.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Print Preview...</value>
   </data>
-  <data name="buttonTool139.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool139.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="buttonTool139.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool139.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Print Preview</value>
   </data>
-  <data name="buttonTool140.SharedProps.Caption" xml:space="preserve">
+  <data name="buttonTool140.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Print...</value>
   </data>
-  <data name="buttonTool140.SharedProps.Category" xml:space="preserve">
+  <data name="buttonTool140.SharedPropsInternal.Category" xml:space="preserve">
     <value>Menu</value>
   </data>
-  <data name="buttonTool140.SharedProps.CustomizerCaption" xml:space="preserve">
+  <data name="buttonTool140.SharedPropsInternal.CustomizerCaption" xml:space="preserve">
     <value>Print</value>
+  </data>
+  <data name="buttonTool83.SharedPropsInternal.Caption" xml:space="preserve">
+    <value>Mark as Read</value>
+  </data>
+  <data name="buttonTool83.SharedPropsInternal.Category" xml:space="preserve">
+    <value>Item</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Left</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v8.3, Version=8.3.20083.2059, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Parent" xml:space="preserve">
     <value>$this</value>
