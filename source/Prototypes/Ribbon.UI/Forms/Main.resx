@@ -225,7 +225,7 @@
     <value>Search</value>
   </data>
   <data name="ultraTree1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 152</value>
+    <value>135, 177</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ultraTree1.TabIndex" type="System.Int32, mscorlib">
@@ -247,7 +247,7 @@
     <value>0, 25</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 152</value>
+    <value>135, 177</value>
   </data>
   <data name="ultraExplorerBarContainerControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -319,7 +319,7 @@
     <value>135, 0</value>
   </data>
   <data name="splitter2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>3, 295</value>
+    <value>3, 320</value>
   </data>
   <data name="splitter2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -352,7 +352,7 @@
     <value>urlComboBox</value>
   </data>
   <data name="&gt;&gt;urlComboBox.Type" xml:space="preserve">
-    <value>RssBandit.UI.Forms.UrlComboBox, RssBandit, Version=1.0.3639.26413, Culture=neutral, PublicKeyToken=null</value>
+    <value>RssBandit.UI.Forms.UrlComboBox, RssBandit, Version=1.0.3660.31023, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;urlComboBox.Parent" xml:space="preserve">
     <value>panel_list_detail</value>
@@ -367,7 +367,7 @@
     <value>0, 143</value>
   </data>
   <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>526, 152</value>
+    <value>526, 177</value>
   </data>
   <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -451,7 +451,7 @@
     <value>135, 0</value>
   </data>
   <data name="panel_list_detail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>526, 295</value>
+    <value>526, 320</value>
   </data>
   <data name="panel_list_detail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -497,7 +497,7 @@
     <value>0, 0</value>
   </data>
   <data name="ultraExplorerBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 295</value>
+    <value>135, 320</value>
   </data>
   <data name="ultraExplorerBar.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -518,10 +518,10 @@
     <value>Fill</value>
   </data>
   <data name="Form1_Fill_Panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 216</value>
+    <value>4, 191</value>
   </data>
   <data name="Form1_Fill_Panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>661, 295</value>
+    <value>661, 320</value>
   </data>
   <data name="Form1_Fill_Panel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -572,10 +572,10 @@
     <value>5</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Left.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 216</value>
+    <value>0, 191</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Left.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 295</value>
+    <value>4, 320</value>
   </data>
   <metadata name="ultraToolbarsManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
@@ -590,10 +590,10 @@
     <value>798, 534</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Location" type="System.Drawing.Point, System.Drawing">
-    <value>665, 216</value>
+    <value>665, 191</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Right.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 295</value>
+    <value>133, 320</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Right.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Right</value>
@@ -611,7 +611,7 @@
     <value>0, 0</value>
   </data>
   <data name="_Form1_Toolbars_Dock_Area_Top.Size" type="System.Drawing.Size, System.Drawing">
-    <value>798, 216</value>
+    <value>798, 191</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Top.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Top</value>
@@ -2220,6 +2220,9 @@
         AADAAwAA4AcAAPAPAAA=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>RSS Bandit</value>
   </data>
@@ -2229,17 +2232,17 @@
   <data name="&gt;&gt;imageList1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
-    <value>ultraToolbarsManager</value>
-  </data>
-  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
   <data name="&gt;&gt;ultraToolTipManager1.Name" xml:space="preserve">
     <value>ultraToolTipManager1</value>
   </data>
   <data name="&gt;&gt;ultraToolTipManager1.Type" xml:space="preserve">
     <value>Infragistics.Win.UltraWinToolTip.UltraToolTipManager, Infragistics2.Win.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Name" xml:space="preserve">
+    <value>ultraToolbarsManager</value>
+  </data>
+  <data name="&gt;&gt;ultraToolbarsManager.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2035, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
@@ -3385,9 +3388,6 @@
   <data name="stateButtonTool6.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Show Only Unread Items</value>
   </data>
-  <data name="stateButtonTool8.SharedPropsInternal.Caption" xml:space="preserve">
-    <value>Mark as Unread</value>
-  </data>
   <data name="popupMenuTool21.SharedPropsInternal.Caption" xml:space="preserve">
     <value>Follow Up</value>
   </data>
@@ -3450,6 +3450,9 @@
   </data>
   <data name="buttonTool83.SharedPropsInternal.Category" xml:space="preserve">
     <value>Item</value>
+  </data>
+  <data name="buttonTool142.SharedPropsInternal.Caption" xml:space="preserve">
+    <value>Mark as Unread</value>
   </data>
   <data name="&gt;&gt;_Form1_Toolbars_Dock_Area_Left.Name" xml:space="preserve">
     <value>_Form1_Toolbars_Dock_Area_Left</value>

@@ -29,13 +29,13 @@ namespace RssBandit.UI.Forms
             Infragistics.Win.UltraWinTree.Override _override5 = new Infragistics.Win.UltraWinTree.Override();
             Infragistics.Win.Appearance appearance43 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinScrollBar.ScrollBarLook scrollBarLook1 = new Infragistics.Win.UltraWinScrollBar.ScrollBarLook();
-            Infragistics.Win.Appearance appearance91 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
             Infragistics.Win.Appearance appearance5 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance6 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup ultraExplorerBarGroup2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup();
             Infragistics.Win.Appearance appearance7 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinScrollBar.ScrollBarLook scrollBarLook2 = new Infragistics.Win.UltraWinScrollBar.ScrollBarLook();
+            Infragistics.Win.Appearance appearance91 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ControlContainerTool controlContainerTool3 = new Infragistics.Win.UltraWinToolbars.ControlContainerTool("cmdUrl");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool86 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdUrlNavigationGo");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool38 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdOptions");
@@ -116,7 +116,7 @@ namespace RssBandit.UI.Forms
             Infragistics.Win.UltraWinToolbars.RibbonTab ribbonTab4 = new Infragistics.Win.UltraWinToolbars.RibbonTab("ribItem");
             Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup14 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgTags");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool79 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkRead");
-            Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool7 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("cmdMarkasUnread", "");
+            Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool141 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkasUnread");
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool22 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdFollowUp");
             Infragistics.Win.UltraWinToolbars.RibbonGroup ribbonGroup15 = new Infragistics.Win.UltraWinToolbars.RibbonGroup("rbgClipboard");
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool116 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdItemLink");
@@ -269,6 +269,7 @@ namespace RssBandit.UI.Forms
             Infragistics.Win.Appearance appearance92 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance63 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool97 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdProperties");
+            Infragistics.Win.Appearance appearance101 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance64 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool100 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdFolderSettings");
             Infragistics.Win.Appearance appearance65 = new Infragistics.Win.Appearance();
@@ -291,9 +292,6 @@ namespace RssBandit.UI.Forms
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool5 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("cmdShowOnlyUnreadItems", "");
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool4 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("Mark All Items as Read on Exit", "");
             Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool6 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("cmdShowOnlyUnreadItems", "");
-            Infragistics.Win.UltraWinToolbars.StateButtonTool stateButtonTool8 = new Infragistics.Win.UltraWinToolbars.StateButtonTool("cmdMarkasUnread", "");
-            Infragistics.Win.Appearance appearance79 = new Infragistics.Win.Appearance();
-            Infragistics.Win.Appearance appearance97 = new Infragistics.Win.Appearance();
             Infragistics.Win.UltraWinToolbars.PopupMenuTool popupMenuTool21 = new Infragistics.Win.UltraWinToolbars.PopupMenuTool("cmdFollowUp");
             Infragistics.Win.Appearance appearance94 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance93 = new Infragistics.Win.Appearance();
@@ -331,6 +329,9 @@ namespace RssBandit.UI.Forms
             Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool83 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkRead");
             Infragistics.Win.Appearance appearance99 = new Infragistics.Win.Appearance();
             Infragistics.Win.Appearance appearance98 = new Infragistics.Win.Appearance();
+            Infragistics.Win.UltraWinToolbars.ButtonTool buttonTool142 = new Infragistics.Win.UltraWinToolbars.ButtonTool("cmdMarkasUnread");
+            Infragistics.Win.Appearance appearance102 = new Infragistics.Win.Appearance();
+            Infragistics.Win.Appearance appearance103 = new Infragistics.Win.Appearance();
             this.ultraExplorerBarContainerControl1 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
             this.ultraTree1 = new Infragistics.Win.UltraWinTree.UltraTree();
             this.ultraExplorerBarContainerControl2 = new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarContainerControl();
@@ -338,7 +339,6 @@ namespace RssBandit.UI.Forms
             this.Form1_Fill_Panel = new System.Windows.Forms.Panel();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel_list_detail = new System.Windows.Forms.Panel();
-            this.urlComboBox = new RssBandit.UI.Forms.UrlComboBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.ultraListView1 = new Infragistics.Win.UltraWinListView.UltraListView();
@@ -346,21 +346,22 @@ namespace RssBandit.UI.Forms
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ultraStatusBar1 = new Infragistics.Win.UltraWinStatusBar.UltraStatusBar();
             this._Form1_Toolbars_Dock_Area_Left = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
-            this.ultraToolbarsManager = new Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(this.components);
             this._Form1_Toolbars_Dock_Area_Right = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
             this._Form1_Toolbars_Dock_Area_Top = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
             this._Form1_Toolbars_Dock_Area_Bottom = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
             this.ultraToolTipManager1 = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
+            this.urlComboBox = new RssBandit.UI.Forms.UrlComboBox();
+            this.ultraToolbarsManager = new Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(this.components);
             this.ultraExplorerBarContainerControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ultraTree1)).BeginInit();
             this.ultraExplorerBarContainerControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ultraTree2)).BeginInit();
             this.Form1_Fill_Panel.SuspendLayout();
             this.panel_list_detail.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.urlComboBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraListView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraExplorerBar)).BeginInit();
             this.ultraExplorerBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.urlComboBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).BeginInit();
             this.SuspendLayout();
             // 
@@ -466,24 +467,6 @@ namespace RssBandit.UI.Forms
             resources.ApplyResources(this.panel_list_detail, "panel_list_detail");
             this.panel_list_detail.Name = "panel_list_detail";
             // 
-            // urlComboBox
-            // 
-            this.urlComboBox.AllowDrop = true;
-            this.urlComboBox.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.None;
-            this.urlComboBox.DisplayStyle = Infragistics.Win.EmbeddableElementDisplayStyle.Office2007;
-            this.urlComboBox.DropDownButtonDisplayStyle = Infragistics.Win.ButtonDisplayStyle.OnMouseEnter;
-            this.urlComboBox.HasMRUList = true;
-            resources.ApplyResources(this.urlComboBox, "urlComboBox");
-            this.urlComboBox.MaxMRUItems = 3;
-            this.urlComboBox.Name = "urlComboBox";
-            appearance91.ForeColor = System.Drawing.SystemColors.GrayText;
-            resources.ApplyResources(appearance91.FontData, "appearance91.FontData");
-            resources.ApplyResources(appearance91, "appearance91");
-            appearance91.ForceApplyResources = "FontData|";
-            this.urlComboBox.NullTextAppearance = appearance91;
-            this.urlComboBox.ShowOverflowIndicator = true;
-            this.urlComboBox.SortStyle = Infragistics.Win.ValueListSortStyle.Ascending;
-            // 
             // richTextBox1
             // 
             resources.ApplyResources(this.richTextBox1, "richTextBox1");
@@ -566,6 +549,59 @@ namespace RssBandit.UI.Forms
             resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Left, "_Form1_Toolbars_Dock_Area_Left");
             this._Form1_Toolbars_Dock_Area_Left.Name = "_Form1_Toolbars_Dock_Area_Left";
             this._Form1_Toolbars_Dock_Area_Left.ToolbarsManager = this.ultraToolbarsManager;
+            // 
+            // _Form1_Toolbars_Dock_Area_Right
+            // 
+            this._Form1_Toolbars_Dock_Area_Right.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+            this._Form1_Toolbars_Dock_Area_Right.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
+            this._Form1_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
+            this._Form1_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._Form1_Toolbars_Dock_Area_Right.InitialResizeAreaExtent = 4;
+            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Right, "_Form1_Toolbars_Dock_Area_Right");
+            this._Form1_Toolbars_Dock_Area_Right.Name = "_Form1_Toolbars_Dock_Area_Right";
+            this._Form1_Toolbars_Dock_Area_Right.ToolbarsManager = this.ultraToolbarsManager;
+            // 
+            // _Form1_Toolbars_Dock_Area_Top
+            // 
+            this._Form1_Toolbars_Dock_Area_Top.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+            this._Form1_Toolbars_Dock_Area_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
+            this._Form1_Toolbars_Dock_Area_Top.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Top;
+            this._Form1_Toolbars_Dock_Area_Top.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Top, "_Form1_Toolbars_Dock_Area_Top");
+            this._Form1_Toolbars_Dock_Area_Top.Name = "_Form1_Toolbars_Dock_Area_Top";
+            this._Form1_Toolbars_Dock_Area_Top.ToolbarsManager = this.ultraToolbarsManager;
+            // 
+            // _Form1_Toolbars_Dock_Area_Bottom
+            // 
+            this._Form1_Toolbars_Dock_Area_Bottom.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
+            this._Form1_Toolbars_Dock_Area_Bottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
+            this._Form1_Toolbars_Dock_Area_Bottom.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Bottom;
+            this._Form1_Toolbars_Dock_Area_Bottom.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Bottom, "_Form1_Toolbars_Dock_Area_Bottom");
+            this._Form1_Toolbars_Dock_Area_Bottom.Name = "_Form1_Toolbars_Dock_Area_Bottom";
+            this._Form1_Toolbars_Dock_Area_Bottom.ToolbarsManager = this.ultraToolbarsManager;
+            // 
+            // ultraToolTipManager1
+            // 
+            this.ultraToolTipManager1.ContainingControl = this;
+            // 
+            // urlComboBox
+            // 
+            this.urlComboBox.AllowDrop = true;
+            this.urlComboBox.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.None;
+            this.urlComboBox.DisplayStyle = Infragistics.Win.EmbeddableElementDisplayStyle.Office2007;
+            this.urlComboBox.DropDownButtonDisplayStyle = Infragistics.Win.ButtonDisplayStyle.OnMouseEnter;
+            this.urlComboBox.HasMRUList = true;
+            resources.ApplyResources(this.urlComboBox, "urlComboBox");
+            this.urlComboBox.MaxMRUItems = 3;
+            this.urlComboBox.Name = "urlComboBox";
+            appearance91.ForeColor = System.Drawing.SystemColors.GrayText;
+            resources.ApplyResources(appearance91.FontData, "appearance91.FontData");
+            resources.ApplyResources(appearance91, "appearance91");
+            appearance91.ForceApplyResources = "FontData|";
+            this.urlComboBox.NullTextAppearance = appearance91;
+            this.urlComboBox.ShowOverflowIndicator = true;
+            this.urlComboBox.SortStyle = Infragistics.Win.ValueListSortStyle.Ascending;
             // 
             // ultraToolbarsManager
             // 
@@ -831,13 +867,11 @@ namespace RssBandit.UI.Forms
             resources.ApplyResources(ribbonTab4, "ribbonTab4");
             resources.ApplyResources(ribbonGroup14, "ribbonGroup14");
             buttonTool79.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
-            stateButtonTool7.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
-            resources.ApplyResources(stateButtonTool7.SharedProps, "stateButtonTool7.SharedProps");
-            stateButtonTool7.ForceApplyResources = "SharedProps";
+            buttonTool141.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
             popupMenuTool22.InstanceProps.PreferredSizeOnRibbon = Infragistics.Win.UltraWinToolbars.RibbonToolSize.Large;
             ribbonGroup14.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool79,
-            stateButtonTool7,
+            buttonTool141,
             popupMenuTool22});
             resources.ApplyResources(ribbonGroup15, "ribbonGroup15");
             resources.ApplyResources(buttonTool116.SharedProps, "buttonTool116.SharedProps");
@@ -1403,7 +1437,12 @@ namespace RssBandit.UI.Forms
             resources.ApplyResources(buttonTool92.SharedPropsInternal, "buttonTool92.SharedPropsInternal");
             resources.ApplyResources(buttonTool92.SharedProps, "buttonTool92.SharedProps");
             buttonTool92.ForceApplyResources = "SharedProps|SharedPropsInternal";
-            appearance64.Image = global::RssBandit.UI.Properties.Resources.properties;
+            appearance101.Image = global::RssBandit.UI.Properties.Resources.properties32;
+            resources.ApplyResources(appearance101.FontData, "appearance101.FontData");
+            resources.ApplyResources(appearance101, "appearance101");
+            appearance101.ForceApplyResources = "FontData|";
+            buttonTool97.SharedPropsInternal.AppearancesLarge.Appearance = appearance101;
+            appearance64.Image = global::RssBandit.UI.Properties.Resources.properties16;
             resources.ApplyResources(appearance64.FontData, "appearance64.FontData");
             resources.ApplyResources(appearance64, "appearance64");
             appearance64.ForceApplyResources = "FontData|";
@@ -1492,19 +1531,6 @@ namespace RssBandit.UI.Forms
             resources.ApplyResources(stateButtonTool6.SharedPropsInternal, "stateButtonTool6.SharedPropsInternal");
             resources.ApplyResources(stateButtonTool6.SharedProps, "stateButtonTool6.SharedProps");
             stateButtonTool6.ForceApplyResources = "SharedProps|SharedPropsInternal";
-            appearance79.Image = global::RssBandit.UI.Properties.Resources.envelope_closed_32;
-            resources.ApplyResources(appearance79.FontData, "appearance79.FontData");
-            resources.ApplyResources(appearance79, "appearance79");
-            appearance79.ForceApplyResources = "FontData|";
-            stateButtonTool8.SharedPropsInternal.AppearancesLarge.Appearance = appearance79;
-            appearance97.Image = global::RssBandit.UI.Properties.Resources.unread;
-            resources.ApplyResources(appearance97.FontData, "appearance97.FontData");
-            resources.ApplyResources(appearance97, "appearance97");
-            appearance97.ForceApplyResources = "FontData|";
-            stateButtonTool8.SharedPropsInternal.AppearancesSmall.Appearance = appearance97;
-            resources.ApplyResources(stateButtonTool8.SharedPropsInternal, "stateButtonTool8.SharedPropsInternal");
-            resources.ApplyResources(stateButtonTool8.SharedProps, "stateButtonTool8.SharedProps");
-            stateButtonTool8.ForceApplyResources = "SharedProps|SharedPropsInternal";
             appearance94.Image = global::RssBandit.UI.Properties.Resources.envelope_open_flag_32;
             resources.ApplyResources(appearance94.FontData, "appearance94.FontData");
             resources.ApplyResources(appearance94, "appearance94");
@@ -1644,6 +1670,18 @@ namespace RssBandit.UI.Forms
             buttonTool83.SharedPropsInternal.AppearancesSmall.Appearance = appearance98;
             resources.ApplyResources(buttonTool83.SharedPropsInternal, "buttonTool83.SharedPropsInternal");
             buttonTool83.ForceApplyResources = "SharedPropsInternal";
+            appearance102.Image = global::RssBandit.UI.Properties.Resources.envelope_closed_32;
+            resources.ApplyResources(appearance102.FontData, "appearance102.FontData");
+            resources.ApplyResources(appearance102, "appearance102");
+            appearance102.ForceApplyResources = "FontData|";
+            buttonTool142.SharedPropsInternal.AppearancesLarge.Appearance = appearance102;
+            appearance103.Image = global::RssBandit.UI.Properties.Resources.unread;
+            resources.ApplyResources(appearance103.FontData, "appearance103.FontData");
+            resources.ApplyResources(appearance103, "appearance103");
+            appearance103.ForceApplyResources = "FontData|";
+            buttonTool142.SharedPropsInternal.AppearancesSmall.Appearance = appearance103;
+            resources.ApplyResources(buttonTool142.SharedPropsInternal, "buttonTool142.SharedPropsInternal");
+            buttonTool142.ForceApplyResources = "SharedPropsInternal";
             this.ultraToolbarsManager.Tools.AddRange(new Infragistics.Win.UltraWinToolbars.ToolBase[] {
             buttonTool13,
             buttonTool14,
@@ -1714,7 +1752,6 @@ namespace RssBandit.UI.Forms
             popupMenuTool17,
             stateButtonTool4,
             stateButtonTool6,
-            stateButtonTool8,
             popupMenuTool21,
             buttonTool75,
             buttonTool76,
@@ -1730,45 +1767,11 @@ namespace RssBandit.UI.Forms
             buttonTool136,
             buttonTool139,
             buttonTool140,
-            buttonTool83});
+            buttonTool83,
+            buttonTool142});
             this.ultraToolbarsManager.AfterToolEnterEditMode += new Infragistics.Win.UltraWinToolbars.AfterToolEnterEditModeEventHandler(this.OnToolbarAfterToolEnterEditMode);
             this.ultraToolbarsManager.ToolClick += new Infragistics.Win.UltraWinToolbars.ToolClickEventHandler(this.OnToolbarToolClick);
             this.ultraToolbarsManager.AfterToolActivate += new Infragistics.Win.UltraWinToolbars.ToolEventHandler(this.OnToolbarAfterToolActivate);
-            // 
-            // _Form1_Toolbars_Dock_Area_Right
-            // 
-            this._Form1_Toolbars_Dock_Area_Right.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
-            this._Form1_Toolbars_Dock_Area_Right.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
-            this._Form1_Toolbars_Dock_Area_Right.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Right;
-            this._Form1_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText;
-            this._Form1_Toolbars_Dock_Area_Right.InitialResizeAreaExtent = 4;
-            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Right, "_Form1_Toolbars_Dock_Area_Right");
-            this._Form1_Toolbars_Dock_Area_Right.Name = "_Form1_Toolbars_Dock_Area_Right";
-            this._Form1_Toolbars_Dock_Area_Right.ToolbarsManager = this.ultraToolbarsManager;
-            // 
-            // _Form1_Toolbars_Dock_Area_Top
-            // 
-            this._Form1_Toolbars_Dock_Area_Top.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
-            this._Form1_Toolbars_Dock_Area_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
-            this._Form1_Toolbars_Dock_Area_Top.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Top;
-            this._Form1_Toolbars_Dock_Area_Top.ForeColor = System.Drawing.SystemColors.ControlText;
-            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Top, "_Form1_Toolbars_Dock_Area_Top");
-            this._Form1_Toolbars_Dock_Area_Top.Name = "_Form1_Toolbars_Dock_Area_Top";
-            this._Form1_Toolbars_Dock_Area_Top.ToolbarsManager = this.ultraToolbarsManager;
-            // 
-            // _Form1_Toolbars_Dock_Area_Bottom
-            // 
-            this._Form1_Toolbars_Dock_Area_Bottom.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping;
-            this._Form1_Toolbars_Dock_Area_Bottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
-            this._Form1_Toolbars_Dock_Area_Bottom.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Bottom;
-            this._Form1_Toolbars_Dock_Area_Bottom.ForeColor = System.Drawing.SystemColors.ControlText;
-            resources.ApplyResources(this._Form1_Toolbars_Dock_Area_Bottom, "_Form1_Toolbars_Dock_Area_Bottom");
-            this._Form1_Toolbars_Dock_Area_Bottom.Name = "_Form1_Toolbars_Dock_Area_Bottom";
-            this._Form1_Toolbars_Dock_Area_Bottom.ToolbarsManager = this.ultraToolbarsManager;
-            // 
-            // ultraToolTipManager1
-            // 
-            this.ultraToolTipManager1.ContainingControl = this;
             // 
             // Main
             // 
@@ -1789,10 +1792,10 @@ namespace RssBandit.UI.Forms
             this.Form1_Fill_Panel.ResumeLayout(false);
             this.panel_list_detail.ResumeLayout(false);
             this.panel_list_detail.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.urlComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraListView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraExplorerBar)).EndInit();
             this.ultraExplorerBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.urlComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ultraToolbarsManager)).EndInit();
             this.ResumeLayout(false);
 

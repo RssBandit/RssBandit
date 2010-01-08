@@ -179,6 +179,8 @@
     <Content Include="Resources\manage_identities.png" />
     <Content Include="Resources\not.watched.gif" />
     <Content Include="Resources\post_item.gif" />
+    <None Include="Resources\properties16.png" />
+    <None Include="Resources\properties32.png" />
     <Content Include="Resources\read.gif" />
     <None Include="Resources\subscribe_feedsources_32.png" />
     <Content Include="Resources\unread.gif" />
@@ -186,7 +188,6 @@
     <None Include="Resources\watch_icon.gif" />
     <None Include="Resources\webpage_icon.gif" />
     <EmbeddedResource Include="Resources\rules.gif" />
-    <EmbeddedResource Include="Resources\properties.gif" />
     <EmbeddedResource Include="Resources\settings_icon.png" />
     <EmbeddedResource Include="Resources\newsgroups.png" />
     <EmbeddedResource Include="Resources\podcasts.gif" />

@@ -557,9 +557,16 @@ namespace RssBandit.UI.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap properties {
+        internal static System.Drawing.Bitmap properties16 {
             get {
-                object obj = ResourceManager.GetObject("properties", resourceCulture);
+                object obj = ResourceManager.GetObject("properties16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap properties32 {
+            get {
+                object obj = ResourceManager.GetObject("properties32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
