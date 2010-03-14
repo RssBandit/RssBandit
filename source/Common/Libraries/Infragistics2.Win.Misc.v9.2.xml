@@ -3322,13 +3322,6 @@
             </summary>
             <param name="propChangeInfo">Information about the property change</param>
         </member>
-        <member name="M:Infragistics.Win.Misc.UltraPanel.ScrollToControl(System.Windows.Forms.Control)">
-            <summary>
-            Determines the scroll offset to get to the specified child.
-            </summary>
-            <param name="activeControl">The control which will be scrolled into view.</param>
-            <returns>A point represent the scroll offset required to place the specific child control in view.</returns>
-        </member>
         <member name="M:Infragistics.Win.Misc.UltraPanel.ShouldSerializeAppearance">
             <summary>
             Indicates whether the <see cref="P:Infragistics.Win.Misc.UltraPanel.Appearance"/> property contains data that needs to be serialized.
@@ -3781,13 +3774,6 @@
             </summary>
             <param name="se">The event args which contains event data.</param>
         </member>
-        <member name="M:Infragistics.Win.Misc.UltraPanelClientArea.ScrollToControl(System.Windows.Forms.Control)">
-            <summary>
-            Determines the scroll offset to get to the specified child.
-            </summary>
-            <param name="activeControl">The control which will be scrolled into view.</param>
-            <returns>A point represent the scroll offset required to place the specific child control in view.</returns>
-        </member>
         <member name="M:Infragistics.Win.Misc.UltraPanelClientAreaUnsafe.AdjustFormScrollbars(System.Boolean)">
             <summary>
             This member overrides the <b>AdjustFormScrollbars</b> of the <see cref="T:System.Windows.Forms.Form"/>
@@ -4027,13 +4013,6 @@
             </summary>
             <param name="appearance">The appearance structure to initialize.</param>
             <param name="requestedProps">The properties that are needed.</param>
-        </member>
-        <member name="M:Infragistics.Win.Misc.TileContainerPanelUIElement.OnAfterDraw(Infragistics.Win.UIElementDrawParams@)">
-            <summary>
-            A virtual method that gets called after the element draw operation finishes.
-            </summary>
-            <remarks>This is for notification purposes, the default implementation does nothing.</remarks>
-            <param name="defaultDrawParams">The <see cref="T:Infragistics.Win.UIElementDrawParams"/> used to provide rendering information.</param>
         </member>
         <member name="M:Infragistics.Win.Misc.TileContainerPanelUIElement.PositionChildElements">
             <summary>
@@ -4689,16 +4668,6 @@
             <param name="appearance">The appearance structure to initialize.</param>
             <param name="requestedProps">The properties that are needed.</param>
         </member>
-        <member name="M:Infragistics.Win.Misc.TileHeaderUIElement.OnMouseHover">
-            <summary>
-            Invoked when the mouse hovers over the element.
-            </summary>
-        </member>
-        <member name="M:Infragistics.Win.Misc.TileHeaderUIElement.OnMouseLeave">
-            <summary>
-            Invoked when the mouse leaves the bounds of the element.
-            </summary>
-        </member>
         <member name="M:Infragistics.Win.Misc.TileHeaderUIElement.PositionChildElements">
             <summary>
             Positions the child elements of the element.
@@ -4707,11 +4676,6 @@
         <member name="P:Infragistics.Win.Misc.TileHeaderUIElement.UIRole">
             <summary>
             Returns the Infragistics.Win.AppStyling.UIRole associated with this element.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Win.Misc.TileHeaderUIElement.WantsMouseHoverNotification">
-            <summary>
-            Indicates if the element wants to receive mouse hover notifications.
             </summary>
         </member>
         <member name="T:Infragistics.Win.Misc.TileCollection">
@@ -5330,12 +5294,6 @@
             </exception>
             <value>The state of the tile.</value>
             <seealso cref="M:Infragistics.Win.Misc.UltraTile.SetState(Infragistics.Win.Misc.TileState,System.Boolean)"/>
-        </member>
-        <member name="P:Infragistics.Win.Misc.UltraTile.PreventScrollIntoViewWhenSelected">
-            <summary>
-            Gets the value indicating whether the tile should be prevented from getting scrolled into view when 
-            it is selected at desing-time.
-            </summary>
         </member>
         <member name="P:Infragistics.Win.Misc.UltraTile.SubObjectPropChangeHandler">
             <summary>
@@ -6324,13 +6282,6 @@
             </summary>
             <param name="appearance">The appearance structure to initialize.</param>
             <param name="requestedProps">The properties that are needed.</param>
-        </member>
-        <member name="M:Infragistics.Win.Misc.UltraTilePanelControlUIElement.OnAfterDraw(Infragistics.Win.UIElementDrawParams@)">
-            <summary>
-            A virtual method that gets called after the element draw operation finishes.
-            </summary>
-            <remarks>This is for notification purposes, the default implementation does nothing.</remarks>
-            <param name="defaultDrawParams">The <see cref="T:Infragistics.Win.UIElementDrawParams"/> used to provide rendering information.</param>
         </member>
         <member name="M:Infragistics.Win.Misc.UltraTilePanelControlUIElement.PositionChildElements">
             <summary>

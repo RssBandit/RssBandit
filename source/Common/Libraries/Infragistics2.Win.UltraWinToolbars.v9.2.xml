@@ -26242,7 +26242,7 @@
             Called when the tool is activated.
             </summary>
             <remarks>
-            <p class="body">Once a tool is activated it becomes the active tool. You can use the <see cref="P:Infragistics.Win.UltraWinToolbars.ToolBase.IsActiveTool"/> property to determine whether a tool is currently the active one.</p>
+            <p class="body">Once a tool is activated it becomes the active tool. You can use the <see cref="!:IsActiveTool"/> property to determine whether a tool is currently the active one.</p>
             </remarks>
         </member>
         <member name="M:Infragistics.Win.UltraWinToolbars.MdiMergePlaceholderTool.OnCustomizeModeBegin">
@@ -34300,11 +34300,6 @@
             Returns an empty string so nothing shows up on the right side of the property grid.
             </summary>
             <returns>An empty string.</returns>
-        </member>
-        <member name="M:Infragistics.Win.UltraWinToolbars.Ribbon.GetGdiDrawStringFlagsForCaption(Infragistics.Win.GdiDrawStringFlags)">
-            <summary>
-            Gets the <see cref="T:Infragistics.Win.GdiDrawStringFlags"/> used for rendering text.
-            </summary>
         </member>
         <member name="P:Infragistics.Win.UltraWinToolbars.Ribbon.AccessibleDescription">
             <summary>
@@ -47071,15 +47066,6 @@
             <seealso cref="T:Infragistics.Win.UltraWinToolbars.UltraToolbar"/>
             <seealso cref="M:Infragistics.Win.UltraWinToolbars.UltraToolbar.ResetState"/>
             <seealso cref="T:Infragistics.Win.UltraWinToolbars.ToolBase"/>
-        </member>
-        <member name="M:Infragistics.Win.UltraWinToolbars.UltraToolbarsManager.ResetToStandaloneManager">
-            <summary>
-            Resets the state of the <see cref="T:Infragistics.Win.UltraWinToolbars.UltraToolbarsManager"/> if it was previously merged to allow it to be 
-            shown as a standalone manager again.
-            </summary>
-            <exception cref="T:System.InvalidOperationException">
-            This UltraToolbarsManager is currently merged as a child manager.
-            </exception>
         </member>
         <member name="M:Infragistics.Win.UltraWinToolbars.UltraToolbarsManager.ResetToolbarsAndTools">
             <summary>
