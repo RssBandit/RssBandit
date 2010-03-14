@@ -11,7 +11,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
-using System.Windows.Forms;
+using System.Windows;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
 
@@ -30,11 +30,11 @@ namespace RssBandit
         {
             bool running = true;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            // This might fix the SEHException raised sometimes. See issue:
-            // https://sourceforge.net/tracker/?func=detail&aid=2335753&group_id=96589&atid=615248
-            Application.DoEvents();
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //// This might fix the SEHException raised sometimes. See issue:
+            //// https://sourceforge.net/tracker/?func=detail&aid=2335753&group_id=96589&atid=615248
+            //Application.DoEvents();
 
 			// child threads should impersonate the current windows user
 			AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.WindowsPrincipal);
@@ -53,7 +53,7 @@ namespace RssBandit
 			Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
 #endif
 
-            FormWindowState initialStartupState = Win32.GetStartupWindowState();
+            System.Windows.Forms.FormWindowState initialStartupState = Win32.GetStartupWindowState();
             // if you want to debug the minimzed startup (cannot be configured in VS.IDE),
             // comment out the line above and uncomment the next one:
             //FormWindowState initialStartupState =  FormWindowState.Minimized;
@@ -62,6 +62,7 @@ namespace RssBandit
             OtherInstanceCallback callback = appInstance.OnOtherInstance;
             try
             {
+                //running = InitialInstanceActivator.Activate(appInstance, callback, args);
                 running = InitialInstanceActivator.Activate(appInstance, callback, args);
             }
             catch (Exception /* ex */)
@@ -101,7 +102,7 @@ namespace RssBandit
                     Thread.CurrentThread.CurrentUICulture = RssBanditApplication.SharedUICulture;
 
                     if (!appInstance.CommandLineArgs.StartInTaskbarNotificationAreaOnly &&
-                        initialStartupState != FormWindowState.Minimized)
+                        initialStartupState != System.Windows.Forms.FormWindowState.Minimized)
                     {
                         // no splash, if start option is tray only or minimized
                         Splash.Show(SR.AppLoadStateLoading,

@@ -32,6 +32,7 @@
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -46,7 +47,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -71,6 +71,7 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -93,6 +94,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,6 +177,20 @@
     <Reference Include="IEControl">
       <Name>IEControl</Name>
       <HintPath>..\Common\Libraries\IEControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Shared.v9.2">
+      <HintPath>..\Common\Libraries\Infragistics2.Shared.v9.2.dll</HintPath>
+      <Private>True</Private>
+      <Aliases>global,igwin</Aliases>
+    </Reference>
+    <Reference Include="Infragistics3.Wpf.Ribbon.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Infragistics3.Wpf.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Aliases>igwpf</Aliases>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
@@ -271,11 +287,6 @@
       <Name>WizardFramework</Name>
       <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics2.Shared.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Shared.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Infragistics2.Win.Misc.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v9.2.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -315,6 +326,7 @@
       <HintPath>..\Common\Libraries\Infragistics2.Win.v9.2.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
+      <Aliases>global,igwin</Aliases>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -682,7 +694,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SR.ru.resx">
@@ -1903,6 +1915,9 @@
     <Compile Include="Core\RssBanditApplication.EventHandlers.cs" />
     <Compile Include="Core\RssBanditApplication.Podcasts.cs" />
     <Compile Include="Core\RssBanditApplication.Statics.cs" />
+    <Compile Include="Core\RssBanditApplication.xaml.cs">
+      <DependentUpon>RssBanditApplication.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\RssBanditPreferences.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1973,6 +1988,11 @@
     <Compile Include="WinGui\ColumnLayoutManager.cs" />
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WinGui\Commands\BanditAppCommands.cs" />
+    <Compile Include="WinGui\Commands\ThemeSelectedCommand.cs" />
+    <Compile Include="WinGui\Controls\BanditRibbon.xaml.cs">
+      <DependentUpon>BanditRibbon.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Controls\CollapsibleSplitter.cs">
       <SubType>Component</SubType>
@@ -2242,6 +2262,15 @@
     <Compile Include="WinGui\Keyboard\ShortcutHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Forms\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinGui\MarkupExtensions\ILocalizedResourceProvider.cs" />
+    <Compile Include="WinGui\MarkupExtensions\LocalizationManager.cs" />
+    <Compile Include="WinGui\MarkupExtensions\LocalizationSettings.cs" />
+    <Compile Include="WinGui\MarkupExtensions\ResExtension.cs" />
+    <Compile Include="WinGui\MarkupExtensions\ResourceFileProvider.cs" />
+    <Compile Include="WinGui\MarkupExtensions\TranslateExtension.cs" />
     <Compile Include="WinGui\PostReplyThreadHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2284,6 +2313,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WinGui\Utility\WinInetAPI.cs" />
+    <Compile Include="WinGui\Utility\WpfUtils.cs" />
     <Compile Include="Xml\Namespaces.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2388,6 +2418,11 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -2403,9 +2438,31 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Core\RssBanditApplication.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WinGui\Controls\BanditRibbon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WinGui\Dialogs\DownloadManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinGui\Forms\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

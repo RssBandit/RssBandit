@@ -46,7 +46,6 @@ using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 using System.Security.Cryptography.X509Certificates;
-using NewsComponents.Feed;
 
 #endregion
 
@@ -680,8 +679,8 @@ namespace NewsComponents
 
         //Search	impl. 
 
-        /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
-        public event NewsItemSearchResultEventHandler NewsItemSearchResult;
+        ///// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
+        //public event NewsItemSearchResultEventHandler NewsItemSearchResult;
 
 
         #region Nested type: CategoryChangedEventArgs

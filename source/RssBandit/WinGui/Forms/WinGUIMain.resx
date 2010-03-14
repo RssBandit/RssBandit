@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="helpProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 91</value>
+    <value>420, 54</value>
   </metadata>
   <metadata name="ultraToolTipManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>138, 17</value>
+    <value>364, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>123</value>
@@ -140,8 +140,8 @@
   <data name="appearance4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALCgAA
-        CwoBv0NmUwAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALBwAA
+        CwcBtnMLwAAACJ9JREFUWEfFlw1UlFUax0nbU221ddw8u21taZ3UsrW0XbcPa0u3tnU101zNFHVb0BQh
         hMDJbw0EEWWYAeXTQRAEZQQFRkCGAQYRkGH4noEB5FNARFFEVMzf3ndKyvxgT3V255z/ee9773vu/3ef
         +zz3nfcewOb/+pMA7qba6Ta/tUy3KaieZtModLpmmk27uG8X/T9Uh+iTVCz0+GDz3hi/q7n0kGReZ/8M
         5YtH0Lp3PafCnWnZNoMW99F0rHuBbo8X6dk2jkvy8VxWvCT0BySInw1ArLi72u5Zqtb/Xcx586+3NInu
@@ -212,7 +212,7 @@
 </value>
   </data>
   <metadata name="sandDockManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>377, 17</value>
+    <value>603, 17</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1792,30 +1792,30 @@
 </value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>292, 17</value>
+    <value>518, 17</value>
   </metadata>
   <metadata name="_startupTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>243, 17</value>
   </metadata>
   <metadata name="_timerTreeNodeExpand.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>520, 17</value>
+    <value>746, 17</value>
   </metadata>
   <metadata name="_timerRefreshFeeds.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
+    <value>915, 17</value>
   </metadata>
   <metadata name="_timerRefreshCommentFeeds.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 54</value>
+    <value>1065, 17</value>
   </metadata>
   <metadata name="_timerResetStatus.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>366, 54</value>
+    <value>17, 54</value>
   </metadata>
   <metadata name="_uiTasksTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>508, 54</value>
+    <value>159, 54</value>
   </metadata>
   <metadata name="_timerDispatchResultsToUI.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>137, 91</value>
+    <value>540, 54</value>
   </metadata>
   <metadata name="ultraDesktopAlert.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>630, 51</value>
+    <value>282, 54</value>
   </metadata>
 </root>

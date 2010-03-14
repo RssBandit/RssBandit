@@ -88,10 +88,9 @@ internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"
 namespace RssBandit
 {
     /// <summary>
-    /// Summary description for WinGuiMainMediator.
+    /// Application (flow-)controller.
     /// </summary>
-    internal partial class RssBanditApplication : ApplicationContext,
-                                                  ICoreApplication, IInternetService, IServiceProvider
+    public partial class RssBanditApplication : ICoreApplication, IInternetService, IServiceProvider
     {
         #region Fields
 
@@ -411,6 +410,8 @@ namespace RssBandit
             return true;
         }
 
+        public Form MainForm { get { return guiMain; } }
+       
         private void InitLocalFeeds()
         {
 			FeedSourceEntry migrationEntry = BanditFeedSourceEntry;
@@ -562,16 +563,23 @@ namespace RssBandit
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
 
-            _dispatcherThread = new Thread(DispatcherThread);
-            _dispatcherThread.TrySetApartmentState(ApartmentState.STA);
-            _dispatcherThread.Name = "Dispatcher Thread";
-            _dispatcherThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-            _dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
-            _dispatcherThread.Start();
-
+            //_dispatcherThread = new Thread(DispatcherThread);
+            //_dispatcherThread.TrySetApartmentState(ApartmentState.STA);
+            //_dispatcherThread.Name = "Dispatcher Thread";
+            //_dispatcherThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            //_dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+            //_dispatcherThread.Start();
+#if UseResourceInfragistics
 			ResourceInfragistics.TranslateAll();
-            MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
-
+#endif
+            //WPF init:
+            InitializeComponent();
+            // Explicitly initialize the resource manager for I18N markup extension:
+            LocalizationSettings.Initialize(this.GetType().Assembly, SR.ResourceManager);
+            
+            //Old WinForm init:
+            guiMain = new WinGuiMain(this, initialStartupState); // interconnect
+            //Do we still need this for WPF? 
             GuiInvoker.Initialize();
 			
 			// now we are ready to receive events from the backend:
@@ -601,23 +609,24 @@ namespace RssBandit
                 Application.Exit();
             }
 #else
-            Application.Run(this);
+            //Application.Run(this);
+            Run();
 #endif
 
         }
      
-        private void DispatcherThread()
-        {
-            _dispatcher = Dispatcher.CurrentDispatcher;
-            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
-            DownloadRegistryManager.Current.Initialize();
+        //private void DispatcherThread()
+        //{
+        //    _dispatcher = Dispatcher.CurrentDispatcher;
+        //    SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+        //    DownloadRegistryManager.Current.Initialize();
 
-            // create this here to pre-load the WPF libraries
-            var dm = new DownloadManagerWindow();
-            dm.Close();
+        //    // create this here to pre-load the WPF libraries
+        //    var dm = new DownloadManagerWindow();
+        //    dm.Close();
 
-            Dispatcher.Run();
-        }
+        //    Dispatcher.Run();
+        //}
 
         internal void CheckAndLoadAddIns()
         {
@@ -1006,12 +1015,12 @@ namespace RssBandit
 
         public RssBanditPreferences Preferences { get; set; }
 
-        public IdentityNewsServerManager IdentityManager
+        internal IdentityNewsServerManager IdentityManager
         {
             get { return identityNewsServerManager; }
         }
 
-        public IdentityNewsServerManager NntpServerManager
+        internal IdentityNewsServerManager NntpServerManager
         {
             get { return identityNewsServerManager; }
         }
@@ -3954,7 +3963,7 @@ namespace RssBandit
             folder.Remove(item);
         }
 
-        public LocalFeedsFeed FlaggedItemsFeed
+        internal LocalFeedsFeed FlaggedItemsFeed
         {
             get { return flaggedItemsFeed; }
             set { flaggedItemsFeed = value; }
@@ -4207,7 +4216,7 @@ namespace RssBandit
         /// <summary>
         /// Get/Sets the unread items local feed
         /// </summary>
-        public LocalFeedsFeed UnreadItemsFeed
+        internal LocalFeedsFeed UnreadItemsFeed
         {
             get { return unreadItemsFeed; }
             set { unreadItemsFeed = value; }
@@ -4217,7 +4226,7 @@ namespace RssBandit
         /// Gets or sets the watched items feed.
         /// </summary>
         /// <value>The watched items feed.</value>
-        public LocalFeedsFeed WatchedItemsFeed
+        internal LocalFeedsFeed WatchedItemsFeed
         {
             get { return watchedItemsFeed; }
             set { watchedItemsFeed = value; }
@@ -4383,7 +4392,7 @@ namespace RssBandit
             }
         }
 
-        public LocalFeedsFeed SentItemsFeed
+        internal LocalFeedsFeed SentItemsFeed
         {
             get { return sentItemsFeed; }
             set { sentItemsFeed = value; }
@@ -4472,7 +4481,7 @@ namespace RssBandit
         /// <summary>
         /// Get/Sets the deleted items local feed
         /// </summary>
-        public LocalFeedsFeed DeletedItemsFeed
+        internal LocalFeedsFeed DeletedItemsFeed
         {
             get { return deletedItemsFeed; }
             set { deletedItemsFeed = value; }
@@ -4774,7 +4783,7 @@ namespace RssBandit
                 autoSaveTimer.Dispose();
 
 
-                _dispatcher.InvokeShutdown();
+                //_dispatcher.InvokeShutdown();
 
                 InvokeOnGuiSync(() =>
                                     {
@@ -5584,7 +5593,7 @@ namespace RssBandit
             // parse command line...
             if (HandleCommandLineArgs(args))
             {
-                CmdShowMainGui(null);
+                //CmdShowMainGui(null);
 
                 if (commandLineOptions.AddFacebook || commandLineOptions.AddGoogleReader)
                 {
@@ -6117,7 +6126,7 @@ namespace RssBandit
             return SubscribeToFeed(url, category, title, null, mode);
         }
 
-        public bool SubscribeToFeed(string url, string category, string title, string searchTerms,
+        internal bool SubscribeToFeed(string url, string category, string title, string searchTerms,
                                     AddSubscriptionWizardMode mode)
         {
             using (var wiz = new AddSubscriptionWizard(mode){
