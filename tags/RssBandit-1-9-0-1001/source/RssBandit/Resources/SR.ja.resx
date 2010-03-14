@@ -1,0 +1,2796 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FeedDefaultCategory" xml:space="preserve">
+    <value>[分類していないフィード]</value>
+    <comment>localizable</comment>
+  </data>
+  <data name="UpgradeInfoBoxCaption" xml:space="preserve">
+    <value>更新情報</value>
+    <comment>Caption of the Upgrade Info Messagebox</comment>
+  </data>
+  <data name="UpgradeFeedlistInfoText" xml:space="preserve">
+    <value>{0} の現在のバージョンは、新機能、バグ修正をサポートします.
+requires a change of your feedlist file format.
+To keep your older versions running, the application will try to create a new feedlist file from your current list.
+
+The old file will be left untouched.
+
+Do you want to continue?</value>
+    <comment>Info text used to inform a user about a feedlist file format change.</comment>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption" xml:space="preserve">
+    <value>フィードファイルに問題があります</value>
+    <comment>Caption of the infobox displaying an error message about an invalid feedlist file</comment>
+  </data>
+  <data name="InvalidFeedURIBoxText" xml:space="preserve">
+    <value>フィード用に指定された URL に問題があります</value>
+    <comment>Text of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="InvalidFeedURIBoxCaption" xml:space="preserve">
+    <value>不正な URL です</value>
+    <comment>Caption of dialog if invalid URI specified when creating a new feed</comment>
+  </data>
+  <data name="ExceptionReadingFeedlistFile" xml:space="preserve">
+    <value>フィード一覧の読み込み中に不明なエラーが発生しました</value>
+    <comment>Exception message</comment>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
+    <value>フィードファイルの読み込みエラー</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="InvalidFeedlistFileMessage" xml:space="preserve">
+    <value>フィードファイルに問題があります。確認してください: </value>
+    <comment>Validation Error message</comment>
+  </data>
+  <data name="GUIStatusDone" xml:space="preserve">
+    <value>完了</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed" xml:space="preserve">
+    <value>commentRss フィードを読み込み中...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed" xml:space="preserve">
+    <value>commentRss フィード読み込みエラー: {0}</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile" xml:space="preserve">
+    <value>フィード一覧読み込み中の検査エラー</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusNoFeedlistFile" xml:space="preserve">
+    <value>フィード一覧がありません</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="GUIStatusIdle" xml:space="preserve">
+    <value>アイドル</value>
+    <comment>also displayed as a Tooltip on the tray icon</comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived" xml:space="preserve">
+    <value>新着記事の受信中</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage" xml:space="preserve">
+    <value>{0} フィード, {1} 新着記事</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusBusyRefresh" xml:space="preserve">
+    <value>更新中...</value>
+    <comment>also displayed as a tooltip </comment>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable" xml:space="preserve">
+    <value>未読記事があります...</value>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage" xml:space="preserve">
+    <value>{0} フィードを更新</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated" xml:space="preserve">
+    <value>フィード更新なし</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage" xml:space="preserve">
+    <value>{0} 未読記事</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft" xml:space="preserve">
+    <value>未読記事なし</value>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid" xml:space="preserve">
+    <value>RSSフィードのタイトルとリンクは必須です</value>
+  </data>
+  <data name="GUIFieldTitleInvalid" xml:space="preserve">
+    <value>カテゴリのタイトルは必須です</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption" xml:space="preserve">
+    <value>指定されていない項目があります</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid" xml:space="preserve">
+    <value>WebページのURL が指定されていません</value>
+  </data>
+  <data name="GUIFieldKeywordsInvalid" xml:space="preserve">
+    <value>キーワードが指定されていません</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds" xml:space="preserve">
+    <value>ページ内のフィードを検索中:</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" xml:space="preserve">
+    <value>キーワードを含んだフィードを検索中</value>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed" xml:space="preserve">
+    <value>フィード更新中:</value>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile" xml:space="preserve">
+    <value>ファイル更新中:</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound" xml:space="preserve">
+    <value>RSSフィードが見つかりませんでした</value>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist" xml:space="preserve">
+    <value>フィード一覧のアップロード中 ( {0} ) しばらくお待ちください...</value>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage" xml:space="preserve">
+    <value>フィード一覧アップロードエラー:</value>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist" xml:space="preserve">
+    <value>フィード一覧のダウンロード中 ({0}) しばらくお待ちください...</value>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage" xml:space="preserve">
+    <value>フィード一覧ダウンロードエラー:</value>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds" xml:space="preserve">
+    <value>フィードが見つかまりません</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo" xml:space="preserve">
+    <value>このフィードは購読済みです</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage" xml:space="preserve">
+    <value>更新中: {0} ...</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed" xml:space="preserve">
+    <value>更新失敗 {0} (XML エラー): {1}</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed" xml:space="preserve">
+    <value>更新失敗 {0} (致命的なエラー): {1}</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess" xml:space="preserve">
+    <value>要求失敗 URL {0} : {1}</value>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption" xml:space="preserve">
+    <value>フィード自動検索失敗:</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage" xml:space="preserve">
+    <value>フィード更新中...</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist" xml:space="preserve">
+    <value>フィード一覧読み込み中...</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems" xml:space="preserve">
+    <value>読み込み中, しばらくお待ちください...</value>
+  </data>
+  <data name="GUIStatusChildItemsNA" xml:space="preserve">
+    <value>関連する記事を読み込めません。接続を切断されました</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState" xml:space="preserve">
+    <value>インターネット接続状況を検査中...</value>
+  </data>
+  <data name="GUICurrentConnectionState_Info" xml:space="preserve">
+    <value>インターネット接続状況...</value>
+  </data>
+  <data name="GUIStatusLoadingFeed" xml:space="preserve">
+    <value>読み込み中...</value>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage" xml:space="preserve">
+    <value>検索設定の読み込み中に不明なエラー: {0} ({1})</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption" xml:space="preserve">
+    <value>エラー発生:</value>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig" xml:space="preserve">
+    <value>検索設定読み込み中にエラー</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig" xml:space="preserve">
+    <value>検索設定一覧読み込み中に検査エラー</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage" xml:space="preserve">
+    <value>検索設定読み込み中に検査エラー</value>
+  </data>
+  <data name="GeneralNewItemText" xml:space="preserve">
+    <value>[新規]</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter" xml:space="preserve">
+    <value>[新規 {0}]</value>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed" xml:space="preserve">
+    <value>フィードに問題があります</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage" xml:space="preserve">
+    <value>フィード読み込みエラー: {0}</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage" xml:space="preserve">
+    <value>処理中止. フィード {0} エラー {1}</value>
+  </data>
+  <data name="ExceptionNewsItemTransformation" xml:space="preserve">
+    <value>RSS記事を HTMLに変換できません</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile" xml:space="preserve">
+    <value>XSLT スタイルシートをコンパイルできません</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet" xml:space="preserve">
+    <value>XSLT スタイルシートに問題があります</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage" xml:space="preserve">
+    <value>指定の XSLT スタイルシートで記事の変換時にエラー:</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage" xml:space="preserve">
+    <value>文字に問題があります</value>
+    <comment>Due to the somewhat unspecific Xml exceptions (no error numbers) we had to detect
+		a specific error message by string matching (this one) to find the message reporting 
+		a invalid character (they include the invalid char, that breaks our rendering)</comment>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed" xml:space="preserve">
+    <value>処理中止. タイトルは必須です</value>
+  </data>
+  <data name="MainMenuFileCaption" xml:space="preserve">
+    <value>ファイル(&amp;F)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuFileDesc" xml:space="preserve">
+    <value>RSS Bandit ファイルコマンドメニュー</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuViewCaption" xml:space="preserve">
+    <value>表示(&amp;V)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuViewDesc" xml:space="preserve">
+    <value>RSS Bandit 表示設定コマンド</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuToolsCaption" xml:space="preserve">
+    <value>ツール(&amp;T)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuToolsDesc" xml:space="preserve">
+    <value>RSS Bandit ツールコマンド</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuSearchCaption" xml:space="preserve">
+    <value>検索(S)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuSearchDesc" xml:space="preserve">
+    <value>RSS Bandit Web検索設定コマンド</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MainMenuHelpCaption" xml:space="preserve">
+    <value>ヘルプ(&amp;H)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuHelpDesc" xml:space="preserve">
+    <value>RSS Bandit ヘルプ...</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption" xml:space="preserve">
+    <value>結果を新しいタブで開く</value>
+    <comment>Caption within search menu</comment>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc" xml:space="preserve">
+    <value>Web検索の結果を新しいタブに表示</value>
+    <comment>Description within search menu</comment>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc" xml:space="preserve">
+    <value>このエントリを確認する</value>
+    <comment>Description within search menu</comment>
+  </data>
+  <data name="MenuAboutCaption" xml:space="preserve">
+    <value>RSS Bandit について(&amp;A)</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuAboutDesc" xml:space="preserve">
+    <value>このアプリケーションについての説明</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuWebHelpCaption" xml:space="preserve">
+    <value>オンラインドキュメント(&amp;O)</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuWebHelpDesc" xml:space="preserve">
+    <value>ヘルプ、チュートリアル、FAQ</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
+    <value>ニュースの表示 (&amp;D)...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
+    <value>からこのアプリケーションの最新ニュースを表示</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBugReportCaption" xml:space="preserve">
+    <value>バグを報告 ... (&amp;R)</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBugReportDesc" xml:space="preserve">
+    <value>このアプリケーションのバグを で報告</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
+    <value>更新を確認する...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuCheckForUpdatesDesc" xml:space="preserve">
+    <value>プログラムの更新を確認する</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBanditWikiCaption" xml:space="preserve">
+    <value>RSS Bandit ホームページの表示(&amp;H)</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBanditWikiDesc" xml:space="preserve">
+    <value>ニュース、要望、FAQ など...</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuBanditForumCaption" xml:space="preserve">
+    <value>RSS Bandit フォーラムの表示(&amp;F)</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuBanditForumDesc" xml:space="preserve">
+    <value>関連するテーマについて議論</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption" xml:space="preserve">
+    <value>フィード(&amp;F)</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc" xml:space="preserve">
+    <value>フィード一覧ツリーパネルの表示を切り替える</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption" xml:space="preserve">
+    <value>検索(&amp;S)</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc" xml:space="preserve">
+    <value>検索パネルの表示を切り替える</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarsCaption" xml:space="preserve">
+    <value>ツールバー(&amp;T)</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarsDesc" xml:space="preserve">
+    <value>ツールバーの表示の切り替え</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarMainCaption" xml:space="preserve">
+    <value>標準</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarMainDesc" xml:space="preserve">
+    <value>標準ツールバーの表示の切り替え</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption" xml:space="preserve">
+    <value>Web</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc" xml:space="preserve">
+    <value>Web ツールバーの表示の切り替え</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption" xml:space="preserve">
+    <value>Web 検索</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc" xml:space="preserve">
+    <value>Web 検索ツールバーの表示の切り替え</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuImportFeedsCaption" xml:space="preserve">
+    <value>フィードのインポート(&amp;I)...</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuImportFeedsDesc" xml:space="preserve">
+    <value>フィードリスト (.xml, .ocs, .opml) からインポート</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuExportFeedsCaption" xml:space="preserve">
+    <value>フィードのエクスポート(&amp;E)...</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuExportFeedsDesc" xml:space="preserve">
+    <value>フィードをエクスポート</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppOptionsCaption" xml:space="preserve">
+    <value>オプション(&amp;O)</value>
+    <comment>Caption within tools menu</comment>
+  </data>
+  <data name="MenuAppOptionsDesc" xml:space="preserve">
+    <value>オプションダイアログを表示...</value>
+    <comment>Description within tools menu</comment>
+  </data>
+  <data name="MenuAppCloseExitCaption" xml:space="preserve">
+    <value>終了(&amp;X)</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuAppCloseExitDesc" xml:space="preserve">
+    <value>RSS Bandit の終了</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption" xml:space="preserve">
+    <value>オフライン作業(&amp;O)</value>
+    <comment>Caption within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc" xml:space="preserve">
+    <value>インターネット接続モードの切り替え</value>
+    <comment>Description within file menu</comment>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline" xml:space="preserve">
+    <value>[オフライン作業中]</value>
+    <comment>Caption Postfix on the main window</comment>
+  </data>
+  <data name="MenuViewOutlookReadingPane" xml:space="preserve">
+    <value>グループの記事を表示</value>
+  </data>
+  <data name="MenuNewFeedCaption" xml:space="preserve">
+    <value>フィード購読(&amp;F)...</value>
+    <comment>CHANGED: Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewFeedDesc" xml:space="preserve">
+    <value>新しくフィードを購読する</value>
+    <comment>Description within file/context menu</comment>
+  </data>
+  <data name="MenuNewCategoryCaption" xml:space="preserve">
+    <value>カテゴリの作成(&amp;C)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuNewCategoryDesc" xml:space="preserve">
+    <value>グループにカテゴリを作成</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowMainGuiCaption" xml:space="preserve">
+    <value>RSS Bandit を開く</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowMainGuiDesc" xml:space="preserve">
+    <value>RSS Bandit ウィンドウを開く</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowAlertWindowsCaption" xml:space="preserve">
+    <value>フィードアラートウィンドウの表示</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowAlertWindowsDesc" xml:space="preserve">
+    <value>アラートウィンドウの表示を設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption" xml:space="preserve">
+    <value>フィード単位に設定</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc" xml:space="preserve">
+    <value>フィード単位にアラートウィンドウの表示を設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption" xml:space="preserve">
+    <value>表示しない</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc" xml:space="preserve">
+    <value>アラートウィンドウを表示しない</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption" xml:space="preserve">
+    <value>常に表示</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc" xml:space="preserve">
+    <value>新しい投稿があるたびに表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption" xml:space="preserve">
+    <value>新しい記事をアラート表示</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc" xml:space="preserve">
+    <value>新しい記事があるたびにアラートを表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption" xml:space="preserve">
+    <value>すべてのフィードを更新(&amp;A)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc" xml:space="preserve">
+    <value>すべてのフィードの更新を初期化</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpOnAllCaption" xml:space="preserve">
+    <value>すべて開封済みにする</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpOnAllDesc" xml:space="preserve">
+    <value>すべて開封済みにする...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption" xml:space="preserve">
+    <value>すべてのフィードを削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc" xml:space="preserve">
+    <value>すべてのフィードを削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuUpdateCategoryCaption" xml:space="preserve">
+    <value>カテゴリの更新</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateCategoryDesc" xml:space="preserve">
+    <value>このカテゴリのフィードをすべて更新</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
+    <value>カテゴリをすべて開封済みにする</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpCategoryDesc" xml:space="preserve">
+    <value>カテゴリをすべて開封済みにする...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRenameCategoryCaption" xml:space="preserve">
+    <value>カテゴリの名前の変更</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRenameCategoryDesc" xml:space="preserve">
+    <value>このカテゴリの名前の変更</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteCategoryCaption" xml:space="preserve">
+    <value>カテゴリを削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteCategoryDesc" xml:space="preserve">
+    <value>カテゴリをフィードも含めて削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption" xml:space="preserve">
+    <value>プロパティ...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc" xml:space="preserve">
+    <value>カテゴリのプロパティダイアログを開く</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuUpdateThisFeedCaption" xml:space="preserve">
+    <value>フィードの更新(&amp;U)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuUpdateThisFeedDesc" xml:space="preserve">
+    <value>このフィードを更新</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption" xml:space="preserve">
+    <value>すべて開封済みにする</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc" xml:space="preserve">
+    <value>すべての記事を開封済みにする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRenameThisFeedCaption" xml:space="preserve">
+    <value>フィードの名前の変更(&amp;n)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRenameThisFeedDesc" xml:space="preserve">
+    <value>このフィードの名前の変更</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteThisFeedCaption" xml:space="preserve">
+    <value>フィードを削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteThisFeedDesc" xml:space="preserve">
+    <value>このフィードを削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption" xml:space="preserve">
+    <value>開封済みにする</value>
+    <comment>Caption within menu/tool/context</comment>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc" xml:space="preserve">
+    <value>ツリービューの選択したノードの記事をすべて開封済みにする</value>
+    <comment>Description within menu/tool/context</comment>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption" xml:space="preserve">
+    <value>Discovered Feeds</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc" xml:space="preserve">
+    <value>訪問したウェブサイトから集めたすべてのフィードを表示</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption" xml:space="preserve">
+    <value>発見したフィードの一覧をクリア</value>
+    <comment>Caption within view menu</comment>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc" xml:space="preserve">
+    <value>下記の発見したフィードをすべてクリアする</value>
+    <comment>Description within view menu</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion" xml:space="preserve">
+    <value>フィードをすべ削除していいですか ?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" xml:space="preserve">
+    <value>このカテゴリを、カテゴリの中に含まれるフィードやカテゴリを含めて削除していいですか ?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion" xml:space="preserve">
+    <value>このフィードを削除していいですか ?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption" xml:space="preserve">
+    <value>ソースの表示</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc" xml:space="preserve">
+    <value>フィードのソースを表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuValidateFeedCaption" xml:space="preserve">
+    <value>検査</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuValidateFeedDesc" xml:space="preserve">
+    <value>フィード、リンクのソースを検査</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption" xml:space="preserve">
+    <value>このフィード</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc" xml:space="preserve">
+    <value>詳細フィード情報...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption" xml:space="preserve">
+    <value>ホームページ</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc" xml:space="preserve">
+    <value>フィードのホームページへ移動</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowLinkCosmosCaption" xml:space="preserve">
+    <value>Cosmos リンク</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowLinkCosmosDesc" xml:space="preserve">
+    <value>Technorati へ移動し、フィードリンクの Cosmos を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption" xml:space="preserve">
+    <value>プロパティ...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc" xml:space="preserve">
+    <value>フィードのプロパティのダイアログを開く...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption" xml:space="preserve">
+    <value>未読にする(&amp;u)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc" xml:space="preserve">
+    <value>フィード記事を未読にする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption" xml:space="preserve">
+    <value>返信(&amp;P)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc" xml:space="preserve">
+    <value>この記事へ返信する</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage" xml:space="preserve">
+    <value>フィード記事が選択されていません</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNewFinderCaption" xml:space="preserve">
+    <value>検索フォルダの作成</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuNewFinderDesc" xml:space="preserve">
+    <value>検索フォルダを作成する</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderRenameCaption" xml:space="preserve">
+    <value>検索したフォルダの名前を変更</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuRenameCaptionDesc" xml:space="preserve">
+    <value>検索フォルダの名前の変更</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion" xml:space="preserve">
+    <value>この検索フォルダを削除していいですか ?</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderDeleteCaption" xml:space="preserve">
+    <value>削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFinderDeleteDesc" xml:space="preserve">
+    <value>選択した検索フォルダを削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRefreshFinderCaption" xml:space="preserve">
+    <value>再検索</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuRefreshFinderDesc" xml:space="preserve">
+    <value>検索フォルダの結果を更新</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuFinderDeleteAllCaption" xml:space="preserve">
+    <value>すべて削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFinderDeleteAllDesc" xml:space="preserve">
+    <value>選択したノードから検索したフォルダをすべて削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption" xml:space="preserve">
+    <value>プロパティ...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc" xml:space="preserve">
+    <value>検索のプロパティのダイアログを開く...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption" xml:space="preserve">
+    <value>購読</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc" xml:space="preserve">
+    <value>検索結果を購読するために、フィードの追加ダイアログを開く</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="AppLoadStateLoading" xml:space="preserve">
+    <value>アプリケーション起動中...</value>
+    <comment>Splash screen state message</comment>
+  </data>
+  <data name="AppLoadStateGuiLoading" xml:space="preserve">
+    <value>メイン GUI 起動中...</value>
+    <comment>Splash screen state message</comment>
+  </data>
+  <data name="MenuFlagFeedItemCaption" xml:space="preserve">
+    <value>フラグの設定</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemDesc" xml:space="preserve">
+    <value>選択したフィードにフラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption" xml:space="preserve">
+    <value>調査</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc" xml:space="preserve">
+    <value>「調査」フラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption" xml:space="preserve">
+    <value>レビュー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc" xml:space="preserve">
+    <value>「レビュー」フラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption" xml:space="preserve">
+    <value>返信</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc" xml:space="preserve">
+    <value>「返信」フラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption" xml:space="preserve">
+    <value>監視</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc" xml:space="preserve">
+    <value>「監視」フラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption" xml:space="preserve">
+    <value>転送</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc" xml:space="preserve">
+    <value>「転送」フラグを設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption" xml:space="preserve">
+    <value>完了</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc" xml:space="preserve">
+    <value>選択したフィードを「完了」に設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption" xml:space="preserve">
+    <value>クリア</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc" xml:space="preserve">
+    <value>選択したフィード記事のフラグをクリア</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemCaption" xml:space="preserve">
+    <value>コピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemDesc" xml:space="preserve">
+    <value>RSS記事をコピー...</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption" xml:space="preserve">
+    <value>記事のリンクをコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc" xml:space="preserve">
+    <value>選択したRSS記事のリンクをコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>記事をタイトル付リンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>選択した記事をタイトル付リンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption" xml:space="preserve">
+    <value>記事の内容をコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc" xml:space="preserve">
+    <value>選択したRSSフィードの内容をコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedCaption" xml:space="preserve">
+    <value>コピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedDesc" xml:space="preserve">
+    <value>選択したRSSフィードをコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption" xml:space="preserve">
+    <value>フィードリンクをコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc" xml:space="preserve">
+    <value>フィードのリンクをコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
+    <value>フィードホームページをリンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc" xml:space="preserve">
+    <value>選択したRSSフィードをリンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>フィードホームページをタイトル付リンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>選択したRSSフィードをタイトル付リンクとしてコピー</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption" xml:space="preserve">
+    <value>すべてのフィードを削除</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc" xml:space="preserve">
+    <value>すべてのアイテムを削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption" xml:space="preserve">
+    <value>削除</value>
+    <comment>Caption within context menu, was formerly "Delete selected items"</comment>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc" xml:space="preserve">
+    <value>選択したアイテムをすべて削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption" xml:space="preserve">
+    <value>リストア</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc" xml:space="preserve">
+    <value>選択したすべての記事をリストア</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuNextUnreadItemCaption" xml:space="preserve">
+    <value>次の未読記事</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuNextUnreadItemDesc" xml:space="preserve">
+    <value>次の未読記事へ移動</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption" xml:space="preserve">
+    <value>フィード設置(&amp;L)</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc" xml:space="preserve">
+    <value>特定のWebサイトやトピック用のRSSフィードを設置</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption" xml:space="preserve">
+    <value>返信(&amp;P)...</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc" xml:space="preserve">
+    <value>この記事に返信する</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuNewRssSearchCaption" xml:space="preserve">
+    <value>検索</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuNewRssSearchDesc" xml:space="preserve">
+    <value>記事をローカルで検索</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateBackCaption" xml:space="preserve">
+    <value>戻る</value>
+    <comment>CHANGED Caption within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc" xml:space="preserve">
+    <value>戻る</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption" xml:space="preserve">
+    <value>進む</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc" xml:space="preserve">
+    <value>進む</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption" xml:space="preserve">
+    <value>Url</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc" xml:space="preserve">
+    <value>移動先の Webアドレス</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption" xml:space="preserve">
+    <value>中止</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
+    <value>移動を中止</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserRefreshCaption" xml:space="preserve">
+    <value>更新</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserRefreshDesc" xml:space="preserve">
+    <value>更新</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption" xml:space="preserve">
+    <value>移動</value>
+    <comment>Caption within tool menu</comment>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc" xml:space="preserve">
+    <value>特定のURL へ移動</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNewTabCaption" xml:space="preserve">
+    <value>新しいタブ</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNewTabDesc" xml:space="preserve">
+    <value>新しくブラウザタブを開く</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption" xml:space="preserve">
+    <value>Web ブウラザで開きます</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc" xml:space="preserve">
+    <value>デフォルトWebブラウザでリンクを開く...</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption" xml:space="preserve">
+    <value>Web 検索</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuDoSearchComboBoxDesc" xml:space="preserve">
+    <value>Web検索用キーワード</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuDoSearchWebCaption" xml:space="preserve">
+    <value>Web 検索</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="MenuDoSearchWebDesc" xml:space="preserve">
+    <value>Web検索用フレーズ</value>
+    <comment>Description within tool menu</comment>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (アドイン) コマンド</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuConfigCommandCaption" xml:space="preserve">
+    <value>設定...</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (アドイン) 設定</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption" xml:space="preserve">
+    <value>ドキュメントを閉じる</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc" xml:space="preserve">
+    <value>選択したドキュメントタブを閉じる</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption" xml:space="preserve">
+    <value>ストリップ内のすべてのドキュメントを閉じる</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc" xml:space="preserve">
+    <value>選択したストリップのドキュメントタブを閉じる</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption" xml:space="preserve">
+    <value>すべてのドキュメントを閉じる</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc" xml:space="preserve">
+    <value>すべてのドキュメントタブを閉じる</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption" xml:space="preserve">
+    <value>水平分割レイアウト</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc" xml:space="preserve">
+    <value>チェックした場合、分割ドキュメントタブは水平にレイアウトする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall" xml:space="preserve">
+    <value>IBlogExtension (アドイン) function '{0}' がエラーになりました:
+'{1}'.        
+        </value>
+    <comment>Error message text</comment>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption" xml:space="preserve">
+    <value>フィード エラー</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc" xml:space="preserve">
+    <value>フィード一覧に問題があります</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption" xml:space="preserve">
+    <value>フラグ設定された記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc" xml:space="preserve">
+    <value>フラグ設定記事のフォルダ</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption" xml:space="preserve">
+    <value>調査 記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption" xml:space="preserve">
+    <value>監視 記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption" xml:space="preserve">
+    <value>レビュー 記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption" xml:space="preserve">
+    <value>転送 記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption" xml:space="preserve">
+    <value>返信 記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
+    <value>フィード</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
+    <value>購読中のフィードのフォルダ</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption" xml:space="preserve">
+    <value>特別 フィード</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc" xml:space="preserve">
+    <value>特別 フィードのフォルダ</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeFinderRootCaption" xml:space="preserve">
+    <value>検索フォルダ</value>
+    <comment>RootNode caption</comment>
+  </data>
+  <data name="FeedNodeFinderRootDesc" xml:space="preserve">
+    <value>検索フィードのフォルダ</value>
+    <comment>RootNode desc</comment>
+  </data>
+  <data name="FeedNodeSentItemsCaption" xml:space="preserve">
+    <value>送信済み記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeSentItemsDesc" xml:space="preserve">
+    <value>送信、返信した記事</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="TabValidationResultCaption" xml:space="preserve">
+    <value>フィード検査結果</value>
+    <comment>Tab caption of the feed validation results (Webpage)</comment>
+  </data>
+  <data name="TabFeedHomeCaption" xml:space="preserve">
+    <value>フィード ホーム: {0}</value>
+    <comment>Tab caption of the feed home page (Webpage)</comment>
+  </data>
+  <data name="TabLinkCosmosCaption" xml:space="preserve">
+    <value>フィード リンク Cosmos: {0}</value>
+    <comment>Tab caption of the feed's technorati link cosmos (Webpage)</comment>
+  </data>
+  <data name="TabFeedSourceCaption" xml:space="preserve">
+    <value>フィード ソース: {0}</value>
+    <comment>Tab caption of the feed source view (Xml Webpage)</comment>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc" xml:space="preserve">
+    <value>タスクバーの通知領域に最小化してスタート</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineSubscribeToDesc" xml:space="preserve">
+    <value>指定のフィードを購読</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineHelpDesc" xml:space="preserve">
+    <value>このメッセージの印刷</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="CmdLineCultureDesc" xml:space="preserve">
+    <value>アプリケーションを別の言語で開始 (ISO 言語コード)</value>
+    <comment>CommandLine Option description</comment>
+  </data>
+  <data name="MenuUploadFeedsCaption" xml:space="preserve">
+    <value>フィードのアップロード(&amp;U)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuDownloadFeedsCaption" xml:space="preserve">
+    <value>フィードのダウンロード(&amp;D)</value>
+  </data>
+  <data name="MenuUploadFeedsDesc" xml:space="preserve">
+    <value>リモートストレージにフィードリストをアップロード</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc" xml:space="preserve">
+    <value>リモートストレージからフィードリストをダウンロード</value>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage" xml:space="preserve">
+    <value>指定のデフォルト Web ブラウザの起動に問題が発生しました</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage" xml:space="preserve">
+    <value>指定のプログラムの軌道に問題が発生しました '{0}':
+		
+		'{1}'.
+		
+		Should we open the Url '{2}' on a new Tab?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionOpenFileMessage" xml:space="preserve">
+    <value>ファイル '{0}' を開けません, 原因: 
+		
+		'{1}'.
+	</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="ExceptionSaveFileMessage" xml:space="preserve">
+    <value>ファイル '{0}' に保存できません, 原因:
+		
+		'{1}'.
+	</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="FileDialogFilterOPMLFiles" xml:space="preserve">
+    <value>OPML ファイル</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterXMLFiles" xml:space="preserve">
+    <value>XML ファイル</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="FileDialogFilterAllFiles" xml:space="preserve">
+    <value>すべてのファイル</value>
+    <comment>Text used to build Open/Save File Dialog file filters</comment>
+  </data>
+  <data name="WrongImageSizeMessage" xml:space="preserve">
+    <value>イメージは 16x16ピクセルではありません</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="PreferencesExceptionMessageTitle" xml:space="preserve">
+    <value>プリファレンス設定エラー</value>
+    <comment>Title of the messagebox displayed on exceptions with it's settings</comment>
+  </data>
+  <data name="FormatExceptionRefreshRate" xml:space="preserve">
+    <value>更新間隔が数字ではありません</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="OverflowExceptionRefreshRate" xml:space="preserve">
+    <value>入力した値では、更新が頻繁すぎます</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionRefreshRateInvalid" xml:space="preserve">
+    <value>更新間隔に問題があります</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyUrl" xml:space="preserve">
+    <value>PROXYアドレス を指定してください (IPアドレス、ホスト名)</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="FormatExceptionProxyPort" xml:space="preserve">
+    <value>PROXY ポートが数字ではありません</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionProxyPortRange" xml:space="preserve">
+    <value>PROXY ポートが, 0 ～ 65535 の範囲外です</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionProxyPortInvalid" xml:space="preserve">
+    <value>PROXY ポートに問題があります</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoProxyAuthUser" xml:space="preserve">
+    <value>PROXY 認証ユーザーを指定してください</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable" xml:space="preserve">
+    <value>実行ファイルのパスと名前を指定してください</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation" xml:space="preserve">
+    <value>リモートストレージの場所を指定してください</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation" xml:space="preserve">
+    <value>FTP のリモートストレージの URL は、"ftp:" をつけてください</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser" xml:space="preserve">
+    <value>リモートストレージの認証ユーザを指定してください</value>
+    <comment>Text used within errorProvider</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV" xml:space="preserve">
+    <value>WebDAV フォルダ URL:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint" xml:space="preserve">
+    <value>WebDAV フォルダに rssbandit-state.zip とししてアプリケーションの状態を保存できます。ストレージサービス URL に、WebDAV フォルダを指定します. 例: http://mywebdav.com/personal/。WebDAV フォルダに保存、読み込みの権限が必要です。</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog" xml:space="preserve">
+    <value>Web サービス URL:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint" xml:space="preserve">
+    <value>dasBlog のユーザーは、購読しているフィードリストを blogroll.opml として保存できます。(http://www.dasblog.net). ストレージサービス URL に、http://ドメイン名/dasblog/ConfigEditingService.asmx のように指定し、dasBlog の Configuration Editing を有効にしてください。</value>
+    <comment>Dynamic hint label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare" xml:space="preserve">
+    <value>ディレクトリパス:</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint" xml:space="preserve">
+    <value>ローカルハードティスクやネットワーク上のファイル共有フォルダに、アプリケーションの状態を rssbandit-state.zip として保存できます。ディレクトリパスを指定してください。(例:  '\\yournetworkshare\feedlist\'、'H:\')</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp" xml:space="preserve">
+    <value>FTP サーバー/パス:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint" xml:space="preserve">
+    <value>FTPサーバにrssbandit-state.zip ファイルとしてアプリケーションの状態を保存できます。FTPサーバとパスを指定してください。(例:ftp//サーバー:7788/パス/)</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="RemoteStorageFeature_Info" xml:space="preserve">
+    <value>このコマンドを利用するには、オプションダイアログにてリモートストレージを設定してください。</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="RemoteStorageUpload_Question" xml:space="preserve">
+    <value>サービスにフィード一覧をアップロードします</value>
+    <comment>Messagebox question text</comment>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info" xml:space="preserve">
+    <value>フィード一覧のアップロード成功</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="RemoteStorageDownload_Question" xml:space="preserve">
+    <value>ダウンロードしたフィード一覧で、現在の一覧を置き換えます</value>
+    <comment>Messagebox question text</comment>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave" xml:space="preserve">
+    <value>Web検索エンジンの設定中に不明なエラーが発生しました</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="NotYetImplementedFeature_Info" xml:space="preserve">
+    <value>申し訳ありません。この機能はまだ提供しておりません</value>
+    <comment>Messagebox info text</comment>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet" xml:space="preserve">
+    <value>記事フォーマット用XSLTスタイルシートの読み込み中に不明なエラーが発生しました</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionImportFeedlist" xml:space="preserve">
+    <value>フィード一覧のインポート中にエラー: </value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="GUIStatusPostReplyToItem" xml:space="preserve">
+    <value>返信を送信中. しばらくお待ちください...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem" xml:space="preserve">
+    <value>返信中にエラー</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionGeneral" xml:space="preserve">
+    <value>エラーが発生しました:</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionDuplicateCategoryName" xml:space="preserve">
+    <value>名前 '{0}' は、使用中です</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator" xml:space="preserve">
+    <value>デフォルトアグリゲータの設定中にエラーが発生しました</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="ListviewColumnCaptionHeadline" xml:space="preserve">
+    <value>ヘッドライン</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionTopic" xml:space="preserve">
+    <value>トピック</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionDate" xml:space="preserve">
+    <value>日時</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle" xml:space="preserve">
+    <value>フィードタイトル</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionCreator" xml:space="preserve">
+    <value>著者</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc" xml:space="preserve">
+    <value>フィード説明</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl" xml:space="preserve">
+    <value>フィードURL</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl" xml:space="preserve">
+    <value>サイトURL</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount" xml:space="preserve">
+    <value>コメント</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure" xml:space="preserve">
+    <value>添付</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle" xml:space="preserve">
+    <value>[自動探索]</value>
+    <comment>Column caption within listview </comment>
+  </data>
+  <data name="FeedDetailDocumentTabCaption" xml:space="preserve">
+    <value>フィード詳細</value>
+    <comment>Document Tab Caption</comment>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption" xml:space="preserve">
+    <value>ボタンの表示/非表示</value>
+    <comment>Toolbar chevron dropdown menu caption</comment>
+  </data>
+  <data name="ToolbarOptionsCaption" xml:space="preserve">
+    <value>ツールバーオプション</value>
+    <comment>Toolbar chevron dropdown menu tip</comment>
+  </data>
+  <data name="DragDockablePanelInfo" xml:space="preserve">
+    <value>CTRLキーを押すと、ドッキングしません</value>
+    <comment>StatusBar feedback text</comment>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption" xml:space="preserve">
+    <value>検索</value>
+    <comment>Dialog button text</comment>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc" xml:space="preserve">
+    <value>検索を開始します</value>
+    <comment>Dialog button text tooltip</comment>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption" xml:space="preserve">
+    <value>キャンセル</value>
+    <comment>Dialog button text</comment>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc" xml:space="preserve">
+    <value>検索をキャンセルします</value>
+    <comment>Dialog button text tooltip</comment>
+  </data>
+  <data name="RssSearchStateMessage" xml:space="preserve">
+    <value>検索中...</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchCancelledStateMessage" xml:space="preserve">
+    <value>検索中にキャンセルしました...</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchNoResultMessage" xml:space="preserve">
+    <value>記事は見つかませんでした</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchSuccessResultMessage" xml:space="preserve">
+    <value>{0} 個、検索しました</value>
+    <comment>Message text</comment>
+  </data>
+  <data name="RssSearchResultNodeCaption" xml:space="preserve">
+    <value>検索結果</value>
+    <comment>SearchResultNode caption</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption" xml:space="preserve">
+    <value>閲覧ウィンドウ(&amp;R)</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc" xml:space="preserve">
+    <value>閲覧ウィンドウの位置を選択する</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption" xml:space="preserve">
+    <value>下</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc" xml:space="preserve">
+    <value>閲覧ウィンドウを下、記事一覧を上にする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption" xml:space="preserve">
+    <value>右</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc" xml:space="preserve">
+    <value>閲覧ウィンドウを右、記事一覧を左にする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption" xml:space="preserve">
+    <value>左</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc" xml:space="preserve">
+    <value>閲覧ウィンドウを左、記事一覧を右にする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption" xml:space="preserve">
+    <value>上</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc" xml:space="preserve">
+    <value>閲覧ウィンドウを上、記事一覧を下にする</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage" xml:space="preserve">
+    <value>受信記事: {0} 個</value>
+    <comment>displayed in the Toast window(s)</comment>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip" xml:space="preserve">
+    <value>パネルを拡大する</value>
+    <comment>displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip" xml:space="preserve">
+    <value>パネルを縮小する</value>
+    <comment>displayed as a tooltip on a collapsible panel button</comment>
+  </data>
+  <data name="RssSearchTypeTextHintCaption" xml:space="preserve">
+    <value>指定の単語やフレーズを含む記事を検索</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption" xml:space="preserve">
+    <value>正規表現に一致する記事を検索</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption" xml:space="preserve">
+    <value>RSS 2.0表現の中で XPath に一致する記事を検索</value>
+    <comment>displayed as a label text on the collapsible panel "Search Type"</comment>
+  </data>
+  <data name="WindowAboutCaption" xml:space="preserve">
+    <value>{0} について</value>
+    <comment>window caption. Parameter is the product name</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart" xml:space="preserve">
+    <value>フィード '&lt;strong&gt;{0}&lt;/strong&gt;' 更新中にエラー: {1}</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart" xml:space="preserve">
+    <value>フィードの &lt;strong&gt;検査&lt;/strong&gt;をクリックしてください</value>
+    <comment>Part of the error text displayed for refresh feed XML exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart" xml:space="preserve">
+    <value>フィード作成 '{0}'.</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo" xml:space="preserve">
+    <value>連絡先</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor" xml:space="preserve">
+    <value>編集者</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster" xml:space="preserve">
+    <value>Web 管理者</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage" xml:space="preserve">
+    <value>フィード ホームページ</value>
+    <comment>Part of the error text displayed for refresh feed exceptions</comment>
+  </data>
+  <data name="XmlExceptionCategory" xml:space="preserve">
+    <value>Xml エラー</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="WebExceptionCategory" xml:space="preserve">
+    <value>Web エラー</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="ProtocolViolationExceptionCategory" xml:space="preserve">
+    <value>プロトコル違反例外</value>
+    <comment>Category name displayed for refresh feed exceptions (listview)</comment>
+  </data>
+  <data name="ExceptionCategory" xml:space="preserve">
+    <value>一般エラー</value>
+    <comment>Exception topic text</comment>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption" xml:space="preserve">
+    <value>デフォルト RSS リーダで購読</value>
+    <comment>Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption" xml:space="preserve">
+    <value>RSS Bandit で購読</value>
+    <comment>Internet Explorer Menu Extension Caption</comment>
+  </data>
+  <data name="PostReplyFormCaption" xml:space="preserve">
+    <value>返信 - フィード:{0}</value>
+    <comment>Post reply to a Feed Item Form Caption. Param {0} is the item's feed title.</comment>
+  </data>
+  <data name="PostReplyTitlePrefix" xml:space="preserve">
+    <value>Re: {0}</value>
+    <comment>Post reply prefix to a Feed Item Title caption. Param {0} is the item title.</comment>
+  </data>
+  <data name="PostReplySentIdentityInfoText" xml:space="preserve">
+    <value>ユーザー名: {0}
+e-mail: {1}
+referrer-url: {2}</value>
+    <comment>Post reply identity infos about properties we provide to the receiver.</comment>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue" xml:space="preserve">
+    <value>&lt;none&gt;</value>
+    <comment>Post reply identity info displayed for an empty property</comment>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage" xml:space="preserve">
+    <value>購読中のフィード: {0}</value>
+    <comment>Display the overall subscribed feeds count. Param {0} is the number of subscriptions.</comment>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage" xml:space="preserve">
+    <value>選択した記事: {0}</value>
+    <comment>Display the overall items per selection count. Param {0} is the number of items.</comment>
+  </data>
+  <data name="DirectoryDoesNotExistMessage" xml:space="preserve">
+    <value>指定したディレクトリは存在しません</value>
+    <comment>Used in Options dialog for remote storage UNC.</comment>
+  </data>
+  <data name="ExceptionUISettingsSave" xml:space="preserve">
+    <value>UI設定の保存中にエラーが発生しました (setting.xml)</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="NameRequiredInPostReplyMessage" xml:space="preserve">
+    <value>返信するには名前を指定してください</value>
+    <comment>Message used in Post reply dialog.</comment>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile" xml:space="preserve">
+    <value>ショートカット設定ファイルを検査できませんでした</value>
+    <comment>Failure Message if the file is not valid XML.</comment>
+  </data>
+  <data name="ExceptionGeneralCritical" xml:space="preserve">
+    <value>エラーが発生しました。ログをファイルに保存しました</value>
+    <comment>Exception message</comment>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess" xml:space="preserve">
+    <value>この機能を利用するには、書き込み権限を設定してください</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption" xml:space="preserve">
+    <value>削除済み記事</value>
+    <comment>SmartNode caption</comment>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc" xml:space="preserve">
+    <value>削除した記事</value>
+    <comment>SmartNode desc</comment>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion" xml:space="preserve">
+    <value>検索フォルダをすべて削除していいですか ?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion" xml:space="preserve">
+    <value>記事をすべて削除していいですか ?</value>
+    <comment>Text within a messagebox</comment>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>アカウント管理...</value>
+    <comment>menu caption text</comment>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc" xml:space="preserve">
+    <value>アカウントを管理するダイアログを開く</value>
+    <comment>menu caption tooltip text</comment>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption" xml:space="preserve">
+    <value>ニュースグループ...</value>
+    <comment>menu caption text</comment>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc" xml:space="preserve">
+    <value>NNTPサーバとニュースグループを管理するダイアログを開く</value>
+    <comment>menu caption tooltip text</comment>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>アカウント管理</value>
+    <comment>window caption text</comment>
+  </data>
+  <data name="ConfigNewsServerDialogCaption" xml:space="preserve">
+    <value>ニュースグループ管理</value>
+    <comment>window caption text</comment>
+  </data>
+  <data name="CertificateIssueOnFeedCaption" xml:space="preserve">
+    <value>フィード {0} との通信は、盗聴や改ざんの危険はありませんが、フィードのセキュリティ証明書に問題があります</value>
+    <comment>Certificate issue dialog heading text</comment>
+  </data>
+  <data name="CertificateIssueOnSiteCaption" xml:space="preserve">
+    <value>フィード {0}との通信は、盗聴や改ざんの危険はありませんが、サイトのセキュリティ証明書に問題があります</value>
+    <comment>Certificate issue dialog heading text</comment>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH" xml:space="preserve">
+    <value>セキュリティ証明書の名前は、サイトの名前と一致しません</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED" xml:space="preserve">
+    <value>証明書は、 {0} に有効期限が切れました</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertREVOKED" xml:space="preserve">
+    <value>証明書は取り消されています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA" xml:space="preserve">
+    <value>証明書は、信頼していない認証局 (CA) を持っています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT" xml:space="preserve">
+    <value>証明書は、信頼していない CA root を持っています。</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT" xml:space="preserve">
+    <value>証明書は、信頼していないテスト CA root を持っています。</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE" xml:space="preserve">
+    <value>証明書の目的は、要求された処理に適応しません</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertCHAINING" xml:space="preserve">
+    <value>証明書は、すでに信頼済みチェインに含まれています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL" xml:space="preserve">
+    <value>証明書は深刻なエラーを発生</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING" xml:space="preserve">
+    <value>証明書発行元は、すでに信頼チェインに含まれています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED" xml:space="preserve">
+    <value>証明書が壊れています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST" xml:space="preserve">
+    <value>証明書にエラーがあります: path length const</value>
+    <comment>Certificate issue dialog detail text (sorry, dunno what that mean...)</comment>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE" xml:space="preserve">
+    <value>証明書の取り消しに失敗しました</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertROLE" xml:space="preserve">
+    <value>証明書の役割が間違っています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING" xml:space="preserve">
+    <value>証明書の有効期間がネストしています</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE" xml:space="preserve">
+    <value>証明書は、要求された処理に使えません</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="CertificateIssue_Unknown" xml:space="preserve">
+    <value>セキュリティ証明書に不明な問題がありますm: '{0}'.</value>
+    <comment>Certificate issue dialog detail text</comment>
+  </data>
+  <data name="MenuColumnChooserCaption" xml:space="preserve">
+    <value>列レイアウト</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDesc" xml:space="preserve">
+    <value>表示する列とレイアウトを管理</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserTitleCaption" xml:space="preserve">
+    <value>ヘッドライン</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserTitleDesc" xml:space="preserve">
+    <value>ニュース記事の「ヘッドライン(タイトル)」を列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDateCaption" xml:space="preserve">
+    <value>日時</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserDateDesc" xml:space="preserve">
+    <value>ニュース記事の「日時」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption" xml:space="preserve">
+    <value>トピック</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc" xml:space="preserve">
+    <value>ニュース記事の「カテゴリ(トピック)」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption" xml:space="preserve">
+    <value>著者</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc" xml:space="preserve">
+    <value>ニュース記事の「著者」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption" xml:space="preserve">
+    <value>フィードタイトル</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc" xml:space="preserve">
+    <value>ニュース記事の「フィードタイトル」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption" xml:space="preserve">
+    <value>コメント数</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc" xml:space="preserve">
+    <value>ニュース記事の「コメント数」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption" xml:space="preserve">
+    <value>添付状態</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc" xml:space="preserve">
+    <value>ニュース記事の「添付状態」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFlagCaption" xml:space="preserve">
+    <value>フラグ</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserFlagDesc" xml:space="preserve">
+    <value>ニュース記事の「フラグ」列を表示</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption" xml:space="preserve">
+    <value>カテゴリのデフォルトレイアウトを使う</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc" xml:space="preserve">
+    <value>個別にレイアウトせずに、すべてのカテゴリでレイアウトが有効</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" xml:space="preserve">
+    <value>このレイアウトをフィードのデフォルトとする</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" xml:space="preserve">
+    <value>個別にレイアウトせずに、すべてのフィードノードでレイアウトが有効</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption" xml:space="preserve">
+    <value>レイアウトを初期設定に戻す</value>
+    <comment>Caption within context menu</comment>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc" xml:space="preserve">
+    <value>選択したノードからレイアウト情報を削除</value>
+    <comment>Description within context menu</comment>
+  </data>
+  <data name="MenuDonateToProjectCaption" xml:space="preserve">
+    <value>寄付...</value>
+    <comment>Caption within help menu</comment>
+  </data>
+  <data name="MenuDonateToProjectDesc" xml:space="preserve">
+    <value>プロジェクト支援をするサイトを表示...</value>
+    <comment>Description within help menu</comment>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus" xml:space="preserve">
+    <value>フラグ</value>
+    <comment>Column caption within listview</comment>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
+    <value>最新バージョンをダウンロードできます。
+詳細を表示しますか ?
+
+NO を選択した場合、後ほど再度確認が表示されます。</value>
+    <comment>Question Dialog Text</comment>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion" xml:space="preserve">
+    <value>最新バージョンのチェック...</value>
+    <comment>Waiting Message Dialog Text</comment>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable" xml:space="preserve">
+    <value>現在、最新版を利用しています。</value>
+    <comment>Message Dialog Text</comment>
+  </data>
+  <data name="FeedListNoChildsMessage" xml:space="preserve">
+    <value>子アイテムはありません...</value>
+    <comment>Message Text displayed in the feedlist, if no child items are available (e.g. feed comments)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline" xml:space="preserve">
+    <value>場所:</value>
+    <comment>Dynamic label text (Preferences)</comment>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint" xml:space="preserve">
+    <value>Newsgator Online と購読済みのフィードを含めた現在のステータスを同期することができます。Newsgator Onlineにサインアップするには、 http://www.newsgator.com へアクセスしてください。</value>
+    <comment>Dynamic hint label text (Preferences)</comment>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage" xml:space="preserve">
+    <value>ニュースグループを読み込み中。しばらくお待ちください...</value>
+    <comment>Message Text displayed in the entertainment dialog while loading the list of newsgroups from the NNTP server</comment>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed" xml:space="preserve">
+    <value>ニュースグループ読み込み中 '{0}' 失敗: {1}</value>
+    <comment>{0} param is the news server, {1} the exception message</comment>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption" xml:space="preserve">
+    <value>ニュースグループ読み込みに失敗しました。</value>
+  </data>
+  <data name="Syndic8FeedSearchTitle" xml:space="preserve">
+    <value>Syndic8 サービス</value>
+    <comment>syndic8.com Feed search service caption</comment>
+  </data>
+  <data name="MainMenuEditCaption" xml:space="preserve">
+    <value>編集(&amp;E)</value>
+    <comment>Caption within main menu</comment>
+  </data>
+  <data name="MainMenuEditDesc" xml:space="preserve">
+    <value>RSS Bandit編集関係コマンド</value>
+    <comment>Description within main menu</comment>
+  </data>
+  <data name="MenuListViewSelectAllCaption" xml:space="preserve">
+    <value>すべて選択(&amp;A)</value>
+    <comment>Caption edit view menu</comment>
+  </data>
+  <data name="MenuListViewSelectAllDesc" xml:space="preserve">
+    <value>ニュースアイテム一覧パネルの全てのアイテムを選択します</value>
+    <comment>Description within edit menu</comment>
+  </data>
+  <data name="MenuNewCmdsCaption" xml:space="preserve">
+    <value>新規(&amp;N)...</value>
+    <comment>Caption for the 'new' command toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewCmdsDesc" xml:space="preserve">
+    <value>新規に購読を作成します</value>
+    <comment>Caption within toolbar/dropdown</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption" xml:space="preserve">
+    <value>新規購読(&amp;N)...</value>
+    <comment>Caption within menu to call the subscription wizard</comment>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc" xml:space="preserve">
+    <value>ウィザードを使って新規に購読を作成します。</value>
+    <comment>Caption within menu</comment>
+  </data>
+  <data name="MenuNewFeedCaption2" xml:space="preserve">
+    <value>新規フィード購読(&amp;N)...</value>
+    <comment>NEW</comment>
+  </data>
+  <data name="MenuNewNntpFeedCaption" xml:space="preserve">
+    <value>ニュースグループ購読(&amp;N)...</value>
+    <comment>Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewNntpFeedDesc" xml:space="preserve">
+    <value>新規ニュースフィード購読</value>
+    <comment>Description within tool dropdown</comment>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption" xml:space="preserve">
+    <value>検索結果購読(&amp;S)...</value>
+    <comment>Caption within tool dropdown</comment>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc" xml:space="preserve">
+    <value>検索結果のフィードからフィードまたは、サブスクライブを検出</value>
+    <comment>Description within tool dropdown</comment>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption" xml:space="preserve">
+    <value>アドイン(&amp;A)...</value>
+    <comment>Caption within tools menu</comment>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc" xml:space="preserve">
+    <value>アドイン管理ダイアログを表示...</value>
+    <comment>Description within tools menu</comment>
+  </data>
+  <data name="ExceptionProxyConfiguration" xml:space="preserve">
+    <value>Proxy 設定が不正です: 
+{0}.
+
+設定を Proxy なしにリセットしてください。.</value>
+    <comment>Failure message on proxy config errors</comment>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage" xml:space="preserve">
+    <value>Webフィードを取得しました。</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message" xml:space="preserve">
+    <value>{0} 個の Webフィードがあります。</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage" xml:space="preserve">
+    <value>URL を確認中です...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage" xml:space="preserve">
+    <value>Webフィードのタイトルを取得中です...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage" xml:space="preserve">
+    <value>検索中...</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage" xml:space="preserve">
+    <value>Webフィードの先読みをキャンセルしました.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage" xml:space="preserve">
+    <value>Webフィードの先読みが失敗しました.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage" xml:space="preserve">
+    <value>検索をキャンセルしました.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage" xml:space="preserve">
+    <value>検索が失敗しました.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage" xml:space="preserve">
+    <value>Webフィードが異常です.</value>
+    <comment>Subscription wizard task info</comment>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>戻って、キーワードの変更してください。終了する場合は、キャンセルします。</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>戻って、URL を変更してください。終了する場合は、キャンセルします。</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="AddInLoadFailure" xml:space="preserve">
+    <value>アドイン '{1}' の読み込みに失敗しました:
+{0}</value>
+    <comment>Subscription wizard info</comment>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption" xml:space="preserve">
+    <value>全般設定</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption" xml:space="preserve">
+    <value>サーバー設定</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption" xml:space="preserve">
+    <value>詳細設定</value>
+    <comment>NNTP Server Configuration Settings Node caption</comment>
+  </data>
+  <data name="MenuPostNewFeedItemCaption" xml:space="preserve">
+    <value>新規投稿</value>
+    <comment>Toolbar button caption (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="MenuPostNewFeedItemDesc" xml:space="preserve">
+    <value>選択したフィードに投稿します</value>
+    <comment>Toolbar button descr. (post a new item to a NNTP group)</comment>
+  </data>
+  <data name="NewPostToFeedFormCaption" xml:space="preserve">
+    <value>新規投稿: {0}</value>
+    <comment>New Post to a Feed Form Caption. Param {0} is the feed title.</comment>
+  </data>
+  <data name="GUIStatusPostNewFeedItem" xml:space="preserve">
+    <value>新しいアイテムを投稿します。しばらくお待ちください...</value>
+    <comment>GUI status info</comment>
+  </data>
+  <data name="ExceptionPostNewFeedItem" xml:space="preserve">
+    <value>新しいアイテムの投稿でエラーが発生しました 
+'{0}' (RSS Item link/title) で発生:
+       
+'{1}'</value>
+    <comment>Messagebox error text</comment>
+  </data>
+  <data name="AddInUnloadFailure" xml:space="preserve">
+    <value>アドイン '{1}' のアンロードに失敗しました。:
+        
+{0}</value>
+    <comment>AddIn failure message box</comment>
+  </data>
+  <data name="AddInGeneralFailure" xml:space="preserve">
+    <value>アドインでエラーが発生しました '{1}':
+        
+{0}</value>
+    <comment>AddIn failure message box</comment>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher" xml:space="preserve">
+    <value>発行者</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor" xml:space="preserve">
+    <value>著者</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate" xml:space="preserve">
+    <value>投稿日時</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure" xml:space="preserve">
+    <value>添付</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState" xml:space="preserve">
+    <value>既読/未読の設定</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState" xml:space="preserve">
+    <value>フラグの設定/クリア</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty" xml:space="preserve">
+    <value>検索 URLを指定してください</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty" xml:space="preserve">
+    <value>検索キャプションを指定してください</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam" xml:space="preserve">
+    <value>パラメータ '{0}' を指定してください</value>
+    <comment>.
+ Parameters: 0 - parameter (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved" xml:space="preserve">
+    <value>データキャッシュのフォルダは、以前のキャッシュのサブフォルダと思われます。
+
+{0}
+
+そのため、以前のキャッシュのフォルダを自動的に移動させられませんので、
+以前のキャッシュフォルダを継続して利用します。</value>
+    <comment>.
+ Parameters: 0 - folderName (string) </comment>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException" xml:space="preserve">
+    <value>古いキャッシュフォルダを新しいフォルダへ移動できません
+
+{0}
+
+エラー:
+
+{1}
+
+古いキャッシュフォルダを継続して利用します。</value>
+    <comment>.
+ Parameters: 0 - folderName (string), 1 - exception (string) </comment>
+  </data>
+  <data name="MenuFinderRenameDesc" xml:space="preserve">
+    <value>選択した検索フォルダの名前を変更</value>
+  </data>
+  <data name="DetailHeaderCaptionWelcome" xml:space="preserve">
+    <value>Welcome!</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption" xml:space="preserve">
+    <value>監視記事</value>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc" xml:space="preserve">
+    <value>監視記事</value>
+  </data>
+  <data name="MenuSendLogsByMailCaption" xml:space="preserve">
+    <value>ログファイルをメール送信</value>
+    <comment> Improve the Bandit</comment>
+  </data>
+  <data name="MenuSendLogsByMailDesc" xml:space="preserve">
+    <value>エラー解析のためにログファイルをメール送信します</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption" xml:space="preserve">
+    <value>コメント監視(&amp;W)</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc" xml:space="preserve">
+    <value>この記事への新しいコメントを通知する</value>
+  </data>
+  <data name="CmdLineResetUIDesc" xml:space="preserve">
+    <value>ユーザーインターフェース設定をリセットします</value>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure" xml:space="preserve">
+    <value>システムは添付ファイルの再生試行中にエラーを報告しました:
+
+{0}
+
+エラー:{1}.</value>
+    <comment>.
+ Parameters: 0 - enclosureFileName (string), 1 - error (string) </comment>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption" xml:space="preserve">
+    <value>未読記事</value>
+    <comment> Special local feed for unread items</comment>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc" xml:space="preserve">
+    <value>未読記事</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation" xml:space="preserve">
+    <value>ダウンロードしたファイル用のフォルダを選択する</value>
+    <comment> Text in the browse for folder dialog</comment>
+  </data>
+  <data name="MenuDownloadAttachmentCaption" xml:space="preserve">
+    <value>添付ファイルをダウンロード</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc" xml:space="preserve">
+    <value>記事に添付されているファイルをダウンロードします</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath" xml:space="preserve">
+    <value>ダウンロード用フォルダが無効です。</value>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture" xml:space="preserve">
+    <value>アプリケーションのカルチャーを '{0}' へ変更できません:
+
+エラー:{1}.</value>
+    <comment>.
+ Parameters: 0 - cultureProvided (string), 1 - error (string) </comment>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage" xml:space="preserve">
+    <value>受信: 1 ファイル</value>
+    <comment> displayed in the Toast window(s)</comment>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
+    <value>メイン メニュー バー</value>
+    <comment> Main Form control captions</comment>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption" xml:space="preserve">
+    <value>メイン アプリケーション ツール</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption" xml:space="preserve">
+    <value>Web ブラウザ ツール</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption" xml:space="preserve">
+    <value>検索 ツール</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu" xml:space="preserve">
+    <value>メニュー</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="MainForm_ToolCategoryView" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools" xml:space="preserve">
+    <value>ツール</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse" xml:space="preserve">
+    <value>ブラウザ</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText" xml:space="preserve">
+    <value>URLを入力</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered" xml:space="preserve">
+    <value>フィードの取得</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived" space="preserve">
+    <value>New Item(s) Received</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded" xml:space="preserve">
+    <value>添付ファイルの新規ダウンロード</value>
+    <comment> Windows Sound Control Panel - sound caption</comment>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed" xml:space="preserve">
+    <value>Windows コントロールパネルをサウンド設定のために、開くことができませんでした。
+
+{0}
+
+メニュー「スタート」からコントロールパネルを開いてください。</value>
+    <comment> Windows Sound Control Panel - start Control panel configuration failed.
+ Parameters: 0 - failure (string) </comment>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption" xml:space="preserve">
+    <value>メイン ツール</value>
+    <comment> NewsGroupConfiguration dialog toolbar caption</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption" xml:space="preserve">
+    <value>アイデンティティを追加</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc" xml:space="preserve">
+    <value>新規アイデンティティを追加</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption" xml:space="preserve">
+    <value>News サーバー追加</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc" xml:space="preserve">
+    <value>新しい NNTP サーバーを追加します</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
+    <value>削除</value>
+    <comment> NewsGroupConfiguration dialog main tool</comment>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
+    <value>選択項目を削除</value>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks" xml:space="preserve">
+    <value>関連リンク</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState" xml:space="preserve">
+    <value>コメントの監視の設定</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption" xml:space="preserve">
+    <value>フィード 購読</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText" xml:space="preserve">
+    <value>Web ブラウザ ステータス...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText" xml:space="preserve">
+    <value>ページ要求状態...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText" xml:space="preserve">
+    <value>ネットワーク接続状態...</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText" xml:space="preserve">
+    <value>RSS エンジン 状態...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup" xml:space="preserve">
+    <value>Welcome!</value>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text" xml:space="preserve">
+    <value>保存</value>
+    <comment> SearchPanel control</comment>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text" xml:space="preserve">
+    <value>記事リンク(&amp;L)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text" xml:space="preserve">
+    <value>トピック(&amp;i)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text" xml:space="preserve">
+    <value>説明(&amp;D)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text" xml:space="preserve">
+    <value>タイトル(&amp;T)</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text" xml:space="preserve">
+    <value>検索対象にしたい項目を選択</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text" xml:space="preserve">
+    <value>記事投稿日(&amp;p)</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text" xml:space="preserve">
+    <value>記事期間(&amp;A)</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text" xml:space="preserve">
+    <value>新しい記事 (&amp;N)</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text" xml:space="preserve">
+    <value>既読状況 (&amp;R)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text" xml:space="preserve">
+    <value>未読記事(&amp;U)</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text" xml:space="preserve">
+    <value>検索リセット</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text" xml:space="preserve">
+    <value>この検索を保存(&amp;S)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text" xml:space="preserve">
+    <value>検索項目(&amp;F)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text" xml:space="preserve">
+    <value>拡張オプション(&amp;O)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text" xml:space="preserve">
+    <value>検索範囲</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at" xml:space="preserve">
+    <value>指定</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before" xml:space="preserve">
+    <value>以前</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after" xml:space="preserve">
+    <value>以後</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between" xml:space="preserve">
+    <value>期間</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour" xml:space="preserve">
+    <value>1 時間</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours" xml:space="preserve">
+    <value>{0} 時間</value>
+    <comment>.
+ Parameters: 0 - hours (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day" xml:space="preserve">
+    <value>1 日</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days" xml:space="preserve">
+    <value>{0} 日</value>
+    <comment>.
+ Parameters: 0 - days (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month" xml:space="preserve">
+    <value>1 カ月</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months" xml:space="preserve">
+    <value>{0} カ月</value>
+    <comment>.
+ Parameters: 0 - months (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter" xml:space="preserve">
+    <value>４カ月</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters" xml:space="preserve">
+    <value>{0} 四半期</value>
+    <comment>.
+ Parameters: 0 - quarters (int) </comment>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years" xml:space="preserve">
+    <value>{0} 年</value>
+    <comment>.
+ Parameters: 0 - years (int) </comment>
+  </data>
+  <data name="ExceptionEnclosureDownloadError" xml:space="preserve">
+    <value>ダウンロード失敗</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption" xml:space="preserve">
+    <value>検索結果に抜粋を表示する</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc" xml:space="preserve">
+    <value>記事の抜粋表示と本文表示を切り替えます</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
+    <value>古い記事(&amp;O)</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
+    <value>実行してよろしいですか ?</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
+    <value>購読を開く</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
+    <value>この購読を削除</value>
+  </data>
+  <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
+    <value>前</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_Next" xml:space="preserve">
+    <value>次</value>
+  </data>
+  <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
+    <value>表示ページ</value>
+  </data>
+  <data name="XsltDefaultTemplate_of" xml:space="preserve">
+    <value>/</value>
+  </data>
+  <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
+    <value>ファイル {0} の読み込み中にエラーが発生しました:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
+    <value>ファイル {0} の保存中にエラーが発生しました:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
+    <value>購読一覧のフォルダ状態にデフォルト値を使う</value>
+  </data>
+  <data name="MenuTopStoriesCaption" xml:space="preserve">
+    <value>トップリンク</value>
+  </data>
+  <data name="MenuTopStoriesDesc" xml:space="preserve">
+    <value>購読の中でもっとも人気のあるリンクを表示</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
+    <value>トップ記事を判定中...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
+    <value>{0} トップ記事: もっともリンクされた最近の記事</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+  <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
+    <value>議論:</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
+    <value>テキストサイズ</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
+    <value>Select/Change the feed details text size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
+    <value>フィード本文テキストを最小に変更...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
+    <value>フィード本文テキストを小に変更...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
+    <value>フィード本文テキストを中に変更...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
+    <value>フィード本文テキストを大に変更...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
+    <value>フィード本文テキストを最大に変更...</value>
+  </data>
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
+    <value>Google リーダー フィード一覧</value>
+  </data>
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
+    <value>Google リーダーで購読しているフィード一覧</value>
+  </data>
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
+    <value>NewsGator フィード</value>
+  </data>
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
+    <value>NewsGator で購読しているフィード一覧</value>
+  </data>
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
+    <value>共通フィードリスト</value>
+  </data>
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
+    <value>Windows RSS プラットフォームで購読しているフィード一覧</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
+    <value>Google リーダーの記事の共有の設定</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
+    <value>NewsGator オンラインのクリップフォルダに追加/削除</value>
+  </data>
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
+    <value>フィード同期(&amp;S)...</value>
+  </data>
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
+    <value>フィード同期ウィザードを開く...</value>
+  </data>
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
+    <value>有効なプレイリスト名を指定してください</value>
+  </data>
+  <data name="NoTopStoriesMessage" xml:space="preserve">
+    <value>過去一週間、購読 {0} の中に記事はありません</value>
+  </data>
+  <data name="TopStoriesDescription" xml:space="preserve">
+    <value>購読 {0} 内で過去一週間の人気リンク</value>
+  </data>
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
+    <value>購読一覧の名前を指定してください</value>
+  </data>
+  <data name="ExceptionNoPassword" xml:space="preserve">
+    <value>有効なパスワードを指定してください</value>
+  </data>
+  <data name="ExceptionNoUserName" xml:space="preserve">
+    <value>有効なユーザー名を指定してください</value>
+  </data>
+  <data name="MenuDownloadManager" xml:space="preserve">
+    <value>ダウンロード管理...</value>
+  </data>
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
+    <value>ダウンロード管理を起動</value>
+  </data>
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
+    <value>フィードソースを削除</value>
+  </data>
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
+    <value>このフィードソースを削除</value>
+  </data>
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
+    <value>Rename Feed Source...</value>
+  </data>
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
+    <value>Rename this feed source</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
+    <value>同期ソースを削除</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
+    <value>同期一覧から '{0}' を削除してよろしいですか ?</value>
+  </data>
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
+    <value>{1} - {0} 購読を読み込みました</value>
+  </data>
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
+    <value>すべての購読を読み込みました</value>
+  </data>
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
+    <value>ファイル {0} 用アプリケーション開始中にエラーが発生しました:
+
+エラー: {1}</value>
+  </data>
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
+    <value>プロパティ...</value>
+  </data>
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
+    <value>フィードのプロパティのダイアログを開く...</value>
+  </data>
+  <data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
+  </data>
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
+    <value>カテゴリフォルダ</value>
+  </data>
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
+    <value>フィード</value>
+  </data>
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
+    <value>ファインダ</value>
+  </data>
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
+    <value>ファインダカテゴリ</value>
+  </data>
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
+    <value>購読ルート</value>
+  </data>
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
+    <value>スマートフォルダ</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
+    <value>{0} 未読記事を含む</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
+    <value>1 未読記事を含む</value>
+  </data>
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
+    <value>未読はありません</value>
+  </data>
+  <data name="Certificate_SelectionDialog_Title" xml:space="preserve">
+    <value>X509 クライアント証明書を選択してください。</value>
+  </data>
+  <data name="Certificate_ForFeedSiteRequired_Message" xml:space="preserve">
+    <value>フィード {0} のサイトは、クライアント証明書を要求しています。クライアント証明書を指定してください。</value>
+  </data>
+  <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
+    <value>クライアント証明書を選択してください。</value>
+  </data>
+<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+    <value>Facebook News Feed</value>
+  </data>
+	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+    <value>Container of news feed from Facebook</value>
+  </data>
+	<data name="ExceptionFacebookAuthToken" space="preserve">
+    <value>An error occured while trying to obtain a Facebook authorization token</value>
+  </data>
+	<data name="ExceptionFacebookLogin" space="preserve">
+    <value>Facebook login failure</value>
+  </data>
+	<data name="FacebookConnectFormTitle" space="preserve">
+    <value>Facebook Login</value>
+  </data>
+	<data name="GroupByTime_LastMonth" space="preserve">
+    <value>Last Month</value>
+  </data>
+	<data name="GroupByTime_LastWeek" space="preserve">
+    <value>Last Week</value>
+  </data>
+	<data name="GroupByTime_Older" space="preserve">
+    <value>Older</value>
+  </data>
+	<data name="GroupByTime_Today" space="preserve">
+    <value>Today</value>
+  </data>
+	<data name="GroupByTime_Yesterday" space="preserve">
+    <value>Yesterday</value>
+  </data>
+	</root>

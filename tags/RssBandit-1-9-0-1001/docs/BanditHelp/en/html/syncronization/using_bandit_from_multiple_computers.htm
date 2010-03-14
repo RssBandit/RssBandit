@@ -1,0 +1,156 @@
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+ <meta name=template content="Bandit Topic.htt"><!--(==============================================================)-->
+<!--(Document created with RoboEditor. )============================-->
+<!--(==============================================================)-->
+
+<head>
+
+<title>Using RSS Bandit from Multiple Computers</title>
+
+<!--(Meta)==========================================================-->
+
+<meta http-equiv=content-type content="text/html; charset=windows-1252">
+<meta name=generator content="RoboHELP by eHelp Corporation - www.ehelp.com">
+<meta name=generator-major-version content=0.1>
+<meta name=generator-minor-version content=1>
+<meta name=filetype content=kadov>
+<meta name=filetype-version content=1>
+<meta name=page-count content=1>
+<meta name=layout-height content=338>
+<meta name=layout-width content=683>
+
+
+ <meta name="topic-status" content="In Progress">
+ <meta name="topic-priority" content="0">
+ <meta name="topic-time-estimate" content="0">
+ <meta name="topic-comment" content>
+ <meta name="topic-id" content="Using_RSS_Bandit_from_Multiple_Computers"><!--(Links)=========================================================-->
+
+<link rel="StyleSheet" href="..\..\default.css">
+
+
+
+<!--(Style Sheet)===================================================-->
+
+<style>
+<!--
+
+body {
+	border-bottom-style: Groove;
+	border-bottom-width: 3px;
+	border-bottom-color: #000000;
+}
+
+-->
+</style>
+
+
+</head>
+
+<!--(Body)==========================================================-->
+
+
+<body>
+
+<!--kadov_tag{{<placeholder id="header">}}-->
+ <h1><!--kadov_tag{{<variable name=title
+							x-format=default
+							x-value="Bandit Topic">}}-->Bandit Topic<!--kadov_tag{{</variable>}}--></h1>
+
+<p>
+RSS Bandit now has rich support for synchronization across multiple 
+computers (version 1.2.0.112 and greater).  This comes in very handy 
+when you use RSS Bandit on multiple computers such as from work and home.
+</p>
+<p>
+<b>Why is this useful?</b><br/>
+After a full day of work in which you spend some of that time reading feeds, it is a bit 
+of an annoyance to come home and have to wade through all the items that you've already 
+read to find the few new items you haven't yet read since you left work.
+</p>
+<p>
+Now with the latest version of RSS Bandit, there are two key mechanisms for synchronizing RSS Bandit 
+from multiple computers. The first option is to synchronize RSS Bandit with Web-based feed readers 
+such as <a href="http://reader.google.com">Google Reader</a> and 
+<a href="http://www.bloglines.com">Bloglines</a>. The second option is to use a remote storage system 
+and <b>Upload Feeds</b> before leaving and <b>Download Feeds</b> when you get home and your home 
+RSS Bandit will have the same state (more or less) that RSS Bandit at work does.  
+</p>
+
+<p><b>How does synchronization via a Web-based feed reader work?</b><br/>
+When you launch RSS Bandit your feed list downloaded from the Web-based feed reader. Each time 
+you make changes such as marking an item as read, subscribing to a new feed, removing a feed, 
+or renaming a feed, this change is quickly reflected on the Web-based feed reader. 
+</p>
+<p>
+In addition, RSS Bandit periodically polls your Web-based feed reader so that if you make changes
+via the Web they are eventually reflected in RSS Bandit as well. 
+</p>
+
+<b>So how do I start synchronizing with a Web-based feed reader?</b><br/>
+<p>First you have to configure a new feed source.  Under the <b>File</b> menu select <b>Synchronize Feeds</b>.  
+This will bring up the dialogue in figure 1.
+</p>
+<p align="center"><img src="../../images/rssbandit_SynchronizeFeeds_Google.jpg"  alt="Figure 1: Synchronize Feeds" />
+<br/><span class="figure">Figure 1: Synchronize Feeds Wizard.</span>
+</p>
+<p>
+Then select your chosen Web-based feed reader. The following topices cover the various 
+choices for synchronizing with a Web-based feed reader.
+<ul>
+	<li><a href="synchronization_using_google_reader.htm">Google Reader</a></li>
+	<li><a href="synchronization_using_newsgator_online.htm">NewsGator Online</a></li>
+</ul>
+</p>
+
+<p><b>How does synchronization via remote storage work?</b><br/>
+Sychronization data is transferred within a ZIP compressed file that contains information about 
+the current state of your search folders, flagged items, replied items, subscribed feeds, and 
+read/unread messages.
+</p>
+<p>
+Please note that the actual feed content is not transferred, but rather the state of the 
+feed content such as whether an item has been read or not.
+</p>
+<p>For example, suppose you read the latest riveting post from <a href="http://haacked.com/">http://haacked.com/</a> 
+with the id <b>#123</b> on your home computer.  Being late for work, you hurriedly hit 
+<b>CTRL+SHIFT+U</b> to upload your current state.  This uploads the fact that you've read item 
+#123 on haack.org.  It does not upload the actual content of item #123.  Upon arriving at work and 
+settling down with your morning coffee, you hit <b>CTRL+SHIFT+D</b> to download your state, 
+you may notice that item #123 does not show up.  However, after refreshing your feeds by hitting 
+<b>CTRL+F5</b>, RSS Bandit will download that item and it will appear as a read item rather than 
+as a new item.
+</p>
+<p>
+<b>So how do I start using remote storage?</b><br/>
+First you have to configure <b>Remote Storage</b>.  Under the <b>Tools</b> menu select <b>Options</b> (
+or hit <b>CTRL+O</b>).  Click on the <b>Remote Storage</b> tab.  This will bring up the dialogue in figure 2.
+</p>
+<p align="center"><img src="../../images/rssbandit_RemoteFeedsDialogue.gif" width="418" height="540" alt="Figure 2: Remote Storage Dialogue" />
+<br/><span class="figure">Figure 2: Remote Storage Dialog.</span>
+</p>
+<p>
+In order to user Remote Storage, check the <b>Use Remote Storage</b> checkbox and select a 
+protocol.  Depending on the chosen protocol, you will have to configure RSS Bandit with other 
+information to allow it to synchronize your feeds.  The following topices cover the various 
+choices for Remote Feeds.
+<ul>
+	<li><a href="synchronization_using_local_or_network_file.htm">File Share</a></li>
+	<li><a href="synchronization_using_ftp.htm">FTP</a></li>
+	<li><a href="synchronization_using_dasBlog_weblog.htm">DasBlog and DasBlog 1.3</a></li>
+	<li><a href="synchronization_using_webDAV.htm">WebDAV</a></li>
+</ul>
+</p>
+<p>
+Once you've selected a protocol that will work for you simply upload your feeds when you're done 
+using RSS Bandit on one computer and download feeds when you begin to use it on another computer. 
+You'll be in synchronirvana!
+</p>
+
+<!--kadov_tag{{<placeholder id="footer">}}-->
+</body>
+
+</html>

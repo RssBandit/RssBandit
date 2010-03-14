@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feeds xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" refresh-rate="3600000" xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/">
+  
+  <feed category="Technology News">
+    <title>Slashdot</title>
+    <link>http://slashdot.org/slashdot.rss</link>   
+  </feed>
+  
+  <feed category="Technology News">
+    <title>Wired News</title>
+    <link>http://www.wired.com/news_drop/netcenter/netcenter.rdf</link>
+  </feed>
+
+  <feed category="Technology News">
+    <title>C|Net</title>
+    <link>http://export.cnet.com/export/feeds/news/rss/1,11176,,00.xml</link>  
+  </feed>
+
+  <feed category="Technology News">
+    <title>InfoWorld</title>
+    <link>http://www.infoworld.com/rss/news.rdf</link>  
+  </feed>
+
+  <categories>
+   <category>Technology News</category>
+  </categories>
+ 
+</feeds>

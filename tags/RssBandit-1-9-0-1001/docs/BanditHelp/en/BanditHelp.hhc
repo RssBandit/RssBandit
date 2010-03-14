@@ -1,0 +1,177 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="SiteType" value="toc">
+  <param name="Image Width" value="16">
+  <param name="Window Styles" value="0x800002">
+  <param name="ExWindow Styles" value="0x100">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Bandit Help">
+  </object>
+  <ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Welcome">
+      <param name="Local" value="html\welcome.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Getting Started">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="What is an RSS feed">
+        <param name="Local" value="html\getting_started\what_is_an_rss_feed.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="What is an Atom feed">
+        <param name="Local" value="html\getting_started\what_is_an_atom_feed.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="The RSS Bandit user interface">
+        <param name="Local" value="html\getting_started\the_rss_bandit_user_interface.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Subscribing to a feed">
+        <param name="Local" value="html\getting_started\subscribing_to_a_feed.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Locating new feeds">
+        <param name="Local" value="html\getting_started\locating_new_feeds.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Displaying feeds">
+        <param name="Local" value="html\getting_started\displaying_feeds.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Posting Comments">
+        <param name="Local" value="html\getting_started\posting_comments.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Subscribe to Newsgroups">
+        <param name="Local" value="html\getting_started\subscribe_to_newsgroups.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Newspaper Views">
+        <param name="Local" value="html\getting_started\newspaper_views.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Search your feeds">
+        <param name="Local" value="html\getting_started\search.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Deleting Feed Items">
+        <param name="Local" value="html\getting_started\deleting_feed_items.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Column Layout">
+        <param name="Local" value="html\getting_started\column_layout.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Podcast settings">
+        <param name="Local" value="html\getting_started\podcast_settings.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Customizing Fonts">
+        <param name="Local" value="html\getting_started\customizing_fonts.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Changing the web browser security settings">
+        <param name="Local" value="html\getting_started\changing_web_browser_security_settings.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Configuring proxy server settings">
+        <param name="Local" value="html\getting_started\configuring_proxy_server_settings.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Managing Your Identities">
+        <param name="Local" value="html\getting_started\managing_your_identities.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Using RSS Bandit from Multiple Computers">
+      <param name="Local" value="html\syncronization\using_bandit_from_multiple_computers.htm">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using NewsGator Online">
+        <param name="Local" value="html\syncronization\Synchronization_using_NewsGator_Online.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using Google Reader">
+        <param name="Local" value="html\syncronization\synchronization_using_google_reader.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using FTP">
+        <param name="Local" value="html\syncronization\synchronization_using_ftp.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using a local or network file">
+        <param name="Local" value="html\syncronization\synchronization_using_local_or_network_file.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using WebDAV">
+        <param name="Local" value="html\syncronization\synchronization_using_webDAV.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Synchronization using a dasBlog weblog">
+        <param name="Local" value="html\syncronization\synchronization_using_dasBlog_weblog.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Advanced Topics">
+      <param name="Local" value="html\advanced\advanced_topics.htm">
+    </object>
+    <ul>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Customizing the Way Feeds Look using XSLT">
+        <param name="Local" value="html\advanced\customizing_the_way_feeds_look_using_xslt.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Creating Search Folders">
+        <param name="Local" value="html\advanced\creating_search_folders.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Search Query Syntax">
+        <param name="Local" value="html\advanced\search_query_syntax.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Adding Integration with your Favorite Search Engine">
+        <param name="Local" value="html\advanced\adding_integration_with_your_favorite_search_engine.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Building and Using RSS Bandit plugins">
+        <param name="Local" value="html\advanced\building_and_using_bandit_plugins.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Keyboard Shortcuts">
+        <param name="Local" value="html\keyboard_shortcuts.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Command Line Options">
+        <param name="Local" value="html\advanced\command_line_options.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="Advanced Configuration Options">
+        <param name="Local" value="html\advanced\advanced_configuration_options.htm">
+      </object>
+      <li><object type="text/sitemap">
+        <param name="Name" value="How to: make RSS Bandit a portable application">
+        <param name="Local" value="html\advanced\HowTo_make_RSS_Bandit_a_portable_application.htm">
+      </object>
+      </ul>
+    <li><object type="text/sitemap">
+      <param name="Name" value="FAQ">
+      <param name="Local" value="html\faq.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="Contributing to RSS Bandit">
+      <param name="Local" value="html\contributing_to_bandit.htm">
+    </object>
+    <li><object type="text/sitemap">
+      <param name="Name" value="How to Provide Feedback">
+      <param name="Local" value="html\how_to_provide_feedback.htm">
+    </object>
+    </ul>
+</ul>
+</html>
