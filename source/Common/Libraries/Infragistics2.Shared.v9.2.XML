@@ -4,6 +4,36 @@
         <name>Infragistics2.Shared.v9.2</name>
     </assembly>
     <members>
+        <member name="T:Infragistics.InfragisticsFeatureAttribute">
+            <summary>
+            Indicates an exposed type or member which was added as part of a new feature.
+            </summary>
+        </member>
+        <member name="M:Infragistics.InfragisticsFeatureAttribute.#ctor">
+            <summary>
+            Creates a new <see cref="T:Infragistics.InfragisticsFeatureAttribute"/> instance.
+            </summary>
+        </member>
+        <member name="P:Infragistics.InfragisticsFeatureAttribute.Exclude">
+            <summary>
+            Gets or sets the value indicating whether member or type should be excluded from the internal feature documentation.
+            </summary>
+        </member>
+        <member name="P:Infragistics.InfragisticsFeatureAttribute.FeatureName">
+            <summary>
+            Gets or sets a short name description of the feature.
+            </summary>
+        </member>
+        <member name="P:Infragistics.InfragisticsFeatureAttribute.SubFeatureName">
+            <summary>
+            Gets or sets a more granular sub-feature name description of the feature.
+            </summary>
+        </member>
+        <member name="P:Infragistics.InfragisticsFeatureAttribute.Version">
+            <summary>
+            Gets or sets the version in which the feature was added.
+            </summary>
+        </member>
         <member name="T:Infragistics.Shared.ISparseArrayItem">
             <summary>
             This interface can be implemented on items to be contained in the sparse 
@@ -400,340 +430,40 @@
             Returns a new instance of enumerable that can be used to enumerate through only the non-null items in the collection.
             </summary>
         </member>
-        <member name="T:Infragistics.Shared.strings_CalcEngine">
+        <member name="M:Infragistics.Shared.LocalizedCategoryAttribute.GetLocalizedString(System.String)">
             <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
+            Returns the localized category name
             </summary>
+            <param name="value">Name of the category to retreive</param>
+            <returns>The localized string value</returns>
         </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.ResourceManager">
+        <member name="T:Infragistics.Shared.UltraPropertyPageAttribute">
             <summary>
-              Returns the cached ResourceManager instance used by this class.
+            Attribute class used for specifying the custom property pages of aa UltraControl.
             </summary>
         </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Culture">
+        <member name="M:Infragistics.Shared.UltraPropertyPageAttribute.#ctor(System.String,System.Type)">
             <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
+            Constructor
             </summary>
+            <param name="tabCaption">Caption for the tab containing the control.</param>
+            <param name="ultraPropControlType">Control type to create.</param>
         </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_AnchoredReference">
+        <member name="M:Infragistics.Shared.UltraPropertyPageAttribute.#ctor(System.String,System.String)">
             <summary>
-              Looks up a localized string similar to Attempt to access {0} as an unanchored reference.
+            Constructor
             </summary>
+            <param name="tabCaption">Caption for the tab containing the control.</param>
+            <param name="ultraPropControlType">Strong name of the property page type.</param>
         </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_ExplicitThis">
+        <member name="P:Infragistics.Shared.UltraPropertyPageAttribute.UltraPropertyControlType">
             <summary>
-              Looks up a localized string similar to {0} - Explicit This not supported.
+            Returns the object type.
             </summary>
         </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_ExternalRange">
+        <member name="P:Infragistics.Shared.UltraPropertyPageAttribute.TabCaption">
             <summary>
-              Looks up a localized string similar to Range contains External Reference.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_FormulaNotSupported">
-            <summary>
-              Looks up a localized string similar to {0} - Attempt to access formula on a reference that doesn&apos;t support formulas.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_InvalidOperand">
-            <summary>
-              Looks up a localized string similar to Invalid Operand.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_InvalidReference">
-            <summary>
-              Looks up a localized string similar to Invalid or unavailable reference.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_MethodNotSupported">
-            <summary>
-              Looks up a localized string similar to {0} does not support {1}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_NoCurrentRangeElement">
-            <summary>
-              Looks up a localized string similar to No current Range Element.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_NullOperand">
-            <summary>
-              Looks up a localized string similar to Null operand.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeFromLast">
-            <summary>
-              Looks up a localized string similar to fromT.Last not set.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeFromNull">
-            <summary>
-              Looks up a localized string similar to RefRange: from is null.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeFromRefBase">
-            <summary>
-              Looks up a localized string similar to RefRange: from is not a RefBase : {0}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeLast">
-            <summary>
-              Looks up a localized string similar to RefRange Validate: last tuples [{0}] != [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeNormalizeScope">
-            <summary>
-              Looks up a localized string similar to RefRange Normalize: bad scope [{0}/{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeToNull">
-            <summary>
-              Looks up a localized string similar to RefRange: to is null.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeToRefBase">
-            <summary>
-              Looks up a localized string similar to RefRange: to is not a RefBase : {0}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeTuple">
-            <summary>
-              Looks up a localized string similar to RefRange Validate: tuples [{0}] !=  [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RangeValidateCount">
-            <summary>
-              Looks up a localized string similar to RefRange Validate: from count {0} != to count {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_ReadOnlyReference">
-            <summary>
-              Looks up a localized string similar to {0} - Attempt to set value on readonly reference.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_ReferenceNotEumerable">
-            <summary>
-              Looks up a localized string similar to {0} is not an enumerable reference.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RefMalformed">
-            <summary>
-              Looks up a localized string similar to {0} - Malformed Reference  {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_ContainsBase">
-            <summary>
-              Looks up a localized string similar to RefParser.Contains - Empty Base.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_ContainsTarget">
-            <summary>
-              Looks up a localized string similar to RefParser.Contains - Empty Target.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_EmptyElement">
-            <summary>
-              Looks up a localized string similar to Invalid reference {0}. Empty element encountered at location {1}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_EmptyReference">
-            <summary>
-              Looks up a localized string similar to Invalid reference {0}. Reference is empty..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_MalformedExtra">
-            <summary>
-              Looks up a localized string similar to RefParser Malformed Reference: Multiple [{0}] found in [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_MalformedUnexpected">
-            <summary>
-              Looks up a localized string similar to RefParser Malformed Reference: Unexpected [{0}] found in [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_MergeRelativeBase">
-            <summary>
-              Looks up a localized string similar to RefParser.Merge: Base is Relative.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_MissingCloseParenthesis">
-            <summary>
-              Looks up a localized string similar to Invalid reference {0}. Missing close parenthesis..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RP_MissingEndQuotes">
-            <summary>
-              Looks up a localized string similar to Invalid reference {0}. Missing end quotes..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_Expected">
-            <summary>
-              Looks up a localized string similar to RefTuple: Expected [{0}] in [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidScope">
-            <summary>
-              Looks up a localized string similar to Invalid scope: {0}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidScope_CharactersAfterClosingQuotes">
-            <summary>
-              Looks up a localized string similar to Characters encountered after closing double quotes in {0} scope at location {1}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_CharactersAfterScopeEnd">
-            <summary>
-              Looks up a localized string similar to Invalid element {0}. Characters encountered after the end of the scope..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_MissingCloseParenthesis">
-            <summary>
-              Looks up a localized string similar to Invalid element {0}. Missing close parenthesis..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_MissingEndQuotes">
-            <summary>
-              Looks up a localized string similar to Invalid element {0}. Missing end quotes..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_NamePortionEmpty">
-            <summary>
-              Looks up a localized string similar to Invalid element {0}. Element name portion empty..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_ScopeIndexLarge">
-            <summary>
-              Looks up a localized string similar to Invalid element {0}. Index {1} is invalid: {2}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_InvalidTuple_UnescapedCharacter">
-            <summary>
-              Looks up a localized string similar to Unescaped {0} character encountered in {1} at location {2}..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_NullRefName">
-            <summary>
-              Looks up a localized string similar to RefTuple: null RefName.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_RT_Unexpected">
-            <summary>
-              Looks up a localized string similar to RefTuple: unexpected [{0}] in [{1}].
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_ScopeAllNotLast">
-            <summary>
-              Looks up a localized string similar to {0} - Scope All must appear in last element  {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Div">
-            <summary>
-              Looks up a localized string similar to Divide by zero.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Fail">
-            <summary>
-              Looks up a localized string similar to Fail.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_NA">
-            <summary>
-              Looks up a localized string similar to Not applicable.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Null">
-            <summary>
-              Looks up a localized string similar to Null Value.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Num">
-            <summary>
-              Looks up a localized string similar to Invalid numeric values in the function or formula..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Ok">
-            <summary>
-              Looks up a localized string similar to Succeed.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Reference">
-            <summary>
-              Looks up a localized string similar to Invalid or unavailable reference.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Unknown">
-            <summary>
-              Looks up a localized string similar to Invalid code.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UCErrorCode_Value">
-            <summary>
-              Looks up a localized string similar to Incorrect type of argument or operand..
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UnexpectedScope">
-            <summary>
-              Looks up a localized string similar to {0} - Unexpected scope for Parent {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UnknownRange">
-            <summary>
-              Looks up a localized string similar to Unknown Range Type.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UnknownRefType">
-            <summary>
-              Looks up a localized string similar to {0} - Unknown RefType  {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Error_UnknownScope">
-            <summary>
-              Looks up a localized string similar to {0} - Unknown scope  {1}.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Div">
-            <summary>
-              Looks up a localized string similar to #DIV/0!.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Fail">
-            <summary>
-              Looks up a localized string similar to #FAIL.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_NA">
-            <summary>
-              Looks up a localized string similar to #N/A.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Null">
-            <summary>
-              Looks up a localized string similar to #NULL!.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Num">
-            <summary>
-              Looks up a localized string similar to #NUM!.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Ok">
-            <summary>
-              Looks up a localized string similar to #OK.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Reference">
-            <summary>
-              Looks up a localized string similar to #REF!.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Unknown">
-            <summary>
-              Looks up a localized string similar to #N/A.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.strings_CalcEngine.Value_UCErrorCode_Value">
-            <summary>
-              Looks up a localized string similar to #VALUE!.
+            Returns the tabcaption for the control.
             </summary>
         </member>
         <member name="T:Infragistics.Win.CalcEngine.UltraCalcErrorCode">
@@ -4207,72 +3937,6 @@
         <member name="P:Infragistics.Win.CalcEngine.UCReference.IsConnected">
             <summary>
             Indicates if the UCReference is currently connected to an underlying <see cref="T:Infragistics.Win.CalcEngine.IUltraCalcReference"/>
-            </summary>
-        </member>
-        <member name="T:Infragistics.InfragisticsFeatureAttribute">
-            <summary>
-            Indicates an exposed type or member which was added as part of a new feature.
-            </summary>
-        </member>
-        <member name="M:Infragistics.InfragisticsFeatureAttribute.#ctor">
-            <summary>
-            Creates a new <see cref="T:Infragistics.InfragisticsFeatureAttribute"/> instance.
-            </summary>
-        </member>
-        <member name="P:Infragistics.InfragisticsFeatureAttribute.Exclude">
-            <summary>
-            Gets or sets the value indicating whether member or type should be excluded from the internal feature documentation.
-            </summary>
-        </member>
-        <member name="P:Infragistics.InfragisticsFeatureAttribute.FeatureName">
-            <summary>
-            Gets or sets a short name description of the feature.
-            </summary>
-        </member>
-        <member name="P:Infragistics.InfragisticsFeatureAttribute.SubFeatureName">
-            <summary>
-            Gets or sets a more granular sub-feature name description of the feature.
-            </summary>
-        </member>
-        <member name="P:Infragistics.InfragisticsFeatureAttribute.Version">
-            <summary>
-            Gets or sets the version in which the feature was added.
-            </summary>
-        </member>
-        <member name="M:Infragistics.Shared.LocalizedCategoryAttribute.GetLocalizedString(System.String)">
-            <summary>
-            Returns the localized category name
-            </summary>
-            <param name="value">Name of the category to retreive</param>
-            <returns>The localized string value</returns>
-        </member>
-        <member name="T:Infragistics.Shared.UltraPropertyPageAttribute">
-            <summary>
-            Attribute class used for specifying the custom property pages of aa UltraControl.
-            </summary>
-        </member>
-        <member name="M:Infragistics.Shared.UltraPropertyPageAttribute.#ctor(System.String,System.Type)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="tabCaption">Caption for the tab containing the control.</param>
-            <param name="ultraPropControlType">Control type to create.</param>
-        </member>
-        <member name="M:Infragistics.Shared.UltraPropertyPageAttribute.#ctor(System.String,System.String)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="tabCaption">Caption for the tab containing the control.</param>
-            <param name="ultraPropControlType">Strong name of the property page type.</param>
-        </member>
-        <member name="P:Infragistics.Shared.UltraPropertyPageAttribute.UltraPropertyControlType">
-            <summary>
-            Returns the object type.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Shared.UltraPropertyPageAttribute.TabCaption">
-            <summary>
-            Returns the tabcaption for the control.
             </summary>
         </member>
         <member name="T:Infragistics.Shared.AboutDialog">
