@@ -22,7 +22,7 @@ using System.Net;
 
 namespace RssBandit
 {
-    internal partial class RssBanditApplication
+    public partial class RssBanditApplication
     {
         /// <summary>
         /// Catch Up the current selected node in subscriptions treeview.
