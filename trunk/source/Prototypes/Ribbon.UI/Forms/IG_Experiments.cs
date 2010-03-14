@@ -30,6 +30,8 @@ namespace Ribbon.WindowsApplication
 		private System.Windows.Forms.ImageList imageList16;
 		private Infragistics.Win.UltraWinEditors.UltraComboEditor ultraComboEditor1;
         private Infragistics.Win.UltraWinEditors.UltraTextEditor ultraTextEditor1;
+        private System.Windows.Forms.Integration.ElementHost elementHost2;
+        private RssBandit.UI.Forms.BanditToolbar banditToolbar1;
 		private System.ComponentModel.IContainer components;
 
 		public IG_Experiments()
@@ -114,6 +116,8 @@ namespace Ribbon.WindowsApplication
             this._Form2_Toolbars_Dock_Area_Top = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
             this._Form2_Toolbars_Dock_Area_Bottom = new Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea();
             this.ultraToolbarsManager = new Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(this.components);
+            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
+            this.banditToolbar1 = new RssBandit.UI.Forms.BanditToolbar();
             ((System.ComponentModel.ISupportInitialize)(this.ultraComboEditor1)).BeginInit();
             this.Form2_Fill_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ultraTextEditor1)).BeginInit();
@@ -335,11 +339,23 @@ namespace Ribbon.WindowsApplication
             popupMenuTool10,
             buttonTool5,
             controlContainerTool2});
+            this.ultraToolbarsManager.Visible = false;
+            // 
+            // elementHost2
+            // 
+            this.elementHost2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.elementHost2.Location = new System.Drawing.Point(0, 92);
+            this.elementHost2.Name = "elementHost2";
+            this.elementHost2.Size = new System.Drawing.Size(507, 100);
+            this.elementHost2.TabIndex = 6;
+            this.elementHost2.Text = "toolbarHost";
+            this.elementHost2.Child = this.banditToolbar1;
             // 
             // IG_Experiments
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(507, 311);
+            this.Controls.Add(this.elementHost2);
             this.Controls.Add(this.Form2_Fill_Panel);
             this.Controls.Add(this._Form2_Toolbars_Dock_Area_Left);
             this.Controls.Add(this._Form2_Toolbars_Dock_Area_Right);

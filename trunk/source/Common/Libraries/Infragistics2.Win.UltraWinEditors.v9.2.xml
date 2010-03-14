@@ -2944,18 +2944,6 @@
             </summary>
             <param name="args">Key Event arguments</param>
         </member>
-        <member name="M:Infragistics.Win.UltraWinEditors.TextEditorControlBase.OnHandleCreated(System.EventArgs)">
-            <summary>
-            Invoked when the handle for the control is created.
-            </summary>
-            <param name="e">An EventArgs that contains the event data.</param>
-        </member>
-        <member name="M:Infragistics.Win.UltraWinEditors.TextEditorControlBase.OnParentChanged(System.EventArgs)">
-            <summary>
-            Raises the ParentChanged event.
-            </summary>
-            <param name="e">An EventArgs that contains the event data.</param>
-        </member>
         <member name="M:Infragistics.Win.UltraWinEditors.TextEditorControlBase.GetPreferredSize(System.Drawing.Size)">
             <summary>
             Used to determine the preferred size for the control

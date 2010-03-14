@@ -7556,36 +7556,6 @@
             <param name="itemType">The type of item to create.</param>
             <returns>A new instance of the specified object.</returns>
         </member>
-        <member name="T:Infragistics.Win.UltraWinTree.Design.DataSourceEventArgs">
-            <summary>
-            This event arguments class supports the Infragistics infrastructure and is not meant to be used externally.
-            </summary>
-        </member>
-        <member name="M:Infragistics.Win.UltraWinTree.Design.DataSourceEventArgs.#ctor(System.Object,System.String)">
-            <summary>
-            Creates a new instance of the DataSourceEventArgs class. This event arguments class supports the Infragistics infrastructure and is not meant to be used externally.
-            </summary>
-            <param name="newDataSource"></param>
-            <param name="newDataMember"></param>
-        </member>
-        <member name="P:Infragistics.Win.UltraWinTree.Design.DataSourceEventArgs.NewDataSource">
-            <summary>
-            The new DataSource being assigned to the control.
-            </summary>
-        </member>
-        <member name="P:Infragistics.Win.UltraWinTree.Design.DataSourceEventArgs.NewDataMember">
-            <summary>
-            The new DataMember being assigned to the control. 
-            </summary>
-        </member>
-        <member name="T:Infragistics.Win.UltraWinTree.Design.DataSourceEventHandler">
-            <summary>
-            This event handler delegate supports the Infragistics infrastructure and is not meant to be used externally.
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-            <returns></returns>
-        </member>
         <member name="T:Infragistics.Win.UltraWinTree.Design.ITreeDesignInfo">
             <summary>
             This interface supports the Infragistics infrastructure and is not meant to be invoked externally.
