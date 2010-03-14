@@ -7,7 +7,7 @@ using WMPLib;
 
 namespace RssBandit
 {
-    internal partial class RssBanditApplication
+    public partial class RssBanditApplication
     {
         #region Podcast related routines
 

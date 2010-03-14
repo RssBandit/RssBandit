@@ -20,7 +20,7 @@ using System.IO;
 
 namespace RssBandit
 {
-    internal partial class RssBanditApplication
+    public partial class RssBanditApplication
     {
         #region AsynWebRequest events
 
