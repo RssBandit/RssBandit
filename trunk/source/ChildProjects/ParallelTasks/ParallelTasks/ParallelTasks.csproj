@@ -49,14 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileAsync.cs" />
+    <Compile Include="PrioritizingTaskScheduler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamExtensions.cs" />
-    <Compile Include="TaskCompletionSourceExtensions.cs" />
-    <Compile Include="TaskExtrasExtensions.cs" />
-    <Compile Include="TaskFactoryExtensions_Common.cs" />
-    <Compile Include="TaskFactoryExtensions_Iterate.cs" />
     <Compile Include="WebExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
