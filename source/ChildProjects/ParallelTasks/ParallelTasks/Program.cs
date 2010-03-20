@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 
 namespace ParallelTasks
 {
@@ -54,7 +55,8 @@ class HttpWebRequest_BeginGetResponse
             HttpWebRequest[] requests = new HttpWebRequest[]{ 
             (HttpWebRequest)WebRequest.Create("http://www.contoso.com"), 
             (HttpWebRequest)WebRequest.Create("http://www.yahoo.com"), 
-            (HttpWebRequest)WebRequest.Create("http://www.facebook.com")
+            (HttpWebRequest)WebRequest.Create("http://www.facebook.com"),
+            (HttpWebRequest)WebRequest.Create("http://www.google.com")
         };
 
 
@@ -76,6 +78,8 @@ class HttpWebRequest_BeginGetResponse
                 myHttpWebRequest.Proxy=myProxy;
               ***/
 
+            PrioritizingTaskScheduler scheduler = new PrioritizingTaskScheduler(2); 
+
             // Create an instance of the RequestState and assign the previous myHttpWebRequest
             // object to its request field.  
             Parallel.ForEach(requests, request => 
@@ -96,10 +100,10 @@ class HttpWebRequest_BeginGetResponse
                     {
                         return null;
                     }
-                }); 
+                }, scheduler); 
 
                 t2.Wait(); 
-                Console.WriteLine(String.Format("HOLLA at {0}:\n{1}", request.RequestUri, t2.Result.Length)); 
+                Console.WriteLine(String.Format("HOLLA at {0} running on Thread #{2}:\n{1}", request.RequestUri, t2.Result.Length, Thread.CurrentThread.ManagedThreadId)); 
             }); 
                 
               
