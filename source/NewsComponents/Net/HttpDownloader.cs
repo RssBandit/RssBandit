@@ -160,8 +160,6 @@ namespace NewsComponents.Net
 
 
             state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam,
-                                                                           null
-                                                                           /* new RequestQueuedCallback(this.OnRequestQueued) */,
                                                                            OnRequestStart,
                                                                            OnRequestComplete,
                                                                            OnRequestException,

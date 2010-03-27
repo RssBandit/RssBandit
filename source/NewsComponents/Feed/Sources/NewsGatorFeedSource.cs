@@ -672,7 +672,6 @@ namespace NewsComponents.Feed
                 reqParam.Headers = NgosTokenHeader; 
 
                 AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);
