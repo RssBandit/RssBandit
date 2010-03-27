@@ -525,8 +525,7 @@ namespace NewsComponents.Feed
                     RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
                 reqParam = RequestParameter.Create(false, reqParam);
 
-                AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
+                AsyncWebRequest.QueueRequest(reqParam,                                             
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);

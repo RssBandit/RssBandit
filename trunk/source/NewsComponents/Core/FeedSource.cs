@@ -4346,8 +4346,7 @@ namespace NewsComponents
 				// assign any client certificate attached to a feed:
             	reqParam.ClientCertificate = GetClientCertificate(theFeed);
 
-                AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
+                AsyncWebRequest.QueueRequest(reqParam,                                             
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);
@@ -5456,8 +5455,7 @@ namespace NewsComponents
                         // global cookie handling:
                         reqParam.SetCookies = SetCookies;
 
-                        AsyncWebRequest.QueueRequest(reqParam,
-                                                     null /* new RequestQueuedCallback(this.OnRequestQueued) */,
+                        AsyncWebRequest.QueueRequest(reqParam,                                                     
                                                      null /* new RequestStartCallback(this.OnRequestStart) */,
                                                      OnFaviconRequestComplete,
                                                      null /* new RequestExceptionCallback(this.OnRequestException) */,
