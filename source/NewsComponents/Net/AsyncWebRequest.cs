@@ -183,11 +183,12 @@ namespace NewsComponents.Net
             }
         }
 
+        #region experimental code for batch request support
+
         /// <summary>
-        /// Used to a queue an HTTP request for processing
+        /// Used to create an HTTP request for processing
         /// </summary>
-        /// <param name="requestParameter"></param>
-        /// <param name="webRequestQueued"></param>
+        /// <param name="requestParameter"></param>      
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -195,23 +196,21 @@ namespace NewsComponents.Net
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState QueueRequest(RequestParameter requestParameter,
-                                           RequestQueuedCallback webRequestQueued,
+        internal RequestState MakeRequest(RequestParameter requestParameter,                                          
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestQueued, webRequestStart, webRequestComplete,
+                MakeRequest(requestParameter, webRequestStart, webRequestComplete,
                              webRequestException, null, priority, null);
         }
 
         /// <summary>
-        /// Used to a queue an HTTP request for processing
+        /// Used to create an HTTP request for processing
         /// </summary>
         /// <param name="requestParameter"></param>
-        /// <param name="webRequestQueued"></param>
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -220,8 +219,7 @@ namespace NewsComponents.Net
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState QueueRequest(RequestParameter requestParameter,
-                                           RequestQueuedCallback webRequestQueued,
+        internal RequestState MakeRequest(RequestParameter requestParameter,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
@@ -229,7 +227,256 @@ namespace NewsComponents.Net
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestQueued, webRequestStart, webRequestComplete,
+                MakeRequest(requestParameter,  webRequestStart, webRequestComplete,
+                             webRequestException, webRequestProgress, priority, null);
+        }
+
+        /// <summary>
+        /// Used to create an HTTP request.
+        /// </summary>
+        /// <param name="requestParameter">Could be modified for each subsequent request</param>
+        /// <param name="webRequestComplete"></param>
+        /// <param name="webRequestException"></param>
+        /// <param name="webRequestStart"></param>
+        /// <param name="webRequestProgress"></param>
+        /// <param name="priority"></param>
+        /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
+        internal RequestState MakeRequest(RequestParameter requestParameter,
+                                           RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException,
+                                           RequestProgressCallback webRequestProgress,
+                                           int priority, RequestState prevState)
+        {
+            if (requestParameter == null)
+                throw new ArgumentNullException("requestParameter");
+
+            //TODO: Do we still need this in a task based model?
+            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
+                return null; // httpRequest already there
+
+            // here are the exceptions caused:
+            WebRequest webRequest = WebRequest.Create(requestParameter.RequestUri);
+
+            HttpWebRequest httpRequest = webRequest as HttpWebRequest;
+            FileWebRequest fileRequest = webRequest as FileWebRequest;
+            NntpWebRequest nntpRequest = webRequest as NntpWebRequest;
+
+            if (httpRequest != null)
+            {
+                // set extended HttpWebRequest params
+                if (webRequestProgress != null)
+                {
+                    httpRequest.Timeout = DefaultTimeout * 30; //one hour timeout for enclosures
+                }
+                else
+                {
+                    httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
+                }
+                httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
+                httpRequest.Proxy = requestParameter.Proxy;
+                httpRequest.AllowAutoRedirect = false;
+                //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
+                                                     DecompressionMethods.Deflate;
+                if (requestParameter.Headers != null)
+                {
+                    httpRequest.Headers.Add(requestParameter.Headers);
+                }
+
+                // due to the reported bug 893620 some web server fail with a server error 500
+                // if we send DateTime.MinValue as IfModifiedSince. Smoe Unix derivates only know
+                // about valid lowest DateTime around 1970. So in the case we use the
+                // httpRequest class default setting:
+                if (requestParameter.LastModified > MinValue)
+                {
+                    httpRequest.IfModifiedSince = requestParameter.LastModified;
+                }
+
+                /* #if DEBUG
+							// further to investigate: with this setting we don't leak connections
+							// (try TCPView from http://www.sysinternals.com)
+							// read:
+							// * http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B819450
+							// * http://cephas.net/blog/2003/10/29/the_intricacies_of_http.html
+							// * http://weblogs.asp.net/jan/archive/2004/01/28/63771.aspx
+			
+							httpRequest.KeepAlive = false;		// to prevent open HTTP connection leak
+							httpRequest.ProtocolVersion = HttpVersion.Version10;	// to prevent "Underlying connection closed" exception(s)
+#endif */
+
+                if (httpRequest.Proxy == null)
+                {
+                    httpRequest.KeepAlive = false;
+                    httpRequest.Proxy = WebRequest.DefaultWebProxy;
+                    httpRequest.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                }
+
+                if (requestParameter.ETag != null)
+                {
+                    httpRequest.Headers.Add("If-None-Match", requestParameter.ETag);
+                    httpRequest.Headers.Add("A-IM", "feed");
+                }
+
+                if (requestParameter.Credentials != null)
+                {
+                    httpRequest.KeepAlive = true; // required for authentication to succeed
+                    httpRequest.ProtocolVersion = HttpVersion.Version11; // switch back
+                    httpRequest.Credentials = requestParameter.Credentials;
+                }
+
+                if (requestParameter.ClientCertificate != null)
+                {
+                    httpRequest.ClientCertificates.Add(requestParameter.ClientCertificate);
+                    httpRequest.Timeout *= 2;	// double the timeout (SSL && Client Certs used!)
+                }
+
+                if (requestParameter.SetCookies)
+                {
+                    HttpCookieManager.SetCookies(httpRequest);
+                }
+
+                if (requestParameter.Cookies != null)
+                {
+                    httpRequest.CookieContainer = new CookieContainer();
+                    httpRequest.CookieContainer.Add(requestParameter.Cookies);
+                }
+
+                //this prevents the feed mixup issue that we've been facing. See 
+                //http://www.davelemen.com/archives/2006/04/rss_bandit_feeds_mix_up.html
+                //for a user complaint about the issue. 
+                httpRequest.Pipelined = false;
+            }
+            else if (fileRequest != null)
+            {
+                fileRequest.Timeout = DefaultTimeout;
+
+                if (requestParameter.Credentials != null)
+                {
+                    fileRequest.Credentials = requestParameter.Credentials;
+                }
+            }
+            else if (nntpRequest != null)
+            {
+                // ten minutes timeout. Large timeout is needed if this is first time we are fetching news
+                nntpRequest.Timeout = DefaultTimeout * 5;
+
+                if (requestParameter.Credentials != null)
+                {
+                    nntpRequest.Credentials = requestParameter.Credentials;
+                }
+
+                if (requestParameter.LastModified > MinValue)
+                {
+                    nntpRequest.IfModifiedSince = requestParameter.LastModified;
+                }
+            }
+            else
+            {
+                Debug.Assert(false, "QueueRequest(): unsupported WebRequest type: " + webRequest.GetType());
+            }
+
+            RequestState state;
+
+            if (prevState != null)
+            {
+                state = prevState;
+
+                IDisposable dispResponse = state.Response;
+                if (dispResponse != null)
+                {
+                    dispResponse.Dispose();
+                    state.Response = null;
+                }
+
+                if (state.ResponseStream != null)
+                {
+                    // we don't want to get out of connections
+                    state.ResponseStream.Close();
+                }
+
+                if (state.Request != null)
+                {
+                    if (state.Request.Credentials != null)
+                    {
+                        state.Request.Credentials = null;
+                    }
+                    // prevent NotImplementedExceptions:
+                    if (state.Request is HttpWebRequest)
+                        state.Request.Abort();
+                }
+            }
+            else
+            {
+                state = new RequestState(this);
+
+                state.WebRequestStarted += webRequestStart;
+                state.WebRequestCompleted += webRequestComplete;
+                state.WebRequestException += webRequestException;
+                state.WebRequestProgress += webRequestProgress;
+                state.Priority = priority; // needed for additional requests
+                state.InitialRequestUri = webRequest.RequestUri;
+            }
+
+            state.Request = webRequest;
+            state.RequestParams = requestParameter;
+
+            if (prevState == null)
+            {
+                // first httpRequest
+                queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
+             }
+
+            RequestThread.QueueRequest(state, priority);
+
+            return state;
+        }
+
+        #endregion 
+
+        /// <summary>
+        /// Used to a queue an HTTP request for processing
+        /// </summary>
+        /// <param name="requestParameter"></param>
+        /// <param name="webRequestComplete"></param>
+        /// <param name="webRequestException"></param>
+        /// <param name="webRequestStart"></param>
+        /// <param name="priority"></param>
+        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
+        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
+        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
+        internal RequestState QueueRequest(RequestParameter requestParameter,
+                                           RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException,
+                                           int priority)
+        {
+            return
+                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
+                             webRequestException, null, priority, null);
+        }
+
+        /// <summary>
+        /// Used to a queue an HTTP request for processing
+        /// </summary>
+        /// <param name="requestParameter"></param>
+        /// <param name="webRequestComplete"></param>
+        /// <param name="webRequestException"></param>
+        /// <param name="webRequestStart"></param>
+        /// <param name="webRequestProgress"></param>
+        /// <param name="priority"></param>
+        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
+        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
+        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
+        internal RequestState QueueRequest(RequestParameter requestParameter,
+                                           RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException,
+                                           RequestProgressCallback webRequestProgress,
+                                           int priority)
+        {
+            return
+                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
                              webRequestException, webRequestProgress, priority, null);
         }
 
@@ -237,7 +484,6 @@ namespace NewsComponents.Net
         /// Called for first and subsequent requests.
         /// </summary>
         /// <param name="requestParameter">Could be modified for each subsequent request</param>
-        /// <param name="webRequestQueued"></param>
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -245,7 +491,6 @@ namespace NewsComponents.Net
         /// <param name="priority"></param>
         /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
         internal RequestState QueueRequest(RequestParameter requestParameter,
-                                           RequestQueuedCallback webRequestQueued,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
@@ -413,7 +658,6 @@ namespace NewsComponents.Net
             {
                 state = new RequestState(this);
 
-                state.WebRequestQueued += webRequestQueued;
                 state.WebRequestStarted += webRequestStart;
                 state.WebRequestCompleted += webRequestComplete;
                 state.WebRequestException += webRequestException;
@@ -429,7 +673,6 @@ namespace NewsComponents.Net
             {
                 // first httpRequest
                 queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
-                state.OnRequestQueued(requestParameter.RequestUri);
             }
 
             RequestThread.QueueRequest(state, priority);
@@ -678,7 +921,7 @@ namespace NewsComponents.Net
                 		}
 
                 		RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
-                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                		QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
 
 
                 		// ping the queue listener thread to Dequeue the next request
@@ -724,7 +967,7 @@ namespace NewsComponents.Net
                 		RequestParameter rqp =
                 			RequestParameter.Create(req, RebuildCredentials(state.RequestParams.Credentials, url2),
                 			                        state.RequestParams);
-                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                		QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
 
 
                 		// ping the queue listener thread to Dequeue the next request
@@ -747,7 +990,7 @@ namespace NewsComponents.Net
                 			// action.
                 			RequestParameter rqp =
                 				RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
-                			QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                			QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
                 			// ping the queue listener thread to Dequeue the next request
                 			RequestThread.EndRequest(state);
                 		}
@@ -770,7 +1013,7 @@ namespace NewsComponents.Net
                 				// of one request (including the redirection/moved/... ) is visualized as one update
                 				// action.
                 				RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
-                				QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
+                				QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
                 				// ping the queue listener thread to Dequeue the next request
                 				RequestThread.EndRequest(state);
                 			}

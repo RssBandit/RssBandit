@@ -18,7 +18,6 @@ namespace NewsComponents.Net
 	/// </summary>
 	internal class RequestState
 	{
-		public event RequestQueuedCallback WebRequestQueued;
 		public event RequestStartCallback WebRequestStarted;
 		public event RequestCompleteCallback WebRequestCompleted;
 		public event RequestExceptionCallback WebRequestException;
@@ -36,16 +35,7 @@ namespace NewsComponents.Net
 			#endregion
 		}
 
-		public void OnRequestQueued() {
-			this.OnRequestQueued(this.RequestUri);
-		}
-		public void OnRequestQueued(Uri requestUri) {
-			try {
-				if (WebRequestQueued != null)
-					WebRequestQueued(requestUri, this.Priority);
-			} catch {}
-		}
-
+		
 		public bool OnRequestStart() {
 			return this.OnRequestStart(this.RequestUri);
 		}

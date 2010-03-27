@@ -796,8 +796,7 @@ namespace NewsComponents.Feed
                 reqParam.Cookies = new CookieCollection();
                 reqParam.Cookies.Add(MakeGoogleCookie(this.SID)); 
 
-                AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
+                AsyncWebRequest.QueueRequest(reqParam,                                             
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);
