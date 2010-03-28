@@ -177,6 +177,7 @@
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Threading, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -367,6 +368,7 @@
     <Compile Include="Threading\BinaryHeap.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Threading\PrioritizingTaskScheduler.cs" />
     <Compile Include="Threading\PriorityQueue.cs">
       <SubType>Code</SubType>
     </Compile>
