@@ -82,8 +82,7 @@ class HttpWebRequest_BeginGetResponse
 
             // Create an instance of the RequestState and assign the previous myHttpWebRequest
             // object to its request field.  
-            Parallel.ForEach<HttpWebRequest, int>(requests, //collection 
-                () => { Console.WriteLine("Beginning parallel web requests"); return 0; }, //pre-loop function
+            Parallel.ForEach(requests, //collection                 
                 (request, loop, bogusVal) => 
             {                
 
@@ -105,13 +104,10 @@ class HttpWebRequest_BeginGetResponse
                 }, scheduler); 
 
                 t2.Wait(); 
-                Console.WriteLine(String.Format("HOLLA at {0} running on Thread #{2}:\n{1}", request.RequestUri, t2.Result.Length, Thread.CurrentThread.ManagedThreadId));
+                Console.WriteLine(String.Format("HOLLA at {0} running on Thread #{2}:\n{1}", request.RequestUri, t2.Result.Length, Thread.CurrentThread.ManagedThreadId));                
+            });
 
-                return 1;
-            }, //main loop
-            (bogusVal) => Console.WriteLine("Requests completed") //post-loop function
-            ); 
-                
+            Console.WriteLine("IS THIS THE END?"); 
               
                 /* 
                 // Start the asynchronous request.
