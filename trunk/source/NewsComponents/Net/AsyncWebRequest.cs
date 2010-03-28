@@ -20,6 +20,8 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 
 using log4net;
 using NewsComponents.News;
@@ -186,13 +188,120 @@ namespace NewsComponents.Net
         #region experimental code for batch request support
 
         /// <summary>
+        /// Used to ensure that only one thread is running GetAsyncResponses at a time. 
+        /// </summary>
+        /// <seealso cref="GetAsyncResponses"/>
+        private bool refreshAllInProgress = false;
+        private Object SyncRoot = new Object();
+
+        /// <summary>
+        /// Scheduler which controls the maximum number of threads we use to perform concurrent HTTP requests
+        /// </summary>
+        private readonly PrioritizingTaskScheduler scheduler = new PrioritizingTaskScheduler();
+
+        /// <summary>
+        /// delegate used to call GetMultipleResponses asynchronously 
+        /// </summary>
+        /// <param name="requests"></param>
+        /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
+        private delegate void GetMultipleResponsesAsync(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException); 
+
+        /// <summary>
+        /// Used to make GET requests for multiple URLs asynchronously
+        /// </summary>
+        /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
+        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
+        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
+      
+        private void GetAsyncResponses(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException)
+        {
+            GetMultipleResponsesAsync method = new GetMultipleResponsesAsync(this.GetMultipleResponses);
+            method.BeginInvoke(requests, webRequestStart, webRequestComplete, webRequestException, null, null); 
+        }
+
+        /// <summary>
+        /// Used to make GET requests for multiple URLs in parallel
+        /// </summary>
+        /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
+        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
+        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
+        private void GetMultipleResponses(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+                                           RequestCompleteCallback webRequestComplete,
+                                           RequestExceptionCallback webRequestException)
+        {
+
+            //ensure that we don't have multiple attempts to refresh all feeds 
+            lock (SyncRoot)
+            {
+                if (refreshAllInProgress)
+                    return;
+                else
+                    refreshAllInProgress = true; 
+            }
+            
+            int priority = 10;
+            ParallelOptions options = new ParallelOptions() { TaskScheduler = scheduler, MaxDegreeOfParallelism = scheduler.MaximumConcurrencyLevel }; 
+
+            // Create an instance of the RequestState and perform the HTTP request for each of the request parameters           
+            Parallel.ForEach<RequestParameter>(requests, //collection of  
+                options, // Parallel options object specifies scheduler and max concurrent threads
+                (request) =>
+                {
+                    RequestState state = MakeRequest(request, webRequestStart, webRequestComplete, webRequestException, priority); 
+
+                   try {
+						// next call returns true if the real request should be cancelled 
+						// (e.g. if no internet connection available)
+						if (state.OnRequestStart()) {	
+							// signal this state to the worker class
+							this.RequestStartCancelled(state);
+                            return; 
+						}
+					}
+					catch (Exception signalException) {
+						_log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
+					}
+					state.StartTime = DateTime.Now;					
+
+					try {
+						_log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
+						IAsyncResult result = state.Request.BeginGetResponse(this.ResponseCallback, state);
+						ThreadPool.RegisterWaitForSingleObject (result.AsyncWaitHandle, this.TimeoutCallback, state, state.Request.Timeout, true);
+					}
+					catch (Exception responseException) {
+                        _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
+                        state.OnRequestException(responseException);
+						this.FinalizeWebRequest(state);
+					}
+
+                });           
+
+            lock (SyncRoot)
+            {
+                refreshAllInProgress = false; 
+            }
+        }
+
+        /// <summary>
         /// Used to create an HTTP request for processing
         /// </summary>
         /// <param name="requestParameter"></param>      
-        /// <param name="webRequestComplete"></param>
-        /// <param name="webRequestException"></param>
-        /// <param name="webRequestStart"></param>
-        /// <param name="priority"></param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
@@ -204,18 +313,18 @@ namespace NewsComponents.Net
         {
             return
                 MakeRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, null, priority, null);
+                             webRequestException, null, priority);
         }
 
         /// <summary>
         /// Used to create an HTTP request for processing
         /// </summary>
         /// <param name="requestParameter"></param>
-        /// <param name="webRequestComplete"></param>
-        /// <param name="webRequestException"></param>
-        /// <param name="webRequestStart"></param>
-        /// <param name="webRequestProgress"></param>
-        /// <param name="priority"></param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
+        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>
+        // <param name="priority"></param>
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
@@ -223,30 +332,31 @@ namespace NewsComponents.Net
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
-                                           RequestProgressCallback webRequestProgress,
+                                           RequestProgressCallback webRequestProgress, 
                                            int priority)
         {
             return
                 MakeRequest(requestParameter,  webRequestStart, webRequestComplete,
-                             webRequestException, webRequestProgress, priority, null);
+                             webRequestException, null, priority, null);
         }
 
         /// <summary>
         /// Used to create an HTTP request.
         /// </summary>
         /// <param name="requestParameter">Could be modified for each subsequent request</param>
-        /// <param name="webRequestComplete"></param>
-        /// <param name="webRequestException"></param>
-        /// <param name="webRequestStart"></param>
-        /// <param name="webRequestProgress"></param>
-        /// <param name="priority"></param>
+        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
+        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
+        /// <param name="webRequestException">callback invoked when each GET request fails</param>
+        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>      
+        /// <param name="priority">the priority of the request</param>
         /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
         internal RequestState MakeRequest(RequestParameter requestParameter,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
                                            RequestProgressCallback webRequestProgress,
-                                           int priority, RequestState prevState)
+                                           int priority,
+                                           RequestState prevState)
         {
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
