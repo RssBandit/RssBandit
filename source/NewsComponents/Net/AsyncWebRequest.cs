@@ -188,10 +188,10 @@ namespace NewsComponents.Net
         #region experimental code for batch request support
 
         /// <summary>
-        /// Used to ensure that only one thread is running GetAsyncResponses at a time. 
+        /// Used to ensure that we aren't refreshing feeds multiple times. 
         /// </summary>
         /// <seealso cref="GetAsyncResponses"/>
-        private bool refreshAllInProgress = false;
+        private List<string> refreshesInProgress = new List<string>(); 
         private Object SyncRoot = new Object();
 
         /// <summary>
@@ -204,10 +204,12 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="requests"></param>
         /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="category">the name of the feed category being refreshed</param>              
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
         /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
         /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        private delegate void GetMultipleResponsesAsync(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+        private delegate void GetMultipleResponsesAsync(List<RequestParameter> requests, 
+                                           string category, RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException); 
 
@@ -215,41 +217,48 @@ namespace NewsComponents.Net
         /// Used to make GET requests for multiple URLs asynchronously
         /// </summary>
         /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="category">the name of the feed category being refreshed</param>
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
         /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
         /// <param name="webRequestException">callback invoked when each GET request fails</param>
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
       
-        private void GetAsyncResponses(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+        public void GetAsyncResponses(List<RequestParameter> requests, 
+                                           string category, 
+                                           RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException)
         {
             GetMultipleResponsesAsync method = new GetMultipleResponsesAsync(this.GetMultipleResponses);
-            method.BeginInvoke(requests, webRequestStart, webRequestComplete, webRequestException, null, null); 
+            method.BeginInvoke(requests, category, webRequestStart, webRequestComplete, webRequestException, null, null); 
         }
 
         /// <summary>
         /// Used to make GET requests for multiple URLs in parallel
         /// </summary>
         /// <param name="requests">The URLs to be fetched</param>
+        /// <param name="category">the name of the feed category being refreshed</param>       
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
         /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
         /// <param name="webRequestException">callback invoked when each GET request fails</param>
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
-        private void GetMultipleResponses(List<RequestParameter> requests, RequestStartCallback webRequestStart,
+        private void GetMultipleResponses(List<RequestParameter> requests, 
+                                           string category, 
+                                           RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException)
-        {
+        {           
+            category.ExceptionIfNull("category"); 
 
             //ensure that we don't have multiple attempts to refresh all feeds 
             lock (SyncRoot)
             {
-                if (refreshAllInProgress)
+                if (refreshesInProgress.Contains(category))
                     return;
                 else
-                    refreshAllInProgress = true; 
+                    refreshesInProgress.Add(category); 
             }
             
             int priority = 10;
@@ -291,7 +300,7 @@ namespace NewsComponents.Net
 
             lock (SyncRoot)
             {
-                refreshAllInProgress = false; 
+                refreshesInProgress.Remove(category); 
             }
         }
 
