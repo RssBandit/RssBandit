@@ -4280,11 +4280,54 @@ namespace NewsComponents
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public virtual bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
         {
+            RequestParameter reqParam = null;
+            bool requestNeedsToBeQueued = AsyncGetItemsForFeed(feedUrl, forceDownload, manual, out reqParam);
+
+            if (requestNeedsToBeQueued)
+            {
+                int priority = 10;
+                if (forceDownload)
+                    priority += 100;
+                if (manual)
+                    priority += 1000;
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                            OnRequestStart,
+                                            OnRequestComplete,
+                                            OnRequestException, priority);
+            }
+
+            return requestNeedsToBeQueued; 
+        }
+
+        /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts the blog posts or articles to an arraylist of items. 
+        /// This method only retrieves items from local disk. It returns the details required to make an HTTP request if the item 
+        /// could not be loaded locally. 
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>
+        /// <param name="reqParam">Used to provide information as to how to make an HTTP request to retrieve the feed 
+        /// if it could not be found locally</param>
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public virtual bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, out RequestParameter reqParam)
+        {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");
 
             string etag = null;
             bool requestQueued = false;
+            reqParam = null; 
 
             int priority = 10;
             if (forceDownload)
@@ -4327,7 +4370,7 @@ namespace NewsComponents
                 //DateTime lastRetrieved = DateTime.MinValue; 
                 DateTime lastModified = DateTime.MinValue;
 
-                if (!manual && itemsTable.ContainsKey(feedUrl)) 
+                if (!manual && itemsTable.ContainsKey(feedUrl))
                 {
                     etag = theFeed.etag;
                     lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
@@ -4339,17 +4382,11 @@ namespace NewsComponents
                                      ? GetNntpServerCredentials(theFeed)
                                      : CreateCredentialsFrom(theFeed);
 
-                RequestParameter reqParam =
-                    RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
+                reqParam = RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = SetCookies;
-				// assign any client certificate attached to a feed:
-            	reqParam.ClientCertificate = GetClientCertificate(theFeed);
-
-                AsyncWebRequest.QueueRequest(reqParam,                                             
-                                             OnRequestStart,
-                                             OnRequestComplete,
-                                             OnRequestException, priority);
+                // assign any client certificate attached to a feed:
+                reqParam.ClientCertificate = GetClientCertificate(theFeed);              
 
                 requestQueued = true;
             }
@@ -5398,13 +5435,11 @@ namespace NewsComponents
             }
 
             var websites = new StringCollection();
+            var requests = new List<RequestParameter>(); 
 
             try
             {
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
+                string[] keys = GetFeedsTableKeys();                
 
                 for (int i = 0, len = keys.Length; i < len; i++)
                 {
@@ -5455,15 +5490,19 @@ namespace NewsComponents
                         // global cookie handling:
                         reqParam.SetCookies = SetCookies;
 
-                        AsyncWebRequest.QueueRequest(reqParam,                                                     
-                                                     null /* new RequestStartCallback(this.OnRequestStart) */,
-                                                     OnFaviconRequestComplete,
-                                                     null /* new RequestExceptionCallback(this.OnRequestException) */,
-                                                     100 /* priority*/);
+                        //add to list of requests we will execute asynchronously
+                        requests.Add(reqParam); 
 
                         websites.Add(webSiteUrl.Authority);
                     } //if(!websites.Contains(webSiteUrl.Authority)){					
-                } //foreach(FeedInfo fi in itemsTable.Values){
+                } // for (int i = 0, len = keys.Length; i < len; i++){ 
+
+                AsyncWebRequest.GetAsyncResponses(   requests, 
+                                                     "#$% favicons #$%", //category name shouldn't clash with a user created category name
+                                                     null /* new RequestStartCallback(this.OnRequestStart) */,
+                                                     OnFaviconRequestComplete,
+                                                     null /* new RequestExceptionCallback(this.OnRequestException) */
+                                                  );
             }
             catch (InvalidOperationException ioe)
             {
@@ -5491,6 +5530,7 @@ namespace NewsComponents
             }
 
             bool anyRequestQueued = false;
+            var requests = new List<RequestParameter>(); 
 
             try
             {
@@ -5507,7 +5547,8 @@ namespace NewsComponents
                         // may have been redirected/removed meanwhile
                         continue;
 
-                    INewsFeed current = feedsTable[keys[i]];
+                   INewsFeed current = feedsTable[keys[i]];
+                   RequestParameter reqParam = null; 
 
                     try
                     {
@@ -5541,8 +5582,11 @@ namespace NewsComponents
                             } //if(current.lastretrievedSpecified...) 
 
 
-                            if (AsyncGetItemsForFeed(current.link, true, false))
+                            if (AsyncGetItemsForFeed(current.link, true, false, out reqParam))
+                            {
+                                requests.Add(reqParam); 
                                 anyRequestQueued = true;
+                            }
                         }
                         else
                         {
@@ -5570,8 +5614,12 @@ namespace NewsComponents
                                     force_download = true;
                             }
 
-                            if (AsyncGetItemsForFeed(current.link, force_download, false))
+                            if (AsyncGetItemsForFeed(current.link, force_download, false, out reqParam))
+                            {
+                                requests.Add(reqParam); 
                                 anyRequestQueued = true;
+                            }
+                        
                         }
 
                         Thread.Sleep(15); // force a context switches
@@ -5581,7 +5629,13 @@ namespace NewsComponents
                         Trace("RefreshFeeds(bool) unexpected error processing feed '{0}': {1}", keys[i],
                               e.ToDescriptiveString());
                     }
-                } //for(i)
+
+                } // for (int i = 0, len = keys.Length; i < len; i++)
+
+                AsyncWebRequest.GetAsyncResponses(requests, String.Empty /* category */ , 
+                                                    OnRequestStart,
+                                                    OnRequestComplete,
+                                                    OnRequestException); 
             }
             catch (InvalidOperationException ioe)
             {
@@ -5617,6 +5671,8 @@ namespace NewsComponents
 
             try
             {
+                List<RequestParameter> requests = new List<RequestParameter>(); 
+
                 RaiseOnUpdateFeedsStarted(force_download);
 
                 string[] keys = GetFeedsTableKeys();
@@ -5631,6 +5687,7 @@ namespace NewsComponents
                         continue;
 
                     INewsFeed current = feedsTable[keys[i]];
+                    RequestParameter reqParam = null; 
 
                     try
                     {
@@ -5666,20 +5723,26 @@ namespace NewsComponents
 
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (AsyncGetItemsForFeed(current.link, true, true))
+                                if (AsyncGetItemsForFeed(current.link, true, true, out reqParam))
+                                {
+                                    requests.Add(reqParam); 
                                     anyRequestQueued = true;
+                                }
                             }
                         }
                         else
                         {
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (AsyncGetItemsForFeed(current.link, force_download, false))
+                                if (AsyncGetItemsForFeed(current.link, force_download, false, out reqParam))
+                                {
+                                    requests.Add(reqParam); 
                                     anyRequestQueued = true;
+                                }
                             }
                         }
 
-                        Thread.Sleep(15); // force a context switches
+                        //Thread.Sleep(15); // force a context switch
                     }
                     catch (Exception e)
                     {
@@ -5687,6 +5750,10 @@ namespace NewsComponents
                               e.ToDescriptiveString());
                     }
                 } //for(i)
+
+                AsyncWebRequest.GetAsyncResponses(requests, category, OnRequestStart,
+                                            OnRequestComplete,
+                                            OnRequestException);  
             }
             catch (InvalidOperationException ioe)
             {
