@@ -701,6 +701,48 @@ namespace NewsComponents.Feed
            return this.AsyncGetItemsForFeed(feedUrl, forceDownload, manual, null); 
         }
 
+
+         /// <summary>
+        /// Retrieves the RSS feed for a particular subscription then converts 
+        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
+        /// </summary>
+        /// <param name="feedUrl">The URL of the feed to download</param>
+        /// <param name="forceDownload">Flag indicates whether cached feed items 
+        /// can be returned or whether the application must fetch resources from 
+        /// the web</param>
+        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+        /// by automatic refresh timer (false)</param>        
+        /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded. If this
+        /// value is not null then the 'feedUrl' parameter is should actually be the download URL for the feed.</param>    
+        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+        /// <returns>true, if the request really was queued up</returns>
+        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+        //	[MethodImpl(MethodImplOptions.Synchronized)]
+        public bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken)
+        {
+            RequestParameter reqParam = null;
+            bool requestNeedsToBeQueued = AsyncGetItemsForFeed(feedUrl, forceDownload, manual, continuationToken, out reqParam);
+
+            if (requestNeedsToBeQueued)
+            {
+                int priority = 10;
+                if (forceDownload)
+                    priority += 100;
+                if (manual)
+                    priority += 1000;
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                            OnRequestStart,
+                                            OnRequestComplete,
+                                            OnRequestException, priority);
+            }
+
+            return requestNeedsToBeQueued; 
+        }
+
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. The http requests are async calls.
@@ -714,6 +756,8 @@ namespace NewsComponents.Feed
         /// by automatic refresh timer (false)</param>
         /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded. If this
         /// value is not null then the 'feedUrl' parameter is should actually be the download URL for the feed.</param>
+        /// <param name="reqParam">Used to provide information as to how to make an HTTP request to retrieve the feed 
+        /// if it could not be found locally</param>
         /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
         /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
@@ -721,13 +765,14 @@ namespace NewsComponents.Feed
         /// <returns>true, if the request really was queued up</returns>
         /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        private bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken)
+        private bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken, out RequestParameter reqParam)
         {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");
 
             string etag = null;
             bool requestQueued = false;
+            reqParam = null; 
 
             int priority = 10;
             if (forceDownload)
@@ -789,18 +834,12 @@ namespace NewsComponents.Feed
 
                 ICredentials c = null;
 
-                RequestParameter reqParam =
-                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                reqParam = RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = false;
                 reqParam.Cookies = new CookieCollection();
                 reqParam.Cookies.Add(MakeGoogleCookie(this.SID)); 
-
-                AsyncWebRequest.QueueRequest(reqParam,                                             
-                                             OnRequestStart,
-                                             OnRequestComplete,
-                                             OnRequestException, priority);
-
+              
                 requestQueued = true;
             }
             catch (Exception e)
