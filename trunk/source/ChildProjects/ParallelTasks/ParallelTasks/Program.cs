@@ -9,6 +9,8 @@ using System.Threading.Tasks.Schedulers;
 namespace ParallelTasks
 {
 
+
+
 public class RequestState
 {
   // This class stores the State of the request.
@@ -24,6 +26,25 @@ public class RequestState
     requestData = new StringBuilder("");
     request = null;
     streamResponse = null;
+  }
+
+
+  class MyCustomData
+  {
+      public DateTime Date;
+      public String Name;
+  }
+
+  static void TaskDemo2()
+  {
+      // Create the task object by using an Action<object> to pass in custom data.
+      var taskB = Task.Factory.StartNew((obj) =>
+      {
+          MyCustomData data = (MyCustomData)obj;
+          Console.WriteLine("Hello from {0}. Today is {1}.", data.Name, data.Date);
+      },
+          new MyCustomData { Name = "taskB", Date = DateTime.Today });     
+
   }
 }
 
@@ -48,6 +69,16 @@ class HttpWebRequest_BeginGetResponse
 
     static void Main()
     {
+
+        Task tt = Task.Factory.StartNew(() =>
+        {
+
+            Console.WriteLine("Start New");
+
+        });
+
+        Console.WriteLine(tt.Id);
+        Console.ReadLine(); 
 
         try
         {
