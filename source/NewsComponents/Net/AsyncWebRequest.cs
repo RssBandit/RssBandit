@@ -124,6 +124,10 @@ namespace NewsComponents.Net
         {
             queuedRequests = Hashtable.Synchronized(new Hashtable(17));
             requestThread = new RequestThread(this);
+            taskFactory = new TaskFactory(new CancellationTokenSource().Token,
+                                          TaskCreationOptions.PreferFairness,
+                                           TaskContinuationOptions.ExecuteSynchronously,
+                                           scheduler);           
         }
 
         /// <summary>
@@ -141,7 +145,7 @@ namespace NewsComponents.Net
 			// allow the manager to send proxy crendentials for proxies that require auth.:
 			AuthenticationManager.CredentialPolicy = new ProxyCredentialsPolicy();
 
-            // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
+             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
 
@@ -198,6 +202,9 @@ namespace NewsComponents.Net
         /// Scheduler which controls the maximum number of threads we use to perform concurrent HTTP requests
         /// </summary>
         private readonly PrioritizingTaskScheduler scheduler = new PrioritizingTaskScheduler();
+
+        private readonly TaskFactory taskFactory = null; 
+
 
         /// <summary>
         /// delegate used to call GetMultipleResponses asynchronously 
@@ -270,33 +277,8 @@ namespace NewsComponents.Net
                 (request) =>
                 {
                     RequestState state = MakeRequest(request, webRequestStart, webRequestComplete, webRequestException, priority); 
-
-                   try {
-						// next call returns true if the real request should be cancelled 
-						// (e.g. if no internet connection available)
-						if (state.OnRequestStart()) {	
-							// signal this state to the worker class
-							this.RequestStartCancelled(state);
-                            return; 
-						}
-					}
-					catch (Exception signalException) {
-						_log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
-					}
-					state.StartTime = DateTime.Now;					
-
-					try {
-						_log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
-						IAsyncResult result = state.Request.BeginGetResponse(this.ResponseCallback, state);
-						ThreadPool.RegisterWaitForSingleObject (result.AsyncWaitHandle, this.TimeoutCallback, state, state.Request.Timeout, true);
-					}
-					catch (Exception responseException) {
-                        _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
-                        state.OnRequestException(responseException);
-						this.FinalizeWebRequest(state);
-					}
-
-                });           
+                    PerformHttpRequest(state); 
+                } );           
 
             lock (SyncRoot)
             {
@@ -546,7 +528,7 @@ namespace NewsComponents.Net
                 queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
              }
 
-            RequestThread.QueueRequest(state, priority);
+            QueueRequest(state, priority);
 
             return state;
         }
@@ -794,9 +776,65 @@ namespace NewsComponents.Net
                 queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
             }
 
-            RequestThread.QueueRequest(state, priority);
+            QueueRequest(state, priority);
 
             return state;
+        }
+
+
+        /// <summary>
+        /// Makes an asynchronous HTTP request using the provided RequestState object
+        /// </summary>
+        /// <param name="state">The HTTP request information</param>
+        /// <param name="priority">The priority of the request</param>
+        private void QueueRequest(RequestState state, int priority)
+        {
+            Task t = taskFactory.StartNew((x) =>
+            {
+                PerformHttpRequest((RequestState)x);
+            }, state); 
+
+            //increase priority of the task if it needs to be performed quickly
+            if (priority > 10)
+                scheduler.Prioritize(t); 
+        }
+
+
+        /// <summary>
+        /// Performs an HTTP request using the provided request state information
+        /// </summary>
+        /// <param name="state">The HTTP request information</param>
+        private void PerformHttpRequest(RequestState state)
+        {
+            try
+            {
+                // next call returns true if the real request should be cancelled 
+                // (e.g. if no internet connection available)
+                if (state.OnRequestStart())
+                {
+                    // signal this state to the worker class
+                    this.RequestStartCancelled(state);
+                    return;
+                }
+            }
+            catch (Exception signalException)
+            {
+                _log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
+            }
+            state.StartTime = DateTime.Now;
+
+            try
+            {
+                _log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
+                IAsyncResult result = state.Request.BeginGetResponse(this.ResponseCallback, state);
+                ThreadPool.RegisterWaitForSingleObject(result.AsyncWaitHandle, this.TimeoutCallback, state, state.Request.Timeout, true);
+            }
+            catch (Exception responseException)
+            {
+                _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
+                state.OnRequestException(responseException);
+                this.FinalizeWebRequest(state);
+            }
         }
 
         /// <summary>
