@@ -12,6 +12,7 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
 
@@ -100,6 +101,12 @@ namespace RssBandit
                     // take over customized cultures to current main thread:
                     Thread.CurrentThread.CurrentCulture = RssBanditApplication.SharedCulture;
                     Thread.CurrentThread.CurrentUICulture = RssBanditApplication.SharedUICulture;
+
+                    // Ensure the current culture passed into bindings is the OS culture.
+                    // By default, WPF uses en-US as the culture, regardless of the system settings.
+                    //
+                    FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+                      new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
                     if (!appInstance.CommandLineArgs.StartInTaskbarNotificationAreaOnly &&
                         initialStartupState != System.Windows.Forms.FormWindowState.Minimized)

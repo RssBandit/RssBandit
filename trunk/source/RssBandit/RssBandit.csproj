@@ -1989,8 +1989,10 @@
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WinGui\Commands\BanditAppCommands.cs" />
-    <Compile Include="WinGui\Commands\ThemeSelectedCommand.cs" />
+    <Compile Include="WinGui\ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="WinGui\ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="WinGui\Commands\RelayCommand.cs" />
+    <Compile Include="WinGui\ViewModel\ViewModelBase.cs" />
     <Compile Include="WinGui\Controls\BanditRibbon.xaml.cs">
       <DependentUpon>BanditRibbon.xaml</DependentUpon>
     </Compile>
