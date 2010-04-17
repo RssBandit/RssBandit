@@ -223,14 +223,17 @@ namespace RssBandit
         /// <param name="e"></param>
         private void BeforeDownloadFeedStarted(object sender, FeedSource.DownloadFeedCancelEventArgs e)
         {
-        	FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
-        	InvokeOnGui(
-                delegate
+            if (IsMainWindowAvailable)
+            {
+                FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+                InvokeOnGui(
+                    delegate
                     {
                         bool cancel = e.Cancel;
-						guiMain.OnFeedUpdateStart(entry, e.FeedUri, ref cancel);
+                        guiMain.OnFeedUpdateStart(entry, e.FeedUri, ref cancel);
                         e.Cancel = cancel;
                     });
+            }
         }
 
         /// <summary>
@@ -501,7 +504,7 @@ namespace RssBandit
             else if (!args.Done)
             {
                 // in progress
-                if (!IsFormAvailable(guiMain))
+                if (!IsMainWindowAvailable(guiMain))
                 {
                     args.Cancel = true;
                     return;
@@ -518,7 +521,7 @@ namespace RssBandit
                 //resume pending enclosure downloads
                 this.feedHandler.ResumePendingDownloads();
 
-                if (!IsFormAvailable(guiMain))
+                if (!IsMainWindowAvailable(guiMain))
                 {
                     args.Cancel = true;
                     return;
@@ -543,7 +546,7 @@ namespace RssBandit
                 //TODO: move this out of the Form code to allow dynamic create/dispose of the main form from the system tray menu
                 foreach (string newFeedUrl in this.commandLineOptions.SubscribeTo)
                 {
-                    if (IsFormAvailable(guiMain))
+                    if (IsMainWindowAvailable(guiMain))
                         this.guiMain.AddFeedUrlSynchronized(newFeedUrl);
                 }
 
