@@ -1,15 +1,13 @@
 ﻿<Application x:Class="RssBandit.RssBanditApplication"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:cmds="clr-namespace:RssBandit.WinGui.Commands" 
-    StartupUri="../WinGui/Forms/MainWindow.xaml">
+			 >
     <Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				
 			</ResourceDictionary.MergedDictionaries>
-			<!--Global Application Commands-->
-			<cmds:BanditAppCommands x:Key="AppCmd" />
+			
 		</ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1715,15 +1715,27 @@ namespace RssBandit
         #endregion
 
         /// <summary>
-        /// Determines whether is the form available and safe to get called.
+        /// Determines whether [is form available] [the specified f].
         /// </summary>
         /// <param name="f">The form.</param>
         /// <returns>
         /// 	<c>true</c> if the form can be called; otherwise, <c>false</c>.
         /// </returns>
-        private static bool IsFormAvailable(Control f)
+        private bool IsMainWindowAvailable
         {
-            return (f != null && !f.Disposing && !f.IsDisposed);
+            get { return IsControlAvailable(guiMain); }
+        }
+
+        /// <summary>
+        /// Determines whether a control is available and save to be called.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is control available] [the specified control]; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool IsControlAvailable(Control control)
+        {
+            return (control != null && !control.Disposing && !control.IsDisposed);
         }
 
         private void SaveModifiedFeeds()
@@ -5599,13 +5611,13 @@ namespace RssBandit
                 {
                     FeedSourceType newFeedSource = (commandLineOptions.AddFacebook ? FeedSourceType.Facebook : FeedSourceType.Google);
 
-                    if (IsFormAvailable(guiMain))
+                    if (IsMainWindowAvailable)
                         guiMain.AddFeedSourceSynchronized(newFeedSource);
                 }
 
                 if (!String.IsNullOrEmpty(commandLineOptions.NavigateTo))
                 {
-                    if (IsFormAvailable(guiMain))
+                    if (IsMainWindowAvailable)
                         guiMain.NavigateToUrlSynchronized(commandLineOptions.NavigateTo);                          
                 }
 
@@ -5614,7 +5626,7 @@ namespace RssBandit
                 // a "feed:uri" link while a subscription wizard window is still yet open:
                 foreach (string newFeedUrl in new ArrayList(commandLineOptions.SubscribeTo))
                 {
-                    if (IsFormAvailable(guiMain))
+                    if (IsMainWindowAvailable)
                         guiMain.AddFeedUrlSynchronized(newFeedUrl);
                 }
             }
