@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Linq;
 
-namespace RssBandit.WinGui
+namespace RssBandit.WinGui.MarkupExtensions
 {
 
     /// <summary>
@@ -287,6 +287,10 @@ namespace RssBandit.WinGui
                     //                            this.Static + "\r\n" + ex.Message);                 
                 }
             }
+
+            // If the value is not null and a string, map the ampersand to an underscore for menu shortcuts:
+            if (localized != null && localized.GetType().Equals(typeof(string)))
+                localized = FixMnemonics((string)localized);
             
             // If the value is null, use the Default value if available
             if (localized == null && this.Default != null)
@@ -337,7 +341,44 @@ namespace RssBandit.WinGui
             return localized;
         }
 
+        /// <summary>
+        /// Removes the mnemonics ('&amp;' chars), but handles the
+        /// case the '&amp;' should be displayed (doubled &amp;'s).
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="replacement">The replacment char(s).</param>
+        /// <returns></returns>
+        static string ReplaceMnemonics(string value, string replacement)
+        {
+            const string amp = "&";
+            
+            if (value == null)
+                return value;
+            
+            int index = value.IndexOf(amp);
+            
+            if (index >= 0)
+            {
+                if (replacement == null)
+                    replacement = String.Empty;
 
+                value = value.Replace(amp, replacement);
+                // keep "&&" as single "&":
+                if (value.IndexOf(replacement + replacement) >=0)
+                    value = value.Replace(replacement + replacement, amp);
+            }
+            
+            return value;
+        }
+        /// <summary>
+        /// Fixes the mnemonics (replace any non-duplicated ampersands with a underscore line).
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        static string FixMnemonics(string value)
+        {
+            return ReplaceMnemonics(value, "_");
+        }
 
         /// <summary>
         /// This method tries to find the assembly of resources and the strongly 

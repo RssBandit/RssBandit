@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using RssBandit.Resources;
 using RssBandit.WinGui.Commands;
 using RssBandit.WinGui.Forms;
 
@@ -11,6 +12,13 @@ namespace RssBandit.WinGui.ViewModel
         {
             base.DisplayName = RssBanditApplication.CaptionOnly;
         }
+
+        //private static readonly Images _images = new Images();
+
+        //public Images Image
+        //{
+        //    get { return _images; }
+        //}
 
         #region ThemeSelectedCommand
 
