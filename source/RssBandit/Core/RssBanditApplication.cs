@@ -72,6 +72,7 @@ using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Interfaces;
+using RssBandit.WinGui.MarkupExtensions;
 using RssBandit.WinGui.Utility;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using Logger = RssBandit.Common.Logging;
