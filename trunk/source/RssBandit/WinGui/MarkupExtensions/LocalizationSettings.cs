@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Linq;
 using System.Collections;
 
-namespace RssBandit.WinGui
+namespace RssBandit.WinGui.MarkupExtensions
 {
     /// <summary>
     /// This class holds static configuration values that should
