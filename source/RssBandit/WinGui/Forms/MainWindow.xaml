@@ -12,61 +12,60 @@
 	ResizeMode="CanResizeWithGrip">
 	
 	<Ribbon:RibbonWindowContentHost>
-		
-			<Ribbon:RibbonWindowContentHost.Ribbon>
-				<Ribbon:XamRibbon x:Name="xamRibbon"  Theme="Office2k7Black" >
-					<!-- - ApplicationMenu - -->
-					<Ribbon:XamRibbon.ApplicationMenu>
-						<Ribbon:ApplicationMenu Image="/Resources/Images/Toolbar/rssbandit.32.png">
-							<Ribbon:MenuTool Caption="Subscribe to" ButtonType="DropDown">
-								<Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" />
-								<Ribbon:ButtonTool Caption="New Newgroup Subscription" />
-								<Ribbon:ButtonTool Caption="New Search Result Subscription" />
-							</Ribbon:MenuTool>
-							<Ribbon:SeparatorTool/>
-							<Ribbon:ButtonTool Caption="Import..." />
-							<Ribbon:ButtonTool Caption="Export..." />
-							<Ribbon:SeparatorTool/>
-							<Ribbon:ButtonTool Caption="Print Preview..." />
-							<Ribbon:ButtonTool Caption="Print..." />
-							<Ribbon:SeparatorTool/>
-							<Ribbon:ToggleButtonTool Caption="Work offline" />
-                        
 
-                        <Ribbon:MenuTool Caption="Theme" ButtonType="DropDown">
-								<Ribbon:LabelTool Caption="Change the visual theme of the application."/>
-								<Ribbon:RadioButtonTool Caption="Blue"
-								  Tag="Office2k7Blue"
-								  Command="{Binding Path=ThemeSelectedCommand}"
-								  CommandParameter="Office2k7Blue"
-								  CommandTarget="{Binding ElementName=xamlRibbon, Path=Theme}"
-							  Ribbon:MenuToolBase.MenuItemDescription="Blue"/>
-								<Ribbon:RadioButtonTool Caption="Black"
-								  Tag="Office2k7Black"
-								  Command="{Binding Path=ThemeSelectedCommand}"
-								  CommandParameter="Office2k7Black"
-								  IsChecked="True" 
-							  Ribbon:MenuToolBase.MenuItemDescription="Black"/>
-								<Ribbon:RadioButtonTool Caption="Silver"
-								  Tag="Office2k7Silver"
-								   Command="{Binding Path=ThemeSelectedCommand}"
-							  CommandParameter="Office2k7Silver"
-							  Ribbon:MenuToolBase.MenuItemDescription="Silver"/>
-							</Ribbon:MenuTool>
+    <Ribbon:RibbonWindowContentHost.Ribbon>
+      <Ribbon:XamRibbon x:Name="xamRibbon" Theme="Office2k7Black" >
+        <!-- - ApplicationMenu - -->
+        <Ribbon:XamRibbon.ApplicationMenu>
+          <Ribbon:ApplicationMenu Image="/Resources/Images/Toolbar/rssbandit.32.png">
+            <Ribbon:ApplicationMenu.Items>
+              <Ribbon:MenuTool Caption="Subscribe to" ButtonType="DropDown">
+                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" />
+                <Ribbon:ButtonTool Caption="New Newgroup Subscription" />
+                <Ribbon:ButtonTool Caption="New Search Result Subscription" />
+              </Ribbon:MenuTool>
+              <Ribbon:SeparatorTool/>
+              <Ribbon:ButtonTool Caption="Import..." />
+              <Ribbon:ButtonTool Caption="Export..." />
+              <Ribbon:SeparatorTool/>
+              <Ribbon:ButtonTool Caption="Print Preview..." />
+              <Ribbon:ButtonTool Caption="Print..." />
+              <Ribbon:SeparatorTool/>
+              <Ribbon:ToggleButtonTool Caption="Work offline" />
+            </Ribbon:ApplicationMenu.Items>
+            <Ribbon:ApplicationMenu.RecentItems>
+              <Ribbon:LabelTool Caption="Change the visual theme of the application."/>
+              <Ribbon:RadioButtonTool Caption="Blue"
+                Command="{Binding Path=ThemeSelectedCommand}"
+                CommandParameter="Office2k7Blue"
+                Ribbon:MenuToolBase.MenuItemDescription="Aero Blue Theme"/>
+              <Ribbon:RadioButtonTool Caption="Black"
+                Command="{Binding Path=ThemeSelectedCommand}"
+                CommandParameter="Office2k7Black"
+                IsChecked="True"
+                Ribbon:MenuToolBase.MenuItemDescription="Aero Black Theme"/>
+              <Ribbon:RadioButtonTool Caption="Black Onyx"
+                Command="{Binding Path=ThemeSelectedCommand}"
+                CommandParameter="Onyx"
+                Ribbon:MenuToolBase.MenuItemDescription="Black Onyx Theme"/>
+              <Ribbon:RadioButtonTool Caption="Silver"
+                Command="{Binding Path=ThemeSelectedCommand}"
+                CommandParameter="Office2k7Silver"
+                Ribbon:MenuToolBase.MenuItemDescription="Aero Silver Theme"/>
+            </Ribbon:ApplicationMenu.RecentItems>
+            <Ribbon:ApplicationMenu.FooterToolbar>
+              <Ribbon:ApplicationMenuFooterToolbar>
+                <Ribbon:ButtonTool Caption="Exit" Command="{Binding Path=CloseCommand}"/>
+              </Ribbon:ApplicationMenuFooterToolbar>
+            </Ribbon:ApplicationMenu.FooterToolbar>
+          </Ribbon:ApplicationMenu>
+        </Ribbon:XamRibbon.ApplicationMenu>
+        <!-- End ApplicationMenu -->
+      </Ribbon:XamRibbon>
+    </Ribbon:RibbonWindowContentHost.Ribbon>
 
-							<Ribbon:ApplicationMenu.FooterToolbar>
-								<Ribbon:ApplicationMenuFooterToolbar>
-									<Ribbon:ButtonTool Caption="Exit" Command="{Binding Path=CloseCommand}"/>
-								</Ribbon:ApplicationMenuFooterToolbar>
-							</Ribbon:ApplicationMenu.FooterToolbar>
-						</Ribbon:ApplicationMenu>
-					</Ribbon:XamRibbon.ApplicationMenu>
-					<!-- End ApplicationMenu -->
-				</Ribbon:XamRibbon>
-			</Ribbon:RibbonWindowContentHost.Ribbon>
 
-			
-			<StackPanel>
+    <StackPanel>
 				<Button Content="{ext:Res Static=strings:SR.NotYetImplementedFeature_Info,Default=Hello#}"></Button>
 				<Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
 			</StackPanel>
