@@ -31,8 +31,9 @@
 							<Ribbon:ButtonTool Caption="Print..." />
 							<Ribbon:SeparatorTool/>
 							<Ribbon:ToggleButtonTool Caption="Work offline" />
-							<Ribbon:SeparatorTool/>
-							<Ribbon:MenuTool Caption="Theme" ButtonType="DropDown">
+                        
+
+                        <Ribbon:MenuTool Caption="Theme" ButtonType="DropDown">
 								<Ribbon:LabelTool Caption="Change the visual theme of the application."/>
 								<Ribbon:RadioButtonTool Caption="Blue"
 								  Tag="Office2k7Blue"
