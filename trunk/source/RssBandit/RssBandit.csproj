@@ -178,19 +178,49 @@
       <Name>IEControl</Name>
       <HintPath>..\Common\Libraries\IEControl.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics2.Shared.v9.2">
-      <HintPath>..\Common\Libraries\Infragistics2.Shared.v9.2.dll</HintPath>
-      <Private>True</Private>
-      <Aliases>global,igwin</Aliases>
-    </Reference>
-    <Reference Include="Infragistics3.Wpf.Ribbon.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Shared.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <HintPath>..\Common\Libraries\Infragistics2.Shared.v10.1.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics3.Wpf.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics2.Win.Misc.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <Aliases>igwpf</Aliases>
-      <Private>True</Private>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTree.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTree.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Win.v10.1, Version=10.1.20101.2013, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics2.Win.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics3.Wpf.Ribbon.v10.1, Version=10.1.20101.2004, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics3.Wpf.Ribbon.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics3.Wpf.v10.1, Version=10.1.20101.2004, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Infragistics3.Wpf.v10.1.dll</HintPath>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
@@ -286,47 +316,6 @@
     <Reference Include="WizardFramework">
       <Name>WizardFramework</Name>
       <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics2.Win.Misc.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.Misc.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinEditors.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinTabControl.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.UltraWinTree.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.UltraWinTree.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Infragistics2.Win.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\Common\Libraries\Infragistics2.Win.v9.2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <Aliases>global,igwin</Aliases>
     </Reference>
   </ItemGroup>
   <ItemGroup>
