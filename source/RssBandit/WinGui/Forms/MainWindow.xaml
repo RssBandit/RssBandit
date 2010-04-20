@@ -8,6 +8,7 @@
 	xmlns:Ribbon="http://infragistics.com/Ribbon" 
 	Height="300" Width="300"
 	Title="{Binding Path=DisplayName}"
+  Icon="/Resources/App.ico"
 	ResizeMode="CanResizeWithGrip">
 	
 	<Ribbon:RibbonWindowContentHost>
