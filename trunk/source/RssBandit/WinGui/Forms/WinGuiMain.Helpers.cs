@@ -844,33 +844,6 @@ namespace RssBandit.WinGui.Forms
         }
 
         /// <summary>
-        /// Help to simply serialize a bounds rect.
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns>A ';' separated string: "X;Y;Width;Height".</returns>
-        private static string BoundsToString(Rectangle b)
-        {
-            return string.Format("{0};{1};{2};{3}", b.X, b.Y, b.Width, b.Height);
-        }
-
-        private static Rectangle StringToBounds(string b)
-        {
-            string[] ba = b.Split(new[] {';'});
-            Rectangle r = Rectangle.Empty;
-            if (ba.GetLength(0) == 4)
-            {
-                try
-                {
-                    r = new Rectangle(Int32.Parse(ba[0]), Int32.Parse(ba[1]), Int32.Parse(ba[2]), Int32.Parse(ba[3]));
-                }
-                catch
-                {
-                }
-            }
-            return r;
-        }
-
-        /// <summary>
         /// Helper method to populate SmartFolders.
         /// </summary>
         /// <param name="feedNode">The tree node which represents the feed in the tree view</param>

@@ -2,10 +2,6 @@
 // See http://wpflocalization.codeplex.com for related whitepaper and updates
 // See http://wpfclientguidance.codeplex.com for other WPF resources
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace RssBandit.WinGui

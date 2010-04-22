@@ -2,20 +2,23 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
-	xmlns:vm="clr-namespace:RssBandit.WinGui.ViewModel"
-	xmlns:strings="clr-namespace:RssBandit.Resources" 
-	xmlns:cmds="clr-namespace:RssBandit.WinGui.Commands" 
-	xmlns:Ribbon="http://infragistics.com/Ribbon" 
-	Height="300" Width="300"
+	xmlns:strings="clr-namespace:RssBandit.Resources"
+	xmlns:Converters="clr-namespace:RssBandit.Converters"
+	xmlns:Ribbon="http://infragistics.com/Ribbon"  Height="300" Width="300"
 	Title="{Binding Path=DisplayName}"
-  Icon="/Resources/App.ico"
+	Icon="/Resources/App.ico"
 	ResizeMode="CanResizeWithGrip">
+	
+	<Window.Resources>
+		<Converters:ThemeIsSelectedConverter x:Key="themeSelectedConverter" />
+	</Window.Resources>
 	
 	<Ribbon:RibbonWindowContentHost>
 
     <Ribbon:RibbonWindowContentHost.Ribbon>
-      <Ribbon:XamRibbon x:Name="xamRibbon" Theme="Office2k7Black" >
-        <!-- - ApplicationMenu - -->
+		
+      <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
+        
         <Ribbon:XamRibbon.ApplicationMenu>
           <Ribbon:ApplicationMenu Image="/Resources/Images/Toolbar/rssbandit.32.png">
             <Ribbon:ApplicationMenu.Items>
@@ -25,7 +28,7 @@
                 <Ribbon:ButtonTool Caption="New Search Result Subscription" />
               </Ribbon:MenuTool>
               <Ribbon:SeparatorTool/>
-              <Ribbon:ButtonTool Caption="Import..." />
+              <Ribbon:ButtonTool Caption="Import..." Command="{Binding ImportFeedsCommand}" />
               <Ribbon:ButtonTool Caption="Export..." />
               <Ribbon:SeparatorTool/>
               <Ribbon:ButtonTool Caption="Print Preview..." />
@@ -34,23 +37,19 @@
               <Ribbon:ToggleButtonTool Caption="Work offline" />
             </Ribbon:ApplicationMenu.Items>
             <Ribbon:ApplicationMenu.RecentItems>
-              <Ribbon:LabelTool Caption="Change the visual theme of the application."/>
-              <Ribbon:RadioButtonTool Caption="Blue"
-                Command="{Binding Path=ThemeSelectedCommand}"
-                CommandParameter="Office2k7Blue"
+			  <Ribbon:LabelTool Content="Change the visual theme of the application" />
+			  <Ribbon:SeparatorTool/>
+			  <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
+				IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Blue}"
                 Ribbon:MenuToolBase.MenuItemDescription="Aero Blue Theme"/>
-              <Ribbon:RadioButtonTool Caption="Black"
-                Command="{Binding Path=ThemeSelectedCommand}"
-                CommandParameter="Office2k7Black"
-                IsChecked="True"
+              <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Black" 
+				IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Black}"
                 Ribbon:MenuToolBase.MenuItemDescription="Aero Black Theme"/>
-              <Ribbon:RadioButtonTool Caption="Black Onyx"
-                Command="{Binding Path=ThemeSelectedCommand}"
-                CommandParameter="Onyx"
+              <Ribbon:RadioButtonTool GroupName="theme" Caption="Black Onyx"
+                IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Onyx}"
                 Ribbon:MenuToolBase.MenuItemDescription="Black Onyx Theme"/>
-              <Ribbon:RadioButtonTool Caption="Silver"
-                Command="{Binding Path=ThemeSelectedCommand}"
-                CommandParameter="Office2k7Silver"
+              <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Silver"
+                IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Silver}"
                 Ribbon:MenuToolBase.MenuItemDescription="Aero Silver Theme"/>
             </Ribbon:ApplicationMenu.RecentItems>
             <Ribbon:ApplicationMenu.FooterToolbar>
@@ -60,7 +59,7 @@
             </Ribbon:ApplicationMenu.FooterToolbar>
           </Ribbon:ApplicationMenu>
         </Ribbon:XamRibbon.ApplicationMenu>
-        <!-- End ApplicationMenu -->
+        
       </Ribbon:XamRibbon>
     </Ribbon:RibbonWindowContentHost.Ribbon>
 
