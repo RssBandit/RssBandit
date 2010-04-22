@@ -370,8 +370,8 @@ namespace RssBandit.WinGui.Utility {
 		}
         
 		/// <summary>Close resources and flush content (if needed) </summary>
-		public new void Close() {
-			base.Close();
+		public override void Dispose() {
+			base.Dispose();
 			Flush();
 		}
 
