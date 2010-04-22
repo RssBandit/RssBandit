@@ -1,5 +1,7 @@
 ﻿
 
+using RssBandit.WinGui.Utility;
+
 namespace RssBandit.WinGui.Forms
 {
     /// <summary>
@@ -10,6 +12,8 @@ namespace RssBandit.WinGui.Forms
         public MainWindow()
         {
             InitializeComponent();
+            WpfWindowSerializer.Register(this, WindowStates.All);
+
             Loaded += delegate
             {
                 Splash.Close();

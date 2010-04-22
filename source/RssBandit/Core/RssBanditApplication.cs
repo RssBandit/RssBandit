@@ -26,7 +26,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -43,6 +42,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
@@ -80,6 +80,7 @@ using Timer=System.Threading.Timer;
 using System.Windows.Threading;
 using System.Configuration;
 using RssBandit.Core.Storage;
+using IWin32Window = System.Windows.Forms.IWin32Window;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
@@ -143,7 +144,7 @@ namespace RssBandit
         private bool trustedCertIssuesModified;
         private Dictionary<int, List<string>> modifiedFeeds;
 
-        private Thread _dispatcherThread;
+        //private Thread _dispatcherThread;
         private Dispatcher _dispatcher;
 
         internal static readonly int MilliSecsMultiplier = 60*1000;
@@ -202,10 +203,7 @@ namespace RssBandit
 		
 		public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
         
-		// old:
-		//public event EventHandler FeedlistLoaded;
-		//public event FeedDeletedHandler FeedDeleted;
-
+	
         /// <summary>
         /// Async invoke on UI thread
         /// </summary>
@@ -220,8 +218,10 @@ namespace RssBandit
 
         #region constructors and startup
 
-        internal static void StaticInit()
+        internal static void StaticInit(RssBanditApplication instance)
         {
+            Current = instance;
+
             // set initial defaults
 			// advanced settings:
 			unconditionalCommentRss = false;
@@ -285,7 +285,7 @@ namespace RssBandit
         /// do not like to continue startup.
         /// </summary>
         /// <returns></returns>
-        public bool Init()
+        internal bool Init()
         {
             //specify 'nntp' and 'news' URI handler
             var creator = new NntpWebRequest(new Uri("http://www.example.com"));
@@ -409,6 +409,25 @@ namespace RssBandit
 
             // indicates OK:
             return true;
+        }
+        
+        internal static new RssBanditApplication Current { [DebuggerStepThrough]get; private set; }
+
+        internal static new MainWindow MainWindow { [DebuggerStepThrough]get { return (MainWindow)System.Windows.Application.Current.MainWindow; } }
+
+        internal static IWin32Window MainWindow32 { [DebuggerStepThrough]get { return new Win32Window(MainWindow); } }
+        
+        class Win32Window : IWin32Window
+        {
+            readonly WindowInteropHelper wh;
+            public Win32Window(System.Windows.Window window)
+            {
+                wh = new WindowInteropHelper(window);
+            }
+            public IntPtr Handle
+            {
+                get { return wh.Handle; }
+            }
         }
 
         public Form MainForm { get { return guiMain; } }
@@ -3782,7 +3801,8 @@ namespace RssBandit
                                       FeedSources);
             try
             {
-                dialog.ShowDialog(guiMain);
+                dialog.ShowDialog(MainWindow32);
+                //dialog.ShowDialog(guiMain);
             }
             catch (Exception e)
             {

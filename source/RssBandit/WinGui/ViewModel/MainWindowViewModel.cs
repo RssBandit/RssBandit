@@ -1,8 +1,15 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using RssBandit.Resources;
-using RssBandit.WinGui.Commands;
-using RssBandit.WinGui.Forms;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
+using Infragistics.Windows.Themes;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -11,41 +18,30 @@ namespace RssBandit.WinGui.ViewModel
         public MainWindowViewModel()
         {
             base.DisplayName = RssBanditApplication.CaptionOnly;
+            // assign the rencent selected theme, or the default:
+            CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", "Office2k7Black");
         }
 
-        //private static readonly Images _images = new Images();
-
-        //public Images Image
-        //{
-        //    get { return _images; }
-        //}
-
-        #region ThemeSelectedCommand
-
-        RelayCommand _themeSelectedCommand;
-
-        public ICommand ThemeSelectedCommand
+        /// <summary>
+        /// Gets the current theme (for binding).
+        /// </summary>
+        /// <value>The current theme.</value>
+        public string CurrentTheme
         {
-            get
+            get { return ThemeManager.CurrentTheme; }
+            set
             {
-                if (_themeSelectedCommand == null)
-                {
-                    _themeSelectedCommand = new RelayCommand(this.SelectTheme, param => this.CanSelectTheme);
-                }
-                return _themeSelectedCommand;
+                if (String.IsNullOrEmpty(value))
+                    return;
+
+                // apply theme to any windows forms IG control(s), we might still use:
+                ThemeManager.CurrentTheme = value;
+                // apply theme to WPF IG controls:
+                RssBanditApplication.MainWindow.xamRibbon.Theme = value;
+                // save to settings:
+                RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
             }
         }
-
-        public void SelectTheme(object theme)
-        {
-            ((MainWindow)Application.Current.MainWindow).xamRibbon.Theme = (string)theme;
-        }
-
-        public bool CanSelectTheme
-        {
-            get { return true; }
-        }
-
-        #endregion
+      
     }
 }

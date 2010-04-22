@@ -63,7 +63,6 @@ namespace RssBandit
             OtherInstanceCallback callback = appInstance.OnOtherInstance;
             try
             {
-                //running = InitialInstanceActivator.Activate(appInstance, callback, args);
                 running = InitialInstanceActivator.Activate(appInstance, callback, args);
             }
             catch (Exception /* ex */)
@@ -72,9 +71,9 @@ namespace RssBandit
             }
             //_log.Info("Application v" + RssBanditApplication.VersionLong + " started, running instance is " + running);
 
-            RssBanditApplication.StaticInit();
             if (!running)
             {
+                RssBanditApplication.StaticInit(appInstance);
                 // init to system default:
                 RssBanditApplication.SharedCulture = CultureInfo.CurrentCulture;
                 RssBanditApplication.SharedUICulture = CultureInfo.CurrentUICulture;
