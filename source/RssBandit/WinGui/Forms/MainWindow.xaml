@@ -10,7 +10,7 @@
 	ResizeMode="CanResizeWithGrip">
 	
 	<Window.Resources>
-		<Converters:ThemeIsSelectedConverter x:Key="themeSelectedConverter" />
+		<Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />
 	</Window.Resources>
 	
 	<Ribbon:RibbonWindowContentHost>
@@ -63,14 +63,24 @@
       </Ribbon:XamRibbon>
     </Ribbon:RibbonWindowContentHost.Ribbon>
 
-
-    <StackPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TreeView Name="tree" Grid.Column="0" ItemsSource="{Binding FeedSources}">
+        
+      </TreeView>
+      <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
+      <StackPanel Grid.Column="1">
 				<Button Content="{ext:Res Static=strings:SR.NotYetImplementedFeature_Info,Default=Hello#}"></Button>
 				<Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
 			</StackPanel>
+    </Grid>
+    
 		
 		<Ribbon:RibbonWindowContentHost.StatusBar>
-			<StatusBar Name="StatusBar1">
+			<StatusBar Name="statusBar">
 				<!--TODO: Add StatusBar Items -->
 				<TextBlock>Ready</TextBlock>
 			</StatusBar>

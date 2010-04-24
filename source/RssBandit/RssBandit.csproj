@@ -339,7 +339,7 @@
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\FileNameToIconConverter.cs" />
     <Compile Include="Converters\NotVisibleConverter.cs" />
-    <Compile Include="Converters\ThemeIsSelectedConverter.cs" />
+    <Compile Include="Converters\StringParameterToBooleanConverter.cs" />
     <Compile Include="Core\ApplicationExceptionHandler.cs" />
     <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
     <Compile Include="Core\Exceptions.cs" />
@@ -1998,6 +1998,8 @@
     </Compile>
     <Compile Include="WinGui\Utility\Extensions.cs" />
     <Compile Include="WinGui\Utility\WpfWindowSerializer.cs" />
+    <Compile Include="WinGui\ViewModel\FeedSourcesViewModel.cs" />
+    <Compile Include="WinGui\ViewModel\FeedSourceViewModel.cs" />
     <Compile Include="WinGui\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.cs" />
     <Compile Include="WinGui\Commands\RelayCommand.cs" />
