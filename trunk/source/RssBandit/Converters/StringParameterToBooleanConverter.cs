@@ -14,7 +14,7 @@ using System.Windows.Data;
 
 namespace RssBandit.Converters
 {
-    class ThemeIsSelectedConverter : IValueConverter
+    class StringParameterToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

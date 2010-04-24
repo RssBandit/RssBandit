@@ -1,4 +1,14 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Windows.Input;
 using RssBandit.WinGui.Commands;
 
