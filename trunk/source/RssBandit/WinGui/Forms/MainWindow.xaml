@@ -4,6 +4,7 @@
 	xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
 	xmlns:strings="clr-namespace:RssBandit.Resources"
 	xmlns:Converters="clr-namespace:RssBandit.Converters"
+   xmlns:vm="clr-namespace:RssBandit.WinGui.ViewModel"
 	xmlns:Ribbon="http://infragistics.com/Ribbon"  Height="300" Width="300"
 	Title="{Binding Path=DisplayName}"
 	Icon="/Resources/App.ico"
@@ -11,6 +12,7 @@
 	
 	<Window.Resources>
 		<Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />
+    <Converters:NodesSortedByCategoryTitleConverter x:Key="sortCategoryTitleConverter" />
 	</Window.Resources>
 	
 	<Ribbon:RibbonWindowContentHost>
@@ -68,8 +70,25 @@
         <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
       </Grid.ColumnDefinitions>
-      <TreeView Name="tree" Grid.Column="0" ItemsSource="{Binding FeedSources}">
-        
+      <Grid.Resources>
+        <DataTemplate x:Key="FeedNodeTemplate"  DataType="{x:Type vm:FeedViewModel}">
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+         <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:NodeViewModel}" 
+                                   ItemsSource="{Binding Children}"
+                                   ItemTemplate="{StaticResource FeedNodeTemplate}">
+          <TextBlock Text="{Binding Name}" />
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate x:Key="FeedSourcesTemplate" DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
+                                  ItemsSource="{Binding Children, Converter= {StaticResource sortCategoryTitleConverter}}"
+                                  ItemTemplate="{StaticResource NodesTemplate}">
+          <TextBlock Text="{Binding Name}" />
+        </HierarchicalDataTemplate>
+       
+      </Grid.Resources>
+      <TreeView Name="tree" Grid.Column="0"
+                ItemsSource="{Binding FeedSources.Sources}" 
+                ItemTemplate="{StaticResource FeedSourcesTemplate}">
       </TreeView>
       <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
       <StackPanel Grid.Column="1">
