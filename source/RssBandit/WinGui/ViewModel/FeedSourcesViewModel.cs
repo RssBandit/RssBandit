@@ -19,20 +19,20 @@ namespace RssBandit.WinGui.ViewModel
     {
         private static readonly ILog _log = Log.GetLogger(typeof(FeedSourcesViewModel));
 
-        ObservableCollection<FeedSourceViewModel> _sources;
+        ObservableCollection<CategorizedFeedSourceViewModel> _sources;
         /// <summary>
         /// Initializes a new instance of the <see cref="FeedSourcesViewModel"/> class.
         /// Uses FeedSourceManager to get feed sources.
         /// </summary>
         public FeedSourcesViewModel()
         {
-            _sources = new ObservableCollection<FeedSourceViewModel>();
+            _sources = new ObservableCollection<CategorizedFeedSourceViewModel>();
             
             foreach (FeedSourceEntry entry in RssBanditApplication.Current.FeedSources.Sources)
             {
                 if (entry.Source.FeedsListOK)
                 {
-                    _sources.Add(new FeedSourceViewModel(entry));
+                    _sources.Add(new CategorizedFeedSourceViewModel(entry));
                     
                 }
                 else
@@ -46,7 +46,7 @@ namespace RssBandit.WinGui.ViewModel
         /// Gets or sets the feed sources.
         /// </summary>
         /// <value>The sources.</value>
-        public ObservableCollection<FeedSourceViewModel> Sources
+        public ObservableCollection<CategorizedFeedSourceViewModel> Sources
         {
             get { return _sources; }
             set { _sources = value; }
