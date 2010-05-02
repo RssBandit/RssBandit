@@ -2001,10 +2001,12 @@
     <Compile Include="WinGui\ViewModel\CategorizedFeedSourceViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FeedSourcesViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FeedViewModel.cs" />
+    <Compile Include="WinGui\ViewModel\FolderViewModel.cs" />
     <Compile Include="WinGui\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.cs" />
     <Compile Include="WinGui\Commands\RelayCommand.cs" />
     <Compile Include="Converters\NodesSortedByCategoryTitleConverter.cs" />
+    <Compile Include="WinGui\ViewModel\TreeNodeViewModelBase.cs" />
     <Compile Include="WinGui\ViewModel\ViewModelBase.cs" />
     <Compile Include="WinGui\Controls\BanditRibbon.xaml.cs">
       <DependentUpon>BanditRibbon.xaml</DependentUpon>
