@@ -74,7 +74,7 @@
         <DataTemplate x:Key="FeedNodeTemplate"  DataType="{x:Type vm:FeedViewModel}">
           <TextBlock Text="{Binding Name}" />
         </DataTemplate>
-         <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:NodeViewModel}" 
+         <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:TreeNodeViewModelBase}" 
                                    ItemsSource="{Binding Children}"
                                    ItemTemplate="{StaticResource FeedNodeTemplate}">
           <TextBlock Text="{Binding Name}" />
