@@ -10,6 +10,7 @@
 
 using System;
 using System.Windows.Input;
+using NewsComponents;
 using RssBandit.WinGui.Commands;
 
 namespace RssBandit.WinGui.ViewModel
@@ -61,6 +62,17 @@ namespace RssBandit.WinGui.ViewModel
         }
 
         #endregion // RequestClose [event]    
+
+        #region WorkOffline property
+       
+        //TODO: review (we might not be notified about a change...)
+        public bool WorkOffline
+        {
+            get { return FeedSource.Offline; }
+            set { FeedSource.Offline = value; }
+        }
+
+        #endregion
 
         #region Import Feeds Command
 
