@@ -36,7 +36,7 @@
               <Ribbon:ButtonTool Caption="Print Preview..." />
               <Ribbon:ButtonTool Caption="Print..." />
               <Ribbon:SeparatorTool/>
-              <Ribbon:ToggleButtonTool Caption="Work offline" />
+              <Ribbon:ToggleButtonTool Caption="Work offline" IsChecked="{Binding WorkOffline}" />
             </Ribbon:ApplicationMenu.Items>
             <Ribbon:ApplicationMenu.RecentItems>
 			  <Ribbon:LabelTool Content="Change the visual theme of the application" />
