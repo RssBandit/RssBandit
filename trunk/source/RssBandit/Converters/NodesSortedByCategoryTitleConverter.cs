@@ -23,7 +23,7 @@ namespace RssBandit.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            IEnumerable<NodeViewModel> nodes = value as IEnumerable<NodeViewModel>;
+            IEnumerable<TreeNodeViewModelBase> nodes = value as IEnumerable<TreeNodeViewModelBase>;
             ListCollectionView lcv = (ListCollectionView)CollectionViewSource.GetDefaultView(nodes);
             lcv.CustomSort = new NodesSortedByCategoryTitleComparer();
             return lcv;
@@ -34,7 +34,7 @@ namespace RssBandit.Converters
             throw new NotImplementedException();
         }
 
-        class NodesSortedByCategoryTitleComparer : IComparer<NodeViewModel>, IComparer
+        class NodesSortedByCategoryTitleComparer : IComparer<TreeNodeViewModelBase>, IComparer
         {
             private readonly bool _sortAscending;
 
@@ -48,7 +48,7 @@ namespace RssBandit.Converters
                 this._sortAscending = sortAscending;
             }
 
-            public int Compare(NodeViewModel x, NodeViewModel y)
+            public int Compare(TreeNodeViewModelBase x, TreeNodeViewModelBase y)
             {
                 if (x == null || y == null)
                     return 0;
@@ -67,7 +67,7 @@ namespace RssBandit.Converters
 
             public int Compare(object x, object y)
             {
-                return Compare(x as NodeViewModel, y as NodeViewModel);
+                return Compare(x as TreeNodeViewModelBase, y as TreeNodeViewModelBase);
             }
         }
 

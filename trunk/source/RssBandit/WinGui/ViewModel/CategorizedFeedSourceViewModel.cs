@@ -23,7 +23,7 @@ namespace RssBandit.WinGui.ViewModel
     public class CategorizedFeedSourceViewModel: ViewModelBase
     {
         private readonly FeedSourceEntry _entry;
-        private ObservableCollection<NodeViewModel> _children;
+        private ObservableCollection<TreeNodeViewModelBase> _children;
 
         public CategorizedFeedSourceViewModel(FeedSourceEntry feedSource)
         {
@@ -35,13 +35,13 @@ namespace RssBandit.WinGui.ViewModel
             set { _entry.Name = value; }
         }
 
-        public ObservableCollection<NodeViewModel> Children
+        public ObservableCollection<TreeNodeViewModelBase> Children
         {
             get
             {
                 if (_children == null)
                 {
-                    _children = new ObservableCollection<NodeViewModel>();
+                    _children = new ObservableCollection<TreeNodeViewModelBase>();
 
                     _entry.Source.LoadFeedlist();
 
@@ -100,7 +100,7 @@ namespace RssBandit.WinGui.ViewModel
             set { _children = value; }
         }
 
-        static FolderViewModel CreateHive(string pathName, ICollection<NodeViewModel> rootNodes, Dictionary<string, FolderViewModel> knownFolders)
+        static FolderViewModel CreateHive(string pathName, ICollection<TreeNodeViewModelBase> rootNodes, Dictionary<string, FolderViewModel> knownFolders)
         {
             pathName.ExceptionIfNullOrEmpty("pathName");
             
