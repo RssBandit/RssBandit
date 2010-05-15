@@ -17,17 +17,25 @@
 	
 	<Ribbon:RibbonWindowContentHost>
 
-    <Ribbon:RibbonWindowContentHost.Ribbon>
-		
+    <Ribbon:RibbonWindowContentHost.Ribbon>	
       <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
         
         <Ribbon:XamRibbon.ApplicationMenu>
           <Ribbon:ApplicationMenu Image="/Resources/Images/Toolbar/rssbandit.32.png">
             <Ribbon:ApplicationMenu.Items>
-              <Ribbon:MenuTool Caption="Subscribe to" ButtonType="DropDown">
-                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" />
-                <Ribbon:ButtonTool Caption="New Newgroup Subscription" />
-                <Ribbon:ButtonTool Caption="New Search Result Subscription" />
+              <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
+                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" 
+                                   LargeImage="/Resources/Images/Toolbar/new.doc.feed.32.png"
+                                   Command="{Binding SubscribeRssFeedCommand}"/>
+                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewNntpFeedCaption,Default=NewNntpSubscription#}" 
+                                   LargeImage="/Resources/Images/Toolbar/new.doc.nntp.32.png"
+                                   Command="{Binding SubscribeNntpFeedCommand}"/>
+                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
+                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewRssSearchResultSubscriptionCaption,Default=NewSearchResultSubscription#}"
+                                   LargeImage="/Resources/Images/Toolbar/new.doc.feed.search.32.png"
+                                   Command="{Binding SubscribeSearchResultFeedCommand}" />
               </Ribbon:MenuTool>
               <Ribbon:SeparatorTool/>
               <Ribbon:ButtonTool Caption="Import..." Command="{Binding ImportFeedsCommand}" />
@@ -38,29 +46,32 @@
               <Ribbon:SeparatorTool/>
               <Ribbon:ToggleButtonTool Caption="Work offline" IsChecked="{Binding WorkOffline}" />
             </Ribbon:ApplicationMenu.Items>
-            <Ribbon:ApplicationMenu.RecentItems>
-			  <Ribbon:LabelTool Content="Change the visual theme of the application" />
-			  <Ribbon:SeparatorTool/>
-			  <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
-				IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Blue}"
-                Ribbon:MenuToolBase.MenuItemDescription="Aero Blue Theme"/>
-              <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Black" 
-				IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Black}"
-                Ribbon:MenuToolBase.MenuItemDescription="Aero Black Theme"/>
-              <Ribbon:RadioButtonTool GroupName="theme" Caption="Black Onyx"
+          <Ribbon:ApplicationMenu.RecentItems>
+			      <Ribbon:LabelTool Content="Change the visual theme of the application" />
+			      <Ribbon:SeparatorTool/>
+			      <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
+				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Blue}"
+                Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Blue Theme"/>
+            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Black" 
+				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Black}"
+                Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Black Theme"/>
+            <Ribbon:RadioButtonTool GroupName="theme" Caption="Black Onyx"
                 IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Onyx}"
-                Ribbon:MenuToolBase.MenuItemDescription="Black Onyx Theme"/>
-              <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Silver"
+                Ribbon:MenuToolBase.MenuItemDescription="Use an Black Onyx Theme"/>
+            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Silver"
                 IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Silver}"
-                Ribbon:MenuToolBase.MenuItemDescription="Aero Silver Theme"/>
-            </Ribbon:ApplicationMenu.RecentItems>
-            <Ribbon:ApplicationMenu.FooterToolbar>
-              <Ribbon:ApplicationMenuFooterToolbar>
-                <Ribbon:ButtonTool Caption="Exit" Command="{Binding Path=CloseCommand}"/>
-              </Ribbon:ApplicationMenuFooterToolbar>
-            </Ribbon:ApplicationMenu.FooterToolbar>
-          </Ribbon:ApplicationMenu>
-        </Ribbon:XamRibbon.ApplicationMenu>
+                Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Silver Theme"/>
+          </Ribbon:ApplicationMenu.RecentItems>
+          <Ribbon:ApplicationMenu.FooterToolbar>
+            <Ribbon:ApplicationMenuFooterToolbar>
+              <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppOptionsCaption,Default=Options#}" Command="{Binding Path=AppOptionsCommand}"
+                                 SmallImage="/Resources/Images/Toolbar/document_preferences_16.png"  LargeImage="/Resources/Images/Toolbar/document_preferences_32.png" />
+              <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppCloseExitCaption,Default=Exit#}" Command="{Binding Path=CloseCommand}" 
+                                 SmallImage="/Resources/Images/Toolbar/exit.32.png"  LargeImage="/Resources/Images/Toolbar/exit.32.png" />
+            </Ribbon:ApplicationMenuFooterToolbar>
+          </Ribbon:ApplicationMenu.FooterToolbar>
+        </Ribbon:ApplicationMenu>
+      </Ribbon:XamRibbon.ApplicationMenu>
         
       </Ribbon:XamRibbon>
     </Ribbon:RibbonWindowContentHost.Ribbon>

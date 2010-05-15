@@ -831,7 +831,7 @@ Detailliertere Informationen über diesen Fehler finden Sie in der Datei
     <value>Mehr Feed Informationen...</value>
   </data>
   <data name="MenuAppCloseExitCaption" xml:space="preserve">
-    <value>B&amp;eenden</value>
+    <value>RSS Bandit B&amp;eenden</value>
   </data>
   <data name="MenuAppCloseExitDesc" xml:space="preserve">
     <value>Anwendung beenden</value>
@@ -1335,7 +1335,7 @@ Detailliertere Informationen über diesen Fehler finden Sie in der Datei
     <value>Einen Feed finden oder ein Suchergebnis abonnieren</value>
   </data>
   <data name="MenuNewFeedCaption" xml:space="preserve">
-    <value>&amp;Feed Subscription...</value>
+    <value>Feed  Abonnement...</value>
   </data>
   <data name="MenuNewFeedCaption2" xml:space="preserve">
     <value>&amp;Neues Feed Abonnement...</value>

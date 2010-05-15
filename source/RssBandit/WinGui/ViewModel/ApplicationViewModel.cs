@@ -80,7 +80,7 @@ namespace RssBandit.WinGui.ViewModel
 
         /// <summary>
         /// Returns the command that, when invoked, attempts
-        /// to shutdown the application.
+        /// to import feeds froma URL (OPML, own format).
         /// </summary>
         public ICommand ImportFeedsCommand
         {
@@ -124,6 +124,99 @@ namespace RssBandit.WinGui.ViewModel
             //}
 
             RssBanditApplication.Current.ImportFeeds(String.Empty, category, feedSource);
+        }
+
+
+        #endregion
+
+        #region Subscribe RssFeed Command
+
+        RelayCommand _subscribeRssFeedCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to create a new RSS Feed subscription.
+        /// </summary>
+        public ICommand SubscribeRssFeedCommand
+        {
+            get
+            {
+                if (_subscribeRssFeedCommand == null)
+                    _subscribeRssFeedCommand = new RelayCommand(param => SubscribeRssFeed(), param => CanSubscribeRssFeed);
+
+                return _subscribeRssFeedCommand;
+            }
+        }
+        public bool CanSubscribeRssFeed
+        {
+            get { return true; }
+        }
+
+        void SubscribeRssFeed()
+        {
+            //TODO: impl.
+        }
+
+
+        #endregion
+
+        #region Subscribe NntpFeed Command
+
+        RelayCommand _subscribeNntpFeedCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to create a new NNTP Feed subscription.
+        /// </summary>
+        public ICommand SubscribeNntpFeedCommand
+        {
+            get
+            {
+                if (_subscribeNntpFeedCommand == null)
+                    _subscribeNntpFeedCommand = new RelayCommand(param => SubscribeNntpFeed(), param => CanSubscribeNntpFeed);
+
+                return _subscribeNntpFeedCommand;
+            }
+        }
+        public bool CanSubscribeNntpFeed
+        {
+            get { return true; }
+        }
+
+        void SubscribeNntpFeed()
+        {
+            //TODO: impl.
+        }
+
+
+        #endregion
+
+        #region Subscribe Search Result Feed Command
+
+        RelayCommand _subscribeSearchResultFeedCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to create a new search result Feed subscription.
+        /// </summary>
+        public ICommand SubscribeSearchResultFeedCommand
+        {
+            get
+            {
+                if (_subscribeSearchResultFeedCommand == null)
+                    _subscribeSearchResultFeedCommand = new RelayCommand(param => SubscribeSearchResultFeed(), param => CanSubscribeSearchResultFeed);
+
+                return _subscribeSearchResultFeedCommand;
+            }
+        }
+        public bool CanSubscribeSearchResultFeed
+        {
+            get { return true; }
+        }
+
+        void SubscribeSearchResultFeed()
+        {
+            //TODO: impl.
         }
 
 
