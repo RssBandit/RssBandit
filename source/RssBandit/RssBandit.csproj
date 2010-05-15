@@ -499,6 +499,14 @@
     <Resource Include="Resources\Images\Toolbar\rssbandit.32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Toolbar\exit.32.png" />
+    <Resource Include="Resources\Images\Toolbar\add.feedsources.32.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.feed.32.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.feed.search.32.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.nntp.32.png" />
+    <Resource Include="Resources\Images\Toolbar\document_preferences_16.png" />
+    <Resource Include="Resources\Images\Toolbar\document_preferences_32.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.32.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

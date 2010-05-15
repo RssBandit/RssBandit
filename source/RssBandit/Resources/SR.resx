@@ -1008,7 +1008,7 @@ for detailed information about the error occured.</value>
     <value>Advanced/More Feed Info...</value>
   </data>
   <data name="MenuAppCloseExitCaption" xml:space="preserve">
-    <value>E&amp;xit</value>
+    <value>E&amp;xit RSS Bandit</value>
   </data>
   <data name="MenuAppCloseExitDesc" xml:space="preserve">
     <value>Close and Exit this Application</value>
@@ -1568,7 +1568,7 @@ for detailed information about the error occured.</value>
     <value>Discussion:</value>
   </data>
   <data name="MenuNewFeedCaption" xml:space="preserve">
-    <value>&amp;Feed Subscription...</value>
+    <value>Feed Subscription...</value>
   </data>
   <data name="MenuNewFeedCaption2" xml:space="preserve">
     <value>&amp;New Feed Subscription...</value>
@@ -1583,7 +1583,7 @@ for detailed information about the error occured.</value>
     <value>Create a new search folder...</value>
   </data>
   <data name="MenuNewNntpFeedCaption" xml:space="preserve">
-    <value>&amp;Newsgroup Subscription...</value>
+    <value>Newsgroup Subscription...</value>
   </data>
   <data name="MenuNewNntpFeedDesc" xml:space="preserve">
     <value>Subscribe to a new feed</value>
@@ -2537,5 +2537,14 @@ Error: {1}</value>
   </data>
   <data name="CmdLineNavigateToDesc" xml:space="preserve">
     <value>Open the specified URL in a tab or navigate to the specified feed item</value>
+  </data>
+  <data name="MenuAppNewSubscriptionCaption" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="MenuAppSubscribeToCaption" xml:space="preserve">
+    <value>Subscribe to</value>
+  </data>
+  <data name="MenuNewRssSearchResultSubscriptionCaption" xml:space="preserve">
+    <value>Search Result Subscription...</value>
   </data>
 </root>
