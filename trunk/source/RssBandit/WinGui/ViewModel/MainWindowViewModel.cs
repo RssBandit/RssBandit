@@ -9,7 +9,10 @@
 #endregion
 
 using System;
+using System.Windows.Input;
+using System.Windows.Interop;
 using Infragistics.Windows.Themes;
+using RssBandit.WinGui.Commands;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -54,8 +57,40 @@ namespace RssBandit.WinGui.ViewModel
                 RssBanditApplication.MainWindow.xamRibbon.Theme = value;
                 // save to settings:
                 RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
+                
+                OnPropertyChanged("CurrentTheme");
             }
         }
-      
+
+        #region App Options Command
+
+        RelayCommand _appOptionsCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to show the app options dialog.
+        /// </summary>
+        public ICommand AppOptionsCommand
+        {
+            get
+            {
+                if (_appOptionsCommand == null)
+                    _appOptionsCommand = new RelayCommand(param => ShowAppOptions(), param => CanShowAppOptions);
+
+                return _appOptionsCommand;
+            }
+        }
+        public bool CanShowAppOptions
+        {
+            get { return true; }
+        }
+
+        static void ShowAppOptions()
+        {
+            RssBanditApplication.Current.ShowOptions(OptionDialogSection.Default, RssBanditApplication.MainWindow32, null);
+        }
+
+
+        #endregion
     }
 }
