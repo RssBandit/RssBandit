@@ -13,12 +13,19 @@ using System.Windows.Input;
 using NewsComponents;
 using RssBandit.WinGui.Commands;
 using System.Windows.Controls;
+using RssBandit.WinGui.Dialogs;
+using NewsComponents.Feed;
+using System.Windows.Forms;
+using log4net;
+using RssBandit.Common.Logging;
 
 namespace RssBandit.WinGui.ViewModel
 {
     public class ApplicationViewModel: ViewModelBase
     {
-        
+
+        private static readonly ILog _log = Log.GetLogger(typeof(ApplicationViewModel));
+
         #region Constructor
 
         protected ApplicationViewModel()
@@ -100,26 +107,8 @@ namespace RssBandit.WinGui.ViewModel
 
         void ImportFeeds()
         {
-            string category = null;
-            string feedSource = null;
-
-            var bandit = RssBanditApplication.Current; 
-
-            if (RssBanditApplication.MainWindow.tree.SelectedItem != null)
-            {
-                var si = RssBanditApplication.MainWindow.tree.SelectedItem as TreeNodeViewModelBase;
-                if (si != null)
-                {
-                    category = si.Category;
-                    feedSource = si.Source.Name;
-                }
-                else
-                {
-                    var cfs = RssBanditApplication.MainWindow.tree.SelectedItem as CategorizedFeedSourceViewModel;
-                    feedSource = cfs.Name; 
-                }
-                
-            }                
+            string category = null, feedSource = null;
+            GetSelectedFeedSourceAndCategoryNames(out feedSource, out category);                     
 
             RssBanditApplication.Current.ImportFeeds(String.Empty, category, feedSource);
         }
@@ -214,10 +203,120 @@ namespace RssBandit.WinGui.ViewModel
 
         void SubscribeSearchResultFeed()
         {
-            //TODO: impl.
+             SubscribeToFeed(null, null, String.Empty, AddSubscriptionWizardMode.SubscribeSearchDirect);
         }
 
+        void SubscribeToFeed(string url, /* string category,*/ string title, string searchTerms,
+                                    AddSubscriptionWizardMode mode)
+        {
+            using (var wiz = new AddSubscriptionWizard(mode)
+            {
+                FeedUrl = (url ?? String.Empty),
+                FeedTitle = (title ?? String.Empty),
+                SearchTerms = (searchTerms ?? String.Empty)
+            })
+            {
+
+                string feedSourceName, category; 
+
+                /* if (category != null) // does remember the last category:
+                    wiz.FeedCategory = category; */ 
+
+               GetSelectedFeedSourceAndCategoryNames(out feedSourceName , out category); 
+               wiz.FeedSourceName = feedSourceName;
+               wiz.FeedCategory = category; 
+                
+                try
+                {                    
+                    wiz.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("SubscribeToFeed caused exception.", ex);
+                    wiz.DialogResult = DialogResult.Cancel;
+                }
+
+                if (wiz.DialogResult == DialogResult.OK)
+                {
+                    var bandit = RssBanditApplication.Current; 
+                    INewsFeed f;
+                    FeedSourceEntry entry = bandit.FeedSources[wiz.FeedSourceName];
+
+                    if (wiz.MultipleFeedsToSubscribe)
+                    {
+                        bool anySubscription = false;
+
+                        for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
+                        {
+                            f = bandit.CreateFeedFromWizard(wiz, entry, i);
+                            if (f == null)
+                            {
+                                continue;
+                            }
+
+                            /*
+                            guiMain.AddNewFeedNode(entry, f.category, f);
+
+                            if (wiz.FeedInfo == null)
+                                guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+
+                            anySubscription = true;
+                             */
+                        }
+
+                        //return anySubscription;
+                    }
+
+                    f = bandit.CreateFeedFromWizard(wiz, entry, 0);
+
+                    if (f == null)
+                    {
+                        return;
+                    }
+
+                    /*
+                    // add feed visually
+                    guiMain.AddNewFeedNode(entry, f.category, f);
+
+                    if (wiz.FeedInfo == null)
+                        guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+
+                    */
+                                     
+                }
+            }
+
+        }
 
         #endregion
+
+
+        #region Helper methods 
+
+        /// <summary>
+        /// Returns the name of the feed source of the currently selected item in the tree view. Returns null if no item in the tree view is selected
+        /// </summary>
+        /// <returns></returns>
+        private void GetSelectedFeedSourceAndCategoryNames(out string feedSource, out string category)
+        {
+            feedSource = category = null; 
+
+            if (RssBanditApplication.MainWindow.tree.SelectedItem != null)
+            {
+                var si = RssBanditApplication.MainWindow.tree.SelectedItem as TreeNodeViewModelBase;
+                if (si != null)
+                {
+                    category = si.Category;
+                    feedSource = si.Source.Name;
+                }
+                else
+                {
+                    var cfs = RssBanditApplication.MainWindow.tree.SelectedItem as CategorizedFeedSourceViewModel;
+                    feedSource = cfs.Name;
+                }
+            }        
+        }
+
+        #endregion 
     }
 }
