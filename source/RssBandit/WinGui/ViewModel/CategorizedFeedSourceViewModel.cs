@@ -53,23 +53,22 @@ namespace RssBandit.WinGui.ViewModel
                         var categoryList = new List<INewsFeedCategory>(categories);
 
                         foreach (var f in _entry.Source.GetFeeds().Values)
-                        {
-                            FeedViewModel tn = new FeedViewModel(f);
+                        {                          
 
                             string category = (f.category ?? String.Empty);
                             if (String.IsNullOrEmpty(category))
                             {
-                                _children.Add(tn);
+                                _children.Add(new FeedViewModel(f, null, this));
                             }
                             else
                             {
                                 FolderViewModel catnode;
                                 if (!categoryTable.TryGetValue(category, out catnode))
                                 {
-                                    catnode = CreateHive(category,_children, categoryTable);
+                                    catnode = CreateHive(category,_children, categoryTable, this);
                                 } 
                                 
-                                catnode.Children.Add(tn);
+                                catnode.Children.Add(new FeedViewModel(f, catnode, this));
                             }
 
                             for (int i = 0; i < categoryList.Count; i++)
@@ -85,7 +84,7 @@ namespace RssBandit.WinGui.ViewModel
                         //add categories, we not already have
                         foreach (var c in categoryList)
                         {
-                            CreateHive(c.Value, _children, categoryTable);
+                            CreateHive(c.Value, _children, categoryTable, this);
                         }
 
                     }
@@ -100,43 +99,53 @@ namespace RssBandit.WinGui.ViewModel
             set { _children = value; }
         }
 
-        static FolderViewModel CreateHive(string pathName, ICollection<TreeNodeViewModelBase> rootNodes, Dictionary<string, FolderViewModel> knownFolders)
+        /// <summary>
+        /// Creates a FolderViewModel that represents a feed category in the tree view
+        /// </summary>
+        /// <param name="pathName">Full path or category name</param>
+        /// <param name="childNodes">Child nodes of the root node in the tree view</param>
+        /// <param name="knownFolders">List of known FolderViewModel objects encountered thus far</param>
+        /// <param name="source">The feed source that owns the folder</param>
+        /// <returns></returns>
+        static FolderViewModel CreateHive(string pathName, ICollection<TreeNodeViewModelBase> childNodes, Dictionary<string, FolderViewModel> knownFolders, CategorizedFeedSourceViewModel source)
         {
             pathName.ExceptionIfNullOrEmpty("pathName");
-            
-            FolderViewModel folderViewModel;
-            if (!knownFolders.TryGetValue(pathName, out folderViewModel))
+
+            FolderViewModel startNode = null, previous = null;
+
+            if (!knownFolders.TryGetValue(pathName, out startNode))
             {
                 List<string> catHives = new List<string>(pathName.Split(FeedSource.CategorySeparator.ToCharArray()));
-                bool wasNew = false;
+                bool wasNew = false;              
                 StringBuilder path = new StringBuilder(pathName.Length);
 
                 for (int i = 0; i < catHives.Count; i++)
                 {
-                    FolderViewModel rootNode = null;
-                    if (!wasNew)
-                        rootNode = (FolderViewModel) rootNodes.FirstOrDefault(
-                            n => (n is FolderViewModel && n.Name.Equals(catHives[i], StringComparison.CurrentCulture)));
+                    startNode  = null;
 
-                    if (rootNode == null)
+                    if (!wasNew)                    
+                        startNode = (FolderViewModel)childNodes.FirstOrDefault(
+                          n => (n is FolderViewModel && n.Name.Equals(catHives[i], StringComparison.CurrentCulture)));
+                    
+
+                    if (startNode == null)
                     {
-                        rootNode = new FolderViewModel(catHives[i]);
-                        rootNodes.Add(rootNode);
+                        startNode = new FolderViewModel(catHives[i], previous, source);
+                        childNodes.Add(startNode);
                         
                         path.AppendFormat("{1}{0}", catHives[i], path.Length > 0 ? FeedSource.CategorySeparator: String.Empty);
                         if (!knownFolders.ContainsKey(path.ToString()))
-                            knownFolders.Add(path.ToString(), rootNode);
+                            knownFolders.Add(path.ToString(), startNode);
 
                         wasNew = true;
                     }
 
-                    folderViewModel = rootNode;
-                    rootNodes = rootNode.Children;
-
+                    previous = startNode;
+                    childNodes = startNode.Children;                    
                 }
             }
 
-            return folderViewModel;
+            return startNode;
         }
 
 
