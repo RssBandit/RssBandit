@@ -40,7 +40,7 @@ namespace RssBandit
             // DataContext, which propagates down the element tree.
             window.DataContext = viewModel;
 
-            base.MainWindow = window;
+            base.MainWindow = window;            
 
             window.Show();
         }

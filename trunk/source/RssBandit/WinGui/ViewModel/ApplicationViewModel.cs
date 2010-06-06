@@ -12,6 +12,7 @@ using System;
 using System.Windows.Input;
 using NewsComponents;
 using RssBandit.WinGui.Commands;
+using System.Windows.Controls;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -99,29 +100,26 @@ namespace RssBandit.WinGui.ViewModel
 
         void ImportFeeds()
         {
-            string category = String.Empty;
-            string feedSource = String.Empty;
-            
-            //TODO: get the current selected feedsource from the UI
+            string category = null;
+            string feedSource = null;
 
-            //TreeFeedsNodeBase n = guiMain.CurrentSelectedFeedsNode;
-            //if (n != null)
-            //{
-            //    if (n.Type == FeedNodeType.Category || n.Type == FeedNodeType.Feed)
-            //    {
-            //        category = n.CategoryStoreName;
-            //    }
+            var bandit = RssBanditApplication.Current; 
 
-            //    if (n.Type == FeedNodeType.Feed)
-            //    {
-            //        SubscriptionRootNode root = TreeHelper.ParentRootNode(n) as SubscriptionRootNode;
-            //        if (root != null)
-            //        {
-            //            FeedSourceEntry fs = this.FeedSources[root.SourceID];
-            //            feedSource = fs.Name;
-            //        }
-            //    }
-            //}
+            if (RssBanditApplication.MainWindow.tree.SelectedItem != null)
+            {
+                var si = RssBanditApplication.MainWindow.tree.SelectedItem as TreeNodeViewModelBase;
+                if (si != null)
+                {
+                    category = si.Category;
+                    feedSource = si.Source.Name;
+                }
+                else
+                {
+                    var cfs = RssBanditApplication.MainWindow.tree.SelectedItem as CategorizedFeedSourceViewModel;
+                    feedSource = cfs.Name; 
+                }
+                
+            }                
 
             RssBanditApplication.Current.ImportFeeds(String.Empty, category, feedSource);
         }

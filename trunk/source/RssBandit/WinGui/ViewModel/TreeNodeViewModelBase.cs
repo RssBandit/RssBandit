@@ -9,12 +9,15 @@
 #endregion
 
 using System.Collections.ObjectModel;
+using System;
+using NewsComponents;
 
 namespace RssBandit.WinGui.ViewModel
 {
     public abstract class TreeNodeViewModelBase : ViewModelBase
     {
         private ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
+        protected CategorizedFeedSourceViewModel _feedSource;
 
         public abstract string Name
         {
@@ -26,5 +29,17 @@ namespace RssBandit.WinGui.ViewModel
             get { return _children; }
             set { _children = value; }
         }
+
+        public virtual TreeNodeViewModelBase Parent
+        {
+            get; set; 
+        }
+
+        public abstract string Category
+        {
+            get; 
+         }
+
+        public virtual CategorizedFeedSourceViewModel Source { get { return _feedSource; } }
     }
 }
