@@ -16,10 +16,13 @@ namespace RssBandit.WinGui.ViewModel
     public class FeedViewModel : TreeNodeViewModelBase
     {
         private readonly INewsFeed _feed;
+        private TreeNodeViewModelBase _parent;
 
-        public FeedViewModel(INewsFeed feed)
+        public FeedViewModel(INewsFeed feed, TreeNodeViewModelBase parent, CategorizedFeedSourceViewModel source)
         {
             _feed = feed;
+            _parent = parent;
+            _feedSource = source;             
         }
 
         public override string Name
@@ -31,5 +34,7 @@ namespace RssBandit.WinGui.ViewModel
         public bool IsNntp { get { return RssHelper.IsNntpUrl(_feed.link); } }
 
         public bool HasUnreadItems { get { return _feed.containsNewMessages; } }
+
+        public override string Category { get { return _feed.category; } }
     }
 }
