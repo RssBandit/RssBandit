@@ -17,13 +17,12 @@ namespace RssBandit.WinGui.ViewModel
     {
 
         private string _name;
-        TreeNodeViewModelBase _parent; 
         
         public FolderViewModel(string name, TreeNodeViewModelBase parent, CategorizedFeedSourceViewModel source)
         {
             name.ExceptionIfNullOrEmpty("name");
             _name = name;
-            _parent = parent;
+            baseParent = parent;
             _feedSource = source; 
         }
 
@@ -37,7 +36,7 @@ namespace RssBandit.WinGui.ViewModel
         {
             get { 
                 string catName = _name;
-                TreeNodeViewModelBase parent = _parent;
+                TreeNodeViewModelBase parent = baseParent;
 
                 while (parent != null)
                 {
@@ -47,6 +46,7 @@ namespace RssBandit.WinGui.ViewModel
 
                 return catName; 
             }
+            set { /* not required: we have the Name and the Parents to calculate it */ }
         }
        
       
