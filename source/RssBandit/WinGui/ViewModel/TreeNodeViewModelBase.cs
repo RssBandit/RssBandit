@@ -19,6 +19,8 @@ namespace RssBandit.WinGui.ViewModel
         private ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
         protected CategorizedFeedSourceViewModel _feedSource;
 
+        protected TreeNodeViewModelBase baseParent;
+
         public abstract string Name
         {
             get; set;
@@ -32,13 +34,14 @@ namespace RssBandit.WinGui.ViewModel
 
         public virtual TreeNodeViewModelBase Parent
         {
-            get; set; 
+            get { return baseParent; }
+            set { baseParent = value; }
         }
 
         public abstract string Category
         {
-            get; 
-         }
+            get; set;
+        }
 
         public virtual CategorizedFeedSourceViewModel Source { get { return _feedSource; } }
     }

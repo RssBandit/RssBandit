@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
 
@@ -16,12 +17,12 @@ namespace RssBandit.WinGui.ViewModel
     public class FeedViewModel : TreeNodeViewModelBase
     {
         private readonly INewsFeed _feed;
-        private TreeNodeViewModelBase _parent;
+       
 
         public FeedViewModel(INewsFeed feed, TreeNodeViewModelBase parent, CategorizedFeedSourceViewModel source)
         {
             _feed = feed;
-            _parent = parent;
+            baseParent = parent;
             _feedSource = source;             
         }
 
@@ -35,6 +36,17 @@ namespace RssBandit.WinGui.ViewModel
 
         public bool HasUnreadItems { get { return _feed.containsNewMessages; } }
 
-        public override string Category { get { return _feed.category; } }
+        public override string Category
+        {
+            get { return _feed.category; }
+            set
+            {
+                if (!string.Equals(_feed.category, value, StringComparison.CurrentCulture))
+                {
+                    _feed.category = value;
+                    OnPropertyChanged("Category");
+                }
+            }
+        }
     }
 }

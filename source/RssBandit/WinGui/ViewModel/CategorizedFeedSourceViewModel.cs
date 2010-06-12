@@ -84,7 +84,8 @@ namespace RssBandit.WinGui.ViewModel
                         //add categories, we not already have
                         foreach (var c in categoryList)
                         {
-                            CreateHive(c.Value, _children, categoryTable, this);
+                            if (!categoryTable.ContainsKey(c.Value))
+                                CreateHive(c.Value, _children, categoryTable, this);
                         }
 
                     }
@@ -113,37 +114,39 @@ namespace RssBandit.WinGui.ViewModel
 
             FolderViewModel startNode = null, previous = null;
 
-            if (!knownFolders.TryGetValue(pathName, out startNode))
+            List<string> catHives = new List<string>(pathName.Split(FeedSource.CategorySeparator.ToCharArray()));
+            bool wasNew = false;
+            StringBuilder path = new StringBuilder(pathName.Length);
+
+            for (int i = 0; i < catHives.Count; i++)
             {
-                List<string> catHives = new List<string>(pathName.Split(FeedSource.CategorySeparator.ToCharArray()));
-                bool wasNew = false;              
-                StringBuilder path = new StringBuilder(pathName.Length);
+                path.AppendFormat("{1}{0}", catHives[i], path.Length > 0 ? FeedSource.CategorySeparator : String.Empty);
+                pathName = path.ToString();
 
-                for (int i = 0; i < catHives.Count; i++)
+                if (!knownFolders.TryGetValue(pathName, out startNode))
                 {
-                    startNode  = null;
 
-                    if (!wasNew)                    
+                    if (!wasNew)
                         startNode = (FolderViewModel)childNodes.FirstOrDefault(
-                          n => (n is FolderViewModel && n.Name.Equals(catHives[i], StringComparison.CurrentCulture)));
-                    
+                            n => (n is FolderViewModel && n.Name.Equals(catHives[i], StringComparison.CurrentCulture)));
+
 
                     if (startNode == null)
                     {
                         startNode = new FolderViewModel(catHives[i], previous, source);
                         childNodes.Add(startNode);
-                        
-                        path.AppendFormat("{1}{0}", catHives[i], path.Length > 0 ? FeedSource.CategorySeparator: String.Empty);
-                        if (!knownFolders.ContainsKey(path.ToString()))
-                            knownFolders.Add(path.ToString(), startNode);
+
+                        if (!knownFolders.ContainsKey(pathName))
+                            knownFolders.Add(pathName, startNode);
 
                         wasNew = true;
                     }
-
-                    previous = startNode;
-                    childNodes = startNode.Children;                    
                 }
+
+                previous = startNode;
+                childNodes = startNode.Children;
             }
+
 
             return startNode;
         }
