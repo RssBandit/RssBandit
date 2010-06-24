@@ -11,6 +11,7 @@
 using System;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Infragistics.Windows.Themes;
 using RssBandit.WinGui.Commands;
 
@@ -51,13 +52,27 @@ namespace RssBandit.WinGui.ViewModel
                 if (String.IsNullOrEmpty(value))
                     return;
 
+                
                 // apply theme to any windows forms IG control(s), we might still use:
                 ThemeManager.CurrentTheme = value;
                 // apply theme to WPF IG controls:
                 RssBanditApplication.MainWindow.xamRibbon.Theme = value;
                 // save to settings:
                 RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
-                
+
+                // tweaks for the windows 7 scenic theme vs. Office themes:
+                if ("Scenic".Equals(value, StringComparison.OrdinalIgnoreCase))
+                {
+                    // no icon/icon, but the caption:
+                    RssBanditApplication.MainWindow.xamRibbon.ApplicationMenu.Image = null;
+                    //RssBanditApplication.MainWindow.Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/App.ico"));
+                }
+                else
+                {
+                    // redisplay the app menu icon:
+                    RssBanditApplication.MainWindow.xamRibbon.ApplicationMenu.Image = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/rssbandit.32.png"));
+                }
+
                 OnPropertyChanged("CurrentTheme");
             }
         }
