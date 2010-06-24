@@ -7,7 +7,7 @@
    xmlns:vm="clr-namespace:RssBandit.WinGui.ViewModel"
 	xmlns:Ribbon="http://infragistics.com/Ribbon"  Height="300" Width="300"
 	Title="{Binding Path=DisplayName}"
-	Icon="/Resources/App.ico"
+	Icon="/Resources/app.ico"
 	ResizeMode="CanResizeWithGrip">
 	
 	<Window.Resources>
@@ -21,7 +21,8 @@
       <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
         
         <Ribbon:XamRibbon.ApplicationMenu>
-          <Ribbon:ApplicationMenu Image="/Resources/Images/Toolbar/rssbandit.32.png">
+          <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
+                                  Image="/Resources/Images/Toolbar/rssbandit.32.png">
             <Ribbon:ApplicationMenu.Items>
               <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
                 <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
@@ -49,6 +50,9 @@
           <Ribbon:ApplicationMenu.RecentItems>
 			      <Ribbon:LabelTool Content="Change the visual theme of the application" />
 			      <Ribbon:SeparatorTool/>
+            <Ribbon:RadioButtonTool GroupName="theme" Caption="Windows 7"
+				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Scenic}"
+                Ribbon:MenuToolBase.MenuItemDescription="Use the Windows 7 Theme"/>
 			      <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
 				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Blue}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Blue Theme"/>
