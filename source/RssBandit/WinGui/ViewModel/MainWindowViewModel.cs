@@ -10,7 +10,6 @@
 
 using System;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Infragistics.Windows.Themes;
 using RssBandit.WinGui.Commands;
@@ -60,17 +59,20 @@ namespace RssBandit.WinGui.ViewModel
                 // save to settings:
                 RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
 
-                // tweaks for the windows 7 scenic theme vs. Office themes:
                 if ("Scenic".Equals(value, StringComparison.OrdinalIgnoreCase))
                 {
-                    // no icon/icon, but the caption:
+                    // display no icon/icon, but the caption:
                     RssBanditApplication.MainWindow.xamRibbon.ApplicationMenu.Image = null;
-                    //RssBanditApplication.MainWindow.Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/App.ico"));
+                    // HACK: tweaks for the windows 7 scenic theme vs. Office themes (Infragistics or MS? has issues
+                    // if we keep the App.ico with all the embedded resolutions and "oversize" the app icon displayed in Scenic/Windows 7 theme):
+                    RssBanditApplication.MainWindow.Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/Small.App.ico"));
                 }
                 else
                 {
-                    // redisplay the app menu icon:
+                    // redisplay the full app menu icon:
                     RssBanditApplication.MainWindow.xamRibbon.ApplicationMenu.Image = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/rssbandit.32.png"));
+                    // HACK: restore the App.ico with all the embedded resolutions:
+                    RssBanditApplication.MainWindow.Icon = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/App.ico"));
                 }
 
                 OnPropertyChanged("CurrentTheme");

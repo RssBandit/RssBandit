@@ -2547,4 +2547,22 @@ Error: {1}</value>
   <data name="MenuNewRssSearchResultSubscriptionCaption" xml:space="preserve">
     <value>Search Result Subscription...</value>
   </data>
+  <data name="MainMenuBandGroupCatchUpCaption" xml:space="preserve">
+    <value>Catch Up</value>
+  </data>
+  <data name="MainMenuBandGroupCatchUpDesc" xml:space="preserve">
+    <value>Tools and commands to catch up on feeds and items...</value>
+  </data>
+  <data name="MainMenuBandHomeCaption" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="MainMenuBandHomeDesc" xml:space="preserve">
+    <value>The most common tools...</value>
+  </data>
+  <data name="MainMenuToolUpdateAllFeedsCaption" xml:space="preserve">
+    <value>Update All Feeds</value>
+  </data>
+  <data name="MainMenuToolUpdateAllFeedsDesc" xml:space="preserve">
+    <value>Use this to update all feeds within all feed sources...</value>
+  </data>
 </root>

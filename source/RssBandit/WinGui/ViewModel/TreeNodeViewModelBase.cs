@@ -9,8 +9,6 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using System;
-using NewsComponents;
 
 namespace RssBandit.WinGui.ViewModel
 {

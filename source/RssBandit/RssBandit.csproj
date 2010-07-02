@@ -507,9 +507,11 @@
     <Resource Include="Resources\Images\Toolbar\document_preferences_16.png" />
     <Resource Include="Resources\Images\Toolbar\document_preferences_32.png" />
     <Resource Include="Resources\Images\Toolbar\new.doc.32.png" />
+    <Resource Include="Resources\Images\Toolbar\refresh.all.feedsources.32.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Small.App.ico" />
     <Content Include="Resources\webpage.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
