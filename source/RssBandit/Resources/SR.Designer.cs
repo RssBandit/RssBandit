@@ -2470,6 +2470,42 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Catch Up.
+        /// </summary>
+        public static string MainMenuBandGroupCatchUpCaption {
+            get {
+                return ResourceManager.GetString("MainMenuBandGroupCatchUpCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools and commands to catch up on feeds and items....
+        /// </summary>
+        public static string MainMenuBandGroupCatchUpDesc {
+            get {
+                return ResourceManager.GetString("MainMenuBandGroupCatchUpDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string MainMenuBandHomeCaption {
+            get {
+                return ResourceManager.GetString("MainMenuBandHomeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The most common tools....
+        /// </summary>
+        public static string MainMenuBandHomeDesc {
+            get {
+                return ResourceManager.GetString("MainMenuBandHomeDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
         public static string MainMenuEditCaption {
@@ -2556,6 +2592,24 @@ namespace RssBandit.Resources {
         public static string MainMenuToolsDesc {
             get {
                 return ResourceManager.GetString("MainMenuToolsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update All Feeds.
+        /// </summary>
+        public static string MainMenuToolUpdateAllFeedsCaption {
+            get {
+                return ResourceManager.GetString("MainMenuToolUpdateAllFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this to update all feeds within all feed sources....
+        /// </summary>
+        public static string MainMenuToolUpdateAllFeedsDesc {
+            get {
+                return ResourceManager.GetString("MainMenuToolUpdateAllFeedsDesc", resourceCulture);
             }
         }
         

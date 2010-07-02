@@ -76,6 +76,14 @@
           </Ribbon:ApplicationMenu.FooterToolbar>
         </Ribbon:ApplicationMenu>
       </Ribbon:XamRibbon.ApplicationMenu>
+
+        <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
+          <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
+            <Ribbon:ButtonTool Caption="{ext:Res Id=MainMenuToolUpdateAllFeedsCaption,Default=UpdateAll#}" Command="{Binding Path=UpdateAllFeedsCommand}"
+                             LargeImage="/Resources/Images/Toolbar/refresh.all.feedsources.32.png" 
+                              IsQatCommonTool="true" />
+          </Ribbon:RibbonGroup>
+        </Ribbon:RibbonTabItem>
         
       </Ribbon:XamRibbon>
     </Ribbon:RibbonWindowContentHost.Ribbon>

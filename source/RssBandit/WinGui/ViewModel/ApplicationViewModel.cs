@@ -88,7 +88,7 @@ namespace RssBandit.WinGui.ViewModel
 
         /// <summary>
         /// Returns the command that, when invoked, attempts
-        /// to import feeds froma URL (OPML, own format).
+        /// to import feeds from a URL (OPML, own format).
         /// </summary>
         public ICommand ImportFeedsCommand
         {
@@ -290,6 +290,36 @@ namespace RssBandit.WinGui.ViewModel
 
         #endregion
 
+        #region Update All Feeds Command
+
+        RelayCommand _updateAllFeedsCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to update all feeds.
+        /// </summary>
+        public ICommand UpdateAllFeedsCommand
+        {
+            get
+            {
+                if (_updateAllFeedsCommand == null)
+                    _updateAllFeedsCommand = new RelayCommand(param => UpdateAllFeeds(), param => CanUpdateAllFeeds);
+
+                return _importFeedsCommand;
+            }
+        }
+        public bool CanUpdateAllFeeds
+        {
+            get { return true; }
+        }
+
+        void UpdateAllFeeds()
+        {
+            //TODO
+        }
+
+
+        #endregion
 
         #region Helper methods 
 
