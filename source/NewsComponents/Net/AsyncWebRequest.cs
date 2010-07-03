@@ -20,8 +20,6 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Schedulers;
 
 using log4net;
 using NewsComponents.News;
@@ -124,10 +122,6 @@ namespace NewsComponents.Net
         {
             queuedRequests = Hashtable.Synchronized(new Hashtable(17));
             requestThread = new RequestThread(this);
-            taskFactory = new TaskFactory(new CancellationTokenSource().Token,
-                                          TaskCreationOptions.PreferFairness,
-                                           TaskContinuationOptions.ExecuteSynchronously,
-                                           scheduler);           
         }
 
         /// <summary>
@@ -145,7 +139,7 @@ namespace NewsComponents.Net
 			// allow the manager to send proxy crendentials for proxies that require auth.:
 			AuthenticationManager.CredentialPolicy = new ProxyCredentialsPolicy();
 
-             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
+            // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
 
@@ -189,356 +183,11 @@ namespace NewsComponents.Net
             }
         }
 
-        #region experimental code for batch request support
-
-        /// <summary>
-        /// Used to ensure that we aren't refreshing feeds multiple times. 
-        /// </summary>
-        /// <seealso cref="GetAsyncResponses"/>
-        private List<string> refreshesInProgress = new List<string>(); 
-        private Object SyncRoot = new Object();
-
-        /// <summary>
-        /// Scheduler which controls the maximum number of threads we use to perform concurrent HTTP requests
-        /// </summary>
-        private readonly PrioritizingTaskScheduler scheduler = new PrioritizingTaskScheduler();
-
-        private readonly TaskFactory taskFactory = null; 
-
-
-        /// <summary>
-        /// delegate used to call GetMultipleResponses asynchronously 
-        /// </summary>
-        /// <param name="requests"></param>
-        /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>              
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        private delegate void GetMultipleResponsesAsync(List<RequestParameter> requests, 
-                                           string category, RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException); 
-
-        /// <summary>
-        /// Used to make GET requests for multiple URLs asynchronously
-        /// </summary>
-        /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
-      
-        public void GetAsyncResponses(List<RequestParameter> requests, 
-                                           string category, 
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException)
-        {
-            GetMultipleResponsesAsync method = new GetMultipleResponsesAsync(this.GetMultipleResponses);
-            method.BeginInvoke(requests, category, webRequestStart, webRequestComplete, webRequestException, null, null); 
-        }
-
-        /// <summary>
-        /// Used to make GET requests for multiple URLs in parallel
-        /// </summary>
-        /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>       
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
-        private void GetMultipleResponses(List<RequestParameter> requests, 
-                                           string category, 
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException)
-        {           
-            category.ExceptionIfNull("category"); 
-
-            //ensure that we don't have multiple attempts to refresh all feeds 
-            lock (SyncRoot)
-            {
-                if (refreshesInProgress.Contains(category))
-                    return;
-                else
-                    refreshesInProgress.Add(category); 
-            }
-            
-            int priority = 10;
-            ParallelOptions options = new ParallelOptions() { TaskScheduler = scheduler, MaxDegreeOfParallelism = scheduler.MaximumConcurrencyLevel }; 
-
-            // Create an instance of the RequestState and perform the HTTP request for each of the request parameters           
-            Parallel.ForEach<RequestParameter>(requests, //collection of  
-                options, // Parallel options object specifies scheduler and max concurrent threads
-                (request) =>
-                {
-                    RequestState state = MakeRequest(request, webRequestStart, webRequestComplete, webRequestException, priority); 
-                    PerformHttpRequest(state); 
-                } );           
-
-            lock (SyncRoot)
-            {
-                refreshesInProgress.Remove(category); 
-            }
-        }
-
-        /// <summary>
-        /// Used to create an HTTP request for processing
-        /// </summary>
-        /// <param name="requestParameter"></param>      
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
-        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState MakeRequest(RequestParameter requestParameter,                                          
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           int priority)
-        {
-            return
-                MakeRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, null, priority);
-        }
-
-        /// <summary>
-        /// Used to create an HTTP request for processing
-        /// </summary>
-        /// <param name="requestParameter"></param>
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>
-        // <param name="priority"></param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
-        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState MakeRequest(RequestParameter requestParameter,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           RequestProgressCallback webRequestProgress, 
-                                           int priority)
-        {
-            return
-                MakeRequest(requestParameter,  webRequestStart, webRequestComplete,
-                             webRequestException, null, priority, null);
-        }
-
-        /// <summary>
-        /// Used to create an HTTP request.
-        /// </summary>
-        /// <param name="requestParameter">Could be modified for each subsequent request</param>
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>      
-        /// <param name="priority">the priority of the request</param>
-        /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
-        internal RequestState MakeRequest(RequestParameter requestParameter,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           RequestProgressCallback webRequestProgress,
-                                           int priority,
-                                           RequestState prevState)
-        {
-            if (requestParameter == null)
-                throw new ArgumentNullException("requestParameter");
-
-            //TODO: Do we still need this in a task based model?
-            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
-                return null; // httpRequest already there
-
-            // here are the exceptions caused:
-            WebRequest webRequest = WebRequest.Create(requestParameter.RequestUri);
-
-            HttpWebRequest httpRequest = webRequest as HttpWebRequest;
-            FileWebRequest fileRequest = webRequest as FileWebRequest;
-            NntpWebRequest nntpRequest = webRequest as NntpWebRequest;
-
-            if (httpRequest != null)
-            {
-                // set extended HttpWebRequest params
-                if (webRequestProgress != null)
-                {
-                    httpRequest.Timeout = DefaultTimeout * 30; //one hour timeout for enclosures
-                }
-                else
-                {
-                    httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
-                }
-                httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
-                httpRequest.Proxy = requestParameter.Proxy;
-                httpRequest.AllowAutoRedirect = false;
-                //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
-                httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
-                                                     DecompressionMethods.Deflate;
-                if (requestParameter.Headers != null)
-                {
-                    httpRequest.Headers.Add(requestParameter.Headers);
-                }
-
-                // due to the reported bug 893620 some web server fail with a server error 500
-                // if we send DateTime.MinValue as IfModifiedSince. Smoe Unix derivates only know
-                // about valid lowest DateTime around 1970. So in the case we use the
-                // httpRequest class default setting:
-                if (requestParameter.LastModified > MinValue)
-                {
-                    httpRequest.IfModifiedSince = requestParameter.LastModified;
-                }
-
-                /* #if DEBUG
-							// further to investigate: with this setting we don't leak connections
-							// (try TCPView from http://www.sysinternals.com)
-							// read:
-							// * http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B819450
-							// * http://cephas.net/blog/2003/10/29/the_intricacies_of_http.html
-							// * http://weblogs.asp.net/jan/archive/2004/01/28/63771.aspx
-			
-							httpRequest.KeepAlive = false;		// to prevent open HTTP connection leak
-							httpRequest.ProtocolVersion = HttpVersion.Version10;	// to prevent "Underlying connection closed" exception(s)
-#endif */
-
-                if (httpRequest.Proxy == null)
-                {
-                    httpRequest.KeepAlive = false;
-                    httpRequest.Proxy = WebRequest.DefaultWebProxy;
-                    httpRequest.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                }
-
-                if (requestParameter.ETag != null)
-                {
-                    httpRequest.Headers.Add("If-None-Match", requestParameter.ETag);
-                    httpRequest.Headers.Add("A-IM", "feed");
-                }
-
-                if (requestParameter.Credentials != null)
-                {
-                    httpRequest.KeepAlive = true; // required for authentication to succeed
-                    httpRequest.ProtocolVersion = HttpVersion.Version11; // switch back
-                    httpRequest.Credentials = requestParameter.Credentials;
-                }
-
-                if (requestParameter.ClientCertificate != null)
-                {
-                    httpRequest.ClientCertificates.Add(requestParameter.ClientCertificate);
-                    httpRequest.Timeout *= 2;	// double the timeout (SSL && Client Certs used!)
-                }
-
-                if (requestParameter.SetCookies)
-                {
-                    HttpCookieManager.SetCookies(httpRequest);
-                }
-
-                if (requestParameter.Cookies != null)
-                {
-                    httpRequest.CookieContainer = new CookieContainer();
-                    httpRequest.CookieContainer.Add(requestParameter.Cookies);
-                }
-
-                //this prevents the feed mixup issue that we've been facing. See 
-                //http://www.davelemen.com/archives/2006/04/rss_bandit_feeds_mix_up.html
-                //for a user complaint about the issue. 
-                httpRequest.Pipelined = false;
-            }
-            else if (fileRequest != null)
-            {
-                fileRequest.Timeout = DefaultTimeout;
-
-                if (requestParameter.Credentials != null)
-                {
-                    fileRequest.Credentials = requestParameter.Credentials;
-                }
-            }
-            else if (nntpRequest != null)
-            {
-                // ten minutes timeout. Large timeout is needed if this is first time we are fetching news
-                nntpRequest.Timeout = DefaultTimeout * 5;
-
-                if (requestParameter.Credentials != null)
-                {
-                    nntpRequest.Credentials = requestParameter.Credentials;
-                }
-
-                if (requestParameter.LastModified > MinValue)
-                {
-                    nntpRequest.IfModifiedSince = requestParameter.LastModified;
-                }
-            }
-            else
-            {
-                Debug.Assert(false, "QueueRequest(): unsupported WebRequest type: " + webRequest.GetType());
-            }
-
-            RequestState state;
-
-            if (prevState != null)
-            {
-                state = prevState;
-
-                IDisposable dispResponse = state.Response;
-                if (dispResponse != null)
-                {
-                    dispResponse.Dispose();
-                    state.Response = null;
-                }
-
-                if (state.ResponseStream != null)
-                {
-                    // we don't want to get out of connections
-                    state.ResponseStream.Close();
-                }
-
-                if (state.Request != null)
-                {
-                    if (state.Request.Credentials != null)
-                    {
-                        state.Request.Credentials = null;
-                    }
-                    // prevent NotImplementedExceptions:
-                    if (state.Request is HttpWebRequest)
-                        state.Request.Abort();
-                }
-            }
-            else
-            {
-                state = new RequestState(this);
-
-                state.WebRequestStarted += webRequestStart;
-                state.WebRequestCompleted += webRequestComplete;
-                state.WebRequestException += webRequestException;
-                state.WebRequestProgress += webRequestProgress;
-                state.Priority = priority; // needed for additional requests
-                state.InitialRequestUri = webRequest.RequestUri;
-            }
-
-            state.Request = webRequest;
-            state.RequestParams = requestParameter;
-
-            if (prevState == null)
-            {
-                // first httpRequest
-                queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
-             }
-
-            QueueRequest(state, priority);
-
-            return state;
-        }
-
-        #endregion 
-
         /// <summary>
         /// Used to a queue an HTTP request for processing
         /// </summary>
         /// <param name="requestParameter"></param>
+        /// <param name="webRequestQueued"></param>
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -547,13 +196,14 @@ namespace NewsComponents.Net
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
         internal RequestState QueueRequest(RequestParameter requestParameter,
+                                           RequestQueuedCallback webRequestQueued,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
+                QueueRequest(requestParameter, webRequestQueued, webRequestStart, webRequestComplete,
                              webRequestException, null, priority, null);
         }
 
@@ -561,6 +211,7 @@ namespace NewsComponents.Net
         /// Used to a queue an HTTP request for processing
         /// </summary>
         /// <param name="requestParameter"></param>
+        /// <param name="webRequestQueued"></param>
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -570,6 +221,7 @@ namespace NewsComponents.Net
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
         /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
         internal RequestState QueueRequest(RequestParameter requestParameter,
+                                           RequestQueuedCallback webRequestQueued,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
@@ -577,7 +229,7 @@ namespace NewsComponents.Net
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
+                QueueRequest(requestParameter, webRequestQueued, webRequestStart, webRequestComplete,
                              webRequestException, webRequestProgress, priority, null);
         }
 
@@ -585,6 +237,7 @@ namespace NewsComponents.Net
         /// Called for first and subsequent requests.
         /// </summary>
         /// <param name="requestParameter">Could be modified for each subsequent request</param>
+        /// <param name="webRequestQueued"></param>
         /// <param name="webRequestComplete"></param>
         /// <param name="webRequestException"></param>
         /// <param name="webRequestStart"></param>
@@ -592,6 +245,7 @@ namespace NewsComponents.Net
         /// <param name="priority"></param>
         /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
         internal RequestState QueueRequest(RequestParameter requestParameter,
+                                           RequestQueuedCallback webRequestQueued,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
@@ -759,6 +413,7 @@ namespace NewsComponents.Net
             {
                 state = new RequestState(this);
 
+                state.WebRequestQueued += webRequestQueued;
                 state.WebRequestStarted += webRequestStart;
                 state.WebRequestCompleted += webRequestComplete;
                 state.WebRequestException += webRequestException;
@@ -774,67 +429,12 @@ namespace NewsComponents.Net
             {
                 // first httpRequest
                 queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
+                state.OnRequestQueued(requestParameter.RequestUri);
             }
 
-            QueueRequest(state, priority);
+            RequestThread.QueueRequest(state, priority);
 
             return state;
-        }
-
-
-        /// <summary>
-        /// Makes an asynchronous HTTP request using the provided RequestState object
-        /// </summary>
-        /// <param name="state">The HTTP request information</param>
-        /// <param name="priority">The priority of the request</param>
-        private void QueueRequest(RequestState state, int priority)
-        {
-            Task t = taskFactory.StartNew((x) =>
-            {
-                PerformHttpRequest((RequestState)x);
-            }, state); 
-
-            //increase priority of the task if it needs to be performed quickly
-            if (priority > 10)
-                scheduler.Prioritize(t); 
-        }
-
-
-        /// <summary>
-        /// Performs an HTTP request using the provided request state information
-        /// </summary>
-        /// <param name="state">The HTTP request information</param>
-        private void PerformHttpRequest(RequestState state)
-        {
-            try
-            {
-                // next call returns true if the real request should be cancelled 
-                // (e.g. if no internet connection available)
-                if (state.OnRequestStart())
-                {
-                    // signal this state to the worker class
-                    this.RequestStartCancelled(state);
-                    return;
-                }
-            }
-            catch (Exception signalException)
-            {
-                _log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
-            }
-            state.StartTime = DateTime.Now;
-
-            try
-            {
-                _log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
-                IAsyncResult result = state.Request.BeginGetResponse(this.ResponseCallback, state);
-                ThreadPool.RegisterWaitForSingleObject(result.AsyncWaitHandle, this.TimeoutCallback, state, state.Request.Timeout, true);
-            }
-            catch (Exception responseException)
-            {
-                _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
-                state.OnRequestException(responseException);
-                this.FinalizeWebRequest(state);
-            }
         }
 
         /// <summary>
@@ -1078,7 +678,7 @@ namespace NewsComponents.Net
                 		}
 
                 		RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
-                		QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
+                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
 
 
                 		// ping the queue listener thread to Dequeue the next request
@@ -1124,7 +724,7 @@ namespace NewsComponents.Net
                 		RequestParameter rqp =
                 			RequestParameter.Create(req, RebuildCredentials(state.RequestParams.Credentials, url2),
                 			                        state.RequestParams);
-                		QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
+                		QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
 
 
                 		// ping the queue listener thread to Dequeue the next request
@@ -1147,7 +747,7 @@ namespace NewsComponents.Net
                 			// action.
                 			RequestParameter rqp =
                 				RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
-                			QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
+                			QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
                 			// ping the queue listener thread to Dequeue the next request
                 			RequestThread.EndRequest(state);
                 		}
@@ -1170,7 +770,7 @@ namespace NewsComponents.Net
                 				// of one request (including the redirection/moved/... ) is visualized as one update
                 				// action.
                 				RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
-                				QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
+                				QueueRequest(rqp, null, null, null, null, null, state.Priority + 1, state);
                 				// ping the queue listener thread to Dequeue the next request
                 				RequestThread.EndRequest(state);
                 			}
@@ -1702,17 +1302,17 @@ namespace NewsComponents.Net
 		/// </summary>
 		/// <param name="address">Url to request</param>
 		/// <param name="body">The body of the request</param>
-		/// <param name="cookie">The cookie.</param>
+		/// <param name="headers">Additional headers.</param>
 		/// <param name="credentials">Url credentials</param>
 		/// <param name="proxy">Proxy to use</param>
 		/// <returns></returns>
-        public static HttpWebResponse PostSyncResponse(string address, string body, Cookie cookie, ICredentials credentials, IWebProxy proxy)
+        public static HttpWebResponse PostSyncResponse(string address, string body, WebHeaderCollection headers, ICredentials credentials, IWebProxy proxy)
         {
 
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
-                                      null /* eTag */, DefaultTimeout, cookie, body, null /* additonalHeaders */) as HttpWebResponse;
+                                      null /* eTag */, DefaultTimeout, null /* cookie */, body, headers) as HttpWebResponse;
         }
 
 		/// <summary>
