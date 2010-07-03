@@ -74,7 +74,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The body of the request that will authenticate the Google user. 
         /// </summary>
-        private static readonly string authBody = @"continue=http://www.google.com&service=reader&source=RssBandit&Email={0}&Passwd={1}";
+        private static readonly string authBody = @"accountType=GOOGLE&service=reader&source=RssBandit&Email={0}&Passwd={1}";
 
         /// <summary>
         /// The first part of the URL to a feed stored in the Google Reader service
@@ -105,7 +105,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Authentication token which identifies the user. 
         /// </summary>
-        private string SID = String.Empty;
+        private string AuthToken = String.Empty;
 
         /// <summary>
         /// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
@@ -326,7 +326,7 @@ namespace NewsComponents.Feed
 
             //load tag list XML
             XmlDocument doc = new XmlDocument();
-            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(taglistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(taglistUrl, null, this.Proxy, MakeGoogleAuthHeader(this.AuthToken))));
 
             string temp = doc.SelectSingleNode("/object/list/object/string[contains(string(.), 'state/com.google/starred')]").InnerText;
             this.GoogleUserId = temp.Replace("/state/com.google/starred", "").Substring(5);
@@ -350,7 +350,7 @@ namespace NewsComponents.Feed
             this.AuthenticateUser();
             
             //load feed list XML
-            var doc = new XPathDocument(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, null, this.Proxy, MakeGoogleCookie(this.SID))));
+            var doc = new XPathDocument(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, null, this.Proxy, MakeGoogleAuthHeader(this.AuthToken))));
             var nav = doc.CreateNavigator(); 
 
             var feedlist = from XPathNavigator node in nav.Select("/object/list[@name='subscriptions']/object")
@@ -524,9 +524,9 @@ namespace NewsComponents.Feed
 
                 foreach (string s in response)
                 {
-                    if (s.StartsWith("SID=", StringComparison.Ordinal))
+                    if (s.StartsWith("Auth=", StringComparison.Ordinal))
                     {
-                        this.SID = s.Substring(4);
+                        this.AuthToken = s.Substring(5);
                         return;
                     }
                 }
@@ -536,36 +536,34 @@ namespace NewsComponents.Feed
                 throw new ResourceAuthorizationException(); 
             }
 
-            throw new WebException("Could not authenticate user to Google Reader because no SID provided in response", WebExceptionStatus.UnknownError);
+            throw new WebException("Could not authenticate user to Google Reader because no authentication token provided in response", WebExceptionStatus.UnknownError);
         }
 
 		/// <summary>
-		/// Returns a cookie with the specified SID
+		/// Returns an HTTP authorization header with specified auth token
 		/// </summary>
 		/// <param name="sid">The user's SID.</param>
 		/// <returns>
-		/// The Google cookie created from the SID
+        /// an HTTP authorization header created from the auth token
 		/// </returns>
-        private static Cookie MakeGoogleCookie(string sid)
+        private static WebHeaderCollection MakeGoogleAuthHeader(string authToken)
         {
-           Cookie cookie = new Cookie("SID", sid, "/", ".google.com");
-           cookie.Expires = DateTime.Now + new TimeSpan(7,0,0,0);           
-           return cookie; 
+           var header = new WebHeaderCollection();
+           header.Add("Authorization", "GoogleLogin auth=" + authToken);            
+           return header; 
         }
 
         /// <summary>
         /// Gets an edit token which is needed for any edit operations using the Google Reader API
         /// </summary>
-        /// <param name="sid">The user's SID</param>
+        /// <param name="sid">The user's auth token</param>
         /// <returns>The edit token</returns>
-        private static string GetGoogleEditToken(string sid)
+        private static string GetGoogleEditToken(string authToken)
         {
             string tokenUrl = apiUrlPrefix + "token";
             HttpWebRequest request = HttpWebRequest.Create(tokenUrl) as HttpWebRequest;
             request.Timeout        = 5 * 1000; //5 second time out
-
-            request.CookieContainer = new CookieContainer();
-            request.CookieContainer.Add(MakeGoogleCookie(sid));
+            request.Headers = MakeGoogleAuthHeader(authToken); 
 
             try
             {
@@ -701,48 +699,6 @@ namespace NewsComponents.Feed
            return this.AsyncGetItemsForFeed(feedUrl, forceDownload, manual, null); 
         }
 
-
-         /// <summary>
-        /// Retrieves the RSS feed for a particular subscription then converts 
-        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
-        /// </summary>
-        /// <param name="feedUrl">The URL of the feed to download</param>
-        /// <param name="forceDownload">Flag indicates whether cached feed items 
-        /// can be returned or whether the application must fetch resources from 
-        /// the web</param>
-        /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
-        /// by automatic refresh timer (false)</param>        
-        /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded. If this
-        /// value is not null then the 'feedUrl' parameter is should actually be the download URL for the feed.</param>    
-        /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
-        /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
-        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
-        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
-        /// <returns>true, if the request really was queued up</returns>
-        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
-        //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken)
-        {
-            RequestParameter reqParam = null;
-            bool requestNeedsToBeQueued = AsyncGetItemsForFeed(feedUrl, forceDownload, manual, continuationToken, out reqParam);
-
-            if (requestNeedsToBeQueued)
-            {
-                int priority = 10;
-                if (forceDownload)
-                    priority += 100;
-                if (manual)
-                    priority += 1000;
-
-                AsyncWebRequest.QueueRequest(reqParam,
-                                            OnRequestStart,
-                                            OnRequestComplete,
-                                            OnRequestException, priority);
-            }
-
-            return requestNeedsToBeQueued; 
-        }
-
         /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. The http requests are async calls.
@@ -756,8 +712,6 @@ namespace NewsComponents.Feed
         /// by automatic refresh timer (false)</param>
         /// <param name="continuationToken">Token that indicates what "page" of the feed should be downloaded. If this
         /// value is not null then the 'feedUrl' parameter is should actually be the download URL for the feed.</param>
-        /// <param name="reqParam">Used to provide information as to how to make an HTTP request to retrieve the feed 
-        /// if it could not be found locally</param>
         /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
         /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
@@ -765,14 +719,13 @@ namespace NewsComponents.Feed
         /// <returns>true, if the request really was queued up</returns>
         /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        private bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken, out RequestParameter reqParam)
+        private bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, string continuationToken)
         {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");
 
             string etag = null;
             bool requestQueued = false;
-            reqParam = null; 
 
             int priority = 10;
             if (forceDownload)
@@ -834,12 +787,19 @@ namespace NewsComponents.Feed
 
                 ICredentials c = null;
 
-                reqParam = RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                RequestParameter reqParam =
+                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
                 // global cookie handling:
                 reqParam.SetCookies = false;
                 reqParam.Cookies = new CookieCollection();
-                reqParam.Cookies.Add(MakeGoogleCookie(this.SID)); 
-              
+                reqParam.Headers = MakeGoogleAuthHeader(this.AuthToken); 
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                             null,
+                                             OnRequestStart,
+                                             OnRequestComplete,
+                                             OnRequestException, priority);
+
                 requestQueued = true;
             }
             catch (Exception e)
@@ -1230,8 +1190,8 @@ namespace NewsComponents.Feed
                 string feedId = "feed/" + feedUrl;
                 string feedTitleParam = StringHelper.EmptyTrimOrNull(feedTitle) ? String.Empty : "&t=" + Uri.EscapeDataString(feedTitle); 
 
-                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=unsubscribe&i=null" + feedTitleParam ; 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.AuthToken) + "&ac=unsubscribe&i=null" + feedTitleParam ; 
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1312,8 +1272,8 @@ namespace NewsComponents.Feed
                 /* first add the feed */
                 string subscribeUrl = apiUrlPrefix + "subscription/quickadd";
                
-                string body = "quickadd=" + Uri.EscapeDataString(feedUrl) + "&T=" + GetGoogleEditToken(this.SID);
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                string body = "quickadd=" + Uri.EscapeDataString(feedUrl) + "&T=" + GetGoogleEditToken(this.AuthToken);
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(subscribeUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 try
                 {
@@ -1351,8 +1311,8 @@ namespace NewsComponents.Feed
                     labelParam = "&a=" + Uri.EscapeDataString("user/" + this.GoogleUserId + "/label/" + label);
                 }
 
-                body = "s=" + Uri.EscapeDataString(feedId) + "&t=" + Uri.EscapeDataString(title) + "&T=" + GetGoogleEditToken(this.SID) + "&ac=edit" + labelParam;
-                response = AsyncWebRequest.PostSyncResponse(editUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                body = "s=" + Uri.EscapeDataString(feedId) + "&t=" + Uri.EscapeDataString(title) + "&T=" + GetGoogleEditToken(this.AuthToken) + "&ac=edit" + labelParam;
+                response = AsyncWebRequest.PostSyncResponse(editUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 try
                 {
@@ -1434,9 +1394,9 @@ namespace NewsComponents.Feed
                 if (f != null)
                 {
                     string apiUrl = apiUrlPrefix + "subscription/edit";
-                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
+                    string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.AuthToken) + "&t=" + Uri.EscapeDataString(title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId);
 
-                    HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                    HttpWebResponse response = AsyncWebRequest.PostSyncResponse(apiUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
@@ -1580,9 +1540,9 @@ namespace NewsComponents.Feed
             string op = (tagged ? "&a=" : "&r="); //are we adding or removing read label?
             string tagLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/" + tag);
 
-            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + tagLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
+            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + tagLabel + "&async=true&T=" + GetGoogleEditToken(this.AuthToken);
 
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -1609,9 +1569,9 @@ namespace NewsComponents.Feed
             string op = (beenRead ? "&a=" : "&r="); //are we adding or removing read label?
             string readLabel = Uri.EscapeDataString("user/" + this.GoogleUserId + "/state/com.google/read");
 
-            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + readLabel + "&async=true&T=" + GetGoogleEditToken(this.SID);
+            string body = "s=" + Uri.EscapeDataString(feedId) + "&i=" + Uri.EscapeDataString(itemId) + "&ac=edit-tags" + op + readLabel + "&async=true&T=" + GetGoogleEditToken(this.AuthToken);
            
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(itemReadUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -1638,9 +1598,9 @@ namespace NewsComponents.Feed
                 GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;                
                 string markReadUrl = apiUrlPrefix + "mark-all-as-read";
 
-                string body = "T=" + GetGoogleEditToken(this.SID) + "&ts=" + olderThan
+                string body = "T=" + GetGoogleEditToken(this.AuthToken) + "&ts=" + olderThan
                                + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + "&t=" + Uri.EscapeDataString(f.title); 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1835,8 +1795,8 @@ namespace NewsComponents.Feed
                 string labelUrl = apiUrlPrefix + "disable-tag";
                 string labelParams = "&s=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(name) + "&t=" + Uri.EscapeDataString(name);              
 
-                string body = "ac=disable-tags&i=null&T=" + GetGoogleEditToken(this.SID) + labelParams;
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                string body = "ac=disable-tags&i=null&T=" + GetGoogleEditToken(this.AuthToken) + labelParams;
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1915,8 +1875,8 @@ namespace NewsComponents.Feed
                     labelParams += "&a=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(newCategory); 
                 }
 
-                string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.SID) + "&t=" + Uri.EscapeDataString(f.title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + labelParams;
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleCookie(this.SID), null, this.Proxy);
+                string body = "ac=edit&i=null&T=" + GetGoogleEditToken(this.AuthToken) + "&t=" + Uri.EscapeDataString(f.title) + "&s=" + Uri.EscapeDataString(f.GoogleReaderFeedId) + labelParams;
+                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(labelUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
