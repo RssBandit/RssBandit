@@ -9,121 +9,121 @@
 	Title="{Binding Path=DisplayName}"
 	Icon="/Resources/app.ico"
 	ResizeMode="CanResizeWithGrip">
-	
-	<Window.Resources>
-		<Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />
-    <Converters:NodesSortedByCategoryTitleConverter x:Key="sortCategoryTitleConverter" />
-	</Window.Resources>
-	
-	<Ribbon:RibbonWindowContentHost>
 
-    <Ribbon:RibbonWindowContentHost.Ribbon>	
-      <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
-        
-        <Ribbon:XamRibbon.ApplicationMenu>
-          <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
+    <Window.Resources>
+        <Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />
+        <Converters:NodesSortedByCategoryTitleConverter x:Key="sortCategoryTitleConverter" />
+    </Window.Resources>
+
+    <Ribbon:RibbonWindowContentHost>
+
+        <Ribbon:RibbonWindowContentHost.Ribbon>
+            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
+
+                <Ribbon:XamRibbon.ApplicationMenu>
+                    <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
                                   Image="/Resources/Images/Toolbar/rssbandit.32.png">
-            <Ribbon:ApplicationMenu.Items>
-              <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
-                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                        <Ribbon:ApplicationMenu.Items>
+                            <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
+                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" 
                                    LargeImage="/Resources/Images/Toolbar/new.doc.feed.32.png"
                                    Command="{Binding SubscribeRssFeedCommand}"/>
-                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewNntpFeedCaption,Default=NewNntpSubscription#}" 
                                    LargeImage="/Resources/Images/Toolbar/new.doc.nntp.32.png"
                                    Command="{Binding SubscribeNntpFeedCommand}"/>
-                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
+                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewRssSearchResultSubscriptionCaption,Default=NewSearchResultSubscription#}"
                                    LargeImage="/Resources/Images/Toolbar/new.doc.feed.search.32.png"
                                    Command="{Binding SubscribeSearchResultFeedCommand}" />
-              </Ribbon:MenuTool>
-              <Ribbon:SeparatorTool/>
-              <Ribbon:ButtonTool Caption="Import..." Command="{Binding ImportFeedsCommand}" />
-              <Ribbon:ButtonTool Caption="Export..." />
-              <Ribbon:SeparatorTool/>
-              <Ribbon:ButtonTool Caption="Print Preview..." />
-              <Ribbon:ButtonTool Caption="Print..." />
-              <Ribbon:SeparatorTool/>
-              <Ribbon:ToggleButtonTool Caption="Work offline" IsChecked="{Binding WorkOffline}" />
-            </Ribbon:ApplicationMenu.Items>
-          <Ribbon:ApplicationMenu.RecentItems>
-			      <Ribbon:LabelTool Content="Change the visual theme of the application" />
-			      <Ribbon:SeparatorTool/>
-            <Ribbon:RadioButtonTool GroupName="theme" Caption="Windows 7"
+                            </Ribbon:MenuTool>
+                            <Ribbon:SeparatorTool/>
+                            <Ribbon:ButtonTool Id="cmdImport" Caption="Import..." Command="{Binding ImportFeedsCommand}" />
+                            <Ribbon:ButtonTool Id="cmdExport" Caption="Export..." />
+                            <Ribbon:SeparatorTool/>
+                            <Ribbon:ButtonTool Id="cmdPrintPreview" Caption="Print Preview..." />
+                            <Ribbon:ButtonTool Id="cmdPrint" Caption="Print..." />
+                            <Ribbon:SeparatorTool/>
+                            <Ribbon:ToggleButtonTool Caption="Work offline" IsChecked="{Binding WorkOffline}" />
+                        </Ribbon:ApplicationMenu.Items>
+                        <Ribbon:ApplicationMenu.RecentItems>
+                            <Ribbon:LabelTool Content="Change the visual theme of the application" />
+                            <Ribbon:SeparatorTool/>
+                            <Ribbon:RadioButtonTool GroupName="theme" Caption="Windows 7"
 				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Scenic}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use the Windows 7 Theme"/>
-			      <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
+                            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Blue" 
 				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Blue}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Blue Theme"/>
-            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Black" 
+                            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Black" 
 				        IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Black}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Black Theme"/>
-            <Ribbon:RadioButtonTool GroupName="theme" Caption="Black Onyx"
+                            <Ribbon:RadioButtonTool GroupName="theme" Caption="Black Onyx"
                 IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Onyx}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use an Black Onyx Theme"/>
-            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Silver"
+                            <Ribbon:RadioButtonTool GroupName="theme" Caption="Aero Silver"
                 IsChecked="{Binding CurrentTheme, Converter={StaticResource themeSelectedConverter}, ConverterParameter=Office2k7Silver}"
                 Ribbon:MenuToolBase.MenuItemDescription="Use an Aero Silver Theme"/>
-          </Ribbon:ApplicationMenu.RecentItems>
-          <Ribbon:ApplicationMenu.FooterToolbar>
-            <Ribbon:ApplicationMenuFooterToolbar>
-              <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppOptionsCaption,Default=Options#}" Command="{Binding Path=AppOptionsCommand}"
+                        </Ribbon:ApplicationMenu.RecentItems>
+                        <Ribbon:ApplicationMenu.FooterToolbar>
+                            <Ribbon:ApplicationMenuFooterToolbar>
+                                <Ribbon:ButtonTool Id="cmdShowOptions" Caption="{ext:Res Id=MenuAppOptionsCaption,Default=Options#}" Command="{Binding Path=AppOptionsCommand}"
                                  SmallImage="/Resources/Images/Toolbar/document_preferences_16.png"  LargeImage="/Resources/Images/Toolbar/document_preferences_32.png" />
-              <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppCloseExitCaption,Default=Exit#}" Command="{Binding Path=CloseCommand}" 
+                                <Ribbon:ButtonTool Id="cmdExit" Caption="{ext:Res Id=MenuAppCloseExitCaption,Default=Exit#}" Command="{Binding Path=CloseCommand}" 
                                  SmallImage="/Resources/Images/Toolbar/exit.32.png"  LargeImage="/Resources/Images/Toolbar/exit.32.png" />
-            </Ribbon:ApplicationMenuFooterToolbar>
-          </Ribbon:ApplicationMenu.FooterToolbar>
-        </Ribbon:ApplicationMenu>
-      </Ribbon:XamRibbon.ApplicationMenu>
+                            </Ribbon:ApplicationMenuFooterToolbar>
+                        </Ribbon:ApplicationMenu.FooterToolbar>
+                    </Ribbon:ApplicationMenu>
+                </Ribbon:XamRibbon.ApplicationMenu>
 
-        <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
-          <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
-            <Ribbon:ButtonTool Caption="{ext:Res Id=MainMenuToolUpdateAllFeedsCaption,Default=UpdateAll#}" Command="{Binding Path=UpdateAllFeedsCommand}"
+                <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
+                    <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
+                        <Ribbon:ButtonTool Id="cmdUpdateAllFeeds" Caption="{ext:Res Id=MainMenuToolUpdateAllFeedsCaption,Default=UpdateAll#}" Command="{Binding Path=UpdateAllFeedsCommand}"
                              LargeImage="/Resources/Images/Toolbar/refresh.all.feedsources.32.png" 
-                              IsQatCommonTool="true" />
-          </Ribbon:RibbonGroup>
-        </Ribbon:RibbonTabItem>
-        
-      </Ribbon:XamRibbon>
-    </Ribbon:RibbonWindowContentHost.Ribbon>
+                              IsQatCommonTool="true" Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                    </Ribbon:RibbonGroup>
+                </Ribbon:RibbonTabItem>
 
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
-        <ColumnDefinition></ColumnDefinition>
-      </Grid.ColumnDefinitions>
+            </Ribbon:XamRibbon>
+        </Ribbon:RibbonWindowContentHost.Ribbon>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:TreeNodeViewModelBase}" 
-                                   ItemsSource="{Binding Children}">                    
+                                   ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Name}" />
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate x:Key="FeedSourcesTemplate" DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate x:Key="FeedSourcesTemplate" DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
                                   ItemsSource="{Binding Children, Converter= {StaticResource sortCategoryTitleConverter}}"
                                   ItemTemplate="{StaticResource NodesTemplate}">
-          <TextBlock Text="{Binding Name}" />
-        </HierarchicalDataTemplate>
-       
-      </Grid.Resources>
-      <TreeView Name="tree" Grid.Column="0"
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+
+            </Grid.Resources>
+            <TreeView Name="tree" Grid.Column="0"
                 ItemsSource="{Binding FeedSources.Sources}" 
                 ItemTemplate="{StaticResource FeedSourcesTemplate}">
-      </TreeView>
-      <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
-      <StackPanel Grid.Column="1">
-				<Button Content="{ext:Res Static=strings:SR.NotYetImplementedFeature_Info,Default=Hello#}"></Button>
-				<Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
-			</StackPanel>
-    </Grid>
-    
-		
-		<Ribbon:RibbonWindowContentHost.StatusBar>
-			<StatusBar Name="statusBar">
-				<!--TODO: Add StatusBar Items -->
-				<TextBlock>Ready</TextBlock>
-			</StatusBar>
-		</Ribbon:RibbonWindowContentHost.StatusBar>
+            </TreeView>
+            <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
+            <StackPanel Grid.Column="1">
+                <Button Content="{ext:Res Static=strings:SR.NotYetImplementedFeature_Info,Default=Hello#}"></Button>
+                <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
+            </StackPanel>
+        </Grid>
 
-	</Ribbon:RibbonWindowContentHost>
+
+        <Ribbon:RibbonWindowContentHost.StatusBar>
+            <StatusBar Name="statusBar">
+                <!--TODO: Add StatusBar Items -->
+                <TextBlock>Ready</TextBlock>
+            </StatusBar>
+        </Ribbon:RibbonWindowContentHost.StatusBar>
+
+    </Ribbon:RibbonWindowContentHost>
 
 </Ribbon:XamRibbonWindow>
