@@ -1,10 +1,5 @@
 ﻿#region Version Info Header
 /*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
  */
 #endregion
 
@@ -144,6 +139,7 @@ namespace RssBandit.WinGui.ViewModel
         {
             //TODO:
             //RssBanditApplication.Current.CmdExportFeeds(...);
+            MessageBox.Show("Not yet connected...");
         }
 
 
@@ -350,11 +346,160 @@ namespace RssBandit.WinGui.ViewModel
         void UpdateAllFeeds()
         {
             //TODO
+            MessageBox.Show("Not yet connected...");
         }
 
 
         #endregion
 
+        #region CatchUp All Feeds Command
+
+        RelayCommand _catchUpAllFeedsCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to catch up all feeds (mark read).
+        /// </summary>
+        public ICommand CatchUpAllFeedsCommand
+        {
+            get
+            {
+                if (_catchUpAllFeedsCommand == null)
+                    _catchUpAllFeedsCommand = new RelayCommand(param => CatchUpAllFeeds(), param => CanCatchUpAllFeeds);
+
+                return _catchUpAllFeedsCommand;
+            }
+        }
+        public bool CanCatchUpAllFeeds
+        {
+            get { return true; }
+        }
+
+        void CatchUpAllFeeds()
+        {
+            //TODO:
+            MessageBox.Show("Not yet connected...");
+        }
+
+
+        #endregion
+
+        #region Add Feed Sources Command(s)
+
+        RelayCommand _addFeedSourcesCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to add one of the supported feedsource(s).
+        /// </summary>
+        public ICommand AddFeedSourcesCommand
+        {
+            get
+            {
+                if (_addFeedSourcesCommand == null)
+                    _addFeedSourcesCommand = new RelayCommand(param => AddFeedSources(), param => CanAddFeedSources);
+
+                return _addFeedSourcesCommand;
+            }
+        }
+        public bool CanAddFeedSources
+        {
+            get { return true; }
+        }
+
+        void AddFeedSources()
+        {
+            //TODO
+            MessageBox.Show("Not yet connected...");
+        }
+
+        RelayCommand _addFacebookFeedSourceCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to add the facebook feedsource.
+        /// </summary>
+        public ICommand AddFacebookFeedSourceCommand
+        {
+            get
+            {
+                if (_addFacebookFeedSourceCommand == null)
+                    _addFacebookFeedSourceCommand = new RelayCommand(param => AddFacebookFeedSource(), param => CanAddFacebookFeedSource);
+
+                return _addFacebookFeedSourceCommand;
+            }
+        }
+
+        public bool CanAddFacebookFeedSource
+        {
+            get { return true; }
+        }
+
+        void AddFacebookFeedSource()
+        {
+            //TODO
+            MessageBox.Show("Not yet connected...");
+        }
+
+        RelayCommand _addGoogleReaderFeedSourceCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to add the google reader feedsource.
+        /// </summary>
+        public ICommand AddGoogleReaderFeedSourceCommand
+        {
+            get
+            {
+                if (_addGoogleReaderFeedSourceCommand == null)
+                    _addGoogleReaderFeedSourceCommand = new RelayCommand(param => AddGoogleReaderFeedSource(), param => CanAddGoogleReaderFeedSource);
+
+                return _addGoogleReaderFeedSourceCommand;
+            }
+        }
+
+        public bool CanAddGoogleReaderFeedSource
+        {
+            get { return true; }
+        }
+
+        void AddGoogleReaderFeedSource()
+        {
+            //TODO
+            MessageBox.Show("Not yet connected...");
+        }
+
+        RelayCommand _addWindowsCommonFeedSourceCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to add the windows common feedlist feedsource.
+        /// </summary>
+        public ICommand AddWindowsCommonFeedSourceCommand
+        {
+            get
+            {
+                if (_addWindowsCommonFeedSourceCommand == null)
+                    _addWindowsCommonFeedSourceCommand = new RelayCommand(param => AddWindowsCommonFeedSource(), param => CanAddWindowsCommonFeedSource);
+
+                return _addWindowsCommonFeedSourceCommand;
+            }
+        }
+
+        public bool CanAddWindowsCommonFeedSource
+        {
+            get { return true; }
+        }
+
+        void AddWindowsCommonFeedSource()
+        {
+            //TODO
+            MessageBox.Show("Not yet connected...");
+        }
+
+        #endregion
+
+        #region Helper methods 
 
         #region Conversion methods from NewsComponents objects to ViewModel objects 
 
@@ -371,15 +516,13 @@ namespace RssBandit.WinGui.ViewModel
             return null; 
         }
 
-        #endregion 
-
-        #region Helper methods
+        #endregion
 
         /// <summary>
         /// Returns the name of the feed source of the currently selected item in the tree view. Returns null if no item in the tree view is selected
         /// </summary>
         /// <returns></returns>
-        private void GetSelectedFeedSourceAndCategoryNames(out string feedSource, out string category)
+        private static void GetSelectedFeedSourceAndCategoryNames(out string feedSource, out string category)
         {
             feedSource = category = null; 
 
@@ -409,7 +552,7 @@ namespace RssBandit.WinGui.ViewModel
         public void AddNewFeedNode(FeedSourceEntry entry, string category, INewsFeed f)
         {
             //find category node or create if it doesn't exist
-            CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry); 
+            CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry);
 
             var fvm = new FeedViewModel(f, null, entryModel);
 
@@ -469,7 +612,7 @@ namespace RssBandit.WinGui.ViewModel
                 tn.BringIntoView();
 
             DelayTask(DelayedTasks.SyncRssSearchTree);
-           */  
+           */
         }
 
         #endregion 
