@@ -9,6 +9,7 @@
 #endregion
 
 using System.Collections.ObjectModel;
+using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -42,5 +43,11 @@ namespace RssBandit.WinGui.ViewModel
         }
 
         public virtual CategorizedFeedSourceViewModel Source { get { return _feedSource; } }
+
+        public FeedNodeType Type
+        {
+            get;
+            protected set; 
+        }
     }
 }
