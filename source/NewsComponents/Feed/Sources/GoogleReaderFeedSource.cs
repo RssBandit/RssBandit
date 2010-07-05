@@ -794,8 +794,7 @@ namespace NewsComponents.Feed
                 reqParam.Cookies = new CookieCollection();
                 reqParam.Headers = MakeGoogleAuthHeader(this.AuthToken); 
 
-                AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
+                AsyncWebRequest.QueueRequest(reqParam,                                             
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);
