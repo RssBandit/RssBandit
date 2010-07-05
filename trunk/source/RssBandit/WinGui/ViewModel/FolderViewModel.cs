@@ -10,6 +10,7 @@
 
 using NewsComponents.Utils;
 using NewsComponents;
+using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -23,7 +24,8 @@ namespace RssBandit.WinGui.ViewModel
             name.ExceptionIfNullOrEmpty("name");
             _name = name;
             baseParent = parent;
-            _feedSource = source; 
+            _feedSource = source;
+            Type = FeedNodeType.Category; 
         }
 
         public override string Name
