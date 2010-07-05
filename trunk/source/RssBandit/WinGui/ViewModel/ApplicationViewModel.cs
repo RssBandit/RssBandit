@@ -116,6 +116,38 @@ namespace RssBandit.WinGui.ViewModel
 
         #endregion
 
+        #region Export Feeds Command
+
+        RelayCommand _exportFeedsCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to export feeds to a file .
+        /// </summary>
+        public ICommand ExportFeedsCommand
+        {
+            get
+            {
+                if (_exportFeedsCommand == null)
+                    _exportFeedsCommand = new RelayCommand(param => ExportFeeds(), param => CanExportFeeds);
+
+                return _exportFeedsCommand;
+            }
+        }
+        public bool CanExportFeeds
+        {
+            get { return true; }
+        }
+
+        void ExportFeeds()
+        {
+            //TODO:
+            //RssBanditApplication.Current.CmdExportFeeds(...);
+        }
+
+
+        #endregion
+
         #region Subscribe RssFeed Command
 
         RelayCommand _subscribeRssFeedCommand;
@@ -305,7 +337,7 @@ namespace RssBandit.WinGui.ViewModel
                 if (_updateAllFeedsCommand == null)
                     _updateAllFeedsCommand = new RelayCommand(param => UpdateAllFeeds(), param => CanUpdateAllFeeds);
 
-                return _importFeedsCommand;
+                return _updateAllFeedsCommand;
             }
         }
         public bool CanUpdateAllFeeds
