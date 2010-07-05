@@ -11,6 +11,7 @@
 using System;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
+using RssBandit.WinGui.Interfaces; 
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -23,7 +24,8 @@ namespace RssBandit.WinGui.ViewModel
         {
             _feed = feed;
             baseParent = parent;
-            _feedSource = source;             
+            _feedSource = source;
+            Type = FeedNodeType.Feed; 
         }
 
         public override string Name

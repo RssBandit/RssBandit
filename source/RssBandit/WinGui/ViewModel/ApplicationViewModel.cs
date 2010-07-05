@@ -18,6 +18,7 @@ using NewsComponents.Feed;
 using System.Windows.Forms;
 using log4net;
 using RssBandit.Common.Logging;
+using NewsComponents.Utils;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -285,15 +286,16 @@ namespace RssBandit.WinGui.ViewModel
                             {
                                 continue;
                             }
+                           
+                            AddNewFeedNode(entry, f.category, f);
 
-                            /*
-                            guiMain.AddNewFeedNode(entry, f.category, f);
-
+                            /* 
                             if (wiz.FeedInfo == null)
                                 guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
 
+                             */  
                             anySubscription = true;
-                             */
+                             
                         }
 
                         //return anySubscription;
@@ -353,7 +355,25 @@ namespace RssBandit.WinGui.ViewModel
 
         #endregion
 
-        #region Helper methods 
+
+        #region Conversion methods from NewsComponents objects to ViewModel objects 
+
+        public static CategorizedFeedSourceViewModel ViewModelOf(FeedSourceEntry entry)
+        {
+            foreach (CategorizedFeedSourceViewModel cfsvm in RssBanditApplication.MainWindow.tree.Items)
+            {
+                if (cfsvm.Name.Equals(entry.Name))
+                {
+                    return cfsvm; 
+                }
+            }
+            
+            return null; 
+        }
+
+        #endregion 
+
+        #region Helper methods
 
         /// <summary>
         /// Returns the name of the feed source of the currently selected item in the tree view. Returns null if no item in the tree view is selected
@@ -377,6 +397,79 @@ namespace RssBandit.WinGui.ViewModel
                     feedSource = cfs.Name;
                 }
             }        
+        }
+
+
+        /// <summary>
+        /// Add a new feed to the GUI tree view
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="category">Feed Category</param>
+        /// <param name="f">Feed</param>
+        public void AddNewFeedNode(FeedSourceEntry entry, string category, INewsFeed f)
+        {
+            //find category node or create if it doesn't exist
+            CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry); 
+
+            var fvm = new FeedViewModel(f, null, entryModel);
+
+            /*  
+            if (RssHelper.IsNntpUrl(f.link))
+            {
+                tn = new RssBandit.WinGui.Controls.FeedNode(f.title, Resource.SubscriptionTreeImage.Nntp,
+                                  Resource.SubscriptionTreeImage.NntpSelected,
+                                  _treeFeedContextMenu);
+            }
+            else
+            {
+                tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed,
+                                  Resource.SubscriptionTreeImage.FeedSelected,
+                                  _treeFeedContextMenu,
+                                  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
+            }
+
+            //interconnect for speed:
+            tn.DataKey = f.link;
+            f.Tag = tn;
+
+            SetSubscriptionNodeState(f, tn, FeedProcessingState.Normal);
+
+            SubscriptionRootNode root = GetSubscriptionRootNode(entry);
+            category = (f.category == RssBanditApplication.DefaultCategory ? null : f.category);
+            TreeFeedsNodeBase catnode = TreeHelper.CreateCategoryHive(root, category,
+                                                                      _treeCategoryContextMenu);
+
+            if (catnode == null)
+                catnode = GetRoot(RootFolderType.MyFeeds);
+
+            catnode.Nodes.Add(tn);
+            //			tn.Cells[0].Value = tn.Text;
+            //			tn.Cells[0].Appearance.Image = tn.Override.NodeAppearance.Image;
+            //			tn.Cells[0].Appearance.Cursor = CursorHand;
+
+            if (f.containsNewMessages)
+            {
+                IList<INewsItem> unread = FilterUnreadFeedItems(f);
+                if (unread.Count > 0)
+                {
+                    // we build up a new tree node, so the call to 
+                    // UpdateReadStatus(tn , 0) is not neccesary:
+                    UpdateTreeNodeUnreadStatus(tn, unread.Count);
+                    UnreadItemsNode.Items.AddRange(unread);
+                    UnreadItemsNode.UpdateReadStatus();
+                }
+            }
+
+            if (f.containsNewComments)
+            {
+                UpdateCommentStatus(tn, f);
+            }
+
+            if (root.Visible)
+                tn.BringIntoView();
+
+            DelayTask(DelayedTasks.SyncRssSearchTree);
+           */  
         }
 
         #endregion 

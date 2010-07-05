@@ -17,6 +17,8 @@ using System.Text;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
+using System.Globalization;
+using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -98,6 +100,64 @@ namespace RssBandit.WinGui.ViewModel
                 return _children;
             }
             set { _children = value; }
+        }
+
+        /// <summary>
+        /// Creates a FolderViewModel that represents a feed category in the tree view
+        /// </summary>
+        /// <param name="pathName">Full path or category name</param>      
+        public FolderViewModel CreateHive(string pathName)
+        {
+            TreeNodeViewModelBase target = null;
+
+            if (string.IsNullOrEmpty(pathName)) return null;
+
+            string[] catHives = pathName.Split(FeedSource.CategorySeparator.ToCharArray());
+            bool wasNew = false;
+          
+            foreach (var catHive in catHives)
+            {
+                TreeNodeViewModelBase n = !wasNew ? FindChildNode(catHive, FeedNodeType.Category) : null;
+
+                if (n == null)
+                {
+                    n = new FolderViewModel(catHive, target, this);
+
+                    if (target == null)
+                        this.Children.Add(n);
+                    else
+                        target.Children.Add(n);
+
+                    wasNew = true; // shorten search
+                }
+
+               target = n;
+            } //foreach
+
+            
+            return target as FolderViewModel; 
+        }
+
+
+        /// <summary>
+        /// Find a direct child node.
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="text"></param>
+        /// <param name="nType"></param>
+        /// <returns></returns>
+        public TreeNodeViewModelBase FindChildNode(string text, FeedNodeType nType)
+        {
+            if ( text == null) return null;
+            text = text.Trim();
+
+            foreach(TreeNodeViewModelBase t in this.Children)
+            {
+                if (t.Type == nType && String.Compare(t.Name, text, false, CultureInfo.CurrentUICulture) == 0)
+                    // node names are usually english or client locale
+                    return t;
+            }
+            return null;
         }
 
         /// <summary>
