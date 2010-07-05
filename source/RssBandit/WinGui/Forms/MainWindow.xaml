@@ -25,25 +25,25 @@
                                   Image="/Resources/Images/Toolbar/rssbandit.32.png">
                         <Ribbon:ApplicationMenu.Items>
                             <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
-                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                                <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" 
                                    LargeImage="/Resources/Images/Toolbar/new.doc.feed.32.png"
                                    Command="{Binding SubscribeRssFeedCommand}"/>
-                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
+                                <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewNntpFeedCaption,Default=NewNntpSubscription#}" 
                                    LargeImage="/Resources/Images/Toolbar/new.doc.nntp.32.png"
                                    Command="{Binding SubscribeNntpFeedCommand}"/>
-                                <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
+                                <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
                                    Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewRssSearchResultSubscriptionCaption,Default=NewSearchResultSubscription#}"
                                    LargeImage="/Resources/Images/Toolbar/new.doc.feed.search.32.png"
                                    Command="{Binding SubscribeSearchResultFeedCommand}" />
                             </Ribbon:MenuTool>
                             <Ribbon:SeparatorTool/>
-                            <Ribbon:ButtonTool Id="cmdImport" Caption="Import..." Command="{Binding ImportFeedsCommand}" />
-                            <Ribbon:ButtonTool Id="cmdExport" Caption="Export..." />
+                            <Ribbon:MenuTool Id="cmdImport" Caption="Import..." Command="{Binding Path=ImportFeedsCommand}" />
+                            <Ribbon:MenuTool Id="cmdExport" Caption="Export..." Command="{Binding Path=ExportFeedsCommand}"/>
                             <Ribbon:SeparatorTool/>
-                            <Ribbon:ButtonTool Id="cmdPrintPreview" Caption="Print Preview..." />
-                            <Ribbon:ButtonTool Id="cmdPrint" Caption="Print..." />
+                            <Ribbon:MenuTool Id="cmdPrintPreview" Caption="Print Preview..." />
+                            <Ribbon:MenuTool Id="cmdPrint" Caption="Print..." />
                             <Ribbon:SeparatorTool/>
                             <Ribbon:ToggleButtonTool Caption="Work offline" IsChecked="{Binding WorkOffline}" />
                         </Ribbon:ApplicationMenu.Items>
