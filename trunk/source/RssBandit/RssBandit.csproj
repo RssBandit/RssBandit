@@ -508,6 +508,12 @@
     <Resource Include="Resources\Images\Toolbar\document_preferences_32.png" />
     <Resource Include="Resources\Images\Toolbar\new.doc.32.png" />
     <Resource Include="Resources\Images\Toolbar\refresh.all.feedsources.32.png" />
+    <Resource Include="Resources\Images\Toolbar\facebook.feedsource.16.png" />
+    <Resource Include="Resources\Images\Toolbar\google.feedsource.16.png" />
+    <Resource Include="Resources\Images\Toolbar\windows.feedsource.16.png" />
+    <Resource Include="Resources\Images\Toolbar\mark.read.feedsources.32.png" />
+    <Resource Include="Resources\Images\Toolbar\mark.read.folder.32.png" />
+    <Resource Include="Resources\Images\Toolbar\refresh.folder.32.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
