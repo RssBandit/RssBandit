@@ -2470,6 +2470,78 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feed Source.
+        /// </summary>
+        public static string MainMenuAddFeedSourcesCaption {
+            get {
+                return ResourceManager.GetString("MainMenuAddFeedSourcesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a new Feed Source....
+        /// </summary>
+        public static string MainMenuAddFeedSourcesDesc {
+            get {
+                return ResourceManager.GetString("MainMenuAddFeedSourcesDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription.
+        /// </summary>
+        public static string MainMenuAddSubscriptionToFeedSourceCaption {
+            get {
+                return ResourceManager.GetString("MainMenuAddSubscriptionToFeedSourceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a new subscription to the current feed source.
+        /// </summary>
+        public static string MainMenuAddSubscriptionToFeedSourceDesc {
+            get {
+                return ResourceManager.GetString("MainMenuAddSubscriptionToFeedSourceDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Windows Common Feedlist.
+        /// </summary>
+        public static string MainMenuAddWindowsCommonFeedSourceCaption {
+            get {
+                return ResourceManager.GetString("MainMenuAddWindowsCommonFeedSourceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Will add your common Windows Feedlist as a Feed Source.
+        /// </summary>
+        public static string MainMenuAddWindowsCommonFeedSourceDesc {
+            get {
+                return ResourceManager.GetString("MainMenuAddWindowsCommonFeedSourceDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder.
+        /// </summary>
+        public static string MainMenuBandFolderCaption {
+            get {
+                return ResourceManager.GetString("MainMenuBandFolderCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools and commands related to folders....
+        /// </summary>
+        public static string MainMenuBandFolderDesc {
+            get {
+                return ResourceManager.GetString("MainMenuBandFolderDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Catch Up.
         /// </summary>
         public static string MainMenuBandGroupCatchUpCaption {
@@ -2484,6 +2556,24 @@ namespace RssBandit.Resources {
         public static string MainMenuBandGroupCatchUpDesc {
             get {
                 return ResourceManager.GetString("MainMenuBandGroupCatchUpDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string MainMenuBandGroupCreateCaption {
+            get {
+                return ResourceManager.GetString("MainMenuBandGroupCreateCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools and commands to create new feed subscriptions and folders.
+        /// </summary>
+        public static string MainMenuBandGroupCreateDesc {
+            get {
+                return ResourceManager.GetString("MainMenuBandGroupCreateDesc", resourceCulture);
             }
         }
         
