@@ -514,6 +514,10 @@
     <Resource Include="Resources\Images\Toolbar\mark.read.feedsources.32.png" />
     <Resource Include="Resources\Images\Toolbar\mark.read.folder.32.png" />
     <Resource Include="Resources\Images\Toolbar\refresh.folder.32.png" />
+    <Resource Include="Resources\Images\Toolbar\refresh.all.feedsources.16.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.feed.16.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.feed.search.16.png" />
+    <Resource Include="Resources\Images\Toolbar\new.doc.nntp.16.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
