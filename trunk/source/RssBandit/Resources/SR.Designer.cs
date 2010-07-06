@@ -2704,6 +2704,24 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Folder.
+        /// </summary>
+        public static string MainMenuToolUpdateFeedsInFolderCaption {
+            get {
+                return ResourceManager.GetString("MainMenuToolUpdateFeedsInFolderCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update all feeds contained in the selcted folder.
+        /// </summary>
+        public static string MainMenuToolUpdateFeedsInFolderDesc {
+            get {
+                return ResourceManager.GetString("MainMenuToolUpdateFeedsInFolderDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;View.
         /// </summary>
         public static string MainMenuViewCaption {

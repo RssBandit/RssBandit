@@ -80,7 +80,7 @@
                 <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
                     <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
                         <Ribbon:ButtonTool Id="cmdUpdateAllFeeds" Caption="{ext:Res Id=MainMenuToolUpdateAllFeedsCaption,Default=UpdateAll#}" Command="{Binding Path=UpdateAllFeedsCommand}"
-                             LargeImage="/Resources/Images/Toolbar/refresh.all.feedsources.32.png" 
+                             SmallImage="/Resources/Images/Toolbar/refresh.all.feedsources.16.png" LargeImage="/Resources/Images/Toolbar/refresh.all.feedsources.32.png" 
                              IsQatCommonTool="true" Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
                         <Ribbon:SeparatorTool/>
                         <Ribbon:ButtonTool Id="cmdCatchUpAllFeeds" Caption="{ext:Res Id=MenuCatchUpOnAllCaption,Default=CatchUpAll#}" Command="{Binding Path=CatchUpAllFeedsCommand}"
@@ -90,32 +90,26 @@
                     <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCreateCaption,Default=New#}">
                         <Ribbon:MenuTool Id="cmdAddSubscribtion" Caption="{ext:Res Id=MainMenuAddSubscriptionToFeedSourceCaption,Default=Subscribtion#}" 
                                          LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
-                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" 
-                                   LargeImage="/Resources/Images/Toolbar/new.doc.feed.32.png"
+                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewFeedCaption,Default=NewFeedSubscription#}" 
+                                   SmallImage="/Resources/Images/Toolbar/new.doc.feed.16.png" LargeImage="/Resources/Images/Toolbar/new.doc.feed.32.png"
                                    Command="{Binding SubscribeRssFeedCommand}"/>
-                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewNntpFeedCaption,Default=NewNntpSubscription#}" 
-                                   LargeImage="/Resources/Images/Toolbar/new.doc.nntp.32.png"
+                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewNntpFeedCaption,Default=NewNntpSubscription#}" 
+                                   SmallImage="/Resources/Images/Toolbar/new.doc.nntp.16.png" LargeImage="/Resources/Images/Toolbar/new.doc.nntp.32.png"
                                    Command="{Binding SubscribeNntpFeedCommand}"/>
-                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}"
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MenuNewRssSearchResultSubscriptionCaption,Default=NewSearchResultSubscription#}"
-                                   LargeImage="/Resources/Images/Toolbar/new.doc.feed.search.32.png"
+                            <Ribbon:ButtonTool Caption="{ext:Res Id=MenuNewRssSearchResultSubscriptionCaption,Default=NewSearchResultSubscription#}"
+                                   SmallImage="/Resources/Images/Toolbar/new.doc.feed.search.16.png" LargeImage="/Resources/Images/Toolbar/new.doc.feed.search.32.png"
                                    Command="{Binding SubscribeSearchResultFeedCommand}" />
                         </Ribbon:MenuTool>
                         <Ribbon:MenuTool Id="cmdAddFeedSources" Caption="{ext:Res Id=MainMenuAddFeedSourcesCaption,Default=FeedSource#}" Command="{Binding Path=AddFeedSourcesCommand}"
                              LargeImage="/Resources/Images/Toolbar/add.feedsources.32.png" 
                              Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge">
                             <Ribbon:MenuTool Caption="{ext:Res Id=JumpListAddFacebookCaption,Default=AddFacebookFeed#}" 
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=CmdLineFacebookDesc,Default=AddFacebookFeedDesc#}" 
                                    SmallImage="/Resources/Images/Toolbar/facebook.feedsource.16.png"
                                    Command="{Binding Path=AddFacebookFeedSourceCommand}"/>
                             <Ribbon:MenuTool Caption="{ext:Res Id=JumpListAddGoogleCaption,Default=AddGoogleReaderFeed#}" 
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=CmdLineGoogleReaderDesc,Default=AddGoogleReaderFeedDesc#}" 
                                    SmallImage="/Resources/Images/Toolbar/google.feedsource.16.png"
                                    Command="{Binding Path=AddGoogleReaderFeedSourceCommand}"/>
                             <Ribbon:MenuTool Caption="{ext:Res Id=MainMenuAddWindowsCommonFeedSourceCaption,Default=AddWindowsCommonFeedList#}" 
-                                   Ribbon:MenuToolBase.MenuItemDescription="{ext:Res Id=MainMenuAddWindowsCommonFeedSourceDesc,Default=AddWindowsCommonFeedListDesc#}" 
                                    SmallImage="/Resources/Images/Toolbar/windows.feedsource.16.png"
                                    Command="{Binding Path=AddWindowsCommonFeedSourceCommand}"/>
                         </Ribbon:MenuTool>
@@ -123,7 +117,15 @@
                 </Ribbon:RibbonTabItem>
 
                 <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandFolderCaption,Default=Folder#}">
-                    
+                    <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
+                        <Ribbon:ButtonTool Id="cmdUpdateFeedsInFolder" Caption="{ext:Res Id=MainMenuToolUpdateFeedsInFolderCaption,Default=UpdateFolder#}" Command="{Binding Path=UpdateFeedsInFolderCommand}"
+                             LargeImage="/Resources/Images/Toolbar/refresh.folder.32.png" 
+                             Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                        <Ribbon:SeparatorTool/>
+                        <Ribbon:ButtonTool Id="cmdCatchUpFeedsInFolder" Caption="{ext:Res Id=MenuCatchUpSelectedNodeCaption,Default=CatchUpFolder#}" Command="{Binding Path=CatchUpFeedsInFolderCommand}"
+                             LargeImage="/Resources/Images/Toolbar/mark.read.folder.32.png" 
+                             Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                    </Ribbon:RibbonGroup>
                 </Ribbon:RibbonTabItem>
             </Ribbon:XamRibbon>
         </Ribbon:RibbonWindowContentHost.Ribbon>

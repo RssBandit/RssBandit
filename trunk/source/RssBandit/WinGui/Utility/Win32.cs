@@ -2630,6 +2630,30 @@ namespace RssBandit
 			}
 		}
 
+        /// <summary>
+        /// Returns true, if the OS is exact Windows 7, else false.
+        /// </summary>
+        public static bool IsOSWindows7
+        {
+            get
+            {
+                return (IsWinNt &&
+                    (_os.Version.Major == 6 && _os.Version.Minor == 1));
+            }
+        }
+
+        /// <summary>
+        /// Returns true, if the OS is at least Windows 7 (or higher), else false.
+        /// </summary>
+        public static bool IsOSAtLeastWindows7
+        {
+            get
+            {
+                return (IsWinNt &&
+                    (_os.Version.Major >= 6 && _os.Version.Minor >= 1));
+            }
+        }
+
 		/// <summary>
 		/// Gets a value indicating whether IE6 is available.
 		/// </summary>

@@ -24,7 +24,7 @@ namespace RssBandit.WinGui.ViewModel
         {
             base.DisplayName = RssBanditApplication.CaptionOnly;
             // assign the rencent selected theme, or the default:
-            CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", "Office2k7Black");
+            CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", Win32.IsOSAtLeastWindows7 ? "Scenic": "Office2k7Black");
         }
 
 
