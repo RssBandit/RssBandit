@@ -168,9 +168,12 @@ namespace RssBandit.WinGui.ViewModel
             get { return true; }
         }
 
+        /// <summary>
+        /// Starts the process of subscribing to an RSS feed via the new subscription wizard
+        /// </summary>     
         void SubscribeRssFeed()
         {
-            //TODO: impl.
+            SubscribeToFeed(null, null, String.Empty, AddSubscriptionWizardMode.SubscribeURLDirect);
         }
 
 
@@ -199,9 +202,12 @@ namespace RssBandit.WinGui.ViewModel
             get { return true; }
         }
 
+        /// <summary>
+        /// Starts the process of subscribing to an NNTP feed via the new subscription wizard
+        /// </summary>
         void SubscribeNntpFeed()
         {
-            //TODO: impl.
+            SubscribeToFeed(null, null, String.Empty, AddSubscriptionWizardMode.SubscribeNNTPDirect);
         }
 
 
@@ -235,7 +241,33 @@ namespace RssBandit.WinGui.ViewModel
              SubscribeToFeed(null, null, String.Empty, AddSubscriptionWizardMode.SubscribeSearchDirect);
         }
 
-        void SubscribeToFeed(string url, /* string category,*/ string title, string searchTerms,
+
+
+        /// <summary>
+        /// Launches the subscription wizard with the specified wizard mode
+        /// </summary>
+        /// <param name="url">The feed URL to subscribe to</param>
+        /// <param name="title">The title of the feed</param>
+        /// <param name="searchTerms">The search terms. Used for search results feeds.</param>
+        /// <param name="mode">The mode the subscription wizard should start in</param>
+        /// <returns>true if any feeds were successfulyy subscribed to</returns>
+        bool SubscribeToFeed(string url, string title, string searchTerms,
+                                   AddSubscriptionWizardMode mode)
+        {
+            return this.SubscribeToFeed(url, null, title, searchTerms, mode); 
+        }
+
+
+        /// <summary>
+        /// Launches the subscription wizard with the specified wizard mode
+        /// </summary>
+        /// <param name="url">The feed URL to subscribe to</param>
+        /// <param name="category">The category of the feed node.</param>
+        /// <param name="title">The title of the feed</param>
+        /// <param name="searchTerms">The search terms. Used for search results feeds.</param>
+        /// <param name="mode">The mode the subscription wizard should start in</param>
+        /// <returns>true if any feeds were successfulyy subscribed to</returns>     
+        bool SubscribeToFeed(string url, string category, string title, string searchTerms,
                                     AddSubscriptionWizardMode mode)
         {
             using (var wiz = new AddSubscriptionWizard(mode)
@@ -246,14 +278,14 @@ namespace RssBandit.WinGui.ViewModel
             })
             {
 
-                string feedSourceName, category; 
+                string feedSourceName, currentCategory; 
 
                 /* if (category != null) // does remember the last category:
-                    wiz.FeedCategory = category; */ 
+                    wiz.FeedCategory = category; */
 
-               GetSelectedFeedSourceAndCategoryNames(out feedSourceName , out category); 
+               GetSelectedFeedSourceAndCategoryNames(out feedSourceName, out currentCategory); 
                wiz.FeedSourceName = feedSourceName;
-               wiz.FeedCategory = category; 
+               wiz.FeedCategory = (category ?? currentCategory); 
                 
                 try
                 {                    
@@ -294,28 +326,31 @@ namespace RssBandit.WinGui.ViewModel
                              
                         }
 
-                        //return anySubscription;
+                        return anySubscription;
                     }
 
                     f = bandit.CreateFeedFromWizard(wiz, entry, 0);
 
                     if (f == null)
                     {
-                        return;
+                        return false;
                     }
 
-                    /*
+                    
                     // add feed visually
-                    guiMain.AddNewFeedNode(entry, f.category, f);
+                    AddNewFeedNode(entry, f.category, f);
 
+                    /* 
                     if (wiz.FeedInfo == null)
                         guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
 
                     */
-                                     
-                }
-            }
+                    return true;
 
+                }// if (wiz.DialogResult == DialogResult.OK)
+            }// using (var wiz = new AddSubscriptionWizard(mode)
+
+            return false; 
         }
 
         #endregion
@@ -606,8 +641,10 @@ namespace RssBandit.WinGui.ViewModel
         {
             //find category node or create if it doesn't exist
             CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry);
+            FolderViewModel folder = entryModel.CreateHive(category); 
 
-            var fvm = new FeedViewModel(f, null, entryModel);
+            var feed = new FeedViewModel(f, folder, entryModel);
+            folder.Children.Add(feed); 
 
             /*  
             if (RssHelper.IsNntpUrl(f.link))
