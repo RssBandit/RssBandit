@@ -606,30 +606,6 @@ namespace RssBandit {
 			}
 		}
 
-		//TODO: remove in Phoenix release!
-		/// <summary>
-		/// Deprecated (cause NotSupportedException).
-		/// Only kept for AppServices compatibility in version 1.5.0x,
-		/// will be removed in Phoenix release!
-		/// Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead! 
-		/// </summary>
-		[Obsolete("Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!")]
-		public DateTime LastAutoUpdateCheck {
-			get {
-				throw new NotSupportedException(
-					"Obsolete: Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!");
-			} 
-			set {
-				throw new NotSupportedException(
-					"Obsolete: Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!");
-			}
-//			[DebuggerStepThrough()]
-//			get {	return lastAutoUpdateCheck;		}
-//			set {	
-//				lastAutoUpdateCheck = value;	
-//				RaisePropertyChanged("LastAutoUpdateCheck");
-//			}
-		} 
 
 		/// <summary>
 		/// Normal font used to render items (listview) 
