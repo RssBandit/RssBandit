@@ -61,6 +61,8 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace RssBandit.WinGui.Forms
 {
+    //TODO: Remove this class once transition to WPF is complete. 
+
     /// <summary>
     /// Summary description for WinGuiMain.
     /// </summary>
