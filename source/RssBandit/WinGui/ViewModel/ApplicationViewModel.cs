@@ -320,7 +320,7 @@ namespace RssBandit.WinGui.ViewModel
 
         #endregion
 
-        #region Update All Feeds Command
+        #region Update Feeds Commands
 
         RelayCommand _updateAllFeedsCommand;
 
@@ -349,10 +349,36 @@ namespace RssBandit.WinGui.ViewModel
             MessageBox.Show("Not yet connected...");
         }
 
+        RelayCommand _updateFeedsInFolderCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to update all feeds in the selected folder.
+        /// </summary>
+        public ICommand UpdateFeedsInFolderCommand
+        {
+            get
+            {
+                if (_updateFeedsInFolderCommand == null)
+                    _updateFeedsInFolderCommand = new RelayCommand(param => UpdateFeedsInFolder(), param => CanUpdateFeedsInFolder);
+
+                return _updateFeedsInFolderCommand;
+            }
+        }
+        public bool CanUpdateFeedsInFolder
+        {
+            get { return true; }
+        }
+
+        void UpdateFeedsInFolder()
+        {
+            //TODO
+            MessageBox.Show("Not yet connected...");
+        }
 
         #endregion
 
-        #region CatchUp All Feeds Command
+        #region CatchUp Feeds Commands
 
         RelayCommand _catchUpAllFeedsCommand;
 
@@ -381,6 +407,32 @@ namespace RssBandit.WinGui.ViewModel
             MessageBox.Show("Not yet connected...");
         }
 
+        RelayCommand _catchUpFeedsInFolderCommand;
+
+        /// <summary>
+        /// Returns the command that, when invoked, attempts
+        /// to catch up all feeds (mark read).
+        /// </summary>
+        public ICommand CatchUpFeedsInFolderCommand
+        {
+            get
+            {
+                if (_catchUpFeedsInFolderCommand == null)
+                    _catchUpFeedsInFolderCommand = new RelayCommand(param => CatchUpFeedsInFolder(), param => CanCatchUpFeedsInFolder);
+
+                return _catchUpFeedsInFolderCommand;
+            }
+        }
+        public bool CanCatchUpFeedsInFolder
+        {
+            get { return true; }
+        }
+
+        void CatchUpFeedsInFolder()
+        {
+            //TODO:
+            MessageBox.Show("Not yet connected...");
+        }
 
         #endregion
 
@@ -537,7 +589,8 @@ namespace RssBandit.WinGui.ViewModel
                 else
                 {
                     var cfs = RssBanditApplication.MainWindow.tree.SelectedItem as CategorizedFeedSourceViewModel;
-                    feedSource = cfs.Name;
+                    if (cfs != null)
+                        feedSource = cfs.Name;
                 }
             }        
         }

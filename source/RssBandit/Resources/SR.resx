@@ -2595,4 +2595,10 @@ Error: {1}</value>
   <data name="MainMenuBandGroupCreateDesc" xml:space="preserve">
     <value>Tools and commands to create new feed subscriptions and folders</value>
   </data>
+  <data name="MainMenuToolUpdateFeedsInFolderCaption" xml:space="preserve">
+    <value>Update Folder</value>
+  </data>
+  <data name="MainMenuToolUpdateFeedsInFolderDesc" xml:space="preserve">
+    <value>Update all feeds contained in the selcted folder</value>
+  </data>
 </root>
