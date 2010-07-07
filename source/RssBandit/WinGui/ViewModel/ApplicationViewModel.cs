@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using log4net;
 using RssBandit.Common.Logging;
 using NewsComponents.Utils;
+using RssBandit.WinGui.Forms;
 
 namespace RssBandit.WinGui.ViewModel
 {
@@ -339,12 +340,10 @@ namespace RssBandit.WinGui.ViewModel
                     
                     // add feed visually
                     AddNewFeedNode(entry, f.category, f);
-
-                    /* 
+                     
                     if (wiz.FeedInfo == null)
-                        guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
-
-                    */
+                        RssBanditApplication.MainWindow.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+                   
                     return true;
 
                 }// if (wiz.DialogResult == DialogResult.OK)
