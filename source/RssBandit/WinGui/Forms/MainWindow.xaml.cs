@@ -2,6 +2,7 @@
 
 using RssBandit.WinGui.Utility;
 using System;
+using NewsComponents;
 
 namespace RssBandit.WinGui.Forms
 { 
@@ -43,6 +44,14 @@ namespace RssBandit.WinGui.Forms
         private void OnTasksTimerTick(object sender, EventArgs e)
         {
 
+            if (_uiTasksTimer[DelayedTasks.StartRefreshOneFeed])
+            {
+                _uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
+                var feedUrl = (string)_uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
+                FeedSource source = FeedSourceOf(feedUrl);
+                source.AsyncGetItemsForFeed(feedUrl, true, true);
+            }
+
             /* 
             if (_uiTasksTimer[DelayedTasks.SyncRssSearchTree])
             {
@@ -76,15 +85,7 @@ namespace RssBandit.WinGui.Forms
                 _uiTasksTimer.StopTask(DelayedTasks.NavigateToWebUrl);
                 var param = (object[]) _uiTasksTimer.GetData(DelayedTasks.NavigateToWebUrl, true);
                 DetailTabNavigateToUrl((string) param[0], (string) param[1], (bool) param[2], (bool) param[3]);
-            }
-
-            if (_uiTasksTimer[DelayedTasks.StartRefreshOneFeed])
-            {
-                _uiTasksTimer.StopTask(DelayedTasks.StartRefreshOneFeed);
-                var feedUrl = (string) _uiTasksTimer.GetData(DelayedTasks.StartRefreshOneFeed, true);
-                FeedSource source = FeedSourceOf(feedUrl); 
-                source.AsyncGetItemsForFeed(feedUrl, true, true);
-            }
+            }          
 
             if (_uiTasksTimer[DelayedTasks.SaveUIConfiguration])
             {
@@ -134,17 +135,19 @@ namespace RssBandit.WinGui.Forms
                 OnFinishLoading();
             }
 
+             */ 
+ 
             if (!_uiTasksTimer.AllTaskDone)
             {
-                if (!_uiTasksTimer.Enabled)
+                if (!_uiTasksTimer.IsEnabled)
                     _uiTasksTimer.Start();
             }
             else
             {
-                if (_uiTasksTimer.Enabled)
+                if (_uiTasksTimer.IsEnabled)
                     _uiTasksTimer.Stop();
             }
-             */
+             
         }
 
         internal void DelayTask(DelayedTasks task)
