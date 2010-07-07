@@ -2016,6 +2016,8 @@
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Forms\MainWindow.UITaskTimer.cs">
+    </Compile>
     <Compile Include="WinGui\Utility\Extensions.cs" />
     <Compile Include="WinGui\Utility\WpfWindowSerializer.cs" />
     <Compile Include="WinGui\ViewModel\CategorizedFeedSourceViewModel.cs" />
