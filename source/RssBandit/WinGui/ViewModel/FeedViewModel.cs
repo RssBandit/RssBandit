@@ -23,8 +23,10 @@ namespace RssBandit.WinGui.ViewModel
         public FeedViewModel(INewsFeed feed, TreeNodeViewModelBase parent, CategorizedFeedSourceViewModel source)
         {
             _feed = feed;
-            baseParent = parent;
-            _feedSource = source;
+            BaseParent = parent;
+            BaseFeedSource = source;
+            BaseImage = IsNntp ? "/Resources/Images/TreeView/doc.nntp.16.png" : "/Resources/Images/TreeView/doc.feed.16.png";   
+            //TODO: Image will be set to the downloaded favicon (later on, as it is downloaded)
             Type = FeedNodeType.Feed; 
         }
 
