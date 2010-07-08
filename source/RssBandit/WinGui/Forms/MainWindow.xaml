@@ -4,7 +4,7 @@
 	xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
 	xmlns:strings="clr-namespace:RssBandit.Resources"
 	xmlns:Converters="clr-namespace:RssBandit.Converters"
-   xmlns:vm="clr-namespace:RssBandit.WinGui.ViewModel"
+    xmlns:vm="clr-namespace:RssBandit.WinGui.ViewModel"
 	xmlns:Ribbon="http://infragistics.com/Ribbon"  Height="300" Width="300"
 	Title="{Binding Path=DisplayName}"
 	Icon="/Resources/app.ico"
@@ -138,8 +138,12 @@
             <Grid.Resources>
                 <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:TreeNodeViewModelBase}" 
                                    ItemsSource="{Binding Children}">
-                    <TextBlock Text="{Binding Name}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
                 </HierarchicalDataTemplate>
+                
                 <HierarchicalDataTemplate x:Key="FeedSourcesTemplate" DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
                                   ItemsSource="{Binding Children, Converter= {StaticResource sortCategoryTitleConverter}}"
                                   ItemTemplate="{StaticResource NodesTemplate}">
@@ -149,11 +153,16 @@
                     </StackPanel>
 
                 </HierarchicalDataTemplate>
-
             </Grid.Resources>
             <TreeView Name="tree" Grid.Column="0"
                 ItemsSource="{Binding FeedSources.Sources}" 
                 ItemTemplate="{StaticResource FeedSourcesTemplate}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <!-- used also to display expanded folder image(s) -->
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
             </TreeView>
             <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
             <StackPanel Grid.Column="1">
