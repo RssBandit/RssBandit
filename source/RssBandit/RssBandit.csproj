@@ -518,6 +518,10 @@
     <Resource Include="Resources\Images\Toolbar\new.doc.feed.16.png" />
     <Resource Include="Resources\Images\Toolbar\new.doc.feed.search.16.png" />
     <Resource Include="Resources\Images\Toolbar\new.doc.nntp.16.png" />
+    <Resource Include="Resources\Images\TreeView\bandit.feedsource.16.png" />
+    <Resource Include="Resources\Images\TreeView\facebook.feedsource.16.png" />
+    <Resource Include="Resources\Images\TreeView\google.feedsource.16.png" />
+    <Resource Include="Resources\Images\TreeView\windows.feedsource.16.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
