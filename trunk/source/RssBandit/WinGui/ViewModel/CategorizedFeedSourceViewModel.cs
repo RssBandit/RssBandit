@@ -26,15 +26,41 @@ namespace RssBandit.WinGui.ViewModel
     {
         private readonly FeedSourceEntry _entry;
         private ObservableCollection<TreeNodeViewModelBase> _children;
+        private string _imagePath;
 
         public CategorizedFeedSourceViewModel(FeedSourceEntry feedSource)
         {
             _entry = feedSource;
+            switch (_entry.SourceType)
+            {
+                case FeedSourceType.DirectAccess:
+                    Image = "/Resources/Images/TreeView/bandit.feedsource.16.png";
+                    break;
+                case FeedSourceType.Google:
+                    Image = "/Resources/Images/TreeView/google.feedsource.16.png";
+                    break;
+                case FeedSourceType.WindowsRSS:
+                    Image = "/Resources/Images/TreeView/windows.feedsource.16.png";
+                    break;
+                case FeedSourceType.Facebook:
+                    Image = "/Resources/Images/TreeView/facebook.feedsource.16.png";
+                    break;
+                case FeedSourceType.NewsGator:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public string Name {
             get { return _entry.Name; }
             set { _entry.Name = value; }
+        }
+
+        public string Image
+        {
+            get { return _imagePath; }
+            set { _imagePath = value; }
         }
 
         public ObservableCollection<TreeNodeViewModelBase> Children
