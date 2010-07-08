@@ -1492,6 +1492,8 @@ namespace NewsComponents.Feed
             this.myitem = item;
             this.myfeed = owner;
             /* do this here because COM interop is too slow to check it each time property is accessed */
+            //TODO: fix - somewhere here we get a NullRefException - see https://sourceforge.net/tracker/index.php?func=detail&aid=2217071&group_id=96589&atid=615248
+            // maybe the Title is null?
             this._id = String.IsNullOrEmpty(myitem.Guid)
                 ? (String.IsNullOrEmpty(myitem.Link) ? myitem.Title.GetHashCode().ToString() : myitem.Link)
                 : myitem.Guid; 
@@ -2761,6 +2763,7 @@ namespace NewsComponents.Feed
             IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
 
 			if (feedItems != null)
+                // here seems to be a issue: see https://sourceforge.net/tracker/index.php?func=detail&aid=2217071&group_id=96589&atid=615248
 				foreach (IFeedItem item in feedItems)
 				{
 					this.items.Add(new WindowsRssNewsItem(item, this));
