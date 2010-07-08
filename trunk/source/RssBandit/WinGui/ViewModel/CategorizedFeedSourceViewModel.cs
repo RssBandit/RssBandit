@@ -22,48 +22,49 @@ using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
-    public class CategorizedFeedSourceViewModel: ViewModelBase
+    public class CategorizedFeedSourceViewModel : TreeNodeViewModelBase//ViewModelBase
     {
         private readonly FeedSourceEntry _entry;
         private ObservableCollection<TreeNodeViewModelBase> _children;
-        private string _imagePath;
 
         public CategorizedFeedSourceViewModel(FeedSourceEntry feedSource)
         {
             _entry = feedSource;
-            switch (_entry.SourceType)
-            {
-                case FeedSourceType.DirectAccess:
-                    Image = "/Resources/Images/TreeView/bandit.feedsource.16.png";
-                    break;
-                case FeedSourceType.Google:
-                    Image = "/Resources/Images/TreeView/google.feedsource.16.png";
-                    break;
-                case FeedSourceType.WindowsRSS:
-                    Image = "/Resources/Images/TreeView/windows.feedsource.16.png";
-                    break;
-                case FeedSourceType.Facebook:
-                    Image = "/Resources/Images/TreeView/facebook.feedsource.16.png";
-                    break;
-                case FeedSourceType.NewsGator:
-                    break;
-                default:
-                    break;
-            }
         }
 
-        public string Name {
+        public override string Name {
             get { return _entry.Name; }
             set { _entry.Name = value; }
         }
 
-        public string Image
+        public override string Image
         {
-            get { return _imagePath; }
-            set { _imagePath = value; }
+            get
+            {
+                switch (_entry.SourceType)
+                {
+                    case FeedSourceType.DirectAccess:
+                        return "/Resources/Images/TreeView/bandit.feedsource.16.png";
+                    case FeedSourceType.Google:
+                        return "/Resources/Images/TreeView/google.feedsource.16.png";
+                    case FeedSourceType.WindowsRSS:
+                        return "/Resources/Images/TreeView/windows.feedsource.16.png";
+                    case FeedSourceType.Facebook:
+                        return "/Resources/Images/TreeView/facebook.feedsource.16.png";
+                    case FeedSourceType.NewsGator:
+                        return "/Resources/Images/TreeView/newsgator.feedsource.16.png";
+                    default:
+                        break;
+                }
+                return base.Image;
+            }
+            set
+            {
+                base.Image = value;
+            }
         }
 
-        public ObservableCollection<TreeNodeViewModelBase> Children
+        public override ObservableCollection<TreeNodeViewModelBase> Children
         {
             get
             {
@@ -126,6 +127,17 @@ namespace RssBandit.WinGui.ViewModel
                 return _children;
             }
             set { _children = value; }
+        }
+
+        public override string Category
+        {
+            get { return null; }
+            set {  }
+        }
+
+        public override CategorizedFeedSourceViewModel Source
+        {
+            get { return this; }
         }
 
         /// <summary>

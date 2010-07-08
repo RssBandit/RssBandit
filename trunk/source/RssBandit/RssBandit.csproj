@@ -522,6 +522,12 @@
     <Resource Include="Resources\Images\TreeView\facebook.feedsource.16.png" />
     <Resource Include="Resources\Images\TreeView\google.feedsource.16.png" />
     <Resource Include="Resources\Images\TreeView\windows.feedsource.16.png" />
+    <Resource Include="Resources\Images\TreeView\newsgator.feedsource.16.png" />
+    <Resource Include="Resources\Images\TreeView\folder.16.png" />
+    <Resource Include="Resources\Images\TreeView\folder_closed.16.png" />
+    <Resource Include="Resources\Images\TreeView\doc.feed.16.png" />
+    <Resource Include="Resources\Images\TreeView\doc.feed.search.16.png" />
+    <Resource Include="Resources\Images\TreeView\doc.nntp.16.png" />
     <Content Include="Resources\rss.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
