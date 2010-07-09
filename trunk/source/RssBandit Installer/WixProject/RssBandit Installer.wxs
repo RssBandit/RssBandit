@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{952BF021-8158-4283-8FCA-724CFC48F204}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.1002">
+    <Product Id="{3CBE6C15-21D4-4F88-AB52-72446A6C6429}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.1003">
         <Package Comments="A desktop news aggregator" Compressed="yes" InstallerVersion="200" Languages="1033" Manufacturer="Dare Obasanjo &amp; Torsten Rendelmann" Platform="x86" />
         <Binary Id="MSVBDPCADLL" SourceFile=".\Binary\MSVBDPCADLL" />
         <Binary Id="VSDNETCFG" SourceFile=".\Binary\VSDNETCFG" />
@@ -616,6 +616,20 @@
                     <File Id="_28F7A77EA441592AF54F6B9F84B83093" Name="AdsBlocker.AddIn2.dll" KeyPath="yes" ShortName="ADSBLO~1.DLL" Assembly=".net" AssemblyManifest="_28F7A77EA441592AF54F6B9F84B83093" AssemblyApplication="_28F7A77EA441592AF54F6B9F84B83093" DiskId="1" Source="..\..\AddIn\AdsBlocker\obj\Release\AdsBlocker.AddIn2.dll" />
                 </Component>
             </Directory>
+            <Directory Id="_40DA05722EF34786941DB6779C624498" Name="Resources" ShortName="RESOUR~1">
+              <Component Id="C__8001A1A027BF410AA8802A335171BDD7" Guid="{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}">
+                <File Id="_8001A1A027BF410AA8802A335171BDD7" Name="facebook.ico" KeyPath="yes" ShortName="FACEBO~1.ICO" DiskId="1" Source="..\..\RssBandit\Resources\facebook.ico" />
+              </Component>
+              <Component Id="C__5E0E8C4AF54D48A7B77D8C7D024C2121" Guid="{1AB065B6-B37D-4D5C-82A5-73BB34980120}">
+                <File Id="_5E0E8C4AF54D48A7B77D8C7D024C2121" Name="webpage.ico" KeyPath="yes" ShortName="WEBPAG~1.ICO" DiskId="1" Source="..\..\RssBandit\Resources\webpage.ico" />
+              </Component>
+              <Component Id="C__143B2EFF7CE74EFEB252F0BCFFE7C4E0" Guid="{3279B717-B70F-448D-AA44-90EB156FF83F}">
+                <File Id="_143B2EFF7CE74EFEB252F0BCFFE7C4E0" Name="google.ico" KeyPath="yes" ShortName="GOOGLE.ICO" DiskId="1" Source="..\..\RssBandit\Resources\google.ico" />
+              </Component>
+              <Component Id="C__44FDC304B0074381AEE60580401AB4EA" Guid="{D0358ADE-6901-47D0-A613-6085D51DEC9C}">
+                <File Id="_44FDC304B0074381AEE60580401AB4EA" Name="rss.ico" KeyPath="yes" ShortName="RSS.ICO" DiskId="1" Source="..\..\RssBandit\Resources\rss.ico" />
+              </Component>              
+            </Directory>
             <Directory Id="_BA07AA9E84F54D39AC095072622EDE20" Name="templates" ShortName="TEMPLA~1">
                 <Component Id="C__03FC9A1F0B448EFB81F0E78EFA2F625D" Guid="{D628FC88-E698-F454-9D5B-0B19F3C83A1B}">
                     <File Id="_03FC9A1F0B448EFB81F0E78EFA2F625D" Name="formal-red.fdxsl" KeyPath="yes" ShortName="FORMAL~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\formal-red.fdxsl" />
@@ -1175,6 +1189,10 @@
             <ComponentRef Id="C__commentsbw.gif" Primary="yes" />
             <ComponentRef Id="C__arrowrightbw.gif" Primary="yes" />
             <ComponentRef Id="C__arrowdownbw.gif" Primary="yes" />
+            <ComponentRef Id="C__8001A1A027BF410AA8802A335171BDD7"/>
+            <ComponentRef Id="C__44FDC304B0074381AEE60580401AB4EA"/>
+            <ComponentRef Id="C__5E0E8C4AF54D48A7B77D8C7D024C2121"/>
+            <ComponentRef Id="C__143B2EFF7CE74EFEB252F0BCFFE7C4E0"/>
         </Feature>
         <Icon Id="_6FEFF9B68218417F98F549.exe" SourceFile=".\Icon\_6FEFF9B68218417F98F549.exe" />
         <Icon Id="_9446994FA0403609C0421E.exe" SourceFile=".\Icon\_9446994FA0403609C0421E.exe" />
@@ -1802,8 +1820,8 @@
             </Dialog>
         </UI>
         <Upgrade Id="{108879A4-BD9B-414D-9C91-852BA402EF72}">
-            <UpgradeVersion Maximum="1.9.1002" Property="PREVIOUSVERSIONSINSTALLED" />
-            <UpgradeVersion Minimum="1.9.1002" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
+            <UpgradeVersion Maximum="1.9.1003" Property="PREVIOUSVERSIONSINSTALLED" />
+            <UpgradeVersion Minimum="1.9.1003" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
         </Upgrade>
         <InstallExecuteSequence>
             <Custom Action="DIRCA_CheckFX" Sequence="1" />
