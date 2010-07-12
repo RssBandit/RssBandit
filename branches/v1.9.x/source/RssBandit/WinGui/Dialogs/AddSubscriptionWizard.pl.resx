@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="wizard.CancelText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="wizard.FinishText" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
+  <data name="wizard.HelpText" xml:space="preserve">
+    <value>&amp;Pomoc</value>
+  </data>
+  <data name="wizard.NextText" xml:space="preserve">
+    <value>&amp;Dalej &gt;</value>
+  </data>
+  <data name="wizard.PreviousText" xml:space="preserve">
+    <value>&lt; &amp;Wstecz</value>
+  </data>
+  <data name="wizard.Text" xml:space="preserve">
+    <value>kreator</value>
+  </data>
+  <data name="_btnImmediateFinish.Text" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
+  <data name="pageWelcome.IntroductionText" xml:space="preserve">
+    <value>Niniejszy kreator pomoże Ci:</value>
+  </data>
+  <data name="pageWelcome.ProceedText" xml:space="preserve">
+    <value>Aby kontynuować, kliknij "Dalej".</value>
+  </data>
+  <data name="pageWelcome.Text" xml:space="preserve">
+    <value>Witaj w Kreatorze nowej subskrypcji!</value>
+  </data>
+  <data name="chkDisplayWelcome.Text" xml:space="preserve">
+    <value>Zawsze wyświetlaj tą Stronę powitalną</value>
+  </data>
+  <data name="lblWelcomeInfoBox.Text" xml:space="preserve">
+    <value>Niektóre z etapów tego kreatora wymagają, aby komputer był podłączony do Internetu! Jeżeli tak nie jest, to nawiąż teraz połączenie.</value>
+  </data>
+  <data name="lblWelcomeHelpMessage1.Text" xml:space="preserve">
+    <value>• Przeszukanie strony HTML pod kątem dostępnych kanałów informacyjnych lub wyszukanie kanałów odpowiadających określonym słowom kluczowym.</value>
+  </data>
+  <data name="lblWelcomeHelpMessage2.Text" xml:space="preserve">
+    <value>• Walidacja źródła subskrypcji i zarządzanie dodatkowymi ustawieniami, które mogą być potrzebne do odświeżenia kanału (np. poświadczenia użytkownika).</value>
+  </data>
+  <data name="pageHowToSelection.Description" xml:space="preserve">
+    <value>Subskrypcja przechowuje elementy pochodzące z określonego źródła. W jaki sposób chcesz dodać nową subskrypcję?</value>
+  </data>
+  <data name="pageHowToSelection.Text" xml:space="preserve">
+    <value>Nowa subskrypcja</value>
+  </data>
+  <data name="radioNewByNNTPGroup.Text" xml:space="preserve">
+    <value>Chcę zasubskrybować grupę dyskusyjną (NNTP)</value>
+  </data>
+  <data name="lblHowToSubscribeIntro.Text" xml:space="preserve">
+    <value>Wybierz jedną z poniższych opcji dodawania nowej subskrypcji:</value>
+  </data>
+  <data name="radioNewByTopicSearch.Text" xml:space="preserve">
+    <value>Chcę wyszukać kanały informacyjne na podstawie słów kluczowych</value>
+  </data>
+  <data name="radioNewByURL.Text" xml:space="preserve">
+    <value>Wprowadzę adres URL kanału informacyjnego lub strony internetowej</value>
+  </data>
+  <data name="pageNewByURL.Description" xml:space="preserve">
+    <value>Dodaje subskrypcję, której kanał informacyjny może zostać odnaleziony w określonej lokalizacji.</value>
+  </data>
+  <data name="pageNewByURL.Text" xml:space="preserve">
+    <value>Nowa subskrypcja - na podstawie adresu URL</value>
+  </data>
+  <data name="lblAutodiscoverHelp.Text" xml:space="preserve">
+    <value>Autowykrywanie</value>
+  </data>
+  <data name="checkNewByURLValidate.Text" xml:space="preserve">
+    <value>Automatycznie wykrywaj i weryfikuj kanały informacyjne</value>
+  </data>
+  <data name="lblNewByURLIntro.Text" xml:space="preserve">
+    <value>Jeżeli nie masz pewności co do adresu URL kanału informacyjnego, to wprowadź adres witryny internetowej a RSS Bandit spróbuje wykryć na niej kanał automatycznie.</value>
+  </data>
+  <data name="pageValidateUrl.Text" xml:space="preserve">
+    <value>Proszę czekać...</value>
+  </data>
+  <data name="lblValidationTask2.Text" xml:space="preserve">
+    <value>Pozostało</value>
+  </data>
+  <data name="lblValidationTask1.Text" xml:space="preserve">
+    <value>W toku</value>
+  </data>
+  <data name="lblWaitStepIntro.Text" xml:space="preserve">
+    <value>Zostaną wykonane następujące zadania:</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Description" xml:space="preserve">
+    <value>Wybierz kanał informacyjny dla subksrypcji</value>
+  </data>
+  <data name="pageFoundMultipleFeeds.Text" xml:space="preserve">
+    <value>Znaleziono kilka kanałów informacyjnych</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint1.Text" xml:space="preserve">
+    <value>Wybierz kanał informacyjny z poniższej listy, a następnie naciśnij "Dalej" w celu określenia innych opcji subskrypcji.</value>
+  </data>
+  <data name="lblMultipleFeedsFoundHint2.Text" xml:space="preserve">
+    <value>Jeżeli poszukiwany kanał nie znajduje się na liście, to naciśnij "Wstecz" i zainicjuj nowe wyszukiwanie.</value>
+  </data>
+  <data name="lblMultipleFeedsFound.Text" xml:space="preserve">
+    <value>Znalezione kanały informacyjne:</value>
+  </data>
+  <data name="pageTitleCategory.Description" xml:space="preserve">
+    <value>Określ tytuł i wybierz kategorię.</value>
+  </data>
+  <data name="pageTitleCategory.ProceedText" xml:space="preserve">
+    <value>Kliknij "Dalej" aby przejść do kolejnego etapu lub "Zakończ" aby dodać subskrypcję.</value>
+  </data>
+  <data name="pageTitleCategory.Text" xml:space="preserve">
+    <value>Tytuł i kategoria</value>
+  </data>
+  <data name="lblFeedCategory.Text" xml:space="preserve">
+    <value>Kategoria:</value>
+  </data>
+  <data name="lblPageTitleCredentialsIntro.Text" xml:space="preserve">
+    <value>W tym miejscu możesz określić tytuł subskrypcji i dodać ją do nowej lub istniejącej kategorii.</value>
+  </data>
+  <data name="lblFeedTitle.Text" xml:space="preserve">
+    <value>&amp;Tytuł:</value>
+  </data>
+  <data name="pageFeedCredentials.Description" xml:space="preserve">
+    <value>Wprowadź poświadczenia użytkownika jeżeli są wymagane.</value>
+  </data>
+  <data name="pageFeedCredentials.ProceedText" xml:space="preserve">
+    <value>Kliknij "Dalej" aby wprowadzić lub zmienić ustawienia kanału/elementów...</value>
+  </data>
+  <data name="pageFeedCredentials.Text" xml:space="preserve">
+    <value>Poświadczenia użytkownika dla subskrypcji</value>
+  </data>
+  <data name="lblFeedCredentialsIntro.Text" xml:space="preserve">
+    <value>Poniżej możesz określić nazwę i hasło użytkownika niezbędne do skorzystania z subskrypcji (jeżeli są potrzebne)</value>
+  </data>
+  <data name="lblUsername.Text" xml:space="preserve">
+    <value>Nazwa &amp;użytkownika:</value>
+  </data>
+  <data name="lblPassword.Text" xml:space="preserve">
+    <value>&amp;Hasło:</value>
+  </data>
+  <data name="pageFeedItemControl.Description" xml:space="preserve">
+    <value>Dodatkowe ustawienia subskrypcji związane z kanałem informacyjnym i jego elementami</value>
+  </data>
+  <data name="pageFeedItemControl.ProceedText" xml:space="preserve">
+    <value>Kliknij "Dalej" aby przejść do kolejnego etapu lub "Zakończ" aby dodać subskrypcję.</value>
+  </data>
+  <data name="pageFeedItemControl.Text" xml:space="preserve">
+    <value>Ustawienia kanału/elementów.</value>
+  </data>
+  <data name="lblRemoveItemsOlderThan.Text" xml:space="preserve">
+    <value>Usuwaj elementy starsze niż:</value>
+  </data>
+  <data name="lblMinutes.Text" xml:space="preserve">
+    <value>minuty</value>
+  </data>
+  <data name="lblUpdateFrequency.Text" xml:space="preserve">
+    <value>Częstotliwość aktualizacji:</value>
+  </data>
+  <data name="checkMarkItemsReadOnExiting.Text" xml:space="preserve">
+    <value>&amp;Oznacz elementy jako przeczytane przy opuszczaniu kanału informacyjnego</value>
+  </data>
+  <data name="lblFeedItemControlIntro.Text" xml:space="preserve">
+    <value>Poniżej możesz zmienić zachowanie aplikacji po otrzymaniu nowych elementów, maksymalny wiek elementu (po którym zostanie on automatycznie usunięty) oraz częstotliwość aktualizowania subskrypcji.</value>
+  </data>
+  <data name="checkEnableAlertOnNewItems.Text" xml:space="preserve">
+    <value>&amp;Włącz okna powiadomień o nowych elementach</value>
+  </data>
+  <data name="pageFeedItemDisplay.Description" xml:space="preserve">
+    <value>Dodatkowe ustawienia dotyczące wyświetlania kanału informacyjnego i jego elementów</value>
+  </data>
+  <data name="pageFeedItemDisplay.ProceedText" xml:space="preserve">
+    <value>Kliknij "Dalej" aby przejść do kolejnego etapu lub "Zakończ" aby dodać subskrypcję.</value>
+  </data>
+  <data name="pageFeedItemDisplay.Text" xml:space="preserve">
+    <value>Wyświetlanie kanału informacyjnego i elementów</value>
+  </data>
+  <data name="lblFormatterStylesheet.Text" xml:space="preserve">
+    <value>&amp;Arkusz formatujący:</value>
+  </data>
+  <data name="checkUseCustomFormatter.Text" xml:space="preserve">
+    <value>Używaj własnego &amp;formatowania</value>
+  </data>
+  <data name="lblFeedItemDisplayIntro.Text" xml:space="preserve">
+    <value>Korzystaj ze standardowego formatowania elementów i kanałów informacyjnych lub wskaż własny arkusz XSLT.</value>
+  </data>
+  <data name="finishPage.FinishText" xml:space="preserve">
+    <value>Dodawanie nowej subskrypcji zostało niemal ukończone. Kliknij przycisk "Zakończ" aby zatwierdzić wprowadzone informacje.</value>
+  </data>
+  <data name="finishPage.ProceedText" xml:space="preserve">
+    <value>Aby zamknąć kreatora, naciśnij "Zakończ".</value>
+  </data>
+  <data name="finishPage.Text" xml:space="preserve">
+    <value>Gotowe!</value>
+  </data>
+  <data name="lblCompletionMessage.Text" xml:space="preserve">
+    <value>Subskrypcja jest gotowa do dodania do listy.</value>
+  </data>
+  <data name="pageNewBySearchTopic.Description" xml:space="preserve">
+    <value>Określ słowa kluczowe lub temat aby wyszukać związane z nimi kanały informacyjne lub wyniki wyszukiwania.</value>
+  </data>
+  <data name="pageNewBySearchTopic.Text" xml:space="preserve">
+    <value>Nowa subskrypcja - na podstawie wyszukiwania</value>
+  </data>
+  <data name="btnManageSearchEngines.Text" xml:space="preserve">
+    <value>Zarządzaj...</value>
+  </data>
+  <data name="lblNewBySearchEngines.Text" xml:space="preserve">
+    <value>Wyszukiwarka:</value>
+  </data>
+  <data name="lblNewBySearchIntro.Text" xml:space="preserve">
+    <value>Rezultaty zależą od użytej wyszukiwarki. Niektóre z nich są internetowymi usługami przeszukiwania kanałów informacyjnych i pozwalają na odnalezienie podobnych lub powiązanych kanałów, które możesz bezpośrednio zasubsrybować (Syndic8). Inne mogą po prostu zwracać wyniki wyszukiwania w postaci kanału informacyjnego.</value>
+  </data>
+  <data name="lblNewBySearchWords.Text" xml:space="preserve">
+    <value>Słowo(a) kluczowe lub temat:</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Description" xml:space="preserve">
+    <value>Wybierz serwer NNTP i jedną z udostępnianych przez niego grup.</value>
+  </data>
+  <data name="pageNewByNNTPGroup.Text" xml:space="preserve">
+    <value>Nowa subskrypcja grupy NNTP</value>
+  </data>
+  <data name="lblReloadNntpListOfGroups.Text" xml:space="preserve">
+    <value>Odśwież listę grup</value>
+  </data>
+  <data name="lblNNTPGroups.Text" xml:space="preserve">
+    <value>Grupy:</value>
+  </data>
+  <data name="btnManageNNTPServer.Text" xml:space="preserve">
+    <value>Zarządzaj...</value>
+  </data>
+  <data name="lblNNTPServer.Text" xml:space="preserve">
+    <value>Serwer NNTP:</value>
+  </data>
+  <data name="lblNewByNNTPGroupIntro.Text" xml:space="preserve">
+    <value>Aby móc zasubskrybować grupę dyskusyjną NNTP, musisz zdefiniować co najmniej jeden serwer NNTP. Aby utworzyć nowy serwer, lub zmienić ustawienia istniejącego, naciśnij przycisk "Zarządzaj...".</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Kreator nowej subskrypcji</value>
+  </data>
+  <data name="lblNewByURL.Text" xml:space="preserve">
+    <value>URL:</value>
+  </data>
+  <data name="lblUsenetHelp.Text" xml:space="preserve">
+    <value>Usenet</value>
+  </data>
+  <data name="lblSyndic8Help.Text" xml:space="preserve">
+    <value>Syndic8</value>
+  </data>
+  <data name="linkLabelCanonicalUrl.ToolTip" xml:space="preserve">
+    <value>Kanioniczny URL którego będziemy używać</value>
+  </data>
+  <data name="lblFeedSources.Text" xml:space="preserve">
+    <value>Źródło subskrypcji:</value>
+  </data>
+</root>

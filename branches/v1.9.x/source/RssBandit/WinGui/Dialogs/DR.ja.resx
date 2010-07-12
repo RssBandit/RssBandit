@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PodcastOptionDialog_Title" xml:space="preserve">
+    <value>ポッドキャスト オプション</value>
+    <comment> Podcast option dialog title</comment>
+  </data>
+  <data name="PodcastOptionDialog_GeneralSectionCaption" xml:space="preserve">
+    <value>全般</value>
+    <comment> Podcast option dialog general section</comment>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesCaption" xml:space="preserve">
+    <value>ポッドキャスト用ファイルタイプ (セミコロン ; 区切り) :</value>
+  </data>
+  <data name="PodcastOptionDialog_TreatFileTypesTip" xml:space="preserve">
+    <value>ポッドキャスト用の拡張子をセミコロン区切りで指定します</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLabelCaption" xml:space="preserve">
+    <value>ダウンロードしたポッドキャストのコピー先:</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationTip" xml:space="preserve">
+    <value>ポッドキャストのコピー先</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFilesLocationBrowseTip" xml:space="preserve">
+    <value>ポッドキャストのコピー先を選択します</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2WMPOptionCaption" xml:space="preserve">
+    <value>Windows Media Player プレイリスト</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2iTunesOptionCaption" xml:space="preserve">
+    <value>iTunes プレイリスト</value>
+  </data>
+  <data name="PodcastOptionDialog_CopyPodcastFiles2FolderOptionCaption" xml:space="preserve">
+    <value>このフォルダ:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionCaption" xml:space="preserve">
+    <value>プレイリスト</value>
+    <comment> Podcast option dialog playlist section</comment>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistSectionLabelCaption" xml:space="preserve">
+    <value>プレイリスト名:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFileSourceOptionCaption" xml:space="preserve">
+    <value>ファイルの元の名前を使う</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromFeedOptionCaption" xml:space="preserve">
+    <value>フィード名を使う</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistFromCustomNameOptionCaption" xml:space="preserve">
+    <value>一つのプレイリストにファイルを追加:</value>
+  </data>
+  <data name="PodcastOptionDialog_PlaylistCustomNameTip" xml:space="preserve">
+    <value>プレイリストの名前を指定</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaption" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="DialogBase_CancelButtonCaptionTip" xml:space="preserve">
+    <value>変更を破棄して、閉じる</value>
+  </data>
+  <data name="DialogBase_SubmitButtonCaption" xml:space="preserve">
+    <value>OK</value>
+    <comment> DialogBase control captions</comment>
+  </data>
+  <data name="DialogBase_SubmitButtonCaptionTip" xml:space="preserve">
+    <value>変更を適用して、閉じる</value>
+  </data>
+  <data name="DialogBase_UACShieldedHint" xml:space="preserve">
+    <value>このオプションは、Administrator など高いユーザー権限が必要です</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Text" xml:space="preserve">
+    <value>保存(&amp;S)</value>
+  </data>
+  <data name="ExportFeedsDialog_btnOK_Tip" xml:space="preserve">
+    <value>エクスポートを開始します</value>
+  </data>
+  <data name="ExportFeedsDialog_labelForCheckedTree_Text" xml:space="preserve">
+    <value>エクスポートするフィードを選択:</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatNativeFull_Text" xml:space="preserve">
+    <value>記事の開封済み状況を含む</value>
+  </data>
+  <data name="ExportFeedsDialog_checkFormatOPMLIncludeCats_Text" xml:space="preserve">
+    <value>空のカテゴリを含む</value>
+  </data>
+  <data name="ExportFeedsDialog_labelFormats_Text" xml:space="preserve">
+    <value>形式(&amp;F)</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Text" xml:space="preserve">
+    <value>ネイティブ(&amp;N)</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Text" xml:space="preserve">
+    <value>&amp;OPML</value>
+  </data>
+  <data name="ExportFeedsDialog_grpFromFeedSource_Text" xml:space="preserve">
+    <value>フィードソースから</value>
+  </data>
+  <data name="ExportFeedsDialog_Text" xml:space="preserve">
+    <value>フィードのエクスポート</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatNative_Tip" xml:space="preserve">
+    <value>このアプリケーション専用の形式</value>
+  </data>
+  <data name="ExportFeedsDialog_radioFormatOPML_Tip" xml:space="preserve">
+    <value>OPML (Outline Processor Markup Language) 形式</value>
+  </data>
+  <data name="FeedSourceProperties_groupCredentials_Text" xml:space="preserve">
+    <value>資格情報</value>
+  </data>
+  <data name="FeedSourceProperties_labelFeedSourceName_Text" xml:space="preserve">
+    <value>フィードソース名:</value>
+  </data>
+  <data name="FeedSourceProperties_labelPassword_Text" xml:space="preserve">
+    <value>パスワード:</value>
+  </data>
+  <data name="FeedSourceProperties_labelUsername_Text" xml:space="preserve">
+    <value>ユーザー名:</value>
+  </data>
+  <data name="FeedSourceProperties_Title" xml:space="preserve">
+    <value>フィードソース プロパティ</value>
+  </data>
+  <data name="ComboMaxItemAge_Item" xml:space="preserve">
+    <value>1 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item1" xml:space="preserve">
+    <value>2 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item8" xml:space="preserve">
+    <value>21 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item9" xml:space="preserve">
+    <value>1 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item4" xml:space="preserve">
+    <value>5 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item5" xml:space="preserve">
+    <value>6 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item6" xml:space="preserve">
+    <value>7 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item7" xml:space="preserve">
+    <value>14 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item2" xml:space="preserve">
+    <value>3 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item3" xml:space="preserve">
+    <value>4 日</value>
+  </data>
+  <data name="ComboMaxItemAge_Item15" xml:space="preserve">
+    <value>無制限</value>
+  </data>
+  <data name="ComboMaxItemAge_Item14" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="ComboMaxItemAge_Item11" xml:space="preserve">
+    <value>3 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item10" xml:space="preserve">
+    <value>2 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item13" xml:space="preserve">
+    <value>9 ヵ月</value>
+  </data>
+  <data name="ComboMaxItemAge_Item12" xml:space="preserve">
+    <value>6 ヵ月</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_Text" xml:space="preserve">
+    <value>カスタム XSLT フォーマットを使う(&amp;C)</value>
+  </data>
+  <data name="FeedProperties_checkCustomFormatter_ToolTip" xml:space="preserve">
+    <value>カスタム XSLT フォーマットを使う場合、チェックします</value>
+  </data>
+  <data name="FeedProperties_checkDownloadEnclosures_Text" xml:space="preserve">
+    <value>添付ファイルとポッドキャストを自動的にダウンロードする</value>
+  </data>
+  <data name="FeedProperties_checkEnableAlerts_Text" xml:space="preserve">
+    <value>新着記事のアラート表示を有効にする(&amp;E)</value>
+  </data>
+  <data name="FeedProperties_checkEnableEnclosureAlerts_Text" xml:space="preserve">
+    <value>新規にダウンロードした添付ファイルとポッドキャストのアラートを有効にする(&amp;E)</value>
+  </data>
+  <data name="FeedProperties_checkMarkItemsReadOnExit_Text" xml:space="preserve">
+    <value>フィード終了時に記事を開封済みにする(&amp;M)</value>
+  </data>
+  <data name="FeedProperties_comboFormatters_ToolTip" xml:space="preserve">
+    <value>フォーマット用スタイルシートを選択します</value>
+  </data>
+  <data name="FeedProperties_comboMaxItemAge_ToolTip" xml:space="preserve">
+    <value>キャッシュしたアイテムの保存する期間を指定します</value>
+  </data>
+  <data name="FeedProperties_label15_Text" xml:space="preserve">
+    <value>対象期間</value>
+  </data>
+  <data name="FeedProperties_label1_Text" xml:space="preserve">
+    <value>タイトル(&amp;T)</value>
+  </data>
+  <data name="FeedProperties_label2_Text" xml:space="preserve">
+    <value>&amp;URL</value>
+  </data>
+  <data name="FeedProperties_label3_Text" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="FeedProperties_label4_Text" xml:space="preserve">
+    <value>更新間隔(&amp;F)</value>
+  </data>
+  <data name="FeedProperties_label5_Text" xml:space="preserve">
+    <value>カテゴリ(&amp;C)</value>
+  </data>
+  <data name="FeedProperties_label6_Text" xml:space="preserve">
+    <value>ユーザー名(&amp;N)</value>
+  </data>
+  <data name="FeedProperties_label7_Text" xml:space="preserve">
+    <value>パスワード(&amp;P)</value>
+  </data>
+  <data name="FeedProperties_label9_Text" xml:space="preserve">
+    <value>デフォルト記事フォーマットか、カスタム XSLT フォーマットを使う</value>
+  </data>
+  <data name="FeedProperties_labelFormatters_Text" xml:space="preserve">
+    <value>スタイルシート(&amp;S)</value>
+  </data>
+  <data name="FeedProperties_tabAttachments_Text" xml:space="preserve">
+    <value>添付ファイル/ポッドキャスト</value>
+  </data>
+  <data name="FeedProperties_tabAuthentication_Text" xml:space="preserve">
+    <value>認証</value>
+  </data>
+  <data name="FeedProperties_tabDisplay_Text" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="FeedProperties_tabItemControl_Text" xml:space="preserve">
+    <value>記事設定</value>
+  </data>
+  <data name="FeedProperties_Text" xml:space="preserve">
+    <value>フィード プロパティ</value>
+  </data>
+  <data name="FeedProperties_comboBox1_ToolTip" xml:space="preserve">
+    <value>このフィードの新しい記事を再確認する時間(分)を設定する</value>
+  </data>
+  <data name="FeedProperties_btnRemoveClientCertificate_Tooltip" xml:space="preserve">
+    <value>クライアント認証情報を削除する</value>
+  </data>
+  <data name="FeedProperties_btnSelectClientCertificate_Tooltip" xml:space="preserve">
+    <value>クライアント認証を選択する...</value>
+  </data>
+  <data name="FeedProperties_labelClientCertificate_Text" xml:space="preserve">
+    <value>クライアント証明書</value>
+  </data>
+  <data name="FeedProperties_btnViewClientCertificate_Tooltip" xml:space="preserve">
+    <value>クライアント認証の設定を表示する...</value>
+  </data>
+</root>

@@ -1,0 +1,425 @@
+		<xsl:stylesheet version='1.0' 
+				xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+				xmlns:content = 'http://purl.org/rss/1.0/modules/content/'
+				xmlns:xhtml='http://www.w3.org/1999/xhtml'
+				xmlns:slash='http://purl.org/rss/1.0/modules/slash/'
+				xmlns:dc='http://purl.org/dc/elements/1.1/' 
+				exclude-result-prefixes='content slash dc'>
+		  
+		  <xsl:output method='xml' indent='yes' /> 
+
+
+		    <!-- channel newspaper -->
+		  <xsl:template match="newspaper[@type='channel']">
+		    <html>
+		      <head>
+			<title><xsl:value-of disable-output-escaping='yes' select='//channel/title'/></title>
+			<base href="{//channel/link}" />
+			<style><![CDATA[
+			body		{ font-family:Verdana;Arial; font-size:11pt; margin:0pt; padding:0pt; }
+			table.header {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:2pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:1px solid #FFFFFF;
+			border-bottom:1px solid #999999;
+			border-right-width: 1px;
+			border-left-width: 1px;
+			border-right-style: solid;
+			border-left-style: solid;
+			border-right-color: #999999;
+			border-left-color: #FFFFFF;
+			}
+			.headercolumns {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:0pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:0px solid #FFFFFF;
+			border-bottom:0px solid #999999;
+			border-right-width: 0px;
+			border-left-width: 0px;
+			border-right-style: solid;
+			border-left-style: solid;
+			}
+			.title		{
+			font-size:9pt;
+			font-weight: normal;
+			}
+			.date		{ font-size:9pt; }
+			div.content { font-family:Verdana, Arial;font-size:10pt;margin:10pt;padding:5pt;  }
+			td.title a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			td.title a:visited   { color:#0000CC;text-decoration:none; }
+			td.title a:hover		 { color:#0000FF;text-decoration:underline;font-weight:normal; }
+			a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			a:visited   {
+			color:#0000CC;
+			text-decoration:none;
+			}
+			a:hover		{ color:#0000FF;text-decoration:underline;font-weight:normal; }
+			]]></style>
+		      </head>
+		      <body>
+			<table height="100%" width="100%">
+			  <tr>
+			    <td height="100%" width="100%" valign="top">
+			      <xsl:if test="//channel/image">
+				<div style="FLOAT: right">
+				  <a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
+				  <xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
+				  <xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>
+				  </img></a>
+				</div>
+			      </xsl:if>			      
+			      <xsl:for-each select='//item'>
+				<table class='header'>
+			  <tr> 			  
+			    <td width='100%' align='right'>
+			      <table class='headercolumns' border='0' cellpadding='0' cellspacing='0'>
+				<tr> 
+				  <td class='title' width='49%' align='left' valign='top'><strong>From:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:choose>
+				  <xsl:when test='current()/author'>
+				    <xsl:value-of select='current()/author'/>
+				  </xsl:when>
+				  <xsl:when test='current()/dc:creator'>
+				    <xsl:value-of select='current()/dc:creator'/>
+				  </xsl:when>	
+				  <xsl:otherwise>
+				    <xsl:value-of select='//channel/title'/>
+				  </xsl:otherwise>			
+				</xsl:choose>
+			      </td>
+			      <td class='date' width='51%' valign='top' align='right'><b><xsl:value-of select='current()/pubDate' /></b></td>
+			    </tr>
+			    <tr> 
+			      <td colspan='2' class='title' align='left' valign='bottom'><strong>Subject:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:value-of disable-output-escaping='yes' select='current()/title' /> 
+			    </td>
+			  </tr>
+			</table>
+		      </td>  
+		    </tr>
+		    <!-- <tr> 
+		    <td colspan="2" class='title'>
+		    </td>
+		    </tr>-->
+		  </table>
+		  <div class='content'>
+		    <xsl:choose>
+		      <xsl:when test='current()/xhtml:body'>
+			<xsl:copy-of select='current()/xhtml:body'/>
+		      </xsl:when>
+		      <xsl:when test='current()/content:encoded'>
+			<xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+		      </xsl:when>
+		      <xsl:otherwise>
+			<xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+		      </xsl:otherwise>
+		    </xsl:choose>
+		    <br/><br/>
+		    <a href='{current()/link}'>Read on...</a> 
+		    <xsl:choose>
+		      <xsl:when test='current()/comments'> <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text> 
+		      <xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text> 
+		      <xsl:value-of select='current()/slash:comments'/> Comments... <xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>	
+		    </xsl:when> 
+		    <xsl:when test='current()/slash:comments'>
+		      <xsl:value-of select='current()/slash:comments'/> Comments...	
+		    </xsl:when> 
+		  </xsl:choose>
+		</div>
+			</xsl:for-each>
+			    </td>
+			  </tr>
+			</table>
+		</body></html>
+	      </xsl:template>
+
+		   	<!-- channel group newspaper -->
+		<xsl:template match="newspaper[@type='group']">
+		    <html>
+		      <head>
+			<title><xsl:value-of disable-output-escaping='yes' select='title'/></title>
+			<!-- <base href="{//item/link}" /> -->
+			<style><![CDATA[
+			body		{ font-family:Verdana;Arial; font-size:11pt; margin:0pt; padding:0pt; }
+			table.header {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:2pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:1px solid #FFFFFF;
+			border-bottom:1px solid #999999;
+			border-right-width: 1px;
+			border-left-width: 1px;
+			border-right-style: solid;
+			border-left-style: solid;
+			border-right-color: #999999;
+			border-left-color: #FFFFFF;
+			}
+			.headercolumns {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:0pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:0px solid #FFFFFF;
+			border-bottom:0px solid #999999;
+			border-right-width: 0px;
+			border-left-width: 0px;
+			border-right-style: solid;
+			border-left-style: solid;
+			}
+			.title		{
+			font-size:9pt;
+			font-weight: normal;
+			}
+			.date		{ font-size:9pt; }
+			div.content { font-family:Verdana, Arial;font-size:10pt;margin:10pt;padding:5pt;  }
+			td.title a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			td.title a:visited   { color:#0000CC;text-decoration:none; }
+			td.title a:hover		 { color:#0000FF;text-decoration:underline;font-weight:normal; }
+			a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			a:visited   {
+			color:#0000CC;
+			text-decoration:none;
+			}
+			a:hover		{ color:#0000FF;text-decoration:underline;font-weight:normal; }
+			]]></style>
+		      </head>
+		      <body>
+			<table height="100%" width="100%">
+			    <xsl:for-each select="//channel">
+			  <tr>
+			    <td height="100%" width="100%" valign="top">
+			      <xsl:choose>
+				<xsl:when test="current()/image">
+				<div style="FLOAT: right">
+				  <a href="{current()/image/link}" title="{current()/image/title}"><img src="{current()/image/url}"  alt="{current()/image/title}" border="0">
+				  <xsl:if test="current()/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="current()/image/width"/></xsl:attribute></xsl:if>
+				  <xsl:if test="current()/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="current()/image/height"/></xsl:attribute></xsl:if>
+				  </img></a>
+				</div>
+			      </xsl:when>
+			      	<xsl:otherwise>
+			  	<div class="title" style="FLOAT: right">
+				  	<a href="{current()/link}"><xsl:value-of disable-output-escaping="yes" select="current()/title" /></a>
+				</div>
+			</xsl:otherwise>
+			</xsl:choose>
+			      <xsl:for-each select='current()//item'>
+				<table class='header'>
+			  <tr> 			  
+			    <td width='100%' align='right'>
+			      <table class='headercolumns' border='0' cellpadding='0' cellspacing='0'>
+				<tr> 
+				  <td class='title' width='49%' align='left' valign='top'><strong>From:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:choose>
+				  <xsl:when test='current()/author'>
+				    <xsl:value-of select='current()/author'/>
+				  </xsl:when>
+				  <xsl:when test='current()/dc:creator'>
+				    <xsl:value-of select='current()/dc:creator'/>
+				  </xsl:when>	
+				  <xsl:otherwise>
+				    <xsl:value-of disable-output-escaping="yes" select='current()/title'/>
+				  </xsl:otherwise>			
+				</xsl:choose>
+			      </td>
+			      <td class='date' width='51%' valign='top' align='right'><b><xsl:value-of select='current()/pubDate' /></b></td>
+			    </tr>
+			    <tr> 
+			      <td colspan='2' class='title' align='left' valign='bottom'><strong>Subject:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:value-of disable-output-escaping='yes' select='current()/title' /> 
+			    </td>
+			  </tr>
+			</table>
+		      </td>  
+		    </tr>
+		    <!-- <tr> 
+		    <td colspan="2" class='title'>
+		    </td>
+		    </tr>-->
+		  </table>
+		  <div class='content'>
+		    <xsl:choose>
+		      <xsl:when test='current()/xhtml:body'>
+			<xsl:copy-of select='current()/xhtml:body'/>
+		      </xsl:when>
+		      <xsl:when test='current()/content:encoded'>
+			<xsl:value-of  disable-output-escaping='yes' select='current()/content:encoded'/>
+		      </xsl:when>
+		      <xsl:otherwise>
+			<xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+		      </xsl:otherwise>
+		    </xsl:choose>
+		    <br/><br/>
+		    <a href='{current()/link}'>Read on...</a> 
+		    <xsl:choose>
+		      <xsl:when test='current()/comments'> <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text> 
+		      <xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='current()/comments'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text> 
+		      <xsl:value-of select='current()/slash:comments'/> Comments... <xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>	
+		    </xsl:when> 
+		    <xsl:when test='current()/slash:comments'>
+		      <xsl:value-of select='current()/slash:comments'/> Comments...	
+		    </xsl:when> 
+		  </xsl:choose>
+		</div>
+			</xsl:for-each>
+			    <hr /></td>
+			  </tr>
+			    </xsl:for-each>
+			</table>
+		</body></html>
+	      </xsl:template>
+
+		  <!-- single news item -->
+		  <xsl:template match="newspaper[@type='newsitem']">
+		    <html>
+		      <head>
+			<title><xsl:value-of disable-output-escaping='yes' select='//item/title'/></title>
+			<base href="{//item/link}" />
+			<style><![CDATA[
+			body		{ font-family:Verdana;Arial; font-size:11pt; margin:0pt; padding:0pt; }
+			table.header {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:2pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:1px solid #FFFFFF;
+			border-bottom:1px solid #999999;
+			border-right-width: 1px;
+			border-left-width: 1px;
+			border-right-style: solid;
+			border-left-style: solid;
+			border-right-color: #999999;
+			border-left-color: #FFFFFF;
+			}
+			.headercolumns {
+			font-family:Verdana;
+			Arial;
+			color:#000000;
+			cell-padding:0pt;
+			background:#ECE9D8;
+			width:100%;
+			height:30px;
+			border-top:0px solid #FFFFFF;
+			border-bottom:0px solid #999999;
+			border-right-width: 0px;
+			border-left-width: 0px;
+			border-right-style: solid;
+			border-left-style: solid;
+			}
+			.title		{
+			font-size:9pt;
+			font-weight: normal;
+			}
+			.date		{ font-size:9pt; }
+			div.content { font-family:Verdana, Arial;font-size:10pt;margin:10pt;padding:5pt;  }
+			td.title a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			td.title a:visited   { color:#0000CC;text-decoration:none; }
+			td.title a:hover		 { color:#0000FF;text-decoration:underline;font-weight:normal; }
+			a:link      { color:#0000CC;text-decoration:none;font-weight:normal; }
+			a:visited   {
+			color:#0000CC;
+			text-decoration:none;
+			}
+			a:hover		{ color:#0000FF;text-decoration:underline;font-weight:normal; }
+			]]></style>
+		      </head>
+		      <body>
+			<table class='header'>
+			  <tr> 
+			    <td class='image'>
+			      <xsl:if test='//channel/image'>
+				<a href='{//channel/image/link}'>
+				  <img align='left' border='0' src='{//channel/image/url}' alt='{//channel/image/title}' 
+				       width='{//channel/image/width}' height='{//channel/image/height}'>
+				    <xsl:attribute name='width'>
+				      <xsl:choose>
+					<xsl:when test='//channel/image/width'>
+					  <xsl:value-of select='//channel/image/width' />
+					</xsl:when>
+					<xsl:otherwise>88</xsl:otherwise>
+				      </xsl:choose>
+				    </xsl:attribute>
+				    <xsl:attribute name='height'>
+				      <xsl:choose>
+					<xsl:when test='//channel/image/height'>
+					  <xsl:value-of select='//channel/image/height' />
+					</xsl:when>
+					<xsl:otherwise>31</xsl:otherwise>
+				      </xsl:choose>
+				    </xsl:attribute>
+				  </img>
+				</a>
+			      </xsl:if>
+			    </td>
+			    <td width='100%' align='right'>
+			      <table class='headercolumns' border='0' cellpadding='0' cellspacing='0'>
+				<tr> 
+				  <td class='title' width='49%' align='left' valign='top'><strong>From:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:choose>
+				  <xsl:when test='//item/author'>
+				    <xsl:value-of select='//item/author'/>
+				  </xsl:when>
+				  <xsl:when test='//item/dc:creator'>
+				    <xsl:value-of select='//item/dc:creator'/>
+				  </xsl:when>	
+				  <xsl:otherwise>
+				    <xsl:value-of select='//channel/title'/>
+				  </xsl:otherwise>			
+				</xsl:choose>
+			      </td>
+			      <td class='date' width='51%' valign='top' align='right'><b><xsl:value-of select='//item/pubDate' /></b></td>
+			    </tr>
+			    <tr> 
+			      <td colspan='2' class='title' align='left' valign='bottom'><strong>Subject:</strong><xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text><xsl:value-of disable-output-escaping='yes' select='//item/title' /> 
+			    </td>
+			  </tr>
+			</table>
+		      </td>  
+		    </tr>
+		    <!-- <tr> 
+		    <td colspan="2" class='title'>
+		    </td>
+		    </tr>-->
+		  </table>
+		  <div class='content'>
+		    <xsl:choose>
+		      <xsl:when test='//item/xhtml:body'>
+			<xsl:copy-of select='//item/xhtml:body'/>
+		      </xsl:when>
+		      <xsl:when test='//item/content:encoded'>
+			<xsl:value-of  disable-output-escaping='yes' select='//item/content:encoded'/>
+		      </xsl:when>
+		      <xsl:otherwise>
+			<xsl:value-of disable-output-escaping='yes' select='//item/description'/>
+		      </xsl:otherwise>
+		    </xsl:choose>
+		    <br/><br/>
+		    <a href='{//item/link}'>Read on...</a> 
+		    <xsl:choose>
+		      <xsl:when test='//item/comments'> <xsl:text disable-output-escaping='yes'>&amp;nbsp;</xsl:text> 
+		      <xsl:text disable-output-escaping='yes'>&lt;a href='</xsl:text><xsl:value-of  disable-output-escaping='yes' select='//item/comments'/><xsl:text disable-output-escaping='yes'>'&gt;</xsl:text> 
+		      <xsl:value-of select='//item/slash:comments'/> Comments... <xsl:text disable-output-escaping='yes'>&lt;/a></xsl:text>	
+		    </xsl:when> 
+		    <xsl:when test='//item/slash:comments'>
+		      <xsl:value-of select='//item/slash:comments'/> Comments...	
+		    </xsl:when> 
+		  </xsl:choose>
+		</div>
+		</body></html>
+	      </xsl:template>
+	    </xsl:stylesheet>

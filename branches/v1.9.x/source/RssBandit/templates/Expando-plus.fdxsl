@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fd="http://www.bradsoft.com/feeddemon/xmlns/1.0/"
+	xmlns:fn="http://www.w3.org/2005/02/xpath-functions" >
+
+<xsl:output method="html"/>
+
+<!-- images -->
+<xsl:variable name="collapse-img" select="'$IMAGEDIR$arrowdown-bw.gif'"/>
+<xsl:variable name="expand-img" select="'$IMAGEDIR$arrowright-bw.gif'"/>
+<xsl:variable name="enclosure-img" select="'$IMAGEDIR$enclosure-bw.png'"/>
+<xsl:variable name="comment-img" select="'$IMAGEDIR$comments-bw.gif'"/>
+<xsl:variable name="link-img-new" select="'$IMAGEDIR$linknew-bw.gif'"/>
+<xsl:variable name="read-img" select="'$IMAGEDIR$read.gif'"/>
+
+
+<!-- count of news items -->
+<xsl:variable name="item-count" select="count(/newspaper/channel/item)"/>
+
+<!-- type of newspaper -->
+<xsl:variable name="newspaper-type" select="/newspaper/@type"/>
+
+<!-- default class for item detail - defaults to collapsed unless this is a single item newspaper -->
+<xsl:variable name="default-detail-class">
+	<xsl:choose>
+		<xsl:when test="$item-count=1">expanded</xsl:when>
+		<xsl:otherwise>collapsed</xsl:otherwise>
+	</xsl:choose>
+</xsl:variable>
+
+<xsl:template match="newspaper">
+	<html>
+	<head>
+		<title>Newspaper</title>
+		<style type="text/css">
+			body { font-size: smaller; font-family: "Trebuchet MS", Tahoma, sans-serif; margin: 11px; color: black; background-color: #fff; }
+			a { color: #006ABA; text-decoration: none; }
+			a:hover { text-decoration: underline; }		
+			code { font-size: 100%; }	
+			div.newspapertitle { font-weight: bold; font-size: 136%; text-align: center;  margin-bottom: 12px; }
+			div.channeltitle { font-size: larger; margin-top: 11px; margin-bottom: 5px; font-variant: small-caps; }
+			div.newsitemtitle { background-color: #edf3fe; border-bottom: 1px solid #D3E2FC; border-right: 1px solid #D3E2FC; padding: 2px 6px; margin-bottom: 4px; }
+ 		 <xsl:if test="$item-count &gt; 1">
+			div.newsitemtitle, img.button { cursor: pointer; }
+		 </xsl:if>
+			div.newsitemtitle, div.channeltitle { clear: both; /* prevents images in newsitemcontent to wrap over title */ }
+			div.newsitemcontent { margin-left: 37px; margin-top: 6px; margin-bottom: 12px; margin-right: 12px; }			
+			img.icon { border: none; margin-left: 2px; margin-right: 4px;}
+			img.button { margin-left: 5px; margin-right: 13px; }
+			img.newsitemcontent { height: 0px; width: 0px; }
+			span.nodescription { font-size: x-small; color: silver;}
+			.dateline { color: #6A6A6A; font-size: xx-small; margin-left: 8px; }	
+			.collapsed { display: none; }
+			.expanded {  } 
+			.unreadstate { font-weight: bold; }
+			.normalstate, .unreadstate { color: #392EA4; }
+			.flaggedstate { color: red; }
+			span.markread {font-size: 50%; color : red; }
+			
+		</style>
+		<!-- single news item newspaper -->
+		<xsl:if test="$item-count=1 and $newspaper-type='newsitem'">
+			<style type="text/css">
+				body { margin: 0; }
+				div.newsitemtitle { padding: 12px 22px; }
+				div.newsitemcontent { margin-left: 23px; }
+			</style>
+		</xsl:if>
+		<script type="text/javascript">
+			<![CDATA[
+				window.onerror=handleError;
+				function handleError(msg, file_loc, line_no) {
+					return true;
+				}
+
+			]]>
+		</script>
+		<script type="text/javascript">
+			<![CDATA[
+			  var mb_IsIE = (document.all);
+				
+				function collapseItem(itemid) {
+					document.getElementById(itemid + '_detail').className = 'newsitemcontent collapsed';
+					document.getElementById(itemid + '_imgexpand').style.display = 'inline';
+					document.getElementById(itemid + '_imgcollapse').style.display = 'none';
+				}				
+				function expandItem(itemid) {
+					document.getElementById(itemid + '_detail').className = 'newsitemcontent expanded';
+					document.getElementById(itemid + '_imgexpand').style.display = 'none';
+					document.getElementById(itemid + '_imgcollapse').style.display = 'inline';
+				}				
+				function toggleItem(itemid) {
+					// skip for elements that have no ID - enables clicking news item title link and icons without toggling content (MSIE only, for now)
+					if ((mb_IsIE) && (event.srcElement.id == ''))
+  					return;
+					var divDetail = document.getElementById(itemid + '_detail');
+					if (divDetail == undefined) 
+						return;				
+					if (divDetail.className == 'newsitemcontent collapsed')
+						expandItem(itemid)
+					else
+						collapseItem(itemid);
+				}				
+				function toggleGroup(groupid) {
+					var imgExpand = document.getElementById(groupid + '_imgexpand');
+					var imgCollapse = document.getElementById(groupid + '_imgcollapse');
+					var bIsCollapsed = (imgExpand.style.display == 'none');					
+					if (bIsCollapsed) {
+						imgExpand.style.display = 'inline';
+						imgCollapse.style.display = 'none';
+					}
+					else {
+						imgExpand.style.display = 'none';
+						imgCollapse.style.display = 'inline';
+					}
+					var grpDiv = document.getElementById(groupid);
+					var aDivs = grpDiv.getElementsByTagName('DIV');
+					for (var i in aDivs) {
+						if (aDivs[i].className == 'newsitemtitle') {
+							if (bIsCollapsed)
+								collapseItem(aDivs[i].id)
+							else
+								expandItem(aDivs[i].id);
+						}
+					}
+				}
+				function toggle_flag(ttext,flag)
+				{
+					
+					if(ttext.className == "unreadstate flaggedstate")
+					{
+						ttext.className = "unreadstate";
+						flag.src = "file:///C:/Program%20Files/RssBandit/templates/images/flag.red.gif";
+					}else if(ttext.className == "unreadstate"){
+						ttext.className = "unreadstate flaggedstate";
+						flag.src = "file:///C:/Program%20Files/RssBandit/templates/images/flag.green.gif";
+					}else if( ttext.className == "flaggedstate"){
+						ttext.className = "normal";
+						flag.src = "file:///C:/Program%20Files/RssBandit/templates/images/flag.red.gif";
+					}else{
+						ttext.className = "flaggedstate";
+						flag.src = "file:///C:/Program%20Files/RssBandit/templates/images/flag.green.gif";
+					}
+					return false;
+					
+				}
+				function simple_init(doc)
+				{
+					var objs = new Array();
+					objs = doc.getElementsByTagName("object");
+					for (var j=0; j < objs.length; j++){
+						objs[j].outerHTML = "";
+					}
+					var ims = new Array();
+					ims = doc.getElementsByTagName("img");
+					for (var l=0; l < ims.length; l++){
+						if( ims[l].className != "icon"  && 
+							ims[l].className !="expanded button" &&
+							ims[l].className != "collapsed button"
+						)
+						{
+							ims[l].src = "";
+							ims[l].style.display = "none";
+						}
+					}
+				}
+				function setFeedRead(id)
+				{
+					// this will toggle the read state of all items in a channel
+					// passed in the id of the div that contains the feed and its items
+					// if no id is apssed in get all divs and find the matching ones
+					var feed;
+					if( id != null && id != "")
+						feed = document.getElementById(id);
+					else
+						feed = document;
+						
+					var objs = new Array();
+					var oHref;
+					// get all div items withim the channel
+					objs = feed.getElementsByTagName("div");
+					for (var j=0; j < objs.length; j++){
+						// if this div is a newitem title we have a match
+						if( objs[j].className.indexOf("newsitemtitle") <0 )
+							continue;
+						// we know there is a flag action href so find it
+						var ttext = document.getElementById(objs[j].id+"_flag");
+						// save existing href, change the action from
+						// toggleflag to toggleread
+						oHref = ttext.href;
+						ttext.href = ttext.href.replace(/toggleflag/,"toggleread");
+						ttext.click();
+						// return the original href
+						ttext.href = oHref;
+						collapseItem(objs[j].id)
+					}
+					return false;
+				}
+					
+
+				
+				]]>
+		</script>
+				
+	</head>
+	<body >
+		<xsl:if test="$item-count = 0">
+		<center><xsl:text>There are no items to display</xsl:text></center>
+		</xsl:if>
+		<xsl:if test="title">
+			<div class="newspapertitle">
+				<xsl:value-of select="title" disable-output-escaping="yes"/>
+			</div>
+		</xsl:if>
+		
+		<xsl:for-each select="channel">
+			<xsl:variable name="groupid"><xsl:value-of select="generate-id()"/></xsl:variable>
+			<div class="group" id="{$groupid}">
+				<!-- only show channel title for group newspaper -->
+				<xsl:if test="$newspaper-type='group'">
+					<div class="channeltitle">
+						<xsl:variable name="chanlink" select="link"/>
+						<a href="{$chanlink}"><xsl:value-of select="title"/></a>
+						<xsl:if test="$item-count &gt; 1">
+							<img src="{$expand-img}" onclick="toggleGroup('{$groupid}')" id="{$groupid}_imgexpand" border="0" align="absmiddle" class="expanded button" />
+	 						<img src="{$collapse-img}" onclick="toggleGroup('{$groupid}')" id="{$groupid}_imgcollapse" border="0" align="absmiddle" class="collapsed button" />
+						</xsl:if>
+					</div>
+				</xsl:if>
+				<!-- process news items -->
+				<xsl:for-each select="item">
+						<xsl:sort select="fd:sortKey" data-type="number" order="descending"/>
+						<xsl:apply-templates select="."/>
+				</xsl:for-each>
+				<xsl:if test="$newspaper-type='group'">
+					<img class="icon" src="$IMAGEDIR$unreaditem.gif" onclick="setFeedRead('{$groupid}');" />
+					<span class="markread"><xsl:text>mark feed as read</xsl:text></span>
+				</xsl:if>
+			</div> <!-- group -->
+		</xsl:for-each>	
+		<xsl:if test="$item-count &gt; 1">
+		<script type="text/javascript">
+			<![CDATA[
+				simple_init(document);
+			]]>
+		</script>
+		<center><img class="icon" src="$IMAGEDIR$unreaditem.gif" onclick="setFeedRead('');" />
+			<span class="markread" ><xsl:text>mark all items as read</xsl:text></span></center>		
+		</xsl:if>
+	</body>
+	</html>
+</xsl:template>
+
+<!-- news item template -->
+<xsl:template match="item">
+	<!-- generate unique ID for this item -->
+	<xsl:variable name="itemid"><xsl:value-of select="generate-id()"/></xsl:variable>
+	<xsl:variable name="itemlink" select="link"/>
+	<xsl:variable name="fdflag">
+	  <xsl:choose>
+		<xsl:when test="guid">
+		  <xsl:value-of select="guid"/>
+		</xsl:when>  
+		<xsl:otherwise>
+			<xsl:value-of select="link"/>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="flag-img">
+		<xsl:choose>
+			<xsl:when test="fd:state/@flagged=1">$IMAGEDIR$flag.green.gif</xsl:when>
+			<xsl:otherwise>$IMAGEDIR$flag.red.gif </xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:element name="div">
+		<xsl:attribute name="class">newsitemtitle</xsl:attribute>
+		<xsl:attribute name="id"><xsl:value-of select="$itemid"/></xsl:attribute>
+		<!-- no buttons or onclick handler when showing single item -->
+		<xsl:if test="$item-count &gt; 1">
+			<xsl:attribute name="onclick">toggleItem('<xsl:value-of select="$itemid"/>')</xsl:attribute>
+			<img src="{$expand-img}" id="{$itemid}_imgexpand" border="0" align="absmiddle" class="expanded button" />
+			<img src="{$collapse-img}" id="{$itemid}_imgcollapse" border="0" align="absmiddle" class="collapsed button" />
+		</xsl:if>
+		
+		<!-- assign class based on unread/flagged state -->
+		<xsl:variable name="itemclass">
+			<xsl:choose>
+				<xsl:when test="fd:state/@read=0 and fd:state/@flagged=1">unreadstate flaggedstate</xsl:when>
+				<xsl:when test="fd:state/@read=0">unreadstate</xsl:when>
+				<xsl:when test="fd:state/@flagged=1">flaggedstate</xsl:when>
+				<xsl:otherwise>normalstate</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<a href="{$itemlink}" class="{$itemclass}" id="{$itemid}_ttext">
+			<xsl:attribute name="title"><xsl:value-of select="pubDate"/></xsl:attribute>
+			<xsl:value-of select="title" disable-output-escaping="yes"/>
+			
+		</a>
+		
+		<span class="dateline" id="{$itemid}_dateline">
+			<a id="{$itemid}_flag" href="fdaction:?action=toggleflag&amp;postid={$fdflag}">
+			<img src="{$flag-img}" class="icon" id="{$itemid}_flag">
+				<xsl:attribute name="onclick">toggle_flag(<xsl:value-of select='$itemid' />_ttext,<xsl:value-of select='$itemid' />_flag);</xsl:attribute>
+			</img>
+			</a>
+			<a>
+			<xsl:attribute name="href">mailto:example@xx.com?subject=<xsl:value-of select='title'/>&amp;body=<xsl:value-of select="$itemlink" /></xsl:attribute>
+			<img src="{$read-img}" class="icon" />
+			</a>
+			<a href="{$itemlink}" class="{$itemclass}" target="_blank"><img src="{$link-img-new}" class="icon" align="absmiddle" /></a>
+			|
+			<xsl:if test="enclosure">				
+				<xsl:variable name="enclosurelink" select="enclosure/@url"/>
+				<a href="{$enclosurelink}" title="{$enclosurelink}"><img src="{$enclosure-img}" class="icon" align="absmiddle" /></a>
+			</xsl:if>
+			<xsl:if test="comments">
+				<xsl:variable name="commentlink" select="comments"/>
+				<a href="{$commentlink}"><img src="{$comment-img}" class="icon" align="absmiddle" /></a>
+			</xsl:if>
+			&#160;
+			<xsl:if test="author"><xsl:value-of select="author" disable-output-escaping="yes"/> | </xsl:if> 			 
+		</span>
+	</xsl:element>
+	<div id="{$itemid}_detail" class="newsitemcontent {$default-detail-class}">
+		<xsl:value-of select="description" disable-output-escaping="yes"/>
+	</div>
+	<xsl:if test="$item-count = 1">
+		<script type="text/javascript">
+		<![CDATA[
+			simple_init(document);
+		]]>
+		</script>
+	</xsl:if>
+</xsl:template>
+
+</xsl:stylesheet>
+ 	  	 

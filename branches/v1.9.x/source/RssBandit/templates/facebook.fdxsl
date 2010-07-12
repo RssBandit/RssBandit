@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl"
+>
+  <xsl:output method="html"/>
+
+  <xsl:template name="embedded_style">
+    <style type="text/css">
+
+      body {
+      background:#FFFFFF none repeat scroll 0 0;
+      direction:ltr;
+      font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+      font-size:11px;
+      margin:0;
+      padding:0;
+      text-align:left;
+      unicode-bidi:embed;
+      }
+
+      a {
+      color:#3B5998;
+      cursor:pointer;
+      outline-style:none;
+      text-decoration:none;
+      }
+
+      img {
+      border:0 none;
+      }
+
+      .UIIntentionalStory {
+      background-color:#FFFFFF;
+      border-top:1px solid #EEEEEE;
+      margin-bottom:7px;
+      padding-top:7px;
+      position:relative;
+      }
+
+      .UIIntentionalStory_First {
+      border-top:medium none;
+      margin-top:0;
+      }
+
+      .UIRoundedImage {
+      background-color:#C4CDE0;
+      display:block;
+      overflow:hidden;
+      position:relative;
+      }
+      .UIRoundedImage_Image {
+      background:transparent none repeat scroll 0 0 !important;
+      display:block;
+      left:0;
+      overflow:hidden;
+      position:absolute;
+      top:0;
+      vertical-align:middle;
+      }
+      .UIRoundedImage_Corners {
+      background:transparent none repeat scroll 0 0;
+      display:block;
+      height:100%;
+      left:0;
+      overflow:hidden;
+      position:absolute;
+      top:0;
+      width:100%;
+      }
+
+      .UIRoundedImage_LARGE {
+      height:50px;
+      width:50px;
+      }
+
+      .UIRoundedImage_SMALL {
+      height:32px;
+      width:32px;
+      }
+
+      .UIRoundedImage_SMALL .UIRoundedImage_Image {
+      height:32px;
+      width:32px;
+      }
+
+      .UIRoundedImage_WHITE .UIRoundedImage_CornersSprite {
+      top:0;
+      }
+
+      .UIIntentionalStory_Body .stream_unfollow {
+      display:none;
+      position:absolute;
+      right:5px;
+      top:0;
+      width:18px;
+      }
+      .UIIntentionalStory_First .UIIntentionalStory_Body .stream_unfollow {
+      top:0;
+      }
+      .hover .UIIntentionalStory_Body .stream_unfollow {
+      display:block;
+      }
+      .UIIntentionalStory_Time, .UIIntentionalStory_Time a {
+      color:#777777;
+      font-size:11px;
+      }
+      .UIIntentionalStory_BottomAttribution {
+      color:#777777;
+      }
+      .UIIntentionalStory_Pic {
+      position:absolute;
+      }
+      .UIIntentionalStory_RoundedCorners {
+      position:absolute;
+      }
+      .UIIntentionalStory_Image {
+      display:block;
+      position:absolute;
+      vertical-align:middle;
+      }
+      .UIIntentionalStory_Body {
+      min-height:50px;
+      padding:0 0 0 60px;
+      }
+      .ie6 .UIIntentionalStory_Body {
+      height:50px;
+      overflow:visible;
+      }
+      .UIIntentionalStory_Message, .UIIntentionalStory_Body .location {
+      color:#333333;
+      font-size:13px;
+      font-weight:normal;
+      overflow:hidden;
+      }
+
+      .UIIntentionalStory_Names {
+      color:#444444;
+      font-weight:bold;
+      }
+
+      .UIIntentionalStory_Info {
+      clear:left;
+      margin-top:1px;
+      }
+
+      .UIIntentionalStory_InfoText {
+      color:#777777;
+      min-height:16px;
+      padding:2px 0 0;
+      }
+
+      .UIIntentionalStory_Attribution {
+      color:gray;
+      }
+      .UIIntentionalStory .UIStoryAttachment_MediaSingle {
+      padding-right:10px;
+      }
+      .UIIntentionalStory_MediaSingle .UIMediaItem {
+      float:none;
+      }
+
+      .UIMediaItem_ImageLink {
+      display:block;
+      }
+
+      .UIIntentionalStory_MediaExtra {
+      padding-left:8px;
+      }
+      .UIIntentionalStory .UIMediaItem_UnknownWidth {
+      max-height:200px;
+      max-width:130px;
+      }
+
+      .UIIntentionalStory_AttachmentInfo {
+      padding-top:5px;
+      }
+
+      .UIStoryAttachment {
+      margin-top:6px;
+      overflow:hidden;
+      padding-right:10px;
+      }
+      .UIStoryAttachment_Tab {
+      position:absolute;
+      }
+      .UIStoryAttachment_Icon {
+      background:#FFFFFF none repeat scroll 0 0;
+      padding-bottom:2px;
+      }
+      .UIStoryAttachment_BlockQuote {
+      border-left:2px solid #CCCCCC;
+      padding:0 0 3px 8px;
+      }
+      .UIStoryAttachment_BlockQuote .UIStoryAttachment_Title {
+      margin-top:0;
+      }
+      .UIStoryAttachment_Media {
+      float:left;
+      overflow:hidden;
+      }
+      .UIStoryAttachment_MediaWide {
+      float:none;
+      }
+      .UIStoryAttachment_Title {
+      font-weight:bold;
+      padding-top:3px;
+      }
+      .UIStory_Open .UIStoryAttachment_Title {
+      clear:left;
+      }
+      .UIStoryAttachment_TitleAbove {
+      margin:0;
+      }
+      .UIStoryAttachment_TitleAboveMedia {
+      margin:0 0 5px;
+      }
+      .UIStoryAttachment_TitleBelow {
+      clear:left;
+      padding:5px 0 0;
+      }
+      .ie6 .UIStoryAttachment_TitleBelow {
+      padding-top:2px;
+      }
+      .UIStoryAttachment_Title_Byline {
+      color:#777777;
+      font-weight:normal;
+      }
+      .UIStoryAttachment_Title_Byline a {
+      font-weight:bold;
+      }
+      .UIStoryAttachment_Caption {
+      color:gray;
+      padding-top:3px;
+      }
+      .UIStoryAttachment_Copy {
+      color:gray;
+      padding-top:3px;
+      }
+      .UIStoryAttachment_Copy .CopyTitle {
+      font-weight:bold;
+      }
+      .UIStoryAttachment_Copy table {
+      }
+      .UIStoryAttachment_Copy table td {
+      padding:2px 2px 0 0;
+      }
+      .UIStoryAttachment_Table {
+      padding-top:2px;
+      }
+      .UIStoryAttachment_Tags {
+      color:#808080;
+      padding:0 0 3px;
+      }
+      .UIStoryAttachment_Label {
+      color:#999999;
+      }
+      .UIStoryAttachment_Tags .UIStoryAttachment_Label {
+      background:transparent url(/images/streams/wall_tag.gif) no-repeat scroll left 1px;
+      padding-left:16px;
+      }
+      .UIStoryAttachment_Value {
+      padding-left:4px;
+      }
+
+      span.action_links_bottom {
+      color:#999999;
+      display:inline-block;
+      }
+
+      .video_thumb span.play {
+      background-image:url($IMAGEDIR$fb_play_button.png);
+      background-position:left bottom;
+      background-repeat:no-repeat;
+      display:inline;
+      position:absolute;
+      z-index:10;
+      }
+
+      .UIMediaItem_Wrapper {
+      overflow:hidden;
+      }
+
+      .commentable_item .ufi_section {
+      padding-bottom:0;
+      }
+
+      .comment_box .ufi_section {
+      background:#ECEFF5 none repeat scroll 0 0;
+      border-bottom:1px solid #E5EAF1;
+      clear:left;
+      float:none;
+      margin-bottom:2px;
+      overflow:hidden;
+      padding:6px 4px 6px 6px;
+      width:350px;
+      }
+
+      .ufi_section {
+      padding-bottom:0;
+      }
+
+      .comment_box {
+      background:transparent url($IMAGEDIR$bg_fb_comment.gif) no-repeat scroll left 1px;
+      clear:both;
+      display:block;
+      font-size:11px;
+      overflow:hidden;
+      padding:7px 0 0;
+      }
+      .comment_box .ufi_section .comment_profile_pic {
+      float:left;
+      padding-bottom:4px;
+      padding-right:2px;
+      text-align:left;
+      }
+
+      .comment_box .comment_content {
+      float:left;
+      padding:0 0 0 2px;
+      width:311px;
+      }
+
+      .comment_box .comment_content .comment_actions {
+      color:#999999;
+      margin-left:4px;
+      }
+      .comment_box .comment_content .comment_meta_data {
+      font-size:9px;
+      font-weight:normal;
+      }
+      .comment_box .comment_content .comment_credits {
+      margin-left:4px;
+      }
+
+      .comment_box .comment_text {
+      max-width:382px;
+      }
+    </style>
+    <script>
+      window.onerror = handleError;
+
+      function handleError(msg, file_loc, line_no) {
+      return true;
+      }
+    </script>    
+  </xsl:template>
+
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- match multiple news items -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <xsl:template match="newspaper[@type='group' or @type='channel']">
+    <html>
+      <head>
+        <title>Group/Channel Newspaper</title>
+        <base href="{//channel/link}" />
+        <xsl:call-template name="embedded_style" />
+      </head>
+      <body>
+        <xsl:for-each select='//item'>
+          <xsl:value-of disable-output-escaping='yes' select='current()/description'/>
+        </xsl:for-each>
+      </body>
+    </html>
+  </xsl:template>
+  
+  
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- match single news item -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <xsl:template match="newspaper[@type='newsitem']">
+    <html>
+      <head>
+        <title>
+          <xsl:value-of select='//item/title'/>
+        </title>
+        <base href="{//item/link}" />
+        <xsl:call-template name="embedded_style" />
+      </head>
+      <body>
+        <xsl:value-of disable-output-escaping='yes' select='//item/description'/>
+      </body>
+    </html>
+  </xsl:template>
+  
+</xsl:stylesheet>

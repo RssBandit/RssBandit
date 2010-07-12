@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{66B29922-166D-4E86-9F62-0CD9FA6B998A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>RssBandit</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RssBandit.UI</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>RssBandit.UI.Startup</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Infragistics2.Shared.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Common\Libraries\Infragistics2.Shared.v9.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics3.Wpf.Ribbon.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics3.Wpf.v9.2, Version=9.2.20092.2049, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" />
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Infragistics2.Win.Misc.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.Misc.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinGrid.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinGrid.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinListView.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinListView.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.UltraWinTree.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.UltraWinTree.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Infragistics2.Win.v9.2, Version=9.2.20092.2017, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\..\Common\Libraries\Infragistics2.Win.v9.2.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <None Include="Resources\envelope_closed_32.png" />
+    <None Include="Resources\envelope_open_32.png" />
+    <None Include="Resources\envelope_open_flag_32.png" />
+    <None Include="Resources\envelope_open_reply_32.png" />
+    <None Include="Resources\envelope_open_comment_16.png" />
+    <Content Include="Resources\flag.gif" />
+    <Content Include="Resources\flag.reply.gif" />
+    <None Include="Resources\funnel_16.png" />
+    <Content Include="Resources\flag_blue_16.png" />
+    <Content Include="Resources\flag_clear_16.png" />
+    <Content Include="Resources\flag_complete_16.png" />
+    <Content Include="Resources\flag_green_16.png" />
+    <Content Include="Resources\flag_orange_16.png" />
+    <Content Include="Resources\flag_purple_16.png" />
+    <Content Include="Resources\flag_red_16.png" />
+    <Content Include="Resources\flag_yellow_16.png" />
+    <Content Include="Resources\manage_identities.png" />
+    <Content Include="Resources\not.watched.gif" />
+    <Content Include="Resources\post_item.gif" />
+    <None Include="Resources\properties16.png" />
+    <None Include="Resources\properties32.png" />
+    <Content Include="Resources\read.gif" />
+    <None Include="Resources\subscribe_feedsources_32.png" />
+    <Content Include="Resources\unread.gif" />
+    <None Include="Resources\unread_envelope.gif" />
+    <None Include="Resources\watch_icon.gif" />
+    <None Include="Resources\webpage_icon.gif" />
+    <EmbeddedResource Include="Resources\rules.gif" />
+    <EmbeddedResource Include="Resources\settings_icon.png" />
+    <EmbeddedResource Include="Resources\newsgroups.png" />
+    <EmbeddedResource Include="Resources\podcasts.gif" />
+    <EmbeddedResource Include="Resources\facebook.ico" />
+    <EmbeddedResource Include="Resources\google.ico" />
+    <EmbeddedResource Include="Resources\newsgator.png" />
+    <EmbeddedResource Include="Resources\windows.ico" />
+    <None Include="Resources\move.2.folder.16.png" />
+    <None Include="Resources\move.2.folder.32.png" />
+    <None Include="Resources\rename.16.png" />
+    <None Include="Resources\add.folder.32.png" />
+    <None Include="Resources\refresh.feed.32.png" />
+    <EmbeddedResource Include="Resources\refresh.folder.32.png" />
+    <None Include="Resources\refresh.all.feedsources.32.png" />
+    <None Include="Resources\Go.32.png" />
+    <None Include="Resources\mark.feed.read.16.png" />
+    <None Include="Resources\next.unread.feed.16.png" />
+    <None Include="Resources\next.unread.item.16.png" />
+    <None Include="Resources\document_preferences_16.png" />
+    <None Include="Resources\document_preferences_32.png" />
+    <None Include="Resources\add.feedsources.32.png" />
+    <None Include="Resources\earth_location_32.png" />
+    <None Include="Resources\new.doc.feed.32.png" />
+    <None Include="Resources\new.doc.feed.search.32.png" />
+    <None Include="Resources\new.doc.nntp.32.png" />
+    <None Include="Resources\earth_location_16.png" />
+    <None Include="Resources\earth_location_24.png" />
+    <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
+    <EmbeddedResource Include="Resources\UnreadFeedItemsXP.ico" />
+    <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
+    <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
+    <EmbeddedResource Include="Resources\feedRefresh.ico" />
+    <EmbeddedResource Include="Resources\Disconnected.ico" />
+    <EmbeddedResource Include="Resources\2003Minus.gif" />
+    <EmbeddedResource Include="Resources\2003Plus.gif" />
+    <EmbeddedResource Include="Resources\App.ico" />
+    <EmbeddedResource Include="Resources\AppBusy.ico" />
+    <EmbeddedResource Include="Resources\AppBusyXP.ico" />
+    <EmbeddedResource Include="Resources\AppHelp.ico" />
+    <EmbeddedResource Include="Resources\AppTray.ico" />
+    <EmbeddedResource Include="Resources\AppTrayXP.ico" />
+    <EmbeddedResource Include="Resources\Connected.ico" />
+    <None Include="Resources\2003Comment.png" />
+    <None Include="Resources\2003Left.png" />
+    <None Include="Resources\add.newsserver.16.png" />
+    <None Include="Resources\add.user.16.png" />
+    <None Include="Resources\AllToolImages.png" />
+    <None Include="Resources\AniImagesXP.png" />
+    <None Include="Resources\delete.16.png" />
+    <None Include="Resources\envelope.open.reply.png" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\feed.discover.doc.png" />
+    <None Include="Resources\feed.discovered.16.png" />
+    <None Include="Resources\feed.discovered.32.png" />
+    <None Include="Resources\feed.doc.png" />
+    <None Include="Resources\hotnews.16.png" />
+    <None Include="Resources\Html.16.png" />
+    <None Include="Resources\Html.32.png" />
+    <None Include="Resources\ListImages.png" />
+    <None Include="Resources\New_Certificate_16.png" />
+    <None Include="Resources\nntp.doc.png" />
+    <None Include="Resources\no.feed.discovered.16.png" />
+    <None Include="Resources\no.feed.discovered.32.png" />
+    <None Include="Resources\rssbandit.16.png" />
+    <None Include="Resources\rssbandit.32.png" />
+    <None Include="Resources\search_folder_16.png" />
+    <None Include="Resources\search_folder_32.png" />
+    <None Include="Resources\splash.png" />
+    <None Include="Resources\subscription.welcome.banner.png" />
+    <None Include="Resources\subscriptions_folder_16.png" />
+    <None Include="Resources\subscriptions_folder_32.png" />
+    <None Include="Resources\subsription_banner_image.png" />
+    <None Include="Resources\TreeImages.png" />
+    <None Include="Resources\TreeImagesXP.png" />
+    <None Include="Resources\View_Certificate_16.png" />
+    <None Include="Resources\cut.png" />
+    <None Include="Resources\paste.png" />
+    <None Include="Resources\copy.png" />
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\selection.png" />
+    <None Include="Resources\help2.png" />
+    <None Include="Resources\view.png" />
+    <None Include="Resources\Help.Icon.16.png" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\BanditToolbar.xaml.cs">
+      <DependentUpon>BanditToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IG_Experiments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UrlComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\UrlComboBox.Designer.cs">
+      <DependentUpon>UrlComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <EmbeddedResource Include="Forms\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IG_Experiments.resx">
+      <DependentUpon>IG_Experiments.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Forms\BanditToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Stylesheets\Preview\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
