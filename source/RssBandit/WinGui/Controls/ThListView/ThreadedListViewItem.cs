@@ -23,6 +23,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 	public class ThreadedListViewItem:ListViewItem
 	{
 
+		private int _indentLevel;
 		private int _groupIndex; 
 		private bool _hasChilds;
 		private bool _isComment;
@@ -156,8 +157,13 @@ namespace RssBandit.WinGui.Controls.ThListView
 		/// </summary>
 		public int IndentLevel
 		{
-			get { return this.IndentCount;  }
-			set { this.IndentCount = value; }
+			get { return _indentLevel;  }
+			set 
+			{ 
+				_indentLevel = value; 
+				if (_indentLevel > 0 && base.ListView != null)
+					this.SetListViewItemIndent(_indentLevel);
+			}
 		}
 
 		/// <summary>
@@ -256,6 +262,11 @@ namespace RssBandit.WinGui.Controls.ThListView
 			set { this.Expanded = !value; }
 		}
 
+		internal void ApplyIndentLevel()
+		{
+			IndentLevel = _indentLevel;
+		}
+
 		public bool StateImageHitTest(Point p)
 		{
 			Win32.LVHITTESTINFO htInfo;
@@ -283,28 +294,28 @@ namespace RssBandit.WinGui.Controls.ThListView
 			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
 		}
 
-        //private void SetListViewItemIndent(int level) 
-        //{
-        //    Win32.LVITEM lvi = new Win32.LVITEM();
+		private void SetListViewItemIndent(int level) 
+		{
+			Win32.LVITEM lvi = new Win32.LVITEM();
 
-        //    lvi.iItem = Index;
-        //    lvi.iIndent = level;
-        //    lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-        //    Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
-        //}
+			lvi.iItem = Index;
+			lvi.iIndent = level;
+			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
+			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
+		}
 
-        //private int GetListViewItemIndent() 
-        //{
-        //    Win32.LVITEM lvi = new Win32.LVITEM();
-        //    int ret;
+		private int GetListViewItemIndent() 
+		{
+			Win32.LVITEM lvi = new Win32.LVITEM();
+			int ret;
 
-        //    lvi.iItem = Index;
-        //    lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-        //    Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_GETITEMA /* 4101 */, 0, ref lvi);
-        //    ret = lvi.iIndent;
-        //    return ret;
+			lvi.iItem = Index;
+			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
+			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_GETITEMA /* 4101 */, 0, ref lvi);
+			ret = lvi.iIndent;
+			return ret;
 
-        //}	
+		}	
 
 //		public void SetInfoText(string text) {
 //			LVSETINFOTIP lit = new LVSETINFOTIP();

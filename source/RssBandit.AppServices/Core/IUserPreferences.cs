@@ -106,7 +106,14 @@ namespace RssBandit.AppServices
 		/// the application should check for available updates (internet access required).
 		/// </summary>
 		AutoUpdateMode AutoUpdateFrequency { get; }
-	
+
+		/// <summary>
+		/// Get the DateTime of the last check for updates. 
+		/// <see cref="AutoUpdateFrequency">AutoUpdateFrequency</see>
+		/// </summary>
+		[Obsolete("Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!", true)]
+		DateTime LastAutoUpdateCheck { get; }
+
 		/// <summary>
 		/// Get the TimeSpan for the global maximum news item age.
 		/// We use TimeSpan.MinValue for the unlimited item age.

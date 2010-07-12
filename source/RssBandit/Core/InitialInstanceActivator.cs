@@ -74,7 +74,6 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using System.Windows.Threading;
 
 namespace RssBandit
 {
@@ -124,19 +123,18 @@ namespace RssBandit
 		  get { return ChannelName; }
 	  }
 
-      //public static bool Activate(Form mainForm) {
-      //    return Activate(new ApplicationContext(mainForm), null, null);
-      //}
+	  public static bool Activate(Form mainForm) {
+		  return Activate(new ApplicationContext(mainForm), null, null);
+	  }
 
-      //public static bool Activate(Form mainForm, OtherInstanceCallback callback, string[] args) {
-      //    return Activate(new ApplicationContext(mainForm), callback, args);
-      //}
+	  public static bool Activate(Form mainForm, OtherInstanceCallback callback, string[] args) {
+		  return Activate(new ApplicationContext(mainForm), callback, args);
+	  }
 
 	  //TODO: when the mutex.ReleaseMutex() is called on the very first instance?
 	  private static Mutex mutex;
 
-	  public static bool Activate(System.Windows.Application context, OtherInstanceCallback callback, string[] args) 
-        {
+	  public static bool Activate(ApplicationContext context, OtherInstanceCallback callback, string[] args) {
 		  // Check for existing instance
 		  bool createdNew = false;
 		  mutex = new Mutex(true, MutexName, out createdNew);
@@ -191,7 +189,7 @@ namespace RssBandit
 				  ChannelServices.RegisterChannel(tcp);
 
 		  */
-	      
+
 		  RemotingServices.Marshal(new MainFormActivator(context, callback), ChannelName);
 		  return false;
 	  }
@@ -202,11 +200,6 @@ namespace RssBandit
 			  this.context = context;
 			  this.callback = callback;
 		  }
-          public MainFormActivator(System.Windows.Application application, OtherInstanceCallback callback)
-          {
-              this.application = application;
-              this.callback = callback;
-          }
 
 		  public override object InitializeLifetimeService() {
       
@@ -218,39 +211,23 @@ namespace RssBandit
 			  return(lease);
 		  }
 
-          public void OnOtherInstance(string[] args)
-          {
-              if (context != null)
-              {
-                  // Transition to the UI thread
-                  GuiInvoker.Invoke(context.MainForm, () =>
+		  public void OnOtherInstance(string[] args) {
+      
+			  // Transition to the UI thread
+              GuiInvoker.Invoke(context.MainForm,
+                  delegate
                   {
                       // Let the UI thread know about the other instance
-                      if (this.callback != null)
+                      if (this.callback != null) 
                           this.callback(args);
 
                       // Activate the main form
                       context.MainForm.Activate();
                   });
-              } 
-              else if (application != null)
-              {
-                  application.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                  {
-                      // Let the UI thread know about the other instance
-                      if (this.callback != null)
-                          this.callback(args);
+ 
 
-                      // Activate the main form
-                      application.MainWindow.Activate();
-                  }));
-              }
+		  }
 
-          }
-
-         
-
-          readonly System.Windows.Application application;
 		  readonly ApplicationContext context;
 		  readonly OtherInstanceCallback callback;
 	  }

@@ -11,8 +11,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
-using System.Windows;
-using System.Windows.Markup;
+using System.Windows.Forms;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
 
@@ -31,11 +30,11 @@ namespace RssBandit
         {
             bool running = true;
 
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //// This might fix the SEHException raised sometimes. See issue:
-            //// https://sourceforge.net/tracker/?func=detail&aid=2335753&group_id=96589&atid=615248
-            //Application.DoEvents();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            // This might fix the SEHException raised sometimes. See issue:
+            // https://sourceforge.net/tracker/?func=detail&aid=2335753&group_id=96589&atid=615248
+            Application.DoEvents();
 
 			// child threads should impersonate the current windows user
 			AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.WindowsPrincipal);
@@ -54,7 +53,7 @@ namespace RssBandit
 			Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
 #endif
 
-            System.Windows.Forms.FormWindowState initialStartupState = Win32.GetStartupWindowState();
+            FormWindowState initialStartupState = Win32.GetStartupWindowState();
             // if you want to debug the minimzed startup (cannot be configured in VS.IDE),
             // comment out the line above and uncomment the next one:
             //FormWindowState initialStartupState =  FormWindowState.Minimized;
@@ -71,9 +70,9 @@ namespace RssBandit
             }
             //_log.Info("Application v" + RssBanditApplication.VersionLong + " started, running instance is " + running);
 
+            RssBanditApplication.StaticInit();
             if (!running)
             {
-                RssBanditApplication.StaticInit(appInstance);
                 // init to system default:
                 RssBanditApplication.SharedCulture = CultureInfo.CurrentCulture;
                 RssBanditApplication.SharedUICulture = CultureInfo.CurrentUICulture;
@@ -101,14 +100,8 @@ namespace RssBandit
                     Thread.CurrentThread.CurrentCulture = RssBanditApplication.SharedCulture;
                     Thread.CurrentThread.CurrentUICulture = RssBanditApplication.SharedUICulture;
 
-                    // Ensure the current culture passed into bindings is the OS culture.
-                    // By default, WPF uses en-US as the culture, regardless of the system settings.
-                    //
-                    FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
-                      new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-
                     if (!appInstance.CommandLineArgs.StartInTaskbarNotificationAreaOnly &&
-                        initialStartupState != System.Windows.Forms.FormWindowState.Minimized)
+                        initialStartupState != FormWindowState.Minimized)
                     {
                         // no splash, if start option is tray only or minimized
                         Splash.Show(SR.AppLoadStateLoading,

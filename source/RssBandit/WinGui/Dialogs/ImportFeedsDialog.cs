@@ -72,14 +72,15 @@ namespace RssBandit.WinGui.Forms
             }
 			
 			this.comboCategory.Items.Add(defaultCategory);
-            this.comboCategory.Text = (selectedCategory ?? defaultCategory);
+			this.comboCategory.Text = (selectedCategory ?? String.Empty);
 
-            this.comboFeedSource.SelectedIndexChanged -= new System.EventHandler(this.comboFeedSource_SelectedIndexChanged);
-			
-			this.comboFeedSource.DataSource = feedSources.GetOrderedFeedSources();			
-			this.comboFeedSource.SelectedItem = fs; 
-
-            this.comboFeedSource.SelectedIndexChanged += new System.EventHandler(this.comboFeedSource_SelectedIndexChanged);			
+			this.comboFeedSource.DataSource = feedSources.GetOrderedFeedSources();
+			//foreach (FeedSourceEntry fsid in feedSources.GetOrderedFeedSources())
+			//{
+			//    int itemIndex = this.comboFeedSource.Items.Add(fsid.Name);
+			//    this.comboFeedSource.Items[itemIndex]
+			//}
+			this.comboFeedSource.SelectedItem = fs; //fs.Name; 
 		}
 		
 		public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }

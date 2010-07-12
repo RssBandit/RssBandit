@@ -1008,7 +1008,7 @@ for detailed information about the error occured.</value>
     <value>Advanced/More Feed Info...</value>
   </data>
   <data name="MenuAppCloseExitCaption" xml:space="preserve">
-    <value>E&amp;xit RSS Bandit</value>
+    <value>E&amp;xit</value>
   </data>
   <data name="MenuAppCloseExitDesc" xml:space="preserve">
     <value>Close and Exit this Application</value>
@@ -1568,7 +1568,7 @@ for detailed information about the error occured.</value>
     <value>Discussion:</value>
   </data>
   <data name="MenuNewFeedCaption" xml:space="preserve">
-    <value>Feed Subscription...</value>
+    <value>&amp;Feed Subscription...</value>
   </data>
   <data name="MenuNewFeedCaption2" xml:space="preserve">
     <value>&amp;New Feed Subscription...</value>
@@ -1583,7 +1583,7 @@ for detailed information about the error occured.</value>
     <value>Create a new search folder...</value>
   </data>
   <data name="MenuNewNntpFeedCaption" xml:space="preserve">
-    <value>Newsgroup Subscription...</value>
+    <value>&amp;Newsgroup Subscription...</value>
   </data>
   <data name="MenuNewNntpFeedDesc" xml:space="preserve">
     <value>Subscribe to a new feed</value>
@@ -2537,68 +2537,5 @@ Error: {1}</value>
   </data>
   <data name="CmdLineNavigateToDesc" xml:space="preserve">
     <value>Open the specified URL in a tab or navigate to the specified feed item</value>
-  </data>
-  <data name="MenuAppNewSubscriptionCaption" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="MenuAppSubscribeToCaption" xml:space="preserve">
-    <value>Subscribe to</value>
-  </data>
-  <data name="MenuNewRssSearchResultSubscriptionCaption" xml:space="preserve">
-    <value>Search Result Subscription...</value>
-  </data>
-  <data name="MainMenuBandGroupCatchUpCaption" xml:space="preserve">
-    <value>Catch Up</value>
-  </data>
-  <data name="MainMenuBandGroupCatchUpDesc" xml:space="preserve">
-    <value>Tools and commands to catch up on feeds and items...</value>
-  </data>
-  <data name="MainMenuBandHomeCaption" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="MainMenuBandHomeDesc" xml:space="preserve">
-    <value>The most common tools...</value>
-  </data>
-  <data name="MainMenuToolUpdateAllFeedsCaption" xml:space="preserve">
-    <value>Update All Feeds</value>
-  </data>
-  <data name="MainMenuToolUpdateAllFeedsDesc" xml:space="preserve">
-    <value>Use this to update all feeds within all feed sources...</value>
-  </data>
-  <data name="MainMenuAddFeedSourcesCaption" xml:space="preserve">
-    <value>Feed Source</value>
-  </data>
-  <data name="MainMenuAddFeedSourcesDesc" xml:space="preserve">
-    <value>Add a new Feed Source...</value>
-  </data>
-  <data name="MainMenuAddSubscriptionToFeedSourceCaption" xml:space="preserve">
-    <value>Subscription</value>
-  </data>
-  <data name="MainMenuAddSubscriptionToFeedSourceDesc" xml:space="preserve">
-    <value>Add a new subscription to the current feed source</value>
-  </data>
-  <data name="MainMenuAddWindowsCommonFeedSourceCaption" xml:space="preserve">
-    <value>Add Windows Common Feedlist</value>
-  </data>
-  <data name="MainMenuAddWindowsCommonFeedSourceDesc" xml:space="preserve">
-    <value>Will add your common Windows Feedlist as a Feed Source</value>
-  </data>
-  <data name="MainMenuBandFolderCaption" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="MainMenuBandFolderDesc" xml:space="preserve">
-    <value>Tools and commands related to folders...</value>
-  </data>
-  <data name="MainMenuBandGroupCreateCaption" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="MainMenuBandGroupCreateDesc" xml:space="preserve">
-    <value>Tools and commands to create new feed subscriptions and folders</value>
-  </data>
-  <data name="MainMenuToolUpdateFeedsInFolderCaption" xml:space="preserve">
-    <value>Update Folder</value>
-  </data>
-  <data name="MainMenuToolUpdateFeedsInFolderDesc" xml:space="preserve">
-    <value>Update all feeds contained in the selcted folder</value>
   </data>
 </root>

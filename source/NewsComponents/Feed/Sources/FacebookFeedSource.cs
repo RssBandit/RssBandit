@@ -444,8 +444,6 @@ namespace NewsComponents.Feed
         /// the web</param>
         /// <param name="manual">Flag indicates whether the call was initiated by user (true), or
         /// by automatic refresh timer (false)</param>
-        /// <param name="reqParam">Used to provide information as to how to make an HTTP request to retrieve the feed 
-        /// if it could not be found locally</param>
         /// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
         /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
@@ -453,14 +451,13 @@ namespace NewsComponents.Feed
         /// <returns>true, if the request really was queued up</returns>
         /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
         //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public override bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, out RequestParameter reqParam)
+        public override bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
         {
             if (feedUrl == null || feedUrl.Trim().Length == 0)
                 throw new ArgumentNullException("feedUrl");
 
             string etag = null;
             bool requestQueued = false;
-            reqParam = null; 
 
             int priority = 10;
             if (forceDownload)
@@ -524,9 +521,16 @@ namespace NewsComponents.Feed
 
                 ICredentials c = null;
 
-                reqParam = RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
+                RequestParameter reqParam =
+                    RequestParameter.Create(reqUri, this.UserAgent, this.Proxy, c, lastModified, etag);
                 reqParam = RequestParameter.Create(false, reqParam);
-               
+
+                AsyncWebRequest.QueueRequest(reqParam,
+                                             null,
+                                             OnRequestStart,
+                                             OnRequestComplete,
+                                             OnRequestException, priority);
+
                 requestQueued = true;
             }
             catch (Exception e)

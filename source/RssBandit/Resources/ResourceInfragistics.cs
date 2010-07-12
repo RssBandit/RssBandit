@@ -1,28 +1,12 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-#if UseResourceInfragistics
-// assembly namespace clash: within IG2.Shared and IG3.Wpf we have the "Infragistics.Shared" namepsace :-(
-extern alias igwin; 
-#endif
-
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
-
+using Infragistics.Shared;
 
 namespace RssBandit.Resources
 {
-    #if UseResourceInfragistics
 	/// <summary>
 	/// Class to translate all used Infragistics controls
 	/// </summary>
@@ -70,7 +54,7 @@ namespace RssBandit.Resources
 		/// Initializes a new instance of the <see cref="ResourceInfragisticsBase"/> class.
 		/// </summary>
 		/// <param name="pCustomizer">The Infragistics Resource customizer instance</param>
-        protected ResourceInfragisticsBase(igwin::Infragistics.Shared.ResourceCustomizer pCustomizer) 
+		protected ResourceInfragisticsBase(ResourceCustomizer pCustomizer) 
 		{
 			mCustomizer = pCustomizer;
 		}
@@ -78,7 +62,7 @@ namespace RssBandit.Resources
 		#region -------------- Instance part ----------------------
 
 		// Holds the Customizer which must be supplied in Constructor!
-        private readonly igwin::Infragistics.Shared.ResourceCustomizer mCustomizer;
+		private readonly ResourceCustomizer mCustomizer;
 
 		// Holds the last translated Language (ISO two Letter)
 		private string mTranslatedLanguage = "";
@@ -131,7 +115,7 @@ namespace RssBandit.Resources
 	{
 		#region ------------ Static part --------------------------
 
-		public ResourceInfragisticsWin() : base(igwin::Infragistics.Win.Resources.Customizer)
+		public ResourceInfragisticsWin() : base(Infragistics.Win.Resources.Customizer)
 		{
 			// Ensure Shared Translation
 			ResourceInfragisticsShared.Manager.Translate();
@@ -175,7 +159,7 @@ namespace RssBandit.Resources
 	{
 		#region ------------ Static part --------------------------
 
-		public ResourceInfragisticsShared() : base(igwin::Infragistics.Shared.Resources.Customizer)
+		public ResourceInfragisticsShared() : base(Infragistics.Shared.Resources.Customizer)
 		{}
 
 
@@ -465,5 +449,5 @@ namespace RssBandit.Resources
 
 		#endregion
 	}
-#endif
+
 }

@@ -20,7 +20,7 @@ using RssBandit.WinGui.Forms;
 
 namespace RssBandit
 {
-    public partial class RssBanditApplication
+    internal partial class RssBanditApplication
     {
         #region static class routines
 

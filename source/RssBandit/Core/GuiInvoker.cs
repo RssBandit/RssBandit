@@ -5,8 +5,6 @@ using System.Threading;
 using System.Windows.Forms;
 using NewsComponents.Utils;
 
-//TODO: Remove this class once transition to WPF is complete. 
-
 namespace RssBandit
 {
     /// <summary>

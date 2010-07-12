@@ -20,7 +20,7 @@ using System.IO;
 
 namespace RssBandit
 {
-    public partial class RssBanditApplication
+    internal partial class RssBanditApplication
     {
         #region AsynWebRequest events
 
@@ -223,17 +223,14 @@ namespace RssBandit
         /// <param name="e"></param>
         private void BeforeDownloadFeedStarted(object sender, FeedSource.DownloadFeedCancelEventArgs e)
         {
-            if (IsMainWindowAvailable)
-            {
-                FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
-                InvokeOnGui(
-                    delegate
+        	FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+        	InvokeOnGui(
+                delegate
                     {
                         bool cancel = e.Cancel;
-                        guiMain.OnFeedUpdateStart(entry, e.FeedUri, ref cancel);
+						guiMain.OnFeedUpdateStart(entry, e.FeedUri, ref cancel);
                         e.Cancel = cancel;
                     });
-            }
         }
 
         /// <summary>
@@ -504,7 +501,7 @@ namespace RssBandit
             else if (!args.Done)
             {
                 // in progress
-                if (!IsMainWindowAvailable(guiMain))
+                if (!IsFormAvailable(guiMain))
                 {
                     args.Cancel = true;
                     return;
@@ -521,7 +518,7 @@ namespace RssBandit
                 //resume pending enclosure downloads
                 this.feedHandler.ResumePendingDownloads();
 
-                if (!IsMainWindowAvailable(guiMain))
+                if (!IsFormAvailable(guiMain))
                 {
                     args.Cancel = true;
                     return;
@@ -546,7 +543,7 @@ namespace RssBandit
                 //TODO: move this out of the Form code to allow dynamic create/dispose of the main form from the system tray menu
                 foreach (string newFeedUrl in this.commandLineOptions.SubscribeTo)
                 {
-                    if (IsMainWindowAvailable(guiMain))
+                    if (IsFormAvailable(guiMain))
                         this.guiMain.AddFeedUrlSynchronized(newFeedUrl);
                 }
 

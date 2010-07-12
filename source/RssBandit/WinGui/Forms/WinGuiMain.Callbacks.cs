@@ -1897,7 +1897,7 @@ namespace RssBandit.WinGui.Forms
 
                 writer.SetProperty("version", 4);
 
-                writer.SetProperty(Name + "/Bounds", _formRestoreBounds.GetBounds());
+                writer.SetProperty(Name + "/Bounds", BoundsToString(_formRestoreBounds));
                 writer.SetProperty(Name + "/WindowState", (int) WindowState);
 
                 // splitter position Listview/Detail Pane: 
@@ -1968,7 +1968,7 @@ namespace RssBandit.WinGui.Forms
                 // read BEFORE set the WindowState or Bounds (that causes events, where we reset this setting to false)
                 //_initialStartupTrayVisibleOnly = reader.GetBoolean(Name+"/TrayOnly.Visible", false);
 
-                Rectangle r = reader.GetString(Name + "/Bounds", Bounds.GetBounds()).GetBounds();
+                Rectangle r = StringToBounds(reader.GetString(Name + "/Bounds", BoundsToString(Bounds)));
                 if (r != Rectangle.Empty)
                 {
                     if (Screen.AllScreens.Length < 2)
