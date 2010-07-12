@@ -1302,17 +1302,17 @@ namespace NewsComponents.Net
 		/// </summary>
 		/// <param name="address">Url to request</param>
 		/// <param name="body">The body of the request</param>
-		/// <param name="cookie">The cookie.</param>
+		/// <param name="headers">Additional headers.</param>
 		/// <param name="credentials">Url credentials</param>
 		/// <param name="proxy">Proxy to use</param>
 		/// <returns></returns>
-        public static HttpWebResponse PostSyncResponse(string address, string body, Cookie cookie, ICredentials credentials, IWebProxy proxy)
+        public static HttpWebResponse PostSyncResponse(string address, string body, WebHeaderCollection headers, ICredentials credentials, IWebProxy proxy)
         {
 
             DateTime ifModifiedSince = MinValue;
             return
                 GetSyncResponse(HttpMethod.POST, address, credentials, null /* userAgent */, proxy, ifModifiedSince,
-                                      null /* eTag */, DefaultTimeout, cookie, body, null /* additonalHeaders */) as HttpWebResponse;
+                                      null /* eTag */, DefaultTimeout, null /* cookie */, body, headers) as HttpWebResponse;
         }
 
 		/// <summary>

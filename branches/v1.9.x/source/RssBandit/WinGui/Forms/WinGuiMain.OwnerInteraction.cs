@@ -1285,6 +1285,7 @@ namespace RssBandit.WinGui.Forms
                     owner.Mediator.SetEnabled("+cmdDeleteAllFinders", "-cmdDeleteFinder", "-cmdShowFinderProperties");
             }
 
+            owner.Mediator.SetEnabled(true, "cmdShowFeedProperties");
             //we don't want people to be able to change properties of Facebook feed source
             FeedSourceEntry fse = FeedSourceEntryOf(feedsNode);
             if ((fse != null) && (fse.SourceType == FeedSourceType.Facebook))
