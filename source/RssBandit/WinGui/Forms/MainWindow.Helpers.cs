@@ -1,34 +1,9 @@
 ﻿#undef USE_IG_UL_COMBOBOX
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
-using RssBandit.WinGui.Controls.ThListView;
-using RssBandit.WinGui.Controls.ThListView.Sorting;
-using AppInteropServices;
-using IEControl;
-using Infragistics.Win.UltraWinTree;
-using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
-using NewsComponents.Feed;
-using NewsComponents.Net;
-using NewsComponents.News;
 using NewsComponents.Utils;
-using RssBandit.Resources;
-using RssBandit.WinGui.Controls;
-using RssBandit.WinGui.Interfaces;
-using RssBandit.WinGui.Menus;
-using RssBandit.WinGui.Utility;
-using Syndication.Extensibility;
-using SortOrder=System.Windows.Forms.SortOrder;
-using Infragistics.Win.UltraWinEditors;
-using Microsoft.WindowsAPICodePack.Taskbar;
-using Microsoft.WindowsAPICodePack.Shell;
-using System.Net;
+using RssBandit.WinGui.ViewModel;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -61,7 +36,10 @@ namespace RssBandit.WinGui.Forms
             return  RssBanditApplication.Current.FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(feedUrl)); 
         }
 
-
+        public MainWindowViewModel Model
+        {
+            get { return (MainWindowViewModel)DataContext; }
+        }
 
     }
 }

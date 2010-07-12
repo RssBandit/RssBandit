@@ -2601,4 +2601,10 @@ Error: {1}</value>
   <data name="MainMenuToolUpdateFeedsInFolderDesc" xml:space="preserve">
     <value>Update all feeds contained in the selcted folder</value>
   </data>
+  <data name="MainMenuBandFeedCaption" xml:space="preserve">
+    <value>Feed</value>
+  </data>
+  <data name="MainMenuBandFeedDesc" xml:space="preserve">
+    <value>Tools and commands related to feeds...</value>
+  </data>
 </root>

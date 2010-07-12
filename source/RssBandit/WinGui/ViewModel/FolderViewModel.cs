@@ -56,6 +56,13 @@ namespace RssBandit.WinGui.ViewModel
             set { /* not required: we have the Name and the Parents to calculate it */ }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is expanded.
+        /// Overridden to display closed/open folder images.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is expanded; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsExpanded
         {
             get
@@ -67,6 +74,19 @@ namespace RssBandit.WinGui.ViewModel
                 base.IsExpanded = value;
                 Image = value ? "/Resources/Images/TreeView/folder.16.png" :
                     "/Resources/Images/TreeView/folder_closed.16.png";
+            }
+        }
+
+        public override bool IsSelected
+        {
+            get
+            {
+                return base.IsSelected;
+            }
+            set
+            {
+                base.IsSelected = value;
+                RssBanditApplication.MainWindow.Model.ActivateContextMenuBand("mnuBandFolder");
             }
         }
     }
