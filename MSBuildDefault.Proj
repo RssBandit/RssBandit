@@ -19,7 +19,7 @@
 	<!-- properties required for the Version target-->  
 	<PropertyGroup>
 		<Major>1</Major>
-		<Minor>7</Minor>
+		<Minor>8</Minor>
 		<Build>0</Build>
 		<BuildDOY>0</BuildDOY>
 		<Revision>0</Revision>
