@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="{bb3cf1d5-2160-4dd4-a458-c737c1dc9912}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.972">
+    <Product Id="{3CBE6C15-21D4-4F88-AB52-72446A6C6429}" Codepage="1252" Language="1033" Manufacturer="rssbandit.org" Name="RssBandit" UpgradeCode="{108879A4-BD9B-414D-9C91-852BA402EF72}" Version="1.9.1003">
         <Package Comments="A desktop news aggregator" Compressed="yes" InstallerVersion="200" Languages="1033" Manufacturer="Dare Obasanjo &amp; Torsten Rendelmann" Platform="x86" />
         <Binary Id="MSVBDPCADLL" SourceFile=".\Binary\MSVBDPCADLL" />
         <Binary Id="VSDNETCFG" SourceFile=".\Binary\VSDNETCFG" />
@@ -44,7 +44,7 @@
                 <File Id="_21F6D4A1B5CDC220DB505DDE846C5793" Name="WizardFramework.dll" KeyPath="yes" ShortName="WIZARD~1.DLL" Assembly=".net" AssemblyManifest="_21F6D4A1B5CDC220DB505DDE846C5793" AssemblyApplication="_21F6D4A1B5CDC220DB505DDE846C5793" DiskId="1" Source="..\..\Common\Libraries\WizardFramework.dll" />
             </Component>
             <Component Id="C__33C9119399424514E4D90B4F4A2541A9" Guid="{E108CCD3-091A-B074-D761-834919613AAE}">
-                <File Id="_33C9119399424514E4D90B4F4A2541A9" Name="Infragistics2.Win.Misc.v8.3.dll" KeyPath="yes" ShortName="INFRAG~1.DLL" Assembly=".net" AssemblyManifest="_33C9119399424514E4D90B4F4A2541A9" AssemblyApplication="_33C9119399424514E4D90B4F4A2541A9" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.Misc.v8.3.dll" />
+                <File Id="_33C9119399424514E4D90B4F4A2541A9" Name="Infragistics2.Win.Misc.v9.2.dll" KeyPath="yes" ShortName="INFRAG~1.DLL" Assembly=".net" AssemblyManifest="_33C9119399424514E4D90B4F4A2541A9" AssemblyApplication="_33C9119399424514E4D90B4F4A2541A9" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.Misc.v9.2.dll" />
             </Component>
             <Component Id="C__43D5B158FBE9C245DADFBAAB991534B2" Guid="{D7CD3FF6-807E-CAAC-106D-C3C9B6C3ED96}">
                 <File Id="_43D5B158FBE9C245DADFBAAB991534B2" Name="Eyefinder.dll" KeyPath="yes" ShortName="EYEFIN~1.DLL" Assembly=".net" AssemblyManifest="_43D5B158FBE9C245DADFBAAB991534B2" AssemblyApplication="_43D5B158FBE9C245DADFBAAB991534B2" DiskId="1" Source="..\..\Common\Libraries\Eyefinder.dll" />
@@ -55,23 +55,23 @@
             <Component Id="C__51D91ED98E3F927950E68694E013CC4B" Guid="{E1B86509-5175-2C5D-0B77-F6AD35216C58}">
                 <File Id="_51D91ED98E3F927950E68694E013CC4B" Name="Lucene.Net.dll" KeyPath="yes" ShortName="LUCENE~1.DLL" Assembly=".net" AssemblyManifest="_51D91ED98E3F927950E68694E013CC4B" AssemblyApplication="_51D91ED98E3F927950E68694E013CC4B" DiskId="1" Source="..\..\Common\Libraries\Lucene.Net.dll" />
             </Component>
-            <!-- <Component Id="C__5504EEE943BF49B478791145D6A44F4B" Guid="{E1B86509-5175-2C5D-0B77-F6AD35216C58}">
-                <File Id="_5504EEE943BF49B478791145D6A44F4B" Name="Lucene.Net.dll" KeyPath="yes" ShortName="LUCENE~2.DLL" Assembly=".net" AssemblyManifest="_5504EEE943BF49B478791145D6A44F4B" AssemblyApplication="_5504EEE943BF49B478791145D6A44F4B" DiskId="1" Source=".\File\_5504EEE943BF49B478791145D6A44F4B" />
-            </Component> -->
+            <Component Id="C__5504EEE943BF49B478791145D6A44F4B" Guid="{EAE66C84-ED14-44AE-A35A-F5D10F80CEA1}">
+                <File Id="_5504EEE943BF49B478791145D6A44F4B" Name="Microsoft.WindowsAPICodePack.Shell.dll" KeyPath="yes" ShortName="MICROS~4.DLL" Assembly=".net" AssemblyManifest="_5504EEE943BF49B478791145D6A44F4B" AssemblyApplication="_5504EEE943BF49B478791145D6A44F4B" DiskId="1" Source="..\..\Common\Libraries\Microsoft.WindowsAPICodePack.Shell.dll" />
+            </Component> 
             <Component Id="C__5923DAC2D93FE83D6268B5393BCCD489" Guid="{C4369DA7-B6D8-8FFD-964C-8159AE131D45}">
                 <File Id="_5923DAC2D93FE83D6268B5393BCCD489" Name="Snowball.Net.dll" KeyPath="yes" ShortName="SNOWBA~1.DLL" Assembly=".net" AssemblyManifest="_5923DAC2D93FE83D6268B5393BCCD489" AssemblyApplication="_5923DAC2D93FE83D6268B5393BCCD489" DiskId="1" Source="..\..\Common\Libraries\Snowball.Net.dll" />
             </Component>
-        <!--    <Component Id="C__68B4406FCE9E39FA52AE8DB624D94A37" Guid="{C4369DA7-B6D8-8FFD-964C-8159AE131D45}">
-                <File Id="_68B4406FCE9E39FA52AE8DB624D94A37" Name="Snowball.Net.dll" KeyPath="yes" ShortName="SNOWBA~2.DLL" Assembly=".net" AssemblyManifest="_68B4406FCE9E39FA52AE8DB624D94A37" AssemblyApplication="_68B4406FCE9E39FA52AE8DB624D94A37" DiskId="1" Source=".\File\_68B4406FCE9E39FA52AE8DB624D94A37" />
-            </Component> -->
+            <Component Id="C__68B4406FCE9E39FA52AE8DB624D94A37" Guid="{BB14F1D3-9770-4F8F-B3FC-B1A12A22DB62}">
+                <File Id="_68B4406FCE9E39FA52AE8DB624D94A37" Name="Microsoft.WindowsAPICodePack.dll" KeyPath="yes" ShortName="MICROS~3.DLL" Assembly=".net" AssemblyManifest="_68B4406FCE9E39FA52AE8DB624D94A37" AssemblyApplication="_68B4406FCE9E39FA52AE8DB624D94A37" DiskId="1" Source="..\..\Common\Libraries\Microsoft.WindowsAPICodePack.dll" />
+            </Component> 
             <Component Id="C__6D03E30DC32F7C8B90293764C14C7AD4" Guid="{D2FBC6A8-4262-C1CD-83F4-8555223C7A37}">
-                <File Id="_6D03E30DC32F7C8B90293764C14C7AD4" Name="Infragistics2.Win.v8.3.dll" KeyPath="yes" ShortName="INFRAG~2.DLL" Assembly=".net" AssemblyManifest="_6D03E30DC32F7C8B90293764C14C7AD4" AssemblyApplication="_6D03E30DC32F7C8B90293764C14C7AD4" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.v8.3.dll" />
+                <File Id="_6D03E30DC32F7C8B90293764C14C7AD4" Name="Infragistics2.Win.v9.2.dll" KeyPath="yes" ShortName="INFRAG~2.DLL" Assembly=".net" AssemblyManifest="_6D03E30DC32F7C8B90293764C14C7AD4" AssemblyApplication="_6D03E30DC32F7C8B90293764C14C7AD4" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.v9.2.dll" />
             </Component>
             <Component Id="C__74BEFBEEE1BD400BAEEC0822BEB18DEB" Guid="{B16D777D-02E5-0260-56F7-B10BB2098939}">
                 <File Id="_74BEFBEEE1BD400BAEEC0822BEB18DEB" Name="Interop.Msfeeds.dll" KeyPath="yes" ShortName="INTERO~4.DLL" Assembly=".net" AssemblyManifest="_74BEFBEEE1BD400BAEEC0822BEB18DEB" AssemblyApplication="_74BEFBEEE1BD400BAEEC0822BEB18DEB" DiskId="1" Source="..\..\Common\Libraries\Interop.Msfeeds.dll" />
             </Component>
             <Component Id="C__7FFA4EC14B98B74F988FE5FA2D0A0DFE" Guid="{F5C1E659-5FB9-3E70-BA4D-6E2C8167497A}">
-                <File Id="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" Name="Infragistics2.Win.UltraWinStatusBar.v8.3.dll" KeyPath="yes" ShortName="INFRAG~3.DLL" Assembly=".net" AssemblyManifest="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" AssemblyApplication="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v8.3.dll" />
+                <File Id="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" Name="Infragistics2.Win.UltraWinStatusBar.v9.2.dll" KeyPath="yes" ShortName="INFRAG~3.DLL" Assembly=".net" AssemblyManifest="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" AssemblyApplication="_7FFA4EC14B98B74F988FE5FA2D0A0DFE" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinStatusBar.v9.2.dll" />
             </Component>
             <Component Id="C__803288A418A7A5BB12A114DE65FC3287" Guid="{6C6CF027-E2B4-9BD7-3C62-C0EB7FE89166}">
                 <File Id="_803288A418A7A5BB12A114DE65FC3287" Name="Interop.iTunesLib.dll" KeyPath="yes" ShortName="INTERO~5.DLL" Assembly=".net" AssemblyManifest="_803288A418A7A5BB12A114DE65FC3287" AssemblyApplication="_803288A418A7A5BB12A114DE65FC3287" DiskId="1" Source="..\..\Common\Libraries\Interop.iTunesLib.dll" />
@@ -90,10 +90,10 @@
                 <File Id="_A103E744EA22E525A3002B3FB1E63F07" Name="Interop.SHDocVw.dll" KeyPath="yes" ShortName="INTERO~6.DLL" Assembly=".net" AssemblyManifest="_A103E744EA22E525A3002B3FB1E63F07" AssemblyApplication="_A103E744EA22E525A3002B3FB1E63F07" DiskId="1" Source="..\..\Common\Libraries\Interop.SHDocVw.dll" />
             </Component>
             <Component Id="C__AA3663A956E79BB13B90FD412BDBAE8E" Guid="{7C7DF56A-E1F9-B3B8-DC91-FA3CE24C93E9}">
-                <File Id="_AA3663A956E79BB13B90FD412BDBAE8E" Name="Infragistics2.Win.UltraWinEditors.v8.3.dll" KeyPath="yes" ShortName="INFRAG~4.DLL" Assembly=".net" AssemblyManifest="_AA3663A956E79BB13B90FD412BDBAE8E" AssemblyApplication="_AA3663A956E79BB13B90FD412BDBAE8E" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v8.3.dll" />
+                <File Id="_AA3663A956E79BB13B90FD412BDBAE8E" Name="Infragistics2.Win.UltraWinEditors.v9.2.dll" KeyPath="yes" ShortName="INFRAG~4.DLL" Assembly=".net" AssemblyManifest="_AA3663A956E79BB13B90FD412BDBAE8E" AssemblyApplication="_AA3663A956E79BB13B90FD412BDBAE8E" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinEditors.v9.2.dll" />
             </Component> 
             <Component Id="C__B2688D3D145B84A4890D470E8C0A1662" Guid="{4EB1DB00-775D-8D2E-FF04-C6F63794BCA9}">
-                <File Id="_B2688D3D145B84A4890D470E8C0A1662" Name="Infragistics2.Shared.v8.3.dll" KeyPath="yes" ShortName="INFRAG~5.DLL" Assembly=".net" AssemblyManifest="_B2688D3D145B84A4890D470E8C0A1662" AssemblyApplication="_B2688D3D145B84A4890D470E8C0A1662" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Shared.v8.3.dll" />
+                <File Id="_B2688D3D145B84A4890D470E8C0A1662" Name="Infragistics2.Shared.v9.2.dll" KeyPath="yes" ShortName="INFRAG~5.DLL" Assembly=".net" AssemblyManifest="_B2688D3D145B84A4890D470E8C0A1662" AssemblyApplication="_B2688D3D145B84A4890D470E8C0A1662" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Shared.v9.2.dll" />
             </Component> 
             <Component Id="C__B433CA72E8CCC75E08503EFA0745653A" Guid="{2C1E430E-DEAE-2ACF-70F3-033D19A403D0}">
                 <File Id="_B433CA72E8CCC75E08503EFA0745653A" Name="SandDock.dll" KeyPath="yes" ShortName="SANDDOCK.DLL" Assembly=".net" AssemblyManifest="_B433CA72E8CCC75E08503EFA0745653A" AssemblyApplication="_B433CA72E8CCC75E08503EFA0745653A" DiskId="1" Source="..\..\Common\Libraries\SandDock.dll" />
@@ -102,13 +102,13 @@
                 <File Id="_B4BE518F5C0F182F524A005024825EE2" Name="SgmlReaderDll.dll" KeyPath="yes" ShortName="SGMLRE~2.DLL" Assembly=".net" AssemblyManifest="_B4BE518F5C0F182F524A005024825EE2" AssemblyApplication="_B4BE518F5C0F182F524A005024825EE2" DiskId="1" Source=".\File\_B4BE518F5C0F182F524A005024825EE2" />
             </Component> -->
             <Component Id="C__B7DA2F2A8F6C2203992FAC5A50EC4D68" Guid="{14B5B67D-6188-0989-F4B9-7D33436800D7}">
-                <File Id="_B7DA2F2A8F6C2203992FAC5A50EC4D68" Name="Infragistics2.Win.UltraWinTabControl.v8.3.dll" KeyPath="yes" ShortName="INFRAG~6.DLL" Assembly=".net" AssemblyManifest="_B7DA2F2A8F6C2203992FAC5A50EC4D68" AssemblyApplication="_B7DA2F2A8F6C2203992FAC5A50EC4D68" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v8.3.dll" />
+                <File Id="_B7DA2F2A8F6C2203992FAC5A50EC4D68" Name="Infragistics2.Win.UltraWinTabControl.v9.2.dll" KeyPath="yes" ShortName="INFRAG~6.DLL" Assembly=".net" AssemblyManifest="_B7DA2F2A8F6C2203992FAC5A50EC4D68" AssemblyApplication="_B7DA2F2A8F6C2203992FAC5A50EC4D68" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinTabControl.v9.2.dll" />
             </Component>
             <Component Id="C__BB3FE3F85F52920D51E843C00E940C9F" Guid="{13F02D99-4B1F-136E-8A93-0F364EE9D9F9}">
                 <File Id="_BB3FE3F85F52920D51E843C00E940C9F" Name="blogExtension.dll" KeyPath="yes" ShortName="BLOGEX~1.DLL" Assembly=".net" AssemblyManifest="_BB3FE3F85F52920D51E843C00E940C9F" AssemblyApplication="_BB3FE3F85F52920D51E843C00E940C9F" DiskId="1" Source="..\..\Common\Libraries\blogExtension.dll" />
             </Component>
             <Component Id="C__BF50BAC05F1148A9116DBA4F68314D53" Guid="{47569284-88BB-0E05-4288-354113D1FE88}">
-                <File Id="_BF50BAC05F1148A9116DBA4F68314D53" Name="Infragistics2.Win.UltraWinToolbars.v8.3.dll" KeyPath="yes" ShortName="INFRAG~7.DLL" Assembly=".net" AssemblyManifest="_BF50BAC05F1148A9116DBA4F68314D53" AssemblyApplication="_BF50BAC05F1148A9116DBA4F68314D53" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v8.3.dll" />
+                <File Id="_BF50BAC05F1148A9116DBA4F68314D53" Name="Infragistics2.Win.UltraWinToolbars.v9.2.dll" KeyPath="yes" ShortName="INFRAG~7.DLL" Assembly=".net" AssemblyManifest="_BF50BAC05F1148A9116DBA4F68314D53" AssemblyApplication="_BF50BAC05F1148A9116DBA4F68314D53" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinToolbars.v9.2.dll" />
             </Component> 
           <!-- <Component Id="C__C0B5AE9336D7B4284F1FB54B3B2E2547" Guid="{32c78715-fe7f-469c-a575-a66893157438}">
             <File Id="_C0B5AE9336D7B4284F1FB54B3B2E2547" Name="log4net.dll" KeyPath="yes" ShortName="LOG4NET.DLL" Assembly=".net" AssemblyManifest="_C0B5AE9336D7B4284F1FB54B3B2E2547" AssemblyApplication="_C0B5AE9336D7B4284F1FB54B3B2E2547" DiskId="1" Source="..\..\Common\Libraries\log4net.dll" />
@@ -118,13 +118,13 @@
                 <RemoveFile Name="log4net.dll" On="install" Id="_C0B5AE9336D7B4284F1FB54B3B2E2547"/>
             </Component> 
             <Component Id="C__E6466DAC721855542BAA3903DEAC3784" Guid="{2585A12E-1DCD-98AB-8B66-1AEC91D5AAAE}">
-                <File Id="_E6466DAC721855542BAA3903DEAC3784" Name="Infragistics2.Win.UltraWinExplorerBar.v8.3.dll" KeyPath="yes" ShortName="INFRAG~8.DLL" Assembly=".net" AssemblyManifest="_E6466DAC721855542BAA3903DEAC3784" AssemblyApplication="_E6466DAC721855542BAA3903DEAC3784" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v8.3.dll" />
+                <File Id="_E6466DAC721855542BAA3903DEAC3784" Name="Infragistics2.Win.UltraWinExplorerBar.v9.2.dll" KeyPath="yes" ShortName="INFRAG~8.DLL" Assembly=".net" AssemblyManifest="_E6466DAC721855542BAA3903DEAC3784" AssemblyApplication="_E6466DAC721855542BAA3903DEAC3784" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinExplorerBar.v9.2.dll" />
             </Component>
             <Component Id="C__E9F854AF18E34FD0BC11E5336149238B" Guid="{84D42D4E-50C9-48B3-5D99-FFF7AE5B0012}">
                 <File Id="_E9F854AF18E34FD0BC11E5336149238B" Name="LICENSE.txt" KeyPath="yes" ShortName="LICENSE.TXT" DiskId="1" Source=".\File\_E9F854AF18E34FD0BC11E5336149238B" />
             </Component>
             <Component Id="C__F80DE15D3837D81A0718F87AC8EC182B" Guid="{A9E371BD-67ED-5872-3366-0A12D1D1EDBA}">
-                <File Id="_F80DE15D3837D81A0718F87AC8EC182B" Name="Infragistics2.Win.UltraWinTree.v8.3.dll" KeyPath="yes" ShortName="INFRAG~9.DLL" Assembly=".net" AssemblyManifest="_F80DE15D3837D81A0718F87AC8EC182B" AssemblyApplication="_F80DE15D3837D81A0718F87AC8EC182B" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinTree.v8.3.dll" />
+                <File Id="_F80DE15D3837D81A0718F87AC8EC182B" Name="Infragistics2.Win.UltraWinTree.v9.2.dll" KeyPath="yes" ShortName="INFRAG~9.DLL" Assembly=".net" AssemblyManifest="_F80DE15D3837D81A0718F87AC8EC182B" AssemblyApplication="_F80DE15D3837D81A0718F87AC8EC182B" DiskId="1" Source="..\..\Common\Libraries\Infragistics2.Win.UltraWinTree.v9.2.dll" />
             </Component>
             <Component Id="C__746C69616E6711D38E0D00C04F6837D0" Guid="{D5D7A88A-5395-4D43-AD18-713B804A1EF6}" KeyPath="yes">
                 <RemoveFolder Id="_BEC6E233BC764319925A7E40F5CBD2CF" Directory="_181A34A023A645799A08BC7FD4623B25" On="uninstall" />
@@ -616,6 +616,20 @@
                     <File Id="_28F7A77EA441592AF54F6B9F84B83093" Name="AdsBlocker.AddIn2.dll" KeyPath="yes" ShortName="ADSBLO~1.DLL" Assembly=".net" AssemblyManifest="_28F7A77EA441592AF54F6B9F84B83093" AssemblyApplication="_28F7A77EA441592AF54F6B9F84B83093" DiskId="1" Source="..\..\AddIn\AdsBlocker\obj\Release\AdsBlocker.AddIn2.dll" />
                 </Component>
             </Directory>
+            <Directory Id="_40DA05722EF34786941DB6779C624498" Name="Resources" ShortName="RESOUR~1">
+              <Component Id="C__8001A1A027BF410AA8802A335171BDD7" Guid="{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}">
+                <File Id="_8001A1A027BF410AA8802A335171BDD7" Name="facebook.ico" KeyPath="yes" ShortName="FACEBO~1.ICO" DiskId="1" Source="..\..\RssBandit\Resources\facebook.ico" />
+              </Component>
+              <Component Id="C__5E0E8C4AF54D48A7B77D8C7D024C2121" Guid="{1AB065B6-B37D-4D5C-82A5-73BB34980120}">
+                <File Id="_5E0E8C4AF54D48A7B77D8C7D024C2121" Name="webpage.ico" KeyPath="yes" ShortName="WEBPAG~1.ICO" DiskId="1" Source="..\..\RssBandit\Resources\webpage.ico" />
+              </Component>
+              <Component Id="C__143B2EFF7CE74EFEB252F0BCFFE7C4E0" Guid="{3279B717-B70F-448D-AA44-90EB156FF83F}">
+                <File Id="_143B2EFF7CE74EFEB252F0BCFFE7C4E0" Name="google.ico" KeyPath="yes" ShortName="GOOGLE.ICO" DiskId="1" Source="..\..\RssBandit\Resources\google.ico" />
+              </Component>
+              <Component Id="C__44FDC304B0074381AEE60580401AB4EA" Guid="{D0358ADE-6901-47D0-A613-6085D51DEC9C}">
+                <File Id="_44FDC304B0074381AEE60580401AB4EA" Name="rss.ico" KeyPath="yes" ShortName="RSS.ICO" DiskId="1" Source="..\..\RssBandit\Resources\rss.ico" />
+              </Component>              
+            </Directory>
             <Directory Id="_BA07AA9E84F54D39AC095072622EDE20" Name="templates" ShortName="TEMPLA~1">
                 <Component Id="C__03FC9A1F0B448EFB81F0E78EFA2F625D" Guid="{D628FC88-E698-F454-9D5B-0B19F3C83A1B}">
                     <File Id="_03FC9A1F0B448EFB81F0E78EFA2F625D" Name="formal-red.fdxsl" KeyPath="yes" ShortName="FORMAL~1.FDX" DiskId="1" Source="..\..\RssBandit\templates\formal-red.fdxsl" />
@@ -966,11 +980,11 @@
             <ComponentRef Id="C__43D5B158FBE9C245DADFBAAB991534B2" Primary="yes" />
             <ComponentRef Id="C__5120D0685C3339CD7872C45624E91FD4" Primary="yes" />
             <ComponentRef Id="C__51D91ED98E3F927950E68694E013CC4B" Primary="yes" />
-         <!--   <ComponentRef Id="C__5504EEE943BF49B478791145D6A44F4B" Primary="yes" /> -->
+            <ComponentRef Id="C__5504EEE943BF49B478791145D6A44F4B" Primary="yes" />
             <ComponentRef Id="C__5506B339384C4897927C99936CAC0761" />
             <ComponentRef Id="C__5923DAC2D93FE83D6268B5393BCCD489" Primary="yes" />
             <ComponentRef Id="C__61678945471F48F896C8D5FC04743AC4" />
-            <!-- <ComponentRef Id="C__68B4406FCE9E39FA52AE8DB624D94A37" Primary="yes" /> -->
+            <ComponentRef Id="C__68B4406FCE9E39FA52AE8DB624D94A37" Primary="yes" />
             <ComponentRef Id="C__6D03E30DC32F7C8B90293764C14C7AD4" Primary="yes" />
             <ComponentRef Id="C__74BEFBEEE1BD400BAEEC0822BEB18DEB" Primary="yes" />
             <ComponentRef Id="C__77081FF08E81D26EA2FB2A856CD24F11" Primary="yes" />
@@ -1175,6 +1189,10 @@
             <ComponentRef Id="C__commentsbw.gif" Primary="yes" />
             <ComponentRef Id="C__arrowrightbw.gif" Primary="yes" />
             <ComponentRef Id="C__arrowdownbw.gif" Primary="yes" />
+            <ComponentRef Id="C__8001A1A027BF410AA8802A335171BDD7"/>
+            <ComponentRef Id="C__44FDC304B0074381AEE60580401AB4EA"/>
+            <ComponentRef Id="C__5E0E8C4AF54D48A7B77D8C7D024C2121"/>
+            <ComponentRef Id="C__143B2EFF7CE74EFEB252F0BCFFE7C4E0"/>
         </Feature>
         <Icon Id="_6FEFF9B68218417F98F549.exe" SourceFile=".\Icon\_6FEFF9B68218417F98F549.exe" />
         <Icon Id="_9446994FA0403609C0421E.exe" SourceFile=".\Icon\_9446994FA0403609C0421E.exe" />
@@ -1802,8 +1820,8 @@
             </Dialog>
         </UI>
         <Upgrade Id="{108879A4-BD9B-414D-9C91-852BA402EF72}">
-            <UpgradeVersion Maximum="1.9.972" Property="PREVIOUSVERSIONSINSTALLED" />
-            <UpgradeVersion Minimum="1.9.972" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
+            <UpgradeVersion Maximum="1.9.1003" Property="PREVIOUSVERSIONSINSTALLED" />
+            <UpgradeVersion Minimum="1.9.1003" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
         </Upgrade>
         <InstallExecuteSequence>
             <Custom Action="DIRCA_CheckFX" Sequence="1" />
