@@ -17,6 +17,7 @@ namespace RssBandit.WinGui.ViewModel
     {
         private ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
         private bool _isExpanded;
+        private bool _isSelected;
         
         protected CategorizedFeedSourceViewModel BaseFeedSource;
         protected TreeNodeViewModelBase BaseParent;
@@ -47,6 +48,19 @@ namespace RssBandit.WinGui.ViewModel
                 {
                     _isExpanded = value;
                     OnPropertyChanged("IsExpanded");
+                }
+            }
+        }
+
+        public virtual bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
                 }
             }
         }

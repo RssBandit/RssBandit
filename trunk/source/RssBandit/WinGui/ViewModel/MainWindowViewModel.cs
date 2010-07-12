@@ -9,8 +9,10 @@
 #endregion
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Infragistics.Windows.Ribbon;
 using Infragistics.Windows.Themes;
 using RssBandit.WinGui.Commands;
 
@@ -77,6 +79,36 @@ namespace RssBandit.WinGui.ViewModel
 
                 OnPropertyChanged("CurrentTheme");
             }
+        }
+
+        public RibbonTabItem SelectedMenuBand
+        {
+            get { return RssBanditApplication.MainWindow.xamRibbon.SelectedTab; }
+            set
+            {
+                RssBanditApplication.MainWindow.xamRibbon.SelectedTab = value;
+                OnPropertyChanged("SelectedMenuBand");
+            }
+        }
+
+        internal void ActivateContextMenuBand(string name)
+        {
+
+            RibbonTabItem byName = RssBanditApplication.MainWindow.xamRibbon.FindName(name) as RibbonTabItem;
+            if (byName == null)
+                throw new ArgumentException("No such menu band with name: " + name, "name");
+
+            if (RssBanditApplication.MainWindow.xamRibbon.SelectedTab == byName)
+                return;
+
+            
+            foreach (RibbonTabItem ctg in RssBanditApplication.MainWindow.xamRibbon.Tabs)
+                if (ctg.ContextualTabGroup != null)
+                    ctg.Visibility = Visibility.Collapsed;
+
+            byName.BringIntoView();
+            byName.IsSelected = true;
+            SelectedMenuBand = byName;
         }
 
         #region App Options Command

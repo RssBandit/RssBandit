@@ -2524,6 +2524,24 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feed.
+        /// </summary>
+        public static string MainMenuBandFeedCaption {
+            get {
+                return ResourceManager.GetString("MainMenuBandFeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools and commands related to feeds....
+        /// </summary>
+        public static string MainMenuBandFeedDesc {
+            get {
+                return ResourceManager.GetString("MainMenuBandFeedDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folder.
         /// </summary>
         public static string MainMenuBandFolderCaption {

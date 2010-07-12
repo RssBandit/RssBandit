@@ -13,12 +13,13 @@
     <Window.Resources>
         <Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />
         <Converters:NodesSortedByCategoryTitleConverter x:Key="sortCategoryTitleConverter" />
+        
     </Window.Resources>
 
     <Ribbon:RibbonWindowContentHost>
 
         <Ribbon:RibbonWindowContentHost.Ribbon>
-            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" >
+            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" SelectedTab="{Binding SelectedMenuBand}" >
 
                 <Ribbon:XamRibbon.ApplicationMenu>
                     <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
@@ -77,11 +78,11 @@
                     </Ribbon:ApplicationMenu>
                 </Ribbon:XamRibbon.ApplicationMenu>
 
-                <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
+                <Ribbon:RibbonTabItem Name="mnuBandHome" Header="{ext:Res Id=MainMenuBandHomeCaption,Default=Home#}">
                     <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
                         <Ribbon:ButtonTool Id="cmdUpdateAllFeeds" Caption="{ext:Res Id=MainMenuToolUpdateAllFeedsCaption,Default=UpdateAll#}" Command="{Binding Path=UpdateAllFeedsCommand}"
                              SmallImage="/Resources/Images/Toolbar/refresh.all.feedsources.16.png" LargeImage="/Resources/Images/Toolbar/refresh.all.feedsources.32.png" 
-                             IsQatCommonTool="true" Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                             IsQatCommonTool="true" Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"  />
                         <Ribbon:SeparatorTool/>
                         <Ribbon:ButtonTool Id="cmdCatchUpAllFeeds" Caption="{ext:Res Id=MenuCatchUpOnAllCaption,Default=CatchUpAll#}" Command="{Binding Path=CatchUpAllFeedsCommand}"
                              LargeImage="/Resources/Images/Toolbar/mark.read.feedsources.32.png" 
@@ -116,7 +117,7 @@
                     </Ribbon:RibbonGroup>
                 </Ribbon:RibbonTabItem>
 
-                <Ribbon:RibbonTabItem Header="{ext:Res Id=MainMenuBandFolderCaption,Default=Folder#}">
+                <Ribbon:RibbonTabItem Name="mnuBandFolder" Header="{ext:Res Id=MainMenuBandFolderCaption,Default=Folder#}">
                     <Ribbon:RibbonGroup Caption="{ext:Res Id=MainMenuBandGroupCatchUpCaption,Default=CatchUp#}">
                         <Ribbon:ButtonTool Id="cmdUpdateFeedsInFolder" Caption="{ext:Res Id=MainMenuToolUpdateFeedsInFolderCaption,Default=UpdateFolder#}" Command="{Binding Path=UpdateFeedsInFolderCommand}"
                              LargeImage="/Resources/Images/Toolbar/refresh.folder.32.png" 
@@ -127,6 +128,9 @@
                              Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
                     </Ribbon:RibbonGroup>
                 </Ribbon:RibbonTabItem>
+
+                <Ribbon:RibbonTabItem Name="mnuBandFeed" Header="{ext:Res Id=MainMenuBandFeedCaption,Default=Feed#}">
+                </Ribbon:RibbonTabItem>
             </Ribbon:XamRibbon>
         </Ribbon:RibbonWindowContentHost.Ribbon>
 
@@ -135,32 +139,33 @@
                 <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid.Resources>
-                <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:TreeNodeViewModelBase}" 
+            
+            <TreeView Name="tree" Grid.Column="0"
+                ItemsSource="{Binding FeedSources.Sources}" >
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate x:Key="NodesTemplate" DataType="{x:Type vm:TreeNodeViewModelBase}" 
                                    ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-                
-                <HierarchicalDataTemplate x:Key="FeedSourcesTemplate" DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type vm:CategorizedFeedSourceViewModel}" 
                                   ItemsSource="{Binding Children, Converter= {StaticResource sortCategoryTitleConverter}}"
                                   ItemTemplate="{StaticResource NodesTemplate}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-
-                </HierarchicalDataTemplate>
-            </Grid.Resources>
-            <TreeView Name="tree" Grid.Column="0"
-                ItemsSource="{Binding FeedSources.Sources}" 
-                ItemTemplate="{StaticResource FeedSourcesTemplate}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <!-- used also to display expanded folder image(s) -->
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
