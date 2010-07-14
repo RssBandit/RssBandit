@@ -272,6 +272,9 @@
     <Reference Include="mscorlib">
       <Name>mscorlib</Name>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\Common\Libraries\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -1967,10 +1970,6 @@
     <Compile Include="Core\SearchEngineHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\ServiceInfrastructure\IoC.cs" />
-    <Compile Include="Core\ServiceInfrastructure\IServiceDependencyContainer.cs" />
-    <Compile Include="Core\ServiceInfrastructure\IServiceDependencyResolver.cs" />
-    <Compile Include="Core\ServiceInfrastructure\ServiceProviderDependenyResolver.cs" />
     <Compile Include="Core\ServiceManager.cs">
       <SubType>Code</SubType>
     </Compile>

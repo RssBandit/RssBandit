@@ -764,13 +764,13 @@ namespace RssBandit.WinGui.Forms
 
         public void CmdOpenConfigIdentitiesDialog(ICommand sender)
         {
-            var imng = new IdentityNewsServerManager(owner);
+            var imng = new IdentityNewsServerManager();
             imng.ShowIdentityDialog(this);
         }
 
         public void CmdOpenConfigNntpServerDialog(ICommand sender)
         {
-            var imng = new IdentityNewsServerManager(owner);
+            var imng = new IdentityNewsServerManager();
             imng.ShowNewsServerSubscriptionsDialog(this);
         }
 

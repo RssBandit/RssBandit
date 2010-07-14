@@ -19,6 +19,7 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.News;
 using NewsComponents.Utils;
+using Ninject;
 using RssBandit.Core.Storage;
 
 using RssBandit.Resources;
@@ -44,12 +45,10 @@ namespace RssBandit
 		private static UserIdentity anonymous;
 
 		private IdentitiesDictionary identities;
-		private readonly RssBanditApplication app;
 		private readonly string cachePath;
 
-	    internal IdentityNewsServerManager(RssBanditApplication app) 
+	    internal IdentityNewsServerManager() 
 		{
-			this.app = app;
 			this.cachePath = RssBanditApplication.GetFeedFileCachePath();
 		}
 
@@ -76,7 +75,7 @@ namespace RssBandit
 			{
 				if (identities == null)
 				{
-					identities = LoadIdentities(IoC.Resolve<IUserRoamingDataService>());
+					identities = LoadIdentities(RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>());
 				}
 				return identities;
 			}
@@ -92,7 +91,7 @@ namespace RssBandit
 		public void Save()
 		{
 			if (Identities.Modified)
-				SaveIdentities(IoC.Resolve<IUserRoamingDataService>(), Identities);
+                SaveIdentities(RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>(), Identities);
 		}
 		
 		/// <summary>
@@ -147,7 +146,7 @@ namespace RssBandit
         {
 			get
 			{
-				IBanditFeedSource extension = app.BanditFeedSourceExtension;
+                IBanditFeedSource extension = RssBanditApplication.Current.BanditFeedSourceExtension;
 				if (extension != null)
 					return extension.NntpServers;
 				return new Dictionary<string, INntpServerDefinition>(0);
@@ -312,7 +311,7 @@ namespace RssBandit
 			if (sd == null)
 				throw new ArgumentNullException("sd");
 
-			FetchNewsgroupsThreadHandler threadHandler = new FetchNewsgroupsThreadHandler(app, sd);
+			FetchNewsgroupsThreadHandler threadHandler = new FetchNewsgroupsThreadHandler(sd);
 			DialogResult result = threadHandler.Start(owner, SR.NntpLoadingGroupsWaitMessage, true);
 
 			if (DialogResult.OK != result)
@@ -348,7 +347,7 @@ namespace RssBandit
 					RaiseNewsServerDefinitionsModified();
 					RaiseIdentityDefinitionsModified();
 					// notify backend about NNTP server defs changes:
-					app.SubscriptionModified(app.BanditFeedSourceEntry, NewsFeedProperty.General);
+                    RssBanditApplication.Current.SubscriptionModified(RssBanditApplication.Current.BanditFeedSourceEntry, NewsFeedProperty.General);
 				}
 			} catch (Exception ex) {
 				Trace.WriteLine("Exception in NewsGroupsConfiguration dialog: "+ex.Message);
@@ -385,7 +384,7 @@ namespace RssBandit
 
 			Save();
 
-			IBanditFeedSource extension = app.BanditFeedSourceExtension;
+            IBanditFeedSource extension = RssBanditApplication.Current.BanditFeedSourceExtension;
 			if (extension != null)
 			{
 				lock (extension.NntpServers)
@@ -415,12 +414,10 @@ namespace RssBandit
 	internal class FetchNewsgroupsThreadHandler: EntertainmentThreadHandlerBase {
 	
 		private readonly INntpServerDefinition serverDef;
-		private readonly RssBanditApplication app;
 		public List<string> Newsgroups;
 
-		public FetchNewsgroupsThreadHandler(RssBanditApplication app, INntpServerDefinition sd)
+		public FetchNewsgroupsThreadHandler(INntpServerDefinition sd)
 		{
-			this.app = app;
 			this.serverDef = sd;
             this.Newsgroups = new List<string>(0);
 		}
@@ -434,7 +431,7 @@ namespace RssBandit
 				request.Method = "LIST"; 
 					
 				if (!string.IsNullOrEmpty(serverDef.AuthUser)) {
-					IBanditFeedSource extension = app.BanditFeedSourceExtension;
+                    IBanditFeedSource extension = RssBanditApplication.Current.BanditFeedSourceExtension;
 					if (extension != null)
 						request.Credentials = extension.GetFeedCredentials(serverDef);
 					//string u = null, p = null;
@@ -443,7 +440,7 @@ namespace RssBandit
 				}
 
 				//TODO: implement proxy support in NntpWebRequest
-				request.Proxy = app.Proxy;
+                request.Proxy = RssBanditApplication.Current.Proxy;
 
 				request.Timeout = 1000 * 60;	// default timeout: 1 minute
                 if (serverDef.Timeout > 0) {
