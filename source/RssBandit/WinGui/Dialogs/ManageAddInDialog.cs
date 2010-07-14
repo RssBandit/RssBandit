@@ -11,7 +11,7 @@
 
 using System;
 using System.Windows.Forms;
-
+using Ninject;
 using RssBandit.UIServices;
 using RssBandit.Resources;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace RssBandit.WinGui.Dialogs
 			// the IAddInPackageConfiguration interface
 			this.btnConfigure.Enabled = false;
 
-			this.manager = IoC.Resolve<IAddInManager>();
+            this.manager = RssBanditApplication.Current.Kernel.Get<IAddInManager>();
 			this.PopulateAddInList(manager.AddIns);
 			
 			OnAddInListItemActivate(this, EventArgs.Empty);
@@ -339,7 +339,7 @@ namespace RssBandit.WinGui.Dialogs
 					IAddIn addIn = manager.Load(openFileDialog.FileName);
 					if (addIn != null) {
 						foreach (IAddInPackage package in addIn.AddInPackages) {
-							package.Load(IoC.Resolve<IServiceProvider>());
+                            package.Load(RssBanditApplication.Current);
 						}
 						ListViewItem item = this.lstLoadedAddIns.Items.Add(new ListViewItem(new string[]{addIn.Name, addIn.Location}));
 						item.Tag = addIn;

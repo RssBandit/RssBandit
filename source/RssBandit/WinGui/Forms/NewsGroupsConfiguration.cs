@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinToolbars;
+using Ninject;
 using RssBandit.WinGui.Forms.ControlHelpers;
 using RssBandit.WinGui.Utility;
 using TD.Eyefinder;
@@ -508,20 +509,17 @@ namespace RssBandit.WinGui.Forms
 			{
 				ListViewItem lv = listOfGroups.SelectedItems[0];
 				NntpServerDefinition sd = GetSelectedNntpServerDefinition();
-				if (sd != null) 
-				{
-					ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
-			
-					if (coreApp != null) 
-					{
-						if (coreApp.SubscribeToFeed(
-							IdentityNewsServerManager.BuildNntpRequestUri(sd, lv.Text).ToString(), 
-							null, lv.Text))
-						{
-							//TODO set icon
-						}
-					}
-				}
+                if (sd != null)
+                {
+
+                    if (RssBanditApplication.Current.Kernel.Get<ICoreApplication>().SubscribeToFeed(
+                        IdentityNewsServerManager.BuildNntpRequestUri(sd, lv.Text).ToString(),
+                        null, lv.Text))
+                    {
+                        //TODO set icon
+                    }
+
+                }
 			}
 
 		}

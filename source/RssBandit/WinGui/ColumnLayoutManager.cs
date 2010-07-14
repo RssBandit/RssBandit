@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using NewsComponents;
+using Ninject;
 using RssBandit.Common.Logging;
 using RssBandit.Core.Storage;
 using RssBandit.Core.Storage.Serialization;
@@ -77,7 +78,7 @@ namespace RssBandit.WinGui
 			{
 				if (_layouts == null)
 				{
-					_layouts = LoadLayouts(IoC.Resolve<IUserRoamingDataService>());
+                    _layouts = LoadLayouts(RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>());
 					ValidateAllColumnLayouts();
 				}
 				return _layouts;
@@ -169,7 +170,7 @@ namespace RssBandit.WinGui
 		public void Save()
 		{
 			if (_layouts != null && _layouts.Modified)
-				SaveLayouts(IoC.Resolve<IUserRoamingDataService>(), _layouts);
+                SaveLayouts(RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>(), _layouts);
 		}
 
 		/// <summary>

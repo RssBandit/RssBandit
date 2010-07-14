@@ -502,7 +502,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class UnreadItemsNode : SmartFolderNodeBase
     {
-    	private readonly RssBanditApplication app;
+    	//private readonly RssBanditApplication app;
 		private readonly Dictionary<int, UnreadItemsNodePerSource> childrenBySourceID = new Dictionary<int, UnreadItemsNodePerSource>(3);
     	
 		#region ctor's
@@ -511,14 +511,17 @@ namespace RssBandit.WinGui.Controls
     		base(itemStore, imageIndex, selectedImageIndex, menu)
     	{
 			// TODO: we should extend the interface ICoreApplication
-    		app = (RssBanditApplication)IoC.Resolve<ICoreApplication>();
+            RssBanditApplication.Current.FeedSourceAdded += app_FeedSourceAdded;
+            RssBanditApplication.Current.FeedSourceChanged += app_FeedSourceChanged;
+            RssBanditApplication.Current.FeedSourceDeleted += app_FeedSourceDeleted;
+            //app = (RssBanditApplication)IoC.Resolve<ICoreApplication>();
 
-			app.FeedSourceAdded += app_FeedSourceAdded;
-			app.FeedSourceChanged += app_FeedSourceChanged;
-			app.FeedSourceDeleted += app_FeedSourceDeleted;
-			
-			if (app.FeedSources.Count > 1)
-    			foreach (FeedSourceEntry e in app.FeedSources.Sources)
+            //app.FeedSourceAdded += app_FeedSourceAdded;
+            //app.FeedSourceChanged += app_FeedSourceChanged;
+            //app.FeedSourceDeleted += app_FeedSourceDeleted;
+
+            if (RssBanditApplication.Current.FeedSources.Count > 1)
+                foreach (FeedSourceEntry e in RssBanditApplication.Current.FeedSources.Sources)
     			{
     				UnreadItemsNodePerSource child = new UnreadItemsNodePerSource(
     					e, itemStore, imageIndex, selectedImageIndex, menu);
@@ -544,7 +547,7 @@ namespace RssBandit.WinGui.Controls
             for (int i = itemsFeed.Items.Count - 1; i >= 0; i--)
             {
                 INewsItem item = itemsFeed.Items[i];
-                FeedSourceEntry owner = app.FeedSources.SourceOf(item.Feed);
+                FeedSourceEntry owner = RssBanditApplication.Current.FeedSources.SourceOf(item.Feed);
                 if (owner != null && owner.ID.Equals(entry.ID))
                 {
                     itemsFeed.Items.RemoveAt(i);
@@ -576,7 +579,7 @@ namespace RssBandit.WinGui.Controls
     			if (HasNodes)
     			{
     				// child handle this:
-    				FeedSourceEntry entry = app.FeedSources.SourceOf(item.Feed);
+                    FeedSourceEntry entry = RssBanditApplication.Current.FeedSources.SourceOf(item.Feed);
     				UnreadItemsNodePerSource child;
 					if (childrenBySourceID.TryGetValue(entry.ID, out child))
 						child.UpdateReadStatus(child, -1);
@@ -606,7 +609,7 @@ namespace RssBandit.WinGui.Controls
     		if (HasNodes)
     		{
     			// child handle this:
-    			FeedSourceEntry entry = app.FeedSources.SourceOf(item.Feed);
+                FeedSourceEntry entry = RssBanditApplication.Current.FeedSources.SourceOf(item.Feed);
 				UnreadItemsNodePerSource child;
 				if (childrenBySourceID.TryGetValue(entry.ID, out child))
 					child.UpdateReadStatus(child, 1);
@@ -679,7 +682,8 @@ namespace RssBandit.WinGui.Controls
 			return itemsFeed.Items.FindAll(
 				item =>
 				{
-                    return (app.FeedSources.SourceOf(item.Feed) != null) && (app.FeedSources.SourceOf(item.Feed).ID == entryID);
+                    return (RssBanditApplication.Current.FeedSources.SourceOf(item.Feed) != null) && 
+                        (RssBanditApplication.Current.FeedSources.SourceOf(item.Feed).ID == entryID);
 				});
 		}
     }

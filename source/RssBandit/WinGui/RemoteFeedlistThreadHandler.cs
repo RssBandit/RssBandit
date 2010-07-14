@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using log4net;
+using Ninject;
 using RssBandit.CLR20.DasBlog;
 using RssBandit.Common.Logging;
 using RssBandit.Core.Storage;
@@ -163,7 +164,7 @@ namespace RssBandit.WinGui
                              });
         	
 			// add files managed by Bandit data storage:
-			IUserRoamingDataService dataService = IoC.Resolve<IUserRoamingDataService>();
+            IUserRoamingDataService dataService = RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>();
 			if (dataService != null)
 				files.AddRange(dataService.GetUserDataFileNames());
 
@@ -625,7 +626,7 @@ namespace RssBandit.WinGui
 					else
                     {
 						// set files managed by Bandit data storage:
-						IUserRoamingDataService dataService = IoC.Resolve<IUserRoamingDataService>();
+                        IUserRoamingDataService dataService = RssBanditApplication.Current.Kernel.Get<IUserRoamingDataService>();
 						if (dataService != null)
 						{
 							if (DataEntityName.None != dataService.SetContentForDataFile(theEntry.Name, zis))

@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Ninject;
 using RssBandit.AppServices;
 using RssBandit.WinGui.Utility;
 using RssBandit.WebSearch;
@@ -123,10 +124,12 @@ namespace RssBandit.WinGui.Dialogs {
 			this.checkMarkItemsAsReadWhenViewed.Checked = prefs.MarkItemsAsReadWhenViewed;
 			this.numNewsItemsPerPage.Value = Decimal.Floor(prefs.NumNewsItemsPerPage);
 			this.comboFormatters.Items.Clear();
-				
-			if (Directory.Exists(tmplFolder)) {
-				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
-				IList tmplFiles = coreApp.GetItemFormatterStylesheets();
+
+            ICoreApplication rssBanditApp = RssBanditApplication.Current.Kernel.Get<ICoreApplication>();
+			
+			if (Directory.Exists(tmplFolder)) 
+            {
+                IList tmplFiles = rssBanditApp.GetItemFormatterStylesheets();
 				
 				if (tmplFiles.Count > 0) {	
 					this.checkCustomFormatter.Enabled = true;
@@ -234,7 +237,6 @@ namespace RssBandit.WinGui.Dialogs {
 			checkBrowserImagesAllowed.Checked = prefs.BrowserImagesAllowed;
 			
 			//set enclosure related settings 
-			ICoreApplication rssBanditApp = IoC.Resolve<ICoreApplication>();
 			textEnclosureDirectory.Text = rssBanditApp.EnclosureFolder; 
 			checkDownloadCreateFolderPerFeed.Checked = rssBanditApp.DownloadCreateFolderPerFeed;			
 			checkEnableEnclosureAlerts.Checked = rssBanditApp.EnableEnclosureAlerts;
@@ -1160,9 +1162,9 @@ namespace RssBandit.WinGui.Dialogs {
 			}
 		}
 
-		private void OnPodcastOptionsButtonClick(object sender, EventArgs e) {
-			ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
-			coreApp.ShowPodcastOptionsDialog(this, null);
+		private void OnPodcastOptionsButtonClick(object sender, EventArgs e) 
+        {
+            RssBanditApplication.Current.Kernel.Get<ICoreApplication>().ShowPodcastOptionsDialog(this, null);
 		}
 
 		private void btnSelectEnclosureFolder2_Click(object sender, EventArgs e) {

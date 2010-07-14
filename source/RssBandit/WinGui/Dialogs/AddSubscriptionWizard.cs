@@ -18,6 +18,7 @@ using System.Windows.Forms;
 
 using Divelements.WizardFramework;
 using NewsComponents.Net;
+using Ninject;
 using RssBandit;
 using RssBandit.AppServices;
 using RssBandit.Common;
@@ -192,16 +193,16 @@ namespace RssBandit.WinGui.Dialogs
 			windowSerializer.SaveStateEvent += OnWindowSerializerSaveStateEvent;
 
 			// to get notified, if the inet connection state changes:
-			internetService = IoC.Resolve<IInternetService>();
+            internetService = RssBanditApplication.Current.Kernel.Get<IInternetService>();
 			if (internetService != null) {
 				internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
 				checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetService.InternetAccessAllowed;
 			}
 			// to checkout the defaults to be used for the new feed:
-			IUserPreferences preferencesService = IoC.Resolve<IUserPreferences>();
+            IUserPreferences preferencesService = RssBanditApplication.Current.Kernel.Get<IUserPreferences>();
 			this.MaxItemAge = preferencesService.MaxItemAge;
 
-			coreApplication = IoC.Resolve<ICoreApplication>();
+            coreApplication = RssBanditApplication.Current.Kernel.Get<ICoreApplication>();
 
 			this.cboUpdateFrequency.Items.Clear();
 			if (!Utils.RefreshRateStrings.Contains(RssBanditApplication.DefaultGlobalRefreshRateMinutes.ToString()))
@@ -1290,19 +1291,18 @@ namespace RssBandit.WinGui.Dialogs
 			PopulateStylesheets(coreApplication.GetItemFormatterStylesheets(), comboFormatters.Text );
 		}
 
-		private void OnAnyLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			LinkLabel o = sender as LinkLabel;
-			if (o != null) {
-				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
-				if (coreApp != null) {
-					string url = (string)o.Tag;
-					if (url == null)
-						url = o.Text;
-					coreApp.NavigateToUrlInExternalBrowser(url);
-					o.Links[o.Links.IndexOf(e.Link)].Visited = true;	
-				}
-			}
-		}
+        private void OnAnyLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LinkLabel o = sender as LinkLabel;
+            if (o != null)
+            {
+                string url = (string)o.Tag;
+                if (url == null)
+                    url = o.Text;
+                coreApplication.NavigateToUrlInExternalBrowser(url);
+                o.Links[o.Links.IndexOf(e.Link)].Visited = true;
+            }
+        }
 		
 		private void OnReloadNntpGroupList(object sender, LinkLabelLinkClickedEventArgs e) {
 			try {

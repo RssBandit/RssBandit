@@ -43,6 +43,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using Ninject;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
@@ -119,7 +120,7 @@ namespace RssBandit
         private SearchEngineHandler searchEngines;
         private ThreadResultManager threadResultManager;
         private IdentityNewsServerManager identityNewsServerManager;
-        private IAddInManager addInManager;
+        //private IAddInManager addInManager;
     	private ColumnLayoutManager columnLayoutManager;
 
         /// <summary>
@@ -356,10 +357,10 @@ namespace RssBandit
 #if DEBUG
             FeedSource.TraceMode = true;
 #endif
-
+            //TODO: move to Kernel services...
             searchEngines = new SearchEngineHandler();
-            identityNewsServerManager = new IdentityNewsServerManager(this);
-            addInManager = new ServiceManager();
+            identityNewsServerManager = new IdentityNewsServerManager();
+            //addInManager = new ServiceManager();
 			columnLayoutManager = new ColumnLayoutManager();
 
             // Gui command handling
@@ -510,28 +511,38 @@ namespace RssBandit
 
         #region IServiceProvider Members and Init
 
-        private void InitApplicationServices()
+        private static Ninject.IKernel _kernel;
+        
+        private class DefaultServiceBindings : Ninject.Modules.NinjectModule
         {
-			// init service container. We init the parent parameter to this,
-			// so we can fallback for services to return instances
-			// on demand (and report about service requests we could not deliver):
-			IoC.Initialize(new ServiceProviderDependencyResolver(this));
-			
-			// create and register main services (keep the order!):
-			IServiceDependencyContainer container = IoC.Resolve<IServiceDependencyContainer>();
-			container.Register<ICoreApplication>(this);
-			container.Register<IInternetService>(this);
-			container.Register<IUserPreferences>(Preferences);
-			container.Register<IAddInManager>(addInManager);
+            public override void Load()
+            {
+                Bind<ICoreApplication>().ToMethod(bindingContext => Current);
+                Bind<IInternetService>().ToMethod(bindingContext => Current);
+                Bind<IUserPreferences>().ToMethod(bindingContext => Current.Preferences);
+                Bind<IAddInManager>().To<ServiceManager>().InSingletonScope();
+            }
+        }
+        private class DataServiceBindings : Ninject.Modules.NinjectModule
+        {
+            public override void Load()
+            {
+                Bind<IUserCacheDataService>().ToMethod(bindingContext => (IUserCacheDataService)DataServiceFactory.GetService(StorageDomain.UserCacheData));
+                Bind<IUserDataService>().ToMethod(bindingContext => (IUserDataService)DataServiceFactory.GetService(StorageDomain.UserData));
+                Bind<IUserRoamingDataService>().ToMethod(bindingContext => (IUserRoamingDataService)DataServiceFactory.GetService(StorageDomain.UserRoamingData));
+            }
+        }
 
-			container.Register<IUserCacheDataService>(
-			    DataServiceFactory.GetService(StorageDomain.UserCacheData));
-			container.Register<IUserDataService>(
-				DataServiceFactory.GetService(StorageDomain.UserData));
-			container.Register<IUserRoamingDataService>(
-				 DataServiceFactory.GetService(StorageDomain.UserRoamingData));
-           
-			//TODO: add all the other services we provide...
+        public IKernel Kernel
+        {
+            get { return _kernel; }
+        }
+
+        private static void InitApplicationServices()
+        {
+            _kernel = new StandardKernel(
+                new DefaultServiceBindings(), 
+                new DataServiceBindings());
         }
 
         /// <summary>
@@ -546,18 +557,8 @@ namespace RssBandit
         /// </returns>
         object IServiceProvider.GetService(Type serviceType)
         {
-			// this is now just a fallback of IoC resolve calls.
-			// The main purpose is now: provide services for the AddIns!
-            if (serviceType.Equals(typeof(ICoreApplication)))
-        		return IoC.Resolve<ICoreApplication>();
-			if (serviceType.Equals(typeof(IInternetService)))
-				return IoC.Resolve<IInternetService>();
-			if (serviceType.Equals(typeof(IUserPreferences)))
-				return IoC.Resolve<IUserPreferences>();
-			if (serviceType.Equals(typeof(IAddInManager)))
-				return IoC.Resolve<IAddInManager>();
-			
-            return null;
+            // The main purpose here is: provide services for the AddIns!)
+            return Kernel.Get(serviceType);
         }
 
         #endregion
@@ -650,7 +651,7 @@ namespace RssBandit
 
         internal void CheckAndLoadAddIns()
         {
-            IEnumerable<IAddIn> addIns = addInManager.AddIns;
+            IEnumerable<IAddIn> addIns = Kernel.Get<IAddInManager>().AddIns;
 
             if (addIns == null)
                 return;
@@ -681,7 +682,7 @@ namespace RssBandit
         /// </summary>
         internal void UnloadAddIns()
         {
-            IEnumerable<IAddIn> addIns = addInManager.AddIns;
+            IEnumerable<IAddIn> addIns = Kernel.Get<IAddInManager>().AddIns;
             if (addIns == null)
                 return;
             foreach (var addIn in addIns)

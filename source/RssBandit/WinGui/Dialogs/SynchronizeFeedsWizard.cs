@@ -12,6 +12,7 @@ using System;
 using System.Windows.Forms;
 
 using Divelements.WizardFramework;
+using Ninject;
 using RssBandit;
 using RssBandit.AppServices;
 using RssBandit.Resources;
@@ -136,12 +137,10 @@ namespace RssBandit.WinGui.Forms
 			InitializeComponent();    
 
             // form location management:
-            windowSerializer = new WindowSerializer(this);
-            windowSerializer.SaveOnlyLocation = true;
-            windowSerializer.SaveNoWindowState = true;
-          
+            windowSerializer = new WindowSerializer(this) {SaveOnlyLocation = true, SaveNoWindowState = true};
+
             // to get notified, if the inet connection state changes:
-            internetService = IoC.Resolve<IInternetService>();
+            internetService = RssBanditApplication.Current.Kernel.Get<IInternetService>();
             if (internetService != null)
             {
                 internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
