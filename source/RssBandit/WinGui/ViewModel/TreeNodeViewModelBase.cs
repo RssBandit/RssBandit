@@ -61,6 +61,7 @@ namespace RssBandit.WinGui.ViewModel
                 {
                     _isSelected = value;
                     OnPropertyChanged("IsSelected");
+                    RssBanditApplication.MainWindow.Model.OnTreeModelSelectionChanged(this, value);
                 }
             }
         }

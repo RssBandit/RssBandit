@@ -30,6 +30,10 @@ namespace RssBandit.WinGui.ViewModel
         }
 
 
+        /// <summary>
+        /// Gets or sets the feed sources (XAML bound).
+        /// </summary>
+        /// <value>The feed sources.</value>
         public FeedSourcesViewModel FeedSources
         {
             get
@@ -42,7 +46,7 @@ namespace RssBandit.WinGui.ViewModel
         }
 
         /// <summary>
-        /// Gets the current theme (for binding).
+        /// Gets the current theme (XAML bound).
         /// </summary>
         /// <value>The current theme.</value>
         public string CurrentTheme
@@ -81,6 +85,10 @@ namespace RssBandit.WinGui.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected menu band (XAML bound).
+        /// </summary>
+        /// <value>The selected menu band.</value>
         public RibbonTabItem SelectedMenuBand
         {
             get { return RssBanditApplication.MainWindow.xamRibbon.SelectedTab; }
@@ -88,6 +96,19 @@ namespace RssBandit.WinGui.ViewModel
             {
                 RssBanditApplication.MainWindow.xamRibbon.SelectedTab = value;
                 OnPropertyChanged("SelectedMenuBand");
+            }
+        }
+
+        internal void OnTreeModelSelectionChanged(TreeNodeViewModelBase sender, bool selected)
+        {
+            if (selected)
+            {
+                if (sender is FeedViewModel)
+                    ActivateContextMenuBand("mnuBandFeed");
+                if (sender is FolderViewModel)
+                    ActivateContextMenuBand("mnuBandFolder");
+                if (sender is CategorizedFeedSourceViewModel)
+                    ActivateContextMenuBand("mnuBandHome");
             }
         }
 

@@ -140,19 +140,6 @@ namespace RssBandit.WinGui.ViewModel
             get { return this; }
         }
 
-        public override bool IsSelected
-        {
-            get
-            {
-                return base.IsSelected;
-            }
-            set
-            {
-                base.IsSelected = value;
-                RssBanditApplication.MainWindow.Model.ActivateContextMenuBand("mnuBandHome");
-            }
-        }
-
         /// <summary>
         /// Creates a FolderViewModel that represents a feed category in the tree view
         /// </summary>
