@@ -77,17 +77,5 @@ namespace RssBandit.WinGui.ViewModel
             }
         }
 
-        public override bool IsSelected
-        {
-            get
-            {
-                return base.IsSelected;
-            }
-            set
-            {
-                base.IsSelected = value;
-                RssBanditApplication.MainWindow.Model.ActivateContextMenuBand("mnuBandFolder");
-            }
-        }
     }
 }
