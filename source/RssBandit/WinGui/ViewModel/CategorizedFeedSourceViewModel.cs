@@ -24,19 +24,39 @@ namespace RssBandit.WinGui.ViewModel
 {
     public class CategorizedFeedSourceViewModel : TreeNodeViewModelBase//ViewModelBase
     {
+        /// <summary>
+        /// The underlying feed source entry 
+        /// </summary>
         private readonly FeedSourceEntry _entry;
+
+        /// <summary>
+        /// The children of the tree node
+        /// </summary>
         private ObservableCollection<TreeNodeViewModelBase> _children;
 
+
+        /// <summary>
+        /// Constructor intializes underlying feedsource
+        /// </summary>
+        /// <param name="feedSource"></param>
         public CategorizedFeedSourceViewModel(FeedSourceEntry feedSource)
         {
             _entry = feedSource;
         }
 
+
+        /// <summary>
+        /// The user provided name of the feed source
+        /// </summary>
         public override string Name {
             get { return _entry.Name; }
             set { _entry.Name = value; }
         }
 
+
+        /// <summary>
+        /// The image that represents the feed source
+        /// </summary>
         public override string Image
         {
             get
@@ -64,6 +84,9 @@ namespace RssBandit.WinGui.ViewModel
             }
         }
 
+        /// <summary>
+        /// The children of the feed source in the tree view
+        /// </summary>
         public override ObservableCollection<TreeNodeViewModelBase> Children
         {
             get
@@ -129,12 +152,19 @@ namespace RssBandit.WinGui.ViewModel
             set { _children = value; }
         }
 
+        /// <summary>
+        /// The category of the feed source. 
+        /// </summary>
+        /// <remarks>Always returns null</remarks>
         public override string Category
         {
             get { return null; }
             set {  }
         }
 
+        /// <summary>
+        /// Returns the current object. 
+        /// </summary>
         public override CategorizedFeedSourceViewModel Source
         {
             get { return this; }
@@ -198,6 +228,8 @@ namespace RssBandit.WinGui.ViewModel
             return null;
         }
 
+        #region static methods
+
         /// <summary>
         /// Creates a FolderViewModel that represents a feed category in the tree view
         /// </summary>
@@ -249,6 +281,7 @@ namespace RssBandit.WinGui.ViewModel
             return startNode;
         }
 
+        #endregion 
 
     }
 
