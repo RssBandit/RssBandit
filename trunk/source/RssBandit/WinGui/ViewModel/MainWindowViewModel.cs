@@ -22,12 +22,14 @@ namespace RssBandit.WinGui.ViewModel
     {
         private FeedSourcesViewModel _feedSources;
 
+        
         public MainWindowViewModel()
         {
             base.DisplayName = RssBanditApplication.CaptionOnly;
             // assign the rencent selected theme, or the default:
             CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", Win32.IsOSAtLeastWindows7 ? "Scenic": "Office2k7Black");
-        }
+
+           }
 
 
         /// <summary>
@@ -162,5 +164,6 @@ namespace RssBandit.WinGui.ViewModel
 
 
         #endregion
+       
     }
 }

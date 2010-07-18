@@ -178,6 +178,19 @@ namespace RssBandit.WinGui.ViewModel
         }
 
 
+        /// <summary>
+        /// Starts the process of subscribing to the specified RSS feed via the new subscription wizard
+        /// </summary>     
+        /// <param name="feedUrl">The URL of the feed to subscribe to</param>
+        public void SubscribeRssFeed(string feedUrl)
+        {
+            //handle occassions where URL begins with feed: protocol 
+            feedUrl = RssLocater.UrlFromFeedProtocolUrl(feedUrl);
+            SubscribeToFeed(feedUrl, null, String.Empty, AddSubscriptionWizardMode.SubscribeURLDirect);
+        }
+
+
+
         #endregion
 
         #region Subscribe NntpFeed Command
@@ -591,9 +604,11 @@ namespace RssBandit.WinGui.ViewModel
 
         public static CategorizedFeedSourceViewModel ViewModelOf(FeedSourceEntry entry)
         {
-            foreach (CategorizedFeedSourceViewModel cfsvm in RssBanditApplication.MainWindow.tree.Items)
+            
+            foreach (var treeItem in RssBanditApplication.MainWindow.tree.Items)
             {
-                if (cfsvm.Name.Equals(entry.Name))
+                CategorizedFeedSourceViewModel cfsvm = treeItem as CategorizedFeedSourceViewModel; 
+                if ((cfsvm != null) && cfsvm.Name.Equals(entry.Name))
                 {
                     return cfsvm; 
                 }

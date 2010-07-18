@@ -2025,6 +2025,8 @@
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Forms\MainWindow.Callbacks.cs">
+    </Compile>
     <Compile Include="WinGui\Forms\MainWindow.Helpers.cs" />
     <Compile Include="WinGui\Forms\MainWindow.UITaskTimer.cs">
     </Compile>
