@@ -2025,13 +2025,10 @@
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WinGui\Forms\MainWindow.Callbacks.cs">
-    </Compile>
-    <Compile Include="WinGui\Forms\MainWindow.Helpers.cs" />
-    <Compile Include="WinGui\Forms\MainWindow.UITaskTimer.cs">
-    </Compile>
     <Compile Include="WinGui\Utility\Extensions.cs" />
     <Compile Include="WinGui\Utility\WpfWindowSerializer.cs" />
+    <Compile Include="WinGui\ViewModel\ApplicationViewModel.Callbacks.cs" />
+    <Compile Include="WinGui\ViewModel\ApplicationViewModel.UITaskTimer.cs" />
     <Compile Include="WinGui\ViewModel\CategorizedFeedSourceViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FeedSourcesViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FeedViewModel.cs" />
