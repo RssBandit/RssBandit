@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using RssBandit.WinGui.Forms;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.ViewModel
 {
-    public partial class MainWindow
+    public partial class ApplicationViewModel
     {
         private class UITaskTimer : DispatcherTimer
         {

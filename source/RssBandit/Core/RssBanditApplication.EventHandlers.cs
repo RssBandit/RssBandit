@@ -16,7 +16,8 @@ using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 using System.Linq;
 using RssBandit.WinGui.Dialogs;
-using System.IO; 
+using System.IO;
+using RssBandit.WinGui.ViewModel;
 
 namespace RssBandit
 {
