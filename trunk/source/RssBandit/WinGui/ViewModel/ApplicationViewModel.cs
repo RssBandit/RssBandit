@@ -7,7 +7,6 @@ using System;
 using System.Windows.Input;
 using NewsComponents;
 using RssBandit.WinGui.Commands;
-using System.Windows.Controls;
 using RssBandit.WinGui.Dialogs;
 using NewsComponents.Feed;
 using System.Windows.Forms;
@@ -21,8 +20,6 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.Windows.Interop;
 using RssBandit.Resources;
-using NewsComponents;
-using NewsComponents.Utils;
 using System.Windows.Threading;
 
 namespace RssBandit.WinGui.ViewModel

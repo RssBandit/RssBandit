@@ -28,11 +28,12 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -223,15 +224,21 @@
       <HintPath>..\Common\Libraries\Infragistics2.Win.v10.2.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="InfragisticsWPF3.Ribbon.v10.2, Version=10.2.20102.1014, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v10.2, Version=10.2.20102.2001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF3.Ribbon.v10.2.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\Common\Libraries\InfragisticsWPF4.Controls.Menus.XamMenu.v10.2.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF3.v10.2, Version=10.2.20102.1014, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="InfragisticsWPF4.DockManager.v10.2, Version=10.2.20102.2001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF3.v10.2.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\Common\Libraries\InfragisticsWPF4.DockManager.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Ribbon.v10.2, Version=10.2.20102.2001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\InfragisticsWPF4.Ribbon.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.v10.2, Version=10.2.20102.2001, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\InfragisticsWPF4.v10.2.dll</HintPath>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
@@ -306,15 +313,13 @@
       <Name>System.Runtime.Serialization.Formatters.Soap</Name>
     </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Web.Extensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>

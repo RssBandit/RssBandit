@@ -92,11 +92,7 @@ namespace RssBandit.WinGui.MarkupExtensions
             string resourceset = root.GetValue(TranslateResourceSetProperty) as string;
             string resourceAssembly = root.GetValue(TranslateResourceAssemblyProperty) as string;
 
-            if (element is FrameworkElement && ((FrameworkElement)element).Name == "lblLocale")
-                root = root;
-
-
-            ResourceManager manager = null;
+            ResourceManager manager;
             if (resourceAssembly == null)
                 manager = LocalizationSettings.GetResourceManager(resourceset, root.GetType().Assembly);
             else
