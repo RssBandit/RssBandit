@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF3.DockManager.v10.2</name>
+        <name>InfragisticsWPF4.DockManager.v10.2</name>
     </assembly>
     <members>
         <member name="M:LocalizedCategoryAttribute.GetLocalizedString(System.String)">
@@ -697,6 +697,23 @@
             <seealso cref="E:Infragistics.Windows.DockManager.ContentPane.ExecutedCommand"/>
             <seealso cref="T:Infragistics.Windows.DockManager.ContentPaneCommands"/>
         </member>
+        <member name="M:Infragistics.Windows.DockManager.ContentPane.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.ContentPane.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.ContentPane.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="M:Infragistics.Windows.DockManager.ContentPane.ActivateInternal">
             <summary>
             Puts focus into the pane.
@@ -1304,6 +1321,21 @@
         <member name="P:Infragistics.Windows.DockManager.ContentPanePlaceholder.Pane">
             <summary>
             Returns the associated <see cref="T:Infragistics.Windows.DockManager.ContentPane"/> for which this placeholder is associated.
+            </summary>
+        </member>
+        <member name="T:Infragistics.Windows.DockManager.ContentValidationConverter">
+            <summary>
+            Custom value converter used to ensure that an object property is not set to an instance of an element.
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.ContentValidationConverter.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Infragistics.Windows.DockManager.ContentValidationConverter"/>
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.DockManager.ContentValidationConverter.ErrorMessage">
+            <summary>
+            Returns or sets the error message to return.
             </summary>
         </member>
         <member name="T:Infragistics.Windows.DockManager.DockedLocationToSplitterOrientationConverter">
@@ -4234,6 +4266,23 @@
             Identifies the <see cref="P:Infragistics.Windows.DockManager.PaneHeaderPresenter.Pane"/> dependency property
             </summary>
         </member>
+        <member name="M:Infragistics.Windows.DockManager.PaneHeaderPresenter.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.PaneHeaderPresenter.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.PaneHeaderPresenter.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="P:Infragistics.Windows.DockManager.PaneHeaderPresenter.Pane">
             <summary>
             Returns the associated ContentPane that the header represents.
@@ -5089,6 +5138,11 @@
             Returns the <see cref="T:Infragistics.Shared.ResourceCustomizer"/> for this assembly.
             </summary>
             <seealso cref="T:Infragistics.Shared.ResourceCustomizer"/> 
+        </member>
+        <member name="P:Infragistics.Windows.DockManager.Resources.PaneHeaderContentValidationError">
+            <summary>
+            Returns a string used as the error message when a content property such as TabHeader is set to an element.
+            </summary>
         </member>
         <member name="P:Infragistics.Windows.DockManager.Resources.CloseButtonToolTip">
             <summary>
@@ -6349,6 +6403,23 @@
             <summary>
             Identifies the <see cref="P:Infragistics.Windows.DockManager.UnpinnedTabFlyout.FlyoutAnimation"/> dependency property
             </summary>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.UnpinnedTabFlyout.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.UnpinnedTabFlyout.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.DockManager.UnpinnedTabFlyout.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="M:Infragistics.Windows.DockManager.UnpinnedTabFlyout.HideFlyoutOnMouseLeave(Infragistics.Windows.DockManager.ContentPane)">
             <summary>

@@ -28,7 +28,7 @@ namespace RssBandit.WinGui.ViewModel
         {
             _sources = new ObservableCollection<CategorizedFeedSourceViewModel>();
             
-            foreach (FeedSourceEntry entry in RssBanditApplication.Current.FeedSources.Sources)
+            foreach (FeedSourceEntry entry in RssBanditApplication.Current.FeedSources.GetOrderedFeedSources())
             {
                 if (entry.Source.FeedsListOK)
                 {

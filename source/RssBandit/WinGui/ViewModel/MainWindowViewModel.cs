@@ -22,14 +22,18 @@ namespace RssBandit.WinGui.ViewModel
     {
         private FeedSourcesViewModel _feedSources;
 
-        
+
         public MainWindowViewModel()
         {
             base.DisplayName = RssBanditApplication.CaptionOnly;
             // assign the rencent selected theme, or the default:
-            CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", Win32.IsOSAtLeastWindows7 ? "Scenic": "Office2k7Black");
-
-           }
+            CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", Win32.IsOSAtLeastWindows7 ? "Scenic" : "Office2k7Black");
+            // get recent QAT location:
+            QuickAccessToolbarLocation = (QuickAccessToolbarLocation)Enum.Parse(typeof(QuickAccessToolbarLocation),
+                RssBanditApplication.Current.GuiSettings.GetString("quickAccessToolbarLocation", "AboveRibbon"));
+            // wqs toolbar minimized?
+            ToolbarIsMinimized = Boolean.Parse(RssBanditApplication.Current.GuiSettings.GetString("toolbarIsMinimized", "false"));
+        }
 
 
         /// <summary>
@@ -47,22 +51,30 @@ namespace RssBandit.WinGui.ViewModel
             set { _feedSources = value; }
         }
 
+        private string _currentTheme;
         /// <summary>
-        /// Gets the current theme (XAML bound).
+        /// Gets the current theme.
         /// </summary>
         /// <value>The current theme.</value>
         public string CurrentTheme
         {
-            get { return ThemeManager.CurrentTheme; }
+            get
+            {
+                return _currentTheme;
+            }
             set
             {
                 if (String.IsNullOrEmpty(value))
                     return;
+                
+                if (_currentTheme == value)
+                    return;
 
+                _currentTheme = value;
                 
                 // apply theme to any windows forms IG control(s), we might still use:
                 ThemeManager.CurrentTheme = value;
-                // apply theme to WPF IG controls:
+                //// apply theme to WPF IG controls:
                 RssBanditApplication.MainWindow.xamRibbon.Theme = value;
                 // save to settings:
                 RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
@@ -93,11 +105,62 @@ namespace RssBandit.WinGui.ViewModel
         /// <value>The selected menu band.</value>
         public RibbonTabItem SelectedMenuBand
         {
-            get { return RssBanditApplication.MainWindow.xamRibbon.SelectedTab; }
+            get
+            {
+                return RssBanditApplication.MainWindow.xamRibbon.SelectedTab;
+            }
             set
             {
-                RssBanditApplication.MainWindow.xamRibbon.SelectedTab = value;
-                OnPropertyChanged("SelectedMenuBand");
+                if (RssBanditApplication.MainWindow.xamRibbon.SelectedTab != value)
+                {
+                    RssBanditApplication.MainWindow.xamRibbon.SelectedTab = value;
+                    OnPropertyChanged("SelectedMenuBand");
+                }
+            }
+        }
+
+        private QuickAccessToolbarLocation _quickAccessToolbarLocation = QuickAccessToolbarLocation.AboveRibbon;
+        /// <summary>
+        /// Gets or sets the quick access toolbar location (XAML bound).
+        /// </summary>
+        /// <value>The quick access toolbar location.</value>
+        public QuickAccessToolbarLocation QuickAccessToolbarLocation
+        {
+            get
+            {
+                return _quickAccessToolbarLocation;
+            }
+            set
+            {
+                if (_quickAccessToolbarLocation != value)
+                {
+                    _quickAccessToolbarLocation = value;
+                    RssBanditApplication.Current.GuiSettings.SetProperty("quickAccessToolbarLocation", value);
+                    OnPropertyChanged("QuickAccessToolbarLocation");
+                }
+            }
+        }
+
+        private bool _toolbarIsMinimized;
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether [toolbar is minimized] (XAML bound).
+        /// </summary>
+        /// <value><c>true</c> if [toolbar is minimized]; otherwise, <c>false</c>.</value>
+        public bool ToolbarIsMinimized
+        {
+            get
+            {
+                return _toolbarIsMinimized;
+            }
+            set
+            {
+                if (_toolbarIsMinimized != value)
+                {
+                    _toolbarIsMinimized = value;
+                    RssBanditApplication.Current.GuiSettings.SetProperty("toolbarIsMinimized", value);
+                    OnPropertyChanged("ToolbarIsMinimized");
+                }
             }
         }
 
@@ -130,7 +193,6 @@ namespace RssBandit.WinGui.ViewModel
                     ctg.Visibility = Visibility.Collapsed;
 
             byName.BringIntoView();
-            byName.IsSelected = true;
             SelectedMenuBand = byName;
         }
 

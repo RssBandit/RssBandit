@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF3.Ribbon.v10.2</name>
+        <name>InfragisticsWPF4.Ribbon.v10.2</name>
     </assembly>
     <members>
         <member name="M:LocalizedCategoryAttribute.GetLocalizedString(System.String)">
@@ -2364,6 +2364,23 @@
             <summary>
             Identifies the <see cref="P:Infragistics.Windows.Ribbon.GalleryItemPresenter.VerticalTextAlignmentResolved"/> dependency property
             </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryItemPresenter.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryItemPresenter.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryItemPresenter.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="P:Infragistics.Windows.Ribbon.GalleryItemPresenter.HorizontalTextAlignmentResolved">
             <summary>
@@ -4856,6 +4873,23 @@
             </summary>
             <param name="menuToolPresenter">The menuToolPresenter returned from CreateMenuToolPresenter.</param>
             <seealso cref="M:Infragistics.Windows.Ribbon.MenuToolBase.CreateMenuToolPresenter"/>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.MenuToolBase.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.MenuToolBase.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.MenuToolBase.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="P:Infragistics.Windows.Ribbon.MenuToolBase.LogicalChildren">
             <summary>
@@ -9654,6 +9688,23 @@
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.ButtonTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.ButtonTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.ButtonTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="P:Infragistics.Windows.Ribbon.ButtonTool.Caption">
             <summary>
             Returns/sets the caption associated with the tool.
@@ -10801,6 +10852,23 @@
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.ToggleButtonTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.ToggleButtonTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.ToggleButtonTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="P:Infragistics.Windows.Ribbon.ToggleButtonTool.Caption">
             <summary>
             Returns/sets the caption associated with the tool.
@@ -11074,6 +11142,12 @@
             </summary>
             <param name="previousValue">The previous selected item.</param>
             <param name="currentValue">The new selected item.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.ComboEditorTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="F:Infragistics.Windows.Ribbon.ComboEditorTool.ActivatedEvent">
             <summary>
@@ -11648,6 +11722,23 @@
             Occurs when the tool event is about to be raised
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.GalleryTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="F:Infragistics.Windows.Ribbon.GalleryTool.ActivatedEvent">
             <summary>
@@ -12248,6 +12339,23 @@
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.LabelTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.LabelTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.LabelTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="F:Infragistics.Windows.Ribbon.LabelTool.CaptionProperty">
             <summary>
             Identifies the Caption dependency property.
@@ -12536,6 +12644,12 @@
             Raised when the mouse leaves the element.
             </summary>
             <param name="e">EventArgs containing the event information.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.MaskedEditorTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="F:Infragistics.Windows.Ribbon.MaskedEditorTool.ActivatedEvent">
             <summary>
@@ -13547,6 +13661,23 @@
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.RadioButtonTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.RadioButtonTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.RadioButtonTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="P:Infragistics.Windows.Ribbon.RadioButtonTool.Caption">
             <summary>
             Returns/sets the caption associated with the tool.
@@ -14137,6 +14268,23 @@
             <param name="rowNumber">A number between 0 and 3 (inclusive)</param>
             <returns>An offset relative to the current content site</returns>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.RibbonGroup.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.RibbonGroup.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.RibbonGroup.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="F:Infragistics.Windows.Ribbon.RibbonGroup.ActivatedEvent">
             <summary>
             Event ID for the <see cref="E:Infragistics.Windows.Ribbon.RibbonGroup.Activated"/> routed event
@@ -14521,6 +14669,12 @@
             Raised when the mouse leaves the element.
             </summary>
             <param name="e">EventArgs containing the event information.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.TextEditorTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="F:Infragistics.Windows.Ribbon.TextEditorTool.ActivatedEvent">
             <summary>
@@ -14948,6 +15102,12 @@
             </summary>
             <param name="e">Provides information about the event</param>
         </member>
+        <member name="M:Infragistics.Windows.Ribbon.RibbonTabItem.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
         <member name="M:Infragistics.Windows.Ribbon.RibbonTabItem.ShouldSerializeProperty(System.Windows.DependencyProperty)">
             <summary>
             Determines if the value of the specified property should be serialized.
@@ -15112,6 +15272,23 @@
             Occurs when the tool event is about to be raised
             </summary>
             <remarks><para class="body">The base class implemenation simply calls the RaiseEvent method.</para></remarks>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.SeparatorTool.SetVisualState(System.Boolean)">
+            <summary>
+            Called to set the VisualStates of the editor
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.SeparatorTool.UpdateVisualStates">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+        </member>
+        <member name="M:Infragistics.Windows.Ribbon.SeparatorTool.UpdateVisualStates(System.Boolean)">
+            <summary>
+            Called to set the visual states of the control
+            </summary>
+            <param name="useTransitions">Determines whether transitions should be used.</param>
         </member>
         <member name="P:Infragistics.Windows.Ribbon.SeparatorTool.Location">
             <summary>
@@ -16381,126 +16558,6 @@
             <summary>
             Identifies the <see cref="P:Infragistics.Windows.Ribbon.XamRibbonWindow.ResizeGripWidth"/> dependency property
             </summary>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#get_IsActive">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#get_WindowState">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#get_Dispatcher">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#add_Activated(System.EventHandler)">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#remove_Activated(System.EventHandler)">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#add_Deactivated(System.EventHandler)">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#remove_Deactivated(System.EventHandler)">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
-        </member>
-        <member name="M:Infragistics.Windows.Ribbon.XamRibbonWindow.Infragistics#Windows#Ribbon#IRibbonWindow#InvalidateVisual">
-            <summary>
-            A derived <see cref="T:System.Windows.Window"/> class that is designed to display a <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> within its caption area similar to that of Microsoft Office 2007 applications.
-            </summary>
-            <remarks>
-            <p class="body">The XamRibbonWindow class is derived from the WPF <see cref="T:System.Windows.Window"/> class. It is designed to be used with the <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> in rich client applications to 
-            enable the placement of the <b>XamRibbon</b> in the caption area (i.e., non-client area) of the window. When the <b>XamRibbon</b> is used in a standard 
-            WPF <see cref="T:System.Windows.Window"/> or on a WPF <see cref="T:System.Windows.Controls.Page"/>, it appears inside the bounds of the window’s or page’s non-client area.</p>
-            <p class="note"><b>Note:</b> The only <see cref="P:System.Windows.Controls.ContentControl.Content"/> that should be placed inside this window is a <see cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>. The 
-            <see cref="T:Infragistics.Windows.Ribbon.XamRibbon"/> is associated with this window by setting the <see cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/> property of the RibbonWindowContentHost to an instance of a XamRibbon.</p>
-            </remarks>
-            <seealso cref="T:Infragistics.Windows.Ribbon.XamRibbon"/>
-            <seealso cref="T:Infragistics.Windows.Ribbon.RibbonWindowContentHost"/>
-            <seealso cref="P:Infragistics.Windows.Ribbon.RibbonWindowContentHost.Ribbon"/>
         </member>
         <member name="P:Infragistics.Windows.Ribbon.XamRibbonWindow.IsGlassActive">
             <summary>

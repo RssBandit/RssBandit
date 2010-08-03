@@ -19,11 +19,14 @@
     <Ribbon:RibbonWindowContentHost>
 
         <Ribbon:RibbonWindowContentHost.Ribbon>
-            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" SelectedTab="{Binding SelectedMenuBand}" >
+            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" 
+                              SelectedTab="{Binding Path=SelectedMenuBand, Mode=TwoWay}" 
+                              QuickAccessToolbarLocation="{Binding Path=QuickAccessToolbarLocation, Mode=TwoWay}" 
+                              IsMinimized="{Binding Path=ToolbarIsMinimized, Mode=TwoWay}" >
 
                 <Ribbon:XamRibbon.ApplicationMenu>
                     <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
-                                  Image="/Resources/Images/Toolbar/rssbandit.32.png">
+                                  Image="/Resources/Images/Toolbar/rssbandit.32.png" >
                         <Ribbon:ApplicationMenu.Items>
                             <Ribbon:MenuTool Id="cmdSubscribeTo" Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">
                                 <Ribbon:MenuTool Caption="{ext:Res Id=MenuAppNewSubscriptionCaption,Default=New#}" 

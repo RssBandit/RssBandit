@@ -28,7 +28,7 @@ namespace RssBandit.WinGui.ViewModel
         protected string BaseImage;
 
 
-        // <summary>
+        /// <summary>
         /// Gets raised, if the node's read counter reach zero
         /// </summary>
         public event EventHandler ReadCounterZero;
