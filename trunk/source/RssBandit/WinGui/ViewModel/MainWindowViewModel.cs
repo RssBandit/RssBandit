@@ -13,7 +13,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Infragistics.Windows.Ribbon;
-using Infragistics.Windows.Themes;
 using RssBandit.WinGui.Commands;
 
 namespace RssBandit.WinGui.ViewModel
@@ -31,7 +30,7 @@ namespace RssBandit.WinGui.ViewModel
             // get recent QAT location:
             QuickAccessToolbarLocation = (QuickAccessToolbarLocation)Enum.Parse(typeof(QuickAccessToolbarLocation),
                 RssBanditApplication.Current.GuiSettings.GetString("quickAccessToolbarLocation", "AboveRibbon"));
-            // wqs toolbar minimized?
+            // was toolbar minimized?
             ToolbarIsMinimized = Boolean.Parse(RssBanditApplication.Current.GuiSettings.GetString("toolbarIsMinimized", "false"));
         }
 
@@ -73,9 +72,8 @@ namespace RssBandit.WinGui.ViewModel
                 _currentTheme = value;
                 
                 // apply theme to any windows forms IG control(s), we might still use:
-                ThemeManager.CurrentTheme = value;
-                //// apply theme to WPF IG controls:
-                RssBanditApplication.MainWindow.xamRibbon.Theme = value;
+                //ThemeManager.CurrentTheme = value;
+                
                 // save to settings:
                 RssBanditApplication.Current.GuiSettings.SetProperty("theme", value);
 

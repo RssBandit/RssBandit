@@ -1798,8 +1798,9 @@ namespace RssBandit.WinGui.Forms
                          owner.Preferences.HideToTrayAction != HideToTray.OnClose)
                 {
                     _forceShutdown = true; // the closing handler ask for that now
-                    //this.SaveUIConfiguration(true);
-                    owner.SaveApplicationState(true);
+                    //TODO add an impl. for the new WPF main window! For now we do not set "appClosing" boolean param to true:
+                    //owner.SaveApplicationState(true);
+                    owner.SaveApplicationState(false);
                 }
 
                 base.WndProc(ref m);
@@ -3022,8 +3023,9 @@ namespace RssBandit.WinGui.Forms
         {
             _timerResetStatus.Stop();
             SetGuiStateFeedback(String.Empty);
+            var myFeeds = GetRoot(RootFolderType.MyFeeds);
             if (_trayManager.CurrentState == ApplicationTrayState.BusyRefreshFeeds ||
-                GetRoot(RootFolderType.MyFeeds).UnreadCount == 0)
+                (myFeeds != null && myFeeds.UnreadCount == 0))
             {
                 _trayManager.SetState(ApplicationTrayState.NormalIdle);
             }

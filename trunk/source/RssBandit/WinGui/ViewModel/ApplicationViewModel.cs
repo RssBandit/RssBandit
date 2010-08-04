@@ -16,52 +16,15 @@ using NewsComponents.Utils;
 using RssBandit.WinGui.Forms;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.WindowsAPICodePack.Taskbar;
-using Microsoft.WindowsAPICodePack.Shell;
-using System.Windows.Interop;
-using RssBandit.Resources;
 using System.Windows.Threading;
+
 
 namespace RssBandit.WinGui.ViewModel
 {
     public partial class ApplicationViewModel: ViewModelBase
     {
 
-        private static readonly ILog _log = Log.GetLogger(typeof(ApplicationViewModel));
-
-        #region Windows 7 jumplist and taskbar related members
-
-        /// <summary>
-        /// The add new feed button in the thumbnail strip that shows up on hover in the Windows 7 task bar
-        /// </summary>
-        private ThumbnailToolbarButton buttonAdd;
-
-        /// <summary>
-        /// The refresh feeds button in the thumbnail strip that shows up on hover in the Windows 7 task bar
-        /// </summary>     
-        private ThumbnailToolbarButton buttonRefresh;
-
-        /// <summary>
-        /// Represents the Windows 7 jumplist for this application. 
-        /// </summary>
-        private JumpList jumpList;
-
-        /// <summary>
-        /// Represents the recently browsed web pages that show up in the Windows 7 jump list
-        /// </summary>
-        private JumpListCustomCategory jlcRecent;
-
-        /// <summary>
-        /// Contents of the Recent jump list category
-        /// </summary>
-        private List<string> jlcRecentContents = new List<string>();
-
-        /// <summary>
-        /// Picture box used for rendering thumbnail buttons on hover in the task bar
-        /// </summary>
-        private PictureBox pictureBox;
-
-        #endregion 
+        private static readonly ILog _log = Log.GetLogger(typeof(ApplicationViewModel)); 
 
         #region balloon popup related members
 
@@ -94,7 +57,7 @@ namespace RssBandit.WinGui.ViewModel
 
         #region threading related 
 
-        private Dispatcher Dispatcher { get; set; }
+        //private Dispatcher Dispatcher { get; set; }
 
         #endregion 
 
@@ -709,69 +672,69 @@ namespace RssBandit.WinGui.ViewModel
         /// </summary>
         internal void Init()
         {
-            Dispatcher = RssBanditApplication.MainWindow.Dispatcher; 
+            //Dispatcher = RssBanditApplication.MainWindow.Dispatcher; 
 
             //support for Windows 7 taskbar features
-            if (TaskbarManager.IsPlatformSupported)
-            {
-                InitWin7Components();
-            }
+            //if (TaskbarManager.IsPlatformSupported)
+            //{
+            //    InitWin7Components();
+            //}
 
             //start UI tasks timer
-            _uiTasksTimer.Tick += new EventHandler(OnTasksTimerTick);
+            _uiTasksTimer.Tick += OnTasksTimerTick;
              
             //initialize timers
             this._timerRefreshFeeds.Interval = TimeSpan.FromMilliseconds(600000);
-            this._timerRefreshFeeds.Tick += new EventHandler(this.OnTimerFeedsRefreshElapsed);
+            this._timerRefreshFeeds.Tick += this.OnTimerFeedsRefreshElapsed;
         }
 
-        /// <summary>
-        /// initializes jump list icons and thumbnail strip in Windows 7.  
-        /// </summary>
-        private void InitWin7Components()
-        {
-            jumpList = JumpList.CreateJumpList();
-            jlcRecent = new JumpListCustomCategory(SR.JumpListRecentCategory);
-            jumpList.AddCustomCategories(jlcRecent);
-            pictureBox = new PictureBox();
+        ///// <summary>
+        ///// initializes jump list icons and thumbnail strip in Windows 7.  
+        ///// </summary>
+        //private void InitWin7Components()
+        //{
+        //    jumpList = JumpList.CreateJumpList();
+        //    jlcRecent = new JumpListCustomCategory(SR.JumpListRecentCategory);
+        //    jumpList.AddCustomCategories(jlcRecent);
+        //    pictureBox = new PictureBox();
 
-            //add tasks         
-            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddSubscriptionCaption)
-            {
-                IconReference = new IconReference(RssBanditApplication.GetFeedIconPath(), 0),
-                Arguments = "http://www.example.com/feed.rss"
-            });
-            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddFacebookCaption)
-            {
-                IconReference = new IconReference(RssBanditApplication.GetFacebookIconPath(), 0),
-                Arguments = "-f"
-            });
-            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
-            {
-                IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
-                Arguments = "-g"
-            });
-            jumpList.AddUserTasks(new JumpListSeparator());
-            jumpList.AddUserTasks(new JumpListLink(Resource.OutgoingLinks.ProjectNewsUrl, SR.JumpListGoToWebsiteCaption)
-            {
-                IconReference = new IconReference(Application.ExecutablePath, 0)
-            });
-            jumpList.Refresh();
+        //    //add tasks         
+        //    jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddSubscriptionCaption)
+        //    {
+        //        IconReference = new IconReference(RssBanditApplication.GetFeedIconPath(), 0),
+        //        Arguments = "http://www.example.com/feed.rss"
+        //    });
+        //    jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddFacebookCaption)
+        //    {
+        //        IconReference = new IconReference(RssBanditApplication.GetFacebookIconPath(), 0),
+        //        Arguments = "-f"
+        //    });
+        //    jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
+        //    {
+        //        IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
+        //        Arguments = "-g"
+        //    });
+        //    jumpList.AddUserTasks(new JumpListSeparator());
+        //    jumpList.AddUserTasks(new JumpListLink(Resource.OutgoingLinks.ProjectNewsUrl, SR.JumpListGoToWebsiteCaption)
+        //    {
+        //        IconReference = new IconReference(Application.ExecutablePath, 0)
+        //    });
+        //    jumpList.Refresh();
 
 
-            //
-            //thumbnail toolbar button setup
-            //
-            buttonAdd = new ThumbnailToolbarButton(Properties.Resources.RssDiscovered1, SR.ThumbnailButtonAdd);
-            buttonAdd.Enabled = true;
-            buttonAdd.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonAddClicked);
+        //    //
+        //    //thumbnail toolbar button setup
+        //    //
+        //    buttonAdd = new ThumbnailToolbarButton(Properties.Resources.RssDiscovered1, SR.ThumbnailButtonAdd);
+        //    buttonAdd.Enabled = true;
+        //    buttonAdd.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonAddClicked);
 
-            buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.feedRefresh, SR.ThumbnailButtonRefresh);
-            buttonRefresh.Enabled = true;
-            buttonRefresh.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonRefreshClick);
+        //    buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.feedRefresh, SR.ThumbnailButtonRefresh);
+        //    buttonRefresh.Enabled = true;
+        //    buttonRefresh.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonRefreshClick);
 
-            TaskbarManager.Instance.ThumbnailToolbars.AddButtons(new WindowInteropHelper(RssBanditApplication.MainWindow).Handle, buttonAdd, buttonRefresh);
-        }
+        //    TaskbarManager.Instance.ThumbnailToolbars.AddButtons(new WindowInteropHelper(RssBanditApplication.MainWindow).Handle, buttonAdd, buttonRefresh);
+        //}
 
 
         #endregion 

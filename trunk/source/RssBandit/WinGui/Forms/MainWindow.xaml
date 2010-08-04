@@ -16,10 +16,19 @@
         
     </Window.Resources>
 
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo Description="Add New Subscription" ImageSource="/Resources/rssbandit.16.png" Command="{Binding Path=SubscribeRssFeedCommand}" />
+                <ThumbButtonInfo Description="Update All Feeds" ImageSource="/Resources/Images/Toolbar/refresh.all.feedsources.16.png" Command="{Binding Path=UpdateAllFeedsCommand}" />
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>    
+    </Window.TaskbarItemInfo>
+    
     <Ribbon:RibbonWindowContentHost>
 
         <Ribbon:RibbonWindowContentHost.Ribbon>
-            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme}" 
+            <Ribbon:XamRibbon x:Name="xamRibbon" Theme="{Binding Path=CurrentTheme, Mode=TwoWay}" 
                               SelectedTab="{Binding Path=SelectedMenuBand, Mode=TwoWay}" 
                               QuickAccessToolbarLocation="{Binding Path=QuickAccessToolbarLocation, Mode=TwoWay}" 
                               IsMinimized="{Binding Path=ToolbarIsMinimized, Mode=TwoWay}" >

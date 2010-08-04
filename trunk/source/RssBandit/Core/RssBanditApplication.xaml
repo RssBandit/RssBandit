@@ -1,13 +1,54 @@
 ﻿<Application x:Class="RssBandit.RssBanditApplication"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	 >
+    xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions" 
+    xmlns:RssBandit="clr-namespace:RssBandit">
     <Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-			
-			</ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <RssBandit:ResourceAccess x:Key="Strings" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
 			
 		</ResourceDictionary>
     </Application.Resources>
+    <JumpList.JumpList>
+        <JumpList>
+            <!-- 
+                For now we cannot use binding here to translate the caption(s) and title(s).
+                To make things bindable, we could use attached properties as a extension mechanism
+                to allow indirect bindings for translations.
+                See: WPF4 Unleashed, page 92 ff
+            -->
+            <!--
+                ...
+                Title="{Binding Path=SR.JumpListAddSubscriptionCaption, Source={StaticResource Strings}}"
+                CustomCategory="{ext:Res Id=JumpListRecentCategory,Default=Recent#}" 
+            -->
+            <JumpTask Title="Add New Subscription"
+                      Description="TODO!" 
+                      CustomCategory="Recent"
+                      IconResourcePath="{x:Static RssBandit:RssBanditApplication.FeedIconPath}"
+                      Arguments="http://www.example.com/samplefeed.rss"
+                      />
+            <JumpTask Title="Add Facebook News Feed"
+                      Description="TODO!" 
+                      CustomCategory="Recent"
+                      IconResourcePath="{x:Static RssBandit:RssBanditApplication.FacebookIconPath}"
+                      Arguments="-f"
+                      />
+            <JumpTask Title="Add Google Reader Feeds"
+                      Description="TODO!" 
+                      CustomCategory="Recent"
+                      IconResourcePath="{x:Static RssBandit:RssBanditApplication.GoogleIconPath}"
+                      Arguments="-g"
+                      />
+            <JumpTask />
+            <JumpTask Title="Go to rssbandit.org"
+                      Description="TODO!" 
+                      ApplicationPath="{x:Static RssBandit:RssBanditApplication.OutgoingLinkToProjectNewsUrl}"
+                      />
+        </JumpList>
+    </JumpList.JumpList>
 </Application>

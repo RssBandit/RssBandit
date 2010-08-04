@@ -4,7 +4,7 @@
 	xmlns:Ribbon="http://infragistics.com/Ribbon"
     >
 
-	<Ribbon:XamRibbon Theme="Office2k7Black">
+	<Ribbon:XamRibbon>
 
 	</Ribbon:XamRibbon>
 

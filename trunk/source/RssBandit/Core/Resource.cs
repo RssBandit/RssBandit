@@ -19,7 +19,7 @@ namespace RssBandit
 	/// <summary>
 	/// Helper class used to manage application Resources
 	/// </summary>
-	internal static class Resource {
+	public static class Resource {
 		
 		#region News Item Images/Colors (index store)
 
@@ -275,7 +275,7 @@ namespace RssBandit
 		
 		#region OutgoingLinks 
 
-		internal static class OutgoingLinks
+		public static class OutgoingLinks
 		{
 			internal static class Default
 			{
@@ -470,4 +470,19 @@ namespace RssBandit
 
 		#endregion
 	}
+
+    /// <summary>
+    ///     Wraps access to the strongly typed resource classes so that you can bind
+    ///     control properties to resource strings in XAML. 
+    /// </summary>
+    public sealed class ResourceAccess 
+    {
+        private static readonly Resources.SR _langSR = new Resources.SR();
+
+        public Resources.SR SR
+        {
+            get { return _langSR; }
+        }
+
+    }
 }
