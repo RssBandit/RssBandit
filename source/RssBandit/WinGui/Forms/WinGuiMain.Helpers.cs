@@ -198,7 +198,7 @@ namespace RssBandit.WinGui.Forms
                     jlcRecentContents.RemoveAt(0); 
                 }
 
-                string iconPath = (url.StartsWith("feed://") ? RssBanditApplication.GetFeedIconPath() : RssBanditApplication.GetWebPageIconPath()); 
+                string iconPath = (url.StartsWith("feed://") ? RssBanditApplication.FeedIconPath : RssBanditApplication.GetWebPageIconPath()); 
 
                 jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
                 {

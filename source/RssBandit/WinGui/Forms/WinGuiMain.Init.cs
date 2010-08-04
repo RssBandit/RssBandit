@@ -84,17 +84,17 @@ namespace RssBandit.WinGui.Forms
             //add tasks         
             jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddSubscriptionCaption)
             {
-                IconReference = new IconReference(RssBanditApplication.GetFeedIconPath(), 0),
+                IconReference = new IconReference(RssBanditApplication.FeedIconPath, 0),
                 Arguments     =  "http://www.example.com/feed.rss" 
             });
             jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddFacebookCaption)
             {
-                IconReference = new IconReference(RssBanditApplication.GetFacebookIconPath(), 0),
+                IconReference = new IconReference(RssBanditApplication.FacebookIconPath, 0),
                 Arguments = "-f"
             });
             jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
             {
-                IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
+                IconReference = new IconReference(RssBanditApplication.GoogleIconPath, 0),
                 Arguments = "-g"
             });
             jumpList.AddUserTasks(new JumpListSeparator());

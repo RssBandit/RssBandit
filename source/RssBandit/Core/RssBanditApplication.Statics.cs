@@ -750,34 +750,48 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), ".preferences.xml");
         }
 
+        
         /// <summary>
         /// Gets the path to the Google Reader icon used in the Windows 7 jump list
         /// </summary>
-        /// <returns></returns>
-        public static string GetGoogleIconPath()
+        public static string GoogleIconPath
         {
-            return Path.Combine(Application.StartupPath, "Resources\\google.ico");
+            get
+            {
+                return Path.Combine(Application.StartupPath, "Resources\\google.ico");
+            }
         }
-
+        
         /// <summary>
         /// Gets the path to the Facebook icon used in the Windows 7 jump list
         /// </summary>
-        /// <returns></returns>
-        public static string GetFacebookIconPath()
+        public static string FacebookIconPath
         {
-            return Path.Combine(Application.StartupPath, "Resources\\facebook.ico");
+            get
+            {
+                return Path.Combine(Application.StartupPath, "Resources\\facebook.ico");
+            }
         }
 
         /// <summary>
         /// Gets the path to the RSS icon used in the Windows 7 jump list
         /// </summary>
-        /// <returns></returns>
-        public static string GetFeedIconPath()
+        public static string FeedIconPath
         {
-            return Path.Combine(Application.StartupPath, "Resources\\rss.ico");
+            get
+            {
+                return Path.Combine(Application.StartupPath, "Resources\\rss.ico");
+            }
         }
 
-
+        /// <summary>
+        /// Gets the outgoing link to project news URL.
+        /// </summary>
+        /// <value>The outgoing link project news URL.</value>
+        public static string OutgoingLinkToProjectNewsUrl
+        {
+            get { return Resource.OutgoingLinks.ProjectNewsUrl;  }
+        }
 
         /// <summary>
         /// Gets the path to the web page icon used in the Windows 7 jump list

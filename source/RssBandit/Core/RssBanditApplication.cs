@@ -41,6 +41,7 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using Ninject;
@@ -81,7 +82,9 @@ using Timer=System.Threading.Timer;
 using System.Windows.Threading;
 using System.Configuration;
 using RssBandit.Core.Storage;
+using Application = System.Windows.Forms.Application;
 using IWin32Window = System.Windows.Forms.IWin32Window;
+using MessageBox = System.Windows.Forms.MessageBox;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
@@ -146,7 +149,7 @@ namespace RssBandit
         private Dictionary<int, List<string>> modifiedFeeds;
 
         //private Thread _dispatcherThread;
-        private Dispatcher _dispatcher;
+        //private Dispatcher _dispatcher;
 
         internal static readonly int MilliSecsMultiplier = 60*1000;
 
@@ -577,7 +580,8 @@ namespace RssBandit
             //AppDomain.CurrentDomain.DomainUnload += OnAppDomainUnload;
             //AppDomain.CurrentDomain.ProcessExit += OnAppDomainUnload;
 
-            Application.ApplicationExit += OnApplicationExit;
+            //Application.ApplicationExit += OnApplicationExit;
+            base.Exit += OnApplicationExit;
             // Allow exceptions to be unhandled so they break in the debugger
 #if !DEBUG
 			Application.ThreadException += this.OnThreadException;
@@ -593,8 +597,9 @@ namespace RssBandit
 #if UseResourceInfragistics
 			ResourceInfragistics.TranslateAll();
 #endif
-            //WPF init:
+            //WPF init.  Important: without that we don't have the App.Resources loaded, and also no JumpList definitions!
             InitializeComponent();
+
             // Explicitly initialize the resource manager for I18N markup extension:
             LocalizationSettings.Initialize(this.GetType().Assembly, SR.ResourceManager);
             
@@ -4805,6 +4810,12 @@ namespace RssBandit
 //            }
 //        }
 
+        private void OnApplicationExit(object sender, ExitEventArgs e)
+        {
+            autoSaveTimer.Dispose();
+            SaveApplicationState(true);
+        }
+
         /// <summary>
         /// Called on Application Exit. Close the main form and save application state (RSS Feeds).
         /// </summary>
@@ -6505,7 +6516,7 @@ namespace RssBandit
         {
             //var coords = 
 
-            _dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            MainWindow.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                 (SendOrPostCallback)delegate
                 {
                     if (_downloadManager == null)
