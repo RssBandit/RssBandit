@@ -1,14 +1,18 @@
-﻿
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 
 using RssBandit.WinGui.Utility;
 using System;
-using NewsComponents;
 using RssBandit.Resources;
-using System.Windows.Forms;
 using RssBandit.WinGui.ViewModel;
-using System.Linq;
-using System.Windows.Interop;
-using System.Collections.Generic;
 
 namespace RssBandit.WinGui.Forms
 { 
@@ -30,7 +34,20 @@ namespace RssBandit.WinGui.Forms
 
             Loaded += delegate
             {
+                Splash.Status = SR.GUIStatusRefreshConnectionState;
+                // refresh the Offline menu entry checked state
+                RssBanditApplication.Current.UpdateInternetConnectionState();
+
+                // refresh the internal browser component, that does not know immediatly
+                // about a still existing Offline Mode...
+                Utils.SetIEOffline(RssBanditApplication.Current.InternetConnectionOffline);
+
+                RssBanditApplication.CheckAndInitSoundEvents();
+
+                RssBanditApplication.Current.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
+
                 Splash.Close();
+
                 this.Model.Init(); 
                 this.Loaded -= delegate { };
             };
