@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Resources;
 using System.Collections;
 using System.Globalization;
+using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui.MarkupExtensions
 {
