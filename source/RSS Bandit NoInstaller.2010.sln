@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsComponents", "NewsCompo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit.AppServices", "RssBandit.AppServices\RssBandit.AppServices.csproj", "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3B64E0F6-5C3A-4894-9F22-1F061183AF3A}"
+	ProjectSection(SolutionItems) = preProject
+		RSS Bandit NoInstaller.2010.5.1.ReSharper = RSS Bandit NoInstaller.2010.5.1.ReSharper
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
