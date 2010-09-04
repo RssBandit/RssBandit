@@ -28,7 +28,7 @@ namespace NewsComponents.Utils
 		{
 			/// <summary>
 			/// Reads an app settings entry. Can be used to init the command line
-			/// ivars with settings from a App.config or User.App.config.
+			/// ivars with settings from a app.config or User.App.config.
 			/// Preferred calls should be located in the constructor to init the
 			/// ivars, so user provided command line params can override that
 			/// initialization.

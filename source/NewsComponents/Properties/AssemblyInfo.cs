@@ -28,9 +28,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-// FxCop CA1014	
-// http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&&url=/Design/MarkAssembliesWithClsCompliant.html
-[assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 // MSDN Magazine July 2002, p. 94: marks our bundled resources as
 // culture specific to save assembly resource resolve steps:
