@@ -49,7 +49,7 @@ namespace NewsComponents.Feed {
 	public class RssLocater
 	{	
 		// logging/tracing:
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(RssLocater));
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(RssLocater));
 
 		
 		private string userAgent = FeedSource.DefaultUserAgent;

@@ -32,7 +32,7 @@ namespace RssBandit
 		/// <param name="additionalInfo">Additional Information</param>
 		/// <param name="configSettings">Parameters</param>
 		public void Publish(Exception exception, System.Collections.Specialized.NameValueCollection additionalInfo, System.Collections.Specialized.NameValueCollection configSettings) {
-            Common.Logging.Log.Error(exception.ToDescriptiveString(), exception);
+            Common.Logging.DefaultLog.Error(exception.ToDescriptiveString(), exception);
 		}
 
 		#endregion

@@ -40,7 +40,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		private WinGuiMain main;
 		private RssBanditApplication owner;
 		private ShortcutHandler shortcutHandler;
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditApplication));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(RssBanditApplication));
 		
 		public ToolbarHelper(UltraToolbarsManager manager) 
         {
@@ -1028,7 +1028,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			// A static reference to our private tool provider class.  An instance of this class is 
 			// created in our static constructor. 
 			private static readonly ToolFactory toolFactory; 
-			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditToolbarManager));
+			private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(RssBanditToolbarManager));
 			private bool isRegistered;
 			#endregion Member Variables 
  

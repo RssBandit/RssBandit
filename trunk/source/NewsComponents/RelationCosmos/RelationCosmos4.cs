@@ -37,7 +37,7 @@ namespace NewsComponents.RelationCosmos
 	/// </summary>
 	public class RelationCosmos4: IRelationCosmos
 	{
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		
         /// <summary>
         /// List of all IRelation instances we know about. 

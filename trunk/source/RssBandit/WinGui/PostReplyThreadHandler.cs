@@ -51,7 +51,7 @@ namespace RssBandit.WinGui {
 			this.postTarget = postTarget;
 		}
 
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PostReplyThreadHandler));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(PostReplyThreadHandler));
 		private FeedSource feedHandler = null;
 		private string commentApiUri = null;
 		private INewsItem item2post = null, inReply2item = null;

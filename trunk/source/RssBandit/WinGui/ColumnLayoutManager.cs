@@ -41,7 +41,7 @@ namespace RssBandit.WinGui
 
 	internal class ColumnLayoutManager
 	{
-		private static readonly log4net.ILog _log = Log.GetLogger(typeof(ColumnLayoutManager));
+		private static readonly log4net.ILog _log = DefaultLog.GetLogger(typeof(ColumnLayoutManager));
 
 		private static readonly FeedColumnLayout DefaultFeedColumnLayout =
 			new FeedColumnLayout(new[] { "Title", "Flag", "Enclosure", "Date", "Subject" },

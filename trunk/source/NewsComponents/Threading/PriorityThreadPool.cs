@@ -61,7 +61,7 @@ namespace NewsComponents.Threading
 			_workerThreads = new ArrayList();
 			_inUseThreads = 0;
 
-			string maxWorkerThreadsFromConfig = ConfigurationSettings.AppSettings["MaxDownloadThreads"];
+			string maxWorkerThreadsFromConfig = ConfigurationManager.AppSettings["MaxDownloadThreads"];
 			if (maxWorkerThreadsFromConfig != null && maxWorkerThreadsFromConfig.Length > 0) {
 				try {
 					int newMax = Convert.ToInt32(maxWorkerThreadsFromConfig);

@@ -78,7 +78,7 @@ namespace RssBandit.WinGui
             this.settings = settings;
         }
 
-        private static readonly ILog _log = Log.GetLogger(typeof (RemoteFeedlistThreadHandler));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (RemoteFeedlistThreadHandler));
 
         private readonly Operation operationToRun = Operation.None;
         private readonly RssBanditApplication rssBanditApp;

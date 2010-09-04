@@ -158,7 +158,7 @@ namespace NewsComponents.Feed
 		/// <seealso cref="event_caused_by_rssbandit"/>
         internal static Object event_caused_by_rssbandit_syncroot = new Object(); 
 
-         private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssFeedSource));
+         private static readonly ILog _log = DefaultLog.GetLogger(typeof (WindowsRssFeedSource));
 
 
         #endregion 
@@ -1525,7 +1525,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Used for logging. 
         /// </summary>
-        private static readonly ILog _log = Log.GetLogger(typeof(WindowsRssNewsItem));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(WindowsRssNewsItem));
 
         /// <summary>
         /// This is the default DateTime used by the Windows RSS platform to indicate that no pubdate was found on the item. 
@@ -2746,7 +2746,7 @@ namespace NewsComponents.Feed
         private readonly List<INewsItem> items = new List<INewsItem>(); 
 
 
-        private static readonly ILog _log = Log.GetLogger(typeof (WindowsRssNewsFeed));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (WindowsRssNewsFeed));
 
 
         #endregion

@@ -26,7 +26,7 @@ namespace NewsComponents.Storage {
 	internal class FileStorageDataService : DataServiceBase
 	{		
 
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(FileStorageDataService));
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(FileStorageDataService));
 
 		/// <summary>
 		/// Returns the location of the cache. The format of the location is dependent 

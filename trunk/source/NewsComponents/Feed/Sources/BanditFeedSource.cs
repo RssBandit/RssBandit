@@ -104,7 +104,7 @@ namespace NewsComponents.Feed
 
         #region private fields
 
-		private static readonly ILog _log = Log.GetLogger(typeof(BanditFeedSource));
+		private static readonly ILog _log = DefaultLog.GetLogger(typeof(BanditFeedSource));
 
         /// <summary>
         /// Collection contains NntpServerDefinition objects.

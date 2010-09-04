@@ -39,7 +39,7 @@ namespace NewsComponents.Net
 		/// Please remember: it can also be set by the RssBandit.exe.config file!
 		/// </summary>
 		private static volatile int _maxRequests = DefaultMaxDownloadThreads;	
-		private  readonly log4net.ILog _log = Log.GetLogger(typeof(RequestThread));
+		private  readonly log4net.ILog _log = DefaultLog.GetLogger(typeof(RequestThread));
 		/// <summary>Queue of all the requests waiting to be executed.</summary>
 		private readonly PriorityQueue _waitingRequests;
 		/// <summary>Number of requests currently active.</summary>

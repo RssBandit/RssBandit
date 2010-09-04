@@ -337,7 +337,7 @@ namespace NewsComponents
             NewsFeedProperty.FeedMarkItemsReadOnExit |
             NewsFeedProperty.General;
 
-        private static readonly ILog _log = Log.GetLogger(typeof (FeedSource));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (FeedSource));
 
         /// <summary>
         /// Indicates when the application first started

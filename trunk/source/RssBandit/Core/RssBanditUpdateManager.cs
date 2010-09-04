@@ -35,7 +35,7 @@ namespace RssBandit
 		public static event UpdateAvailableEventHandler OnUpdateAvailable;
 		public static object Tag;
 
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditUpdateManager));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(RssBanditUpdateManager));
 		private static readonly TimeSpan timeout = new TimeSpan(0,0,30);
 
 		private readonly ClrMappedWebReference.UpdateService appUpdateService;

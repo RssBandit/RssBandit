@@ -21,7 +21,7 @@ namespace NewsComponents
 	/// </summary>
 	public class NewsChannelServices
 	{
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+		private static readonly log4net.ILog Log = RssBandit.Common.Logging.DefaultLog.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly SortedList _newsItemChannels = new SortedList(new ChannelComparer());
 		private readonly SortedList _feedChannels = new SortedList(new ChannelComparer());
@@ -117,7 +117,7 @@ namespace NewsComponents
 						try {
 							item = sink.Process(item);
 						} catch (Exception ex) {
-							_log.Error("NewsChannelServices.ProcessItem() sink '"+(sink != null ? sink.ChannelName : "[ChannelName]?") +"' failed to process INewsItem", ex);
+							Log.Error("NewsChannelServices.ProcessItem() sink '"+(sink != null ? sink.ChannelName : "[ChannelName]?") +"' failed to process INewsItem", ex);
 						}
 					}
 
@@ -127,7 +127,7 @@ namespace NewsComponents
 			} catch (ApplicationException) {
 				// lock timeout	
 			} catch (Exception ex) {
-				_log.Error("Failed to process INewsItem.", ex);
+				Log.Error("Failed to process INewsItem.", ex);
 			}
 			return item;
 		}
@@ -154,7 +154,7 @@ namespace NewsComponents
 			} catch (ApplicationException) {
 				// lock timeout	
 			} catch (Exception ex) {
-				_log.Error("Failed to process IFeedDetails.", ex);
+				Log.Error("Failed to process IFeedDetails.", ex);
 			}
 			return item;
 		}

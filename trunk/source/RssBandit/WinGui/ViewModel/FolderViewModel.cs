@@ -35,7 +35,7 @@ namespace RssBandit.WinGui.ViewModel
             set
             {
                 _name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(() => Name);
             }
         }
 

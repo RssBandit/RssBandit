@@ -79,14 +79,14 @@ namespace NewsComponents.Search
 			IDictionary restartInfo = (IDictionary)stateArray[0];
 			DictionaryEntry lastIndexed = (DictionaryEntry)stateArray[1];
 			
-			Log.Info(String.Format("Lucene Indexing {0}started at {1}", restartInfo.Count == 0 ? String.Empty : "re-", start));
+			DefaultLog.Info(String.Format("Lucene Indexing {0}started at {1}", restartInfo.Count == 0 ? String.Empty : "re-", start));
 
 			if (lastIndexed.Key != null && lastIndexed.Value != null) 
 			{	// always remove the last possibly not fully indexed feed 
 				// (e.g. app.exit while initial indexing was in progress):
 				this.RemoveNewsItems(lastIndexed.Value as string);
 				restartInfo.Remove(lastIndexed.Key);
-				Log.Info(String.Format("Lucene Indexing removed possible incomplete indexed documents of feed {0}", lastIndexed.Key) ); 
+				DefaultLog.Info(String.Format("Lucene Indexing removed possible incomplete indexed documents of feed {0}", lastIndexed.Key) ); 
 			}
 
 			try {
@@ -123,7 +123,7 @@ namespace NewsComponents.Search
                                 RemoveNewsItems(feedID);
                                 // now add items to index:
                                 itemCount += IndexNewsItems(newsHandler.GetCachedItemsForFeed(feedlink));
-                                Log.Info("IndexAll() progress: " + feedCount + " feeds, " + itemCount + " items processed.");
+                                DefaultLog.Info("IndexAll() progress: " + feedCount + " feeds, " + itemCount + " items processed.");
                             }
                         }
                         else
@@ -144,7 +144,7 @@ namespace NewsComponents.Search
 					
 					DateTime end = DateTime.Now;
 					TimeSpan timeRequired = TimeSpan.FromTicks(end.Ticks - start.Ticks);
-					Log.Info(String.Format("Lucene Indexing all items finished at {0}. Time required: {1}h:{2} min for {3} feeds with {4} items.", end, timeRequired.TotalHours, timeRequired.TotalMinutes, feedCount, itemCount ) ); 
+					DefaultLog.Info(String.Format("Lucene Indexing all items finished at {0}. Time required: {1}h:{2} min for {3} feeds with {4} items.", end, timeRequired.TotalHours, timeRequired.TotalMinutes, feedCount, itemCount ) ); 
 				
 
 				// are these statistics above also important for an end-user???
@@ -158,7 +158,7 @@ namespace NewsComponents.Search
 				// ignore
 			} 
 			catch (Exception e) {
-				Log.Error("Failure while indexing items.", e);
+				DefaultLog.Error("Failure while indexing items.", e);
 			} 
 			finally 
 			{
@@ -188,7 +188,7 @@ namespace NewsComponents.Search
                             }
 							indexModifier.Add(LuceneNewsItemSearch.Document(item), item.Language);
 						} catch (Exception ex) {
-							Log.Error("IndexNewsItems() error", ex);
+							DefaultLog.Error("IndexNewsItems() error", ex);
 						}
 					}
 				}

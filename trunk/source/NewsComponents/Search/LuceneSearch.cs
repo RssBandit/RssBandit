@@ -117,7 +117,7 @@ namespace NewsComponents.Search
 		private bool startIndexAll;
 
 		// logging/tracing:
-		private static readonly log4net.ILog _log = Log.GetLogger(typeof(LuceneSearch));
+		private static readonly log4net.ILog _log = DefaultLog.GetLogger(typeof(LuceneSearch));
 
 		#region ctor's
 
@@ -580,7 +580,7 @@ namespace NewsComponents.Search
 				indexer.IndexNewsItems(newsItems);
 
 			} catch (Exception ex) {
-				Log.Error("Failure while add item(s) to search index.", ex);
+				DefaultLog.Error("Failure while add item(s) to search index.", ex);
 			}
 		}
 
@@ -607,7 +607,7 @@ namespace NewsComponents.Search
 				LuceneIndexer indexer = GetIndexer();
 				indexer.RemoveNewsItems(newsItems);
 			} catch (Exception ex) {
-				Log.Error("Failure while remove item(s) from search index.", ex);
+				DefaultLog.Error("Failure while remove item(s) from search index.", ex);
 			}
 		}
 		
@@ -629,7 +629,7 @@ namespace NewsComponents.Search
 				LuceneIndexer indexer = GetIndexer();
 				indexer.RemoveFeed(feedID);
 			} catch (Exception ex) {
-				Log.Error("Failure while remove item(s) from search index.", ex);
+				DefaultLog.Error("Failure while remove item(s) from search index.", ex);
 			}
 			
 		}
@@ -642,7 +642,7 @@ namespace NewsComponents.Search
 			try {
 				this.indexModifier.ResetIndex();
 			} catch (Exception ex) {
-				Log.Error("Failure while reset the whole index.", ex);
+				DefaultLog.Error("Failure while reset the whole index.", ex);
 			}
 			
 		}
@@ -677,7 +677,7 @@ namespace NewsComponents.Search
 				indexer.RemoveNewsItems(feed.id); 
 				indexer.IndexNewsItems(items);
 			} catch (Exception ex) {
-				Log.Error("Failure while ReIndex item(s) in search index.", ex);
+				DefaultLog.Error("Failure while ReIndex item(s) in search index.", ex);
 			}
 			//this.IndexRemove(feed.id);
 			//this.IndexAdd(newsHandler.GetCachedItemsForFeed(feed.link));
@@ -695,7 +695,7 @@ namespace NewsComponents.Search
 			try {
 				this.indexModifier.Optimize();
 			} catch (Exception ex) {
-				Log.Error("Failure while optimizing search index.", ex);
+				DefaultLog.Error("Failure while optimizing search index.", ex);
 			}
 		}
 
@@ -945,7 +945,7 @@ namespace NewsComponents.Search
 				if (File.Exists(this.RestartIndexingStateFile))
 					FileHelper.Delete(this.RestartIndexingStateFile);
 			} catch (Exception ex) {
-				Log.Error("Cannot delete '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
+				DefaultLog.Error("Cannot delete '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
 			}
 			
 			indexModifier.Flush(false);
@@ -960,7 +960,7 @@ namespace NewsComponents.Search
 						WriteIndexingState(writer, e);
 					}
 				} catch (Exception ex) {
-					Log.Error("Cannot append to '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
+					DefaultLog.Error("Cannot append to '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
 				}
 			} else {
 				try {
@@ -968,7 +968,7 @@ namespace NewsComponents.Search
 						WriteIndexingState(writer, e);
 					}
 				} catch (Exception ex) {
-					Log.Error("Cannot create to '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
+					DefaultLog.Error("Cannot create to '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
 				}
 			}
 			

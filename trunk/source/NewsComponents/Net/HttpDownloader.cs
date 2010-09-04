@@ -25,7 +25,7 @@ namespace NewsComponents.Net
     {
         #region private members
 
-        private static readonly ILog Logger = Log.GetLogger(typeof (HttpDownloader));
+        private static readonly ILog Logger = DefaultLog.GetLogger(typeof (HttpDownloader));
 
         /// <summary>
         /// An IDownloader is only associated with a single DownloadTask. 

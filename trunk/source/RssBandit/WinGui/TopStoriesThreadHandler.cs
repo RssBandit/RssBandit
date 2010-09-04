@@ -24,7 +24,7 @@ using Logger = RssBandit.Common.Logging;
 namespace RssBandit.WinGui{
     class TopStoriesThreadHandler: EntertainmentThreadHandlerBase {
 
-        private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(TopStoriesThreadHandler));
+        private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(TopStoriesThreadHandler));
 
         /// <summary>
         /// The path to the file that will be the Top Stories HTML page. 

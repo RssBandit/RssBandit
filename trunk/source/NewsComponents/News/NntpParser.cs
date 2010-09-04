@@ -31,7 +31,7 @@ namespace NewsComponents.News{
 	/// </summary>
 	public sealed class NntpParser{
 
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(NntpParser));
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(NntpParser));
 		/// <summary>
 		/// Links to Google Groups used for creating permalinks for NNTP items
 		/// </summary>

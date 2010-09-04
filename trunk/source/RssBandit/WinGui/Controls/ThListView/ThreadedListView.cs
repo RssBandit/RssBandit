@@ -54,7 +54,7 @@ namespace RssBandit.WinGui.Controls.ThListView
         private string _emptyAutoGroupText = String.Empty;
         //private IntPtr _apiRetVal;
         private ThreadedListViewItem _noChildsPlaceHolder;
-		private static readonly ILog _log = Log.GetLogger(typeof(ThreadedListView));
+		private static readonly ILog _log = DefaultLog.GetLogger(typeof(ThreadedListView));
 
 
         public event EventHandler<ListLayoutCancelEventArgs> BeforeListLayoutChange;

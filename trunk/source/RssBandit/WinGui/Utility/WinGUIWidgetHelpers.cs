@@ -241,7 +241,7 @@ namespace RssBandit.WinGui.Utility {
 	/// </summary>
 	/// <remarks>Thanks to http://www.idesign.net/ </remarks>
 	public class EventsHelper {
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(EventsHelper));
+		private static readonly log4net.ILog _log = Common.Logging.DefaultLog.GetLogger(typeof(EventsHelper));
 
 		public static void Fire(Delegate del,params object[] args) {
 			Delegate temp = del;
@@ -292,7 +292,7 @@ namespace RssBandit.WinGui.Utility {
 		
 		static System.Collections.Specialized.StringDictionary userStore;
 		static bool userStoreModified;
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(Settings));
+		private static readonly log4net.ILog _log = Common.Logging.DefaultLog.GetLogger(typeof(Settings));
 
 		public Settings(string path):base(path) {
 
@@ -605,7 +605,7 @@ namespace RssBandit.WinGui.Utility {
 	#region Utils
 	internal class Utils {
 
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(Utils));
+		private static readonly log4net.ILog _log = Common.Logging.DefaultLog.GetLogger(typeof(Utils));
 
 		// some probe Urls, used by CurrentINetState() (no, that is NOT my favourites list... ;-)
 		// They have better ping timings than all the other....
@@ -1476,7 +1476,7 @@ namespace RssBandit.WinGui.Utility {
 				
 			} catch (Exception ex)
 			{
-				Log.Error("Failed to select a client certificate", ex);
+				DefaultLog.Error("Failed to select a client certificate", ex);
 				//RssBanditApplication.S
 			}
 			return null;

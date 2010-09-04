@@ -202,7 +202,7 @@ namespace NewsComponents.News {
         ///// </summary>
         //static readonly Regex xheaderResult = new Regex(@"(?<1>\d+)\s(?<2>.*)");
              
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(NntpClient));
+		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(NntpClient));
 
 		/// <summary>
 		/// Instantiates class

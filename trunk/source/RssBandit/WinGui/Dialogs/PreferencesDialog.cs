@@ -34,7 +34,7 @@ namespace RssBandit.WinGui.Dialogs {
 
 		public event EventHandler OnApplyPreferences;
 	
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(PreferencesDialog));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(PreferencesDialog));
 		
 		//private const string NgosDefaultLocation = "NewsGator Web Edition"; 
 

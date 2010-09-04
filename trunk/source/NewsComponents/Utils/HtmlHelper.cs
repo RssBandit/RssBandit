@@ -92,7 +92,7 @@ namespace NewsComponents.Utils
 
         private static readonly Dictionary<string, string> _htmlEntities;
         // logging/tracing:
-        private static readonly ILog _log = Log.GetLogger(typeof (HtmlHelper));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (HtmlHelper));
 
         /// <summary>
         /// Converts a relative url to an absolute one. baseUrl is used as the base to fix the other.

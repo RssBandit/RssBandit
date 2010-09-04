@@ -214,7 +214,7 @@ namespace NewsComponents
 
 
         // logging/tracing:
-        private static readonly log4net.ILog _log = RssBandit.Common.Logging.Log.GetLogger(typeof(FeedSourceManager));
+        private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(FeedSourceManager));
 
         #region Nested type: PropertyKey
 

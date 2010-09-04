@@ -39,7 +39,7 @@ namespace AppInteropServices
     {
         #region ivars
 
-        private static readonly ILog _log = Log.GetLogger(typeof (ServiceManager));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (ServiceManager));
         
         private static AppDomain CreateLoaderDomain(string relativeSearchPath)
         {
@@ -500,7 +500,7 @@ namespace AppInteropServices
 
 	internal static class AssemblyHelper
 	{
-		private static readonly ILog _log = Log.GetLogger(typeof(AssemblyHelper));
+		private static readonly ILog _log = DefaultLog.GetLogger(typeof(AssemblyHelper));
         
 		public static Assembly GetAssemblyFromFile(string fileName)
 		{

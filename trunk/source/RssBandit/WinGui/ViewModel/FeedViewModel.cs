@@ -48,7 +48,7 @@ namespace RssBandit.WinGui.ViewModel
                 if (!string.Equals(_feed.category, value, StringComparison.CurrentCulture))
                 {
                     _feed.category = value;
-                    OnPropertyChanged("Category");
+                    OnPropertyChanged(() => Category);
                 }
             }
         }
