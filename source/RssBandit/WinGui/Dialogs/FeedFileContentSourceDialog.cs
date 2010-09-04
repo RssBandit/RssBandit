@@ -210,7 +210,7 @@ namespace RssBandit.WinGui.Dialogs
 				}
 					
 			} catch (Exception ex) {
-				Log.Error("Cannot navigate to url '" + e.LinkText + "'", ex);
+				DefaultLog.Error("Cannot navigate to url '" + e.LinkText + "'", ex);
 			}
 		}
 

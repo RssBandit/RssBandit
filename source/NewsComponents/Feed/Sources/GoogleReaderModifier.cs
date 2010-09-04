@@ -231,7 +231,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// for logging/tracing:
         /// </summary>
-        private static readonly ILog _log = Log.GetLogger(typeof (GoogleReaderModifier));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (GoogleReaderModifier));
 
         /// <summary>
         /// Indicates whether there is a network connection. Without one, no Google Reader operations are performed.

@@ -94,7 +94,7 @@ namespace RssBandit.WinGui.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Unhandled clipboard exception: " + ex.Message, ex);
+				DefaultLog.Error("Unhandled clipboard exception: " + ex.Message, ex);
 			}
 			return dataObject;
 		}
@@ -159,7 +159,7 @@ namespace RssBandit.WinGui.Utility
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Unhandled clipboard exception: " + ex.Message, ex);
+				DefaultLog.Error("Unhandled clipboard exception: " + ex.Message, ex);
 			}
 		}
 

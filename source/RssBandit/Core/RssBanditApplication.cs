@@ -87,6 +87,8 @@ using IWin32Window = System.Windows.Forms.IWin32Window;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 
+using AC = RssBandit.Core.ApplicationContext;
+
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
 #endif
@@ -124,7 +126,7 @@ namespace RssBandit
         private ThreadResultManager threadResultManager;
         private IdentityNewsServerManager identityNewsServerManager;
         //private IAddInManager addInManager;
-    	private ColumnLayoutManager columnLayoutManager;
+        private ColumnLayoutManager columnLayoutManager;
 
         /// <summary>
         /// Manage the channel processors working on displaying items and feeds
@@ -188,26 +190,26 @@ namespace RssBandit
         /// </summary>
         private static bool portableApplicationMode;
 
-		private static SearchIndexBehavior searchIndexBehavior;
+        private static SearchIndexBehavior searchIndexBehavior;
 
         private static Version appVersion;
         private static string appDataFolderPath;
         private static string appCacheFolderPath;
-        private static readonly ILog _log = Log.GetLogger(typeof (RssBanditApplication));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (RssBanditApplication));
 
         public event EventHandler PreferencesChanged;
 
-		//public event EventHandler AllFeedSourcesLoaded;
-		public event EventHandler AllFeedSourceSubscriptionsLoaded;
-		
-		public event EventHandler<FeedSourceEventArgs> FeedSourceSubscriptionsLoaded;
-		public event EventHandler<FeedSourceEventArgs> FeedSourceChanged;
-		public event EventHandler<FeedSourceEventArgs> FeedSourceDeleted;
-		public event EventHandler<FeedSourceEventArgs> FeedSourceAdded;
-		
-		public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
+        //public event EventHandler AllFeedSourcesLoaded;
+        public event EventHandler AllFeedSourceSubscriptionsLoaded;
         
-	
+        public event EventHandler<FeedSourceEventArgs> FeedSourceSubscriptionsLoaded;
+        public event EventHandler<FeedSourceEventArgs> FeedSourceChanged;
+        public event EventHandler<FeedSourceEventArgs> FeedSourceDeleted;
+        public event EventHandler<FeedSourceEventArgs> FeedSourceAdded;
+        
+        public event EventHandler<FeedSourceFeedUrlTitleEventArgs> FeedSourceFeedDeleted;
+        
+    
         /// <summary>
         /// Async invoke on UI thread
         /// </summary>
@@ -227,56 +229,57 @@ namespace RssBandit
             Current = instance;
 
             // set initial defaults
-			// advanced settings:
-			unconditionalCommentRss = false;
-			automaticColorSchemes =  true;
-			FeedSource.SetCookies = true;
-			portableApplicationMode = false;
-        	searchIndexBehavior = SearchIndexBehavior.Default;
+            // advanced settings:
+            unconditionalCommentRss = false;
+            automaticColorSchemes =  true;
+            FeedSource.SetCookies = true;
+            portableApplicationMode = false;
+            searchIndexBehavior = SearchIndexBehavior.Default;
 
             // read app.config If a key was not found, take defaults from the embedded resources
             List<ConfigurationErrorsException> configErrors = new List<ConfigurationErrorsException>();
 
-			// outgoing links:
-			CollectConfigurationException(() => Resource.OutgoingLinks.FeedValidationUrlBase = ReadAppSettingsEntry("validationUrlBase", Resource.OutgoingLinks.Default.FeedValidationUrlBase), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.FeedLinkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", Resource.OutgoingLinks.Default.FeedLinkCosmosUrlBase), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.BugReportUrl = ReadAppSettingsEntry("bugReportUrl", Resource.OutgoingLinks.Default.BugReportUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.WebHelpUrl = ReadAppSettingsEntry("webHelpUrl", Resource.OutgoingLinks.Default.WebHelpUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectBlogUrl = ReadAppSettingsEntry("projectNewsUrl", Resource.OutgoingLinks.Default.ProjectBlogUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectNewsUrl = ReadAppSettingsEntry("wikiWebUrl", Resource.OutgoingLinks.Default.ProjectNewsUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.UserForumUrl = ReadAppSettingsEntry("userForumUrl", Resource.OutgoingLinks.Default.UserForumUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", Resource.OutgoingLinks.Default.ProjectDonationUrl), configErrors);
-			CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", Resource.OutgoingLinks.Default.ProjectDownloadUrl), configErrors);
+            // outgoing links:
+            CollectConfigurationException(() => Resource.OutgoingLinks.FeedValidationUrlBase = ReadAppSettingsEntry("validationUrlBase", Resource.OutgoingLinks.Default.FeedValidationUrlBase), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.FeedLinkCosmosUrlBase = ReadAppSettingsEntry("linkCosmosUrlBase", Resource.OutgoingLinks.Default.FeedLinkCosmosUrlBase), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.BugReportUrl = ReadAppSettingsEntry("bugReportUrl", Resource.OutgoingLinks.Default.BugReportUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.WebHelpUrl = ReadAppSettingsEntry("webHelpUrl", Resource.OutgoingLinks.Default.WebHelpUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.ProjectBlogUrl = ReadAppSettingsEntry("projectNewsUrl", Resource.OutgoingLinks.Default.ProjectBlogUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.ProjectNewsUrl = ReadAppSettingsEntry("wikiWebUrl", Resource.OutgoingLinks.Default.ProjectNewsUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.UserForumUrl = ReadAppSettingsEntry("userForumUrl", Resource.OutgoingLinks.Default.UserForumUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDonationUrl = ReadAppSettingsEntry("projectDonationUrl", Resource.OutgoingLinks.Default.ProjectDonationUrl), configErrors);
+            CollectConfigurationException(() => Resource.OutgoingLinks.ProjectDownloadUrl = ReadAppSettingsEntry("projectDownloadUrl", Resource.OutgoingLinks.Default.ProjectDownloadUrl), configErrors);
 
             // read advanced settings:
             CollectConfigurationException(() => unconditionalCommentRss = ReadAppSettingsEntry("UnconditionalCommentRss", false), configErrors);
             CollectConfigurationException(() => automaticColorSchemes = ReadAppSettingsEntry("AutomaticColorSchemes", true), configErrors);
             CollectConfigurationException(() => FeedSource.SetCookies = ReadAppSettingsEntry("UseCookiesFromIE", true), configErrors);
-			CollectConfigurationException(() => portableApplicationMode = ReadAppSettingsEntry("PortableApplicationMode", false), configErrors);
-			CollectConfigurationException(() => searchIndexBehavior = ReadAppSettingsEntry("Lucene.SearchIndexBehavior",
-				                            	SearchIndexBehavior.Default), configErrors);
+            CollectConfigurationException(() => portableApplicationMode = ReadAppSettingsEntry("PortableApplicationMode", false), configErrors);
+            CollectConfigurationException(() => searchIndexBehavior = ReadAppSettingsEntry("Lucene.SearchIndexBehavior",
+                                                SearchIndexBehavior.Default), configErrors);
 
-			if (configErrors.Count > 0)
-			{
-				StringBuilder b = new StringBuilder();
-				foreach (var ex in configErrors)
-					b.AppendFormat("- {0}{1}", ex.Message, Environment.NewLine);
+            if (configErrors.Count > 0)
+            {
+                StringBuilder b = new StringBuilder();
+                foreach (var ex in configErrors)
+                    b.AppendFormat("- {0}{1}", ex.Message, Environment.NewLine);
 
-				b.AppendFormat("{0}{0}Default value(s) will be used.", Environment.NewLine);
-				MessageBox.Show(b.ToString(), "Configuration error(s) detected", MessageBoxButtons.OK);	
-			}
+                b.AppendFormat("{0}{0}Default value(s) will be used.", Environment.NewLine);
+                MessageBox.Show(b.ToString(), "Configuration error(s) detected", MessageBoxButtons.OK);	
+            }
 
             // Gui Settings (Form position, layouts,...)
             guiSettings = new Settings(String.Empty);
         }
 
-		private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
-		{
-			ExceptionHelper.CatchAndCollectExceptions(action, exceptions);
-		}
+        private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
+        {
+            ExceptionHelper.CatchAndCollectExceptions(action, exceptions);
+        }
 
         public RssBanditApplication()
         {
+            ContextInternal = new AC();
             commandLineOptions = new CommandLineOptions();
 
             InvokeOnGuiSync = a => GuiInvoker.Invoke(guiMain, a);
@@ -310,8 +313,8 @@ namespace RssBandit
             // set static properties:
             FeedSource.EnclosureFolder = Preferences.EnclosureFolder;
             FeedSource.Stylesheet = Preferences.NewsItemStylesheetFile;
-        	FeedSource.PodcastFolder = Preferences.PodcastFolder;
-			FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
+            FeedSource.PodcastFolder = Preferences.PodcastFolder;
+            FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
 
             LoadTrustedCertificateIssues();
             AsyncWebRequest.OnCertificateIssue += OnRequestCertificateIssue;
@@ -330,23 +333,23 @@ namespace RssBandit
                     String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(),
                                   loadEx.Message), loadEx);
                 if (DialogResult.No ==
-					MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?",
+                    MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?",
                                                   Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
 
             //make sure we have a direct access feed source
-			//DISCUSS: should we do so in the final release?
-			if (BanditFeedSourceEntry == null)
-			{
-				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
-				// save the test enviroment:
-				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
-				// save only, if we don't start the very first time after installation:
-				if (BanditFeedSourceEntry != null &&
-					!Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
-					BanditFeedSourceEntry.Source.SaveFeedList();
-			}
+            //DISCUSS: should we do so in the final release?
+            if (BanditFeedSourceEntry == null)
+            {
+                sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
+                // save the test enviroment:
+                sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+                // save only, if we don't start the very first time after installation:
+                if (BanditFeedSourceEntry != null &&
+                    !Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
+                    BanditFeedSourceEntry.Source.SaveFeedList();
+            }
  
             commentFeedsHandler = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.DirectAccess,
                                                               new SubscriptionLocation(GetCommentsFeedListFileName()),
@@ -364,7 +367,7 @@ namespace RssBandit
             searchEngines = new SearchEngineHandler();
             identityNewsServerManager = new IdentityNewsServerManager();
             //addInManager = new ServiceManager();
-			columnLayoutManager = new ColumnLayoutManager();
+            columnLayoutManager = new ColumnLayoutManager();
 
             // Gui command handling
             cmdMediator = new CommandMediator();
@@ -393,7 +396,7 @@ namespace RssBandit
 
             BackgroundDiscoverFeedsHandler = new AutoDiscoveredFeedsMenuHandler(this);
             BackgroundDiscoverFeedsHandler.DiscoveredFeedsSubscribe += OnBackgroundDiscoveredFeedsSubscribe;
-			BackgroundDiscoverFeedsHandler.NewFeedsDiscovered += OnBackgroundNewFeedsDiscovered;
+            BackgroundDiscoverFeedsHandler.NewFeedsDiscovered += OnBackgroundNewFeedsDiscovered;
 
 
             modifiedFeeds = new Dictionary<int,List<string>>();
@@ -414,12 +417,21 @@ namespace RssBandit
             // indicates OK:
             return true;
         }
-        
+
+        internal AC ContextInternal
+        {
+            get;
+            private set;
+        }
+
+        public IApplicationContext Context
+        {
+            get { return ContextInternal; }
+        }
+
         internal static new RssBanditApplication Current { [DebuggerStepThrough]get; private set; }
-
-        internal static new MainWindow MainWindow { [DebuggerStepThrough]get { return (MainWindow)System.Windows.Application.Current.MainWindow; } }
-
-        internal static IWin32Window MainWindow32 { [DebuggerStepThrough]get { return new Win32Window(MainWindow); } }
+        
+        internal static IWin32Window MainWindow32 { [DebuggerStepThrough]get { return new Win32Window(System.Windows.Application.Current.MainWindow); } }
         
         class Win32Window : IWin32Window
         {
@@ -438,30 +450,30 @@ namespace RssBandit
        
         private void InitLocalFeeds()
         {
-			FeedSourceEntry migrationEntry = BanditFeedSourceEntry;
+            FeedSourceEntry migrationEntry = BanditFeedSourceEntry;
 
-			flaggedItemsFeed = new FlaggedItemsFeed(migrationEntry);
-			watchedItemsFeed = new WatchedItemsFeed(migrationEntry);
-			sentItemsFeed = new SentItemsFeed(migrationEntry);
-			deletedItemsFeed = new DeletedItemsFeed(migrationEntry);
-			unreadItemsFeed = new UnreadItemsFeed(migrationEntry);
+            flaggedItemsFeed = new FlaggedItemsFeed(migrationEntry);
+            watchedItemsFeed = new WatchedItemsFeed(migrationEntry);
+            sentItemsFeed = new SentItemsFeed(migrationEntry);
+            deletedItemsFeed = new DeletedItemsFeed(migrationEntry);
+            unreadItemsFeed = new UnreadItemsFeed(migrationEntry);
 
             findersSearchRoot = LoadSearchFolders();
-			
-			// flush possible migration changes:
-			if (flaggedItemsFeed.Modified)
-				flaggedItemsFeed.Save();
-			if (watchedItemsFeed.Modified)
-				watchedItemsFeed.Save();
-			if (sentItemsFeed.Modified)
-				sentItemsFeed.Save();
-			if (deletedItemsFeed.Modified)
-				deletedItemsFeed.Save();
+            
+            // flush possible migration changes:
+            if (flaggedItemsFeed.Modified)
+                flaggedItemsFeed.Save();
+            if (watchedItemsFeed.Modified)
+                watchedItemsFeed.Save();
+            if (sentItemsFeed.Modified)
+                sentItemsFeed.Save();
+            if (deletedItemsFeed.Modified)
+                deletedItemsFeed.Save();
         }
 
-		
         
-		private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
+        
+        private INewsComponentsConfiguration CreateFeedHandlerConfiguration()
         {
             var cfg = new NewsComponentsConfiguration
                           {
@@ -470,7 +482,7 @@ namespace RssBandit
                           };
             try
             {
-            	cfg.SearchIndexBehavior = SearchIndexBehavior;
+                cfg.SearchIndexBehavior = SearchIndexBehavior;
                     
             }
             catch (Exception configException)
@@ -584,7 +596,7 @@ namespace RssBandit
             base.Exit += OnApplicationExit;
             // Allow exceptions to be unhandled so they break in the debugger
 #if !DEBUG
-			Application.ThreadException += this.OnThreadException;
+            Application.ThreadException += this.OnThreadException;
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
 
@@ -595,7 +607,7 @@ namespace RssBandit
             //_dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             //_dispatcherThread.Start();
 #if UseResourceInfragistics
-			ResourceInfragistics.TranslateAll();
+            ResourceInfragistics.TranslateAll();
 #endif
             //WPF init.  Important: without that we don't have the App.Resources loaded, and also no JumpList definitions!
             InitializeComponent();
@@ -607,12 +619,12 @@ namespace RssBandit
             guiMain = new WinGuiMain(this, initialStartupState); // interconnect
             //Do we still need this for WPF? 
             GuiInvoker.Initialize();
-			
-			// now we are ready to receive events from the backend:
-			sourceManager.ForEach(delegate(FeedSource f)
-			                      {
-			                      	ConnectFeedSourceEvents(f);
-			                      });
+            
+            // now we are ready to receive events from the backend:
+            sourceManager.ForEach(delegate(FeedSource f)
+                                  {
+                                    ConnectFeedSourceEvents(f);
+                                  });
 
             // thread results to UI serialization/sync.:
             threadResultManager = new ThreadResultManager(this, guiMain.ResultDispatcher);
@@ -757,36 +769,36 @@ namespace RssBandit
             ThreadWorkerBase.QueueTask(task, duplicate);
         }
 
-		//public void BeginLoadingFeedlists()
-		//{
-		//    MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
-		//}
+        //public void BeginLoadingFeedlists()
+        //{
+        //    MakeAndQueueTask(ThreadWorker.Task.LoadFeedlists, OnLoadingFeedlistProgress);
+        //}
 
-		/// <summary>
-		/// Begins the load of feed source subscriptions for one source in async. manner.
-		/// </summary>
-		/// <param name="sourceEntry">The source entry.</param>
-		public void BeginLoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
-		{
-			MakeAndQueueTask(ThreadWorker.Task.LoadFeedSourceSubscriptions,
-							 (sender, args) =>
-							 {
-							 	 if (args.Exception != null)
-								 {
-									 // failure(s)
-									 args.Cancel = true;
-									 PublishException(args.Exception);
-								 }
-								 else if (!args.Done)
-								 {
-									 // in progress
-								 }
-								 else if (args.Done)
-								 {
-									 guiMain.PopulateFeedSubscriptions(sourceEntry, DefaultCategory);
-								 }
-							 }, sourceEntry);
-		}
+        /// <summary>
+        /// Begins the load of feed source subscriptions for one source in async. manner.
+        /// </summary>
+        /// <param name="sourceEntry">The source entry.</param>
+        public void BeginLoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
+        {
+            MakeAndQueueTask(ThreadWorker.Task.LoadFeedSourceSubscriptions,
+                             (sender, args) =>
+                             {
+                                 if (args.Exception != null)
+                                 {
+                                     // failure(s)
+                                     args.Cancel = true;
+                                     PublishException(args.Exception);
+                                 }
+                                 else if (!args.Done)
+                                 {
+                                     // in progress
+                                 }
+                                 else if (args.Done)
+                                 {
+                                     guiMain.PopulateFeedSubscriptions(sourceEntry, DefaultCategory);
+                                 }
+                             }, sourceEntry);
+        }
 
 
         /// <summary>
@@ -843,42 +855,42 @@ namespace RssBandit
             }
         }
 
-		/// <summary>
-		/// Begins the load of all feed source subscriptions in async. manner.
-		/// </summary>
-		public void BeginLoadAllFeedSourcesSubscriptions()
-		{
-			MakeAndQueueTask(
-				ThreadWorker.Task.LoadAllFeedSourcesSubscriptions,
-				(sender, args) =>
-				{
-					FeedSourceEntry current = (FeedSourceEntry)args.Result;
-						
-					if (args.Exception != null)
-					{
-						// failure(s)
-						HandleFeedlistException(args.Exception);
-						// always call (callee can detect an error using current.Source.FeedListOK):
-						RaiseFeedSourceSubscriptionsLoaded(current);
-					
-					}
-					else if (!args.Done)
-					{
-						// notify current progress:
-						RaiseFeedSourceSubscriptionsLoaded(current);
-						// in progress counters:
-						//TODO: we should have our own ApplicationTrayState  (not Idle) !
-						guiMain.SetGuiStateFeedback(String.Format(SR.GUIStatusXofYFeedSourceSubscriptionsLoaded, args.CurrentProgress, args.MaxProgress), ApplicationTrayState.NormalIdle);
-					}
-					else if (args.Done)
-					{
-						guiMain.SetGuiStateFeedback(SR.GUIStatusAllSubscriptionListsLoaded, ApplicationTrayState.NormalIdle);
-						RaiseAllFeedSourcesSubscriptionsLoaded();
-						LoadWatchedCommentsFeedlist();
-					}
+        /// <summary>
+        /// Begins the load of all feed source subscriptions in async. manner.
+        /// </summary>
+        public void BeginLoadAllFeedSourcesSubscriptions()
+        {
+            MakeAndQueueTask(
+                ThreadWorker.Task.LoadAllFeedSourcesSubscriptions,
+                (sender, args) =>
+                {
+                    FeedSourceEntry current = (FeedSourceEntry)args.Result;
+                        
+                    if (args.Exception != null)
+                    {
+                        // failure(s)
+                        HandleFeedlistException(args.Exception);
+                        // always call (callee can detect an error using current.Source.FeedListOK):
+                        RaiseFeedSourceSubscriptionsLoaded(current);
+                    
+                    }
+                    else if (!args.Done)
+                    {
+                        // notify current progress:
+                        RaiseFeedSourceSubscriptionsLoaded(current);
+                        // in progress counters:
+                        //TODO: we should have our own ApplicationTrayState  (not Idle) !
+                        guiMain.SetGuiStateFeedback(String.Format(SR.GUIStatusXofYFeedSourceSubscriptionsLoaded, args.CurrentProgress, args.MaxProgress), ApplicationTrayState.NormalIdle);
+                    }
+                    else if (args.Done)
+                    {
+                        guiMain.SetGuiStateFeedback(SR.GUIStatusAllSubscriptionListsLoaded, ApplicationTrayState.NormalIdle);
+                        RaiseAllFeedSourcesSubscriptionsLoaded();
+                        LoadWatchedCommentsFeedlist();
+                    }
 
-				}, FeedSources.GetOrderedFeedSources());
-		}
+                }, FeedSources.GetOrderedFeedSources());
+        }
 
         public void BeginRefreshFeeds(bool forceDownload)
         {
@@ -930,71 +942,71 @@ namespace RssBandit
 
         #endregion
 
-		#region Download/Upload of Bandit state
+        #region Download/Upload of Bandit state
 
-		public bool TryDownloadFeedlistAndState(bool allowCancel, out string errorMessage)
-		{
-			errorMessage = null;
-			if (!Preferences.UseRemoteStorage)
-				return true;
-			
-			RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
-				RemoteFeedlistThreadHandler.Operation.Download, this,
-				Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
-				Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
-
-			DialogResult result =
-				rh.Start(guiMain, String.Format(
-						 SR.GUIStatusWaitMessageDownLoadingFeedlist, Preferences.RemoteStorageProtocol), 
-						 allowCancel);
-
-			if (result != DialogResult.OK)
-				return true;
-
-			if (rh.OperationSucceeds)
-			{
-				guiMain.SaveSubscriptionTreeState();
-				guiMain.SyncFinderNodes();
-				columnLayoutManager.Reset();
-				IdentityManager.Reset();
-				guiMain.InitiatePopulateTreeFeeds();
-				guiMain.LoadAndRestoreSubscriptionTreeState();
-				return true;
-			}
-			
-			errorMessage= String.Format(SR.GUIFeedlistDownloadExceptionMessage, rh.OperationException.Message);
-			return false;
-		}
-
-		public bool TryUploadFeedlistAndState(bool allowCancel, out string errorMessage)
-		{
-			errorMessage = null;
-			if (!Preferences.UseRemoteStorage)
-				return true;
-
-			RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
-				RemoteFeedlistThreadHandler.Operation.Upload, this,
-				Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
-				Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
-
-			DialogResult result =
-				rh.Start(guiMain, String.Format(SR.GUIStatusWaitMessageUpLoadingFeedlist, 
-					Preferences.RemoteStorageProtocol),
-					allowCancel);
-
-			if (result != DialogResult.OK)
-				return true;	// user may have cancelled the action
-
-			if (rh.OperationSucceeds)
-				return true;
+        public bool TryDownloadFeedlistAndState(bool allowCancel, out string errorMessage)
+        {
+            errorMessage = null;
+            if (!Preferences.UseRemoteStorage)
+                return true;
             
-			errorMessage = String.Format(SR.GUIFeedlistUploadExceptionMessage, rh.OperationException.Message);
-			return false;
-		}
+            RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
+                RemoteFeedlistThreadHandler.Operation.Download, this,
+                Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
+                Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
 
-		#endregion
+            DialogResult result =
+                rh.Start(guiMain, String.Format(
+                         SR.GUIStatusWaitMessageDownLoadingFeedlist, Preferences.RemoteStorageProtocol), 
+                         allowCancel);
 
-		public FeedSourceEntry CurrentFeedSource
+            if (result != DialogResult.OK)
+                return true;
+
+            if (rh.OperationSucceeds)
+            {
+                guiMain.SaveSubscriptionTreeState();
+                guiMain.SyncFinderNodes();
+                columnLayoutManager.Reset();
+                IdentityManager.Reset();
+                guiMain.InitiatePopulateTreeFeeds();
+                guiMain.LoadAndRestoreSubscriptionTreeState();
+                return true;
+            }
+            
+            errorMessage= String.Format(SR.GUIFeedlistDownloadExceptionMessage, rh.OperationException.Message);
+            return false;
+        }
+
+        public bool TryUploadFeedlistAndState(bool allowCancel, out string errorMessage)
+        {
+            errorMessage = null;
+            if (!Preferences.UseRemoteStorage)
+                return true;
+
+            RemoteFeedlistThreadHandler rh = new RemoteFeedlistThreadHandler(
+                RemoteFeedlistThreadHandler.Operation.Upload, this,
+                Preferences.RemoteStorageProtocol, Preferences.RemoteStorageLocation,
+                Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword, GuiSettings);
+
+            DialogResult result =
+                rh.Start(guiMain, String.Format(SR.GUIStatusWaitMessageUpLoadingFeedlist, 
+                    Preferences.RemoteStorageProtocol),
+                    allowCancel);
+
+            if (result != DialogResult.OK)
+                return true;	// user may have cancelled the action
+
+            if (rh.OperationSucceeds)
+                return true;
+            
+            errorMessage = String.Format(SR.GUIFeedlistUploadExceptionMessage, rh.OperationException.Message);
+            return false;
+        }
+
+        #endregion
+
+        public FeedSourceEntry CurrentFeedSource
         {
             get
             {
@@ -1007,31 +1019,31 @@ namespace RssBandit
             get { return sourceManager; }
         }
 
-		public IBanditFeedSource BanditFeedSourceExtension
-		{
-			get { return BanditFeedSourceEntry.Source as IBanditFeedSource; }
-		}
+        public IBanditFeedSource BanditFeedSourceExtension
+        {
+            get { return BanditFeedSourceEntry.Source as IBanditFeedSource; }
+        }
 
         public FeedSource BanditFeedSource
         {
-			get { return BanditFeedSourceEntry.Source; }
+            get { return BanditFeedSourceEntry.Source; }
         }
 
-		/// <summary>
-		/// Gets the migration feed source entry. (BanditFeedSource: used to read/get/migrate old 1.6.x settings)
-		/// </summary>
-		/// <returns></returns>
-		public FeedSourceEntry BanditFeedSourceEntry
-		{
-			get
-			{
-				return FeedSources.Sources.FirstOrDefault(
-					entry =>
-					{
-						return (entry.SourceType == FeedSourceType.DirectAccess);
-					});
-			}
-		}
+        /// <summary>
+        /// Gets the migration feed source entry. (BanditFeedSource: used to read/get/migrate old 1.6.x settings)
+        /// </summary>
+        /// <returns></returns>
+        public FeedSourceEntry BanditFeedSourceEntry
+        {
+            get
+            {
+                return FeedSources.Sources.FirstOrDefault(
+                    entry =>
+                    {
+                        return (entry.SourceType == FeedSourceType.DirectAccess);
+                    });
+            }
+        }
 
         public FeedSource CommentFeedsHandler
         {
@@ -1051,18 +1063,18 @@ namespace RssBandit
             get { return identityNewsServerManager; }
         }
 
-		/// <summary>
-		/// Notification method about a setting that was modified,
-		/// relevant to the subscriptions.
-		/// </summary>
-		/// <param name="entry">The entry.</param>
-		/// <param name="property">The property.</param>
-		public void SubscriptionModified(FeedSourceEntry entry, NewsFeedProperty property)
-		{
-			HandleSubscriptionRelevantChange(property);
-		}
+        /// <summary>
+        /// Notification method about a setting that was modified,
+        /// relevant to the subscriptions.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="property">The property.</param>
+        public void SubscriptionModified(FeedSourceEntry entry, NewsFeedProperty property)
+        {
+            HandleSubscriptionRelevantChange(property);
+        }
 
-		
+        
         /// <summary>
         /// Notification method about a feed that was modified.
         /// </summary>
@@ -1074,9 +1086,9 @@ namespace RssBandit
 
             if (feed == null)
                 return;
-        	FeedSourceEntry entry = sourceManager.SourceOf(feed.owner as FeedSource);
-			HandleFeedCacheRelevantChange(entry, feed.link, property);
-			HandleIndexRelevantChange(entry, feed, property);
+            FeedSourceEntry entry = sourceManager.SourceOf(feed.owner as FeedSource);
+            HandleFeedCacheRelevantChange(entry, feed.link, property);
+            HandleIndexRelevantChange(entry, feed, property);
         }
 
         /// <summary>
@@ -1097,7 +1109,7 @@ namespace RssBandit
 
         private void HandleSubscriptionRelevantChange(NewsFeedProperty property)
         {
-			//TODO: move save state handling to FeedSourceManager
+            //TODO: move save state handling to FeedSourceManager
             if (FeedSource.IsSubscriptionRelevantChange(property))
                 feedlistModified = true;
         }
@@ -1127,14 +1139,14 @@ namespace RssBandit
             }
         }
 
-		private void HandleIndexRelevantChange(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
+        private void HandleIndexRelevantChange(FeedSourceEntry entry, string feedUrl, NewsFeedProperty property)
         {
             if (string.IsNullOrEmpty(feedUrl))
                 return;
-			HandleIndexRelevantChange(entry, GetFeed(entry, feedUrl), property);
+            HandleIndexRelevantChange(entry, GetFeed(entry, feedUrl), property);
         }
 
-		private static void HandleIndexRelevantChange(FeedSourceEntry entry, INewsFeed feed, NewsFeedProperty property)
+        private static void HandleIndexRelevantChange(FeedSourceEntry entry, INewsFeed feed, NewsFeedProperty property)
         {
             if (feed == null)
                 return;
@@ -1156,35 +1168,35 @@ namespace RssBandit
             }
         }
 
-		///// <summary>
-		///// Gets the NewsFeed from FeedHandler.
-		///// </summary>
-		///// <param name="feedUrl">The feed URL (can be null).</param>
-		///// <returns>NewsFeed if found, else null</returns>
-		//[Obsolete("Please call GetFeed(FeedSourceEntry, string)")]
-		//public INewsFeed GetFeed(string feedUrl)
-		//{
-		//    if (string.IsNullOrEmpty(feedUrl))
-		//        return null;
-		//    if (feedHandler.IsSubscribed(feedUrl))
-		//        return feedHandler.GetFeeds()[feedUrl];
-		//    return null;
-		//}
+        ///// <summary>
+        ///// Gets the NewsFeed from FeedHandler.
+        ///// </summary>
+        ///// <param name="feedUrl">The feed URL (can be null).</param>
+        ///// <returns>NewsFeed if found, else null</returns>
+        //[Obsolete("Please call GetFeed(FeedSourceEntry, string)")]
+        //public INewsFeed GetFeed(string feedUrl)
+        //{
+        //    if (string.IsNullOrEmpty(feedUrl))
+        //        return null;
+        //    if (feedHandler.IsSubscribed(feedUrl))
+        //        return feedHandler.GetFeeds()[feedUrl];
+        //    return null;
+        //}
 
-		/// <summary>
-		/// Gets the NewsFeed from FeedHandler.
-		/// </summary>
-		/// <param name="entry">The feed source entry.</param>
-		/// <param name="feedUrl">The feed URL (can be null).</param>
-		/// <returns>NewsFeed if found, else null</returns>
-		public INewsFeed GetFeed(FeedSourceEntry entry, string feedUrl)
-		{
-			if (entry == null || string.IsNullOrEmpty(feedUrl))
-				return null;
-			if (entry.Source.IsSubscribed(feedUrl))
-				return entry.Source.GetFeeds()[feedUrl];
-			return null;
-		}
+        /// <summary>
+        /// Gets the NewsFeed from FeedHandler.
+        /// </summary>
+        /// <param name="entry">The feed source entry.</param>
+        /// <param name="feedUrl">The feed URL (can be null).</param>
+        /// <returns>NewsFeed if found, else null</returns>
+        public INewsFeed GetFeed(FeedSourceEntry entry, string feedUrl)
+        {
+            if (entry == null || string.IsNullOrEmpty(feedUrl))
+                return null;
+            if (entry.Source.IsSubscribed(feedUrl))
+                return entry.Source.GetFeeds()[feedUrl];
+            return null;
+        }
 
         /// <summary>
         /// Gets the feed info (<see cref="IFeedDetails"/>).
@@ -1192,12 +1204,12 @@ namespace RssBandit
         /// <param name="entry">The feed source entry.</param>
         /// <param name="feedUrl">The feed URL (can be null).</param>
         /// <returns>IFeedDetails if found, else null</returns>
-		public IFeedDetails GetFeedDetails(FeedSourceEntry entry, string feedUrl)
+        public IFeedDetails GetFeedDetails(FeedSourceEntry entry, string feedUrl)
         {
-			if (entry == null || string.IsNullOrEmpty(feedUrl))
+            if (entry == null || string.IsNullOrEmpty(feedUrl))
                 return null;
-			if (entry.Source.IsSubscribed(feedUrl))
-				return entry.Source.GetFeedDetails(feedUrl);
+            if (entry.Source.IsSubscribed(feedUrl))
+                return entry.Source.GetFeedDetails(feedUrl);
             return null;
         }
 
@@ -1211,10 +1223,10 @@ namespace RssBandit
             get { return guiSettings; }
         }
 
-		public static IPersistedSettings PersistedSettings
-		{
-			get { return guiSettings; }
-		}
+        public static IPersistedSettings PersistedSettings
+        {
+            get { return guiSettings; }
+        }
 
         /// <summary>
         /// Gets or sets the last auto update check date.
@@ -1337,15 +1349,15 @@ namespace RssBandit
 
         public AutoDiscoveredFeedsMenuHandler BackgroundDiscoverFeedsHandler { get; private set; }
 
-		private void OnBackgroundNewFeedsDiscovered(object sender, DiscoveredFeedsInfoEventArgs e)
-		{
-			// currently we just play a sound
-			// But we could also display a tooltip at the command button
-			// to indicate new feeds detected here
-			Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
-		}
+        private void OnBackgroundNewFeedsDiscovered(object sender, DiscoveredFeedsInfoEventArgs e)
+        {
+            // currently we just play a sound
+            // But we could also display a tooltip at the command button
+            // to indicate new feeds detected here
+            Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+        }
 
-    	private void OnBackgroundDiscoveredFeedsSubscribe(object sender, DiscoveredFeedsInfoCancelEventArgs e)
+        private void OnBackgroundDiscoveredFeedsSubscribe(object sender, DiscoveredFeedsInfoCancelEventArgs e)
         {
             if (e.FeedsInfo.FeedLinks.Count == 1)
             {
@@ -1380,277 +1392,277 @@ namespace RssBandit
             }
         }
 
-		//private void CheckAndMigrateListViewLayouts()
-		//{
-		//    // check, if any migration task have to be applied:
+        //private void CheckAndMigrateListViewLayouts()
+        //{
+        //    // check, if any migration task have to be applied:
 
-		//    // v.1.3.x beta to 1.3.x.release:
-		//    // layouts was serialized directly to feed/category elements
-		//    // now they live in a separate collection
+        //    // v.1.3.x beta to 1.3.x.release:
+        //    // layouts was serialized directly to feed/category elements
+        //    // now they live in a separate collection
 
-		//    // we assume we should have always at least the default layouts:
-		//    if (this.BanditFeedSource.ColumnLayouts.Count == 0)
-		//    {
-		//        ListViewLayout oldLayout;
-		//        foreach (var f in this.BanditFeedSource.GetFeeds().Values)
-		//        {
-		//            if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
-		//                continue;
-		//            try
-		//            {
-		//                oldLayout = ListViewLayout.CreateFromXML(f.listviewlayout);
-		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
-		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
+        //    // we assume we should have always at least the default layouts:
+        //    if (this.BanditFeedSource.ColumnLayouts.Count == 0)
+        //    {
+        //        ListViewLayout oldLayout;
+        //        foreach (var f in this.BanditFeedSource.GetFeeds().Values)
+        //        {
+        //            if (string.IsNullOrEmpty(f.listviewlayout) || f.listviewlayout.IndexOf("<") < 0)
+        //                continue;
+        //            try
+        //            {
+        //                oldLayout = ListViewLayout.CreateFromXML(f.listviewlayout);
+        //                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+        //                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+        //                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-		//                if (!fc.Equals(DefaultFeedColumnLayout, true))
-		//                {
-		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
-		//                    if (found != null)
-		//                    {
-		//                        // assign key
-		//                        f.listviewlayout = found;
-		//                    }
-		//                    else
-		//                    {
-		//                        // add and assign key
-		//                        f.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
-		//                        this.BanditFeedSource.ColumnLayouts.Add(f.listviewlayout, fc);
-		//                    }
-		//                }
-		//                else
-		//                {
-		//                    f.listviewlayout = null; // same as default: reset
-		//                }
-		//            }
-		//            catch (Exception ex)
-		//            {
-		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
-		//            }
-		//        }
+        //                if (!fc.Equals(DefaultFeedColumnLayout, true))
+        //                {
+        //                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+        //                    if (found != null)
+        //                    {
+        //                        // assign key
+        //                        f.listviewlayout = found;
+        //                    }
+        //                    else
+        //                    {
+        //                        // add and assign key
+        //                        f.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
+        //                        this.BanditFeedSource.ColumnLayouts.Add(f.listviewlayout, fc);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    f.listviewlayout = null; // same as default: reset
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+        //            }
+        //        }
 
-		//        foreach (var c in this.BanditFeedSource.GetCategories().Values)
-		//        {
-		//            if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
-		//                continue;
-		//            try
-		//            {
-		//                oldLayout = ListViewLayout.CreateFromXML(c.listviewlayout);
-		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
-		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
+        //        foreach (var c in this.BanditFeedSource.GetCategories().Values)
+        //        {
+        //            if (string.IsNullOrEmpty(c.listviewlayout) || c.listviewlayout.IndexOf("<") < 0)
+        //                continue;
+        //            try
+        //            {
+        //                oldLayout = ListViewLayout.CreateFromXML(c.listviewlayout);
+        //                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+        //                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+        //                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-		//                if (!fc.Equals(DefaultCategoryColumnLayout, true))
-		//                {
-		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
-		//                    if (found != null)
-		//                    {
-		//                        // assign key
-		//                        c.listviewlayout = found;
-		//                    }
-		//                    else
-		//                    {
-		//                        // add and assign key
-		//                        c.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
-		//                        this.BanditFeedSource.ColumnLayouts.Add(c.listviewlayout, fc);
-		//                    }
-		//                }
-		//                else
-		//                {
-		//                    c.listviewlayout = null; // same as default: reset
-		//                }
-		//            }
-		//            catch (Exception ex)
-		//            {
-		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
-		//            }
-		//        }
+        //                if (!fc.Equals(DefaultCategoryColumnLayout, true))
+        //                {
+        //                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+        //                    if (found != null)
+        //                    {
+        //                        // assign key
+        //                        c.listviewlayout = found;
+        //                    }
+        //                    else
+        //                    {
+        //                        // add and assign key
+        //                        c.listviewlayout = FeedColumnLayoutCollection.CreateNewKey();
+        //                        this.BanditFeedSource.ColumnLayouts.Add(c.listviewlayout, fc);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    c.listviewlayout = null; // same as default: reset
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+        //            }
+        //        }
 
-		//        // now add the default layouts
-		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
-		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
-		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
-		//        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
+        //        // now add the default layouts
+        //        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultFeedColumnLayout);
+        //        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultCategoryColumnLayout);
+        //        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSearchFolderColumnLayout);
+        //        this.BanditFeedSource.ColumnLayouts.Add(Guid.NewGuid().ToString("N"), DefaultSpecialFolderColumnLayout);
 
-		//        if (!string.IsNullOrEmpty(this.BanditFeedSource.FeedColumnLayout))
-		//            try
-		//            {
-		//                oldLayout = ListViewLayout.CreateFromXML(this.BanditFeedSource.FeedColumnLayout);
-		//                var fc = new FeedColumnLayout(oldLayout.ColumnList,
-		//                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
-		//                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
+        //        if (!string.IsNullOrEmpty(this.BanditFeedSource.FeedColumnLayout))
+        //            try
+        //            {
+        //                oldLayout = ListViewLayout.CreateFromXML(this.BanditFeedSource.FeedColumnLayout);
+        //                var fc = new FeedColumnLayout(oldLayout.ColumnList,
+        //                                              oldLayout.ColumnWidthList, oldLayout.SortByColumn,
+        //                                              oldLayout.SortOrder, LayoutType.IndividualLayout);
 
-		//                if (!fc.Equals(DefaultCategoryColumnLayout, true))
-		//                {
-		//                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
-		//                    if (found != null)
-		//                    {
-		//                        // assign key
-		//                        this.BanditFeedSource.FeedColumnLayout = found;
-		//                    }
-		//                    else
-		//                    {
-		//                        // add and assign key
-		//                        this.BanditFeedSource.FeedColumnLayout = FeedColumnLayoutCollection.CreateNewKey();
-		//                        this.BanditFeedSource.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
-		//                    }
-		//                }
-		//                else
-		//                {
-		//                    this.BanditFeedSource.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
-		//                }
-		//            }
-		//            catch (Exception ex)
-		//            {
-		//                _log.Error(ex.Message, ex); /* ignore deserialization failures */
-		//            }
+        //                if (!fc.Equals(DefaultCategoryColumnLayout, true))
+        //                {
+        //                    string found = this.BanditFeedSource.ColumnLayouts.KeyOfSimilar(fc);
+        //                    if (found != null)
+        //                    {
+        //                        // assign key
+        //                        this.BanditFeedSource.FeedColumnLayout = found;
+        //                    }
+        //                    else
+        //                    {
+        //                        // add and assign key
+        //                        this.BanditFeedSource.FeedColumnLayout = FeedColumnLayoutCollection.CreateNewKey();
+        //                        this.BanditFeedSource.ColumnLayouts.Add(feedHandler.FeedColumnLayout, fc);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    this.BanditFeedSource.FeedColumnLayout = defaultCategoryColumnLayoutKey; // same as default
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                _log.Error(ex.Message, ex); /* ignore deserialization failures */
+        //            }
 
-		//        feedlistModified = true; // trigger auto-save
-		//    }
+        //        feedlistModified = true; // trigger auto-save
+        //    }
         //}
 
-		//#region class kept for migration purpose:
+        //#region class kept for migration purpose:
 
-		//[Serializable]
-		//public class ListViewLayout : ICloneable
-		//{
-		//    private string _sortByColumn;
-		//    private SortOrder _sortOrder;
-		//    internal List<string> _columns;
-		//    internal List<int> _columnWidths;
+        //[Serializable]
+        //public class ListViewLayout : ICloneable
+        //{
+        //    private string _sortByColumn;
+        //    private SortOrder _sortOrder;
+        //    internal List<string> _columns;
+        //    internal List<int> _columnWidths;
 
-		//    public ListViewLayout() : this(null, null, null, SortOrder.None)
-		//    {
-		//    }
+        //    public ListViewLayout() : this(null, null, null, SortOrder.None)
+        //    {
+        //    }
 
-		//    public ListViewLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
-		//                          SortOrder sortOrder)
-		//    {
-		//        _columns = columns != null ? new List<string>(columns) : new List<string>();
-		//        _columnWidths = columnWidths != null ? new List<int>(columnWidths) : new List<int>();
-		//        _sortByColumn = sortByColumn;
-		//        _sortOrder = sortOrder;
-		//    }
+        //    public ListViewLayout(IEnumerable<string> columns, IEnumerable<int> columnWidths, string sortByColumn,
+        //                          SortOrder sortOrder)
+        //    {
+        //        _columns = columns != null ? new List<string>(columns) : new List<string>();
+        //        _columnWidths = columnWidths != null ? new List<int>(columnWidths) : new List<int>();
+        //        _sortByColumn = sortByColumn;
+        //        _sortOrder = sortOrder;
+        //    }
 
-		//    public static ListViewLayout CreateFromXML(string xmlString)
-		//    {
-		//        if (!string.IsNullOrEmpty(xmlString))
-		//        {
-		//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
-		//            var reader = new StringReader(xmlString);
-		//            return (ListViewLayout) formatter.Deserialize(reader);
-		//        }
-		//        return null;
-		//    }
+        //    public static ListViewLayout CreateFromXML(string xmlString)
+        //    {
+        //        if (!string.IsNullOrEmpty(xmlString))
+        //        {
+        //            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+        //            var reader = new StringReader(xmlString);
+        //            return (ListViewLayout) formatter.Deserialize(reader);
+        //        }
+        //        return null;
+        //    }
 
-		//    public static string SaveAsXML(ListViewLayout layout)
-		//    {
-		//        if (layout == null)
-		//            return null;
-		//        try
-		//        {
-		//            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
-		//            var writer = new StringWriter();
-		//            formatter.Serialize(writer, layout);
-		//            return writer.ToString();
-		//        }
-		//        catch (Exception ex)
-		//        {
-		//            Trace.WriteLine("SaveAsXML() failed.", ex.Message);
-		//        }
-		//        return null;
-		//    }
+        //    public static string SaveAsXML(ListViewLayout layout)
+        //    {
+        //        if (layout == null)
+        //            return null;
+        //        try
+        //        {
+        //            XmlSerializer formatter = XmlHelper.SerializerCache.GetSerializer(typeof (ListViewLayout));
+        //            var writer = new StringWriter();
+        //            formatter.Serialize(writer, layout);
+        //            return writer.ToString();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Trace.WriteLine("SaveAsXML() failed.", ex.Message);
+        //        }
+        //        return null;
+        //    }
 
-		//    #region IListViewLayout Members
+        //    #region IListViewLayout Members
 
-		//    public string SortByColumn
-		//    {
-		//        get { return _sortByColumn; }
-		//        set { _sortByColumn = value; }
-		//    }
+        //    public string SortByColumn
+        //    {
+        //        get { return _sortByColumn; }
+        //        set { _sortByColumn = value; }
+        //    }
 
-		//    public SortOrder SortOrder
-		//    {
-		//        get { return _sortOrder; }
-		//        set { _sortOrder = value; }
-		//    }
+        //    public SortOrder SortOrder
+        //    {
+        //        get { return _sortOrder; }
+        //        set { _sortOrder = value; }
+        //    }
 
-		//    [XmlIgnore]
-		//    public IList<string> Columns
-		//    {
-		//        get { return _columns; }
-		//        set { _columns = value != null ? new List<string>(value) : new List<string>(); }
-		//    }
+        //    [XmlIgnore]
+        //    public IList<string> Columns
+        //    {
+        //        get { return _columns; }
+        //        set { _columns = value != null ? new List<string>(value) : new List<string>(); }
+        //    }
 
-		//    [XmlIgnore]
-		//    public IList<int> ColumnWidths
-		//    {
-		//        get { return _columnWidths; }
-		//        set { _columnWidths = value != null ? new List<int>(value) : new List<int>(); }
-		//    }
+        //    [XmlIgnore]
+        //    public IList<int> ColumnWidths
+        //    {
+        //        get { return _columnWidths; }
+        //        set { _columnWidths = value != null ? new List<int>(value) : new List<int>(); }
+        //    }
 
-		//    [XmlIgnore]
-		//    public bool Modified { get; set; }
+        //    [XmlIgnore]
+        //    public bool Modified { get; set; }
 
-		//    #endregion
+        //    #endregion
 
-		//    [XmlArrayItem(typeof (string))]
-		//    public List<string> ColumnList
-		//    {
-		//        get { return _columns; }
-		//        set { _columns = value ?? new List<string>(); }
-		//    }
+        //    [XmlArrayItem(typeof (string))]
+        //    public List<string> ColumnList
+        //    {
+        //        get { return _columns; }
+        //        set { _columns = value ?? new List<string>(); }
+        //    }
 
-		//    [XmlArrayItem(typeof (int))]
-		//    public List<int> ColumnWidthList
-		//    {
-		//        get { return _columnWidths; }
-		//        set { _columnWidths = value ?? new List<int>(); }
-		//    }
+        //    [XmlArrayItem(typeof (int))]
+        //    public List<int> ColumnWidthList
+        //    {
+        //        get { return _columnWidths; }
+        //        set { _columnWidths = value ?? new List<int>(); }
+        //    }
 
-		//    public override bool Equals(object obj)
-		//    {
-		//        if (obj == null)
-		//            return false;
-		//        var o = obj as ListViewLayout;
-		//        if (o == null)
-		//            return false;
-		//        if (SortOrder != o.SortOrder)
-		//            return false;
-		//        if (SortByColumn != o.SortByColumn)
-		//            return false;
-		//        if (_columns == null && o._columns == null)
-		//            return true;
-		//        if (_columns == null || o._columns == null)
-		//            return false;
-		//        if (_columns.Count != o._columns.Count)
-		//            return false;
-		//        for (int i = 0; i < _columns.Count; i++)
-		//        {
-		//            if (String.Compare(_columns[i], o._columns[i]) != 0 ||
-		//                _columnWidths[i] != o._columnWidths[i])
-		//                return false;
-		//        }
-		//        return true;
-		//    }
+        //    public override bool Equals(object obj)
+        //    {
+        //        if (obj == null)
+        //            return false;
+        //        var o = obj as ListViewLayout;
+        //        if (o == null)
+        //            return false;
+        //        if (SortOrder != o.SortOrder)
+        //            return false;
+        //        if (SortByColumn != o.SortByColumn)
+        //            return false;
+        //        if (_columns == null && o._columns == null)
+        //            return true;
+        //        if (_columns == null || o._columns == null)
+        //            return false;
+        //        if (_columns.Count != o._columns.Count)
+        //            return false;
+        //        for (int i = 0; i < _columns.Count; i++)
+        //        {
+        //            if (String.Compare(_columns[i], o._columns[i]) != 0 ||
+        //                _columnWidths[i] != o._columnWidths[i])
+        //                return false;
+        //        }
+        //        return true;
+        //    }
 
-		//    public override int GetHashCode()
-		//    {
-		//        // just to hide the compiler warning
-		//        return base.GetHashCode();
-		//    }
+        //    public override int GetHashCode()
+        //    {
+        //        // just to hide the compiler warning
+        //        return base.GetHashCode();
+        //    }
 
-		//    #region ICloneable Members
+        //    #region ICloneable Members
 
-		//    public object Clone()
-		//    {
-		//        return new ListViewLayout(_columns, _columnWidths, _sortByColumn, _sortOrder);
-		//    }
+        //    public object Clone()
+        //    {
+        //        return new ListViewLayout(_columns, _columnWidths, _sortByColumn, _sortOrder);
+        //    }
 
-		//    #endregion
-		//}
+        //    #endregion
+        //}
 
-		//#endregion
+        //#endregion
 
         #region MessageQuestion()/-Info()/-Error()
 
@@ -1674,18 +1686,18 @@ namespace RssBandit
         /// <returns></returns>
         /// <remarks>Ensures, it gets displayed in foreground and
         /// use the main form as the parent</remarks>
-		public DialogResult MessageQuestion(string text, string captionPostfix)
-		{
-			if (MainForm != null && MainForm.IsHandleCreated)
-				Win32.SetForegroundWindow(MainForm.Handle);
-			DialogResult res = MessageBox.Show(
-				MainForm, text,
-				CaptionOnly + " " + captionPostfix,
-				MessageBoxButtons.YesNo,
-				MessageBoxIcon.Question);
+        public DialogResult MessageQuestion(string text, string captionPostfix)
+        {
+            if (MainForm != null && MainForm.IsHandleCreated)
+                Win32.SetForegroundWindow(MainForm.Handle);
+            DialogResult res = MessageBox.Show(
+                MainForm, text,
+                CaptionOnly + " " + captionPostfix,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-			return res;
-		}
+            return res;
+        }
 
         /// <summary>
         /// Displays a informational Message box.
@@ -1801,7 +1813,7 @@ namespace RssBandit
                 using (FileStream myFile = FileHelper.OpenForWriteAppend(errorLog))
                 {
                     /* Create a new text writer using the output stream, and add it to
-					 * the trace listeners. */
+                     * the trace listeners. */
                     var myTextListener = new
                         TextWriterTraceListener(myFile);
                     Trace.Listeners.Add(myTextListener);
@@ -1992,7 +2004,7 @@ namespace RssBandit
                 try
                 {
                     //reload tree view					 
-					guiMain.ApplyFavicons(Preferences.UseFavicons);
+                    guiMain.ApplyFavicons(Preferences.UseFavicons);
                 }
                 catch (Exception ex)
                 {
@@ -2251,7 +2263,7 @@ namespace RssBandit
 
                 if (p.ProxyCustomCredentials)
                 {
-					proxy.Credentials = CredentialCache.DefaultCredentials;
+                    proxy.Credentials = CredentialCache.DefaultCredentials;
                     if (!string.IsNullOrEmpty(p.ProxyUser))
                     {
                         proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
@@ -2261,24 +2273,24 @@ namespace RssBandit
                 return proxy;
             } /* endif UseProxy */
 
-			if (p.UseIEProxySettings)
-			{
-				// IE proxy settings do not include proxy credentials!
-				IWebProxy proxy= WebRequest.GetSystemWebProxy();
+            if (p.UseIEProxySettings)
+            {
+                // IE proxy settings do not include proxy credentials!
+                IWebProxy proxy= WebRequest.GetSystemWebProxy();
                 proxy.Credentials = CredentialCache.DefaultCredentials;
 
                 // Allow the user to override the integrated credentials with custom settings
-				if (p.ProxyCustomCredentials)
-				{
-					if (!string.IsNullOrEmpty(p.ProxyUser))
-					{
-						proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
-					}
-				}
-				return proxy;
-			}
+                if (p.ProxyCustomCredentials)
+                {
+                    if (!string.IsNullOrEmpty(p.ProxyUser))
+                    {
+                        proxy.Credentials = FeedSource.CreateCredentialsFrom(p.ProxyUser, p.ProxyPassword);
+                    }
+                }
+                return proxy;
+            }
 
-        	// default proxy init -
+            // default proxy init -
 
             // No need to do anything special for .NET 2.0:
             // http://msdn.microsoft.com/msdnmag/issues/05/08/AutomaticProxyDetection/default.aspx#S3
@@ -2291,12 +2303,12 @@ namespace RssBandit
         {
             string pName = GetPreferencesFileName();
             bool migrate = false;
-			SoapFormatter sf = new SoapFormatter();
-        	// we don't rely on strong assembly names for prefs.:
-			sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
-			sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
+            SoapFormatter sf = new SoapFormatter();
+            // we don't rely on strong assembly names for prefs.:
+            sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+            sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
             
-			IFormatter formatter = sf;
+            IFormatter formatter = sf;
 
             if (! File.Exists(pName))
             {
@@ -2353,12 +2365,12 @@ namespace RssBandit
         {
             using (var stream = new MemoryStream())
             {
-				SoapFormatter sf = new SoapFormatter();
-				// we don't rely on strong assembly names for prefs.:
-				sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
-				sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
+                SoapFormatter sf = new SoapFormatter();
+                // we don't rely on strong assembly names for prefs.:
+                sf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+                sf.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
 
-				IFormatter formatter = sf;
+                IFormatter formatter = sf;
                 try
                 {
                     formatter.Serialize(stream, Preferences);
@@ -2392,14 +2404,14 @@ namespace RssBandit
             if (!string.IsNullOrEmpty(Preferences.UserName) &&
                 string.IsNullOrEmpty(Preferences.UserIdentityForComments))
             {
-				if (!IdentityManager.Identities.ContainsKey(Preferences.UserName))
-				{
+                if (!IdentityManager.Identities.ContainsKey(Preferences.UserName))
+                {
                     //create a UserIdentity from Prefs. properties
                     var ui = new UserIdentity();
                     ui.Name = ui.RealName = Preferences.UserName;
                     ui.ResponseAddress = ui.MailAddress = Preferences.UserMailAddress;
                     ui.ReferrerUrl = Preferences.Referer;
-					IdentityManager.Identities.Add(ui.Name, ui);
+                    IdentityManager.Identities.Add(ui.Name, ui);
                     
                 }
                 
@@ -2413,12 +2425,12 @@ namespace RssBandit
 
             // 1.6.x migrations to phoenix (2.0):
 
-			// migrate User Identities:
+            // migrate User Identities:
             if (FeedSource.MigrationProperties.ContainsKey("UserIdentity"))
             {
-				List<NewsComponents.Feed.UserIdentity> oldVersionIdentities = (List<NewsComponents.Feed.UserIdentity>)
-            		FeedSource.MigrationProperties["UserIdentity"];
-            	IdentityManager.MigrateOrMergeIdentities(oldVersionIdentities, true);
+                List<NewsComponents.Feed.UserIdentity> oldVersionIdentities = (List<NewsComponents.Feed.UserIdentity>)
+                    FeedSource.MigrationProperties["UserIdentity"];
+                IdentityManager.MigrateOrMergeIdentities(oldVersionIdentities, true);
             }
 
             // migrate stylesheet:
@@ -2488,20 +2500,20 @@ namespace RssBandit
                 saveChanges = true;
             }
 
-			// migrate PodcastFolder saved previously at feedlist to preferences:
-			if (FeedSource.MigrationProperties.ContainsKey("PodcastFolder"))
-			{
-				Preferences.PodcastFolder = (string)FeedSource.MigrationProperties["PodcastFolder"];
-				FeedSource.PodcastFolder = Preferences.PodcastFolder;
-				saveChanges = true;
-			}
-			// migrate PodcastFileExtensions saved previously at feedlist to preferences:
-			if (FeedSource.MigrationProperties.ContainsKey("PodcastFileExtensions"))
-			{
-				Preferences.PodcastFileExtensions = (string)FeedSource.MigrationProperties["PodcastFileExtensions"];
-				FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
-				saveChanges = true;
-			}
+            // migrate PodcastFolder saved previously at feedlist to preferences:
+            if (FeedSource.MigrationProperties.ContainsKey("PodcastFolder"))
+            {
+                Preferences.PodcastFolder = (string)FeedSource.MigrationProperties["PodcastFolder"];
+                FeedSource.PodcastFolder = Preferences.PodcastFolder;
+                saveChanges = true;
+            }
+            // migrate PodcastFileExtensions saved previously at feedlist to preferences:
+            if (FeedSource.MigrationProperties.ContainsKey("PodcastFileExtensions"))
+            {
+                Preferences.PodcastFileExtensions = (string)FeedSource.MigrationProperties["PodcastFileExtensions"];
+                FeedSource.PodcastFileExtensionsAsString = Preferences.PodcastFileExtensions;
+                saveChanges = true;
+            }
 
             if (FeedSource.MigrationProperties.ContainsKey("MarkItemsReadOnExit"))
             {
@@ -2829,63 +2841,63 @@ namespace RssBandit
         #endregion
 
         #region Manage FeedColumnLayouts
-		//private string ValidateFeedColumnLayout(LayoutType type, FeedColumnLayout defaultLayout)
-		//{
-		//    foreach (var key in feedHandler.ColumnLayouts.Keys)
-		//    {
-		//        if (feedHandler.ColumnLayouts[key].LayoutType == type)
-		//        {
-		//            return key;
-		//        }
-		//    }
+        //private string ValidateFeedColumnLayout(LayoutType type, FeedColumnLayout defaultLayout)
+        //{
+        //    foreach (var key in feedHandler.ColumnLayouts.Keys)
+        //    {
+        //        if (feedHandler.ColumnLayouts[key].LayoutType == type)
+        //        {
+        //            return key;
+        //        }
+        //    }
 
-		//    string newkey = FeedColumnLayoutCollection.CreateNewKey();
-		//    feedHandler.ColumnLayouts.Add(newkey, defaultLayout);
-		//    // feedHandler.SaveColumLayouts();
-		//    return newkey;
-		//}
+        //    string newkey = FeedColumnLayoutCollection.CreateNewKey();
+        //    feedHandler.ColumnLayouts.Add(newkey, defaultLayout);
+        //    // feedHandler.SaveColumLayouts();
+        //    return newkey;
+        //}
 
-		//private void ValidateGlobalFeedColumnLayout()
-		//{
-		//    if (defaultFeedColumnLayoutKey == null)
-		//    {
-		//        defaultFeedColumnLayoutKey = ValidateFeedColumnLayout(
-		//            LayoutType.GlobalFeedLayout, DefaultFeedColumnLayout);
-		//    }
-		//}
+        //private void ValidateGlobalFeedColumnLayout()
+        //{
+        //    if (defaultFeedColumnLayoutKey == null)
+        //    {
+        //        defaultFeedColumnLayoutKey = ValidateFeedColumnLayout(
+        //            LayoutType.GlobalFeedLayout, DefaultFeedColumnLayout);
+        //    }
+        //}
 
-		//private void ValidateGlobalCategoryColumnLayout()
-		//{
-		//    if (defaultCategoryColumnLayoutKey == null)
-		//    {
-		//        defaultCategoryColumnLayoutKey = ValidateFeedColumnLayout(
-		//            LayoutType.GlobalCategoryLayout, DefaultCategoryColumnLayout);
-		//    }
-		//}
+        //private void ValidateGlobalCategoryColumnLayout()
+        //{
+        //    if (defaultCategoryColumnLayoutKey == null)
+        //    {
+        //        defaultCategoryColumnLayoutKey = ValidateFeedColumnLayout(
+        //            LayoutType.GlobalCategoryLayout, DefaultCategoryColumnLayout);
+        //    }
+        //}
 
-		//private void ValidateGlobalSearchFolderColumnLayout()
-		//{
-		//    if (defaultSearchFolderColumnLayoutKey == null)
-		//    {
-		//        defaultSearchFolderColumnLayoutKey = ValidateFeedColumnLayout(
-		//            LayoutType.SearchFolderLayout, DefaultSearchFolderColumnLayout);
-		//    }
-		//}
+        //private void ValidateGlobalSearchFolderColumnLayout()
+        //{
+        //    if (defaultSearchFolderColumnLayoutKey == null)
+        //    {
+        //        defaultSearchFolderColumnLayoutKey = ValidateFeedColumnLayout(
+        //            LayoutType.SearchFolderLayout, DefaultSearchFolderColumnLayout);
+        //    }
+        //}
 
-		//private void ValidateGlobalSpecialFolderColumnLayout()
-		//{
-		//    if (defaultSpecialFolderColumnLayoutKey == null)
-		//    {
-		//        defaultSpecialFolderColumnLayoutKey = ValidateFeedColumnLayout(
-		//            LayoutType.SpecialFeedsLayout, DefaultSpecialFolderColumnLayout);
-		//    }
-		//}
+        //private void ValidateGlobalSpecialFolderColumnLayout()
+        //{
+        //    if (defaultSpecialFolderColumnLayoutKey == null)
+        //    {
+        //        defaultSpecialFolderColumnLayoutKey = ValidateFeedColumnLayout(
+        //            LayoutType.SpecialFeedsLayout, DefaultSpecialFolderColumnLayout);
+        //    }
+        //}
 
-		//private void RemoveSimilarColumnLayouts(FeedColumnLayout layout)
-		//{
-		//    if (layout == null) return;
-		//    feedHandler.ColumnLayouts.RemoveSimilarLayouts(layout);
-		//}
+        //private void RemoveSimilarColumnLayouts(FeedColumnLayout layout)
+        //{
+        //    if (layout == null) return;
+        //    feedHandler.ColumnLayouts.RemoveSimilarLayouts(layout);
+        //}
 
         public FeedColumnLayout GlobalFeedColumnLayout
         {
@@ -2901,15 +2913,15 @@ namespace RssBandit
 
         public FeedColumnLayout GlobalSearchFolderColumnLayout
         {
-			get { return columnLayoutManager.GlobalSearchFolderColumnLayout; }
-			set { columnLayoutManager.GlobalSearchFolderColumnLayout = value; }
+            get { return columnLayoutManager.GlobalSearchFolderColumnLayout; }
+            set { columnLayoutManager.GlobalSearchFolderColumnLayout = value; }
         }
 
         public FeedColumnLayout GlobalSpecialFolderColumnLayout
         {
-			get { return columnLayoutManager.GlobalSpecialFolderColumnLayout; }
-			set { columnLayoutManager.GlobalSpecialFolderColumnLayout = value; }
-		}
+            get { return columnLayoutManager.GlobalSpecialFolderColumnLayout; }
+            set { columnLayoutManager.GlobalSpecialFolderColumnLayout = value; }
+        }
 
         /// <summary>
         /// Resets the column layout for a particular smart folder to null. 
@@ -3064,74 +3076,74 @@ namespace RssBandit
             return GlobalSpecialFolderColumnLayout;
         }
 
-		/// <summary>
-		/// Returns the individual FeedColumnLayout for a feed, or
-		/// the global one.
-		/// </summary>
-		/// <param name="sourceEntry">The source entry.</param>
-		/// <param name="feedUrl">The feed URL.</param>
-		/// <returns>FeedColumnLayout</returns>
-		public FeedColumnLayout GetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl)
+        /// <summary>
+        /// Returns the individual FeedColumnLayout for a feed, or
+        /// the global one.
+        /// </summary>
+        /// <param name="sourceEntry">The source entry.</param>
+        /// <param name="feedUrl">The feed URL.</param>
+        /// <returns>FeedColumnLayout</returns>
+        public FeedColumnLayout GetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl)
         {
             if (feedUrl == null)
                 return null;
 
 
             string layout = null;
-			if (sourceEntry != null)
-				layout = sourceEntry.Source.GetFeedColumnLayoutID(feedUrl);
+            if (sourceEntry != null)
+                layout = sourceEntry.Source.GetFeedColumnLayoutID(feedUrl);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalFeedColumnLayout;
 
-        	FeedColumnLayout found;
+            FeedColumnLayout found;
             if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out found))
                 return found;
 
             // invalid key: cleanup
-			if (sourceEntry != null)
-			{
-				sourceEntry.Source.SetFeedColumnLayoutID(feedUrl, null);
-				feedlistModified = true;
-			}
+            if (sourceEntry != null)
+            {
+                sourceEntry.Source.SetFeedColumnLayoutID(feedUrl, null);
+                feedlistModified = true;
+            }
 
-			return GlobalFeedColumnLayout;
+            return GlobalFeedColumnLayout;
         }
 
-		public void SetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl, FeedColumnLayout layout)
+        public void SetFeedColumnLayout(FeedSourceEntry sourceEntry, string feedUrl, FeedColumnLayout layout)
         {            
             if (string.IsNullOrEmpty(feedUrl))
                 return;
 
-			FeedSource source = null;
-			if (sourceEntry != null)
-				source = sourceEntry.Source; 
+            FeedSource source = null;
+            if (sourceEntry != null)
+                source = sourceEntry.Source; 
 
             if (layout == null)
             {
                 // reset
-				if (source != null)
-				{
-					source.SetFeedColumnLayoutID(feedUrl, null);
-					feedlistModified = true;
-				}
-            	return;
+                if (source != null)
+                {
+                    source.SetFeedColumnLayoutID(feedUrl, null);
+                    feedlistModified = true;
+                }
+                return;
             }
 
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalFeedLayout)
                 return; // not a layout format we have to store for a feed
 
-			string key = null;
-			if (source != null) 
-				key = source.GetFeedColumnLayoutID(feedUrl);
+            string key = null;
+            if (source != null) 
+                key = source.GetFeedColumnLayoutID(feedUrl);
             
-			FeedColumnLayout global = GlobalFeedColumnLayout;
+            FeedColumnLayout global = GlobalFeedColumnLayout;
 
-			if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
             {
                 if (source != null && !layout.Equals(global, true))
                 {
-					string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                    string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
                     if (known != null)
                     {
                         source.SetFeedColumnLayoutID(feedUrl, known);
@@ -3139,7 +3151,7 @@ namespace RssBandit
                     else
                     {
                         key = FeedColumnLayoutCollection.CreateNewKey();
-						columnLayoutManager.ColumnLayouts.Add(key, layout);
+                        columnLayoutManager.ColumnLayouts.Add(key, layout);
                         source.SetFeedColumnLayoutID(feedUrl, key);
                     }
                     feedlistModified = true;
@@ -3152,17 +3164,17 @@ namespace RssBandit
             }
             else
             {
-				if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
+                if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
                 {
                     // check if layout modified
-					if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
+                    if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
                     {
                         // check if just a simple resizing of columns						
 
                         if (!layout.Equals(global, true))
                         {
                             //check if new layout is equivalent to current default
-							string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                            string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
 
                             if (otherKnownSimilar != null)
                             {
@@ -3175,7 +3187,7 @@ namespace RssBandit
                             {
                                 //this is a brand new layout
                                 key = FeedColumnLayoutCollection.CreateNewKey();
-								columnLayoutManager.ColumnLayouts.Add(key, layout);
+                                columnLayoutManager.ColumnLayouts.Add(key, layout);
                                 source.SetFeedColumnLayoutID(feedUrl, key);
                             }
                         }
@@ -3183,13 +3195,13 @@ namespace RssBandit
                         {
                             //new layout is equivalent to the current default
                             source.SetFeedColumnLayoutID(feedUrl, null);
-							columnLayoutManager.ColumnLayouts.Remove(key);
+                            columnLayoutManager.ColumnLayouts.Remove(key);
                         }
                     }
                     else
                     {
                         // this was a simple column resizing
-						columnLayoutManager.ColumnLayouts[key] = layout;
+                        columnLayoutManager.ColumnLayouts[key] = layout;
                         // refresh layout info
                     }
                     feedlistModified = true;
@@ -3197,75 +3209,75 @@ namespace RssBandit
             }
         }
 
-		/// <summary>
-		/// Returns the FeedColumnLayout
-		/// </summary>
-		/// <param name="sourceEntry">The source entry.</param>
-		/// <param name="category">The category.</param>
-		/// <returns></returns>
-		public FeedColumnLayout GetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category)
+        /// <summary>
+        /// Returns the FeedColumnLayout
+        /// </summary>
+        /// <param name="sourceEntry">The source entry.</param>
+        /// <param name="category">The category.</param>
+        /// <returns></returns>
+        public FeedColumnLayout GetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category)
         {
-			string layout = null;
-			if (sourceEntry != null)
-				layout = sourceEntry.Source.GetCategoryFeedColumnLayoutID(category);
+            string layout = null;
+            if (sourceEntry != null)
+                layout = sourceEntry.Source.GetCategoryFeedColumnLayoutID(category);
 
             if (string.IsNullOrEmpty(layout))
                 return GlobalCategoryColumnLayout;
-        	FeedColumnLayout colLayout;
-			if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out colLayout))
-				return colLayout;
+            FeedColumnLayout colLayout;
+            if (columnLayoutManager.ColumnLayouts.TryGetValue(layout, out colLayout))
+                return colLayout;
 
             // invalid key: cleanup
-			if (sourceEntry != null)
-			{
-				sourceEntry.Source.SetCategoryFeedColumnLayoutID(category, null);
-				feedlistModified = true;
-			}
-			return GlobalCategoryColumnLayout;
+            if (sourceEntry != null)
+            {
+                sourceEntry.Source.SetCategoryFeedColumnLayoutID(category, null);
+                feedlistModified = true;
+            }
+            return GlobalCategoryColumnLayout;
         }
 
-		public void SetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category, FeedColumnLayout layout)
+        public void SetCategoryColumnLayout(FeedSourceEntry sourceEntry, string category, FeedColumnLayout layout)
         {
             if (string.IsNullOrEmpty(category))
                 return;
 
-			FeedSource source = null;
-			if (sourceEntry != null)
-				source = sourceEntry.Source; 
+            FeedSource source = null;
+            if (sourceEntry != null)
+                source = sourceEntry.Source; 
 
             if (layout == null)
             {
                 // reset
-				if (source != null)
-				{
-					source.SetCategoryFeedColumnLayoutID(category, null);
-					feedlistModified = true;
-				}
-            	return;
+                if (source != null)
+                {
+                    source.SetCategoryFeedColumnLayoutID(category, null);
+                    feedlistModified = true;
+                }
+                return;
             }
 
             if (layout.LayoutType != LayoutType.IndividualLayout && layout.LayoutType != LayoutType.GlobalCategoryLayout)
                 return; // not a layout format we have to store for a category
 
-			string key = null;
-			if (source != null) 
-				key = source.GetCategoryFeedColumnLayoutID(category);
+            string key = null;
+            if (source != null) 
+                key = source.GetCategoryFeedColumnLayoutID(category);
             
-			FeedColumnLayout global = GlobalCategoryColumnLayout;
+            FeedColumnLayout global = GlobalCategoryColumnLayout;
 
-			if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
+            if (string.IsNullOrEmpty(key) || false == columnLayoutManager.ColumnLayouts.ContainsKey(key))
             {
-				if (source != null && !layout.Equals(global, true))
+                if (source != null && !layout.Equals(global, true))
                 {
-					string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                    string known = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
                     if (known != null)
                     {
                         source.SetCategoryFeedColumnLayoutID(category, known);
                     }
                     else
                     {
-						key = FeedColumnLayoutCollection.CreateNewKey();
-						columnLayoutManager.ColumnLayouts.Add(key, layout);
+                        key = FeedColumnLayoutCollection.CreateNewKey();
+                        columnLayoutManager.ColumnLayouts.Add(key, layout);
                         source.SetCategoryFeedColumnLayoutID(category, key);
                     }
                     feedlistModified = true;
@@ -3277,27 +3289,27 @@ namespace RssBandit
             }
             else
             {
-				if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
+                if (!columnLayoutManager.ColumnLayouts[key].Equals(layout))
                 {
                     // modified
-					if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
+                    if (!columnLayoutManager.ColumnLayouts[key].Equals(layout, true))
                     {
                         // not anymore similar
                         source.SetCategoryFeedColumnLayoutID(category, null);
-						columnLayoutManager.ColumnLayouts.Remove(key);
+                        columnLayoutManager.ColumnLayouts.Remove(key);
                         if (!layout.Equals(global, true))
                         {
-							string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
+                            string otherKnownSimilar = columnLayoutManager.ColumnLayouts.KeyOfSimilar(layout);
                             if (otherKnownSimilar != null)
                             {
-								columnLayoutManager.ColumnLayouts[otherKnownSimilar] = layout;
+                                columnLayoutManager.ColumnLayouts[otherKnownSimilar] = layout;
                                 // refresh layout info
                                 source.SetCategoryFeedColumnLayoutID(category, otherKnownSimilar); // set new key
                             }
                             else
                             {
-								key = FeedColumnLayoutCollection.CreateNewKey();
-								columnLayoutManager.ColumnLayouts.Add(key, layout);
+                                key = FeedColumnLayoutCollection.CreateNewKey();
+                                columnLayoutManager.ColumnLayouts.Add(key, layout);
                                 source.SetCategoryFeedColumnLayoutID(category, key);
                             }
                         }
@@ -3305,7 +3317,7 @@ namespace RssBandit
                     else
                     {
                         // still similar:
-						columnLayoutManager.ColumnLayouts[key] = layout;
+                        columnLayoutManager.ColumnLayouts[key] = layout;
                         // refresh layout info
                     }
                     feedlistModified = true;
@@ -3343,10 +3355,10 @@ namespace RssBandit
                 {
                     var creds = new NetworkCredential(Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword);
                     var loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), creds);
-					FeedSource fs = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.NewsGator, loc);
+                    FeedSource fs = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.NewsGator, loc);
                     FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
-					if (FeedSourceAdded != null)
-						FeedSourceAdded(this, new FeedSourceEventArgs(entry));
+                    if (FeedSourceAdded != null)
+                        FeedSourceAdded(this, new FeedSourceEventArgs(entry));
                 }
                 Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.UNC; //default 
                 Preferences.RemoteStorageUserName = Preferences.RemoteStoragePassword = Preferences.RemoteStorageLocation = null;
@@ -3359,21 +3371,21 @@ namespace RssBandit
         /// </summary>
         internal void LoadAllFeedSourcesSubscriptions()
         {
-			// can always run:
+            // can always run:
             CheckAndMigrateNewsGatorSettings();
 
-			// run only at first startup after installation.
-			// we load synchronized, to get migration done:
+            // run only at first startup after installation.
+            // we load synchronized, to get migration done:
 
-			if (Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
-			{
-				foreach (FeedSourceEntry fs in sourceManager.Sources)
-				{
-					if (fs.SourceType == FeedSourceType.DirectAccess)
-					{
-						// migrate old subscriptions or install a default one:
-						string oldsubs = MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
-						
+            if (Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation)
+            {
+                foreach (FeedSourceEntry fs in sourceManager.Sources)
+                {
+                    if (fs.SourceType == FeedSourceType.DirectAccess)
+                    {
+                        // migrate old subscriptions or install a default one:
+                        string oldsubs = MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+                        
                         LoadFeedSourceSubscriptions(fs, false);
                         
                         //due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
@@ -3385,27 +3397,27 @@ namespace RssBandit
                             stream.Close();
                         }
 
-						// needs the feedlist to be loaded:
-						CheckAndMigrateSettingsAndPreferences();
-						//CheckAndMigrateListViewLayouts();
-					}
-					else
-					{
-						LoadFeedSourceSubscriptions(fs, false);
-					}
+                        // needs the feedlist to be loaded:
+                        CheckAndMigrateSettingsAndPreferences();
+                        //CheckAndMigrateListViewLayouts();
+                    }
+                    else
+                    {
+                        LoadFeedSourceSubscriptions(fs, false);
+                    }
 
-					RaiseFeedSourceSubscriptionsLoaded(fs);
-				
-				}//foreach
+                    RaiseFeedSourceSubscriptionsLoaded(fs);
+                
+                }//foreach
 
-				//reset first app start flag:
-				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
-							
-				RaiseAllFeedSourcesSubscriptionsLoaded();
-				LoadWatchedCommentsFeedlist();
-			} 
-			else
-			{
+                //reset first app start flag:
+                Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
+                            
+                RaiseAllFeedSourcesSubscriptionsLoaded();
+                LoadWatchedCommentsFeedlist();
+            } 
+            else
+            {
                 // Resume pending enclosure downloads
 
                 foreach(var fs in sourceManager.Sources)
@@ -3413,8 +3425,8 @@ namespace RssBandit
                     fs.Source.ResumePendingDownloads();
                 }
 
-				BeginLoadAllFeedSourcesSubscriptions();
-			}
+                BeginLoadAllFeedSourcesSubscriptions();
+            }
 
         }
 
@@ -3435,8 +3447,8 @@ namespace RssBandit
             string tempFile = String.Empty;
             if (File.Exists(currentFeedListFileName))
             {
-				do tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-				while (File.Exists(tempFile));
+                do tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                while (File.Exists(tempFile));
                 File.Move(currentFeedListFileName, tempFile);
             }
 
@@ -3471,73 +3483,73 @@ namespace RssBandit
             return tempFile; 
         }
 
-		private void RaiseFeedSourceSubscriptionsLoaded(FeedSourceEntry entry)
-		{
-			if (FeedSourceSubscriptionsLoaded != null)
-			{
-				try
-				{
-					FeedSourceSubscriptionsLoaded(this, new FeedSourceEventArgs(entry));
-				} catch (Exception ex)
-				{
-					_log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
-				}
-			}
-		}
-
-		private void RaiseAllFeedSourcesSubscriptionsLoaded()
-		{
-			if (AllFeedSourceSubscriptionsLoaded != null)
-			{
-				try
-				{
-					AllFeedSourceSubscriptionsLoaded(this, EventArgs.Empty);
-				}
-				catch (Exception ex)
-				{
-					_log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
-				}
-			}
-		}
-		internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
-		{
-			if (sourceEntry == null)
-				return;
-			
-			LoadFeedSourceSubscriptions(sourceEntry, false);
-		}
-
-		
-    	internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry, bool IsAsyncCall)
+        private void RaiseFeedSourceSubscriptionsLoaded(FeedSourceEntry entry)
         {
-			if (sourceEntry == null)
+            if (FeedSourceSubscriptionsLoaded != null)
+            {
+                try
+                {
+                    FeedSourceSubscriptionsLoaded(this, new FeedSourceEventArgs(entry));
+                } catch (Exception ex)
+                {
+                    _log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
+                }
+            }
+        }
+
+        private void RaiseAllFeedSourcesSubscriptionsLoaded()
+        {
+            if (AllFeedSourceSubscriptionsLoaded != null)
+            {
+                try
+                {
+                    AllFeedSourceSubscriptionsLoaded(this, EventArgs.Empty);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("FeedSourceSubscriptionLoaded event call caused error", ex);
+                }
+            }
+        }
+        internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry)
+        {
+            if (sourceEntry == null)
+                return;
+            
+            LoadFeedSourceSubscriptions(sourceEntry, false);
+        }
+
+        
+        internal void LoadFeedSourceSubscriptions(FeedSourceEntry sourceEntry, bool IsAsyncCall)
+        {
+            if (sourceEntry == null)
                 return;
 
             try
             {
-				sourceEntry.Source.LoadFeedlist();
+                sourceEntry.Source.LoadFeedlist();
 
-				if (sourceEntry.Source.FeedsListOK )
-				{
-					/* All right here... 	*/
-				}
-				else if (FeedSource.validationErrorOccured)
-				{
-					FeedSource.validationErrorOccured = false;
-					throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
-				}
-				else
-				{
-					throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
-				}
+                if (sourceEntry.Source.FeedsListOK )
+                {
+                    /* All right here... 	*/
+                }
+                else if (FeedSource.validationErrorOccured)
+                {
+                    FeedSource.validationErrorOccured = false;
+                    throw new BanditApplicationException(ApplicationExceptions.FeedlistOnProcessContent);
+                }
+                else
+                {
+                    throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
+                }
             }
             catch (Exception e)
             {
                 e.Source = sourceEntry.Name; 
 
-				if (IsAsyncCall)
-					throw;
-				
+                if (IsAsyncCall)
+                    throw;
+                
                 HandleFeedlistException(e);                 
             }
         }
@@ -3559,23 +3571,23 @@ namespace RssBandit
                     {
                         if ((f.Any != null) && (f.Any.Length > 0))
                         {
-							int entryID;
-                        	string sourceFeedUrl = OptionalItemElement.GetOriginalFeedReference(f, out entryID);
-							
-							FeedSourceEntry entry;
-							if (entryID != -1 && FeedSources.ContainsKey(entryID))
-							{
-								// new Bandit version file:
-								entry = FeedSources[entryID];
-							} 
-							else
-							{
-								// older Bandit version:
-								entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(sourceFeedUrl));
-							}
-							
-							INewsFeed sourceFeed;
-                        	if (entry != null && entry.Source.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
+                            int entryID;
+                            string sourceFeedUrl = OptionalItemElement.GetOriginalFeedReference(f, out entryID);
+                            
+                            FeedSourceEntry entry;
+                            if (entryID != -1 && FeedSources.ContainsKey(entryID))
+                            {
+                                // new Bandit version file:
+                                entry = FeedSources[entryID];
+                            } 
+                            else
+                            {
+                                // older Bandit version:
+                                entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(sourceFeedUrl));
+                            }
+                            
+                            INewsFeed sourceFeed;
+                            if (entry != null && entry.Source.GetFeeds().TryGetValue(sourceFeedUrl, out sourceFeed))
                             {
                                 f.Tag = sourceFeed;
                             } 
@@ -3599,53 +3611,53 @@ namespace RssBandit
         public void SynchronizeFeeds(FeedSourceType sourceType)
         {
         
-			using (var wiz = new SynchronizeFeedsWizard(sourceType))
-			{             
-				try
-				{
-					if (MainForm.IsHandleCreated)
-						Win32.SetForegroundWindow(MainForm.Handle);
-					wiz.ShowDialog(guiMain);
-				}
-				catch (Exception ex)
-				{
-					_log.Error("SynchronizeFeeds caused exception.", ex);
-					wiz.DialogResult = DialogResult.Cancel;
-				}
+            using (var wiz = new SynchronizeFeedsWizard(sourceType))
+            {             
+                try
+                {
+                    if (MainForm.IsHandleCreated)
+                        Win32.SetForegroundWindow(MainForm.Handle);
+                    wiz.ShowDialog(guiMain);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("SynchronizeFeeds caused exception.", ex);
+                    wiz.DialogResult = DialogResult.Cancel;
+                }
 
-				if (wiz.DialogResult == DialogResult.OK)
-				{
-					FeedSourceEntry entry = null;
-					FeedSource fs;
-					int id = sourceManager.UniqueKey;
-					if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
-					{
-						fs = FeedSource.CreateFeedSource(
-							id, FeedSourceType.WindowsRSS,
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS),
-								null));
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
-					}
-					else if (wiz.SelectedFeedSource == FeedSourceType.Google)
-					{
-						SubscriptionLocation loc =
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google),
-								new NetworkCredential(wiz.UserName, wiz.Password));
-						fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc);
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
+                if (wiz.DialogResult == DialogResult.OK)
+                {
+                    FeedSourceEntry entry = null;
+                    FeedSource fs;
+                    int id = sourceManager.UniqueKey;
+                    if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
+                    {
+                        fs = FeedSource.CreateFeedSource(
+                            id, FeedSourceType.WindowsRSS,
+                            new SubscriptionLocation(
+                                FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS),
+                                null));
+                        entry = sourceManager.Add(fs, wiz.FeedSourceName);
+                    }
+                    else if (wiz.SelectedFeedSource == FeedSourceType.Google)
+                    {
+                        SubscriptionLocation loc =
+                            new SubscriptionLocation(
+                                FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google),
+                                new NetworkCredential(wiz.UserName, wiz.Password));
+                        fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc);
+                        entry = sourceManager.Add(fs, wiz.FeedSourceName);
 
-					}
-					else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
-					{
+                    }
+                    else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
+                    {
 
-						SubscriptionLocation loc =
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator),
-								new NetworkCredential(wiz.UserName, wiz.Password));
-						fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
+                        SubscriptionLocation loc =
+                            new SubscriptionLocation(
+                                FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator),
+                                new NetworkCredential(wiz.UserName, wiz.Password));
+                        fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
+                        entry = sourceManager.Add(fs, wiz.FeedSourceName);
                     }
                     else if (wiz.SelectedFeedSource == FeedSourceType.Facebook)
                     {
@@ -3657,14 +3669,14 @@ namespace RssBandit
                         entry = sourceManager.Add(fs, wiz.FeedSourceName);
                     }
 
-					if (entry != null)
-					{
-						AddFeedSourceToUserInterface(entry);
-						if (FeedSourceAdded != null)
-							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
-					}
-				}
-			}
+                    if (entry != null)
+                    {
+                        AddFeedSourceToUserInterface(entry);
+                        if (FeedSourceAdded != null)
+                            FeedSourceAdded(this, new FeedSourceEventArgs(entry));
+                    }
+                }
+            }
         }
 
 
@@ -3683,117 +3695,117 @@ namespace RssBandit
             SaveFeedSources();
         }
 
-		public void SaveFeedSources()
-		{
-			try
-			{
-				guiMain.ApplyOrderToFeedSources(sourceManager.Sources);
-				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
-			} catch (Exception saveException)
-			{
-				_log.Error("Error saving feed sources (" + GetFeedSourcesFileName() + ")", saveException);
-				MessageError(String.Format(SR.ExceptionSaveFileMessage,GetFeedSourcesFileName(),saveException.Message));
-			}
-		}
+        public void SaveFeedSources()
+        {
+            try
+            {
+                guiMain.ApplyOrderToFeedSources(sourceManager.Sources);
+                sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+            } catch (Exception saveException)
+            {
+                _log.Error("Error saving feed sources (" + GetFeedSourcesFileName() + ")", saveException);
+                MessageError(String.Format(SR.ExceptionSaveFileMessage,GetFeedSourcesFileName(),saveException.Message));
+            }
+        }
 
-		public FeedSourceEntry ChangeFeedSource(FeedSourceEntry entry, string newName, string credentialUser, string credentialPwd)
-		{
-			if (entry == null)
-				return null;
+        public FeedSourceEntry ChangeFeedSource(FeedSourceEntry entry, string newName, string credentialUser, string credentialPwd)
+        {
+            if (entry == null)
+                return null;
 
-			bool anyChange = false;
-			if (!string.IsNullOrEmpty(newName))
-			{
-				if (entry.Name != newName)
-				{
-					entry.Name = newName;
-					anyChange = true;
-				}
-			}
-			if (entry.Source.SubscriptionLocation.CredentialsSupported &&
-				!string.IsNullOrEmpty(credentialUser) &&
-				!string.IsNullOrEmpty(credentialPwd))
-			{
-				entry.Source.SubscriptionLocation.Credentials =
-					FeedSource.CreateCredentialsFrom(credentialUser, credentialPwd);
-				anyChange = true;
-			}
+            bool anyChange = false;
+            if (!string.IsNullOrEmpty(newName))
+            {
+                if (entry.Name != newName)
+                {
+                    entry.Name = newName;
+                    anyChange = true;
+                }
+            }
+            if (entry.Source.SubscriptionLocation.CredentialsSupported &&
+                !string.IsNullOrEmpty(credentialUser) &&
+                !string.IsNullOrEmpty(credentialPwd))
+            {
+                entry.Source.SubscriptionLocation.Credentials =
+                    FeedSource.CreateCredentialsFrom(credentialUser, credentialPwd);
+                anyChange = true;
+            }
 
-			if (anyChange)
-			{
-				SaveFeedSources();
-				if (FeedSourceChanged != null)
-					FeedSourceChanged(this, new FeedSourceEventArgs(entry));
-			}
-			return entry;
-		}
+            if (anyChange)
+            {
+                SaveFeedSources();
+                if (FeedSourceChanged != null)
+                    FeedSourceChanged(this, new FeedSourceEventArgs(entry));
+            }
+            return entry;
+        }
 
-    	public void RemoveFeedSource(FeedSourceEntry entry)
-		{
-			if (entry == null)
-				return;
-			
-			DisconnectFeedSourceEvents(entry.Source);
-			sourceManager.Remove(entry);
-			SaveFeedSources();
+        public void RemoveFeedSource(FeedSourceEntry entry)
+        {
+            if (entry == null)
+                return;
+            
+            DisconnectFeedSourceEvents(entry.Source);
+            sourceManager.Remove(entry);
+            SaveFeedSources();
 
             entry.Source.DeleteAllFeedsAndCategories(false);
 
-			if (FeedSourceDeleted != null)
-				FeedSourceDeleted(this, new FeedSourceEventArgs(entry));
+            if (FeedSourceDeleted != null)
+                FeedSourceDeleted(this, new FeedSourceEventArgs(entry));
 
-			//TODO: handle case where all sources removed!
+            //TODO: handle case where all sources removed!
             if (sourceManager.Count > 0)
             {
                 FeedSourceEntry next = sourceManager.Sources.First();
                 guiMain.SelectFeedSource(next);
                 guiMain.GetSubscriptionRootNode(next).Selected = true; 
             }
-			guiMain.RemoveFromSubscriptionTree(entry);
-			guiMain.RemoveFeedSourceView(entry);
+            guiMain.RemoveFromSubscriptionTree(entry);
+            guiMain.RemoveFeedSourceView(entry);
 
             if (modifiedFeeds.Keys.Contains(entry.ID))
             {
                 modifiedFeeds.Remove(entry.ID); 
             }
-		}
+        }
 
-		private void ConnectFeedSourceEvents(FeedSource source)
-		{
-			source.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
-			source.UpdateFeedsStarted += OnUpdateFeedsStarted;
-			source.OnUpdatedFavicon += OnUpdatedFavicon;
-			source.OnDownloadedEnclosure += OnDownloadedEnclosure;
+        private void ConnectFeedSourceEvents(FeedSource source)
+        {
+            source.BeforeDownloadFeedStarted += BeforeDownloadFeedStarted;
+            source.UpdateFeedsStarted += OnUpdateFeedsStarted;
+            source.OnUpdatedFavicon += OnUpdatedFavicon;
+            source.OnDownloadedEnclosure += OnDownloadedEnclosure;
 
-			source.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
-			source.OnAddedCategory += OnAddedCategory;
-			source.OnDeletedCategory += OnDeletedCategory;
-			source.OnMovedCategory += OnMovedCategory;
-			source.OnRenamedCategory += OnRenamedCategory;
-			source.OnAddedFeed += OnAddedFeed;
-			source.OnDeletedFeed += OnDeletedFeed;
-			source.OnRenamedFeed += OnRenamedFeed;
-			source.OnMovedFeed += OnMovedFeed;
-		}
+            source.OnAllAsyncRequestsCompleted += OnAllRequestsCompleted;
+            source.OnAddedCategory += OnAddedCategory;
+            source.OnDeletedCategory += OnDeletedCategory;
+            source.OnMovedCategory += OnMovedCategory;
+            source.OnRenamedCategory += OnRenamedCategory;
+            source.OnAddedFeed += OnAddedFeed;
+            source.OnDeletedFeed += OnDeletedFeed;
+            source.OnRenamedFeed += OnRenamedFeed;
+            source.OnMovedFeed += OnMovedFeed;
+        }
 
-		// to be called on a manual remove of the user!
-		private void DisconnectFeedSourceEvents(FeedSource source)
-		{
-			source.BeforeDownloadFeedStarted -= BeforeDownloadFeedStarted;
-			source.UpdateFeedsStarted -= OnUpdateFeedsStarted;
-			source.OnUpdatedFavicon -= OnUpdatedFavicon;
-			source.OnDownloadedEnclosure -= OnDownloadedEnclosure;
+        // to be called on a manual remove of the user!
+        private void DisconnectFeedSourceEvents(FeedSource source)
+        {
+            source.BeforeDownloadFeedStarted -= BeforeDownloadFeedStarted;
+            source.UpdateFeedsStarted -= OnUpdateFeedsStarted;
+            source.OnUpdatedFavicon -= OnUpdatedFavicon;
+            source.OnDownloadedEnclosure -= OnDownloadedEnclosure;
 
-			source.OnAllAsyncRequestsCompleted -= OnAllRequestsCompleted;
-			source.OnAddedCategory -= OnAddedCategory;
-			source.OnDeletedCategory -= OnDeletedCategory;
-			source.OnMovedCategory -= OnMovedCategory;
-			source.OnRenamedCategory -= OnRenamedCategory;
-			source.OnAddedFeed -= OnAddedFeed;
-			source.OnDeletedFeed -= OnDeletedFeed;
-			source.OnRenamedFeed -= OnRenamedFeed;
-			source.OnMovedFeed -= OnMovedFeed;
-		}
+            source.OnAllAsyncRequestsCompleted -= OnAllRequestsCompleted;
+            source.OnAddedCategory -= OnAddedCategory;
+            source.OnDeletedCategory -= OnDeletedCategory;
+            source.OnMovedCategory -= OnMovedCategory;
+            source.OnRenamedCategory -= OnRenamedCategory;
+            source.OnAddedFeed -= OnAddedFeed;
+            source.OnDeletedFeed -= OnDeletedFeed;
+            source.OnRenamedFeed -= OnRenamedFeed;
+            source.OnMovedFeed -= OnMovedFeed;
+        }
 
         public void ImportFeeds(string fromFileOrUrl)
         {
@@ -3841,7 +3853,7 @@ namespace RssBandit
                                 return;
                             }
                             guiMain.SaveSubscriptionTreeState();
-							//TODO: we should reload only the imported source:
+                            //TODO: we should reload only the imported source:
                             guiMain.InitiatePopulateTreeFeeds();
                             guiMain.LoadAndRestoreSubscriptionTreeState();
                         }
@@ -3912,8 +3924,8 @@ namespace RssBandit
             ExceptionManager.GetInstance().RemoveFeed(entry, url);
 
             INewsFeed f = GetFeed(entry, url);
-			    
-			if (f != null)
+                
+            if (f != null)
             {
                 f.Tag = null;
                 try
@@ -3927,19 +3939,19 @@ namespace RssBandit
                 FeedWasModified(f, NewsFeedProperty.FeedRemoved);
                 //this.FeedlistModified = true;
             }
-			
-			// behave the same as FeedSource event(s): feed is already removed from source
-			// before we raise/get the event:
-			RaiseFeedDeleted(entry, url, f != null ? f.title : null);
+            
+            // behave the same as FeedSource event(s): feed is already removed from source
+            // before we raise/get the event:
+            RaiseFeedDeleted(entry, url, f != null ? f.title : null);
         }
 
-		private void RaiseFeedDeleted(FeedSourceEntry entry, string feedUrl, string feedTitle)
+        private void RaiseFeedDeleted(FeedSourceEntry entry, string feedUrl, string feedTitle)
         {
             if (FeedSourceFeedDeleted != null)
             {
                 try
                 {
-					FeedSourceFeedDeleted(this, new FeedSourceFeedUrlTitleEventArgs(entry, feedUrl, feedTitle));
+                    FeedSourceFeedDeleted(this, new FeedSourceFeedUrlTitleEventArgs(entry, feedUrl, feedTitle));
                 }
                 catch (Exception ex)
                 {
@@ -3948,11 +3960,11 @@ namespace RssBandit
             }
         }
 
-		/// <summary>
-		/// Disable a feed (with UI update)
-		/// </summary>
-		/// <param name="feedUrl">string</param>
-		/// <param name="entry">The entry.</param>
+        /// <summary>
+        /// Disable a feed (with UI update)
+        /// </summary>
+        /// <param name="feedUrl">string</param>
+        /// <param name="entry">The entry.</param>
         public void DisableFeed(string feedUrl, FeedSourceEntry entry)
         {
             INewsFeed f;
@@ -4014,20 +4026,20 @@ namespace RssBandit
             {
                 try
                 {
-                	int sourceID;
-                	string feedUrl = OptionalItemElement.GetOriginalFeedReference(ri, out sourceID);
-					
-					if (feedUrl != null) 
-					{
-						FeedSourceEntry entry = null;
-						if (FeedSources.ContainsKey(sourceID))
-							entry = FeedSources[sourceID];
-						
-						if (entry != null && entry.Source.IsSubscribed(feedUrl))
+                    int sourceID;
+                    string feedUrl = OptionalItemElement.GetOriginalFeedReference(ri, out sourceID);
+                    
+                    if (feedUrl != null) 
+                    {
+                        FeedSourceEntry entry = null;
+                        if (FeedSources.ContainsKey(sourceID))
+                            entry = FeedSources[sourceID];
+                        
+                        if (entry != null && entry.Source.IsSubscribed(feedUrl))
                         {
                             //check if feed exists 
 
-							IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
+                            IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                             //find this item 
                             int itemIndex = itemsForFeed.IndexOf(ri);
@@ -4039,9 +4051,9 @@ namespace RssBandit
 
                                 INewsItem item = itemsForFeed[itemIndex];
                                 item.FlagStatus = Flagged.None;
-								OptionalItemElement.RemoveOriginalFeedReference(item);
+                                OptionalItemElement.RemoveOriginalFeedReference(item);
                                 
-								break;
+                                break;
                             }
                         } //if(this.feedHan...)
                     } //if(elem.Equals...)						
@@ -4064,26 +4076,26 @@ namespace RssBandit
         {
             if (theItem == null)
                 return;
-			
-			int sourceID;
+            
+            int sourceID;
             string feedUrl = OptionalItemElement.GetOriginalFeedReference(theItem, out sourceID); // the corresponding feed Url
 
-			FeedSourceEntry entry = null;
-			if (FeedSources.ContainsKey(sourceID))
-				entry = FeedSources[sourceID];
+            FeedSourceEntry entry = null;
+            if (FeedSources.ContainsKey(sourceID))
+                entry = FeedSources[sourceID];
 
-			//try
-			//{
-			//    XmlElement elem =
-			//        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfFlaggedItem);
-			//    if (elem != null)
-			//    {
-			//        feedUrl = elem.InnerText;
-			//    }
-			//}
-			//catch
-			//{
-			//}
+            //try
+            //{
+            //    XmlElement elem =
+            //        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfFlaggedItem);
+            //    if (elem != null)
+            //    {
+            //        feedUrl = elem.InnerText;
+            //    }
+            //}
+            //catch
+            //{
+            //}
 
             if (theItem.FlagStatus == Flagged.None || theItem.FlagStatus == Flagged.Complete)
             {
@@ -4107,10 +4119,10 @@ namespace RssBandit
                 }
             }
 
-        	if (feedUrl != null && entry!= null && entry.Source.IsSubscribed(feedUrl))
+            if (feedUrl != null && entry!= null && entry.Source.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
-				IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -4140,25 +4152,25 @@ namespace RssBandit
             if (theItem == null)
                 return;
 
-			int sourceID;
-			string feedUrl = OptionalItemElement.GetOriginalFeedReference(theItem, out sourceID); // the corresponding feed Url
+            int sourceID;
+            string feedUrl = OptionalItemElement.GetOriginalFeedReference(theItem, out sourceID); // the corresponding feed Url
 
-			FeedSourceEntry entry = null;
-			if (FeedSources.ContainsKey(sourceID))
-				entry = FeedSources[sourceID];
+            FeedSourceEntry entry = null;
+            if (FeedSources.ContainsKey(sourceID))
+                entry = FeedSources[sourceID];
 
-			//try
-			//{
-			//    XmlElement elem =
-			//        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfWatchedItem);
-			//    if (elem != null)
-			//    {
-			//        feedUrl = elem.InnerText;
-			//    }
-			//}
-			//catch
-			//{
-			//}
+            //try
+            //{
+            //    XmlElement elem =
+            //        RssHelper.GetOptionalElement(theItem, AdditionalElements.OriginalFeedOfWatchedItem);
+            //    if (elem != null)
+            //    {
+            //        feedUrl = elem.InnerText;
+            //    }
+            //}
+            //catch
+            //{
+            //}
 
 
             //find this item in watched feeds and set watched state
@@ -4177,7 +4189,7 @@ namespace RssBandit
             if (feedUrl != null && entry != null && entry.Source.IsSubscribed(feedUrl))
             {
                 //check if feed exists 
-				IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
+                IList<INewsItem> itemsForFeed = entry.Source.GetItemsForFeed(feedUrl, false);
 
                 //find this item 
                 int itemIndex = itemsForFeed.IndexOf(theItem);
@@ -4217,20 +4229,20 @@ namespace RssBandit
             {
                 if (!flaggedItemsFeed.Items.Contains(theItem))
                 {
-                	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
-					// can we flag items in non-source'd feeds?
-					if (entry == null)
-						return;
+                    FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+                    // can we flag items in non-source'd feeds?
+                    if (entry == null)
+                        return;
 
-					// now create a full copy (including item content)
-					INewsItem flagItem = entry.Source.CopyNewsItemTo(theItem, flaggedItemsFeed);
+                    // now create a full copy (including item content)
+                    INewsItem flagItem = entry.Source.CopyNewsItemTo(theItem, flaggedItemsFeed);
 
                     //take over flag status
                     flagItem.FlagStatus = theItem.FlagStatus;
 
-                	OptionalItemElement.AddOrReplaceOriginalFeedReference(
-                		flagItem, theItem.Feed.link, entry.ID);
-                	
+                    OptionalItemElement.AddOrReplaceOriginalFeedReference(
+                        flagItem, theItem.Feed.link, entry.ID);
+                    
                     flagItem.BeenRead = theItem.BeenRead;
                     flaggedItemsFeed.Add(flagItem);
                 }
@@ -4287,39 +4299,39 @@ namespace RssBandit
                 INewsItem itemFromWatchedItems = watchedItemsFeed.Items.FirstOrDefault(n => comparer.Equals(n, ni));
                 if (itemFromWatchedItems != null)
                 {
-                	int sourceID;
-                	string feedUrlOfWatchedItem = OptionalItemElement.GetOriginalFeedReference(
+                    int sourceID;
+                    string feedUrlOfWatchedItem = OptionalItemElement.GetOriginalFeedReference(
                         itemFromWatchedItems, out sourceID);
 
-					if (!String.IsNullOrEmpty(feedUrlOfWatchedItem) && FeedSources.ContainsKey(sourceID))
-					{
-						// still there, so we can update the item.
-						
-						watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
-						FeedSourceEntry entry = FeedSources[sourceID];
-						INewsItem watchedItem = entry.Source.CopyNewsItemTo(ni, watchedItemsFeed);
-						OptionalItemElement.AddOrReplaceOriginalFeedReference(watchedItem, ni.Feed.link, sourceID);
-						watchedItemsFeed.Add(watchedItem);
-					}
+                    if (!String.IsNullOrEmpty(feedUrlOfWatchedItem) && FeedSources.ContainsKey(sourceID))
+                    {
+                        // still there, so we can update the item.
+                        
+                        watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
+                        FeedSourceEntry entry = FeedSources[sourceID];
+                        INewsItem watchedItem = entry.Source.CopyNewsItemTo(ni, watchedItemsFeed);
+                        OptionalItemElement.AddOrReplaceOriginalFeedReference(watchedItem, ni.Feed.link, sourceID);
+                        watchedItemsFeed.Add(watchedItem);
+                    }
 
-					//watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
+                    //watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
 
-					//XmlElement originalFeed = RssHelper.CreateXmlElement(
-					//    OptionalItemElement.Prefix,
-					//    AdditionalElements.OriginalFeedOfWatchedItem,
-					//    ni.Feed.link);
+                    //XmlElement originalFeed = RssHelper.CreateXmlElement(
+                    //    OptionalItemElement.Prefix,
+                    //    AdditionalElements.OriginalFeedOfWatchedItem,
+                    //    ni.Feed.link);
 
-					//INewsItem watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
+                    //INewsItem watchedItem = feedHandler.CopyNewsItemTo(ni, watchedItemsFeed);
 
-					//if (null ==
-					//    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
-					//                                    AdditionalElements.OriginalFeedOfWatchedItem))
-					//{
-					//    watchedItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfWatchedItem,
-					//                                     originalFeed.OuterXml);
-					//}
+                    //if (null ==
+                    //    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
+                    //                                    AdditionalElements.OriginalFeedOfWatchedItem))
+                    //{
+                    //    watchedItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfWatchedItem,
+                    //                                     originalFeed.OuterXml);
+                    //}
 
-					//watchedItemsFeed.Add(watchedItem);
+                    //watchedItemsFeed.Add(watchedItem);
                 }
             }
         }
@@ -4350,32 +4362,32 @@ namespace RssBandit
             }
             else
             {
-				FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
-				// can we watch items in non-source'd feeds?
-				if (entry == null)
-					return;
+                FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+                // can we watch items in non-source'd feeds?
+                if (entry == null)
+                    return;
 
-            	// XmlElement originalSource = null;
-            	XmlElement originalFeed = null; //RssHelper.CreateXmlElement(
-				//    AdditionalFeedElements.CurrentPrefix,
-				//    AdditionalFeedElements.OriginalFeedOfWatchedItem,
-				//    theItem.Feed.link);
+                // XmlElement originalSource = null;
+                XmlElement originalFeed = null; //RssHelper.CreateXmlElement(
+                //    AdditionalFeedElements.CurrentPrefix,
+                //    AdditionalFeedElements.OriginalFeedOfWatchedItem,
+                //    theItem.Feed.link);
 
                 if (!watchedItemsFeed.Items.Contains(theItem))
                 {
                     INewsItem watchedItem = entry.Source.CopyNewsItemTo(theItem, watchedItemsFeed);
 
-					originalFeed = OptionalItemElement.AddOrReplaceOriginalFeedReference(
-						watchedItem, theItem.Feed.link, entry.ID);
-                	
-					
-					//if (null ==
-					//    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
-					//                                    AdditionalFeedElements.OriginalFeedOfWatchedItem))
-					//{
-					//    watchedItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfWatchedItem,
-					//                                     originalFeed.OuterXml);
-					//}
+                    originalFeed = OptionalItemElement.AddOrReplaceOriginalFeedReference(
+                        watchedItem, theItem.Feed.link, entry.ID);
+                    
+                    
+                    //if (null ==
+                    //    RssHelper.GetOptionalElementKey(watchedItem.OptionalElements,
+                    //                                    AdditionalFeedElements.OriginalFeedOfWatchedItem))
+                    //{
+                    //    watchedItem.OptionalElements.Add(AdditionalFeedElements.OriginalFeedOfWatchedItem,
+                    //                                     originalFeed.OuterXml);
+                    //}
 
                     watchedItemsFeed.Add(watchedItem);
                 }
@@ -4451,40 +4463,40 @@ namespace RssBandit
             if (inResponse2item != null && replyItem != null)
             {
                 // create a new one, because we could not modify the replyItem.link :(
-				INewsItem newItem =
+                INewsItem newItem =
                     new NewsItem(sentItemsFeed, replyItem.Title, inResponse2item.Link, replyItem.Content,
                                  replyItem.Date, inResponse2item.Feed.title)
                         {
                             OptionalElements = (new Dictionary<XmlQualifiedName, string>(replyItem.OptionalElements))
                         };
 
-				int sourceID = -1;
-				FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
-				if (entry != null)
-						sourceID = entry.ID;
+                int sourceID = -1;
+                FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
+                if (entry != null)
+                        sourceID = entry.ID;
 
-            	OptionalItemElement.AddOrReplaceOriginalFeedReference(
-            		newItem, inResponse2item.Feed.link, sourceID);
+                OptionalItemElement.AddOrReplaceOriginalFeedReference(
+                    newItem, inResponse2item.Feed.link, sourceID);
 
-				//XmlQualifiedName key = AdditionalElements.OriginalFeedOfSentItem;
-				//if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
-				//{
-				//    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
-				//                                                         inResponse2item.Feed.link);
-				//    newItem.OptionalElements.Add(key, element.OuterXml);
-				//}
+                //XmlQualifiedName key = AdditionalElements.OriginalFeedOfSentItem;
+                //if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
+                //{
+                //    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
+                //                                                         inResponse2item.Feed.link);
+                //    newItem.OptionalElements.Add(key, element.OuterXml);
+                //}
 
-				//key = AdditionalElements.OriginalSourceOfItem;
-				//if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
-				//{
-				//    string sourceID = "-1";
-				//    FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
-				//    if (entry != null)
-				//        sourceID = entry.ID.ToString();
-				//    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
-				//                                                         sourceID);
-				//    newItem.OptionalElements.Add(key, element.OuterXml);
-				//}
+                //key = AdditionalElements.OriginalSourceOfItem;
+                //if (null == RssHelper.GetOptionalElementKey(newItem.OptionalElements, key))
+                //{
+                //    string sourceID = "-1";
+                //    FeedSourceEntry entry = FeedSources.SourceOf(inResponse2item.Feed);
+                //    if (entry != null)
+                //        sourceID = entry.ID.ToString();
+                //    XmlElement element = RssHelper.CreateXmlElement(OptionalItemElement.Prefix, key,
+                //                                                         sourceID);
+                //    newItem.OptionalElements.Add(key, element.OuterXml);
+                //}
 
                 newItem.BeenRead = false;
                 sentItemsFeed.Add(newItem);
@@ -4503,7 +4515,7 @@ namespace RssBandit
             if (postTarget != null && replyItem != null)
             {
                 // create a new one, because we could not modify the replyItem.link :(
-				INewsItem newItem =
+                INewsItem newItem =
                     new NewsItem(sentItemsFeed, replyItem.Title, Guid.NewGuid().ToString(), replyItem.Content,
                                  replyItem.Date, postTarget.title)
                         {
@@ -4543,21 +4555,21 @@ namespace RssBandit
 
 
             // add a optional element to remember the original feed container (for later restore)
-        	FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
-			if (null != theItem.Feed && entry != null)
-				OptionalItemElement.AddOrReplaceOriginalFeedReference(theItem, theItem.Feed.link, entry.ID);
+            FeedSourceEntry entry = FeedSources.SourceOf(theItem.Feed);
+            if (null != theItem.Feed && entry != null)
+                OptionalItemElement.AddOrReplaceOriginalFeedReference(theItem, theItem.Feed.link, entry.ID);
 
-			//if (null != theItem.Feed &&
-			//    null ==
-			//    RssHelper.GetOptionalElementKey(theItem.OptionalElements,
-			//                                    AdditionalElements.OriginalFeedOfDeletedItem))
-			//{
-			//    XmlElement originalFeed = RssHelper.CreateXmlElement(
-			//        OptionalItemElement.Prefix,
-			//        AdditionalElements.OriginalFeedOfDeletedItem,
-			//        theItem.Feed.link);
-			//    theItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfDeletedItem, originalFeed.OuterXml);
-			//}
+            //if (null != theItem.Feed &&
+            //    null ==
+            //    RssHelper.GetOptionalElementKey(theItem.OptionalElements,
+            //                                    AdditionalElements.OriginalFeedOfDeletedItem))
+            //{
+            //    XmlElement originalFeed = RssHelper.CreateXmlElement(
+            //        OptionalItemElement.Prefix,
+            //        AdditionalElements.OriginalFeedOfDeletedItem,
+            //        theItem.Feed.link);
+            //    theItem.OptionalElements.Add(AdditionalElements.OriginalFeedOfDeletedItem, originalFeed.OuterXml);
+            //}
 
             bool yetDeleted = false;
             if (!deletedItemsFeed.Items.Contains(theItem))
@@ -4567,8 +4579,8 @@ namespace RssBandit
                 yetDeleted = true;
             }
 
-        	if (entry != null)
-				entry.Source.DeleteItem(theItem);
+            if (entry != null)
+                entry.Source.DeleteItem(theItem);
 
             deletedItemsFeed.Modified = true;
             FeedWasModified(theItem.Feed, NewsFeedProperty.FeedItemsDeleteUndelete);
@@ -4594,14 +4606,14 @@ namespace RssBandit
                 return null;
 
             int ownerSourceID ;
-			string containerFeedUrl = OptionalItemElement.GetOriginalFeedReference(item, out ownerSourceID);
-        	
-        	FeedSourceEntry entry = null;
-			if (FeedSources.ContainsKey(ownerSourceID))
-				entry = FeedSources[ownerSourceID];
+            string containerFeedUrl = OptionalItemElement.GetOriginalFeedReference(item, out ownerSourceID);
+            
+            FeedSourceEntry entry = null;
+            if (FeedSources.ContainsKey(ownerSourceID))
+                entry = FeedSources[ownerSourceID];
 
-			OptionalItemElement.RemoveOriginalFeedReference(item);
-			
+            OptionalItemElement.RemoveOriginalFeedReference(item);
+            
             if (string.IsNullOrEmpty(containerFeedUrl))
             {
                 containerFeedUrl = item.Feed.link;
@@ -4616,16 +4628,16 @@ namespace RssBandit
             bool foundAndRestored = false;
             TreeFeedsNodeBase feedsNode = null;
 
-			if (item.FlagStatus != Flagged.None && item.FlagStatus != Flagged.Complete)
-			{
+            if (item.FlagStatus != Flagged.None && item.FlagStatus != Flagged.Complete)
+            {
                 // it was a flagged item
                 flaggedItemsFeed.Add(item);
                 feedsNode = (TreeFeedsNodeBase) guiMain.FlaggedFeedsNode(item.FlagStatus);
                 foundAndRestored = true;
             }
-			else if (entry != null && entry.Source.IsSubscribed(containerFeedUrl))
+            else if (entry != null && entry.Source.IsSubscribed(containerFeedUrl))
             {
-				entry.Source.RestoreDeletedItem(item);
+                entry.Source.RestoreDeletedItem(item);
                 feedsNode = TreeHelper.FindNode(guiMain.GetSubscriptionRootNode(entry), containerFeedUrl);
                 foundAndRestored = true;
             }
@@ -4648,9 +4660,9 @@ namespace RssBandit
             }
             else
             {
-				// deletedItemsFeed still contains item, so add previously removed reference back:
-				OptionalItemElement.AddOrReplaceOriginalFeedReference(item, containerFeedUrl, ownerSourceID);
-				_log.Error("Cannot restore item: container feed not found. Url was '" + containerFeedUrl + "'.");
+                // deletedItemsFeed still contains item, so add previously removed reference back:
+                OptionalItemElement.AddOrReplaceOriginalFeedReference(item, containerFeedUrl, ownerSourceID);
+                _log.Error("Cannot restore item: container feed not found. Url was '" + containerFeedUrl + "'.");
             }
 
             return feedsNode;
@@ -4682,28 +4694,28 @@ namespace RssBandit
         public void PublishXmlFeedError(Exception e, string feedLink, bool updateNodeIcon, FeedSourceEntry entry)
         { 
                 UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, feedLink, entry), 
-					feedLink, updateNodeIcon, entry);
+                    feedLink, updateNodeIcon, entry);
         }
 
         /// <summary>
         /// Publish an XML Feed error.
         /// </summary>
-		/// <param name="e">Xml failure to publish</param>
+        /// <param name="e">Xml failure to publish</param>
         /// <param name="f">The erroneous NewsFeed</param>
         /// <param name="updateNodeIcon">Set to true, if you want to get the node icon reflecting the errornous state</param>
         /// <param name="entry">The feed source the INewsFeed belongs to</param>
         public void PublishXmlFeedError(Exception e, INewsFeed f, bool updateNodeIcon, FeedSourceEntry entry)
         {
-			if (f != null && !string.IsNullOrEmpty(f.link))
+            if (f != null && !string.IsNullOrEmpty(f.link))
             {
-				UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, f, entry),
-					f.link, updateNodeIcon, entry);
-            	return;
+                UpdateXmlFeedErrorFeed(CreateLocalFeedRequestException(e, f, entry),
+                    f.link, updateNodeIcon, entry);
+                return;
             }
-			_log.Error("XML Feed error called with now feed or ne feed url", e);
+            _log.Error("XML Feed error called with now feed or ne feed url", e);
         }
 
-		
+        
 
         /// <summary>
         /// Add the exception to the local feedError feed. 
@@ -4737,7 +4749,7 @@ namespace RssBandit
             }
         }
 
-		// code moved to FlaggedItemsFeed migrate method:
+        // code moved to FlaggedItemsFeed migrate method:
 //        /// <summary>
 //        /// Flags the NewsItems in the regular feeds that are currently in the flagItemList.
 //        /// </summary>
@@ -4850,34 +4862,34 @@ namespace RssBandit
 
         private void OnNewsItemTransformationError(object sender, FeedExceptionEventArgs e)
         {
-			InvokeOnGui (delegate
-        		{
-        			PublishXmlFeedError(e.FailureException, e.FeedLink, false, null);
-        		});
+            InvokeOnGui (delegate
+                {
+                    PublishXmlFeedError(e.FailureException, e.FeedLink, false, null);
+                });
         }
 
         private void OnNewsItemFormatterStylesheetError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetError() called", e.FailureException);
-        	InvokeOnGui(delegate
-        		{
-        			MessageError(
-        				String.Format(
-        					SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
-        					e.FailureException.Message));
-        		});
+            InvokeOnGui(delegate
+                {
+                    MessageError(
+                        String.Format(
+                            SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+                            e.FailureException.Message));
+                });
         }
 
         private void OnNewsItemFormatterStylesheetValidationError(object sender, ExceptionEventArgs e)
         {
             _log.Error("OnNewsItemFormatterStylesheetValidationError() called", e.FailureException);
-        	InvokeOnGui(delegate
-        		{
-        			MessageError(
-        				String.Format(
-        					SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
-        					e.FailureException.Message));
-        		});
+            InvokeOnGui(delegate
+                {
+                    MessageError(
+                        String.Format(
+                            SR.ExceptionNewsItemFormatterStylesheetMessage, e.ErrorMessage,
+                            e.FailureException.Message));
+                });
         }
 
 
@@ -5030,10 +5042,10 @@ namespace RssBandit
             if (guiMain == null) return;           
 
             /* 
-			 * we handle the exit error here, because it does not make sense
-			 * to provide a "Resume", "Ignore" as the global exception handler
-			 * offers on exiting the program
-			 * */
+             * we handle the exit error here, because it does not make sense
+             * to provide a "Resume", "Ignore" as the global exception handler
+             * offers on exiting the program
+             * */
             try
             {
                 foreach (FeedSourceEntry fse in sourceManager.Sources)
@@ -5095,7 +5107,7 @@ namespace RssBandit
                 //save search folders
                 SaveSearchFolders();
 
-            	columnLayoutManager.Save();
+                columnLayoutManager.Save();
 
                 if (FeedSource.TopStoriesModified)
                     FeedSource.SaveCachedTopStoryTitles();
@@ -5168,7 +5180,7 @@ namespace RssBandit
             if (url.IsLoopback)
             {
                 bool captured = false;
-				List<string> feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
+                List<string> feedurls = RssLocater.UrlsFromWellknownListener(webUrl);
 
                 foreach (string feedurl in feedurls)
                 {
@@ -5192,11 +5204,11 @@ namespace RssBandit
                 if (url.Scheme.Equals("fdaction"))
                 {
                     /* TODO: Toggle envelope and flag in newspaper on click if javascript is OFF (by user)
-				 * 1. Fetch <area> whose href attribute contains URL
-				 * 2. Get name of parent <map> of the <area>
-				 * 3. Fetch <img> whose usemap attribute is '#' + value from Step 2
-				 * 4. Swap out value of src attribute. 
-				 */
+                 * 1. Fetch <area> whose href attribute contains URL
+                 * 2. Get name of parent <map> of the <area>
+                 * 3. Fetch <img> whose usemap attribute is '#' + value from Step 2
+                 * 4. Swap out value of src attribute. 
+                 */
 
                     int idIndex = webUrl.IndexOf("postid=") + 7;
                     int feedIdIndex = webUrl.IndexOf("feedid=") + 7;
@@ -5242,16 +5254,16 @@ namespace RssBandit
                     else if (webUrl.IndexOf("navigatetofeed") != -1)
                     {
                         string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-                    	FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
-						INewsFeed f = GetFeed(entry, normalizedUrl);
+                        FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
+                        INewsFeed f = GetFeed(entry, normalizedUrl);
                         if (f != null)
                             guiMain.NavigateToFeed(f);
                     }
                     else if (webUrl.IndexOf("unsubscribefeed") != -1)
                     {
                         string normalizedUrl = HtmlHelper.UrlDecode(webUrl.Substring(feedIdIndex));
-						FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
-						INewsFeed f = GetFeed(entry, normalizedUrl);
+                        FeedSourceEntry entry = guiMain.FeedSourceEntryOf(normalizedUrl);
+                        INewsFeed f = GetFeed(entry, normalizedUrl);
                         if (f != null)
                             UnsubscribeFeed(f, false);
                     }
@@ -5455,7 +5467,7 @@ namespace RssBandit
             if (criterias.Count > 0)
             {
                 //SearchHitNewsItem shitem = item as SearchHitNewsItem; 
-				INewsItem clone = new NewsItem(item.Feed, item.Title, item.Link,
+                INewsItem clone = new NewsItem(item.Feed, item.Title, item.Link,
                                          ApplyHighlightingTo(item.Content, criterias), item.Date,
                                          item.Subject,
                                          item.ContentType, item.OptionalElements, item.Id, item.ParentId)
@@ -5790,8 +5802,8 @@ namespace RssBandit
 
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
-            	FeedSourceEntry entry = FeedSources.SourceOf(item2reply);
-				prth = new PostReplyThreadHandler(entry == null ? BanditFeedSource: entry.Source, commentUrl, item2post, item2reply);
+                FeedSourceEntry entry = FeedSources.SourceOf(item2reply);
+                prth = new PostReplyThreadHandler(entry == null ? BanditFeedSource: entry.Source, commentUrl, item2post, item2reply);
                 DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostReplyToItem);
 
                 if (result != DialogResult.OK)
@@ -5844,7 +5856,7 @@ namespace RssBandit
                 item2post.OptionalElements.Add(new XmlQualifiedName("author"), emailNode.OuterXml);
                 item2post.ContentType = ContentType.Html;
 
-				prth = new PostReplyThreadHandler(BanditFeedSource, item2post, f);
+                prth = new PostReplyThreadHandler(BanditFeedSource, item2post, f);
                 DialogResult result = prth.Start(postReplyForm, SR.GUIStatusPostNewFeedItem);
 
                 if (result != DialogResult.OK)
@@ -5887,21 +5899,21 @@ namespace RssBandit
 
         #region global app helper
 
-		/// <summary>
-		/// RSS Bandit command line parameter class
-		/// </summary>
+        /// <summary>
+        /// RSS Bandit command line parameter class
+        /// </summary>
         public class CommandLineOptions
         {
-			/// <summary>
-			/// Initializes a new instance of the <see cref="CommandLineOptions"/> class.
-			/// </summary>
-			public CommandLineOptions()
-			{
-				// allow users to specify commandline options via app.config:
-				StartInTaskbarNotificationAreaOnly = ReadAppSettingsEntry("ui.display.taskbar", false);
-				LocalCulture = ReadAppSettingsEntry("ui.display.culture", String.Empty);
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CommandLineOptions"/> class.
+            /// </summary>
+            public CommandLineOptions()
+            {
+                // allow users to specify commandline options via app.config:
+                StartInTaskbarNotificationAreaOnly = ReadAppSettingsEntry("ui.display.taskbar", false);
+                LocalCulture = ReadAppSettingsEntry("ui.display.culture", String.Empty);
                 AddFacebook = AddGoogleReader = false; 
-			}
+            }
 
             /// <summary>
             /// Have a look to http://blogs.gotdotnet.com/raymondc/permalink.aspx/5a811e6f-cd12-48de-8994-23409290faea,
@@ -5972,15 +5984,15 @@ namespace RssBandit
                 {
                     //modify preferences with data from dialog
                     Preferences.PodcastFileExtensions = 
-						FeedSource.PodcastFileExtensionsAsString = optionDialog.textPodcastFilesExtensions.Text;
-					 
+                        FeedSource.PodcastFileExtensionsAsString = optionDialog.textPodcastFilesExtensions.Text;
+                     
                     if (optionDialog.chkCopyPodcastToFolder.Checked)
                     {
-						FeedSource.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
+                        FeedSource.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
                     }
                     else
                     {
-						FeedSource.PodcastFolder = FeedSource.EnclosureFolder;
+                        FeedSource.PodcastFolder = FeedSource.EnclosureFolder;
                     }
 
                     Preferences.AddPodcasts2Folder = optionDialog.chkCopyPodcastToFolder.Checked;
@@ -6135,10 +6147,10 @@ namespace RssBandit
             }
         }
 
-		void ICoreApplication.AddCategory(string category)
-		{
-			//TODO: change interface or map to a "current source" ?
-		}
+        void ICoreApplication.AddCategory(string category)
+        {
+            //TODO: change interface or map to a "current source" ?
+        }
 
         public void AddCategory(FeedSourceEntry entry, string category)
         {
@@ -6148,7 +6160,7 @@ namespace RssBandit
                 if (category.Length > 0 && ! entry.Source.HasCategory(category))
                 {
                     var c = new category(category);
-					entry.Source.AddCategory(c);
+                    entry.Source.AddCategory(c);
                     guiMain.CreateSubscriptionsCategoryHive(guiMain.GetSubscriptionRootNode(entry), category);
                 }
             }
@@ -6175,81 +6187,81 @@ namespace RssBandit
                                     AddSubscriptionWizardMode mode)
         {
             using (var wiz = new AddSubscriptionWizard(mode){
-            		FeedUrl = (url ?? String.Empty),
-            		FeedTitle = (title ?? String.Empty),
-            		SearchTerms = (searchTerms ?? String.Empty)
-            	})
+                    FeedUrl = (url ?? String.Empty),
+                    FeedTitle = (title ?? String.Empty),
+                    SearchTerms = (searchTerms ?? String.Empty)
+                })
             {
 
-            	if (category != null) // does remember the last category:
-            		wiz.FeedCategory = category;
+                if (category != null) // does remember the last category:
+                    wiz.FeedCategory = category;
 
 
-            	List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
-            	if (visibleRoots.Count > 0)
-            	{
-            		FeedSourceEntry entry = guiMain.FeedSourceEntryOf(visibleRoots[0]);
-            		wiz.FeedSourceName = entry != null ? entry.Name : null;
-            	}
-            	try
-            	{
-            		if (MainForm.IsHandleCreated)
-            			Win32.SetForegroundWindow(MainForm.Handle);
-            		wiz.ShowDialog(guiMain);
-            	}
-            	catch (Exception ex)
-            	{
-            		_log.Error("SubscribeToFeed caused exception.", ex);
-            		wiz.DialogResult = DialogResult.Cancel;
-            	}
+                List<SubscriptionRootNode> visibleRoots = guiMain.GetVisibleSubscriptionRootNodes();
+                if (visibleRoots.Count > 0)
+                {
+                    FeedSourceEntry entry = guiMain.FeedSourceEntryOf(visibleRoots[0]);
+                    wiz.FeedSourceName = entry != null ? entry.Name : null;
+                }
+                try
+                {
+                    if (MainForm.IsHandleCreated)
+                        Win32.SetForegroundWindow(MainForm.Handle);
+                    wiz.ShowDialog(guiMain);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("SubscribeToFeed caused exception.", ex);
+                    wiz.DialogResult = DialogResult.Cancel;
+                }
 
-            	if (wiz.DialogResult == DialogResult.OK)
-            	{
-            		INewsFeed f;
-            		FeedSourceEntry entry = sourceManager[wiz.FeedSourceName];
+                if (wiz.DialogResult == DialogResult.OK)
+                {
+                    INewsFeed f;
+                    FeedSourceEntry entry = sourceManager[wiz.FeedSourceName];
 
-            		if (wiz.MultipleFeedsToSubscribe)
-            		{
-            			bool anySubscription = false;
+                    if (wiz.MultipleFeedsToSubscribe)
+                    {
+                        bool anySubscription = false;
 
-            			for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
-            			{
-            				f = CreateFeedFromWizard(wiz, entry, i);
-            				if (f == null)
-            				{
-            					continue;
-            				}
+                        for (int i = 0; i < wiz.MultipleFeedsToSubscribeCount; i++)
+                        {
+                            f = CreateFeedFromWizard(wiz, entry, i);
+                            if (f == null)
+                            {
+                                continue;
+                            }
 
-            				// add feed visually
-            				guiMain.AddNewFeedNode(entry, f.category, f);
+                            // add feed visually
+                            guiMain.AddNewFeedNode(entry, f.category, f);
 
-            				if (wiz.FeedInfo == null)
-            					guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+                            if (wiz.FeedInfo == null)
+                                guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
 
-            				anySubscription = true;
-            			}
+                            anySubscription = true;
+                        }
 
-            			return anySubscription;
-            		}
+                        return anySubscription;
+                    }
 
-            		f = CreateFeedFromWizard(wiz, entry, 0);
+                    f = CreateFeedFromWizard(wiz, entry, 0);
 
-            		if (f == null)
-            		{
-            			return false;
-            		}
+                    if (f == null)
+                    {
+                        return false;
+                    }
 
-            		// add feed visually
-            		guiMain.AddNewFeedNode(entry, f.category, f);
+                    // add feed visually
+                    guiMain.AddNewFeedNode(entry, f.category, f);
 
-            		if (wiz.FeedInfo == null)
-            			guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
+                    if (wiz.FeedInfo == null)
+                        guiMain.DelayTask(DelayedTasks.StartRefreshOneFeed, f.link);
 
-            		return true;
-            	}
+                    return true;
+                }
 
             }
-        	return false;
+            return false;
         }
 
         internal INewsFeed CreateFeedFromWizard(AddSubscriptionWizard wiz, FeedSourceEntry entry, int index)
@@ -6259,10 +6271,10 @@ namespace RssBandit
                                   link = wiz.FeedUrls(index)
                               };
 
-        	
-			if (entry.Source.IsSubscribed(f.link))
+            
+            if (entry.Source.IsSubscribed(f.link))
             {
-				INewsFeed f2 = entry.Source.GetFeeds()[f.link];
+                INewsFeed f2 = entry.Source.GetFeeds()[f.link];
                 MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                           (f2.category == null
                                                ? String.Empty
@@ -6274,9 +6286,9 @@ namespace RssBandit
 
             f.title = wiz.FeedTitles(index);
             f.category = wiz.FeedCategory;
-			if ((f.category != null) && (!entry.Source.HasCategory(f.category)))
+            if ((f.category != null) && (!entry.Source.HasCategory(f.category)))
             {
-				entry.Source.AddCategory(f.category);
+                entry.Source.AddCategory(f.category);
             }
 
             if (!string.IsNullOrEmpty(wiz.FeedCredentialUser))
@@ -6295,22 +6307,22 @@ namespace RssBandit
             f.alertEnabled = f.alertEnabledSpecified = wiz.AlertEnabled;
 
             // add feed to backend
-			entry.Source.AddFeed(f, wiz.FeedInfo);
+            entry.Source.AddFeed(f, wiz.FeedInfo);
 
             FeedWasModified(f, NewsFeedProperty.FeedAdded);
             //this.FeedlistModified = true;
 
             // set properties the backend requires the feed yet added
             if (wiz.RefreshRate != CurrentGlobalRefreshRateMinutes)
-				entry.Source.SetRefreshRate(f.link, wiz.RefreshRate * MilliSecsMultiplier);
-			entry.Source.SetMaxItemAge(f.link, wiz.MaxItemAge);
-			entry.Source.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
+                entry.Source.SetRefreshRate(f.link, wiz.RefreshRate * MilliSecsMultiplier);
+            entry.Source.SetMaxItemAge(f.link, wiz.MaxItemAge);
+            entry.Source.SetMarkItemsReadOnExit(f.link, wiz.MarkItemsReadOnExit);
 
             string stylesheet = wiz.FeedStylesheet;
 
-			if (stylesheet != null && !stylesheet.Equals(entry.Source.GetStyleSheet(f.link)))
+            if (stylesheet != null && !stylesheet.Equals(entry.Source.GetStyleSheet(f.link)))
             {
-				entry.Source.SetStyleSheet(f.link, stylesheet);
+                entry.Source.SetStyleSheet(f.link, stylesheet);
 
                 if (!NewsItemFormatter.ContainsXslStyleSheet(stylesheet))
                 {
@@ -6349,40 +6361,40 @@ namespace RssBandit
         }
 
 
-		/// <summary>
-		/// ICoreApplication member. Determines whether the specified address is a subscribed feed.
-		/// </summary>
-		/// <param name="address">The address.</param>
-		/// <returns>
-		/// 	<c>true</c> if the specified address is a subscribed feed; otherwise, <c>false</c>.
-		/// </returns>
+        /// <summary>
+        /// ICoreApplication member. Determines whether the specified address is a subscribed feed.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified address is a subscribed feed; otherwise, <c>false</c>.
+        /// </returns>
         public bool ContainsFeed(string address)
         {
-			if (StringHelper.EmptyTrimOrNull(address))
-				return false;
+            if (StringHelper.EmptyTrimOrNull(address))
+                return false;
 
-			return null != FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(address)); 
+            return null != FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(address)); 
         }
 
-		/// <summary>
-		/// ICoreApplication member. Gets true, if the url is a feed subscription and returns
-		/// the category, title and link of the subscribed feed; else false
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="category"></param>
-		/// <param name="title"></param>
-		/// <param name="link"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// ICoreApplication member. Gets true, if the url is a feed subscription and returns
+        /// the category, title and link of the subscribed feed; else false
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="category"></param>
+        /// <param name="title"></param>
+        /// <param name="link"></param>
+        /// <returns></returns>
         public bool TryGetFeedDetails(string url, out string category, out string title, out string link)
         {
-			category = null;
-			title = null;
-			link = null;
+            category = null;
+            title = null;
+            link = null;
 
-			if (StringHelper.EmptyTrimOrNull(url))
-				return false;
-			
-			FeedSourceEntry entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(url));
+            if (StringHelper.EmptyTrimOrNull(url))
+                return false;
+            
+            FeedSourceEntry entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(url));
             INewsFeed f;
             if (entry != null && entry.Source.GetFeeds().TryGetValue(url, out f))
             {
@@ -6407,7 +6419,7 @@ namespace RssBandit
 
         IList ICoreApplication.GetNntpNewsGroups(string nntpServerName, bool forceReloadFromServer)
         {
-        	INntpServerDefinition sd;
+            INntpServerDefinition sd;
             if (! string.IsNullOrEmpty(nntpServerName) &&
                 NntpServerManager.CurrentNntpServers.TryGetValue(nntpServerName, out sd))
             {
@@ -6516,7 +6528,7 @@ namespace RssBandit
         {
             //var coords = 
 
-            MainWindow.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                 (SendOrPostCallback)delegate
                 {
                     if (_downloadManager == null)
@@ -6577,7 +6589,7 @@ namespace RssBandit
                 return;
             foreach (var channel in channels)
             {
-				FeedSource.UnregisterReceivingNewsChannel(channel);
+                FeedSource.UnregisterReceivingNewsChannel(channel);
             }
         }
 
@@ -6644,104 +6656,104 @@ namespace RssBandit
 
 
 /*
-		private void OnDialogDisposed(object sender, EventArgs e) {
-			Trace.WriteLine("Dialog Disposed('" + sender.GetType().Name.ToString() + "')");
-		}
+        private void OnDialogDisposed(object sender, EventArgs e) {
+            Trace.WriteLine("Dialog Disposed('" + sender.GetType().Name.ToString() + "')");
+        }
 */
     } //end class RssBanditApplication
 
-	#region to be moved to AppServices project later on!
+    #region to be moved to AppServices project later on!
 
-	
-	#region event args
+    
+    #region event args
 
-	
-	/// <summary>
-	/// Event arguments class to transport feed source and simple feed infos.
-	/// </summary>
-	public class FeedSourceFeedUrlTitleEventArgs : FeedSourceEventArgs
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedSourceFeedUrlTitleEventArgs"/> class.
-		/// </summary>
-		/// <param name="entry">The entry.</param>
-		/// <param name="feedUrl">The feed URL.</param>
-		/// <param name="feedTitle">The feed title.</param>
-		public FeedSourceFeedUrlTitleEventArgs(FeedSourceEntry entry, string feedUrl, string feedTitle):
-			base(entry)
-		{
-			FeedUrl = feedUrl;
-			FeedTitle = feedTitle;
-		}
+    
+    /// <summary>
+    /// Event arguments class to transport feed source and simple feed infos.
+    /// </summary>
+    public class FeedSourceFeedUrlTitleEventArgs : FeedSourceEventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeedSourceFeedUrlTitleEventArgs"/> class.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="feedUrl">The feed URL.</param>
+        /// <param name="feedTitle">The feed title.</param>
+        public FeedSourceFeedUrlTitleEventArgs(FeedSourceEntry entry, string feedUrl, string feedTitle):
+            base(entry)
+        {
+            FeedUrl = feedUrl;
+            FeedTitle = feedTitle;
+        }
 
-		/// <summary>
-		/// Gets the feed URL.
-		/// </summary>
-		/// <value>The feed URL.</value>
-		public string FeedUrl { get; private set; }
-		/// <summary>
-		/// Gets the feed title.
-		/// </summary>
-		/// <value>The feed title.</value>
-		public string FeedTitle { get; private set; }
-	}
+        /// <summary>
+        /// Gets the feed URL.
+        /// </summary>
+        /// <value>The feed URL.</value>
+        public string FeedUrl { get; private set; }
+        /// <summary>
+        /// Gets the feed title.
+        /// </summary>
+        /// <value>The feed title.</value>
+        public string FeedTitle { get; private set; }
+    }
 
-	/// <summary>
-	/// Event arguments class to transport feed source and feed infos.
-	/// </summary>
-	public class FeedSourceFeedEventArgs : FeedSourceEventArgs
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedDeletedEventArgs"/> class.
-		/// </summary>
-		/// <param name="entry">The entry.</param>
-		/// <param name="feed">The feed.</param>
-		public FeedSourceFeedEventArgs(FeedSourceEntry entry, INewsFeed feed) :
-			base(entry)
-		{
-			_feed = feed;
-		}
+    /// <summary>
+    /// Event arguments class to transport feed source and feed infos.
+    /// </summary>
+    public class FeedSourceFeedEventArgs : FeedSourceEventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeedDeletedEventArgs"/> class.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="feed">The feed.</param>
+        public FeedSourceFeedEventArgs(FeedSourceEntry entry, INewsFeed feed) :
+            base(entry)
+        {
+            _feed = feed;
+        }
 
-		/// <summary>
-		/// Gets the feed .
-		/// </summary>
-		public INewsFeed Feed
-		{
-			get { return _feed; }
-		}
+        /// <summary>
+        /// Gets the feed .
+        /// </summary>
+        public INewsFeed Feed
+        {
+            get { return _feed; }
+        }
 
-		private readonly INewsFeed _feed;
-	}
-	
-	#endregion
+        private readonly INewsFeed _feed;
+    }
+    
+    #endregion
 
-	/// <summary>
-	/// Event arguments class to inform about a feed event
-	/// </summary>
-	public class FeedSourceEventArgs : EventArgs
-	{
+    /// <summary>
+    /// Event arguments class to inform about a feed event
+    /// </summary>
+    public class FeedSourceEventArgs : EventArgs
+    {
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedSourceEventArgs"/> class.
-		/// </summary>
-		/// <param name="entry">The entry.</param>
-		public FeedSourceEventArgs(FeedSourceEntry entry)
-		{
-			this._feedSource = entry;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeedSourceEventArgs"/> class.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        public FeedSourceEventArgs(FeedSourceEntry entry)
+        {
+            this._feedSource = entry;
+        }
 
-		/// <summary>
-		/// Gets the feed source entry.
-		/// </summary>
-		public FeedSourceEntry Entry
-		{
-			get { return _feedSource; }
-		}
+        /// <summary>
+        /// Gets the feed source entry.
+        /// </summary>
+        public FeedSourceEntry Entry
+        {
+            get { return _feedSource; }
+        }
 
-		private readonly FeedSourceEntry _feedSource;
+        private readonly FeedSourceEntry _feedSource;
 
-	}
-	
+    }
+    
 
-	#endregion
+    #endregion
 } //end namespace RssBandit

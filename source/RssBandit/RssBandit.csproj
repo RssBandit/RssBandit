@@ -5,6 +5,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
+    <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
@@ -244,6 +245,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\InfragisticsWPF4.v10.2.dll</HintPath>
     </Reference>
+    <Reference Include="System.CoreEx">
+      <Name>System.CoreEx</Name>
+      <HintPath>..\Common\Libraries\System.CoreEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Interactive">
+      <Name>System.Interactive</Name>
+      <HintPath>..\Common\Libraries\System.Interactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
       <HintPath>..\Common\Libraries\Interop.iTunesLib.dll</HintPath>
@@ -347,10 +358,12 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Converters\BytesToMegabytesConverter.cs" />
+    <Compile Include="Converters\CommonConverters.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\FileNameToIconConverter.cs" />
     <Compile Include="Converters\NotVisibleConverter.cs" />
     <Compile Include="Converters\StringParameterToBooleanConverter.cs" />
+    <Compile Include="Core\ApplicationContext.cs" />
     <Compile Include="Core\ApplicationExceptionHandler.cs" />
     <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
     <Compile Include="Core\Exceptions.cs" />
@@ -2012,6 +2025,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.resx</DependentUpon>
     </Compile>
+    <Compile Include="Util\VisualTreeExtensions.cs" />
     <Compile Include="Web References\CLR20.DasBlog\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2029,6 +2043,8 @@
     <Compile Include="WinGui\AutoDiscoverFeedsThreadHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Behaviors\SelectedItemProxy.cs" />
+    <Compile Include="WinGui\Behaviors\TabItemSelectedBringIntoView.cs" />
     <Compile Include="WinGui\ColumnLayoutManager.cs" />
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
@@ -2046,7 +2062,6 @@
     <Compile Include="WinGui\Commands\RelayCommand.cs" />
     <Compile Include="Converters\NodesSortedByCategoryTitleConverter.cs" />
     <Compile Include="WinGui\ViewModel\TreeNodeViewModelBase.cs" />
-    <Compile Include="WinGui\ViewModel\ViewModelBase.cs" />
     <Compile Include="WinGui\Controls\BanditRibbon.xaml.cs">
       <DependentUpon>BanditRibbon.xaml</DependentUpon>
     </Compile>
@@ -2506,6 +2521,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="WinGui\AllDictionaries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Core\RssBanditApplication.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2519,6 +2538,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WinGui\Forms\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinGui\Views\CategorizedFeedSourceViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinGui\Views\MainWindowViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinGui\Views\TreeNodeViewModelBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -31,7 +31,7 @@ namespace RssBandit
 	/// </summary>
 	internal class UACManager
 	{
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(UACManager));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(UACManager));
 
 		static readonly Dictionary<ElevationRequiredAction, string> _actions = new Dictionary<ElevationRequiredAction, string>(3);
 		

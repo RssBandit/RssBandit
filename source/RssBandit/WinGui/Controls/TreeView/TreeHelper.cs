@@ -772,7 +772,7 @@ namespace RssBandit.WinGui.Controls
             }
             catch (Exception reflectionIssue)
             {
-                Log.Error("InvokeDoVerticalScroll() reflection issue", reflectionIssue);
+                DefaultLog.Error("InvokeDoVerticalScroll() reflection issue", reflectionIssue);
             }
             // we did handled the event:
             return true;

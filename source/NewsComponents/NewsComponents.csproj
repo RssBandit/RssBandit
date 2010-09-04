@@ -209,6 +209,16 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.CoreEx">
+      <Name>System.CoreEx</Name>
+      <HintPath>..\Common\Libraries\System.CoreEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Interactive">
+      <Name>System.Interactive</Name>
+      <HintPath>..\Common\Libraries\System.Interactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -576,7 +586,6 @@
     <None Include="..\rssbandit.org.snk">
       <Link>rssbandit.org.snk</Link>
     </None>
-    <None Include="Properties\DataSources\System.Xml.XmlElement.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\facebook-newsfeed-2-atom.xslt" />

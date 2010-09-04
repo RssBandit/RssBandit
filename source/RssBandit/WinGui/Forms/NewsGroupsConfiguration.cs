@@ -47,7 +47,7 @@ namespace RssBandit.WinGui.Forms
 	{
 		public event EventHandler DefinitionsModified;
 
-		private static readonly log4net.ILog _log  = Common.Logging.Log.GetLogger(typeof(NewsgroupsConfiguration));
+		private static readonly log4net.ILog _log  = Common.Logging.DefaultLog.GetLogger(typeof(NewsgroupsConfiguration));
 		private static int unnamedUserIdentityCounter;
 		private static int unnamedNntpServerCounter;
 

@@ -12,7 +12,7 @@ namespace RssBandit
 {
     internal class ApplicationExceptionHandler
     {
-        private static readonly ILog _log = Log.GetLogger(typeof(ApplicationExceptionHandler));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(ApplicationExceptionHandler));
 
    
 
@@ -56,7 +56,7 @@ namespace RssBandit
             {
                 try
                 {
-                    Log.Fatal("Exception on publish AppDomainException.", fatal);
+                    DefaultLog.Fatal("Exception on publish AppDomainException.", fatal);
                     MessageBox.Show("Fatal Error: " + fatal.Message, "Fatal Error", MessageBoxButtons.OK,
                                     MessageBoxIcon.Stop);
                 }

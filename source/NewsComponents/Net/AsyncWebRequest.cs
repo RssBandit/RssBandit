@@ -85,7 +85,7 @@ namespace NewsComponents.Net
         /// </summary>
         public static readonly DateTime MinValue = new DateTime(1981, 1, 1);
 
-        private static readonly ILog _log = Log.GetLogger(typeof(AsyncWebRequest));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(AsyncWebRequest));
 
         /// <summary>
         /// Event triggered, if a not yet accepted CertificateIssue is raised by a web request.
@@ -2286,7 +2286,7 @@ namespace NewsComponents.Net
     /// <remarks>see http://www.rendelmann.info/blog/CommentView.aspx?guid=bd99bcd5-7088-4d46-801e-c0fe622dc2e5</remarks>
     internal class HttpCookieManager
     {
-        private static readonly ILog _log = Log.GetLogger(typeof(HttpCookieManager));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(HttpCookieManager));
 
         /// <summary>
         /// Retrieves the cookie(s) from windows system and assign them to the request, 

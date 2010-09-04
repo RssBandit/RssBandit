@@ -48,32 +48,10 @@ namespace RssBandit.WinGui.Forms
 
                 Splash.Close();
 
-                this.Model.Init(); 
+                ((MainWindowViewModel)DataContext).Init(); 
                 this.Loaded -= delegate { };
             };
 
-        }
-
-
-        /// <summary>
-        /// Returns underlying view model
-        /// </summary>
-        public MainWindowViewModel Model
-        {
-            get { return (MainWindowViewModel)DataContext; }
-        }
-
-        /// <summary>
-        /// Calls/Open the newFeedDialog on the GUI thread, if required.
-        /// </summary>
-        /// <param name="newFeedUrl">Feed Url to add</param>
-        public void AddFeedUrlSynchronized(string newFeedUrl)
-        {
-            this.Dispatcher.Invoke(new Action(delegate
-            {
-                this.Model.SubscribeRssFeed(newFeedUrl); 
-            })
-            );
         }
         
     }

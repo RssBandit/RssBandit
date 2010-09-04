@@ -117,7 +117,7 @@ namespace NewsComponents.Search
 		private readonly PriorityQueue pendingIndexOperations = new PriorityQueue(); 
 
 		// logging/tracing:
-		private static readonly ILog _log = Log.GetLogger(typeof(LuceneIndexModifier));	
+		private static readonly ILog _log = DefaultLog.GetLogger(typeof(LuceneIndexModifier));	
 		private static readonly LuceneInfoWriter _logHelper = new LuceneInfoWriter(_log); 
 
 		protected internal IndexWriter indexWriter;

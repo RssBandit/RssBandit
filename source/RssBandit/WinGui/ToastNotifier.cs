@@ -39,7 +39,7 @@ namespace RssBandit.WinGui
 		#region private variables
 		private const int TOASTWINDOW_HEIGHT = 145;
 		private const int TOASTWINDOW_OFFSET = 2;
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditApplication));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(RssBanditApplication));
 
 	    private UltraDesktopAlert alertWindow;
 		private readonly ItemActivateCallback _itemActivateCallback;

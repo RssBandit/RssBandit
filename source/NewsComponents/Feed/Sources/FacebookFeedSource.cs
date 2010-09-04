@@ -134,7 +134,7 @@ namespace NewsComponents.Feed
         private static DateTime unixEpoch = new DateTime(1970, 1, 1);
 
         // logging/tracing:
-        private static readonly ILog _log = Log.GetLogger(typeof(GoogleReaderFeedSource));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(GoogleReaderFeedSource));
 
         #endregion 
 

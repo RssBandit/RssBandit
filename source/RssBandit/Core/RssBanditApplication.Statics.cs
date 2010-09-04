@@ -265,17 +265,17 @@ namespace RssBandit
             }
         }
 
-		/// <summary>
-		/// Gets the search index behavior.
-		/// </summary>
-		/// <value>The search index behavior.</value>
-		public static SearchIndexBehavior SearchIndexBehavior
-		{
-			get
-			{
-				return searchIndexBehavior;
-			}
-		}
+        /// <summary>
+        /// Gets the search index behavior.
+        /// </summary>
+        /// <value>The search index behavior.</value>
+        public static SearchIndexBehavior SearchIndexBehavior
+        {
+            get
+            {
+                return searchIndexBehavior;
+            }
+        }
 
         private static string ApplicationDataFolderFromEnv
         {
@@ -287,25 +287,25 @@ namespace RssBandit
                     if (!string.IsNullOrEmpty(appDataFolderPath))
                     {
                         appDataFolderPath = Environment.ExpandEnvironmentVariables(appDataFolderPath);
-						
-						if (!Path.IsPathRooted(appDataFolderPath))
-						{
-							// expand a relative path to be relative to the executable:
-							appDataFolderPath = Path.Combine(
-								Path.GetDirectoryName(Application.ExecutablePath), appDataFolderPath);
-						}
-						else
-						{
-							// here we can get "\folder", or also "\\server\shared\folder" or "D:\data\folder"
-							// for portable app support we resolve "\folder" to AppExe root drive + folder:
-							if (appDataFolderPath.StartsWith(@"\") && 
-								!appDataFolderPath.StartsWith(@"\\"))
-								// we have to cut the leading slash off (Path.Combine don't like it):
-								appDataFolderPath =
-									Path.Combine(Path.GetPathRoot(Application.ExecutablePath), 
-									appDataFolderPath.Substring(1));
-						}
-					}
+                        
+                        if (!Path.IsPathRooted(appDataFolderPath))
+                        {
+                            // expand a relative path to be relative to the executable:
+                            appDataFolderPath = Path.Combine(
+                                Path.GetDirectoryName(Application.ExecutablePath), appDataFolderPath);
+                        }
+                        else
+                        {
+                            // here we can get "\folder", or also "\\server\shared\folder" or "D:\data\folder"
+                            // for portable app support we resolve "\folder" to AppExe root drive + folder:
+                            if (appDataFolderPath.StartsWith(@"\") && 
+                                !appDataFolderPath.StartsWith(@"\\"))
+                                // we have to cut the leading slash off (Path.Combine don't like it):
+                                appDataFolderPath =
+                                    Path.Combine(Path.GetPathRoot(Application.ExecutablePath), 
+                                    appDataFolderPath.Substring(1));
+                        }
+                    }
                     else
                     {
                         try
@@ -326,18 +326,18 @@ namespace RssBandit
     // Keep debug path separate
                     appDataFolderPath = Path.Combine(appDataFolderPath, "Debug");
 #endif
-					try
-					{
-						if (!Directory.Exists(appDataFolderPath))
-							Directory.CreateDirectory(appDataFolderPath);
-					}
-					catch (IOException ioEx)
-					{
-						MessageBox.Show(String.Format(
-							"Cannot access/create data directory:\r\n{0}\r\n\r\nError was: \n{1}", appDataFolderPath, ioEx.Message),
-							"Critical IO error");
-						Application.Exit();
-					}
+                    try
+                    {
+                        if (!Directory.Exists(appDataFolderPath))
+                            Directory.CreateDirectory(appDataFolderPath);
+                    }
+                    catch (IOException ioEx)
+                    {
+                        MessageBox.Show(String.Format(
+                            "Cannot access/create data directory:\r\n{0}\r\n\r\nError was: \n{1}", appDataFolderPath, ioEx.Message),
+                            "Critical IO error");
+                        Application.Exit();
+                    }
                 }
 
                 return appDataFolderPath;
@@ -409,18 +409,18 @@ namespace RssBandit
         {
             return ApplicationDataFolderFromEnv;
         }
-		
-		public static string GetLocalUserPath()
-		{
-			return ApplicationLocalDataFolderFromEnv;
-		}
+        
+        public static string GetLocalUserPath()
+        {
+            return ApplicationLocalDataFolderFromEnv;
+        }
 
-		public static string GetUserPersonalPath()
-		{
-			string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			string s = Path.Combine(mydocs, applicationName);
-			return s;
-		}
+        public static string GetUserPersonalPath()
+        {
+            string mydocs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string s = Path.Combine(mydocs, applicationName);
+            return s;
+        }
 
         public static string GetSearchesPath()
         {
@@ -439,17 +439,17 @@ namespace RssBandit
 
         public static string GetDefaultEnclosuresPath()
         {
-			string mydocs = GetUserPersonalPath();
+            string mydocs = GetUserPersonalPath();
             string s = Path.Combine(mydocs, "My Downloaded Files");
             return s;
         }
-		
-		public static string GetDefaultPodcastPath()
-		{
-			string mydocs = GetDefaultEnclosuresPath();
-			string s = Path.Combine(mydocs, "Podcasts");
-			return s;
-		}
+        
+        public static string GetDefaultPodcastPath()
+        {
+            string mydocs = GetDefaultEnclosuresPath();
+            string s = Path.Combine(mydocs, "Podcasts");
+            return s;
+        }
 
         public static string GetPlugInPath()
         {
@@ -457,20 +457,20 @@ namespace RssBandit
             if (!Directory.Exists(s)) return null;
             return s;
         }
-		
-		public static string GetPlugInRelativePath()
-		{
-			string s = Path.Combine(Application.StartupPath, "plugins");
-			if (!Directory.Exists(s)) return null;
-			return "plugins";
-		}
+        
+        public static string GetPlugInRelativePath()
+        {
+            string s = Path.Combine(Application.StartupPath, "plugins");
+            if (!Directory.Exists(s)) return null;
+            return "plugins";
+        }
 
-		public static string GetAddInInRelativePath()
-		{
-			string s = Path.Combine(Application.StartupPath, "addins");
-			if (!Directory.Exists(s)) return null;
-			return "addins";
-		}
+        public static string GetAddInInRelativePath()
+        {
+            string s = Path.Combine(Application.StartupPath, "addins");
+            if (!Directory.Exists(s)) return null;
+            return "addins";
+        }
 
         public static string GetSearchIndexPath()
         {
@@ -650,14 +650,14 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), ".settings" + clr + ".xml");
         }
 
-		/// <summary>
-		/// Gets the name of the feed sources file.
-		/// </summary>
-		/// <returns></returns>
-		public static string GetFeedSourcesFileName()
-		{
-			return Path.Combine(GetUserPath(), "feedsources.xml");
-		}
+        /// <summary>
+        /// Gets the name of the feed sources file.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFeedSourcesFileName()
+        {
+            return Path.Combine(GetUserPath(), "feedsources.xml");
+        }
 
         /// <summary>
         /// Gets the name of the feed list file.
@@ -830,7 +830,7 @@ namespace RssBandit
         public static void FeedListValidationCallback(object sender,
                                                       ValidationEventArgs args)
         {
-			//Note: seems to be not called anymore...
+            //Note: seems to be not called anymore...
             if (args.Severity == XmlSeverityType.Warning)
             {
                 _log.Info(GetFeedListFileName() + " validation warning: " + args.Message);
@@ -965,74 +965,74 @@ namespace RssBandit
             return new FeedRequestException(e.Message, e, FeedSource.CreateFailureContext(f, fi));
         }
 
-		/// <summary>
-		/// Helper to create a wrapped Exception, that provides more error infos for a feed
-		/// </summary>
-		/// <param name="e">The exception.</param>
-		/// <param name="f">The feed.</param>
-		/// <param name="entry">The entry.</param>
-		/// <returns></returns>
-		static FeedRequestException CreateLocalFeedRequestException(Exception e, INewsFeed f, FeedSourceEntry entry)
-		{
-			if (entry != null)
-				return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(f));
-			return new FeedRequestException(e.Message, e, new Hashtable());
-		}
+        /// <summary>
+        /// Helper to create a wrapped Exception, that provides more error infos for a feed
+        /// </summary>
+        /// <param name="e">The exception.</param>
+        /// <param name="f">The feed.</param>
+        /// <param name="entry">The entry.</param>
+        /// <returns></returns>
+        static FeedRequestException CreateLocalFeedRequestException(Exception e, INewsFeed f, FeedSourceEntry entry)
+        {
+            if (entry != null)
+                return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(f));
+            return new FeedRequestException(e.Message, e, new Hashtable());
+        }
 
-		/// <summary>
-		/// Helper to create a wrapped Exception, that provides more error infos for a feed
-		/// </summary>
-		/// <param name="e">Exception</param>
-		/// <param name="feedUrl">feed Url</param>
-		/// <param name="entry">The entry.</param>
-		/// <returns></returns>
-		private static FeedRequestException CreateLocalFeedRequestException(Exception e, string feedUrl, FeedSourceEntry entry)
-		{
-			if (!string.IsNullOrEmpty(feedUrl) && entry != null)
-				return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(feedUrl));
+        /// <summary>
+        /// Helper to create a wrapped Exception, that provides more error infos for a feed
+        /// </summary>
+        /// <param name="e">Exception</param>
+        /// <param name="feedUrl">feed Url</param>
+        /// <param name="entry">The entry.</param>
+        /// <returns></returns>
+        private static FeedRequestException CreateLocalFeedRequestException(Exception e, string feedUrl, FeedSourceEntry entry)
+        {
+            if (!string.IsNullOrEmpty(feedUrl) && entry != null)
+                return new FeedRequestException(e.Message, e, entry.Source.GetFailureContext(feedUrl));
 
-			return new FeedRequestException(e.Message, e, new Hashtable());
-		}
-		/// <summary>
-		/// Reads an app settings entry. Can be used to init the command line
-		/// ivars with settings from a App.config or User.App.config.
-		/// Preferred calls should be located in the constructor to init the
-		/// ivars, so user provided command line params can override that
-		/// initialization.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="name">The name of the entry.</param>
-		/// <param name="defaultValue">The default value.</param>
-		/// <returns>Value read or defaultValue</returns>
-		/// <exception cref="ConfigurationErrorsException">On type conversion failures</exception>
-		public static T ReadAppSettingsEntry<T>(string name, T defaultValue)
-		{
-			try
-			{
-				return NewsComponents.Utils.Common.Configuration.ReadAppSettingsEntry(name, defaultValue);
-			} 
-			catch (Exception ex)
-			{
-				throw new ConfigurationErrorsException(ex.Message, ex, "RssBandit.exe.config", 0);
-			}
-		}
+            return new FeedRequestException(e.Message, e, new Hashtable());
+        }
+        /// <summary>
+        /// Reads an app settings entry. Can be used to init the command line
+        /// ivars with settings from a App.config or User.App.config.
+        /// Preferred calls should be located in the constructor to init the
+        /// ivars, so user provided command line params can override that
+        /// initialization.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The name of the entry.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>Value read or defaultValue</returns>
+        /// <exception cref="ConfigurationErrorsException">On type conversion failures</exception>
+        public static T ReadAppSettingsEntry<T>(string name, T defaultValue)
+        {
+            try
+            {
+                return NewsComponents.Utils.Common.Configuration.ReadAppSettingsEntry(name, defaultValue);
+            } 
+            catch (Exception ex)
+            {
+                throw new ConfigurationErrorsException(ex.Message, ex, "RssBandit.exe.config", 0);
+            }
+        }
 
-		/// <summary>
-		/// Retrives the assembly informational version (from the AssemblyInformationalVersionAttribute).
-		/// </summary>
-		/// <param name="assembly">Assembly</param>
-		/// <returns>String. It is empty if no description was found.</returns>
-		public static string GetAssemblyInformationalVersion(Assembly assembly)
-		{
-			object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
-			if (attributes.Length > 0)
-			{
-				string ad = ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
-				if (!string.IsNullOrEmpty(ad))
-					return ad;
-			}
-			return String.Empty;
-		}
+        /// <summary>
+        /// Retrives the assembly informational version (from the AssemblyInformationalVersionAttribute).
+        /// </summary>
+        /// <param name="assembly">Assembly</param>
+        /// <returns>String. It is empty if no description was found.</returns>
+        public static string GetAssemblyInformationalVersion(Assembly assembly)
+        {
+            object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+            if (attributes.Length > 0)
+            {
+                string ad = ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
+                if (!string.IsNullOrEmpty(ad))
+                    return ad;
+            }
+            return String.Empty;
+        }
         #endregion
     }
 }

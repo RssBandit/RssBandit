@@ -356,7 +356,7 @@ namespace NewsComponents
 		class SettingStore: IPersistedSettings 
 		{
 			private readonly string settingsRoot;
-			private static readonly ILog _log = Logger.Log.GetLogger(typeof(SettingStore));
+			private static readonly ILog _log = Logger.DefaultLog.GetLogger(typeof(SettingStore));
 
 			
 			public SettingStore(string appID) {

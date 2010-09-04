@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
+                    xmlns:ViewModel="clr-namespace:RssBandit.WinGui.ViewModel"
+                    xmlns:b="clr-namespace:RssBandit.WinGui.Behaviors">
+    
+    <DataTemplate DataType="{x:Type ViewModel:MainWindowViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TreeView Name="tree" Grid.Column="0"
+                ItemsSource="{Binding FeedSources.Sources}"
+                b:SelectedItemProxy.SelectedItemInput="{Binding ElementName=tree, Path=SelectedItem}"
+                b:SelectedItemProxy.SelectedItem="{Binding SelectedTreeNodeItem, Mode=OneWayToSource}"
+                      >
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <!-- used also to display expanded folder image(s) -->
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+            <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
+            <StackPanel Grid.Column="1">
+                <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello#}"></Button>
+                <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

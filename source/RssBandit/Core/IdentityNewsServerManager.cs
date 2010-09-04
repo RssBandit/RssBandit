@@ -40,7 +40,7 @@ namespace RssBandit
 		public event EventHandler IdentityDefinitionsModified;
 
 		// logging/tracing:
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(IdentityNewsServerManager));
+		private static readonly log4net.ILog _log = Common.Logging.DefaultLog.GetLogger(typeof(IdentityNewsServerManager));
 
 		private static UserIdentity anonymous;
 

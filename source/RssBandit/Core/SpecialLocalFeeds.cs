@@ -399,7 +399,7 @@ namespace RssBandit.SpecialFeeds
 			}
 			catch (Exception ex)
 			{
-				Log.Fatal("ExceptionManager.Save() failed", ex);
+				DefaultLog.Fatal("ExceptionManager.Save() failed", ex);
 			}
 		}
 
@@ -419,7 +419,7 @@ namespace RssBandit.SpecialFeeds
 			}
 			catch (Exception ex)
 			{
-				Log.Fatal("ExceptionManager.Save() failed", ex);
+				DefaultLog.Fatal("ExceptionManager.Save() failed", ex);
 			}
 		}
 
@@ -792,7 +792,7 @@ namespace RssBandit.SpecialFeeds
 		/// <summary>
 		/// Logger instance
 		/// </summary>
-		protected static readonly ILog _log = Log.GetLogger(typeof(LocalFeedsFeed));
+		protected static readonly ILog _log = DefaultLog.GetLogger(typeof(LocalFeedsFeed));
 
 		/// <summary>
 		/// Set this to true, to indicate a item migration is required.

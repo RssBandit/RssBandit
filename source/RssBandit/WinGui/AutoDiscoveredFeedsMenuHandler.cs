@@ -423,7 +423,7 @@ namespace RssBandit.WinGui
 				DiscoveredFeedsSubscribe(this, ea);
 				cancel = ea.Cancel;
 			} catch (Exception ex) {
-				Log.Error("DiscoveredFeedsSubscribe() event causes an exception", ex);
+				DefaultLog.Error("DiscoveredFeedsSubscribe() event causes an exception", ex);
 			}
 			return cancel;
 		}
@@ -432,7 +432,7 @@ namespace RssBandit.WinGui
 			if (NewFeedsDiscovered != null) try {
 				NewFeedsDiscovered(this, new DiscoveredFeedsInfoEventArgs(feedInfo));
 			} catch (Exception ex) {
-				Log.Error("NewFeedsDiscovered() event causes an exception", ex);
+				DefaultLog.Error("NewFeedsDiscovered() event causes an exception", ex);
 			}
 		}
 		

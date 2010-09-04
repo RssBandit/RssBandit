@@ -53,7 +53,7 @@ namespace NewsComponents.Feed
     /// </summary>
     public class RssParser
     {
-        private static readonly ILog _log = Log.GetLogger(typeof (RssParser));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (RssParser));
 
 
         /// <summary>

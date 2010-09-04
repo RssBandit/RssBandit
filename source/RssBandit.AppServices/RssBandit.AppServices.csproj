@@ -129,6 +129,16 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.CoreEx">
+      <Name>System.CoreEx</Name>
+      <HintPath>..\Common\Libraries\System.CoreEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Interactive">
+      <Name>System.Interactive</Name>
+      <HintPath>..\Common\Libraries\System.Interactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -141,6 +151,7 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddIn\AddInBase.cs">
@@ -168,6 +179,7 @@
     <Compile Include="Core\EventsAndDelegates.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\IApplicationContext.cs" />
     <Compile Include="Core\ICoreApplication.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -182,13 +194,18 @@
     <Compile Include="Core\IRelation.cs" />
     <Compile Include="Core\ISearchEngine.cs" />
     <Compile Include="Core\ISharedProperty.cs" />
+    <Compile Include="Core\ITreeNodeViewModelBase.cs" />
     <Compile Include="Core\IUserIdentity.cs" />
     <Compile Include="Core\IUserPreferences.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\ModelBase.cs" />
     <Compile Include="Core\NewsComponentEnums.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\CollectionChangedObserver.cs" />
+    <Compile Include="Util\CollectionObserver.cs" />
+    <Compile Include="Util\NotificationExtensions.cs" />
     <Compile Include="Core\RssBanditEnums.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -199,6 +216,8 @@
     <Compile Include="UI\WindowManagementInterfaces.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\PropertyObserver.cs" />
+    <Compile Include="Util\WeakEventHandler.cs" />
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>

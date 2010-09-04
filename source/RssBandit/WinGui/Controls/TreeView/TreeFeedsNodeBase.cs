@@ -47,7 +47,7 @@ namespace RssBandit.WinGui.Controls
 		private object			_initialImage, _initialExpandedImage;
 		private int             _imageIndex, _selectedImageIndex;
 
-		private static readonly ILog _log = Log.GetLogger(typeof(TreeFeedsNodeBase));
+		private static readonly ILog _log = DefaultLog.GetLogger(typeof(TreeFeedsNodeBase));
 
 		private static Image	_clickableAreaExtenderImage;
 		#region ctor's

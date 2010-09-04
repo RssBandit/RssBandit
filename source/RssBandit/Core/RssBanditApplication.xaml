@@ -1,17 +1,13 @@
 ﻿<Application x:Class="RssBandit.RssBanditApplication"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions" 
     xmlns:RssBandit="clr-namespace:RssBandit">
     <Application.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <RssBandit:ResourceAccess x:Key="Strings" />
-                </ResourceDictionary>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/WinGui/AllDictionaries.xaml" />
             </ResourceDictionary.MergedDictionaries>
-			
-		</ResourceDictionary>
+        </ResourceDictionary>
     </Application.Resources>
     <JumpList.JumpList>
         <JumpList>

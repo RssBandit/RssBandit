@@ -32,7 +32,7 @@ namespace NewsComponents.Net
     {
         #region Declarations
 
-        private static readonly ILog Logger = Log.GetLogger(typeof (BITSDownloader));
+        private static readonly ILog Logger = DefaultLog.GetLogger(typeof (BITSDownloader));
 
         /// <summary>
         /// This is used to wait for some time between checking the download status to avoid CPU consumtion.

@@ -114,7 +114,7 @@ namespace NewsComponents.Feed
 
 
         // logging/tracing:
-        private static readonly ILog _log = Log.GetLogger(typeof(NewsGatorFeedSource));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof(NewsGatorFeedSource));
 
 
         /// <summary>

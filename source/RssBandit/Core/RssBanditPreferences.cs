@@ -80,7 +80,7 @@ namespace RssBandit {
 
 		#region other instance variables
 
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditPreferences));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(RssBanditPreferences));
 		
         //new 2.0.x
 		private int refreshRate = FeedSource.DefaultRefreshRate;	

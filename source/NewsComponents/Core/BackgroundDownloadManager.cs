@@ -173,7 +173,7 @@ namespace NewsComponents
         /// <summary>
         /// Used for logging information about download progress.
         /// </summary>
-        private static readonly ILog _log = Log.GetLogger(typeof (BackgroundDownloadManager));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (BackgroundDownloadManager));
 
 
         /// <summary>

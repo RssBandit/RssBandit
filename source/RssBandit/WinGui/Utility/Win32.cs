@@ -1537,7 +1537,7 @@ namespace RssBandit
 		internal class WindowsRegistry : IRegistry
 		{
 			
-			private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(Registry));
+			private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(Registry));
             private readonly static string BanditSettings;
 			private readonly static string BanditKey = "RssBandit";
 
@@ -2524,7 +2524,7 @@ namespace RssBandit
 
 		}
 
-		private static readonly log4net.ILog _log = Log.GetLogger(typeof(Win32));
+		private static readonly log4net.ILog _log = DefaultLog.GetLogger(typeof(Win32));
 		private static int _paintFrozen;
 		private static readonly OperatingSystem _os;
 

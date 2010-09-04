@@ -8,43 +8,47 @@
  */
 #endregion
 
-using System.Collections.ObjectModel;
-using RssBandit.WinGui.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using RssBandit.AppServices;
+using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
-    public abstract class TreeNodeViewModelBase : ViewModelBase
+   public abstract class TreeNodeViewModelBase : ModelBase, ITreeNodeViewModelBase
     {
+        protected CategorizedFeedSourceViewModel BaseFeedSource;
+        protected string BaseImage;
+        protected TreeNodeViewModelBase BaseParent;
+        protected bool m_hasCustomIcon;
+        private bool _anyNewComments;
+        private bool _anyUnread;
         private ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
+        private bool _editable;
         private bool _isExpanded;
         private bool _isSelected;
-        private bool _editable, _anyUnread, _anyNewComments;
-        protected bool m_hasCustomIcon;
-        private int _unreadCount;        
-        
-        protected CategorizedFeedSourceViewModel BaseFeedSource;
-        protected TreeNodeViewModelBase BaseParent;
-        protected string BaseImage;
-
+        private int _unreadCount;
 
         /// <summary>
-        /// Gets raised, if the node's read counter reach zero
+        ///   The category of the node.
         /// </summary>
-        public event EventHandler ReadCounterZero;
-	
+        public abstract string Category { get; set; }
 
         /// <summary>
-        /// The name of the tree node
+        ///   The child nodes
         /// </summary>
-        public abstract string Name
+        public virtual ObservableCollection<TreeNodeViewModelBase> Children
         {
-            get;
-            set;
+            get { return _children; }
+            set { _children = value; }
         }
 
         /// <summary>
-        /// The image that represents the current state of the tree node
+        ///   The image that represents the current state of the tree node
         /// </summary>
         public virtual string Image
         {
@@ -52,12 +56,12 @@ namespace RssBandit.WinGui.ViewModel
             set
             {
                 BaseImage = value;
-                OnPropertyChanged("Image");
+                OnPropertyChanged(() => Image);
             }
         }
 
         /// <summary>
-        /// Indicates whether the tree node is expanded
+        ///   Indicates whether the tree node is expanded
         /// </summary>
         public virtual bool IsExpanded
         {
@@ -67,13 +71,13 @@ namespace RssBandit.WinGui.ViewModel
                 if (_isExpanded != value)
                 {
                     _isExpanded = value;
-                    OnPropertyChanged("IsExpanded");
+                    OnPropertyChanged(() => IsExpanded);
                 }
             }
         }
 
         /// <summary>
-        /// Indicates whether the tree node is selected
+        ///   Indicates whether the tree node is selected
         /// </summary>
         public virtual bool IsSelected
         {
@@ -83,23 +87,19 @@ namespace RssBandit.WinGui.ViewModel
                 if (_isSelected != value)
                 {
                     _isSelected = value;
-                    OnPropertyChanged("IsSelected");
-                    RssBanditApplication.MainWindow.Model.OnTreeModelSelectionChanged(this, value);
+                    OnPropertyChanged(() => IsSelected);
+                    RssBanditApplication.Current.ContextInternal.SelectedNode = this;
                 }
             }
         }
 
         /// <summary>
-        /// The child nodes
+        ///   The name of the tree node
         /// </summary>
-        public virtual ObservableCollection<TreeNodeViewModelBase> Children
-        {
-            get { return _children; }
-            set { _children = value; }
-        }
+        public abstract string Name { get; set; }
 
         /// <summary>
-        /// The parent node
+        ///   The parent node
         /// </summary>
         public virtual TreeNodeViewModelBase Parent
         {
@@ -108,15 +108,7 @@ namespace RssBandit.WinGui.ViewModel
         }
 
         /// <summary>
-        /// The category of the node. 
-        /// </summary>
-        public abstract string Category
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// The owning feed source view model
+        ///   The owning feed source view model
         /// </summary>
         public virtual CategorizedFeedSourceViewModel Source
         {
@@ -125,31 +117,17 @@ namespace RssBandit.WinGui.ViewModel
 
 
         /// <summary>
-        /// Indicates the type of the node
+        ///   Indicates the type of the node
         /// </summary>
-        public FeedNodeType Type
-        {
-            get;
-            protected set; 
-        }
+        public FeedNodeType Type { get; protected set; }
 
 
         /// <summary>
-        /// Callback invoked to indicate notify the UI that this item has no more unread items
-        /// </summary>
-        private void RaiseReadCounterZero()
-        {
-            if (this.ReadCounterZero != null)
-                this.ReadCounterZero(this, EventArgs.Empty);
-        }
-
-
-        /// <summary>
-        /// AnyUnread and UnreadCount are working interconnected:
-        /// if you set UnreadCount to non zero, AnyUnread will be set to true and
-        /// then updates the visualized info to use the Unread Font and 
-        /// read counter state info. If UnreadCount is set to zero,
-        /// also AnyUnread is reset to false and refresh the caption to default.
+        ///   AnyUnread and UnreadCount are working interconnected:
+        ///   if you set UnreadCount to non zero, AnyUnread will be set to true and
+        ///   then updates the visualized info to use the Unread Font and 
+        ///   read counter state info. If UnreadCount is set to zero,
+        ///   also AnyUnread is reset to false and refresh the caption to default.
         /// </summary>
         public virtual int UnreadCount
         {
@@ -161,12 +139,26 @@ namespace RssBandit.WinGui.ViewModel
                     _unreadCount = value;
                     _anyUnread = (_unreadCount > 0);
 
-                  //  InvalidateNode();
+                    //  InvalidateNode();
 
                     if (_unreadCount == 0)
                         RaiseReadCounterZero();
                 }
             }
         }
+
+        /// <summary>
+        ///   Callback invoked to indicate notify the UI that this item has no more unread items
+        /// </summary>
+        private void RaiseReadCounterZero()
+        {
+            if (ReadCounterZero != null)
+                ReadCounterZero(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        ///   Gets raised, if the node's read counter reach zero
+        /// </summary>
+        public event EventHandler ReadCounterZero;
     }
 }

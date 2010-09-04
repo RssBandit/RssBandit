@@ -31,7 +31,7 @@ namespace RssBandit.WebSearch
 			this.LoadSearchConfigSchema(); 
 		}
 
-		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(SearchEngineHandler));
+		private static readonly log4net.ILog _log = Logger.DefaultLog.GetLogger(typeof(SearchEngineHandler));
 
 		/// <summary>
 		/// Holds the search engines.

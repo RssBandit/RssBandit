@@ -108,7 +108,7 @@ namespace RssBandit.WinGui.Forms
         /// </remarks>
         private const int _currentExplorerBarVersion = 1;
 
-        private static readonly ILog _log = Log.GetLogger(typeof (WinGuiMain));
+        private static readonly ILog _log = DefaultLog.GetLogger(typeof (WinGuiMain));
 
         private readonly History _feedItemImpressionHistory;
         private bool _navigationActionInProgress;

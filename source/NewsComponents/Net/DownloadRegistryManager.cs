@@ -39,7 +39,7 @@ namespace NewsComponents.Net
         /// </summary>
         private static readonly DownloadRegistryManager instance = new DownloadRegistryManager();
 
-        private static readonly ILog Logger = Log.GetLogger(typeof (DownloadRegistryManager));
+        private static readonly ILog Logger = DefaultLog.GetLogger(typeof (DownloadRegistryManager));
 
         private SynchronizationContext _context;
 

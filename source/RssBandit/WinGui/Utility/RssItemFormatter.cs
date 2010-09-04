@@ -132,7 +132,7 @@ namespace RssBandit.WinGui.Utility
 			}
 			catch (Exception e)
 			{
-				Log.Error("AddXslStyleSheet() caused unexpected error", e);
+				DefaultLog.Error("AddXslStyleSheet() caused unexpected error", e);
 			}
 		}
 
