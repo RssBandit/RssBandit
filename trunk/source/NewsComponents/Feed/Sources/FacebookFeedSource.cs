@@ -37,7 +37,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Sets the current auth token to be used for Facebook API requests. 
         /// </summary>
-        ///<param name="item">The Facebook API application auth token</param>   
+        ///<param name="authToken">The Facebook API application auth token</param>   
         void SetAuthToken(string authToken);   
 
          /// <summary>
@@ -424,8 +424,8 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Sets the current application auth token to be used for Facebook API requests. 
         /// </summary>
-        ///<param name="item">The Facebook API auth token</param>   
-        public void SetAuthToken(string authToken)
+        ///<param name="token">The Facebook API auth token</param>   
+        public void SetAuthToken(string token)
         {
             if (!string.IsNullOrEmpty(authToken))
             {

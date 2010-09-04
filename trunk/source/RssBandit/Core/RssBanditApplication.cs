@@ -1339,7 +1339,7 @@ namespace RssBandit
 
 		private void OnBackgroundNewFeedsDiscovered(object sender, DiscoveredFeedsInfoEventArgs e)
 		{
-			// currently we just play a sound.
+			// currently we just play a sound
 			// But we could also display a tooltip at the command button
 			// to indicate new feeds detected here
 			Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);

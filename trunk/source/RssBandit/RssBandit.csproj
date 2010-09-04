@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{68909A87-203D-4DF1-84F9-151EBE7CA15C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,8 +32,7 @@
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -273,6 +272,7 @@
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -280,9 +280,6 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib">
-      <Name>mscorlib</Name>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\Common\Libraries\Ninject.dll</HintPath>
@@ -347,6 +344,7 @@
       <Link>rssbandit.org.snk</Link>
     </None>
     <None Include="app.config">
+      <SubType>Designer</SubType>
     </None>
     <Compile Include="Converters\BytesToMegabytesConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />

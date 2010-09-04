@@ -28,7 +28,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
-[assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 
 // MSDN Magazine July 2002, p. 94: marks our bundled resources as

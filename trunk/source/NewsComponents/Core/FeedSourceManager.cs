@@ -880,7 +880,6 @@ namespace NewsComponents
 
 
         /// <summary>
-        /// <summary>
         /// Notify the user interface that the search has finished
         /// </summary>
         /// <param name="tag"></param>

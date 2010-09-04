@@ -1495,6 +1495,7 @@ namespace NewsComponents.Feed
         }
 
 
+        /// <summary>
         /// Reads the RSS feed from the stream then caches and returns the feed items 
         /// in an array list.
         /// </summary>
