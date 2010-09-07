@@ -8,282 +8,182 @@
  */
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using NewsComponents;
 using NewsComponents.Feed;
-using NewsComponents.Utils;
-using System.Globalization;
-using RssBandit.WinGui.Interfaces;
+using RssBandit.Util;
 
 namespace RssBandit.WinGui.ViewModel
 {
-    public class CategorizedFeedSourceViewModel : TreeNodeViewModelBase//ViewModelBase
+    [DebuggerDisplay("Name = {Name}")]
+    public class CategorizedFeedSourceViewModel : TreeNodeViewModelBase, IFolderHolderNode
     {
+        private readonly ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
+
         /// <summary>
-        /// The underlying feed source entry 
+        ///   The underlying feed source entry
         /// </summary>
         private readonly FeedSourceEntry _entry;
 
-        /// <summary>
-        /// The children of the tree node
-        /// </summary>
-        private ObservableCollection<TreeNodeViewModelBase> _children;
 
+        private readonly ObservableCollection<FeedViewModel> _feeds = new ObservableCollection<FeedViewModel>();
+        private readonly ObservableCollection<FolderViewModel> _folders = new ObservableCollection<FolderViewModel>();
 
         /// <summary>
-        /// Constructor intializes underlying feedsource
+        ///   Constructor intializes underlying feedsource
         /// </summary>
-        /// <param name="feedSource"></param>
+        /// <param name = "feedSource"></param>
         public CategorizedFeedSourceViewModel(FeedSourceEntry feedSource)
         {
             _entry = feedSource;
+            _entry.Source.LoadFeedlist();
+
+            // Add them both into children
+            _folders.SynchronizeCollection(_children, f => f);
+            _feeds.SynchronizeCollection(_children, f => f);
+
+            Folders = new ReadOnlyObservableCollection<FolderViewModel>(_folders);
+            Feeds = new ReadOnlyObservableCollection<FeedViewModel>(_feeds);
+
+            Children = new ReadOnlyObservableCollection<TreeNodeViewModelBase>(_children);
+            
+            _entry.Source.Feeds.ListenToCollectionChanged(OnFeedsChanged);
+            _entry.Source.Feeds.Run(n => AddNewsFeed(n));
         }
 
+      
+
+        public ReadOnlyObservableCollection<TreeNodeViewModelBase> Children { get; private set; }
+        public ReadOnlyObservableCollection<FeedViewModel> Feeds { get; private set; }
+        public ReadOnlyObservableCollection<FolderViewModel> Folders { get; private set; }
 
         /// <summary>
-        /// The user provided name of the feed source
+        ///   The user provided name of the feed source
         /// </summary>
-        public override string Name {
-            get { return _entry.Name; }
-            set { _entry.Name = value; }
-        }
-
-
-        /// <summary>
-        /// The image that represents the feed source
-        /// </summary>
-        public override string Image
+        public override string Name
         {
-            get
-            {
-                switch (_entry.SourceType)
-                {
-                    case FeedSourceType.DirectAccess:
-                        return "/Resources/Images/TreeView/bandit.feedsource.16.png";
-                    case FeedSourceType.Google:
-                        return "/Resources/Images/TreeView/google.feedsource.16.png";
-                    case FeedSourceType.WindowsRSS:
-                        return "/Resources/Images/TreeView/windows.feedsource.16.png";
-                    case FeedSourceType.Facebook:
-                        return "/Resources/Images/TreeView/facebook.feedsource.16.png";
-                    case FeedSourceType.NewsGator:
-                        return "/Resources/Images/TreeView/newsgator.feedsource.16.png";
-                    default:
-                        break;
-                }
-                return base.Image;
-            }
+            get { return _entry.Name; }
             set
             {
-                base.Image = value;
+                _entry.Name = value;
+                OnPropertyChanged(() => Name);
             }
         }
 
-        /// <summary>
-        /// The children of the feed source in the tree view
-        /// </summary>
-        public override ObservableCollection<TreeNodeViewModelBase> Children
+        public FeedSourceType SourceType
         {
-            get
-            {
-                if (_children == null)
-                {
-                    _children = new ObservableCollection<TreeNodeViewModelBase>();
-
-                    _entry.Source.LoadFeedlist();
-
-                    if (_entry.Source.FeedsListOK)
-                    {
-                        ICollection<INewsFeedCategory> categories = _entry.Source.GetCategories().Values;
-                        
-                        var categoryTable = new Dictionary<string, FolderViewModel>();
-                        var categoryList = new List<INewsFeedCategory>(categories);
-
-                        foreach (var f in _entry.Source.GetFeeds().Values)
-                        {                          
-
-                            string category = (f.category ?? String.Empty);
-                            if (String.IsNullOrEmpty(category))
-                            {
-                                _children.Add(new FeedViewModel(f, null, this));
-                            }
-                            else
-                            {
-                                FolderViewModel catnode;
-                                if (!categoryTable.TryGetValue(category, out catnode))
-                                {
-                                    catnode = CreateHive(category,_children, categoryTable, this);
-                                } 
-                                
-                                catnode.Children.Add(new FeedViewModel(f, catnode, this));
-                            }
-
-                            for (int i = 0; i < categoryList.Count; i++)
-                            {
-                                if (categoryList[i].Value.Equals(category))
-                                {
-                                    categoryList.RemoveAt(i);
-                                    break;
-                                }
-                            }
-                        }
-
-                        //add categories, we not already have
-                        foreach (var c in categoryList)
-                        {
-                            if (!categoryTable.ContainsKey(c.Value))
-                                CreateHive(c.Value, _children, categoryTable, this);
-                        }
-
-                    }
-                    else
-                    {
-                        //TODO: indicate the error in the UI
-                    }
-                }
-
-                return _children;
-            }
-            set { _children = value; }
+            get { return _entry.SourceType; }
         }
 
-        /// <summary>
-        /// The category of the feed source. 
-        /// </summary>
-        /// <remarks>Always returns null</remarks>
-        public override string Category
+
+     
+
+        private void AddNewsFeed(INewsFeed feed)
+        {
+            var vm = new FeedViewModel(feed, this);
+
+            IFolderHolderNode folder = GetOrCreateFolderForCategory(feed.category);
+
+            folder.AddFeed(vm);
+        }
+
+        private IFolderHolderNode GetOrCreateFolderForCategory(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+                return this;
+
+            var catHives = new Queue<string>(category.Split(FeedSource.CategorySeparator.ToCharArray()));
+            IFolderHolderNode parent = this;
+            string parentCategory = null;
+            while (catHives.Count > 0)
+            {
+                var nodeName = catHives.Dequeue();
+                
+
+                var node = parent.Folders.FirstOrDefault(f => f.Name == nodeName);
+                if (node == null)
+                {
+                    node = new FolderViewModel(nodeName, parent.Category, this);
+                    parent.AddFolder(node);
+                }
+                
+                parentCategory += (FeedSource.CategorySeparator + nodeName);
+                parent = node;
+            }
+
+            return parent;
+
+        }
+
+        public void AddFeed(FeedViewModel feed)
+        {
+            _feeds.Add(feed);
+        }
+
+        public void AddFolder(FolderViewModel folder)
+        {
+            _folders.Add(folder);
+        }
+
+        public void RemoveFeed(FeedViewModel feed)
+        {
+            _feeds.Remove(feed);
+        }
+
+        public void RemoveFolder(FolderViewModel folder)
+        {
+            _folders.Remove(folder);
+        }
+
+
+        public string Category
         {
             get { return null; }
-            set {  }
         }
 
-        /// <summary>
-        /// Returns the current object. 
-        /// </summary>
-        public override CategorizedFeedSourceViewModel Source
+
+        private void OnFeedsChanged(INotifyCollectionChanged collection, NotifyCollectionChangedEventArgs args)
         {
-            get { return this; }
-        }
-
-        /// <summary>
-        /// Creates a FolderViewModel that represents a feed category in the tree view
-        /// </summary>
-        /// <param name="pathName">Full path or category name</param>      
-        public FolderViewModel CreateHive(string pathName)
-        {
-            TreeNodeViewModelBase target = null;
-
-            if (string.IsNullOrEmpty(pathName)) return null;
-
-            string[] catHives = pathName.Split(FeedSource.CategorySeparator.ToCharArray());
-            bool wasNew = false;
-          
-            foreach (var catHive in catHives)
+            switch (args.Action)
             {
-                TreeNodeViewModelBase n = !wasNew ? FindChildNode(catHive, FeedNodeType.Category) : null;
+                case NotifyCollectionChangedAction.Add:
+                    AddNewsFeed((INewsFeed) args.NewItems[0]);
+                    break;
 
-                if (n == null)
-                {
-                    n = new FolderViewModel(catHive, target, this);
-
-                    if (target == null)
-                        this.Children.Add(n);
-                    else
-                        target.Children.Add(n);
-
-                    wasNew = true; // shorten search
-                }
-
-               target = n;
-            } //foreach
-
-            
-            return target as FolderViewModel; 
-        }
-
-
-        /// <summary>
-        /// Find a direct child node.
-        /// </summary>
-        /// <param name="n"></param>
-        /// <param name="text"></param>
-        /// <param name="nType"></param>
-        /// <returns></returns>
-        public TreeNodeViewModelBase FindChildNode(string text, FeedNodeType nType)
-        {
-            if ( text == null) return null;
-            text = text.Trim();
-
-            foreach(TreeNodeViewModelBase t in this.Children)
-            {
-                if (t.Type == nType && String.Compare(t.Name, text, false, CultureInfo.CurrentUICulture) == 0)
-                    // node names are usually english or client locale
-                    return t;
+                case NotifyCollectionChangedAction.Remove:
+                    RemoveNewsFeed((INewsFeed) args.OldItems[0]);
+                    break;
             }
-            return null;
         }
 
-        #region static methods
-
-        /// <summary>
-        /// Creates a FolderViewModel that represents a feed category in the tree view
-        /// </summary>
-        /// <param name="pathName">Full path or category name</param>
-        /// <param name="childNodes">Child nodes of the root node in the tree view</param>
-        /// <param name="knownFolders">List of known FolderViewModel objects encountered thus far</param>
-        /// <param name="source">The feed source that owns the folder</param>
-        /// <returns></returns>
-        static FolderViewModel CreateHive(string pathName, ICollection<TreeNodeViewModelBase> childNodes, Dictionary<string, FolderViewModel> knownFolders, CategorizedFeedSourceViewModel source)
+        private void RemoveNewsFeed(INewsFeed feed)
         {
-            pathName.ExceptionIfNullOrEmpty("pathName");
+            IFolderHolderNode folder = GetOrCreateFolderForCategory(feed.category);
 
-            FolderViewModel startNode = null, previous = null;
+            var vm = folder.Feeds.FirstOrDefault(f => f.Name == feed.title);
 
-            List<string> catHives = new List<string>(pathName.Split(FeedSource.CategorySeparator.ToCharArray()));
-            bool wasNew = false;
-            StringBuilder path = new StringBuilder(pathName.Length);
-
-            for (int i = 0; i < catHives.Count; i++)
-            {
-                path.AppendFormat("{1}{0}", catHives[i], path.Length > 0 ? FeedSource.CategorySeparator : String.Empty);
-                pathName = path.ToString();
-
-                if (!knownFolders.TryGetValue(pathName, out startNode))
-                {
-
-                    if (!wasNew)
-                        startNode = (FolderViewModel)childNodes.FirstOrDefault(
-                            n => (n is FolderViewModel && n.Name.Equals(catHives[i], StringComparison.CurrentCulture)));
-
-
-                    if (startNode == null)
-                    {
-                        startNode = new FolderViewModel(catHives[i], previous, source);
-                        childNodes.Add(startNode);
-
-                        if (!knownFolders.ContainsKey(pathName))
-                            knownFolders.Add(pathName, startNode);
-
-                        wasNew = true;
-                    }
-                }
-
-                previous = startNode;
-                childNodes = startNode.Children;
-            }
-
-
-            return startNode;
+            if (vm != null)
+                folder.RemoveFeed(vm);
         }
-
-        #endregion 
-
     }
 
-    
+
+    public interface IFolderHolderNode
+    {
+        ReadOnlyObservableCollection<FolderViewModel> Folders { get; }
+        ReadOnlyObservableCollection<FeedViewModel> Feeds { get; }
+        void AddFeed(FeedViewModel feed);
+        void AddFolder(FolderViewModel folder);
+        void RemoveFeed(FeedViewModel feed);
+        void RemoveFolder(FolderViewModel folder);
+        string Category { get; }
+    }
 }

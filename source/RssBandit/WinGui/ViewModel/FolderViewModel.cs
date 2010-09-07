@@ -8,26 +8,56 @@
  */
 #endregion
 
-using NewsComponents.Utils;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using NewsComponents;
+using RssBandit.Util;
 using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel
 {
-    public class FolderViewModel : TreeNodeViewModelBase
+    [DebuggerDisplay("Name = {Name}, Category = {Category}")]
+    public class FolderViewModel : TreeNodeViewModelBase, IFolderHolderNode
     {
-
+        private readonly ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
+        private readonly ObservableCollection<FeedViewModel> _feeds = new ObservableCollection<FeedViewModel>();
+        private readonly ObservableCollection<FolderViewModel> _folders = new ObservableCollection<FolderViewModel>();
         private string _name;
-        
-        public FolderViewModel(string name, TreeNodeViewModelBase parent, CategorizedFeedSourceViewModel source)
+
+        public FolderViewModel(string name, string parentCategory, CategorizedFeedSourceViewModel source)
         {
-            name.ExceptionIfNullOrEmpty("name");
+            Contract.Requires(!string.IsNullOrEmpty(name));
+
             _name = name;
-            BaseParent = parent;
-            BaseFeedSource = source;
-            BaseImage = "/Resources/Images/TreeView/folder_closed.16.png";
+            Source = source;
+
+            if (parentCategory != null)
+                parentCategory += FeedSource.CategorySeparator;
+
+            Category = parentCategory + name;
+
             Type = FeedNodeType.Category;
+
+            // Add them both into children
+            _folders.SynchronizeCollection(_children, f => f);
+            _feeds.SynchronizeCollection(_children, f => f);
+
+            Folders = new ReadOnlyObservableCollection<FolderViewModel>(_folders);
+            Feeds = new ReadOnlyObservableCollection<FeedViewModel>(_feeds);
+
+            Children = new ReadOnlyObservableCollection<TreeNodeViewModelBase>(_children);
         }
+
+        public string Category { get; private set; }
+        public ReadOnlyObservableCollection<TreeNodeViewModelBase> Children { get; private set; }
+
+        public ReadOnlyObservableCollection<FeedViewModel> Feeds { get; private set; }
+
+        public ReadOnlyObservableCollection<FolderViewModel> Folders { get; private set; }
 
         public override string Name
         {
@@ -39,43 +69,26 @@ namespace RssBandit.WinGui.ViewModel
             }
         }
 
-        public override string Category
+        public CategorizedFeedSourceViewModel Source { get; private set; }
+
+        public void AddFeed(FeedViewModel feed)
         {
-            get { 
-                string catName = _name;
-                TreeNodeViewModelBase parent = BaseParent;
-
-                while (parent != null)
-                {
-                    catName = parent.Name + FeedSource.CategorySeparator + catName;
-                    parent  = parent.Parent; 
-                }
-
-                return catName; 
-            }
-            set { /* not required: we have the Name and the Parents to calculate it */ }
+            _feeds.Add(feed);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is expanded.
-        /// Overridden to display closed/open folder images.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is expanded; otherwise, <c>false</c>.
-        /// </value>
-        public override bool IsExpanded
+        public void AddFolder(FolderViewModel folder)
         {
-            get
-            {
-                return base.IsExpanded;
-            }
-            set
-            {
-                base.IsExpanded = value;
-                Image = value ? "/Resources/Images/TreeView/folder.16.png" :
-                    "/Resources/Images/TreeView/folder_closed.16.png";
-            }
+            _folders.Add(folder);
         }
 
+        public void RemoveFeed(FeedViewModel feed)
+        {
+            _feeds.Remove(feed);
+        }
+
+        public void RemoveFolder(FolderViewModel folder)
+        {
+            _folders.Remove(folder);
+        }
     }
 }

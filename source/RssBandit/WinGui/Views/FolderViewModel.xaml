@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:WinGui="clr-namespace:RssBandit.WinGui"
+                    xmlns:ViewModel="clr-namespace:RssBandit.WinGui.ViewModel"
+                    xmlns:Converters="clr-namespace:RssBandit.Converters">
+    <HierarchicalDataTemplate  DataType="{x:Type ViewModel:FolderViewModel}" 
+                               ItemsSource="{Binding Children, Converter={x:Static Converters:CommonConverters.NodesSortedByCategoryTitle}}">
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="folderImage" Source="{DynamicResource {x:Static WinGui:CommonImages.FolderClosedKey}}" Width="16" Height="16" Margin="0,0,5,0" />
+            <TextBlock Text="{Binding Name}" />
+        </StackPanel>
+
+        <HierarchicalDataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                <Setter TargetName="folderImage" Property="Source" Value="{DynamicResource {x:Static WinGui:CommonImages.FolderOpenKey}}" />
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+</ResourceDictionary>

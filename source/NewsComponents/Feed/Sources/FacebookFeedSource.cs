@@ -413,6 +413,7 @@ namespace NewsComponents.Feed
             if (feedlist.feed.Count == 1)
             {
                 this.feedsTable.Add(feedlist.feed[0].link, feedlist.feed[0]);
+                _feeds.Add(feedlist.feed[0]);
                 feedlist.feed[0].owner = this; 
             }
             else

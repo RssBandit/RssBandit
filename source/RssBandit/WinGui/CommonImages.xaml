@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:WinGui="clr-namespace:RssBandit.WinGui">
+
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.BanditFeedSourceKey}">/Resources/Images/TreeView/bandit.feedsource.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.GoogleFeedSourceKey}">/Resources/Images/TreeView/google.feedsource.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.WindowsFeedSourceKey}">/Resources/Images/TreeView/windows.feedsource.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.FacebookFeedSourceKey}">/Resources/Images/TreeView/facebook.feedsource.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.FolderClosedKey}">/Resources/Images/TreeView/folder_closed.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.FolderOpenKey}">/Resources/Images/TreeView/folder.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.RssFeedIconKey}">/Resources/Images/TreeView/doc.feed.16.png</ImageSource>
+    <ImageSource x:Key="{x:Static WinGui:CommonImages.NntpFeedIconKey}">/Resources/Images/TreeView/doc.nntp.16.png</ImageSource>
+    
+</ResourceDictionary>

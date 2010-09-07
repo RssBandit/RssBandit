@@ -221,6 +221,7 @@ namespace NewsComponents.Feed
 						{
 							f.owner = this;
 							feedsTable.Add(f.link, f);
+                            _feeds.Add(f);
 
 							//add category if needed
 							if (f.category != null)

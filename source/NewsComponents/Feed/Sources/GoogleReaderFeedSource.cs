@@ -32,33 +32,33 @@ using NewsComponents.Resources;
 
 namespace NewsComponents.Feed
 {
-	#region IGoogleReaderFeedSource interface: public FeedSource extensions
-	/// <summary>
-	/// public FeedSource extension offered by Google Reader Feed Source
-	/// </summary>
-	public interface IGoogleReaderFeedSource
-	{
-		/// <summary>
-		/// Marks an item as shared or unshared in Google Reader
-		/// </summary>
-		///<param name="item">The item to share. </param>   
-		void ShareNewsItem(INewsItem item);
+    #region IGoogleReaderFeedSource interface: public FeedSource extensions
+    /// <summary>
+    /// public FeedSource extension offered by Google Reader Feed Source
+    /// </summary>
+    public interface IGoogleReaderFeedSource
+    {
+        /// <summary>
+        /// Marks an item as shared or unshared in Google Reader
+        /// </summary>
+        ///<param name="item">The item to share. </param>   
+        void ShareNewsItem(INewsItem item);
 
-		/// <summary>
-		/// Gets true, if the item is shared, else false.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
-		bool NewsItemShared(INewsItem item);
-	}
-	#endregion
+        /// <summary>
+        /// Gets true, if the item is shared, else false.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
+        bool NewsItemShared(INewsItem item);
+    }
+    #endregion
 
-	#region GoogleReaderFeedSource
+    #region GoogleReaderFeedSource
 
-	/// <summary>
+    /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from Google Reader. 
     /// </summary>
-	internal class GoogleReaderFeedSource : FeedSource, IGoogleReaderFeedSource
+    internal class GoogleReaderFeedSource : FeedSource, IGoogleReaderFeedSource
     {
 
         #region private fields
@@ -285,7 +285,9 @@ namespace NewsComponents.Feed
                     NewsFeed feed = null;
                     if (!feedsTable.ContainsKey(gfeed.FeedUrl))
                     {
-                        this.feedsTable.Add(gfeed.FeedUrl, new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this));
+                        var f =  new GoogleReaderNewsFeed(gfeed, (bootstrapFeeds.TryGetValue(gfeed.FeedUrl, out feed) ? feed : null), this);
+                        this.feedsTable.Add(gfeed.FeedUrl, f);
+                        _feeds.Add(f);
                     }
                 }
 
@@ -303,17 +305,17 @@ namespace NewsComponents.Feed
             }
 
             /* copy over list view layouts */
-			//if (feedlist.listviewLayouts != null)
-			//{
-			//    foreach (listviewLayout layout in feedlist.listviewLayouts)
-			//    {
-			//        string layout_trimmed = layout.ID.Trim();
-			//        if (!this.layouts.ContainsKey(layout_trimmed))
-			//        {
-			//            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-			//        }
-			//    }
-			//}
+            //if (feedlist.listviewLayouts != null)
+            //{
+            //    foreach (listviewLayout layout in feedlist.listviewLayouts)
+            //    {
+            //        string layout_trimmed = layout.ID.Trim();
+            //        if (!this.layouts.ContainsKey(layout_trimmed))
+            //        {
+            //            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+            //        }
+            //    }
+            //}
 
         }
 
@@ -392,6 +394,7 @@ namespace NewsComponents.Feed
                 if (feedsTable.TryGetValue(deletedFeed, out f))
                 {
                     this.feedsTable.Remove(deletedFeed);
+                    _feeds.Remove(f);
                     RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
                     feedlistModified = true;
                 }
@@ -539,13 +542,13 @@ namespace NewsComponents.Feed
             throw new WebException("Could not authenticate user to Google Reader because no authentication token provided in response", WebExceptionStatus.UnknownError);
         }
 
-		/// <summary>
-		/// Returns an HTTP authorization header with specified auth token
-		/// </summary>
-		/// <param name="sid">The user's SID.</param>
-		/// <returns>
+        /// <summary>
+        /// Returns an HTTP authorization header with specified auth token
+        /// </summary>
+        /// <param name="sid">The user's SID.</param>
+        /// <returns>
         /// an HTTP authorization header created from the auth token
-		/// </returns>
+        /// </returns>
         private static WebHeaderCollection MakeGoogleAuthHeader(string authToken)
         {
            var header = new WebHeaderCollection();
@@ -951,8 +954,8 @@ namespace NewsComponents.Feed
                     {
                         Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
                         /* the cache file may be corrupt or an IO exception 
-						 * not much we can do so just ignore it 
-						 */
+                         * not much we can do so just ignore it 
+                         */
                     }
 
                     List<INewsItem> newReceivedItems = null;
@@ -1046,7 +1049,7 @@ namespace NewsComponents.Feed
                         int numDownloaded = 0;
                         int maxDownloads = (firstSuccessfulDownload
                                                 ? NumEnclosuresToDownloadOnNewFeed
-												: DefaultNumEnclosuresToDownloadOnNewFeed);
+                                                : DefaultNumEnclosuresToDownloadOnNewFeed);
 
                         if (newReceivedItems != null)
                             foreach (INewsItem ni in newReceivedItems)
@@ -1363,8 +1366,10 @@ namespace NewsComponents.Feed
                 lock (feedsTable)
                 {
                     feedsTable.Remove(feed.link);
+                    _feeds.Remove(feed);
                     feed = new GoogleReaderNewsFeed(sub, feed, this);
                     feedsTable.Add(feed.link, feed);
+                    _feeds.Add(feed);
                 }
                 GoogleReaderUpdater.AddFeedInGoogleReader(this.GoogleUserName, feed.link, feed.title);
             }
@@ -1478,7 +1483,7 @@ namespace NewsComponents.Feed
         /// Marks an item as shared or unshared in Google Reader
         /// </summary>
         ///<param name="item">The item to share or unshare. </param>
-		 public void ShareNewsItem(INewsItem item)
+         public void ShareNewsItem(INewsItem item)
         {
             if (item != null)
             {                
@@ -1504,13 +1509,13 @@ namespace NewsComponents.Feed
             }
         }
 
-		/// <summary>
-		/// Gets true, if the item is shared, else false.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
-		public bool NewsItemShared(INewsItem item)
-		{
+        /// <summary>
+        /// Gets true, if the item is shared, else false.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
+        public bool NewsItemShared(INewsItem item)
+        {
             bool shared = false;
 
             if (item != null)
@@ -1524,7 +1529,7 @@ namespace NewsComponents.Feed
             }
 
             return shared; 
-		}
+        }
 
         /// <summary>
         /// Marks an item as tagged or unstarred in Google Reader

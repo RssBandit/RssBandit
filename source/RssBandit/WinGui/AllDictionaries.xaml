@@ -3,8 +3,10 @@
                     xmlns:RssBandit="clr-namespace:RssBandit">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Views/MainWindowViewModel.xaml" />
-        <ResourceDictionary Source="Views/TreeNodeViewModelBase.xaml" />
+        <ResourceDictionary Source="Views/FeedViewModel.xaml" />
+        <ResourceDictionary Source="Views/FolderViewModel.xaml" />
         <ResourceDictionary Source="Views/CategorizedFeedSourceViewModel.xaml" />
+        <ResourceDictionary Source="CommonImages.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <RssBandit:ResourceAccess x:Key="Strings" />
 </ResourceDictionary>

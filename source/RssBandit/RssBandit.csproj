@@ -48,6 +48,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -73,6 +74,28 @@
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -96,6 +119,28 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,6 +155,28 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -131,6 +198,28 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -144,6 +233,28 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -159,6 +270,28 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
@@ -2049,6 +2182,7 @@
     <Compile Include="WinGui\CommandBarManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\CommonImages.cs" />
     <Compile Include="WinGui\Utility\Extensions.cs" />
     <Compile Include="WinGui\Utility\WpfWindowSerializer.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.Callbacks.cs" />
@@ -2529,6 +2663,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="WinGui\CommonImages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WinGui\Controls\BanditRibbon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -2545,11 +2683,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WinGui\Views\FolderViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WinGui\Views\MainWindowViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WinGui\Views\TreeNodeViewModelBase.xaml">
+    <Page Include="WinGui\Views\FeedViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

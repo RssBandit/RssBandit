@@ -34,7 +34,8 @@ namespace RssBandit.WinGui.ViewModel
         private PropertyObserver<IApplicationContext> _contextObserver;
 
         public string DisplayName { get; private set; }
-        public MainWindowViewModel()
+        public MainWindowViewModel(RssBanditApplication current)
+            : base(current)
         {
             DisplayName = RssBanditApplication.CaptionOnly;
             // assign the recent selected theme, or the default:
