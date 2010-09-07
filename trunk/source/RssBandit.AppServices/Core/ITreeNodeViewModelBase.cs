@@ -8,10 +8,6 @@ namespace RssBandit.AppServices
 {
     public interface ITreeNodeViewModelBase : INotifyPropertyChanged
     {
-        /// <summary>
-        ///   The category of the node.
-        /// </summary>
-        string Category { get; set; }
 
         /// <summary>
         ///   Indicates whether the tree node is expanded
@@ -35,6 +31,6 @@ namespace RssBandit.AppServices
         ///   read counter state info. If UnreadCount is set to zero,
         ///   also AnyUnread is reset to false and refresh the caption to default.
         /// </summary>
-        int UnreadCount { get; set; }
+        int UnreadCount { get; }
     }
 }

@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -46,12 +47,10 @@ using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 using System.Security.Cryptography.X509Certificates;
+using RssBandit.Util;
 
 #endregion
 
-#region project usings
-
-#endregion
 
 namespace NewsComponents
 {
@@ -121,13 +120,13 @@ namespace NewsComponents
     /// </summary>
     public class SubscriptionLocation
     {
-		/// <summary>
-		/// Gets true, if credentials are supported (and most often required) by
-		/// a feed source.
-		/// </summary>
-    	public bool CredentialsSupported;
+        /// <summary>
+        /// Gets true, if credentials are supported (and most often required) by
+        /// a feed source.
+        /// </summary>
+        public bool CredentialsSupported;
        
-		/// <summary>
+        /// <summary>
         /// Initializes the subscription location
         /// </summary>
         /// <param name="location">The path or identifier to the list of subscriptions</param>
@@ -136,7 +135,7 @@ namespace NewsComponents
         {
             Location = location;
             Credentials = credentials;
-			CredentialsSupported = true;
+            CredentialsSupported = true;
         }
 
         /// <summary>
@@ -193,37 +192,41 @@ namespace NewsComponents
             NumEnclosuresToDownloadOnNewFeed = DefaultNumEnclosuresToDownloadOnNewFeed;
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedSource"/> class.
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeedSource"/> class.
+        /// </summary>
         protected FeedSource()
         {
             MaxItemAge = new TimeSpan(90, 0, 0, 0);
+            
+            Feeds = new ReadOnlyObservableCollection<INewsFeed>(_feeds);
         }
 
+        protected readonly ObservableCollection<INewsFeed> _feeds = new ObservableCollection<INewsFeed>();
 
-		/// <summary>
-		/// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType using
-		/// the default configuration
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="handlerType">The type of FeedSource to create</param>
-		/// <param name="location">The location of the subscriptions</param>
-		/// <returns>A new FeedSource</returns>
-		/// <seealso cref="DefaultConfiguration"/>
+
+        /// <summary>
+        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType using
+        /// the default configuration
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="handlerType">The type of FeedSource to create</param>
+        /// <param name="location">The location of the subscriptions</param>
+        /// <returns>A new FeedSource</returns>
+        /// <seealso cref="DefaultConfiguration"/>
         public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location)
         {
             return CreateFeedSource(id, handlerType, location, DefaultConfiguration);
         }
 
-		/// <summary>
-		/// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="handlerType">The type of FeedSource to create</param>
-		/// <param name="location">The location of the subscriptions</param>
-		/// <param name="configuration">The configuration.</param>
-		/// <returns>A new FeedSource</returns>
+        /// <summary>
+        /// Creates the appropriate FeedSource subtype based on the supplied FeedSourceType
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="handlerType">The type of FeedSource to create</param>
+        /// <param name="location">The location of the subscriptions</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns>A new FeedSource</returns>
         public static FeedSource CreateFeedSource(int id, FeedSourceType handlerType, SubscriptionLocation location,
                                                   INewsComponentsConfiguration configuration)
         {
@@ -259,7 +262,7 @@ namespace NewsComponents
             if (handler != null)
             {
                 handler.sourceType = handlerType;
-            	handler.sourceID = id;
+                handler.sourceID = id;
 
                 if (handler.Configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing &&
                     handler.Configuration.SearchIndexBehavior == DefaultConfiguration.SearchIndexBehavior)
@@ -433,7 +436,7 @@ namespace NewsComponents
         /// <summary>
         /// The file extensions of enclosures that should be treated as podcasts. 
         /// </summary>
-		static readonly List<string> podcastfileextensions = new List<string>();
+        static readonly List<string> podcastfileextensions = new List<string>();
 
         /// <summary>
         /// Used for making asynchronous Web requests
@@ -455,12 +458,18 @@ namespace NewsComponents
         /// </summary>
         protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
 
-		/// <summary>
-		/// Client certificates cache for feeds
-		/// </summary>
-		protected IDictionary<string, X509Certificate2> certCache = new Dictionary<string, X509Certificate2>(3); 
-		
-		//TODO: move that to BanditFeedSource:
+        public ReadOnlyObservableCollection<INewsFeed> Feeds
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Client certificates cache for feeds
+        /// </summary>
+        protected IDictionary<string, X509Certificate2> certCache = new Dictionary<string, X509Certificate2>(3); 
+        
+        //TODO: move that to BanditFeedSource:
         /// <summary>
         /// Collection contains UserIdentity objects.
         /// Keys are the UserIdentity.Name's
@@ -472,10 +481,10 @@ namespace NewsComponents
         /// </summary>
         protected static bool isOffline;
 
-		///// <summary>
-		///// Represents the list of available feed column layouts for feeds. 
-		///// </summary>
-		//protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
+        ///// <summary>
+        ///// Represents the list of available feed column layouts for feeds. 
+        ///// </summary>
+        //protected FeedColumnLayoutCollection layouts = new FeedColumnLayoutCollection();
 
         /// <summary>
         /// Gets the location of the feed
@@ -1213,16 +1222,16 @@ namespace NewsComponents
             get { return sourceType; }
         }
 
-		internal int sourceID;
+        internal int sourceID;
 
-		/// <summary>
-		/// Gets the ID of the source.
-		/// </summary>
-		/// <value>The ID.</value>
-		public int SourceID
-		{
-			get { return sourceID; }
-		}
+        /// <summary>
+        /// Gets the ID of the source.
+        /// </summary>
+        /// <value>The ID.</value>
+        public int SourceID
+        {
+            get { return sourceID; }
+        }
         /// <summary>
         /// Gets the NewsComponents configuration.
         /// </summary>
@@ -1233,8 +1242,8 @@ namespace NewsComponents
         }
 
 
-		// per instance:
-		private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
+        // per instance:
+        private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
 
         /// <summary>
         /// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
@@ -1250,24 +1259,24 @@ namespace NewsComponents
         /// Used a synchronization point when initializing variables related to transforming Facebook news feed XML to Atom
         /// </summary>
         private static Object FbTransformSyncRoot = new Object(); 
-		
+        
         /// <summary>
-		/// Gets the user cache data service instance.
-		/// </summary>
-		/// <value>The user cache data service.</value>
-		internal IUserCacheDataService UserCacheDataService
-		{
-			get
-			{
-				if (_domainStores.ContainsKey(StorageDomain.UserCacheData))
-					return (IUserCacheDataService)_domainStores[StorageDomain.UserCacheData];
-				IUserCacheDataService service = (IUserCacheDataService)DataServiceFactory.GetService(
-					StorageDomain.UserCacheData, p_configuration);
-				_domainStores.Add(StorageDomain.UserCacheData, service);
-				
-				return service;
-			}
-		}
+        /// Gets the user cache data service instance.
+        /// </summary>
+        /// <value>The user cache data service.</value>
+        internal IUserCacheDataService UserCacheDataService
+        {
+            get
+            {
+                if (_domainStores.ContainsKey(StorageDomain.UserCacheData))
+                    return (IUserCacheDataService)_domainStores[StorageDomain.UserCacheData];
+                IUserCacheDataService service = (IUserCacheDataService)DataServiceFactory.GetService(
+                    StorageDomain.UserCacheData, p_configuration);
+                _domainStores.Add(StorageDomain.UserCacheData, service);
+                
+                return service;
+            }
+        }
 
         /// <summary>
         /// Gets the user data service instance.
@@ -1277,59 +1286,59 @@ namespace NewsComponents
         {
             get
             {
-				if (_domainStores.ContainsKey(StorageDomain.UserData))
-					return (IUserDataService)_domainStores[StorageDomain.UserData];
+                if (_domainStores.ContainsKey(StorageDomain.UserData))
+                    return (IUserDataService)_domainStores[StorageDomain.UserData];
 
-				IUserDataService service = (IUserDataService)DataServiceFactory.GetService(
-					StorageDomain.UserData, p_configuration);
-				_domainStores.Add(StorageDomain.UserData, service);
-				
-				return service;
+                IUserDataService service = (IUserDataService)DataServiceFactory.GetService(
+                    StorageDomain.UserData, p_configuration);
+                _domainStores.Add(StorageDomain.UserData, service);
+                
+                return service;
             }
         }
 
-		/// <summary>
-		/// Gets the local/roaming user data service instance.
-		/// </summary>
-		/// <value>The data service.</value>
-		internal IUserRoamingDataService UserRoamingDataService
-		{
-			get
-			{
-				if (_domainStores.ContainsKey(StorageDomain.UserRoamingData))
-					return (IUserRoamingDataService)_domainStores[StorageDomain.UserRoamingData];
+        /// <summary>
+        /// Gets the local/roaming user data service instance.
+        /// </summary>
+        /// <value>The data service.</value>
+        internal IUserRoamingDataService UserRoamingDataService
+        {
+            get
+            {
+                if (_domainStores.ContainsKey(StorageDomain.UserRoamingData))
+                    return (IUserRoamingDataService)_domainStores[StorageDomain.UserRoamingData];
 
-				IUserRoamingDataService service = (IUserRoamingDataService)DataServiceFactory.GetService(
-					StorageDomain.UserRoamingData, p_configuration);
-				_domainStores.Add(StorageDomain.UserRoamingData, service);
-				
-				return service;
-			}
-		}
+                IUserRoamingDataService service = (IUserRoamingDataService)DataServiceFactory.GetService(
+                    StorageDomain.UserRoamingData, p_configuration);
+                _domainStores.Add(StorageDomain.UserRoamingData, service);
+                
+                return service;
+            }
+        }
 
-		/// <summary>
-		/// Gets the data service files used by each data service.
-		/// </summary>
-		/// <returns></returns>
-		public virtual string [] GetDataServiceFiles()
-		{
-			return new string[0];
-		}
+        /// <summary>
+        /// Gets the data service files used by each data service.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string [] GetDataServiceFiles()
+        {
+            return new string[0];
+        }
 
-		/// <summary>
-		/// Sets the content for data service file.
-		/// </summary>
-		/// <param name="dataFileName">Name of the data file.</param>
-		/// <param name="content">The content.</param>
-		public void SetContentForDataServiceFile(string dataFileName, Stream content )
-		{
-			ReplaceDataWithContent(dataFileName, content);
-		}
-		
-		protected virtual void ReplaceDataWithContent(string dataFileName, Stream content)
-		{
-			// can be overridden by FeedSource impl.
-		}
+        /// <summary>
+        /// Sets the content for data service file.
+        /// </summary>
+        /// <param name="dataFileName">Name of the data file.</param>
+        /// <param name="content">The content.</param>
+        public void SetContentForDataServiceFile(string dataFileName, Stream content )
+        {
+            ReplaceDataWithContent(dataFileName, content);
+        }
+        
+        protected virtual void ReplaceDataWithContent(string dataFileName, Stream content)
+        {
+            // can be overridden by FeedSource impl.
+        }
 
         /// <summary>
         /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
@@ -1356,13 +1365,13 @@ namespace NewsComponents
         {
             get
             {
-				if (p_searchHandler == null)
-				{
-					// force to use only one instance:
-					p_searchHandler = FeedSourceManager.SearchHandler;
-					// an alternative would be: one index per feedsource
-					// but then some more changes are required...
-				}
+                if (p_searchHandler == null)
+                {
+                    // force to use only one instance:
+                    p_searchHandler = FeedSourceManager.SearchHandler;
+                    // an alternative would be: one index per feedsource
+                    // but then some more changes are required...
+                }
 
                 return p_searchHandler;
             }
@@ -1545,8 +1554,8 @@ namespace NewsComponents
             //        this.refreshrate = value;
             //    }
             /* 
-				 * moved to ResetAllRefreshRateSettings():
-				 * 
+                 * moved to ResetAllRefreshRateSettings():
+                 * 
                 string[] keys;
 
                 lock (feedsTable)
@@ -1565,7 +1574,7 @@ namespace NewsComponents
                         f.refreshrateSpecified = true;
                     }
                 }
-				*/
+                */
             //}
 
             get { return p_configuration.RefreshRate; }
@@ -1838,27 +1847,27 @@ namespace NewsComponents
 
         #region NntpServerDefinition Credentials handling
 
-		/// <summary>
-		/// Set the authorization credentials for a Nntp Server.
-		/// </summary>
-		/// <param name="sd">NntpServerDefinition to be modified</param>
-		/// <param name="user">username, identifier</param>
-		/// <param name="pwd">password</param>
-		public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd)
-		{
-			BanditFeedSource.SetNntpServerCredentials(sd as NntpServerDefinition, user,pwd);
-		}
+        /// <summary>
+        /// Set the authorization credentials for a Nntp Server.
+        /// </summary>
+        /// <param name="sd">NntpServerDefinition to be modified</param>
+        /// <param name="user">username, identifier</param>
+        /// <param name="pwd">password</param>
+        public static void SetNntpServerCredentials(INntpServerDefinition sd, string user, string pwd)
+        {
+            BanditFeedSource.SetNntpServerCredentials(sd as NntpServerDefinition, user,pwd);
+        }
 
-		/// <summary>
-		/// Get the authorization credentials for a feed.
-		/// </summary>
-		/// <param name="sd">NntpServerDefinition, where the credentials are taken from</param>
-		/// <param name="user">String return parameter containing the username</param>
-		/// <param name="pwd">String return parameter, containing the password</param>
-		public static void GetNntpServerCredentials(INntpServerDefinition sd, out string user, out string pwd)
-		{
-			BanditFeedSource.GetNntpServerCredentials(sd as NntpServerDefinition, out user, out pwd);
-		}
+        /// <summary>
+        /// Get the authorization credentials for a feed.
+        /// </summary>
+        /// <param name="sd">NntpServerDefinition, where the credentials are taken from</param>
+        /// <param name="user">String return parameter containing the username</param>
+        /// <param name="pwd">String return parameter, containing the password</param>
+        public static void GetNntpServerCredentials(INntpServerDefinition sd, out string user, out string pwd)
+        {
+            BanditFeedSource.GetNntpServerCredentials(sd as NntpServerDefinition, out user, out pwd);
+        }
 
         /// <summary>
         /// Gets the NNTP server credentials for a feed.
@@ -1871,47 +1880,47 @@ namespace NewsComponents
             if (f == null || ! RssHelper.IsNntpUrl(f.link))
                 return c;
 
-        	IBanditFeedSource extension = this as IBanditFeedSource;
+            IBanditFeedSource extension = this as IBanditFeedSource;
 
-			Uri feedUri;
-			if (extension != null && Uri.TryCreate(f.link, UriKind.Absolute, out feedUri))
+            Uri feedUri;
+            if (extension != null && Uri.TryCreate(f.link, UriKind.Absolute, out feedUri))
             {
-				// this could be called asynchron, so we have to lock the defs.
-				// to be in sync. with potential user modifications at the definitions
-				// the same time:
-				lock (extension.NntpServers)
-				{
-					foreach (INntpServerDefinition nsd in extension.NntpServers.Values)
-					{
-						if (nsd.Server.Equals(feedUri.Authority))
-						{
-							if (nsd.Name != null)
-								c = extension.GetFeedCredentials(nsd);
-							break;
-						}
-					}
-				}
+                // this could be called asynchron, so we have to lock the defs.
+                // to be in sync. with potential user modifications at the definitions
+                // the same time:
+                lock (extension.NntpServers)
+                {
+                    foreach (INntpServerDefinition nsd in extension.NntpServers.Values)
+                    {
+                        if (nsd.Server.Equals(feedUri.Authority))
+                        {
+                            if (nsd.Name != null)
+                                c = extension.GetFeedCredentials(nsd);
+                            break;
+                        }
+                    }
+                }
             }
             
             return c;
         }
 
-		///// <summary>
-		///// Return ICredentials of a feed. 
-		///// </summary>
-		///// <param name="sd">NntpServerDefinition</param>
-		///// <returns>null in the case the nntp server does not have credentials</returns>
-		//public static ICredentials GetFeedCredentials(INntpServerDefinition sd)
-		//{
-		//    ICredentials c = null;
-		//    if (sd.AuthUser != null)
-		//    {
-		//        string u = null, p = null;
-		//        BanditFeedSource.GetNntpServerCredentials(sd, ref u, ref p);
-		//        c = CreateCredentialsFrom(u, p);
-		//    }
-		//    return c;
-		//}
+        ///// <summary>
+        ///// Return ICredentials of a feed. 
+        ///// </summary>
+        ///// <param name="sd">NntpServerDefinition</param>
+        ///// <returns>null in the case the nntp server does not have credentials</returns>
+        //public static ICredentials GetFeedCredentials(INntpServerDefinition sd)
+        //{
+        //    ICredentials c = null;
+        //    if (sd.AuthUser != null)
+        //    {
+        //        string u = null, p = null;
+        //        BanditFeedSource.GetNntpServerCredentials(sd, ref u, ref p);
+        //        c = CreateCredentialsFrom(u, p);
+        //    }
+        //    return c;
+        //}
 
         #endregion
 
@@ -1929,11 +1938,11 @@ namespace NewsComponents
             get { return p_traceMode; }
         }
 
-		/// <summary>
-		/// Traces the specified format string.
-		/// </summary>
-		/// <param name="formatString">The format string.</param>
-		/// <param name="paramArray">The param array.</param>
+        /// <summary>
+        /// Traces the specified format string.
+        /// </summary>
+        /// <param name="formatString">The format string.</param>
+        /// <param name="paramArray">The param array.</param>
         protected static void Trace(string formatString, params object[] paramArray)
         {
             if (p_traceMode)
@@ -2201,14 +2210,14 @@ namespace NewsComponents
             // if scope is an empty array: search all, else search only in spec. feeds
             // pseudo code:
             /* int matches = 0;
-			foreach (NewsFeed f in feedsTable) {
-				if (criteria.Match(f)) {
-					matches++;
-					if (RaiseFeedSearchResultEvent(f, tag))
-					  break;
-				}
-			}
-			RaiseSearchFinishedEvent(tag, matches, 0); */
+            foreach (NewsFeed f in feedsTable) {
+                if (criteria.Match(f)) {
+                    matches++;
+                    if (RaiseFeedSearchResultEvent(f, tag))
+                      break;
+                }
+            }
+            RaiseSearchFinishedEvent(tag, matches, 0); */
 
             throw new NotSupportedException();
         }
@@ -2712,12 +2721,12 @@ namespace NewsComponents
         {
             IFeedDetails fi;
             if (item.Feed != null && !string.IsNullOrEmpty(item.Feed.link) &&
-				itemsTable.TryGetValue(item.Feed.link, out fi))
+                itemsTable.TryGetValue(item.Feed.link, out fi))
             {
                 /* 
-				 * There is no attempt to load feed from disk because it is 
-				 * assumed that for this to be called the feed was already loaded
-				 * since we have an item from the feed */
+                 * There is no attempt to load feed from disk because it is 
+                 * assumed that for this to be called the feed was already loaded
+                 * since we have an item from the feed */
 
                 //var fi = itemsTable[item.Feed.link] as FeedInfo;
 
@@ -2822,128 +2831,128 @@ namespace NewsComponents
             SearchHandler.IndexAdd(deletedItems);
         }
 
-    	#region favicon handling
+        #region favicon handling
 
-		/// <summary>
-		/// Gets true, if the feed has a favicon.
-		/// </summary>
-		/// <param name="feedUrl">The feed URL.</param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
-		public virtual bool FeedHasFavicon(string feedUrl)
-		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
-			INewsFeed f;
-			if (!feedsTable.TryGetValue(feedUrl, out f))
-			{
-				return false;
-			}
-			return FeedHasFavicon(f);
-		}
+        /// <summary>
+        /// Gets true, if the feed has a favicon.
+        /// </summary>
+        /// <param name="feedUrl">The feed URL.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
+        public virtual bool FeedHasFavicon(string feedUrl)
+        {
+            feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+            
+            INewsFeed f;
+            if (!feedsTable.TryGetValue(feedUrl, out f))
+            {
+                return false;
+            }
+            return FeedHasFavicon(f);
+        }
 
-    	/// <summary>
-    	/// Gets true, if the feed has a favicon.
-    	/// </summary>
-    	/// <param name="feed">The feed.</param>
-    	/// <returns></returns>
-		/// <exception cref="ArgumentNullException">If feed is null</exception>
-		public virtual bool FeedHasFavicon(INewsFeed feed)
-    	{
-			feed.ExceptionIfNull("feed");
-			
-    		return !String.IsNullOrEmpty(feed.favicon);
-    	}
+        /// <summary>
+        /// Gets true, if the feed has a favicon.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">If feed is null</exception>
+        public virtual bool FeedHasFavicon(INewsFeed feed)
+        {
+            feed.ExceptionIfNull("feed");
+            
+            return !String.IsNullOrEmpty(feed.favicon);
+        }
 
-		/// <summary>
-    	/// Gets the favicon for feed, or null in case there is none.
-    	/// </summary>
-		/// <param name="feedUrl">The feed URL.</param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
-		public virtual byte[] GetFaviconForFeed(string feedUrl)
-		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
-			INewsFeed f;
-			if (!feedsTable.TryGetValue(feedUrl, out f))
-			{
-				return null;
-			}
-			return GetFaviconForFeed(f);
-		}
+        /// <summary>
+        /// Gets the favicon for feed, or null in case there is none.
+        /// </summary>
+        /// <param name="feedUrl">The feed URL.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
+        public virtual byte[] GetFaviconForFeed(string feedUrl)
+        {
+            feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+            
+            INewsFeed f;
+            if (!feedsTable.TryGetValue(feedUrl, out f))
+            {
+                return null;
+            }
+            return GetFaviconForFeed(f);
+        }
 
-    	/// <summary>
-    	/// Gets the favicon for feed, or null in case there is none.
-    	/// </summary>
-    	/// <param name="feed">The feed.</param>
-    	/// <returns></returns>
-		/// <exception cref="ArgumentNullException">If feed is null</exception>
-		public virtual byte[] GetFaviconForFeed(INewsFeed feed)
-    	{
-			feed.ExceptionIfNull("feed");
-			
-			if (FeedHasFavicon(feed))
-    		{
-    			return UserCacheDataService.GetBinaryContent(feed.favicon);
-    		}
-    		return null;
-    	}
+        /// <summary>
+        /// Gets the favicon for feed, or null in case there is none.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">If feed is null</exception>
+        public virtual byte[] GetFaviconForFeed(INewsFeed feed)
+        {
+            feed.ExceptionIfNull("feed");
+            
+            if (FeedHasFavicon(feed))
+            {
+                return UserCacheDataService.GetBinaryContent(feed.favicon);
+            }
+            return null;
+        }
 
-		/// <summary>
-    	/// Sets the favicon for a feed. Assigns the favicon property and 
-    	/// store the byte array.
-    	/// </summary>
-		/// <param name="feedUrl">The feed URL.</param>
-    	/// <param name="contentId">The content id.</param>
-    	/// <param name="imageData">The image data.</param>
-		/// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
-		public virtual void SetFaviconForFeed(string feedUrl, string contentId, byte[] imageData)
-		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
-			INewsFeed f;
-			if (!feedsTable.TryGetValue(feedUrl, out f))
-			{
-				return;
-			}
-			SetFaviconForFeed(f, contentId, imageData);
-		}
+        /// <summary>
+        /// Sets the favicon for a feed. Assigns the favicon property and 
+        /// store the byte array.
+        /// </summary>
+        /// <param name="feedUrl">The feed URL.</param>
+        /// <param name="contentId">The content id.</param>
+        /// <param name="imageData">The image data.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
+        public virtual void SetFaviconForFeed(string feedUrl, string contentId, byte[] imageData)
+        {
+            feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+            
+            INewsFeed f;
+            if (!feedsTable.TryGetValue(feedUrl, out f))
+            {
+                return;
+            }
+            SetFaviconForFeed(f, contentId, imageData);
+        }
 
-    	/// <summary>
-    	/// Sets the favicon for a feed. Assigns the favicon property and 
-    	/// store the byte array.
-    	/// </summary>
-    	/// <param name="feed">The feed.</param>
-    	/// <param name="contentId">The content id.</param>
-    	/// <param name="imageData">The image data.</param>
-		/// <exception cref="ArgumentNullException">If feed is null</exception>
-		public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
-    	{
-			feed.ExceptionIfNull("feed");
-			
-			if (!String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
-    		{
-    			UserCacheDataService.SaveBinaryContent(contentId, imageData);
-    			feed.favicon = contentId;
-    		}
-    	}
+        /// <summary>
+        /// Sets the favicon for a feed. Assigns the favicon property and 
+        /// store the byte array.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <param name="contentId">The content id.</param>
+        /// <param name="imageData">The image data.</param>
+        /// <exception cref="ArgumentNullException">If feed is null</exception>
+        public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
+        {
+            feed.ExceptionIfNull("feed");
+            
+            if (!String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
+            {
+                UserCacheDataService.SaveBinaryContent(contentId, imageData);
+                feed.favicon = contentId;
+            }
+        }
 
-		/// <summary>
-		/// Removes the favicon from feed.
-		/// </summary>
-		/// <param name="feed">The feed.</param>
-		/// <exception cref="ArgumentNullException">If feed is null</exception>
-		public void RemoveFaviconFromFeed(INewsFeed feed)
-		{
-			feed.ExceptionIfNull("feed");
-			
-			if (FeedHasFavicon(feed))
-			{
-				UserCacheDataService.DeleteBinaryContent(feed.favicon);
-			}
-		}
-    	#endregion
+        /// <summary>
+        /// Removes the favicon from feed.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <exception cref="ArgumentNullException">If feed is null</exception>
+        public void RemoveFaviconFromFeed(INewsFeed feed)
+        {
+            feed.ExceptionIfNull("feed");
+            
+            if (FeedHasFavicon(feed))
+            {
+                UserCacheDataService.DeleteBinaryContent(feed.favicon);
+            }
+        }
+        #endregion
 
 
         /// <summary>
@@ -3180,15 +3189,15 @@ namespace NewsComponents
                 //we don't want to write out empty <categories /> into the schema. 				
                 feedlist.categories = c.Count == 0 ? null : c;
 
-				// NNTP is saved now separately:
-				feedlist.nntpservers = null;
-				// saved separately too:
-            	feedlist.identities = null;
+                // NNTP is saved now separately:
+                feedlist.nntpservers = null;
+                // saved separately too:
+                feedlist.identities = null;
                 
-				//var ids = new List<UserIdentity>(identities.Values);
+                //var ids = new List<UserIdentity>(identities.Values);
 
-				////we don't want to write out empty <user-identities /> into the schema. 				
-				//feedlist.identities = ids.Count == 0 ? null : ids;
+                ////we don't want to write out empty <user-identities /> into the schema. 				
+                //feedlist.identities = ids.Count == 0 ? null : ids;
 
 
                 TextWriter writer = new StreamWriter(feedStream);
@@ -4399,90 +4408,90 @@ namespace NewsComponents
             return requestQueued;
         }
 
-		/// <summary>
-		/// Gets the client certificate for a feed.
-		/// </summary>
-		/// <param name="feed">The feed.</param>
-		/// <returns></returns>
-		public X509Certificate2 GetClientCertificate(INewsFeed feed)
-		{
-			if (feed == null || string.IsNullOrEmpty(feed.certificateId))
-				return null;
-			X509Certificate2 cert;
-			if (certCache.TryGetValue(feed.certificateId, out cert))
-				return cert;
-			
-			X509Store store = null;
-			try
-			{
-				store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-				store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
-				cert = store.Certificates.Cast<X509Certificate2>().FirstOrDefault(
-					c =>
-					{
-						return c.Thumbprint ==
-							   feed.certificateId;
-					});
+        /// <summary>
+        /// Gets the client certificate for a feed.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <returns></returns>
+        public X509Certificate2 GetClientCertificate(INewsFeed feed)
+        {
+            if (feed == null || string.IsNullOrEmpty(feed.certificateId))
+                return null;
+            X509Certificate2 cert;
+            if (certCache.TryGetValue(feed.certificateId, out cert))
+                return cert;
+            
+            X509Store store = null;
+            try
+            {
+                store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+                cert = store.Certificates.Cast<X509Certificate2>().FirstOrDefault(
+                    c =>
+                    {
+                        return c.Thumbprint ==
+                               feed.certificateId;
+                    });
 
-				store.Close();
+                store.Close();
 
-				if (cert != null && !certCache.ContainsKey(feed.certificateId))
-					lock (certCache)
-					{
-						if (!certCache.ContainsKey(feed.certificateId))
-							certCache.Add(feed.certificateId, cert);
-					}
+                if (cert != null && !certCache.ContainsKey(feed.certificateId))
+                    lock (certCache)
+                    {
+                        if (!certCache.ContainsKey(feed.certificateId))
+                            certCache.Add(feed.certificateId, cert);
+                    }
 
-				return cert;
-			}
-			catch (Exception ex)
-			{
-				_log.Error("Error reading X509Store", ex);
-			}
-			finally
-			{
-				if (store != null)
-					store.Close();
-			}
+                return cert;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error reading X509Store", ex);
+            }
+            finally
+            {
+                if (store != null)
+                    store.Close();
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		/// <summary>
-		/// Sets the client certificate at a feed.
-		/// </summary>
-		/// <param name="feed">The feed.</param>
-		/// <param name="certificate">The certificate.</param>
-		public void SetClientCertificate(INewsFeed feed, X509Certificate2 certificate)
-		{
-			if (feed == null )
-				return;
+        /// <summary>
+        /// Sets the client certificate at a feed.
+        /// </summary>
+        /// <param name="feed">The feed.</param>
+        /// <param name="certificate">The certificate.</param>
+        public void SetClientCertificate(INewsFeed feed, X509Certificate2 certificate)
+        {
+            if (feed == null )
+                return;
 
-			if (!string.IsNullOrEmpty(feed.certificateId))
-			{
-				// always remove and reset:
-				if (certCache.ContainsKey(feed.certificateId))
-					lock (certCache)
-					{
-						if (certCache.ContainsKey(feed.certificateId))
-							certCache.Remove(feed.certificateId);
-					}
-				feed.certificateId = null;
-			}
+            if (!string.IsNullOrEmpty(feed.certificateId))
+            {
+                // always remove and reset:
+                if (certCache.ContainsKey(feed.certificateId))
+                    lock (certCache)
+                    {
+                        if (certCache.ContainsKey(feed.certificateId))
+                            certCache.Remove(feed.certificateId);
+                    }
+                feed.certificateId = null;
+            }
 
-			if (certificate != null)
-			{
-				// assign new:
-				feed.certificateId = certificate.Thumbprint;
-				if (!certCache.ContainsKey(feed.certificateId))
-					lock (certCache)
-					{
-						if (!certCache.ContainsKey(feed.certificateId))
-							certCache.Add(feed.certificateId, certificate);
-					}
-			}
+            if (certificate != null)
+            {
+                // assign new:
+                feed.certificateId = certificate.Thumbprint;
+                if (!certCache.ContainsKey(feed.certificateId))
+                    lock (certCache)
+                    {
+                        if (!certCache.ContainsKey(feed.certificateId))
+                            certCache.Add(feed.certificateId, certificate);
+                    }
+            }
 
-		}
+        }
 
         /// <summary>
         /// Called when a network request has been made to start downloading a feed. 
@@ -4662,8 +4671,8 @@ namespace NewsComponents
                     {
                         Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
                         /* the cache file may be corrupt or an IO exception 
-						 * not much we can do so just ignore it 
-						 */
+                         * not much we can do so just ignore it 
+                         */
                     }
 
                     List<INewsItem> newReceivedItems = null;
@@ -4694,16 +4703,16 @@ namespace NewsComponents
 
 
                             /*
-							 * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
-							 * that doesn't match the requestUri. We insert a test here to see if this has occured
-							 * and if so we return from this method.  
-							 * 
-							 * We are careful here to ensure we don't treat a case of the feed or website being moved 
-							 * as an instance of this bug. We do this by (1) test to see if website URL in feed just 
-							 * downloaded matches the site URL in the feed from the cache AND (2) if all the items in
-							 * the feed we just downloaded were never in the cache AND (3) the site URL is the same for
-							 * the site URL for another feed we have in the cache. 
-							 */
+                             * HACK: We have an issue that OnRequestComplete is sometimes passed a response Stream 
+                             * that doesn't match the requestUri. We insert a test here to see if this has occured
+                             * and if so we return from this method.  
+                             * 
+                             * We are careful here to ensure we don't treat a case of the feed or website being moved 
+                             * as an instance of this bug. We do this by (1) test to see if website URL in feed just 
+                             * downloaded matches the site URL in the feed from the cache AND (2) if all the items in
+                             * the feed we just downloaded were never in the cache AND (3) the site URL is the same for
+                             * the site URL for another feed we have in the cache. 
+                             */
                             if ((String.Compare(fi2.Link, fi.Link, true) != 0) &&
                                 (newReceivedItems.Count == fi.ItemsList.Count))
                             {
@@ -4839,7 +4848,7 @@ namespace NewsComponents
                 string key = requestUri.CanonicalizedUri();
                 if (feedsTable.ContainsKey(key))
                 {
-					Trace("AsyncRequest.OnRequestComplete('{0}') Exception: {1}", key, e.ToDescriptiveString());
+                    Trace("AsyncRequest.OnRequestComplete('{0}') Exception: {1}", key, e.ToDescriptiveString());
                     INewsFeed f = feedsTable[key];
                     // now we set this within causedException prop.:
                     //f.lastretrieved = DateTime.Now; 
@@ -4849,7 +4858,7 @@ namespace NewsComponents
                 else
                 {
                     Trace("AsyncRequest.OnRequestComplete('{0}') Exception on feed not contained in FeedsTable: {1}",
-						  key, e.ToDescriptiveString());
+                          key, e.ToDescriptiveString());
                 }
 
                 RaiseOnUpdateFeedException(requestUri.CanonicalizedUri(), e, priority);
@@ -4863,8 +4872,8 @@ namespace NewsComponents
 
         protected void OnAllRequestsComplete()
         {
-			// get the indexSearcher aware of modifications:
-			SearchHandler.Flush();
+            // get the indexSearcher aware of modifications:
+            SearchHandler.Flush();
 
             RaiseOnAllAsyncRequestsCompleted();
         }
@@ -4965,15 +4974,15 @@ namespace NewsComponents
                         if (ext != null)
                         {
                             favicon = GenerateFaviconUrl(requestUri, ext);
-							UserCacheDataService.SaveBinaryContent(favicon, bytes);
-							//string filelocation = Path.Combine(UserCacheDataService.CacheLocation, favicon);
+                            UserCacheDataService.SaveBinaryContent(favicon, bytes);
+                            //string filelocation = Path.Combine(UserCacheDataService.CacheLocation, favicon);
 
-							//using (FileStream fs = FileHelper.OpenForWrite(filelocation))
-							//{
-							//    var bw = new BinaryWriter(fs);
-							//    bw.Write(bytes);
-							//    bw.Flush();
-							//}
+                            //using (FileStream fs = FileHelper.OpenForWrite(filelocation))
+                            //{
+                            //    var bw = new BinaryWriter(fs);
+                            //    bw.Write(bytes);
+                            //    bw.Flush();
+                            //}
                         }
                     }
                     //else
@@ -4999,9 +5008,9 @@ namespace NewsComponents
                         {
                             string websiteUrl = ((FeedInfo) itemsTable[feedUrl]).Link;
 
-                        	Uri uri;
-							if (Uri.TryCreate(websiteUrl, UriKind.Absolute, out uri) 
-								&& uri.Authority.Equals(requestUri.Authority))
+                            Uri uri;
+                            if (Uri.TryCreate(websiteUrl, UriKind.Absolute, out uri) 
+                                && uri.Authority.Equals(requestUri.Authority))
                             {
                                 feedUrls.Add(feedUrl);
                                 INewsFeed f = feedsTable[feedUrl];
@@ -5094,14 +5103,14 @@ namespace NewsComponents
         }
 
         /* private void RaiseOnUpdateFeedException(Uri requestUri, Exception e, int priority) {
-			if (OnUpdateFeedException != null) {
-				try {
-					if (requestUri != null && RssParser.CanProcessUrl(requestUri.ToString()))
-						e = new FeedRequestException(e.Message, e, this.GetFailureContext(requestUri)); 
-					OnUpdateFeedException(this, new UpdateFeedExceptionEventArgs(requestUri, e, priority));
-				} catch { /* ignore ex. thrown by callback   }
-			}
-		} */
+            if (OnUpdateFeedException != null) {
+                try {
+                    if (requestUri != null && RssParser.CanProcessUrl(requestUri.ToString()))
+                        e = new FeedRequestException(e.Message, e, this.GetFailureContext(requestUri)); 
+                    OnUpdateFeedException(this, new UpdateFeedExceptionEventArgs(requestUri, e, priority));
+                } catch { /* ignore ex. thrown by callback   }
+            }
+        } */
 
 
         /// <summary>
@@ -5421,11 +5430,11 @@ namespace NewsComponents
                 enclosureDownloader.ResumePendingDownloads();
         }
 
-		/// <summary>
-		/// Downloads the favicons for the various feeds.
-		/// Returns true, if it really started downloading any favicon, else false.
-		/// </summary>
-		/// <returns></returns>
+        /// <summary>
+        /// Downloads the favicons for the various feeds.
+        /// Returns true, if it really started downloading any favicon, else false.
+        /// </summary>
+        /// <returns></returns>
         public bool RefreshFavicons()
         {
             if ((FeedsListOK == false) || isOffline || !DownloadIntervalReached)
@@ -5506,10 +5515,10 @@ namespace NewsComponents
             }
             catch (InvalidOperationException ioe)
             {
-				// New feeds added to FeedsTable from another thread  
+                // New feeds added to FeedsTable from another thread  
                 Trace("RefreshFavicons() InvalidOperationException: {0}", ioe.ToDescriptiveString());
             }
-			return true;
+            return true;
         }
 
 
@@ -5931,17 +5940,17 @@ namespace NewsComponents
                             cats.Add(f2.category, new category(f2.category));
                         }
 
-						////copy listview layout information over
-						//if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
-						//{
-						//    listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
+                        ////copy listview layout information over
+                        //if ((f1.listviewlayout != null) && !colLayouts.ContainsKey(f1.listviewlayout))
+                        //{
+                        //    listviewLayout layout = FindLayout(f1.listviewlayout, myFeeds.listviewLayouts);
 
-						//    if (layout != null)
-						//        colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
-						//    else
-						//        f1.listviewlayout = null;
-						//}
-						//f2.listviewlayout = (f1.listviewlayout ?? f2.listviewlayout);
+                        //    if (layout != null)
+                        //        colLayouts.Add(f1.listviewlayout, layout.FeedColumnLayout);
+                        //    else
+                        //        f1.listviewlayout = null;
+                        //}
+                        //f2.listviewlayout = (f1.listviewlayout ?? f2.listviewlayout);
 
 
                         //copy title information over 
@@ -6044,9 +6053,17 @@ namespace NewsComponents
             if (replace)
             {
                 /* update feeds table */
+                var removed = _feeds.Except(syncedfeeds.Values).ToList();
+                var added = syncedfeeds.Values.Except(_feeds).ToList();
+
+                
+
                 feedsTable = syncedfeeds;
                 /* update category information */
-                categories = cats;              
+                categories = cats;
+
+                removed.Run(f => _feeds.Remove(f));
+                added.Run(f => _feeds.Add(f));
             }
             else
             {
@@ -6131,10 +6148,10 @@ namespace NewsComponents
                 Trace("ValidationCallbackOne() message: {0}", args.Message);
 
                 /* In some cases we corrupt feedlist.xml by not putting all referenced
-				 * categories in <category> elements. This is not a fatal error. 
-				 * 
-				 * Also we sometimes corrupt subscriptions.xml by putting multiple entries for the same category.
-				 */
+                 * categories in <category> elements. This is not a fatal error. 
+                 * 
+                 * Also we sometimes corrupt subscriptions.xml by putting multiple entries for the same category.
+                 */
                 XmlSchemaException xse = args.Exception;
                 if (xse != null)
                 {
@@ -6308,16 +6325,16 @@ namespace NewsComponents
                         }
 
                         /*
-						COMMENTED OUT BECAUSE WE WON'T SAVE NEWLY DOWNLOADED TEXT IF THE 
-						FEED IS UPDATED WITH THE CODE BELOW. 
-						
-						//We don't need strings in memory if we've read it. However we have to 
-						//account for the edge case where the feed list was imported and this was 
-						//read but hasn't yet been saved to the cache. 
-						//
-						if(!feedListImported && newitem.BeenRead){ 
-							newitem.SetContent((string) null, newitem.ContentType); 
-						} */
+                        COMMENTED OUT BECAUSE WE WON'T SAVE NEWLY DOWNLOADED TEXT IF THE 
+                        FEED IS UPDATED WITH THE CODE BELOW. 
+                        
+                        //We don't need strings in memory if we've read it. However we have to 
+                        //account for the edge case where the feed list was imported and this was 
+                        //read but hasn't yet been saved to the cache. 
+                        //
+                        if(!feedListImported && newitem.BeenRead){ 
+                            newitem.SetContent((string) null, newitem.ContentType); 
+                        } */
                         newitem.Date = olditem.Date; //so the date is from when it was first fetched
 
                         if (respectOldItemState)
@@ -6459,11 +6476,11 @@ namespace NewsComponents
 
         private static void SetSharedPropertyValue(ISharedProperty instance, string propertyName, object value)
         {
-        	string strval = value as string;
+            string strval = value as string;
             switch (propertyName)
             {
                 case "maxitemage":
-					instance.maxitemage = strval;
+                    instance.maxitemage = strval;
                     break;
                 case "downloadenclosures":
                     instance.downloadenclosures = (bool) value;
@@ -6478,10 +6495,10 @@ namespace NewsComponents
                     instance.enclosurealertSpecified = (bool) value;
                     break;
                 case "enclosurefolder":
-					instance.enclosurefolder = strval;
+                    instance.enclosurefolder = strval;
                     break;
                 case "listviewlayout":
-					instance.listviewlayout = strval;
+                    instance.listviewlayout = strval;
                     break;
                 case "markitemsreadonexit":
                     instance.markitemsreadonexit = (bool) value;
@@ -6496,7 +6513,7 @@ namespace NewsComponents
                     instance.refreshrateSpecified = (bool) value;
                     break;
                 case "stylesheet":
-					instance.stylesheet = strval;
+                    instance.stylesheet = strval;
                     break;
                 default:
                     Debug.Assert(true, "unknown shared property name: " + propertyName);
@@ -6687,34 +6704,34 @@ namespace NewsComponents
         /// <returns></returns>
         public Hashtable GetFailureContext(INewsFeed f)
         {
-			FeedInfo fi = null;
-			if (f != null)
-			{
-				lock (itemsTable)
-				{
-					if (itemsTable.ContainsKey(f.link))
-					{
-						fi = itemsTable[f.link] as FeedInfo;
-					}
-				}
-			}
-			return GetFailureContext(f, fi);
+            FeedInfo fi = null;
+            if (f != null)
+            {
+                lock (itemsTable)
+                {
+                    if (itemsTable.ContainsKey(f.link))
+                    {
+                        fi = itemsTable[f.link] as FeedInfo;
+                    }
+                }
+            }
+            return GetFailureContext(f, fi);
         }
 
-		/// <summary>
+        /// <summary>
         /// Overloaded.
         /// </summary>
         /// <param name="f"></param>
         /// <param name="fi"></param>
         /// <returns></returns>
-		public Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
-		{
-			Hashtable context = CreateFailureContext(f, fi);
-			context.Add("SUBSCRIPTION_SOURCE", this);
-			return context;
-		}
+        public Hashtable GetFailureContext(INewsFeed f, IFeedDetails fi)
+        {
+            Hashtable context = CreateFailureContext(f, fi);
+            context.Add("SUBSCRIPTION_SOURCE", this);
+            return context;
+        }
 
-    	/// <summary>
+        /// <summary>
         /// Overloaded.
         /// </summary>
         /// <param name="f"></param>
@@ -6723,7 +6740,7 @@ namespace NewsComponents
         public static Hashtable CreateFailureContext(INewsFeed f, IFeedDetails fi)
         {
             var context = new Hashtable();
-			if (f == null)
+            if (f == null)
             {
                 return context;
             }
@@ -6882,6 +6899,10 @@ namespace NewsComponents
                 {
                     foreach (var feedUrl in feeds2remove)
                     {
+                        if (feedsTable.ContainsKey(feedUrl))
+                        {
+                            _feeds.Remove(feedsTable[feedUrl]);
+                        }
                         feedsTable.Remove(feedUrl);
                     }
                 }
@@ -7142,9 +7163,11 @@ namespace NewsComponents
                     if (feedsTable.ContainsKey(feed.link))
                     {
                         feedsTable.Remove(feed.link);
+                        _feeds.Remove(feed);
                     }
                     feed.owner = this;
                     feedsTable.Add(feed.link, feed);
+                    _feeds.Add(feed);
                 }
             }
 
@@ -7174,9 +7197,9 @@ namespace NewsComponents
         /// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
         public virtual void DeleteFeed(string feedUrl)
         {
-        	feedUrl.ExceptionIfNullOrEmpty("feedUrl");
+            feedUrl.ExceptionIfNullOrEmpty("feedUrl");
 
-			INewsFeed f;
+            INewsFeed f;
             if (!feedsTable.TryGetValue(feedUrl, out f))
             {
                 return;
@@ -7185,6 +7208,7 @@ namespace NewsComponents
             lock (feedsTable)
             {
                 feedsTable.Remove(feedUrl);
+                _feeds.Remove(f);
             }
 
             if (itemsTable.ContainsKey(feedUrl))
@@ -7286,6 +7310,7 @@ namespace NewsComponents
                 enclosureDownloader.CancelPendingDownloads();            
             
             feedsTable.Clear();
+            _feeds.Clear();
             categories.Clear();
             readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
             readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable);
@@ -7312,27 +7337,27 @@ namespace NewsComponents
 
         #endregion
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (_domainStores != null)
-					_domainStores.Dispose();
-			}
-		}
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_domainStores != null)
+                    _domainStores.Dispose();
+            }
+        }
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-    	public void Dispose()
-    	{
-    		Dispose(true);
-			GC.SuppressFinalize(this);
-    	}
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 
     #region NewsFeedProperty enum
@@ -7424,22 +7449,22 @@ namespace NewsComponents
         void WriteTo(XmlWriter writer);
         void WriteTo(XmlWriter writer, bool noDescriptions); */
 
-		/// <summary>
-		/// Gets or sets the feed location.
-		/// </summary>
-		/// <value>The feed location.</value>
+        /// <summary>
+        /// Gets or sets the feed location.
+        /// </summary>
+        /// <value>The feed location.</value>
         string FeedLocation { get; set; }
-		/// <summary>
-		/// Writes the item contents.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		/// <param name="writer">The writer.</param>
+        /// <summary>
+        /// Writes the item contents.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="writer">The writer.</param>
         void WriteItemContents(BinaryReader reader, BinaryWriter writer);
-		/// <summary>
-		/// Writes to a XmlWriter instance.
-		/// </summary>
-		/// <param name="writer">The writer.</param>
-		/// <param name="noDescriptions">if set to <c>true</c> [no descriptions].</param>
+        /// <summary>
+        /// Writes to a XmlWriter instance.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="noDescriptions">if set to <c>true</c> [no descriptions].</param>
         void WriteTo(XmlWriter writer, bool noDescriptions);
     }
 

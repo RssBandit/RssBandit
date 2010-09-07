@@ -14,45 +14,36 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using log4net;
+using NewsComponents;
 using RssBandit.Common.Logging;
+using RssBandit.Util;
 
 namespace RssBandit.WinGui.ViewModel
 {
     public class FeedSourcesViewModel : ModelBase
     {
         private static readonly ILog Log = DefaultLog.GetLogger(typeof (FeedSourcesViewModel));
-
-        private ObservableCollection<CategorizedFeedSourceViewModel> _sources;
-
+        private readonly ObservableCollection<CategorizedFeedSourceViewModel> _sources = new ObservableCollection<CategorizedFeedSourceViewModel>();
         /// <summary>
         ///   Initializes a new instance of the <see cref = "FeedSourcesViewModel" /> class.
         ///   Uses FeedSourceManager to get feed sources.
         /// </summary>
-        public FeedSourcesViewModel()
+        public FeedSourcesViewModel(FeedSourceManager sourceManager)
         {
-            _sources = new ObservableCollection<CategorizedFeedSourceViewModel>();
+            Contract.Requires(sourceManager != null);
 
-            foreach (var entry in RssBanditApplication.Current.FeedSources.GetOrderedFeedSources())
-            {
-                if (entry.Source.FeedsListOK)
-                {
-                    _sources.Add(new CategorizedFeedSourceViewModel(entry));
-                }
-                else
-                {
-                    Log.Error("Feed source reported list was not OK: " + entry.Name);
-                }
-            }
+            Sources = new ReadOnlyObservableCollection<CategorizedFeedSourceViewModel>(_sources);
+
+
+            sourceManager.Sources.SynchronizeCollection(_sources, fs => new CategorizedFeedSourceViewModel(fs));
+
+
         }
 
         /// <summary>
         ///   Gets or sets the feed sources.
         /// </summary>
         /// <value>The sources.</value>
-        public ObservableCollection<CategorizedFeedSourceViewModel> Sources
-        {
-            get { return _sources; }
-            set { _sources = value; }
-        }
+        public ReadOnlyObservableCollection<CategorizedFeedSourceViewModel> Sources { get; private set; }
     }
 }

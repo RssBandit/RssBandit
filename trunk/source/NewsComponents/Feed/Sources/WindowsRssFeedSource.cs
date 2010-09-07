@@ -41,8 +41,8 @@ namespace NewsComponents.Feed
     #region IWindowsRssFeedSource
 
     /// <summary>
-	/// public <see cref="FeedSource"/> extension offered by NewsGator Feed Source
-	/// </summary>
+    /// public <see cref="FeedSource"/> extension offered by NewsGator Feed Source
+    /// </summary>
     public interface IWindowsRssFeedSource
     {
 
@@ -58,10 +58,10 @@ namespace NewsComponents.Feed
     /// </summary>
     public class WindowsRssPlatformException : Exception {
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WindowsRssPlatformException"/> class.
-		/// </summary>
-		/// <param name="message">The message.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsRssPlatformException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public WindowsRssPlatformException(string message) : base(message) { }
     }
 
@@ -78,12 +78,12 @@ namespace NewsComponents.Feed
 
         #region constructor
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FeedSource"/> class.
-		/// </summary>
-		/// <param name="configuration">The configuration.</param>
-		/// <param name="location">The location infos.</param>
-		public WindowsRssFeedSource(INewsComponentsConfiguration configuration, SubscriptionLocation location)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FeedSource"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="location">The location infos.</param>
+        public WindowsRssFeedSource(INewsComponentsConfiguration configuration, SubscriptionLocation location)
         {
             this.p_configuration = configuration;
             if (this.p_configuration == null)
@@ -91,9 +91,9 @@ namespace NewsComponents.Feed
 
             // check for programmers error in configuration:
             ValidateAndThrow(this.Configuration);
-			
-			this.Configuration.PropertyChanged += OnConfigurationPropertyChanged;
-         	ApplyRefreshRate(this.Configuration.RefreshRate);
+            
+            this.Configuration.PropertyChanged += OnConfigurationPropertyChanged;
+            ApplyRefreshRate(this.Configuration.RefreshRate);
 
             this.location = location; 
 
@@ -153,9 +153,9 @@ namespace NewsComponents.Feed
         internal static bool event_caused_by_rssbandit;
 
         /// <summary>
-		/// Synchronization point for event_caused_by_rssbandit
+        /// Synchronization point for event_caused_by_rssbandit
         /// </summary>
-		/// <seealso cref="event_caused_by_rssbandit"/>
+        /// <seealso cref="event_caused_by_rssbandit"/>
         internal static Object event_caused_by_rssbandit_syncroot = new Object(); 
 
          private static readonly ILog _log = DefaultLog.GetLogger(typeof (WindowsRssFeedSource));
@@ -165,10 +165,10 @@ namespace NewsComponents.Feed
 
          #region public fields and properties 
 
-		/// <summary>
-		/// Enables or disables automatic polling of currently subscribed feeds
-		/// </summary>
-		/// <param name="enabled">Indicates whether automatic polling of feeds should be enabled or disabled</param>
+        /// <summary>
+        /// Enables or disables automatic polling of currently subscribed feeds
+        /// </summary>
+        /// <param name="enabled">Indicates whether automatic polling of feeds should be enabled or disabled</param>
          internal void ToggleFeedPolling(bool enabled)
          {
              string[] keys = this.GetFeedsTableKeys();
@@ -198,17 +198,17 @@ namespace NewsComponents.Feed
          /// value to zero means feeds are no longer updated.</remarks>
          public override int RefreshRate
          {
-			 //set
-			 //{
-			 //    if (value >= 15 * 60000)
-			 //    {
-			 //        this.feedManager.DefaultInterval = value / 60000;
-			 //    }
-			 //}
+             //set
+             //{
+             //    if (value >= 15 * 60000)
+             //    {
+             //        this.feedManager.DefaultInterval = value / 60000;
+             //    }
+             //}
 
              get
              {
-				 // base impl. gets the configuration refreshrate. 
+                 // base impl. gets the configuration refreshrate. 
                  return  (feedManager.DefaultInterval == Int32.MaxValue ? 0 :
                      feedManager.DefaultInterval * 60000 /* convert to milliseconds */ ); 
              }
@@ -242,71 +242,71 @@ namespace NewsComponents.Feed
          }
 
 
-		 /// <summary>
-		 /// Attaches event handlers to the root IFeedFolder
-		 /// </summary>
+         /// <summary>
+         /// Attaches event handlers to the root IFeedFolder
+         /// </summary>
         internal void AttachEventHandlers()
         {
-			IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
-		 	if (folder != null) 
-			{
-		 		fw = (IFeedFolderEvents_Event)folder.GetWatcher(
-		 		    FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+            IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
+            if (folder != null) 
+            {
+                fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+                    FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
 
-				fw.Error += Error;
-				fw.FeedAdded += FeedAdded;
-				fw.FeedDeleted += FeedDeleted;
-				fw.FeedDownloadCompleted += FeedDownloadCompleted;
-				fw.FeedDownloading += FeedDownloading;
-				fw.FeedItemCountChanged += FeedItemCountChanged;
-				fw.FeedMovedFrom += FeedMovedFrom;
-				fw.FeedMovedTo += FeedMovedTo;
-				fw.FeedRenamed += FeedRenamed;
-				fw.FeedUrlChanged += FeedUrlChanged;
-				fw.FolderAdded += FolderAdded;
-				fw.FolderDeleted += FolderDeleted;
-				fw.FolderItemCountChanged += FolderItemCountChanged;
-				fw.FolderMovedFrom += FolderMovedFrom;
-				fw.FolderMovedTo += FolderMovedTo;
-				fw.FolderRenamed += FolderRenamed;
-			}
+                fw.Error += Error;
+                fw.FeedAdded += FeedAdded;
+                fw.FeedDeleted += FeedDeleted;
+                fw.FeedDownloadCompleted += FeedDownloadCompleted;
+                fw.FeedDownloading += FeedDownloading;
+                fw.FeedItemCountChanged += FeedItemCountChanged;
+                fw.FeedMovedFrom += FeedMovedFrom;
+                fw.FeedMovedTo += FeedMovedTo;
+                fw.FeedRenamed += FeedRenamed;
+                fw.FeedUrlChanged += FeedUrlChanged;
+                fw.FolderAdded += FolderAdded;
+                fw.FolderDeleted += FolderDeleted;
+                fw.FolderItemCountChanged += FolderItemCountChanged;
+                fw.FolderMovedFrom += FolderMovedFrom;
+                fw.FolderMovedTo += FolderMovedTo;
+                fw.FolderRenamed += FolderRenamed;
+            }
         }
 
-		void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "RefreshRate") {
-				ApplyRefreshRate(this.Configuration.RefreshRate);
-			}
-		}
+        void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "RefreshRate") {
+                ApplyRefreshRate(this.Configuration.RefreshRate);
+            }
+        }
 
 
-		/// <summary>
-		/// Detaches event handlers from the root IFeedFolder
-		/// </summary>
+        /// <summary>
+        /// Detaches event handlers from the root IFeedFolder
+        /// </summary>
         internal void DetachEventHandlers()
         {
             IFeedFolder folder = feedManager.RootFolder as IFeedFolder;
-			if (folder != null) {
-				fw = (IFeedFolderEvents_Event)folder.GetWatcher(
-					FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
+            if (folder != null) {
+                fw = (IFeedFolderEvents_Event)folder.GetWatcher(
+                    FEEDS_EVENTS_SCOPE.FES_ALL, FEEDS_EVENTS_MASK.FEM_FOLDEREVENTS);
 
-				fw.Error -= Error;
-				fw.FeedAdded -= FeedAdded;
-				fw.FeedDeleted -= FeedDeleted;
-				fw.FeedDownloadCompleted -= FeedDownloadCompleted;
-				fw.FeedDownloading -= FeedDownloading;
-				fw.FeedItemCountChanged -= FeedItemCountChanged;
-				fw.FeedMovedFrom -= FeedMovedFrom;
-				fw.FeedMovedTo -= FeedMovedTo;
-				fw.FeedRenamed -= FeedRenamed;
-				fw.FeedUrlChanged -= FeedUrlChanged;
-				fw.FolderAdded -= FolderAdded;
-				fw.FolderDeleted -= FolderDeleted;
-				fw.FolderItemCountChanged -= FolderItemCountChanged;
-				fw.FolderMovedFrom -= FolderMovedFrom;
-				fw.FolderMovedTo -= FolderMovedTo;
-				fw.FolderRenamed -= FolderRenamed;
-			}
+                fw.Error -= Error;
+                fw.FeedAdded -= FeedAdded;
+                fw.FeedDeleted -= FeedDeleted;
+                fw.FeedDownloadCompleted -= FeedDownloadCompleted;
+                fw.FeedDownloading -= FeedDownloading;
+                fw.FeedItemCountChanged -= FeedItemCountChanged;
+                fw.FeedMovedFrom -= FeedMovedFrom;
+                fw.FeedMovedTo -= FeedMovedTo;
+                fw.FeedRenamed -= FeedRenamed;
+                fw.FeedUrlChanged -= FeedUrlChanged;
+                fw.FolderAdded -= FolderAdded;
+                fw.FolderDeleted -= FolderDeleted;
+                fw.FolderItemCountChanged -= FolderItemCountChanged;
+                fw.FolderMovedFrom -= FolderMovedFrom;
+                fw.FolderMovedTo -= FolderMovedTo;
+                fw.FolderRenamed -= FolderRenamed;
+            }
         }
         /// <summary>
         /// Add a folder to the Windows RSS common feed list
@@ -421,16 +421,16 @@ namespace NewsComponents.Feed
         public override IList<INewsItem> GetItemsForFeed(string feedUrl, bool force_download)
         {          
             //We need a reference to the feed so we can see if a cached object exists
-        	INewsFeed f;
+            INewsFeed f;
             feedsTable.TryGetValue(feedUrl, out f);                
 
             if (f == null) // not anymore in feedTable
                 return EmptyItemList;
-        	
-			WindowsRssNewsFeed theFeed = f as WindowsRssNewsFeed;
+            
+            WindowsRssNewsFeed theFeed = f as WindowsRssNewsFeed;
 
-			if (theFeed != null)
-        	try
+            if (theFeed != null)
+            try
             {
                 if (force_download)
                 {
@@ -522,7 +522,7 @@ namespace NewsComponents.Feed
         /// <param name="moveFolder">Indicates whether the underlying folder in the Windows RSS platform should be moved.</param>
         private void ChangeCategory(INewsFeedCategory category, INewsFeedCategory parent, bool moveFolder)
         {
-			category.ExceptionIfNull("category");
+            category.ExceptionIfNull("category");
             
             WindowsRssNewsFeedCategory c = category as WindowsRssNewsFeedCategory;
 
@@ -590,7 +590,7 @@ namespace NewsComponents.Feed
         /// categorized</param>
         public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
         {
-			feed.ExceptionIfNull("feed");
+            feed.ExceptionIfNull("feed");
         
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
 
@@ -616,8 +616,8 @@ namespace NewsComponents.Feed
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
-			oldName.ExceptionIfNullOrEmpty("oldName");
-			newName.ExceptionIfNullOrEmpty("newName");
+            oldName.ExceptionIfNullOrEmpty("oldName");
+            newName.ExceptionIfNullOrEmpty("newName");
 
             if (this.categories.ContainsKey(oldName))
             {
@@ -710,6 +710,7 @@ namespace NewsComponents.Feed
                     if (!feedsTable.ContainsKey(feed.link))
                     {
                         feedsTable.Add(feed.link, feed);
+                        _feeds.Add(feed);
                     }
                 }
                 else
@@ -724,6 +725,7 @@ namespace NewsComponents.Feed
                     IFeed newFeed = folder.CreateFeed(feed.title, feed.link) as IFeed;
                     feed = new WindowsRssNewsFeed(newFeed, feed, this);
                     feedsTable.Add(feed.link, feed);
+                    _feeds.Add(feed);
                 }
 
                 //handle case where refresh rate is 0 for all feeds
@@ -777,6 +779,7 @@ namespace NewsComponents.Feed
             {
                 WindowsRssNewsFeed f = feedsTable[feedUrl] as WindowsRssNewsFeed;
                 this.feedsTable.Remove(f.link);
+                _feeds.Remove(f);
                 try
                 {
                     IFeed feed = feedManager.GetFeedByUrl(feedUrl) as IFeed;
@@ -831,7 +834,7 @@ namespace NewsComponents.Feed
                     foreach (IFeed feed in Feeds)
                     {
                         Uri uri;
-						bool isBadUrl; 
+                        bool isBadUrl; 
 
                         try
                         {
@@ -846,7 +849,7 @@ namespace NewsComponents.Feed
 
                         string feedUrl = uri.CanonicalizedUri();
                         NewsFeed bootstrapFeed;
-						bootstrapFeeds.TryGetValue(feedUrl, out bootstrapFeed);
+                        bootstrapFeeds.TryGetValue(feedUrl, out bootstrapFeed);
 
                         if (this.feedsTable.ContainsKey(feedUrl)) //duplicate subscription
                         {
@@ -858,7 +861,9 @@ namespace NewsComponents.Feed
                         }
                         else
                         {
-                            this.feedsTable.Add(feedUrl, new WindowsRssNewsFeed(feed, bootstrapFeed, this));
+                            var f = new WindowsRssNewsFeed(feed, bootstrapFeed, this);
+                            this.feedsTable.Add(feedUrl, f);
+                            _feeds.Add(f);
                         }
                     }//foreach(IFeed feed in ...)
                 }
@@ -910,17 +915,17 @@ namespace NewsComponents.Feed
             LoadFolder(root, bootstrapFeeds, bootstrapCategories);
 
             /* copy over list view layouts */
-			//if (feedlist.listviewLayouts != null)
-			//{
-			//    foreach (listviewLayout layout in feedlist.listviewLayouts)
-			//    {
-			//        string layout_trimmed = layout.ID.Trim();
-			//        if (!this.layouts.ContainsKey(layout_trimmed))
-			//        {
-			//            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-			//        }
-			//    }
-			//}             
+            //if (feedlist.listviewLayouts != null)
+            //{
+            //    foreach (listviewLayout layout in feedlist.listviewLayouts)
+            //    {
+            //        string layout_trimmed = layout.ID.Trim();
+            //        if (!this.layouts.ContainsKey(layout_trimmed))
+            //        {
+            //            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+            //        }
+            //    }
+            //}             
         }
 
 
@@ -994,7 +999,7 @@ namespace NewsComponents.Feed
 
                 WindowsRssNewsFeed current = feedsTable[keys[i]] as WindowsRssNewsFeed;
 
-				if (current != null && current.category != null && IsChildOrSameCategory(category, current.category))
+                if (current != null && current.category != null && IsChildOrSameCategory(category, current.category))
                 {
                     current.RefreshFeed(true);
                 }
@@ -1128,7 +1133,9 @@ namespace NewsComponents.Feed
             }
 
             IFeed ifeed = feedManager.GetFeed(Path) as IFeed;
-            this.feedsTable.Add(ifeed.DownloadUrl, new WindowsRssNewsFeed(ifeed));
+            var f = new WindowsRssNewsFeed(ifeed);
+            this.feedsTable.Add(ifeed.DownloadUrl, f);
+            _feeds.Add(f);
             this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
 
             //handle case where refresh rate is 0 for all feeds
@@ -1179,7 +1186,8 @@ namespace NewsComponents.Feed
                 {
                     if (f.title.Equals(title) && (Equals(f.category, categoryName)))
                     {
-                        this.feedsTable.Remove(f.link); 
+                        this.feedsTable.Remove(f.link);
+                        _feeds.Remove(f);
                         this.readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable);
 
                         RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
@@ -1422,7 +1430,7 @@ namespace NewsComponents.Feed
                 }
             }
 
-			IFeed ifeed = (IFeed)feedManager.GetFeed(Path);
+            IFeed ifeed = (IFeed)feedManager.GetFeed(Path);
             Uri requestUri = new Uri(ifeed.DownloadUrl);
 
             if (Error == FEEDS_DOWNLOAD_ERROR.FDE_NONE)
@@ -1449,16 +1457,16 @@ namespace NewsComponents.Feed
         #region IDisposable pattern
 
        /// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				DetachEventHandlers(); //we don't want to get events from Windows RSS platform once object is no longer needed
-			}
-		}    
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DetachEventHandlers(); //we don't want to get events from Windows RSS platform once object is no longer needed
+            }
+        }    
          
         #endregion 
     }
@@ -1481,11 +1489,11 @@ namespace NewsComponents.Feed
         /// </summary>
         private WindowsRssNewsItem() { ;}
 
-		/// <summary>
-		/// Initializes the class
-		/// </summary>
-		/// <param name="item">The IFeedItem instance that this object will wrap</param>
-		/// <param name="owner">The owner.</param>
+        /// <summary>
+        /// Initializes the class
+        /// </summary>
+        /// <param name="item">The IFeedItem instance that this object will wrap</param>
+        /// <param name="owner">The owner.</param>
         internal WindowsRssNewsItem(IFeedItem item, WindowsRssNewsFeed owner)
         {
             if (item == null) throw new ArgumentNullException("item"); 
@@ -1547,30 +1555,30 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Disposes of the class
         /// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Disposes of the class
         /// </summary>
         /// <param name="disposing"></param>
-		public void Dispose(bool disposing)
-		{
-			if (!disposed)
-				lock (this)
-				{
-					if (!disposed && myitem != null)
-					{
-						Marshal.ReleaseComObject(myitem);
-						myitem = null;
-					}
+        public void Dispose(bool disposing)
+        {
+            if (!disposed)
+                lock (this)
+                {
+                    if (!disposed && myitem != null)
+                    {
+                        Marshal.ReleaseComObject(myitem);
+                        myitem = null;
+                    }
 
-					disposed = true;
-				}
-		}
+                    disposed = true;
+                }
+        }
 
         #endregion
 
@@ -1586,14 +1594,14 @@ namespace NewsComponents.Feed
         {
             get
             {
-            	if (myitem.Enclosure != null)
+                if (myitem.Enclosure != null)
                 {
                     IEnclosure enc = new WindowsRssEnclosure(myitem.Enclosure as IFeedEnclosure);
                     return new List<IEnclosure>() { enc };
                 }
-            	return GetList<IEnclosure>.Empty;
+                return GetList<IEnclosure>.Empty;
             }
-        	set
+            set
             {
                 /* Can't set IFeedItem.Enclosure */ 
             }
@@ -1783,7 +1791,7 @@ namespace NewsComponents.Feed
             set { } 
         }
 
-		// hold for speed (COM interop is slow to query often...)
+        // hold for speed (COM interop is slow to query often...)
         private bool _beenRead;
         /// <summary>
         /// Indicates whether the story has been read or not. 
@@ -1795,14 +1803,14 @@ namespace NewsComponents.Feed
                 return _beenRead;
             }
             set {
-            	_beenRead = value;
+                _beenRead = value;
                 lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
                     WindowsRssFeedSource.event_caused_by_rssbandit = true;
-					Access.Apply(myitem, delegate
-					{
-						myitem.IsRead = value;
-					});
+                    Access.Apply(myitem, delegate
+                    {
+                        myitem.IsRead = value;
+                    });
                 }
             }
         }
@@ -2306,13 +2314,13 @@ namespace NewsComponents.Feed
             return Equals(obj as INewsItem);
         }
 
-		/// <summary>
-		/// Indicates whether the current object is equal to another object of the same type.
-		/// </summary>
-		/// <param name="other">An object to compare with this object.</param>
-		/// <returns>
-		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-		/// </returns>
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
         public bool Equals(INewsItem other)
         {
             return Equals(other as WindowsRssNewsItem);
@@ -2353,11 +2361,11 @@ namespace NewsComponents.Feed
             return CompareTo(obj as WindowsRssNewsItem);
         }
 
-		/// <summary>
-		/// Compares to another instance.
-		/// </summary>
-		/// <param name="other">The other.</param>
-		/// <returns></returns>
+        /// <summary>
+        /// Compares to another instance.
+        /// </summary>
+        /// <param name="other">The other.</param>
+        /// <returns></returns>
         public int CompareTo(WindowsRssNewsItem other)
         {
             if (ReferenceEquals(this, other))
@@ -2369,13 +2377,13 @@ namespace NewsComponents.Feed
             return this.Date.CompareTo(other.Date);
         }
 
-		/// <summary>
-		/// Compares the current object with another object of the same type.
-		/// </summary>
-		/// <param name="other">An object to compare with this object.</param>
-		/// <returns>
-		/// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>.
-		/// </returns>
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>.
+        /// </returns>
         public int CompareTo(IRelation other)
         {
             return CompareTo(other as WindowsRssNewsItem);
@@ -2401,67 +2409,67 @@ namespace NewsComponents.Feed
     }
 
 
-	/// <summary>
-	/// Helper to access a IFeedItem instance and handle/ignore
-	/// some of the wired exceptions.
-	/// </summary>
-	static class Access
-	{
-		/// <summary>
-		/// Applies the action to the specified item.
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <param name="action">The action.</param>
-		public static void Apply(IFeedItem item, Action action)
-		{
-			if (action == null)
-				throw new ArgumentNullException("action");
+    /// <summary>
+    /// Helper to access a IFeedItem instance and handle/ignore
+    /// some of the wired exceptions.
+    /// </summary>
+    static class Access
+    {
+        /// <summary>
+        /// Applies the action to the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="action">The action.</param>
+        public static void Apply(IFeedItem item, Action action)
+        {
+            if (action == null)
+                throw new ArgumentNullException("action");
 
-			if (item == null)
-				return;
+            if (item == null)
+                return;
 
-			try
-			{
-				action();
-			}
-			catch (FileNotFoundException) { /* ignore */ }
-			catch (COMException comEx)
-			{
-				if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
-					return;
-				throw;
-			}
-		}
+            try
+            {
+                action();
+            }
+            catch (FileNotFoundException) { /* ignore */ }
+            catch (COMException comEx)
+            {
+                if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
+                    return;
+                throw;
+            }
+        }
 
-		/// <summary>
-		/// Gets anything out of the specified item using the <paramref name="actionWithResult"/> delegate.
-		/// </summary>
-		/// <typeparam name="TResult">The type of the result.</typeparam>
-		/// <param name="item">The item.</param>
-		/// <param name="actionWithResult">The action with result.</param>
-		/// <returns></returns>
-		public static TResult Get<TResult>(IFeedItem item, Func<IFeedItem, TResult> actionWithResult)
-		{
-			if (actionWithResult == null)
-				throw new ArgumentNullException("actionWithResult");
+        /// <summary>
+        /// Gets anything out of the specified item using the <paramref name="actionWithResult"/> delegate.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="item">The item.</param>
+        /// <param name="actionWithResult">The action with result.</param>
+        /// <returns></returns>
+        public static TResult Get<TResult>(IFeedItem item, Func<IFeedItem, TResult> actionWithResult)
+        {
+            if (actionWithResult == null)
+                throw new ArgumentNullException("actionWithResult");
 
-			if (item == null)
-				return default(TResult); 
+            if (item == null)
+                return default(TResult); 
 
-			try
-			{
-				return actionWithResult(item);
-			}
-			catch (FileNotFoundException) {/* ignore */ }
-			catch (COMException comEx)
-			{
-				if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
-					return default(TResult);
-				throw;
-			} 
-			return default(TResult);
-		}
-	}
+            try
+            {
+                return actionWithResult(item);
+            }
+            catch (FileNotFoundException) {/* ignore */ }
+            catch (COMException comEx)
+            {
+                if (comEx.ErrorCode == -2147023728)	// Element not found. (Exception from HRESULT: 0x80070490)
+                    return default(TResult);
+                throw;
+            } 
+            return default(TResult);
+        }
+    }
     #endregion 
 
     #region WindowsRssEnclosure
@@ -2578,12 +2586,12 @@ namespace NewsComponents.Feed
             return Equals(obj as WindowsRssEnclosure);
         }
 
-		/// <summary>
-		/// Compares to see if two WindowsRssEnclosure are identical. Identity just checks to see if they have
-		/// the same link,
-		/// </summary>
-		/// <param name="item">The item.</param>
-		/// <returns></returns>
+        /// <summary>
+        /// Compares to see if two WindowsRssEnclosure are identical. Identity just checks to see if they have
+        /// the same link,
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
         public bool Equals(IEnclosure item)
         {
             if (item == null)
@@ -2610,14 +2618,14 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public override int GetHashCode()
         {
-        	if (string.IsNullOrEmpty(Url))
+            if (string.IsNullOrEmpty(Url))
             {
                 return String.Empty.GetHashCode();
             }
-        	return Url.GetHashCode();
+            return Url.GetHashCode();
         }
 
-    	#endregion
+        #endregion
     }
 
     #endregion 
@@ -2703,7 +2711,7 @@ namespace NewsComponents.Feed
         public void Dispose()
         {
             Dispose(true);
-			GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -2711,19 +2719,19 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
-		{
-			if (!disposed)
-				lock (this)
-				{
-					if (!disposed && myfeed != null)
-					{
-						Marshal.ReleaseComObject(myfeed);
-						myfeed = null;
-					}
+        {
+            if (!disposed)
+                lock (this)
+                {
+                    if (!disposed && myfeed != null)
+                    {
+                        Marshal.ReleaseComObject(myfeed);
+                        myfeed = null;
+                    }
 
-					disposed = true;
-				}
-		}
+                    disposed = true;
+                }
+        }
 
         #endregion
 
@@ -2762,12 +2770,12 @@ namespace NewsComponents.Feed
             this.items.Clear();
             IFeedsEnum feedItems = this.myfeed.Items as IFeedsEnum;
 
-			if (feedItems != null)
+            if (feedItems != null)
                 // here seems to be a issue: see https://sourceforge.net/tracker/index.php?func=detail&aid=2217071&group_id=96589&atid=615248
-				foreach (IFeedItem item in feedItems)
-				{
-					this.items.Add(new WindowsRssNewsItem(item, this));
-				}
+                foreach (IFeedItem item in feedItems)
+                {
+                    this.items.Add(new WindowsRssNewsItem(item, this));
+                }
             _log.DebugFormat("LOAD_ITEMS_LIST:'{0}' loaded {1} item(s)", myfeed.Path, items.Count); 
         }
 
@@ -3006,9 +3014,9 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public bool lastmodifiedSpecified { get { return true; } set { } }
 
-		/// <remarks>Not supported by this object</remarks>
-		[XmlElement("certificate-id")]
-		public string certificateId { get { return null; } set { } }
+        /// <remarks>Not supported by this object</remarks>
+        [XmlElement("certificate-id")]
+        public string certificateId { get { return null; } set { } }
 
         /// <remarks>Not supported by this object</remarks>
         [XmlElement("auth-user")]
@@ -3729,10 +3737,10 @@ namespace NewsComponents.Feed
 
         #region destructor and IDisposable implementation 
 
-		/// <summary>
-		/// Releases the associated COM objects
-		/// </summary>
-		~WindowsRssNewsFeedCategory()
+        /// <summary>
+        /// Releases the associated COM objects
+        /// </summary>
+        ~WindowsRssNewsFeedCategory()
         {
             Dispose(false);           
         }
@@ -3741,10 +3749,10 @@ namespace NewsComponents.Feed
         /// Disposes of the class
         /// </summary>
         public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Disposes of the class
@@ -3752,13 +3760,13 @@ namespace NewsComponents.Feed
         /// <param name="disposing"></param>
         public void Dispose(bool disposing)
         {
-			if (!disposed)
+            if (!disposed)
             lock (this)
             {
-				if (!disposed && myfolder != null)
+                if (!disposed && myfolder != null)
                 {
                     Marshal.ReleaseComObject(myfolder);
-                	myfolder = null;
+                    myfolder = null;
                 }
                 disposed = true; 
             }

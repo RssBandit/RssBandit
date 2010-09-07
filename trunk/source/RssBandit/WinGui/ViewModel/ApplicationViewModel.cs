@@ -24,6 +24,7 @@ namespace RssBandit.WinGui.ViewModel
 {
     public partial class ApplicationViewModel : ModelBase
     {
+        private readonly RssBanditApplication _current;
         private static readonly ILog Log = DefaultLog.GetLogger(typeof (ApplicationViewModel));
         private RelayCommand _addFacebookFeedSourceCommand;
         private RelayCommand _addFeedSourcesCommand;
@@ -68,8 +69,9 @@ namespace RssBandit.WinGui.ViewModel
 
         private RelayCommand _updateFeedsInFolderCommand;
 
-        protected ApplicationViewModel()
+        protected ApplicationViewModel(RssBanditApplication current)
         {
+            _current = current;
         }
 
         /// <summary>
@@ -356,10 +358,9 @@ namespace RssBandit.WinGui.ViewModel
             get
             {
                 if (_feedSources == null)
-                    _feedSources = new FeedSourcesViewModel();
+                    _feedSources = new FeedSourcesViewModel(_current.FeedSources);
                 return _feedSources;
             }
-            set { _feedSources = value; }
         }
 
         public bool WorkOffline
@@ -382,11 +383,12 @@ namespace RssBandit.WinGui.ViewModel
         public void AddNewFeedNode(FeedSourceEntry entry, string category, INewsFeed f)
         {
             //find category node or create if it doesn't exist
-            CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry);
-            FolderViewModel folder = entryModel.CreateHive(category);
+            //CategorizedFeedSourceViewModel entryModel = ViewModelOf(entry);
+            //FolderViewModel folder = entryModel.CreateHive(category);
 
-            var feed = new FeedViewModel(f, folder, entryModel);
-            folder.Children.Add(feed);
+            //var feed = new FeedViewModel(f, folder, entryModel);
+            //var feed = new FeedViewModel(f, entryModel);
+            //folder.Children.Add(feed);
 
             /*  
             if (RssHelper.IsNntpUrl(f.link))
@@ -573,17 +575,19 @@ namespace RssBandit.WinGui.ViewModel
 
             if (SelectedTreeNodeItem != null)
             {
-                var si = SelectedTreeNodeItem as TreeNodeViewModelBase;
-                if (si != null)
+                if (SelectedTreeNodeItem is FeedViewModel)
                 {
-                    category = si.Category;
-                    feedSource = si.Source.Name;
+                    category = ((FeedViewModel)SelectedTreeNodeItem).Category;
+                    feedSource = ((FeedViewModel)SelectedTreeNodeItem).Source.Name;
                 }
-                else
+                else if (SelectedTreeNodeItem is FolderViewModel)
                 {
-                    var cfs = SelectedTreeNodeItem as CategorizedFeedSourceViewModel;
-                    if (cfs != null)
-                        feedSource = cfs.Name;
+                    category = ((FolderViewModel)SelectedTreeNodeItem).Category;
+                    feedSource = ((FolderViewModel)SelectedTreeNodeItem).Source.Name;
+                }
+                else if (SelectedTreeNodeItem is CategorizedFeedSourceViewModel)
+                {
+                    feedSource = ((CategorizedFeedSourceViewModel)SelectedTreeNodeItem).Name;
                 }
             }
         }

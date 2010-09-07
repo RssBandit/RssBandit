@@ -8,7 +8,9 @@
                         Height="300" Width="300"
     Title="{Binding DisplayName}"
     Icon="{Binding ApplicationIcon}"
-    ResizeMode="CanResizeWithGrip">
+    ResizeMode="CanResizeWithGrip"
+    TextOptions.TextFormattingMode="Display"
+                        >
 
     <Window.Resources>
         <Converters:StringParameterToBooleanConverter x:Key="themeSelectedConverter" />        

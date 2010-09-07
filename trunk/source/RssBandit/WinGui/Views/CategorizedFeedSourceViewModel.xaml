@@ -1,13 +1,28 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ViewModel="clr-namespace:RssBandit.WinGui.ViewModel"
-                    xmlns:Converters="clr-namespace:RssBandit.Converters">
+                    xmlns:Converters="clr-namespace:RssBandit.Converters"
+                    xmlns:WinGui="clr-namespace:RssBandit.WinGui">
     <HierarchicalDataTemplate DataType="{x:Type ViewModel:CategorizedFeedSourceViewModel}" 
                               ItemsSource="{Binding Children, Converter={x:Static Converters:CommonConverters.NodesSortedByCategoryTitle}}"
                                   >
         <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding Image}" Width="16" Height="16" Margin="0,0,5,0" />
+            <Image x:Name="feedSourceImage" Width="16" Height="16" Margin="0,0,5,0" />
             <TextBlock Text="{Binding Name}" />
         </StackPanel>
+        <HierarchicalDataTemplate.Triggers>
+            <DataTrigger Binding="{Binding SourceType}" Value="DirectAccess">
+                <Setter TargetName="feedSourceImage" Property="Source" Value="{DynamicResource {x:Static WinGui:CommonImages.BanditFeedSourceKey}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SourceType}" Value="Google">
+                <Setter TargetName="feedSourceImage" Property="Source" Value="{DynamicResource {x:Static WinGui:CommonImages.GoogleFeedSourceKey}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SourceType}" Value="WindowsRSS">
+                <Setter TargetName="feedSourceImage" Property="Source" Value="{DynamicResource {x:Static WinGui:CommonImages.WindowsFeedSourceKey}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SourceType}" Value="Facebook">
+                <Setter TargetName="feedSourceImage" Property="Source" Value="{DynamicResource {x:Static WinGui:CommonImages.FacebookFeedSourceKey}}" />
+            </DataTrigger>
+        </HierarchicalDataTemplate.Triggers>
     </HierarchicalDataTemplate>
 </ResourceDictionary>
