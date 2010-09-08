@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using RssBandit.AppServices;
+using RssBandit.AppServices.Core;
 using RssBandit.WinGui.Interfaces;
 
 namespace RssBandit.WinGui.ViewModel

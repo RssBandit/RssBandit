@@ -22,7 +22,7 @@
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation />
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -82,17 +82,31 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckLogWritable.aspx.cs">
+      <DependentUpon>CheckLogWritable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CheckLogWritable.aspx.designer.cs">
+      <DependentUpon>CheckLogWritable.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UpdateInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +121,7 @@
     <Compile Include="Utilities.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="CheckLogWritable.aspx" />
     <Content Include="UpdateService.asmx">
       <SubType>Form</SubType>
     </Content>
@@ -119,6 +134,11 @@
     <EmbeddedResource Include="UpdateServiceImplementation.resx">
       <DependentUpon>UpdateServiceImplementation.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RssBandit.Services.log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -18,12 +18,11 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
-using DrWPF.Windows.Data;
 using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Search; 
 using NewsComponents.Utils;
-using RssBandit.Util;
+using RssBandit.AppServices.Util;
 
 namespace NewsComponents
 {
@@ -168,7 +167,7 @@ namespace NewsComponents
     /// String property container
     /// </summary>
     [Serializable]
-    public class StringProperties: KeyItemCollection<string, string>
+    public class StringProperties: IndexedDictionary<string, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringProperties"/> class.

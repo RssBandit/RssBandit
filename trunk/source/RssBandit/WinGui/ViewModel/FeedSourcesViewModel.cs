@@ -15,8 +15,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using log4net;
 using NewsComponents;
+using RssBandit.AppServices.Core;
 using RssBandit.Common.Logging;
-using RssBandit.Util;
+using RssBandit.AppServices.Util;
 
 namespace RssBandit.WinGui.ViewModel
 {

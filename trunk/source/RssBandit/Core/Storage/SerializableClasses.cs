@@ -19,30 +19,30 @@ using RssBandit.WinGui;
 namespace RssBandit.Core.Storage.Serialization
 {
 
-	public class StatefullKeyItemCollection<TK, TI>: ObservableKeyItemCollection<TK, TI>
+	public class StatefullIndexedDictionary<TK, TI>: ObservableIndexedDictionary<TK, TI>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="StatefullKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="StatefullIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
-		public StatefullKeyItemCollection()
+		public StatefullIndexedDictionary()
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="StatefullKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="StatefullIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
 		/// <param name="capacity">The capacity.</param>
-		public StatefullKeyItemCollection(int capacity) : base(capacity)
+		public StatefullIndexedDictionary(int capacity) : base(capacity)
 		{
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="StatefullKeyItemCollection&lt;TK, TI&gt;"/> is modified.
+		/// Gets or sets a value indicating whether this <see cref="StatefullIndexedDictionary{TK,TI}"/> is modified.
 		/// </summary>
 		/// <value><c>true</c> if modified; otherwise, <c>false</c>.</value>
 		public bool Modified { get; set; }
 
-		protected override void CollectionWasChanged(KeyItemChange change, int position)
+		protected override void CollectionWasChanged(IndexedDictionaryChangeAction changeAction, int position)
 		{
 			Modified = true;
 		}

@@ -1,13 +1,21 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
-namespace RssBandit.Util
+namespace RssBandit.AppServices.Util
 {
   public static class NotifyCollectionChangedExtensions
   {

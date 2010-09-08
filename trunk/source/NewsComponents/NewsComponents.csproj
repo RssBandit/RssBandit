@@ -378,13 +378,11 @@
     <Compile Include="..\Common\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Collections\DisposableItemCollection.cs" />
-    <Compile Include="Collections\FeedsCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Collections\KeyItemCollection.cs" />
+    <Compile Include="Collections\DisposableIndexedDictionary.cs" />
+    <Compile Include="Collections\IndexedDictionary.cs" />
+    <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\ObservableDictionary.cs" />
-    <Compile Include="Collections\ObservableKeyItemCollection.cs" />
+    <Compile Include="Collections\ObservableIndexedDictionary.cs" />
     <Compile Include="Collections\ObservableSortedDictionary.cs" />
     <Compile Include="Collections\ReadOnlyCollections.cs" />
     <Compile Include="Collections\RelationHRefEntry.cs" />

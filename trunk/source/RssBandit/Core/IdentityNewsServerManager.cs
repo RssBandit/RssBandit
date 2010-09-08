@@ -473,7 +473,7 @@ namespace RssBandit
 	/// <summary>
 	/// A dictionary of user identities
 	/// </summary>
-	internal class IdentitiesDictionary : Core.Storage.Serialization.StatefullKeyItemCollection<string, UserIdentity>
+	internal class IdentitiesDictionary : Core.Storage.Serialization.StatefullIndexedDictionary<string, UserIdentity>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="IdentitiesDictionary"/> class.

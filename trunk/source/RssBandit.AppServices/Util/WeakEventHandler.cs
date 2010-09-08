@@ -1,10 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
 
-namespace MorganStanley.EquityPPP.PharosGUI.Presentation.Util
+using System;
+using System.Reflection;
+
+namespace RssBandit.AppServices.Util
 {
   // The code in this file is from Dustin Campbell's blog at
   // http://diditwith.net/PermaLink,guid,aacdb8ae-7baa-4423-a953-c18c1c7940ab.aspx

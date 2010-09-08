@@ -1,13 +1,22 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace RssBandit.Util
+// keep namespace, it is the same as the extendee.
+namespace System.ComponentModel
 {
   /// <summary>
   /// PropertyChanged helpers
