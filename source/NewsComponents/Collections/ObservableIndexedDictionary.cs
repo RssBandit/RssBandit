@@ -17,47 +17,47 @@ using System.ComponentModel;
 namespace NewsComponents.Collections
 {
 	/// <summary>
-	/// A observable KeyItemCollection
+	/// A observable IndexedDictionary
 	/// </summary>
 	/// <typeparam name="TK">The type of the Key.</typeparam>
 	/// <typeparam name="TI">The type of the Item.</typeparam>
 	[Serializable]
-	public class ObservableKeyItemCollection<TK, TI> : KeyItemCollection<TK, TI>,
+	public class ObservableIndexedDictionary<TK, TI> : IndexedDictionary<TK, TI>,
 		INotifyCollectionChanged, INotifyPropertyChanged
 	{
 		#region ctor's
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ObservableKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="ObservableIndexedDictionaryIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
-		public ObservableKeyItemCollection()
+		public ObservableIndexedDictionary()
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ObservableKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="ObservableIndexedDictionaryIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
 		/// <param name="capacity">The initial capacity.</param>
-		public ObservableKeyItemCollection(int capacity):
+		public ObservableIndexedDictionary(int capacity):
 			base(capacity) {
 			
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ObservableKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="ObservableIndexedDictionaryIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
 		/// <param name="comparer">The key comparer.</param>
-		public ObservableKeyItemCollection(IEqualityComparer<TK> comparer):
+		public ObservableIndexedDictionary(IEqualityComparer<TK> comparer):
 			base(comparer)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ObservableKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// Initializes a new instance of the <see cref="ObservableIndexedDictionaryIndexedDictionary{TK,TI}"/> class.
 		/// </summary>
 		/// <param name="capacity">The capacity.</param>
 		/// <param name="comparer">The key comparer.</param>
-		public ObservableKeyItemCollection(int capacity, IEqualityComparer<TK> comparer):
+		public ObservableIndexedDictionary(int capacity, IEqualityComparer<TK> comparer):
 			base(capacity, comparer)
 		{
 		}
@@ -84,27 +84,27 @@ namespace NewsComponents.Collections
 				this.collectionChanged(this, e);
 			}
 		}
-		protected override void CollectionWasChanged(KeyItemChange change, int position)
+		protected override void CollectionWasChanged(IndexedDictionaryChangeAction changeAction, int position)
 		{
 			if (collectionChanged != null)
 			{
-				switch (change)
+				switch (changeAction)
 				{
-					case KeyItemChange.Add:
+					case IndexedDictionaryChangeAction.Add:
 						OnPropertyChanged("Item[]");
 						OnPropertyChanged("Count");
 						OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, this[position], position));
 						break;
-					case KeyItemChange.Remove:
+					case IndexedDictionaryChangeAction.Remove:
 						OnPropertyChanged("Item[]");
 						OnPropertyChanged("Count");
 						OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, null, position));
 						break;
-					case KeyItemChange.Changed:
+					case IndexedDictionaryChangeAction.EntryChanged:
 						OnPropertyChanged("Item[]");
 						OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, this[position], null, position));
 						break;
-					case KeyItemChange.OrderChanged:
+					case IndexedDictionaryChangeAction.OrderChanged:
 						OnPropertyChanged("Item[]");
 						OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, (IList)this.Values, 0));
 						break;

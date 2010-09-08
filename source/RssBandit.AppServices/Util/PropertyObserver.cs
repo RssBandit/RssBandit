@@ -1,4 +1,14 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +20,7 @@ using System.Windows;
 // Code from MVVM Foundation on CodePlex: http://mvvmfoundation.codeplex.com/
 // License is MS-Pl
 
-namespace RssBandit.Util
+namespace RssBandit.AppServices.Util
 {
   public static class PropertyObserver
   {

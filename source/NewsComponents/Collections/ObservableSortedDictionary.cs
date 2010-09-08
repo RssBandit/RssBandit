@@ -1,3 +1,13 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 /* Copyright (c) 2007, Dr. WPF
  * All rights reserved.
  *
@@ -29,12 +39,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace DrWPF.Windows.Data
+namespace NewsComponents.Collections
 {
     [Serializable]
     public class ObservableSortedDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>, ISerializable, IDeserializationCallback

@@ -267,7 +267,7 @@ namespace RssBandit.WinGui
 	/// pairs that retain their insertion order and are accessible by index and by key.
 	/// </summary>
 	[Serializable]
-	public class FeedColumnLayoutCollection : StatefullKeyItemCollection<string, FeedColumnLayout>
+	public class FeedColumnLayoutCollection : StatefullIndexedDictionary<string, FeedColumnLayout>
 	{
 		#region ctor's
 

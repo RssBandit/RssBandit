@@ -23,9 +23,9 @@ namespace NewsComponents.Collections
 	#region KeyItemChange enum
 
 	/// <summary>
-	/// Lists the possible change actions of a KeyItemCollection
+	/// Lists the possible change actions of a IndexedDictionary
 	/// </summary>
-	public enum KeyItemChange
+	public enum IndexedDictionaryChangeAction
 	{
 		/// <summary>
 		/// Entry was removed
@@ -38,7 +38,7 @@ namespace NewsComponents.Collections
 		/// <summary>
 		/// Entry was changed
 		/// </summary>
-		Changed,
+		EntryChanged,
 		/// <summary>
 		/// Entry order changed
 		/// </summary>
@@ -50,74 +50,74 @@ namespace NewsComponents.Collections
 	/// <summary>
 	/// Instance works like a Dictionary with keys and like a List with indexes.
 	/// </summary>
-	/// <typeparam name="Key">Key type of the collection</typeparam>
-	/// <typeparam name="Object">Object type of the collection</typeparam>
+	/// <typeparam name="TKey">Key type of the collection</typeparam>
+	/// <typeparam name="TValue">Object type of the collection</typeparam>
 	[Serializable, DebuggerDisplay("Count = {Count}")]
-	public class KeyItemCollection<Key, Object> : ISerializable, IXmlSerializable,
-		IEnumerable<Object>, ICloneable, IDictionary<Key,Object>, IDictionary,IDeserializationCallback
+	public class IndexedDictionary<TKey, TValue> : ISerializable, IXmlSerializable,
+		IEnumerable<TValue>, ICloneable, IDictionary<TKey,TValue>, IDictionary,IDeserializationCallback
 	{
 	    private const int Version_1 = 20080528;
 
 	    private SerializationInfoReader reader;
 		private readonly object SyncRoot = new object();
-		private const List<Object> Defaultitems= null;
+		private const List<TValue> Defaultitems= null;
 		private const string Serialitems="items";
-		private const Dictionary<Key, int> Defaultpositions = null;
+		private const Dictionary<TKey, int> Defaultpositions = null;
 		private const string Serialpositions="positions";
 	    private const int DefaultVersion = Version_1;
 	    private const string SerialVersion = "Version";
 
-		private List<Object> items;
-		private Dictionary<Key,int> positions;
+		private List<TValue> items;
+		private Dictionary<TKey,int> positions;
 
 		#region ctor's
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// Initializes a new instance of the <see cref="IndexedDictionary{Key,Object}"/> class.
 		/// </summary>
-		public KeyItemCollection()
+		public IndexedDictionary()
 		{
-			items = new List<Object>();
-			positions = new Dictionary<Key, int>();
+			items = new List<TValue>();
+			positions = new Dictionary<TKey, int>();
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// Initializes a new instance of the <see cref="IndexedDictionary{Key,Object}"/> class.
 		/// </summary>
 		/// <param name="capacity">The initial capacity.</param>
-		public KeyItemCollection(int capacity) {
-			items = new List<Object>(capacity);
-			positions = new Dictionary<Key, int>(capacity);
+		public IndexedDictionary(int capacity) {
+			items = new List<TValue>(capacity);
+			positions = new Dictionary<TKey, int>(capacity);
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// Initializes a new instance of the <see cref="IndexedDictionary{Key,Object}"/> class.
 		/// </summary>
 		/// <param name="comparer">The key comparer.</param>
-		public KeyItemCollection(IEqualityComparer<Key> comparer)
+		public IndexedDictionary(IEqualityComparer<TKey> comparer)
 		{
-			items = new List<Object>();
-			positions = new Dictionary<Key, int>(comparer);
+			items = new List<TValue>();
+			positions = new Dictionary<TKey, int>(comparer);
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// Initializes a new instance of the <see cref="IndexedDictionary{Key,Object}"/> class.
 		/// </summary>
 		/// <param name="capacity">The capacity.</param>
 		/// <param name="comparer">The key comparer.</param>
-		public KeyItemCollection(int capacity, IEqualityComparer<Key> comparer)
+		public IndexedDictionary(int capacity, IEqualityComparer<TKey> comparer)
 		{
-			items = new List<Object>(capacity);
-			positions = new Dictionary<Key, int>(capacity, comparer);
+			items = new List<TValue>(capacity);
+			positions = new Dictionary<TKey, int>(capacity, comparer);
 		}
 		#endregion
 
 		/// <summary>
 		/// Called if Collection was the changed.
 		/// </summary>
-		/// <param name="change">The change.</param>
+		/// <param name="changeAction">The change.</param>
 		/// <param name="position">The position.</param>
-		protected virtual void CollectionWasChanged(KeyItemChange change, int position)
+		protected virtual void CollectionWasChanged(IndexedDictionaryChangeAction changeAction, int position)
 		{			
 
 		}
@@ -130,7 +130,7 @@ namespace NewsComponents.Collections
 		/// true if the <see cref="T:System.Collections.Generic.IDictionary`2"></see> contains an element with the key; otherwise, false.
 		/// </returns>
 		/// <exception cref="T:System.ArgumentNullException">key is null.</exception>
-		public virtual bool ContainsKey(Key key)
+		public virtual bool ContainsKey(TKey key)
 		{
 			return positions.ContainsKey(key);			
 		}
@@ -138,10 +138,10 @@ namespace NewsComponents.Collections
 		/// <summary>
 		/// Gets the index the of the provided object.
 		/// </summary>
-		/// <param name="object">The object.</param>
+		/// <param name="value">The object.</param>
 		/// <returns></returns>
-		public virtual int IndexOf(Object @object) {
-			return items.IndexOf(@object);
+		public virtual int IndexOf(TValue value) {
+			return items.IndexOf(value);
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public virtual int IndexOf(Key key) {
+		public virtual int IndexOf(TKey key) {
 			
 			int position;
 			if (positions.TryGetValue(key, out position))
@@ -167,15 +167,15 @@ namespace NewsComponents.Collections
 		/// </returns>
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2"></see> is read-only.</exception>
 		/// <exception cref="T:System.ArgumentNullException">key is null.</exception>
-		public virtual bool Remove(Key key)
+		public virtual bool Remove(TKey key)
 		{
 			int position;
 			if (positions.TryGetValue(key,out position))
 			{
-				CollectionWasChanged(KeyItemChange.Remove, position);
+				CollectionWasChanged(IndexedDictionaryChangeAction.Remove, position);
 				positions.Remove(key);
-				Dictionary<Key, int> newPositions = new Dictionary<Key, int>();
-				foreach(KeyValuePair<Key, int> entry in positions)
+				Dictionary<TKey, int> newPositions = new Dictionary<TKey, int>();
+				foreach(KeyValuePair<TKey, int> entry in positions)
 				{
 					if (entry.Value>position)
 					{
@@ -201,9 +201,9 @@ namespace NewsComponents.Collections
 			if (index >= positions.Count || index < 0)
 				throw new IndexOutOfRangeException("Parameter 'index' is out of range");
 
-			KeyValuePair<Key, int> found = new KeyValuePair<Key, int>(default(Key), -1);
+			KeyValuePair<TKey, int> found = new KeyValuePair<TKey, int>(default(TKey), -1);
 
-			foreach (KeyValuePair<Key, int> entry in positions)
+			foreach (KeyValuePair<TKey, int> entry in positions)
 			{
 				if (entry.Value == index)
 				{
@@ -222,21 +222,21 @@ namespace NewsComponents.Collections
 		/// Adds the specified key and object.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		/// <param name="object">The object.</param>
-		public virtual void Add(Key key, Object @object)
+		/// <param name="value">The object.</param>
+		public virtual void Add(TKey key, TValue value)
 		{
 			int position;
 			if (positions.TryGetValue(key,out position))
 			{
-				items[position] = @object;
+				items[position] = value;
 			}
 			else
 			{
 				positions.Add(key,items.Count);
 				position = items.Count;
-				items.Add(@object);
+				items.Add(value);
 			}
-			CollectionWasChanged(KeyItemChange.Add, position);
+			CollectionWasChanged(IndexedDictionaryChangeAction.Add, position);
 		}
 
 		/// <summary>
@@ -244,7 +244,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <value></value>
 		/// <exception cref="IndexOutOfRangeException"></exception>
-		public virtual Object this[int position]
+		public virtual TValue this[int position]
 		{
 			get
 			{
@@ -253,7 +253,7 @@ namespace NewsComponents.Collections
 			set
 			{
 				items[position] = value;
-				CollectionWasChanged(KeyItemChange.Changed, position);
+				CollectionWasChanged(IndexedDictionaryChangeAction.EntryChanged, position);
 			}
 		}
 
@@ -262,7 +262,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <value></value>
 		/// <exception cref="KeyNotFoundException">On set</exception>
-		public virtual Object this[Key key]
+		public virtual TValue this[TKey key]
 		{
 			get
 			{
@@ -271,13 +271,13 @@ namespace NewsComponents.Collections
 				{
 					return items[position];	
 				}
-				return default(Object);
+				return default(TValue);
 			}
 			set
 			{
 				int position = positions[key];
 				items[position] = value;
-				CollectionWasChanged(KeyItemChange.Changed, position);
+				CollectionWasChanged(IndexedDictionaryChangeAction.EntryChanged, position);
 				
 			}
 		}
@@ -286,16 +286,16 @@ namespace NewsComponents.Collections
 		/// Sorts the collection by items.
 		/// </summary>
 		/// <param name="itemComparer">The item comparer.</param>
-		public virtual void SortByItems(IComparer<Object> itemComparer)
+		public virtual void SortByItems(IComparer<TValue> itemComparer)
 		{
-			Object[] arrObjects = items.ToArray();
-			Key[] arrKeys = new Key[arrObjects.Length];
-		    foreach(KeyValuePair<Key, int> entry in positions)
+			TValue[] arrValues = items.ToArray();
+			TKey[] arrKeys = new TKey[arrValues.Length];
+		    foreach(KeyValuePair<TKey, int> entry in positions)
 		    {
 				arrKeys[entry.Value] = entry.Key;
 		    }
-			Array.Sort(arrObjects, arrKeys, itemComparer);
-			UpdateCollections(arrObjects, arrKeys);
+			Array.Sort(arrValues, arrKeys, itemComparer);
+			UpdateCollections(arrValues, arrKeys);
 		}
 
 
@@ -304,16 +304,16 @@ namespace NewsComponents.Collections
 		/// Sorts the collection by keys.
 		/// </summary>
 		/// <param name="keyComparer">The key comparer.</param>
-		public virtual void SortByKeys(IComparer<Key> keyComparer)
+		public virtual void SortByKeys(IComparer<TKey> keyComparer)
 		{
-			Object[] arrObjects = items.ToArray();
-			Key[] arrKeys = new Key[arrObjects.Length];
-			foreach (KeyValuePair<Key, int> entry in positions)
+			TValue[] arrValues = items.ToArray();
+			TKey[] arrKeys = new TKey[arrValues.Length];
+			foreach (KeyValuePair<TKey, int> entry in positions)
 			{
 				arrKeys[entry.Value] = entry.Key;
 			}
-			Array.Sort(arrKeys, arrObjects, keyComparer);
-			UpdateCollections(arrObjects, arrKeys);
+			Array.Sort(arrKeys, arrValues, keyComparer);
+			UpdateCollections(arrValues, arrKeys);
 		}
 
 		
@@ -331,7 +331,7 @@ namespace NewsComponents.Collections
 
 		#region private helpers
 
-		private void UpdateCollections(IEnumerable<Object> arrItems, Key[] arrKeys)
+		private void UpdateCollections(IEnumerable<TValue> arrItems, TKey[] arrKeys)
 		{
 			items.Clear();
 			items.AddRange(arrItems);
@@ -339,19 +339,19 @@ namespace NewsComponents.Collections
 			{
 				positions[arrKeys[iPosition]] = iPosition;
 			}
-			CollectionWasChanged(KeyItemChange.OrderChanged, -1);
+			CollectionWasChanged(IndexedDictionaryChangeAction.OrderChanged, -1);
 		}
 		
-		internal Key[] GetSortedKeys()
+		internal TKey[] GetSortedKeys()
 		{
 			if (this.Count > 0) {
-				Key[] arrKeys = new Key[this.Count];
-				foreach (KeyValuePair<Key, int> entry in positions) {
+				TKey[] arrKeys = new TKey[this.Count];
+				foreach (KeyValuePair<TKey, int> entry in positions) {
 					arrKeys[entry.Value] = entry.Key;
 				}
 				return arrKeys;
 			}
-			return new Key[] { };
+			return new TKey[] { };
 		}
 
 		#endregion
@@ -364,7 +364,7 @@ namespace NewsComponents.Collections
 		/// <param name="key">The key.</param>
 		/// <param name="value">The value.</param>
 		/// <returns>True on success, else false</returns>
-		public bool TryGetValue(Key key, out Object value)
+		public bool TryGetValue(TKey key, out TValue value)
 		{
 			int position;
 			if (positions.TryGetValue(key,out position))
@@ -372,7 +372,7 @@ namespace NewsComponents.Collections
 				value = items[position];
 				return true;
 			}
-			value = default(Object);
+			value = default(TValue);
 			return false;
 		}
 
@@ -381,7 +381,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <value></value>
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
-		ICollection<Key> IDictionary<Key,Object>.Keys
+		ICollection<TKey> IDictionary<TKey,TValue>.Keys
 		{
 			get { return this.GetSortedKeys(); }
 		}
@@ -391,16 +391,16 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <value></value>
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
-		public ICollection<Key> Keys
+		public ICollection<TKey> Keys
 		{
-			get { return new List<Key>(this.GetSortedKeys()); }
+			get { return new List<TKey>(this.GetSortedKeys()); }
 		}
 		/// <summary>
 		/// Gets an <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2"></see>.
 		/// </summary>
 		/// <value></value>
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
-		ICollection<Object> IDictionary<Key, Object>.Values
+		ICollection<TValue> IDictionary<TKey, TValue>.Values
 		{
 			get { return this.Values; }
 		}
@@ -410,9 +410,9 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <value></value>
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
-		public ICollection<Object> Values
+		public ICollection<TValue> Values
 		{
-			get { return new List<Object>(items); }
+			get { return new List<TValue>(items); }
 		}
 
 		/// <summary>
@@ -420,7 +420,7 @@ namespace NewsComponents.Collections
 		/// </summary>
 		/// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.</exception>
-		public void Add(KeyValuePair<Key, Object> item)
+		public void Add(KeyValuePair<TKey, TValue> item)
 		{
 			Add(item.Key,item.Value);
 		}
@@ -433,7 +433,7 @@ namespace NewsComponents.Collections
 		{
 			for (int i = 0; i < Count; i++)
 			{
-				CollectionWasChanged(KeyItemChange.Remove, i);				
+				CollectionWasChanged(IndexedDictionaryChangeAction.Remove, i);				
 			}
 			positions.Clear();
 			items.Clear();			
@@ -446,7 +446,7 @@ namespace NewsComponents.Collections
 		/// <returns>
 		/// true if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
 		/// </returns>
-		public bool Contains(KeyValuePair<Key, Object> item)
+		public bool Contains(KeyValuePair<TKey, TValue> item)
 		{
 			return ContainsKey(item.Key);
 		}
@@ -459,10 +459,10 @@ namespace NewsComponents.Collections
 		/// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception>
 		/// <exception cref="T:System.ArgumentNullException">array is null.</exception>
 		/// <exception cref="T:System.ArgumentException">array is multidimensional.-or-<paramref name="arrayIndex"/> is equal to or greater than the length of array.-or-The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"></see> is greater than the available space from arrayIndex to the end of the destination array.-or-Type T cannot be cast automatically to the type of the destination array.</exception>
-		void ICollection<KeyValuePair<Key, Object>>.CopyTo(KeyValuePair<Key, Object>[] array, int arrayIndex)
+		void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
 		{
 			int pos = arrayIndex;
-			foreach (KeyValuePair<Key, Object> p in (IEnumerable)this)
+			foreach (KeyValuePair<TKey, TValue> p in (IEnumerable)this)
 				array[pos++] = p;
 		}
 
@@ -474,12 +474,12 @@ namespace NewsComponents.Collections
 		/// true if item was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method also returns false if item is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
 		/// </returns>
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.</exception>
-		public bool Remove(KeyValuePair<Key, Object> item)
+		public bool Remove(KeyValuePair<TKey, TValue> item)
 		{
 			int position;
 			if (positions.TryGetValue(item.Key, out position))
 			{
-				CollectionWasChanged(KeyItemChange.Remove, position);
+				CollectionWasChanged(IndexedDictionaryChangeAction.Remove, position);
 				positions.Remove(item.Key);
 				items.RemoveAt(position);
 			}
@@ -504,7 +504,7 @@ namespace NewsComponents.Collections
 		/// <returns>
 		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
 		/// </returns>
-		IEnumerator<KeyValuePair<Key, Object>> IEnumerable<KeyValuePair<Key, Object>>.GetEnumerator()
+		IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
 		{
 			return new KeyValuePairEnumerator(this);
 		}
@@ -527,11 +527,11 @@ namespace NewsComponents.Collections
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="KeyItemCollection&lt;Key, Object&gt;"/> class.
+		/// Initializes a new instance of the <see cref="IndexedDictionary{Key,Object}"/> class.
 		/// </summary>
 		/// <param name="info">The info.</param>
 		/// <param name="context">The context.</param>
-		protected KeyItemCollection(SerializationInfo info, StreamingContext context)
+		protected IndexedDictionary(SerializationInfo info, StreamingContext context)
 		{
 			reader = new SerializationInfoReader(info,context);			
 		}
@@ -557,8 +557,8 @@ namespace NewsComponents.Collections
                         }
                         break;
                 }
-                if (items == null) items = new List<Object>();
-                if (positions==null) positions=new Dictionary<Key, int>();
+                if (items == null) items = new List<TValue>();
+                if (positions==null) positions=new Dictionary<TKey, int>();
                 reader = null;
             }
 	    }
@@ -605,8 +605,8 @@ namespace NewsComponents.Collections
 			XmlSerializer itemSerializer = xmlSerializerCache.CreateSerializer(itemType);
 			XmlSerializer keySerializer = xmlSerializerCache.CreateSerializer(keyType);
 
-			List<Key> keysRead = new List<Key>();
-			List<Object> itemsRead = new List<Object>();
+			List<TKey> keysRead = new List<TKey>();
+			List<TValue> itemsRead = new List<TValue>();
 
 			int myLevel = r.Depth;
 
@@ -626,7 +626,7 @@ namespace NewsComponents.Collections
 						if (String.IsNullOrEmpty(index)) 
 							r.Skip();
 						else 
-							keysRead.Insert(Convert.ToInt32(index), (Key)GetXmlChild(r, keySerializer));
+							keysRead.Insert(Convert.ToInt32(index), (TKey)GetXmlChild(r, keySerializer));
 					} 
 					else
 					if (0 == String.CompareOrdinal("item", itemName))
@@ -642,7 +642,7 @@ namespace NewsComponents.Collections
 								usedSerializer = xmlSerializerCache.CreateSerializer(subType);
 								
 							}
-							itemsRead.Insert(Convert.ToInt32(index), (Object)GetXmlChild(r, usedSerializer));
+							itemsRead.Insert(Convert.ToInt32(index), (TValue)GetXmlChild(r, usedSerializer));
 						}
 					}
 					else
@@ -682,8 +682,8 @@ namespace NewsComponents.Collections
 			if (this.Count == 0)
 				return;
 
-			w.WriteAttributeString("keyType", typeof(Key).AssemblyQualifiedName);
-			w.WriteAttributeString("itemType", typeof(Object).AssemblyQualifiedName);
+			w.WriteAttributeString("keyType", typeof(TKey).AssemblyQualifiedName);
+			w.WriteAttributeString("itemType", typeof(TValue).AssemblyQualifiedName);
 
 			if (w.LookupPrefix(NamespaceXml.Xsd) == null)
 			{
@@ -695,14 +695,14 @@ namespace NewsComponents.Collections
 				w.WriteAttributeString("xmlns", "xsi", NamespaceXml.XmlNs, NamespaceXml.Xsi);
 			}
 
-			XmlSerializer keySerializer = xmlSerializerCache.CreateSerializer(typeof(Key));
-			XmlSerializer itemSerializer = xmlSerializerCache.CreateSerializer(typeof(Object));
+			XmlSerializer keySerializer = xmlSerializerCache.CreateSerializer(typeof(TKey));
+			XmlSerializer itemSerializer = xmlSerializerCache.CreateSerializer(typeof(TValue));
 			XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
 
-			foreach (Key key in this.Keys)
+			foreach (TKey key in this.Keys)
 			{
 				int index = this.positions[key];
-				Object value = this[key];
+				TValue value = this[key];
 
 				w.WriteStartElement("key");
 				w.WriteAttributeString("index", index.ToString());
@@ -711,7 +711,7 @@ namespace NewsComponents.Collections
 
 				w.WriteStartElement("item");
 				w.WriteAttributeString("index", index.ToString());
-				if (!typeof(Object).IsValueType && value != null && !typeof(Object).Equals(value.GetType())) 
+				if (!typeof(TValue).IsValueType && value != null && !typeof(TValue).Equals(value.GetType())) 
 				{
 					// items can be inherited objects, so create the XmlSerializer on demand:
 					w.WriteAttributeString("itemType", value.GetType().AssemblyQualifiedName);
@@ -738,7 +738,7 @@ namespace NewsComponents.Collections
 		/// <returns>
 		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
 		/// </returns>
-		public IEnumerator<Object> GetEnumerator()
+		public IEnumerator<TValue> GetEnumerator()
 		{
 			return new KeyItemEnumerator(this);
 		}
@@ -772,9 +772,9 @@ namespace NewsComponents.Collections
 		/// </returns>
 		public virtual object Clone()
 		{
-			KeyItemCollection<Key,Object> clone=new KeyItemCollection<Key, Object>();
-			clone.items=new List<Object>(items);
-			clone.positions=new Dictionary<Key, int>(positions);
+			IndexedDictionary<TKey,TValue> clone=new IndexedDictionary<TKey, TValue>();
+			clone.items=new List<TValue>(items);
+			clone.positions=new Dictionary<TKey, int>(positions);
 			return clone;
 		}
 
@@ -794,7 +794,7 @@ namespace NewsComponents.Collections
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.IDictionary"></see> is read-only.-or- The <see cref="T:System.Collections.IDictionary"></see> has a fixed size. </exception>
 		void IDictionary.Add(object key, object value)
 		{
-			this.Add((Key)key, (Object)value);
+			this.Add((TKey)key, (TValue)value);
 		}
 
 		/// <summary>
@@ -816,7 +816,7 @@ namespace NewsComponents.Collections
 		/// <exception cref="T:System.ArgumentNullException">key is null. </exception>
 		bool IDictionary.Contains(object key)
 		{
-			return this.ContainsKey((Key)key);
+			return this.ContainsKey((TKey)key);
 		}
 
 		/// <summary>
@@ -857,7 +857,7 @@ namespace NewsComponents.Collections
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
 		ICollection IDictionary.Keys
 		{
-			get { return new List<Key>(this.Keys); }
+			get { return new List<TKey>(this.Keys); }
 		}
 
 		/// <summary>
@@ -868,7 +868,7 @@ namespace NewsComponents.Collections
 		/// <exception cref="T:System.ArgumentNullException">key is null. </exception>
 		void IDictionary.Remove(object key)
 		{
-			this.Remove((Key)key);
+			this.Remove((TKey)key);
 		}
 
 		/// <summary>
@@ -878,7 +878,7 @@ namespace NewsComponents.Collections
 		/// <returns>An <see cref="T:System.Collections.Generic.ICollection`1"></see> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
 		ICollection IDictionary.Values
 		{
-			get { return new List<Object>(this.Values); }
+			get { return new List<TValue>(this.Values); }
 		}
 
 		/// <summary>
@@ -889,11 +889,11 @@ namespace NewsComponents.Collections
 		{
 			get
 			{
-				return this[(Key)key];
+				return this[(TKey)key];
 			}
 			set
 			{
-				this[(Key)key] = (Object)value;
+				this[(TKey)key] = (TValue)value;
 			}
 		}
 
@@ -913,7 +913,7 @@ namespace NewsComponents.Collections
 		void ICollection.CopyTo(Array array, int index)
 		{
 			int pos = index;
-			foreach (KeyValuePair<Key, Object> p in (IEnumerable)this)
+			foreach (KeyValuePair<TKey, TValue> p in (IEnumerable)this)
 				array.SetValue(p, pos++);
 		}
 
@@ -951,20 +951,20 @@ namespace NewsComponents.Collections
 
 		#region KeyItemEnumerator
 
-		private class KeyItemEnumerator : IEnumerator<Object>
+		private class KeyItemEnumerator : IEnumerator<TValue>
 		{
-			private KeyItemCollection<Key, Object> parent;
+			private IndexedDictionary<TKey, TValue> parent;
 			private int pos=-1;
 
 
-			public KeyItemEnumerator(KeyItemCollection<Key, Object> parent)
+			public KeyItemEnumerator(IndexedDictionary<TKey, TValue> parent)
 			{
 				this.parent = parent;
 			}
 
 			#region IEnumerator<Object> Members
 
-			Object IEnumerator<Object>.Current
+			TValue IEnumerator<TValue>.Current
 			{
 				get 
 				{
@@ -1009,14 +1009,14 @@ namespace NewsComponents.Collections
 
 		#region KeyValuePairEnumerator
 
-		private class KeyValuePairEnumerator : IEnumerator<KeyValuePair<Key, Object>>
+		private class KeyValuePairEnumerator : IEnumerator<KeyValuePair<TKey, TValue>>
 		{
-			private KeyItemCollection<Key, Object> parent;
-			private Key[] arrKeys;
+			private IndexedDictionary<TKey, TValue> parent;
+			private TKey[] arrKeys;
 			private int pos = -1;
 
 
-			public KeyValuePairEnumerator(KeyItemCollection<Key, Object> parent)
+			public KeyValuePairEnumerator(IndexedDictionary<TKey, TValue> parent)
 			{
 				this.parent = parent;
 				this.Reset();
@@ -1024,11 +1024,11 @@ namespace NewsComponents.Collections
 
 			#region IEnumerator<Object> Members
 
-			KeyValuePair<Key, Object> IEnumerator<KeyValuePair<Key, Object>>.Current
+			KeyValuePair<TKey, TValue> IEnumerator<KeyValuePair<TKey, TValue>>.Current
 			{
 				get
 				{
-					return new KeyValuePair<Key, Object>(arrKeys[pos], parent.items[pos]); 
+					return new KeyValuePair<TKey, TValue>(arrKeys[pos], parent.items[pos]); 
 				}
 			}
 
@@ -1061,7 +1061,7 @@ namespace NewsComponents.Collections
 
 			public object Current
 			{
-				get { return new KeyValuePair<Key, Object>(arrKeys[pos], parent.items[pos]); }
+				get { return new KeyValuePair<TKey, TValue>(arrKeys[pos], parent.items[pos]); }
 			}
 
 			#endregion
@@ -1073,12 +1073,12 @@ namespace NewsComponents.Collections
 
 		private class KeyValueEntryEnumerator : IDictionaryEnumerator
 		{
-			private readonly KeyItemCollection<Key, Object> parent;
-			private Key[] arrKeys;
+			private readonly IndexedDictionary<TKey, TValue> parent;
+			private TKey[] arrKeys;
 			private int pos = -1;
 
 
-			public KeyValueEntryEnumerator(KeyItemCollection<Key, Object> parent)
+			public KeyValueEntryEnumerator(IndexedDictionary<TKey, TValue> parent)
 			{
 				this.parent = parent;
 				((IEnumerator)this).Reset();

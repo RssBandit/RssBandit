@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using RssBandit.Util;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
 
-namespace RssBandit
+using System;
+using System.ComponentModel;
+using System.Linq.Expressions;
+
+namespace RssBandit.AppServices.Core
 {
     [Serializable]
     public abstract class ModelBase : INotifyPropertyChanged

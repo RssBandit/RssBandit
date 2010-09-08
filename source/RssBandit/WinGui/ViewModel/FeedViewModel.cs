@@ -15,6 +15,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
+using RssBandit.AppServices.Util;
 using RssBandit.Util;
 using RssBandit.WinGui.Interfaces;
 

@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Infragistics.Windows.Ribbon;
 using RssBandit.AppServices;
+using RssBandit.AppServices.Util;
 using RssBandit.Util;
 using RssBandit.WinGui.Commands;
 

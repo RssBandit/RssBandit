@@ -1,13 +1,22 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Windows;
 
-namespace RssBandit.Util
+namespace RssBandit.AppServices.Util
 {
   public static class CollectionObserver
   {

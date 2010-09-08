@@ -14,6 +14,7 @@ using log4net;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
+using RssBandit.AppServices.Core;
 using RssBandit.Common.Logging;
 using RssBandit.WinGui.Commands;
 using RssBandit.WinGui.Dialogs;

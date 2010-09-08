@@ -19,7 +19,7 @@ namespace NewsComponents.Collections
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="DI">The type of the I.</typeparam>
-	internal class DisposableItemCollection<T, DI> : KeyItemCollection<T, DI>, IDisposable
+	internal class DisposableItemCollection<T, DI> : IndexedDictionary<T, DI>, IDisposable
 		where DI : class, IDisposable
 	{
 		/// <summary>

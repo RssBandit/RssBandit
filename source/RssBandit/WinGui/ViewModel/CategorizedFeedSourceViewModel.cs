@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using NewsComponents;
 using NewsComponents.Feed;
+using RssBandit.AppServices.Util;
 using RssBandit.Util;
 
 namespace RssBandit.WinGui.ViewModel
