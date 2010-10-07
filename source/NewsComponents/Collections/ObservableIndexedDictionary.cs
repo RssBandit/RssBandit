@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace NewsComponents.Collections
 {
@@ -141,6 +142,11 @@ namespace NewsComponents.Collections
 			this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		}
 
+        private void OnPropertyChanged(Expression<Func<object>> expression)
+        {
+            propertyChanged.Notify(expression);
+        }
+
 		#endregion
 
 		/// <summary>
@@ -150,8 +156,8 @@ namespace NewsComponents.Collections
 		public override void Clear()
 		{
 			base.Clear();
-			OnPropertyChanged("Item[]");
-			OnPropertyChanged("Count");
+			OnPropertyChanged("Item[]");    //TODO: make this a strong typed expression
+			OnPropertyChanged(() => Count);
 			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));	
 		}
 	}

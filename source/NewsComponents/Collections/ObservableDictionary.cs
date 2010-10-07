@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
 
@@ -214,6 +215,11 @@ namespace NewsComponents.Collections
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+        
+        protected void OnPropertyChanged(Expression<Func<object>> expression)
+        {
+            PropertyChanged.Notify(expression);
+        }
 
         protected virtual bool RemoveEntry(TKey key)
         {
@@ -333,10 +339,10 @@ namespace NewsComponents.Collections
             if (Count != _countCache)
             {
                 _countCache = Count;
-                OnPropertyChanged("Count");
-                OnPropertyChanged("Item[]");
-                OnPropertyChanged("Keys");
-                OnPropertyChanged("Values");
+                OnPropertyChanged(() => Count);
+                OnPropertyChanged( "Item[]");   //TODO: make this a strong typed expression 
+                OnPropertyChanged(() => Keys);
+                OnPropertyChanged(() => Values);
             }
         }
 
