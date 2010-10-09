@@ -19,22 +19,39 @@ namespace RssBandit.AppServices.Util
 {
   public static class NotifyCollectionChangedExtensions
   {
-    public static CollectionChangedObserver ListenToCollectionChanged(this INotifyCollectionChanged collection, Action<INotifyCollectionChanged, NotifyCollectionChangedEventArgs> handler)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="collection"></param>
+    /// <param name="handler"></param>
+      /// <param name="observer">Need to store this strong reference to control lifetime -- usually just store as field in owning class</param>
+    public static void ListenToCollectionChanged(this INotifyCollectionChanged collection, Action<INotifyCollectionChanged, NotifyCollectionChangedEventArgs> handler, out CollectionChangedObserver observer)
     {
       Contract.Requires(collection != null);
       Contract.Requires(handler != null);
 
-      return new CollectionChangedObserver(collection, handler);
+      observer = new CollectionChangedObserver(collection, handler);
     }
 
-    public static CollectionChangedObserver SynchronizeCollection<TSource, TTarget>(this IEnumerable<TSource> sourceCollection, ObservableCollection<TTarget> targetCollection, Func<TSource, TTarget> creator, Action continueWith = null)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TTarget"></typeparam>
+    /// <param name="sourceCollection"></param>
+    /// <param name="targetCollection"></param>
+    /// <param name="creator"></param>
+    /// <param name="observer">Need to store this strong reference to control lifetime -- usually just store as field in owning class</param>
+    /// <param name="continueWith"></param>
+    public static void SynchronizeCollection<TSource, TTarget>(this IEnumerable<TSource> sourceCollection, ObservableCollection<TTarget> targetCollection, Func<TSource, TTarget> creator, out CollectionChangedObserver observer, Action continueWith = null)
     {
       Contract.Requires(sourceCollection != null);
       Contract.Requires(targetCollection != null);
       Contract.Requires(creator != null);
       Contract.Requires(sourceCollection is INotifyCollectionChanged);
 
-      var ret = ((INotifyCollectionChanged)sourceCollection).ListenToCollectionChanged(
+
+      ((INotifyCollectionChanged)sourceCollection).ListenToCollectionChanged(
         (s, e) =>
         {
           switch (e.Action)
@@ -61,14 +78,13 @@ namespace RssBandit.AppServices.Util
 
           if (continueWith != null)
             continueWith();
-        });
+        }, out observer);
 
       PopulateTarget(sourceCollection, targetCollection, creator);
 
       if (continueWith != null)
         continueWith();
-
-      return ret;
+        
     }
 
     private static void PopulateTarget<TSource, TTarget>(IEnumerable<TSource> source, ICollection<TTarget> target, Func<TSource, TTarget> creator)

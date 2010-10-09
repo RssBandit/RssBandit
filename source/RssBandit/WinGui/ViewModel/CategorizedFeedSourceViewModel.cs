@@ -34,6 +34,11 @@ namespace RssBandit.WinGui.ViewModel
         /// </summary>
         private readonly FeedSourceEntry _entry;
 
+// ReSharper disable UnaccessedField.Local
+        private readonly CollectionChangedObserver _sourceFeedsObserver;
+        private readonly CollectionChangedObserver _foldersObserver;
+        private readonly CollectionChangedObserver _childFeedsObserver;
+// ReSharper restore UnaccessedField.Local
 
         private readonly ObservableCollection<FeedViewModel> _feeds = new ObservableCollection<FeedViewModel>();
         private readonly ObservableCollection<FolderViewModel> _folders = new ObservableCollection<FolderViewModel>();
@@ -48,16 +53,16 @@ namespace RssBandit.WinGui.ViewModel
             _entry.Source.LoadFeedlist();
 
             // Add them both into children
-            _folders.SynchronizeCollection(_children, f => f);
-            _feeds.SynchronizeCollection(_children, f => f);
+            _folders.SynchronizeCollection(_children, f => f, out _foldersObserver);
+            _feeds.SynchronizeCollection(_children, f => f, out _childFeedsObserver);
 
             Folders = new ReadOnlyObservableCollection<FolderViewModel>(_folders);
             Feeds = new ReadOnlyObservableCollection<FeedViewModel>(_feeds);
 
             Children = new ReadOnlyObservableCollection<TreeNodeViewModelBase>(_children);
-            
-            _entry.Source.Feeds.ListenToCollectionChanged(OnFeedsChanged);
-            _entry.Source.Feeds.Run(n => AddNewsFeed(n));
+
+            _entry.Source.Feeds.ListenToCollectionChanged(OnFeedsChanged, out _sourceFeedsObserver);
+            _entry.Source.Feeds.Run(AddNewsFeed);
         }
 
       

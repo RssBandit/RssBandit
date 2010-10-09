@@ -25,6 +25,7 @@ namespace RssBandit.WinGui.ViewModel
     {
         private static readonly ILog Log = DefaultLog.GetLogger(typeof (FeedSourcesViewModel));
         private readonly ObservableCollection<CategorizedFeedSourceViewModel> _sources = new ObservableCollection<CategorizedFeedSourceViewModel>();
+        private readonly CollectionChangedObserver _sourceObserver;
         /// <summary>
         ///   Initializes a new instance of the <see cref = "FeedSourcesViewModel" /> class.
         ///   Uses FeedSourceManager to get feed sources.
@@ -36,7 +37,7 @@ namespace RssBandit.WinGui.ViewModel
             Sources = new ReadOnlyObservableCollection<CategorizedFeedSourceViewModel>(_sources);
 
 
-            sourceManager.Sources.SynchronizeCollection(_sources, fs => new CategorizedFeedSourceViewModel(fs));
+            sourceManager.Sources.SynchronizeCollection(_sources, fs => new CategorizedFeedSourceViewModel(fs), out _sourceObserver);
 
 
         }

@@ -246,10 +246,12 @@ namespace NewsComponents
 
         private readonly ObservableDictionary<int, FeedSourceEntry> _feedSources = new ObservableDictionary<int, FeedSourceEntry>();
         private readonly ObservableCollection<FeedSourceEntry> _sources = new ObservableCollection<FeedSourceEntry>();
-
+// ReSharper disable UnaccessedField.Local
+        private readonly CollectionChangedObserver _feedSourceObserver;
+// ReSharper restore UnaccessedField.Local
         public FeedSourceManager()
         {
-            _feedSources.SynchronizeCollection(_sources, kvp => kvp.Value);
+            _feedSources.SynchronizeCollection(_sources, kvp => kvp.Value, out _feedSourceObserver);
             Sources = new ReadOnlyObservableCollection<FeedSourceEntry>(_sources);
         }
 
