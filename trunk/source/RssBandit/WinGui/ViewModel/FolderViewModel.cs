@@ -26,6 +26,10 @@ namespace RssBandit.WinGui.ViewModel
         private readonly ObservableCollection<TreeNodeViewModelBase> _children = new ObservableCollection<TreeNodeViewModelBase>();
         private readonly ObservableCollection<FeedViewModel> _feeds = new ObservableCollection<FeedViewModel>();
         private readonly ObservableCollection<FolderViewModel> _folders = new ObservableCollection<FolderViewModel>();
+// ReSharper disable UnaccessedField.Local
+        private readonly CollectionChangedObserver _folderObserver;
+        private readonly CollectionChangedObserver _feedObserver;
+// ReSharper restore UnaccessedField.Local
         private string _name;
 
         public FolderViewModel(string name, string parentCategory, CategorizedFeedSourceViewModel source)
@@ -43,8 +47,8 @@ namespace RssBandit.WinGui.ViewModel
             Type = FeedNodeType.Category;
 
             // Add them both into children
-            _folders.SynchronizeCollection(_children, f => f);
-            _feeds.SynchronizeCollection(_children, f => f);
+            _folders.SynchronizeCollection(_children, f => f, out _folderObserver);
+            _feeds.SynchronizeCollection(_children, f => f, out _feedObserver);
 
             Folders = new ReadOnlyObservableCollection<FolderViewModel>(_folders);
             Feeds = new ReadOnlyObservableCollection<FeedViewModel>(_feeds);

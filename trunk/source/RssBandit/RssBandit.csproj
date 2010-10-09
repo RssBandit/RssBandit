@@ -228,7 +228,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-AltPath\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;IG2007_1;ALT_CONFIG_PATH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;IG2007_1;ALT_CONFIG_PATH;CONTRACTS_FULL</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
@@ -263,7 +263,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-AltPath|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug-AltPath\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ALT_CONFIG_PATH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL;ALT_CONFIG_PATH</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
     <DebugType>full</DebugType>
