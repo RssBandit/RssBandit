@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Windows;
 
 namespace RssBandit.AppServices.Util
@@ -43,7 +44,7 @@ namespace RssBandit.AppServices.Util
     /// <param name="creator"></param>
     /// <param name="observer">Need to store this strong reference to control lifetime -- usually just store as field in owning class</param>
     /// <param name="continueWith"></param>
-    public static void SynchronizeCollection<TSource, TTarget>(this IEnumerable<TSource> sourceCollection, ObservableCollection<TTarget> targetCollection, Func<TSource, TTarget> creator, out CollectionChangedObserver observer, Action continueWith = null)
+    public static void SynchronizeCollection<TSource, TTarget>(this IEnumerable<TSource> sourceCollection, ObservableCollection<TTarget> targetCollection, Func<TSource, TTarget> creator, out CollectionChangedObserver observer, Action continueWith = null, SynchronizationContext context = null)
     {
       Contract.Requires(sourceCollection != null);
       Contract.Requires(targetCollection != null);
@@ -54,30 +55,42 @@ namespace RssBandit.AppServices.Util
       ((INotifyCollectionChanged)sourceCollection).ListenToCollectionChanged(
         (s, e) =>
         {
-          switch (e.Action)
-          {
-            case NotifyCollectionChangedAction.Add:
-                targetCollection.Add(creator((TSource)e.NewItems[0]));
-              break;
-            case NotifyCollectionChangedAction.Remove:
-                targetCollection.RemoveAt(e.OldStartingIndex); 
-              break;
-            case NotifyCollectionChangedAction.Replace:
-              targetCollection[e.OldStartingIndex] = creator((TSource)e.NewItems[0]);
-              break;
-            case NotifyCollectionChangedAction.Move:
-                targetCollection.Move(e.OldStartingIndex, e.NewStartingIndex);
-              break;
-            case NotifyCollectionChangedAction.Reset:
-              targetCollection.Clear();
-              PopulateTarget(sourceCollection, targetCollection, creator);
-              break;
-            default:
-              throw new ArgumentOutOfRangeException("e");
-          }
+            SendOrPostCallback action = (o) =>
+                                {
+                                    switch (e.Action)
+                                    {
+                                        case NotifyCollectionChangedAction.Add:
+                                            targetCollection.Add(creator((TSource)e.NewItems[0]));
+                                            break;
+                                        case NotifyCollectionChangedAction.Remove:
+                                            targetCollection.RemoveAt(e.OldStartingIndex);
+                                            break;
+                                        case NotifyCollectionChangedAction.Replace:
+                                            targetCollection[e.OldStartingIndex] = creator((TSource)e.NewItems[0]);
+                                            break;
+                                        case NotifyCollectionChangedAction.Move:
+                                            targetCollection.Move(e.OldStartingIndex, e.NewStartingIndex);
+                                            break;
+                                        case NotifyCollectionChangedAction.Reset:
+                                            targetCollection.Clear();
+                                            PopulateTarget(sourceCollection, targetCollection, creator);
+                                            break;
+                                        default:
+                                            throw new ArgumentOutOfRangeException("e");
+                                    }
 
-          if (continueWith != null)
-            continueWith();
+                                    if (continueWith != null)
+                                        continueWith();
+                                };
+
+            if (context != null)
+            {
+                context.Post(action, null);
+            }
+            else
+            {
+                action(null);
+            }
         }, out observer);
 
       PopulateTarget(sourceCollection, targetCollection, creator);

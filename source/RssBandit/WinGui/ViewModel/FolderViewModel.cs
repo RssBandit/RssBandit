@@ -32,6 +32,8 @@ namespace RssBandit.WinGui.ViewModel
 // ReSharper restore UnaccessedField.Local
         private string _name;
 
+        private readonly ObservableCollection<INewsItem> _newsItems = new ObservableCollection<INewsItem>();
+
         public FolderViewModel(string name, string parentCategory, CategorizedFeedSourceViewModel source)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
@@ -54,6 +56,10 @@ namespace RssBandit.WinGui.ViewModel
             Feeds = new ReadOnlyObservableCollection<FeedViewModel>(_feeds);
 
             Children = new ReadOnlyObservableCollection<TreeNodeViewModelBase>(_children);
+
+            NewsItems = new ReadOnlyObservableCollection<INewsItem>(_newsItems);
+
+            // TODO: Listen for child folders/feeds to get our items
         }
 
         public string Category { get; private set; }
@@ -74,6 +80,12 @@ namespace RssBandit.WinGui.ViewModel
         }
 
         public CategorizedFeedSourceViewModel Source { get; private set; }
+
+        public ReadOnlyObservableCollection<INewsItem> NewsItems
+        {
+            get;
+            private set;
+        }
 
         public void AddFeed(FeedViewModel feed)
         {

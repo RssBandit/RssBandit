@@ -715,8 +715,8 @@ namespace NewsComponents
                         else
                             temp.Add(new SearchHitNewsItem(ni));
                     }
-                    fi.ItemsList.Clear();
-                    fi.ItemsList.AddRange(temp);
+                    fi.ReplaceItems(temp);
+
                     MatchingItems.AddRange(temp);
                     temp.Clear();
                 } //foreach
