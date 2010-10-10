@@ -958,7 +958,7 @@ namespace NewsComponents.Feed
                          */
                     }
 
-                    List<INewsItem> newReceivedItems = null;
+                    IList<INewsItem> newReceivedItems = null;
 
                     //Merge items list from cached copy of feed with this newly fetched feed. 
                     //Thus if a feed removes old entries (such as a news site with daily updates) we 
@@ -979,9 +979,11 @@ namespace NewsComponents.Feed
 
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
-                                fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
+                                var newItems = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
                                                                   out newReceivedItems, theFeed.replaceitemsonrefresh, 
                                                                   false /* respectOldItemState */);
+
+                                fi.ReplaceItems(newItems);
                             }
 
                             /*

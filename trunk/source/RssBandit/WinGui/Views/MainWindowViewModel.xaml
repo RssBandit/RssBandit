@@ -26,6 +26,7 @@
             </TreeView>
             <GridSplitter Grid.Column="0" Width="3"></GridSplitter>
             <StackPanel Grid.Column="1">
+                <ItemsControl ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}" />
                 <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello#}"></Button>
                 <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
             </StackPanel>

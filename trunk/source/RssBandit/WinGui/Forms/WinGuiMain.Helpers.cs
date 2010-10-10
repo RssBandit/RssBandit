@@ -45,11 +45,11 @@ namespace RssBandit.WinGui.Forms
         }
 
 #if USE_UltraDockManager
-		private string CurrentDockingVersion {
-			get { 
-				return String.Format("{0}.{1}",  StateSerializationHelper.InfragisticsDockingVersion, _currentDockingVersion);
-			}
-		}
+        private string CurrentDockingVersion {
+            get { 
+                return String.Format("{0}.{1}",  StateSerializationHelper.InfragisticsDockingVersion, _currentDockingVersion);
+            }
+        }
 #endif
 
         private static string CurrentExplorerBarVersion
@@ -211,78 +211,78 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-		internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolderType)
+        internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolderType)
         {
-			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
-			{
-				if (n.Visible)
-				{
-					if (rootFolderType == RootFolderType.MyFeeds &&
-						n is SubscriptionRootNode)
-						return n;
-					if (rootFolderType == RootFolderType.Finder &&
-						n is FinderRootNode)
-						return n;
-					if (rootFolderType == RootFolderType.SmartFolders &&
-						n is SpecialRootNode)
-						return n;
-				}
-			}
-			//if (treeFeeds.Nodes.Count > 0)
-			//{
-			//    return _roots[(int) rootFolder];
-			//}
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                if (n.Visible)
+                {
+                    if (rootFolderType == RootFolderType.MyFeeds &&
+                        n is SubscriptionRootNode)
+                        return n;
+                    if (rootFolderType == RootFolderType.Finder &&
+                        n is FinderRootNode)
+                        return n;
+                    if (rootFolderType == RootFolderType.SmartFolders &&
+                        n is SpecialRootNode)
+                        return n;
+                }
+            }
+            //if (treeFeeds.Nodes.Count > 0)
+            //{
+            //    return _roots[(int) rootFolder];
+            //}
             return null;
         }
 
-		internal SubscriptionRootNode GetSubscriptionRootNode(string rootFolderName)
-		{
-			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
-			{
-				if (n is SubscriptionRootNode)
-				{
-					if (String.Equals(n.Text, rootFolderName, StringComparison.Ordinal))
-						return (SubscriptionRootNode)n;	
-				}
-			}
-			
-			return null;
-		}
+        internal SubscriptionRootNode GetSubscriptionRootNode(string rootFolderName)
+        {
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                if (n is SubscriptionRootNode)
+                {
+                    if (String.Equals(n.Text, rootFolderName, StringComparison.Ordinal))
+                        return (SubscriptionRootNode)n;	
+                }
+            }
+            
+            return null;
+        }
 
-		internal SubscriptionRootNode GetSubscriptionRootNode(FeedSourceEntry entry)
-		{
-			if (entry == null)
-				return null;
+        internal SubscriptionRootNode GetSubscriptionRootNode(FeedSourceEntry entry)
+        {
+            if (entry == null)
+                return null;
 
-			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
-			{
-				SubscriptionRootNode root = n as SubscriptionRootNode;
-				if (root != null && root.SourceID == entry.ID)
-				{
-					return root;
-				}
-			}
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                SubscriptionRootNode root = n as SubscriptionRootNode;
+                if (root != null && root.SourceID == entry.ID)
+                {
+                    return root;
+                }
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		public FeedSource FeedSourceOf(string feedUrl)
-		{
-			FeedSourceEntry entry = FeedSourceEntryOf(feedUrl);
-			if (entry != null)
-				return entry.Source;
-			return null;
-		}
+        public FeedSource FeedSourceOf(string feedUrl)
+        {
+            FeedSourceEntry entry = FeedSourceEntryOf(feedUrl);
+            if (entry != null)
+                return entry.Source;
+            return null;
+        }
 
-		public FeedSource FeedSourceOf(TreeFeedsNodeBase node)
-		{
-			FeedSourceEntry entry = FeedSourceEntryOf(node);
-			if (entry != null)
-				return entry.Source;
-			return null;
-		}
+        public FeedSource FeedSourceOf(TreeFeedsNodeBase node)
+        {
+            FeedSourceEntry entry = FeedSourceEntryOf(node);
+            if (entry != null)
+                return entry.Source;
+            return null;
+        }
 
-    	public FeedSourceEntry FeedSourceEntryOf(string feedUrl)
+        public FeedSourceEntry FeedSourceEntryOf(string feedUrl)
         {
             if (StringHelper.EmptyTrimOrNull(feedUrl))
                 return null;
@@ -291,28 +291,28 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-		public FeedSourceEntry FeedSourceEntryOf(TreeFeedsNodeBase node)
-		{
-			if (node == null)
-				return null;
+        public FeedSourceEntry FeedSourceEntryOf(TreeFeedsNodeBase node)
+        {
+            if (node == null)
+                return null;
 
-			SubscriptionRootNode root = TreeHelper.ParentRootNode(node) as SubscriptionRootNode;
-			if (root != null && owner.FeedSources.ContainsKey(root.SourceID))
-				return owner.FeedSources[root.SourceID];
-			return null;
-		}
+            SubscriptionRootNode root = TreeHelper.ParentRootNode(node) as SubscriptionRootNode;
+            if (root != null && owner.FeedSources.ContainsKey(root.SourceID))
+                return owner.FeedSources[root.SourceID];
+            return null;
+        }
 
-		internal List<SubscriptionRootNode> GetVisibleSubscriptionRootNodes()
-		{
-			List<SubscriptionRootNode> list = new List<SubscriptionRootNode>();
-			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
-			{
-				if (n is SubscriptionRootNode && n.Visible)
-					list.Add((SubscriptionRootNode) n);
-			}
+        internal List<SubscriptionRootNode> GetVisibleSubscriptionRootNodes()
+        {
+            List<SubscriptionRootNode> list = new List<SubscriptionRootNode>();
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                if (n is SubscriptionRootNode && n.Visible)
+                    list.Add((SubscriptionRootNode) n);
+            }
 
-			return list;
-		}
+            return list;
+        }
 
         internal List<SubscriptionRootNode> GetAllSubscriptionRootNodes()
         {
@@ -326,41 +326,41 @@ namespace RssBandit.WinGui.Forms
             return list;
         }
 
-		internal void ShowSubscriptionRootNodes(bool value)
-		{
-			foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
-			{
-				if (n is SubscriptionRootNode)
-				{
-					n.Visible = value;
-				}
-			}
-		}
+        internal void ShowSubscriptionRootNodes(bool value)
+        {
+            foreach (TreeFeedsNodeBase n in treeFeeds.Nodes)
+            {
+                if (n is SubscriptionRootNode)
+                {
+                    n.Visible = value;
+                }
+            }
+        }
 
         internal RootFolderType GetRootType(TreeFeedsNodeBase feedsNode)
         {
             if (feedsNode == null)
                 throw new ArgumentNullException("feedsNode");
 
-			if (feedsNode.Type == FeedNodeType.Root ||
-				feedsNode.Parent == null)
-			{
-				if (feedsNode is SubscriptionRootNode)
-					return RootFolderType.MyFeeds;
-				if (feedsNode is FinderRootNode)
-					return RootFolderType.Finder;
-				if (feedsNode is SpecialRootNode)
-					return RootFolderType.SmartFolders;
+            if (feedsNode.Type == FeedNodeType.Root ||
+                feedsNode.Parent == null)
+            {
+                if (feedsNode is SubscriptionRootNode)
+                    return RootFolderType.MyFeeds;
+                if (feedsNode is FinderRootNode)
+                    return RootFolderType.Finder;
+                if (feedsNode is SpecialRootNode)
+                    return RootFolderType.SmartFolders;
 
-				Debug.Assert(false, "Unknown root folder type: " + feedsNode.GetType().FullName);
-				//for (int i = 0; i < _roots.Count; i++)
-				//{
-				//    if (feedsNode == _roots[i])
-				//        return (RootFolderType) i;
-				//}
-			}
+                Debug.Assert(false, "Unknown root folder type: " + feedsNode.GetType().FullName);
+                //for (int i = 0; i < _roots.Count; i++)
+                //{
+                //    if (feedsNode == _roots[i])
+                //        return (RootFolderType) i;
+                //}
+            }
             //else 
-			if (feedsNode.Parent != null)
+            if (feedsNode.Parent != null)
             {
                 return GetRootType(feedsNode.Parent);
             }
@@ -793,8 +793,8 @@ namespace RssBandit.WinGui.Forms
             if (startNode == null)
                 startNode = rootNode;
 
-			if (startNode == null)
-				return;
+            if (startNode == null)
+                return;
 
             if (startNode.Type == FeedNodeType.Feed)
             {
@@ -968,14 +968,14 @@ namespace RssBandit.WinGui.Forms
                     case NewsItemSortField.FeedTitle:
                         INewsFeed f = newsItem.Feed;
                         //if we are in a Smart Folder then use the original title of the feed 
-						int sourceID;
-                		string feedUrl = OptionalItemElement.GetOriginalFeedReference(newsItem, out sourceID); //GetOriginalFeedUrl(newsItem);
-                		
-						FeedSourceEntry entry = null;
-						if (owner.FeedSources.ContainsKey(sourceID))
-							entry = owner.FeedSources[sourceID];
-						if (feedUrl != null && entry != null && entry.Source.IsSubscribed(feedUrl))
-							f = entry.Source.GetFeeds()[feedUrl];
+                        int sourceID;
+                        string feedUrl = OptionalItemElement.GetOriginalFeedReference(newsItem, out sourceID); //GetOriginalFeedUrl(newsItem);
+                        
+                        FeedSourceEntry entry = null;
+                        if (owner.FeedSources.ContainsKey(sourceID))
+                            entry = owner.FeedSources[sourceID];
+                        if (feedUrl != null && entry != null && entry.Source.IsSubscribed(feedUrl))
+                            f = entry.Source.GetFeeds()[feedUrl];
                         
                         lvItems[colIndex[colKey]] = HtmlHelper.HtmlDecode(f.title);
                         break;
@@ -1316,7 +1316,7 @@ namespace RssBandit.WinGui.Forms
                     if (!item.BeenRead)
                         unread.Add(item);
 
-					bool hasRelations = NewsItemHasRelations(item);
+                    bool hasRelations = NewsItemHasRelations(item);
 
                     ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
                                                                         Resource.NewsItemImage.DefaultRead, colIndex,
@@ -1382,7 +1382,7 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
-            	FeedSourceEntry entry = FeedSourceEntryOf(CurrentSelectedFeedsNode);
+                FeedSourceEntry entry = FeedSourceEntryOf(CurrentSelectedFeedsNode);
                 for (int i = 0; i < list.Count; i++)
                 {
                     INewsItem item = list[i];
@@ -1501,22 +1501,22 @@ namespace RssBandit.WinGui.Forms
         private bool NewsItemHasRelations(INewsItem item, IList<INewsItem> itemKeyPath, FeedSource source)
         {
             bool hasRelations = false;
-			if (item.Feed != null)
-			{
-				if (source == null)
-				{
-					FeedSourceEntry entry = owner.FeedSources.SourceOf(item.Feed);
-					if (entry != null)
-						source = entry.Source;
-				}
-				if (source != null && source.IsSubscribed(item.Feed.link))
-				{
-					if (itemKeyPath == null)
-						itemKeyPath = new INewsItem[] {};
-					hasRelations = source.HasItemAnyRelations(item, itemKeyPath);
-				}
-			}
-        	
+            if (item.Feed != null)
+            {
+                if (source == null)
+                {
+                    FeedSourceEntry entry = owner.FeedSources.SourceOf(item.Feed);
+                    if (entry != null)
+                        source = entry.Source;
+                }
+                if (source != null && source.IsSubscribed(item.Feed.link))
+                {
+                    if (itemKeyPath == null)
+                        itemKeyPath = new INewsItem[] {};
+                    hasRelations = source.HasItemAnyRelations(item, itemKeyPath);
+                }
+            }
+            
             if (!hasRelations) hasRelations = (item.HasExternalRelations && owner.InternetAccessAllowed);
             return hasRelations;
         }
@@ -1771,8 +1771,8 @@ namespace RssBandit.WinGui.Forms
         /// <param name="unread">The unread item list.</param>
         private void UnreadItemsNodeRemoveItems(IList<INewsItem> unread)
         {
-			if (unread == null || unread.Count == 0) 
-				return;
+            if (unread == null || unread.Count == 0) 
+                return;
             for (int i = 0; i < unread.Count; i++)
                 UnreadItemsNode.Remove(unread[i]);
             UnreadItemsNode.UpdateReadStatus();
@@ -1891,9 +1891,9 @@ namespace RssBandit.WinGui.Forms
         private void CountUnread(out int unreadFeeds, out int unreadMessages)
         {
             /* this code is inefficient because we loop through feeds and items even though 
-			 * we probably just did that in a RefreshFeeds(). At least this should happen only
-			 * when the app is minimized so this doesn't delay response time to user input. 
-			 */
+             * we probably just did that in a RefreshFeeds(). At least this should happen only
+             * when the app is minimized so this doesn't delay response time to user input. 
+             */
 
             unreadFeeds = unreadMessages = 0;
 
@@ -1985,19 +1985,19 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-		/// <summary>
-		/// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
-		/// </summary>
-		/// <param name="entry">The entry.</param>
-		/// <param name="e">The <see cref="NewsComponents.Net.DownloadItemEventArgs"/> instance containing the event data.</param>
-		internal void OnEnclosureReceived(FeedSourceEntry entry, DownloadItemEventArgs e)
+        /// <summary>
+        /// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <param name="e">The <see cref="NewsComponents.Net.DownloadItemEventArgs"/> instance containing the event data.</param>
+        internal void OnEnclosureReceived(FeedSourceEntry entry, DownloadItemEventArgs e)
         {
             /* display alert window on new download available */
             if (entry.Source.IsSubscribed(e.DownloadItem.OwnerFeedId))
             {
-				INewsFeed f = entry.Source.GetFeeds()[e.DownloadItem.OwnerFeedId];
+                INewsFeed f = entry.Source.GetFeeds()[e.DownloadItem.OwnerFeedId];
 
-				if (entry.Source.GetEnclosureAlert(f.link))
+                if (entry.Source.GetEnclosureAlert(f.link))
                 {
                     e.DownloadItem.OwnerFeed = f;
                     var items = new List<DownloadItem>
@@ -2074,13 +2074,13 @@ namespace RssBandit.WinGui.Forms
                         {
                             //handle case where this feed isn't the last one on the page							
                             int numAdded = fi.ItemsList.Count - actualstart;
-                            ficlone.ItemsList.AddRange(fi.ItemsList.GetRange(actualstart, numAdded));
+                            ficlone.ItemsList.AddRange(fi.ItemsList.Skip(actualstart).Take(numAdded));
                             numLeft -= numAdded;
                             startindex += numAdded;
                         }
                         else
                         {
-                            ficlone.ItemsList.AddRange(fi.ItemsList.GetRange(actualstart, numLeft));
+                            ficlone.ItemsList.AddRange(fi.ItemsList.Skip(actualstart).Take(numLeft));
                             numLeft -= numLeft;
                         }
                         fil.Add(ficlone);
@@ -2125,11 +2125,11 @@ namespace RssBandit.WinGui.Forms
                 if (endindex > numItems)
                 {
                     //handle if we are on last page and numItems % itemsPerPage != 0
-                    fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.GetRange(startindex, numItems - startindex));
+                    fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.Skip(startindex).Take(numItems - startindex));
                 }
                 else
                 {
-                    fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.GetRange(startindex, itemsPerPage));
+                    fi.ItemsList.AddRange(_currentFeedNewsItems.ItemsList.Skip(startindex).Take(itemsPerPage));
                 }
 
                 return fi;
@@ -2199,7 +2199,7 @@ namespace RssBandit.WinGui.Forms
 
                         //we use a clone of the FeedInfo because it isn't 
                         //necessarily true that everything in the main FeedInfo is being rendered
-						var fi2 = new FeedInfo(fi, unread);
+                        var fi2 = new FeedInfo(fi, unread);
 
                         //sort news items
                         //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
@@ -2210,7 +2210,7 @@ namespace RssBandit.WinGui.Forms
                                                   (NewsItemSortField)
                                                   Enum.Parse(typeof (NewsItemSortField), colHeader.Key));
 
-                        fi2.ItemsList.Sort(newsItemSorter);
+                        //fi2.ItemsList.Sort(newsItemSorter);
 
                         //store list of unread items then only send one page of results 
                         //to newspaper view. 						
@@ -2276,7 +2276,7 @@ namespace RssBandit.WinGui.Forms
 
             foreach (FeedInfo f in unreadItems)
             {
-                f.ItemsList.Sort(newsItemSorter);
+                //f.ItemsList.Sort(newsItemSorter);
             }
 
 
@@ -2372,9 +2372,9 @@ namespace RssBandit.WinGui.Forms
 
             if (TreeSelectedFeedsNode != initialFeedsNode)
                 return; // do not continue, if selection was changed
-			
-			// TODO: make it more efficient (we should not get feedsource in each recursion call level)
-        	FeedSourceEntry entry = FeedSourceEntryOf(startNode);
+            
+            // TODO: make it more efficient (we should not get feedsource in each recursion call level)
+            FeedSourceEntry entry = FeedSourceEntryOf(startNode);
             try
             {
                 for (TreeFeedsNodeBase child = startNode.FirstNode; child != null; child = child.NextNode)
@@ -2404,7 +2404,7 @@ namespace RssBandit.WinGui.Forms
                             }
                             else if (categorized)
                             {
-								IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(feedUrl);
+                                IList<INewsItem> items = entry.Source.GetCachedItemsForFeed(feedUrl);
                                 INewsFeed f = owner.GetFeed(entry, feedUrl);
                                 FeedInfo fi;
 
@@ -2425,7 +2425,7 @@ namespace RssBandit.WinGui.Forms
                                 foreach (var i in items)
                                 {
                                     if (!i.BeenRead)
-                                        fi.ItemsList.Add(i);
+                                        fi.AddItem(i);
                                 }
 
                                 if (fi.ItemsList.Count > 0)
@@ -2509,8 +2509,8 @@ namespace RssBandit.WinGui.Forms
             {
                 if (entry.Source.IsSubscribed(startNode.DataKey))
                 {
-					// TODO: make it more efficient (we should not get feedsource in each recursion call level)
-					INewsFeed f = owner.GetFeed(entry, startNode.DataKey);
+                    // TODO: make it more efficient (we should not get feedsource in each recursion call level)
+                    INewsFeed f = owner.GetFeed(entry, startNode.DataKey);
                     if (f != null)
                     {
                         UnreadItemsNodeRemoveItems(f);
@@ -2551,35 +2551,35 @@ namespace RssBandit.WinGui.Forms
         //		}
 
 
-		/// <summary>
-		/// Gets the feed column layout.
-		/// </summary>
-		/// <param name="feedsNode">The feeds node.</param>
-		/// <returns></returns>
-		private FeedColumnLayout GetFeedColumnLayout(TreeFeedsNodeBase feedsNode)
+        /// <summary>
+        /// Gets the feed column layout.
+        /// </summary>
+        /// <param name="feedsNode">The feeds node.</param>
+        /// <returns></returns>
+        private FeedColumnLayout GetFeedColumnLayout(TreeFeedsNodeBase feedsNode)
         {
-			if (feedsNode == null)
-				feedsNode = TreeSelectedFeedsNode;
-			if (feedsNode == null)
+            if (feedsNode == null)
+                feedsNode = TreeSelectedFeedsNode;
+            if (feedsNode == null)
                 return listFeedItems.FeedColumnLayout;
 
             FeedColumnLayout layout = listFeedItems.FeedColumnLayout;
-			switch (feedsNode.Type)
-			{
-				case FeedNodeType.Feed:
-					layout = owner.GetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey) ?? owner.GlobalFeedColumnLayout;
-					break;
-				case FeedNodeType.Category:
-					layout = owner.GetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
-					break;
-				case FeedNodeType.Finder:
-					layout = owner.GlobalSearchFolderColumnLayout;
-					break;
-				case FeedNodeType.SmartFolder:
-					layout = owner.GetSmartFolderColumnLayout(feedsNode as ISmartFolder) ?? owner.GlobalSpecialFolderColumnLayout;
-					break;
-			}
-			
+            switch (feedsNode.Type)
+            {
+                case FeedNodeType.Feed:
+                    layout = owner.GetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey) ?? owner.GlobalFeedColumnLayout;
+                    break;
+                case FeedNodeType.Category:
+                    layout = owner.GetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName) ?? owner.GlobalCategoryColumnLayout;
+                    break;
+                case FeedNodeType.Finder:
+                    layout = owner.GlobalSearchFolderColumnLayout;
+                    break;
+                case FeedNodeType.SmartFolder:
+                    layout = owner.GetSmartFolderColumnLayout(feedsNode as ISmartFolder) ?? owner.GlobalSpecialFolderColumnLayout;
+                    break;
+            }
+            
             return layout;
         }
 
@@ -2591,25 +2591,25 @@ namespace RssBandit.WinGui.Forms
         private void SetFeedColumnLayout(TreeFeedsNodeBase feedsNode, FeedColumnLayout layout)
         {
             if (feedsNode == null) 
-				feedsNode = CurrentSelectedFeedsNode;
+                feedsNode = CurrentSelectedFeedsNode;
             
             if (feedsNode != null)
             {               
-				switch (feedsNode.Type)
-				{
-					case FeedNodeType.Feed:
-						owner.SetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey, layout);
-						break;
-					case FeedNodeType.Category:
-						owner.SetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName, layout);
-						break;
-					case FeedNodeType.Finder:
-						owner.GlobalSearchFolderColumnLayout = layout;
-						break;
-					case FeedNodeType.SmartFolder:
+                switch (feedsNode.Type)
+                {
+                    case FeedNodeType.Feed:
+                        owner.SetFeedColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.DataKey, layout);
+                        break;
+                    case FeedNodeType.Category:
+                        owner.SetCategoryColumnLayout(FeedSourceEntryOf(feedsNode), feedsNode.CategoryStoreName, layout);
+                        break;
+                    case FeedNodeType.Finder:
+                        owner.GlobalSearchFolderColumnLayout = layout;
+                        break;
+                    case FeedNodeType.SmartFolder:
                         owner.SetSmartFolderColumnLayout(feedsNode as ISmartFolder, layout); 
-						break;
-				}
+                        break;
+                }
             }
         }
 

@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -103,7 +104,6 @@ namespace NewsComponents.Feed
                 feedManager.BackgroundSync(FEEDS_BACKGROUNDSYNC_ACTION.FBSA_ENABLE);
             }
             catch (ArgumentException) { /* weird error */ }
-            
         }    
 
         #endregion 
@@ -2658,7 +2658,9 @@ namespace NewsComponents.Feed
             this._id = myfeed.LocalId; 
             
             //make sure we have a list of items ready to go
-            this.LoadItemsList();             
+            this.LoadItemsList();
+
+            _lazyNewsItemGetter = new Lazy<ReadOnlyObservableCollection<INewsItem>>(() => new ReadOnlyObservableCollection<INewsItem>(items));
         }
 
         /// <summary>
@@ -2691,6 +2693,15 @@ namespace NewsComponents.Feed
             {
                 this.owner = owner;
             }
+
+            _lazyNewsItemGetter = new Lazy<ReadOnlyObservableCollection<INewsItem>>(() =>
+            {
+                lock (items)
+                {
+                    LoadItemsList();
+                    return new ReadOnlyObservableCollection<INewsItem>(items);
+                }
+            });
         }
 
         #endregion 
@@ -2751,7 +2762,10 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The list of WindowsRssNewsItem instances contained by this feed. 
         /// </summary>
-        private readonly List<INewsItem> items = new List<INewsItem>(); 
+        private readonly ObservableCollection<INewsItem> items = new ObservableCollection<INewsItem>();
+
+        private Lazy<ReadOnlyObservableCollection<INewsItem>> _lazyNewsItemGetter;
+            
 
 
         private static readonly ILog _log = DefaultLog.GetLogger(typeof (WindowsRssNewsFeed));
@@ -3436,23 +3450,34 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The list of news items belonging to the feed
         /// </summary>
-        public List<INewsItem> ItemsList
+        public ReadOnlyObservableCollection<INewsItem> ItemsList
         {
 
             get
             {
-                lock (this.items)
-                {
-                    LoadItemsList(); 
-                }
-
-                return this.items;
+                return _lazyNewsItemGetter.Value;
             }
-            set
-            {
-                /* Can't set IFeed.Items */
-            }
+        }
 
+        public void AddItem(INewsItem item)
+        {
+            items.Add(item);
+        }
+
+        public void ReplaceItems(IEnumerable<INewsItem> newItems)
+        {
+            items.Clear();
+            items.AddRange(newItems);
+        }
+
+        public void RemoveItem(INewsItem item)
+        {
+            items.Remove(item);
+        }
+
+        public void RemoveItemAt(int index)
+        {
+            items.RemoveAt(index);
         }
 
         private Dictionary<XmlQualifiedName, string> _optionalElements = new Dictionary<XmlQualifiedName, string>(); 

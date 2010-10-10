@@ -57,6 +57,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -228,6 +229,25 @@ namespace NewsComponents
             MaxItemAge = new TimeSpan(90, 0, 0, 0);
             
             Feeds = new ReadOnlyObservableCollection<INewsFeed>(_feeds);
+
+            //itemsSubject = new Subject<KeyValuePair<string,IFeedDetails>>()
+
+            ((INotifyCollectionChanged)itemsTable).CollectionChanged +=
+                (s, e) =>
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        var item = (KeyValuePair<string, IFeedDetails>)e.NewItems[0];
+                        itemsSubject.OnNext(item);
+                    }
+                };
+        }
+
+        private readonly ReplaySubject<KeyValuePair<string, IFeedDetails>> itemsSubject = new ReplaySubject<KeyValuePair<string, IFeedDetails>>();
+
+        public IObservable<IFeedDetails> GetFeedDetailsForItem(INewsFeed item)
+        {
+            return itemsSubject.Where(kvp => kvp.Key == item.link).Select(kvp => kvp.Value);
         }
 
         protected readonly ObservableCollection<INewsFeed> _feeds = new ObservableCollection<INewsFeed>();
@@ -458,8 +478,10 @@ namespace NewsComponents
         /// <summary>
         /// Hashtable representing downloaded feed items
         /// </summary>
-        protected readonly Dictionary<string, IFeedDetails> itemsTable =
-            new Dictionary<string, IFeedDetails>();
+        protected readonly ObservableDictionary<string, IFeedDetails> itemsTable =
+            new ObservableDictionary<string, IFeedDetails>();
+
+        
 
         /// <summary>
         /// The file extensions of enclosures that should be treated as podcasts. 
@@ -1288,6 +1310,7 @@ namespace NewsComponents
         /// </summary>
         private static Object FbTransformSyncRoot = new Object(); 
         
+
         /// <summary>
         /// Gets the user cache data service instance.
         /// </summary>
@@ -2343,7 +2366,8 @@ namespace NewsComponents
                                 nid.BeenRead = ni.BeenRead; //copy over read state
                                 if (returnFullItemText && !nid.HasContent)
                                     GetCachedContentForItem(nid);
-                                fi.ItemsList.Add(nid);
+                                fi.AddItem(nid);
+                                
                                 nid.FeedDetails = fi;
                             }
                             break;
@@ -2481,8 +2505,8 @@ namespace NewsComponents
                 var fi = (FeedInfo) itemsTable[keys[i]];
 
                 //get all news items that fall within the date range
-                List<INewsItem> items =
-                    fi.ItemsList.FindAll(item => (DateTime.Now - item.Date) < since);
+                var items =
+                    fi.ItemsList.Where(item => (DateTime.Now - item.Date) < since).ToList();
 
                 foreach (var item in items)
                 {
@@ -2763,7 +2787,7 @@ namespace NewsComponents
                     lock (fi.ItemsList)
                     {
                         item.Feed.AddDeletedStory(item.Id);
-                        fi.ItemsList.Remove(item);
+                        fi.RemoveItem(item);
                     }
                 } //if(fi != null)
             } //if(item.Feed != null) 
@@ -2793,7 +2817,7 @@ namespace NewsComponents
                         {
                             feed.AddDeletedStory(item.Id);
                         }
-                        fi.ItemsList.Clear();
+                        fi.ReplaceItems(Enumerable.Empty<INewsItem>());
                     }
                 } //if(fi != null)		
 
@@ -2836,7 +2860,7 @@ namespace NewsComponents
                     lock (fi.ItemsList)
                     {
                         item.Feed.RemoveDeletedStory(item.Id);
-                        fi.ItemsList.Add(item);
+                        fi.AddItem(item);
                     }
                 } //if(fi != null)
 
@@ -4703,7 +4727,7 @@ namespace NewsComponents
                          */
                     }
 
-                    List<INewsItem> newReceivedItems = null;
+                    IList<INewsItem> newReceivedItems = null;
 
                     //Merge items list from cached copy of feed with this newly fetched feed. 
                     //Thus if a feed removes old entries (such as a news site with daily updates) we 
@@ -4724,9 +4748,13 @@ namespace NewsComponents
 
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
-                                fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
+                                
+
+                                var newItems = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
                                                                   out newReceivedItems, theFeed.replaceitemsonrefresh,
                                                                   true /* respectOldItemState */);
+
+                                fi.ReplaceItems(newItems);
                             }
 
 
@@ -5490,7 +5518,7 @@ namespace NewsComponents
                     Uri webSiteUrl = null;
                     try
                     {
-                        webSiteUrl = new Uri(fi.link);
+                        webSiteUrl = new Uri(fi.Link);
                     }
                     catch (Exception)
                     {
@@ -6027,7 +6055,7 @@ namespace NewsComponents
 
                     if (itemsTable.ContainsKey(f2.link))
                     {
-                        List<INewsItem> items = ((FeedInfo) itemsTable[f2.link]).itemsList;
+                        IEnumerable<INewsItem> items = ((FeedInfo) itemsTable[f2.link]).ItemsList;
 
                         foreach (var item in items)
                         {
@@ -6320,9 +6348,9 @@ namespace NewsComponents
         /// then this method merely copies over item state of any oldItems that are in newItems then returns newItems</param>
         /// <param name="respectOldItemState">Indicates that read and flag status from the old items should be respected</param>
         /// <returns>IList merge/purge result</returns>
-        public static List<INewsItem> MergeAndPurgeItems(List<INewsItem> oldItems, List<INewsItem> newItems,
+        public static IList<INewsItem> MergeAndPurgeItems(IList<INewsItem> oldItems, IList<INewsItem> newItems,
                                                          ICollection<string> deletedItems,
-                                                         out List<INewsItem> receivedNewItems,
+                                                         out IList<INewsItem> receivedNewItems,
                                                          bool onlyKeepNewItems, bool respectOldItemState)
         {
             receivedNewItems = new List<INewsItem>();

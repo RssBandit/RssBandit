@@ -35,10 +35,10 @@ namespace NewsComponents.Feed
         [XmlArrayItem("category", Type = typeof (category), IsNullable = false)]
         public List<category> categories = new List<category>();
 
-		///// <remarks/>
-		//[XmlArray("listview-layouts")]
-		//[XmlArrayItem("listview-layout", Type = typeof (listviewLayout), IsNullable = false)]
-		//public List<listviewLayout> listviewLayouts = new List<listviewLayout>();
+        ///// <remarks/>
+        //[XmlArray("listview-layouts")]
+        //[XmlArrayItem("listview-layout", Type = typeof (listviewLayout), IsNullable = false)]
+        //public List<listviewLayout> listviewLayouts = new List<listviewLayout>();
 
         /// <remarks/>
         [XmlArrayItem("server", Type = typeof (NntpServerDefinition), IsNullable = false)]
@@ -147,10 +147,10 @@ namespace NewsComponents.Feed
     }
 
     public interface INewsFeedCategory : ISharedProperty, IEquatable<INewsFeedCategory>
-	{ 		
+    { 		
         string Value { get; set; }
         INewsFeedCategory parent { get; set; }
-		XmlAttribute[] AnyAttr { get; set; }
+        XmlAttribute[] AnyAttr { get; set; }
     }
 
 
@@ -391,18 +391,18 @@ namespace NewsComponents.Feed
                 this.enclosurealertSpecified = feedtoclone.enclosurealertSpecified;
                 this.alertEnabled = feedtoclone.alertEnabled;
                 this.alertEnabledSpecified = feedtoclone.alertEnabledSpecified;
-				
-				if (feedtoclone.Any != null)
-				{
-					this.Any = new XmlElement[feedtoclone.Any.Length];
-					feedtoclone.Any.CopyTo(this.Any, 0);
-				}
-				
-				if (feedtoclone.AnyAttr != null)
-				{
-					this.AnyAttr = new XmlAttribute[feedtoclone.AnyAttr.Length];
-					feedtoclone.AnyAttr.CopyTo(this.AnyAttr, 0);
-				}
+                
+                if (feedtoclone.Any != null)
+                {
+                    this.Any = new XmlElement[feedtoclone.Any.Length];
+                    feedtoclone.Any.CopyTo(this.Any, 0);
+                }
+                
+                if (feedtoclone.AnyAttr != null)
+                {
+                    this.AnyAttr = new XmlAttribute[feedtoclone.AnyAttr.Length];
+                    feedtoclone.AnyAttr.CopyTo(this.AnyAttr, 0);
+                }
             }
         }
 
@@ -564,9 +564,9 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public virtual bool lastmodifiedSpecified { get; set; }
 
-		/// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
-		[XmlElement("certificate-id")]
-		public virtual string certificateId { get; set; }
+        /// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
+        [XmlElement("certificate-id")]
+        public virtual string certificateId { get; set; }
 
         /// <remarks/>
         [XmlElement("auth-user")]
@@ -717,14 +717,14 @@ namespace NewsComponents.Feed
             
             get
             {
-            	if (this.categories != null && this.categories.Count > 0)
+                if (this.categories != null && this.categories.Count > 0)
                 {
                     return categories[0]; 
                 }
-            	return null;
+                return null;
             }
 
-        	set
+            set
             {
                 this.categories.Clear(); 
 
@@ -826,17 +826,17 @@ namespace NewsComponents.Feed
         [XmlIgnore]
         public virtual object owner { get; set; }
 
-		/// <summary>
-		/// Gets the value of a particular wildcard element. If the element is not found then
-		/// null is returned
-		/// </summary>
-		/// <param name="f">The f.</param>
-		/// <param name="namespaceUri">The namespace URI.</param>
-		/// <param name="localName">Name of the local.</param>
-		/// <returns>
-		/// The value of the wildcard element obtained by calling XmlElement.InnerText
-		/// or null if the element is not found.
-		/// </returns>
+        /// <summary>
+        /// Gets the value of a particular wildcard element. If the element is not found then
+        /// null is returned
+        /// </summary>
+        /// <param name="f">The f.</param>
+        /// <param name="namespaceUri">The namespace URI.</param>
+        /// <param name="localName">Name of the local.</param>
+        /// <returns>
+        /// The value of the wildcard element obtained by calling XmlElement.InnerText
+        /// or null if the element is not found.
+        /// </returns>
         public static string GetElementWildCardValue(INewsFeed f, string namespaceUri, string localName)
         {
             foreach (XmlElement element in f.Any)

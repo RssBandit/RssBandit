@@ -30,12 +30,12 @@ namespace NewsComponents.Feed
         bool lastretrievedSpecified { get; set; }
         DateTime lastretrieved { get; set; }
 
-		string etag { get; set; }
+        string etag { get; set; }
         string cacheurl { get; set; }
 
-		///// <summary />
-		///// <remarks>Notifies on change. </remarks>
-		//string maxitemage { get; set; }
+        ///// <summary />
+        ///// <remarks>Notifies on change. </remarks>
+        //string maxitemage { get; set; }
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
@@ -48,51 +48,51 @@ namespace NewsComponents.Feed
         DateTime lastmodified { get; set; }
         bool lastmodifiedSpecified { get; set; }
 
-		/// <summary>
-		/// Gets or sets the certificate id.
-		/// </summary>
-		/// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
-		/// <value>The certificate id.</value>
-		string certificateId { get; set; }
-		/// <summary>
-		/// Gets or sets the auth user.
-		/// </summary>
-		/// <value>The auth user.</value>
-		string authUser { get; set; }
+        /// <summary>
+        /// Gets or sets the certificate id.
+        /// </summary>
+        /// <remarks>Client certificate identifier (usually the cert's thumb print value)</remarks>
+        /// <value>The certificate id.</value>
+        string certificateId { get; set; }
+        /// <summary>
+        /// Gets or sets the auth user.
+        /// </summary>
+        /// <value>The auth user.</value>
+        string authUser { get; set; }
         Byte[] authPassword { get; set; }
-		//string listviewlayout { get; set; }
+        //string listviewlayout { get; set; }
 
         /// <summary />
         /// <remarks>Notifies on change. </remarks>
         string favicon { get; set; }
 
-		///// <summary />
-		///// <remarks>Notifies on change. </remarks>
-		//bool downloadenclosures { get; set; }
+        ///// <summary />
+        ///// <remarks>Notifies on change. </remarks>
+        //bool downloadenclosures { get; set; }
 
-		//bool downloadenclosuresSpecified { get; set; }
+        //bool downloadenclosuresSpecified { get; set; }
 
-		///// <summary />
-		///// <remarks>Notifies on change. </remarks>
-		//string enclosurefolder { get; set; }
+        ///// <summary />
+        ///// <remarks>Notifies on change. </remarks>
+        //string enclosurefolder { get; set; }
 
-		///// <summary />
-		///// <remarks>Notifies on change. </remarks>
-		//string stylesheet { get; set; }
+        ///// <summary />
+        ///// <remarks>Notifies on change. </remarks>
+        //string stylesheet { get; set; }
 
         int causedExceptionCount { get; set; }
         bool causedException { get; set; }
         bool replaceitemsonrefresh { get; set; }
         bool replaceitemsonrefreshSpecified { get; set; }
         string newsaccount { get; set; }
-		//bool markitemsreadonexit { get; set; }
-		//bool markitemsreadonexitSpecified { get; set; }
+        //bool markitemsreadonexit { get; set; }
+        //bool markitemsreadonexitSpecified { get; set; }
         XmlElement[] Any { get; set; }
         XmlAttribute[] AnyAttr { get; set; }
         bool alertEnabled { get; set; }
         bool alertEnabledSpecified { get; set; }
-		//bool enclosurealert { get; set; }
-		//bool enclosurealertSpecified { get; set; }
+        //bool enclosurealert { get; set; }
+        //bool enclosurealertSpecified { get; set; }
         object Tag { get; set; }
         object owner { get; set; } /* NewsHandler */ 
 
@@ -108,7 +108,7 @@ namespace NewsComponents.Feed
         List<string> categories { get; set; }
 
         /// <summary>
-		/// Adds an entry to the storiesrecentlyviewed collection
+        /// Adds an entry to the storiesrecentlyviewed collection
         /// </summary>
         /// <seealso cref="storiesrecentlyviewed"/>
         /// <param name="storyid">The ID to add</param>

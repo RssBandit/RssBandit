@@ -29,26 +29,26 @@ using NewsComponents.Utils;
 
 namespace NewsComponents.Feed
 {
-	#region INewsGatorFeedSource interface: public FeedSource extensions
-	/// <summary>
-	/// public FeedSource extension offered by NewsGator Feed Source
-	/// </summary>
-	public interface INewsGatorFeedSource
-	{
-		/// <summary>
-		/// Marks an item as clipped or unclipped in NewsGator Online
-		/// </summary>
-		///<param name="item">The item to clip. </param>      
-		void ClipNewsItem(INewsItem item);
+    #region INewsGatorFeedSource interface: public FeedSource extensions
+    /// <summary>
+    /// public FeedSource extension offered by NewsGator Feed Source
+    /// </summary>
+    public interface INewsGatorFeedSource
+    {
+        /// <summary>
+        /// Marks an item as clipped or unclipped in NewsGator Online
+        /// </summary>
+        ///<param name="item">The item to clip. </param>      
+        void ClipNewsItem(INewsItem item);
 
-		/// <summary>
-		/// Gets true, if the item is clipped, else false.
-		/// </summary>
-		/// <param name="item">The news item.</param>
-		/// <returns>bool</returns>
-		bool NewsItemClipped(INewsItem item);
-	}
-	#endregion
+        /// <summary>
+        /// Gets true, if the item is clipped, else false.
+        /// </summary>
+        /// <param name="item">The news item.</param>
+        /// <returns>bool</returns>
+        bool NewsItemClipped(INewsItem item);
+    }
+    #endregion
 
     #region NewsGatorFlagStatus 
 
@@ -57,33 +57,33 @@ namespace NewsComponents.Feed
     /// </summary>
     public enum NewsGatorFlagStatus
     {
-		/// <summary>
-		/// 
-		/// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         None = 0,
-		/// <summary>
-		/// Red 
-		/// </summary>
+        /// <summary>
+        /// Red 
+        /// </summary>
         FollowUp = 6, 
-		/// <summary>
-		/// Blue
-		/// </summary>
+        /// <summary>
+        /// Blue
+        /// </summary>
         Forward = 5,  
-		/// <summary>
-		/// Green
-		/// </summary>
+        /// <summary>
+        /// Green
+        /// </summary>
         Read = 3,   
-		/// <summary>
-		/// Yellow
-		/// </summary>
+        /// <summary>
+        /// Yellow
+        /// </summary>
         Review = 4,
-		/// <summary>
-		/// Purple
-		/// </summary>
+        /// <summary>
+        /// Purple
+        /// </summary>
         Reply = 1, 
-		/// <summary>
-		/// 
-		/// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         Complete = 1000
     }
 
@@ -107,7 +107,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// A FeedSource that retrieves user subscriptions and feeds from NewsGator Online. 
     /// </summary>
-	internal class NewsGatorFeedSource : FeedSource, INewsGatorFeedSource
+    internal class NewsGatorFeedSource : FeedSource, INewsGatorFeedSource
     {
 
         #region private fields
@@ -118,8 +118,8 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-		/// The Newsgator Online sync token.
-		/// </summary>
+        /// The Newsgator Online sync token.
+        /// </summary>
         private string NgosSyncToken; 
      
         /// <summary>
@@ -461,17 +461,17 @@ namespace NewsComponents.Feed
             }
 
             // copy over list view layouts 
-			//if (feedlist.listviewLayouts != null)
-			//{
-			//    foreach (listviewLayout layout in feedlist.listviewLayouts)
-			//    {
-			//        string layout_trimmed = layout.ID.Trim();
-			//        if (!this.layouts.ContainsKey(layout_trimmed))
-			//        {
-			//            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
-			//        }
-			//    }
-			//}//if(feedlist.listviewLayouts != null)
+            //if (feedlist.listviewLayouts != null)
+            //{
+            //    foreach (listviewLayout layout in feedlist.listviewLayouts)
+            //    {
+            //        string layout_trimmed = layout.ID.Trim();
+            //        if (!this.layouts.ContainsKey(layout_trimmed))
+            //        {
+            //            this.layouts.Add(layout_trimmed, layout.FeedColumnLayout);
+            //        }
+            //    }
+            //}//if(feedlist.listviewLayouts != null)
 
         }
 
@@ -829,11 +829,11 @@ namespace NewsComponents.Feed
                     {
                         Trace("this.GetFeed(theFeed) caused exception: {0}", ex.ToDescriptiveString());
                         /* the cache file may be corrupt or an IO exception 
-						 * not much we can do so just ignore it 
-						 */
+                         * not much we can do so just ignore it 
+                         */
                     }
 
-                    List<INewsItem> newReceivedItems = null;
+                    IList<INewsItem> newReceivedItems = null;
 
                     //Merge items list from cached copy of feed with this newly fetched feed. 
                     //Thus if a feed removes old entries (such as a news site with daily updates) we 
@@ -854,9 +854,11 @@ namespace NewsComponents.Feed
 
                             if (RssParser.CanProcessUrl(feedUrl))
                             {
-                                fi.ItemsList = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
+                                var newItems = MergeAndPurgeItems(fi2.ItemsList, fi.ItemsList, theFeed.deletedstories,
                                                                   out newReceivedItems, theFeed.replaceitemsonrefresh,
                                                                   false /* respectOldItemState */);
+
+                                fi.ReplaceItems(newItems);
                             }
 
                             /*
@@ -1040,7 +1042,7 @@ namespace NewsComponents.Feed
         /// Marks an item as clipped or unclipped in NewsGator Online
         /// </summary>
         ///<param name="item">The item to clip or unclip</param>
-	   public void ClipNewsItem(INewsItem item)
+       public void ClipNewsItem(INewsItem item)
         {
             if (item != null)
             {
@@ -1069,13 +1071,13 @@ namespace NewsComponents.Feed
             }
         }
 
-		/// <summary>
-		/// Gets true, if the item is clipped, else false.
-		/// </summary>
-		/// <param name="item">The news item.</param>
-		/// <returns>bool</returns>
-		public bool NewsItemClipped(INewsItem item)
-		{
+        /// <summary>
+        /// Gets true, if the item is clipped, else false.
+        /// </summary>
+        /// <param name="item">The news item.</param>
+        /// <returns>bool</returns>
+        public bool NewsItemClipped(INewsItem item)
+        {
             bool clipped = false;
 
             if (item != null)
@@ -1089,7 +1091,7 @@ namespace NewsComponents.Feed
             }
 
             return clipped; 
-		}
+        }
 
         /// <summary>
         /// Used to clip or unclip a post in NewsGator Online
@@ -1559,9 +1561,9 @@ namespace NewsComponents.Feed
 
             return this.AddCategory(new category(cat)); 
         }
-		
-		/// <summary>
-		/// Adds the folder in NewsGator Online
+        
+        /// <summary>
+        /// Adds the folder in NewsGator Online
         /// </summary>
         /// <param name="name">The name of the folder to add</param>
         internal void AddFolderInNewsGatorOnline(string name)
