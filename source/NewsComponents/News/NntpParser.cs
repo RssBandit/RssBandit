@@ -13,11 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Net;
 using NewsComponents.Storage;
 using NewsComponents.Feed;
 using System.Diagnostics;
+using NewsComponents.Utils;
 using Org.Mime4Net.Mime.Field;
 using Org.Mime4Net.Mime.Message;
 
@@ -26,118 +28,118 @@ namespace NewsComponents.News{
 
 
 
-	/// <summary>
-	/// Class for parsing NNTP results sent by a server 
-	/// </summary>
-	public sealed class NntpParser{
+    /// <summary>
+    /// Class for parsing NNTP results sent by a server 
+    /// </summary>
+    public sealed class NntpParser{
 
-		private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(NntpParser));
-		/// <summary>
-		/// Links to Google Groups used for creating permalinks for NNTP items
-		/// </summary>
-		private static string GoogleGroupsUrl = "http://www.google.com/groups?selm="; 
-
-
-		/// <summary>
-		/// Posts a comment to a newsgroup using NNTP 
-		/// </summary>
-		/// <param name="item2post">An NNTP item that will be posted to the website</param>
-		/// <param name="inReply2item">An NNTP item that is the post parent</param>
-		/// <param name="credentials">Credentials to use for post</param>
-		/// <returns>The NNTP Status code returned</returns>
-		/// <exception cref="WebException">If an error occurs when the POSTing the 
-		/// comment</exception>
-		public static void PostCommentViaNntp(INewsItem item2post, INewsItem inReply2item, ICredentials credentials){			  
-			PostCommentViaNntp(item2post, inReply2item.Feed, credentials);
-		}
-
-		/// <summary>
-		/// Posts a comment to a newsgroup using NNTP 
-		/// </summary>
-		/// <param name="item2post">An NNTP item that will be posted to the website</param>
-		/// <param name="postTarget">An feed that is the post target</param>
-		/// <param name="credentials">Credentials to use</param>
-		/// <returns>The NNTP Status code returned</returns>
-		/// <exception cref="WebException">If an error occurs when the POSTing the 
-		/// comment</exception>
-		public static void PostCommentViaNntp(INewsItem item2post, INewsFeed postTarget, ICredentials credentials){			  
-							
-			string comment = item2post.ToString(NewsItemSerializationFormat.NntpMessage);
-			Encoding enc = Encoding.UTF8, unicode = Encoding.Unicode;
-			byte[] encBytes = Encoding.Convert(unicode, enc, unicode.GetBytes(comment)); //enc.GetBytes(comment); enough ???
-		
-
-			NntpWebRequest request = (NntpWebRequest) WebRequest.Create(postTarget.link); 
-			request.Method = "POST"; 
-
-			if (credentials != null)
-				request.Credentials = credentials;
-
-			Stream myWriter = null; 
-
-			try{ 
-
-				myWriter = request.GetRequestStream();
-				myWriter.Write(encBytes, 0, encBytes.Length); 
-
-				request.GetResponse(); 
-
-			} catch(Exception e){
-			
-				throw new WebException(e.Message, e); 
-			}finally{
-				if(myWriter != null){
-					myWriter.Close(); 	
-				}
-			}
-						
-
-		}
+        private static readonly log4net.ILog _log = RssBandit.Common.Logging.DefaultLog.GetLogger(typeof(NntpParser));
+        /// <summary>
+        /// Links to Google Groups used for creating permalinks for NNTP items
+        /// </summary>
+        private static string GoogleGroupsUrl = "http://www.google.com/groups?selm="; 
 
 
-		/// <summary>
-		/// Parses the results of an NNTP LIST request into an ArrayList of newsgroup names.
-		/// </summary>
-		/// <returns>An arraylist containing a list of newsgroups</returns>
-		public static StringCollection GetNewsgroupList(Stream newsgroupListStream){
-		
-			StringCollection col = new StringCollection();
-			string newsgroup;
-			int len; 
+        /// <summary>
+        /// Posts a comment to a newsgroup using NNTP 
+        /// </summary>
+        /// <param name="item2post">An NNTP item that will be posted to the website</param>
+        /// <param name="inReply2item">An NNTP item that is the post parent</param>
+        /// <param name="credentials">Credentials to use for post</param>
+        /// <returns>The NNTP Status code returned</returns>
+        /// <exception cref="WebException">If an error occurs when the POSTing the 
+        /// comment</exception>
+        public static void PostCommentViaNntp(INewsItem item2post, INewsItem inReply2item, ICredentials credentials){			  
+            PostCommentViaNntp(item2post, inReply2item.Feed, credentials);
+        }
 
-			TextReader reader    = new StreamReader(newsgroupListStream); 
-			//skip NNTP status code
-			reader.ReadLine();
+        /// <summary>
+        /// Posts a comment to a newsgroup using NNTP 
+        /// </summary>
+        /// <param name="item2post">An NNTP item that will be posted to the website</param>
+        /// <param name="postTarget">An feed that is the post target</param>
+        /// <param name="credentials">Credentials to use</param>
+        /// <returns>The NNTP Status code returned</returns>
+        /// <exception cref="WebException">If an error occurs when the POSTing the 
+        /// comment</exception>
+        public static void PostCommentViaNntp(INewsItem item2post, INewsFeed postTarget, ICredentials credentials){			  
+                            
+            string comment = item2post.ToString(NewsItemSerializationFormat.NntpMessage);
+            Encoding enc = Encoding.UTF8, unicode = Encoding.Unicode;
+            byte[] encBytes = Encoding.Convert(unicode, enc, unicode.GetBytes(comment)); //enc.GetBytes(comment); enough ???
+        
 
-			// Read and display lines from the file until the end of 
-			// the file is reached.
-			while ( ((newsgroup = reader.ReadLine()) != null) && 
-				(newsgroup.StartsWith(".")!= true) && (newsgroup.Length > 0)){
-				
-				// see also http://www.mibsoftware.com/userkt/nntp/0023.htm 
-				// Each newsgroup is sent as a line of text in the following format:
-				//
-				//		group last first p
-				//
-				// where <group> is the name of the newsgroup, <last> is the number of
-				// the last known article currently in that newsgroup, <first> is the
-				// number of the first article currently in the newsgroup, and <p> is
-				// either 'y' or 'n' indicating whether posting to this newsgroup is
-				// allowed ('y') or prohibited ('n').
-				//
-				// The <first> and <last> fields will always be numeric.  They may have
-				// leading zeros.  If the <last> field evaluates to less than the
-				// <first> field, there are no articles currently on file in the newsgroup.
+            NntpWebRequest request = (NntpWebRequest) WebRequest.Create(postTarget.link); 
+            request.Method = "POST"; 
 
-				len = newsgroup.IndexOf(" "); 
-				len = (len == -1 ? newsgroup.Length : len);
-				col.Add(newsgroup.Substring(0, len)); 
-			}		
+            if (credentials != null)
+                request.Credentials = credentials;
 
-			reader.Close(); 
-		
-			return col; 
-		}
+            Stream myWriter = null; 
+
+            try{ 
+
+                myWriter = request.GetRequestStream();
+                myWriter.Write(encBytes, 0, encBytes.Length); 
+
+                request.GetResponse(); 
+
+            } catch(Exception e){
+            
+                throw new WebException(e.Message, e); 
+            }finally{
+                if(myWriter != null){
+                    myWriter.Close(); 	
+                }
+            }
+                        
+
+        }
+
+
+        /// <summary>
+        /// Parses the results of an NNTP LIST request into an ArrayList of newsgroup names.
+        /// </summary>
+        /// <returns>An arraylist containing a list of newsgroups</returns>
+        public static StringCollection GetNewsgroupList(Stream newsgroupListStream){
+        
+            StringCollection col = new StringCollection();
+            string newsgroup;
+            int len; 
+
+            TextReader reader    = new StreamReader(newsgroupListStream); 
+            //skip NNTP status code
+            reader.ReadLine();
+
+            // Read and display lines from the file until the end of 
+            // the file is reached.
+            while ( ((newsgroup = reader.ReadLine()) != null) && 
+                (newsgroup.StartsWith(".")!= true) && (newsgroup.Length > 0)){
+                
+                // see also http://www.mibsoftware.com/userkt/nntp/0023.htm 
+                // Each newsgroup is sent as a line of text in the following format:
+                //
+                //		group last first p
+                //
+                // where <group> is the name of the newsgroup, <last> is the number of
+                // the last known article currently in that newsgroup, <first> is the
+                // number of the first article currently in the newsgroup, and <p> is
+                // either 'y' or 'n' indicating whether posting to this newsgroup is
+                // allowed ('y') or prohibited ('n').
+                //
+                // The <first> and <last> fields will always be numeric.  They may have
+                // leading zeros.  If the <last> field evaluates to less than the
+                // <first> field, there are no articles currently on file in the newsgroup.
+
+                len = newsgroup.IndexOf(" "); 
+                len = (len == -1 ? newsgroup.Length : len);
+                col.Add(newsgroup.Substring(0, len)); 
+            }		
+
+            reader.Close(); 
+        
+            return col; 
+        }
 
 
         /// <summary>
@@ -157,18 +159,18 @@ namespace NewsComponents.News{
         internal static FeedInfo GetItemsForNewsGroup(INewsFeed f, Stream newsgroupListStream, WebResponse response, IUserCacheDataService cacheDataService, bool cachedStream) 
         {
            
-			int readItems = 0;
+            int readItems = 0;
             List<INewsItem> items = new List<INewsItem>(); 
-			NewsItem item;
+            NewsItem item;
 
             StringBuilder content = new StringBuilder(); 
 #if DEBUG
-			// just to have the source for the item to build to track down issues:
-			StringBuilder itemSource = new StringBuilder(); 
+            // just to have the source for the item to build to track down issues:
+            StringBuilder itemSource = new StringBuilder(); 
 #endif
             NntpWebResponse nntpResponse = (NntpWebResponse)response;
-			
-			FeedInfo fi = new FeedInfo(f.id, f.cacheurl, items, f.title, f.link, String.Empty);
+            
+            FeedInfo fi = new FeedInfo(f.id, f.cacheurl, items, f.title, f.link, String.Empty);
 
             try
             {
@@ -246,7 +248,7 @@ namespace NewsComponents.News{
 #if DEBUG
                         _log.Warn("No message-id header found for item:\r\n" + itemSource.ToString());
 #else
-						_log.Warn("No message-id header found for item." );
+                        _log.Warn("No message-id header found for item." );
 #endif
                     }
 
@@ -272,7 +274,8 @@ namespace NewsComponents.News{
 
                 FeedSource.ReceivingNewsChannelServices.ProcessItem(fi);
                 FeedSource.RelationCosmosAddRange(items);
-                fi.itemsList.AddRange(items);
+
+                items.Run(fi.AddItem);
 
             }
             catch (Exception e)
@@ -338,14 +341,14 @@ namespace NewsComponents.News{
         }
 
         //private static Regex BQHeaderEncodingRegex = new Regex(@"=\?([^?]+)\?([^?]+)\?([^?]+)\?=" , RegexOptions.Compiled);
-		
+        
         ///// <summary>
         ///// Decodes a string according to RFC 2047
         ///// </summary>
         ///// <param name="line">The string to decode</param>
         ///// <returns>The decoded string</returns>
         //public static string HeaderDecode( string line ) {
-			
+            
         //    Match m = BQHeaderEncodingRegex.Match(line);
         //    if (m.Success) {
         //        StringBuilder ms = new StringBuilder(line);
@@ -354,12 +357,12 @@ namespace NewsComponents.News{
         //            string encoding = m.Groups[1].ToString();
         //            string method = m.Groups[2].ToString();
         //            string content = m.Groups[3].ToString();
-					
+                    
         //            if (method == "b" || method== "B")
         //                content = Base64Decode(encoding, content);
         //            else if (method == "q" || method== "Q")
         //                content = QDecode(encoding, content);
-					
+                    
         //            ms.Replace(oStr, content);
         //            m = m.NextMatch();
         //        }
@@ -368,7 +371,7 @@ namespace NewsComponents.News{
         //    return line;
         //}
 
-		#region	cause IndexOutOfRange failures...
+        #region	cause IndexOutOfRange failures...
 //		/// <summary>
 //		/// Decodes a string according to RFC 2047
 //		/// </summary>
@@ -426,7 +429,7 @@ namespace NewsComponents.News{
 //			
 //			return str; 
 //		}
-		#endregion
+        #endregion
   
         ///// <summary>
         ///// Decodes a string according to the "Q" encoding rules of RFC 2047
@@ -446,17 +449,17 @@ namespace NewsComponents.News{
         //            string current = String.Empty + text[i + 1] + text[i + 2];
         //            byte theByte = Byte.Parse(current, NumberStyles.HexNumber);     
         //            byte[] bytes = new byte[]{theByte};
-	
+    
         //            decoded.Append(decoder.GetString(bytes));
-	
+    
         //            i+=2; 
         //        }else if(text[i] == '_'){
-	
+    
         //            byte theByte = Byte.Parse("20", NumberStyles.HexNumber);     
         //            byte[] bytes = new byte[]{theByte};
-	
+    
         //            decoded.Append(decoder.GetString(bytes));      	 
-	
+    
         //        }else{
         //            decoded.Append(text[i]);     
         //        }
@@ -509,8 +512,8 @@ namespace NewsComponents.News{
 
         //}
 
-	
-		
-	}
+    
+        
+    }
 
 }

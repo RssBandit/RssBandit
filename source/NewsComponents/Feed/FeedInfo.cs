@@ -12,8 +12,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using NewsComponents.Utils;
@@ -33,7 +35,8 @@ namespace NewsComponents.Feed
                                                              new Dictionary<XmlQualifiedName, string>(0), String.Empty);
 
 
-        internal string id;
+        private string id;
+
 
         /// <summary>Gets/sets the id of this feed</summary>
         public string Id
@@ -43,7 +46,7 @@ namespace NewsComponents.Feed
         }
 
 
-        internal string feedLocation; //location in the cache not on the WWW
+        private string feedLocation; //location in the cache not on the WWW
 
         /// <summary>
         /// Gets or sets the feed location.
@@ -55,24 +58,25 @@ namespace NewsComponents.Feed
             set { feedLocation = value; }
         }
 
-        internal List<INewsItem> itemsList;
+        private readonly ObservableCollection<INewsItem> itemsList = new ObservableCollection<INewsItem>();
 
         /// <summary>
         /// The list of news items belonging to the feed
         /// </summary>
         /// <value></value>
-        public List<INewsItem> ItemsList
+        public ReadOnlyObservableCollection<INewsItem> ItemsList
         {
-            get { return itemsList; }
-            set { itemsList = value; }
+            get;
+            private set;
+
         }
 
-        internal Dictionary<XmlQualifiedName, string> optionalElements;
+        private Dictionary<XmlQualifiedName, string> optionalElements;
 
 
         /// <summary>
         /// Creates a FeedInfo initialized from the specified IFeedDetails object.
-		/// It also take over the IFeedDetails.ItemsList entries.
+        /// It also take over the IFeedDetails.ItemsList entries.
         /// </summary>
         /// <param name="ifd">The object to copy from</param>
         public FeedInfo(IFeedDetails ifd)
@@ -80,17 +84,17 @@ namespace NewsComponents.Feed
         {
         }
 
-		/// <summary>
-		/// Creates a FeedInfo initialized from the specified IFeedDetails object
-		/// </summary>
-		/// <param name="ifd">The object to copy from</param>
-		/// <param name="itemsList">The items list to use.</param>
-		public FeedInfo(IFeedDetails ifd, IEnumerable<INewsItem> itemsList)
-			: this(ifd.Id, String.Empty, new List<INewsItem>(itemsList),
-				   ifd.Title, ifd.Link, ifd.Description,
-				   new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
-		{
-		}
+        /// <summary>
+        /// Creates a FeedInfo initialized from the specified IFeedDetails object
+        /// </summary>
+        /// <param name="ifd">The object to copy from</param>
+        /// <param name="itemsList">The items list to use.</param>
+        public FeedInfo(IFeedDetails ifd, IEnumerable<INewsItem> itemsList)
+            : this(ifd.Id, String.Empty, new List<INewsItem>(itemsList),
+                   ifd.Title, ifd.Link, ifd.Description,
+                   new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
+        {
+        }
 
         /// <summary>
         /// Overloaded. Initializer
@@ -102,9 +106,11 @@ namespace NewsComponents.Feed
         {
             this.id = id;
             this.feedLocation = feedLocation;
+            ItemsList = new ReadOnlyObservableCollection<INewsItem>(this.itemsList);
             if (itemsList != null)
             {
-                this.itemsList = new List<INewsItem>(itemsList);
+                
+                this.itemsList.AddRange(ItemsList);
             }
         }
 
@@ -117,7 +123,7 @@ namespace NewsComponents.Feed
         /// <param name="title"></param>
         /// <param name="link"></param>
         /// <param name="description"></param>
-        public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList, string title, string link,
+        public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList, string title, string link,
                         string description)
             : this(
                 id, feedLocation, itemsList, title, link, description, new Dictionary<XmlQualifiedName, string>(),
@@ -141,7 +147,9 @@ namespace NewsComponents.Feed
         {
             this.id = id;
             this.feedLocation = feedLocation;
-            this.itemsList = new List<INewsItem>(itemsList);
+            this.ItemsList = new ReadOnlyObservableCollection<INewsItem>(this.itemsList);
+            this.itemsList.AddRange(ItemsList);
+
             this.title = title;
             this.link = link;
             this.description = description;
@@ -158,7 +166,9 @@ namespace NewsComponents.Feed
             }
         }
 
-        internal string title;
+
+
+        private string title;
 
         /// <summary></summary>
         public string Title
@@ -166,7 +176,7 @@ namespace NewsComponents.Feed
             get { return title; }
         }
 
-        internal string description;
+        private string description;
 
         /// <summary></summary>
         public string Description
@@ -174,7 +184,7 @@ namespace NewsComponents.Feed
             get { return description; }
         }
 
-        internal string link;
+        private string link;
 
         /// <summary></summary>
         public string Link
@@ -182,7 +192,7 @@ namespace NewsComponents.Feed
             get { return link; }
         }
 
-        internal string language;
+        private string language;
 
         /// <summary></summary>
         public string Language
@@ -198,7 +208,7 @@ namespace NewsComponents.Feed
             get { return optionalElements; }
         }
 
-        internal FeedType type;
+        private FeedType type;
 
         /// <summary>
         /// Gets the type of the FeedDetails
@@ -208,6 +218,26 @@ namespace NewsComponents.Feed
             get { return type; }
         }
 
+        public void AddItem(INewsItem item)
+        {
+            itemsList.Add(item);
+        }
+        
+        public void ReplaceItems(IEnumerable<INewsItem> newItems)
+        {
+            itemsList.Clear();
+            itemsList.AddRange(newItems);
+        }
+        
+        public void RemoveItem(INewsItem item)
+        {
+            itemsList.Remove(item);
+        }
+        
+        public void RemoveItemAt(int index)
+        {
+            itemsList.RemoveAt(index);
+        }
 
         /// <summary>
         /// Writes this object as an RSS 2.0 feed to the specified writer
@@ -267,9 +297,9 @@ namespace NewsComponents.Feed
             {
                 //<newspaper type="channel">
                 writer.WriteStartElement("newspaper");
-				writer.WriteAttributeString("type", "channel");
-				// NamespaceCore.Feeds_v2003 == "http://www.25hoursaday.com/2003/RSSBandit/feeds/"
-				writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_v2003);
+                writer.WriteAttributeString("type", "channel");
+                // NamespaceCore.Feeds_v2003 == "http://www.25hoursaday.com/2003/RSSBandit/feeds/"
+                writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_v2003);
                 writer.WriteElementString("title", title);
             }
             else if (format != NewsItemSerializationFormat.Channel)
@@ -277,18 +307,18 @@ namespace NewsComponents.Feed
                 //<rss version="2.0">
                 writer.WriteStartElement("rss");
                 writer.WriteAttributeString("version", "2.0");
-				writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_vCurrent);
+                writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_vCurrent);
             }
 
             /* These are here because so many people cut & paste into blogs from Microsoft Word 
-			writer.WriteAttributeString("xmlns","v",null,"urn:schemas-microsoft-com:office:vml");
-			writer.WriteAttributeString("xmlns","x",null,"urn:schemas-microsoft-com:office:excel");
-			writer.WriteAttributeString("xmlns","o",null,"urn:schemas-microsoft-com:office:office");
-			writer.WriteAttributeString("xmlns","w",null,"urn:schemas-microsoft-com:office:word");
-			writer.WriteAttributeString("xmlns","st1",null,"urn:schemas-microsoft-com:office:smarttags");
-			writer.WriteAttributeString("xmlns","st2",null,"urn:schemas-microsoft-com:office:smarttags");
-			writer.WriteAttributeString("xmlns","asp",null,"http://www.example.com/asp");
-			*/
+            writer.WriteAttributeString("xmlns","v",null,"urn:schemas-microsoft-com:office:vml");
+            writer.WriteAttributeString("xmlns","x",null,"urn:schemas-microsoft-com:office:excel");
+            writer.WriteAttributeString("xmlns","o",null,"urn:schemas-microsoft-com:office:office");
+            writer.WriteAttributeString("xmlns","w",null,"urn:schemas-microsoft-com:office:word");
+            writer.WriteAttributeString("xmlns","st1",null,"urn:schemas-microsoft-com:office:smarttags");
+            writer.WriteAttributeString("xmlns","st2",null,"urn:schemas-microsoft-com:office:smarttags");
+            writer.WriteAttributeString("xmlns","asp",null,"http://www.example.com/asp");
+            */
 
             //<channel>
             writer.WriteStartElement("channel");
@@ -311,8 +341,8 @@ namespace NewsComponents.Feed
             }
 
             //<item />
-            INewsItem[] items = new INewsItem[itemsList.Count];
-            itemsList.CopyTo(items); 
+            var items = itemsList.ToArray();
+
             foreach (var item in items)
             {
                 writer.WriteRaw(item.ToString(NewsItemSerializationFormat.RssItem, useGMTDate, noDescriptions));
@@ -693,11 +723,11 @@ namespace NewsComponents.Feed
         }
 
 
-		/// <summary>
-		/// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-		/// </summary>
-		/// <value></value>
-		/// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, false.</returns>
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
+        /// </summary>
+        /// <value></value>
+        /// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, false.</returns>
         public bool IsReadOnly
         {
             get { return false; }

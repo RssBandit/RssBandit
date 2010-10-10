@@ -121,9 +121,9 @@ namespace RssBandit.WinGui.Forms
         private NavigatorHeaderHelper navigatorHeaderHelper;
         private ToolbarHelper toolbarHelper;
         internal HistoryMenuManager historyMenuManager;
-		private UltraToolTipContextHelperForTreeNodes treeNodesTooltipHelper;
+        private UltraToolTipContextHelperForTreeNodes treeNodesTooltipHelper;
 
-		// store refs to root folders (they order within the treeview may be resorted depending on the languages)
+        // store refs to root folders (they order within the treeview may be resorted depending on the languages)
         private TreeFeedsNodeBase _unreadItemsFeedsNode;
         private TreeFeedsNodeBase _feedExceptionsFeedsNode;
         private TreeFeedsNodeBase _sentItemsFeedsNode;
@@ -170,7 +170,7 @@ namespace RssBandit.WinGui.Forms
         private int _currentPageNumber = 1;
         private int _lastPageNumber = 1;
 
-    	private string _lastVisualFeedSource;
+        private string _lastVisualFeedSource;
 
         // used to save last used window size to be restored after System Tray Mode:
         private Rectangle _formRestoreBounds = Rectangle.Empty;
@@ -259,10 +259,10 @@ namespace RssBandit.WinGui.Forms
         private ThreadedListViewColumnHeader colDate;
         private ThreadedListViewColumnHeader colTopic;
         private CollapsibleSplitter detailsPaneSplitter;
-		private Timer _timerDispatchResultsToUI;
+        private Timer _timerDispatchResultsToUI;
         private UltraToolTipManager ultraToolTipManager;
         private UltraTreeExtended listFeedItemsO;
-		private UltraExplorerBar Navigator;
+        private UltraExplorerBar Navigator;
         private UltraExplorerBarContainerControl NavigatorSearch;
         private Panel panelFeedItems;
         private Splitter splitterNavigator;
@@ -270,8 +270,8 @@ namespace RssBandit.WinGui.Forms
         private Panel panelClientAreaContainer;
         private Panel panelFeedDetailsContainer;
         private UltraLabel detailHeaderCaption;
-		private VerticalHeaderLabel navigatorHiddenCaption;
-		private UltraTree treeFeeds;
+        private VerticalHeaderLabel navigatorHiddenCaption;
+        private UltraTree treeFeeds;
         private UltraDesktopAlert ultraDesktopAlert;
         private PictureBox pictureBox;
         private ThumbnailToolbarButton buttonAdd;
@@ -467,7 +467,7 @@ namespace RssBandit.WinGui.Forms
         /// <value>The unread items node.</value>
         public ISmartFolder UnreadItemsNode
         {
-			[DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _unreadItemsFeedsNode as ISmartFolder; }
         }
 
@@ -515,7 +515,7 @@ namespace RssBandit.WinGui.Forms
             ResetTreeViewFontAndColor();
             ResetListViewFontAndColor();
             ResetListViewOutlookFontAndColor();
-        	ResetUltraTooltipDisplay();
+            ResetUltraTooltipDisplay();
         }
 
         // helper
@@ -548,14 +548,14 @@ namespace RssBandit.WinGui.Forms
                 // now iterate and update the single nodes
                 if (treeFeeds.Nodes.Count > 0)
                 {
-					foreach (TreeFeedsNodeBase startNode in treeFeeds.Nodes)
-						WalkdownThenRefreshFontColor(startNode);
-					//for (int i = 0; i < _roots.Count; i++)
-					//{
-					//    TreeFeedsNodeBase startNode = _roots[i];
-					//    if (null != startNode)
-					//        WalkdownThenRefreshFontColor(startNode);
-					//}
+                    foreach (TreeFeedsNodeBase startNode in treeFeeds.Nodes)
+                        WalkdownThenRefreshFontColor(startNode);
+                    //for (int i = 0; i < _roots.Count; i++)
+                    //{
+                    //    TreeFeedsNodeBase startNode = _roots[i];
+                    //    if (null != startNode)
+                    //        WalkdownThenRefreshFontColor(startNode);
+                    //}
                 }
 
                 //	PopulateTreeRssSearchScope();	causes threading issues since not on UI thread
@@ -656,13 +656,13 @@ namespace RssBandit.WinGui.Forms
             listFeedItemsO.EndUpdate();
         }
 
-		void ResetUltraTooltipDisplay()
-		{
-			FontColorHelper.CopyFromFont(
-				ultraToolTipManager.ToolTipTitleAppearance.FontData, 
-				FontColorHelper.NormalFont);
-			ultraToolTipManager.ToolTipTitleAppearance.FontData.Bold = DefaultableBoolean.True;
-		}
+        void ResetUltraTooltipDisplay()
+        {
+            FontColorHelper.CopyFromFont(
+                ultraToolTipManager.ToolTipTitleAppearance.FontData, 
+                FontColorHelper.NormalFont);
+            ultraToolTipManager.ToolTipTitleAppearance.FontData.Bold = DefaultableBoolean.True;
+        }
 
         public void CmdExecuteSearchEngine(ICommand sender)
         {
@@ -813,12 +813,12 @@ namespace RssBandit.WinGui.Forms
             {
                 if (treeFeeds.SelectedNodes.Count == 0)
                     return null;
-            	FeedSourceEntry currentSource = FeedSourceEntryOf(GetRoot(RootFolderType.MyFeeds));
+                FeedSourceEntry currentSource = FeedSourceEntryOf(GetRoot(RootFolderType.MyFeeds));
                 foreach (TreeFeedsNodeBase selected in treeFeeds.SelectedNodes)
-					if (selected.Visible && FeedSourceEntryOf(selected) == currentSource) 
-						return selected;
+                    if (selected.Visible && FeedSourceEntryOf(selected) == currentSource) 
+                        return selected;
 
-				return treeFeeds.ActiveNode as TreeFeedsNodeBase;
+                return treeFeeds.ActiveNode as TreeFeedsNodeBase;
             }
             set
             {
@@ -1602,24 +1602,24 @@ namespace RssBandit.WinGui.Forms
 #if PHOENIX
         public ITextImageItem[] GoBackHistoryItems
         {
-			get; set;
+            get; set;
 #else
         public ITextImageItem[] GoBackHistoryItems(int maxItems)
         {
-			return _feedItemImpressionHistory.GetHeadOfPreviousEntries(maxItems); 
+            return _feedItemImpressionHistory.GetHeadOfPreviousEntries(maxItems); 
 #endif
         }
 #if PHOENIX
         public ITextImageItem[] GoForwardHistoryItems
         {
-			get; set; 
+            get; set; 
 #else
         public ITextImageItem[] GoForwardHistoryItems(int maxItems)
         {
             return _feedItemImpressionHistory.GetHeadOfNextEntries(maxItems);
 #endif
         }
-		public ITextImageItem CurrentHistoryItem { get; set; }
+        public ITextImageItem CurrentHistoryItem { get; set; }
         #endregion
 
         /// <summary>
@@ -1677,7 +1677,7 @@ namespace RssBandit.WinGui.Forms
 
         private void StartNewsSearch(FinderNode node)
         {
-			owner.FeedSources.SearchNewsItems(
+            owner.FeedSources.SearchNewsItems(
                 node.Finder.SearchCriterias,
                 node.Finder.SearchScope,
                 node.Finder,
@@ -1812,27 +1812,27 @@ namespace RssBandit.WinGui.Forms
 
             if (categories != null)
             {
-				string sep = FeedSource.CategorySeparator;
-				foreach (FeedSourceEntry e in owner.FeedSources.Sources)
-					foreach (var f in e.Source.GetFeeds().Values)
-					{
-						foreach (string category in categories)
-						{
-							if (f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep)))
-							{
-								result.Add(f);
-							}
-						}
-					}
+                string sep = FeedSource.CategorySeparator;
+                foreach (FeedSourceEntry e in owner.FeedSources.Sources)
+                    foreach (var f in e.Source.GetFeeds().Values)
+                    {
+                        foreach (string category in categories)
+                        {
+                            if (f.category != null && (f.category.Equals(category) || f.category.StartsWith(category + sep)))
+                            {
+                                result.Add(f);
+                            }
+                        }
+                    }
             }
 
             if (feedUrls != null)
             {
                 foreach (string url in feedUrls)
                 {
-					if (url != null && CurrentSelectedFeedSource.Source.IsSubscribed(url))
+                    if (url != null && CurrentSelectedFeedSource.Source.IsSubscribed(url))
                     {
-						result.Add(CurrentSelectedFeedSource.Source.GetFeeds()[url]);
+                        result.Add(CurrentSelectedFeedSource.Source.GetFeeds()[url]);
                     }
                 }
             }
@@ -1900,25 +1900,25 @@ namespace RssBandit.WinGui.Forms
                                  ExternalSearchUrl = searchUrl
                              };
 
-			_searchResultNode.Finder = finder;
-			Action<string, FinderNode> start = StartRssRemoteSearch;
-			start.BeginInvoke(searchUrl, _searchResultNode,
-				cb =>
-				{
-					try
-					{
-						start.EndInvoke(cb);
-					}
-					catch (Exception ex)
-					{
-						_log.Error("AsyncCall 'StartRssRemoteSearch' caused this exception", ex);
-					}
-				}, null);
+            _searchResultNode.Finder = finder;
+            Action<string, FinderNode> start = StartRssRemoteSearch;
+            start.BeginInvoke(searchUrl, _searchResultNode,
+                cb =>
+                {
+                    try
+                    {
+                        start.EndInvoke(cb);
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error("AsyncCall 'StartRssRemoteSearch' caused this exception", ex);
+                    }
+                }, null);
 
-			if (mergeWithLocalResults)
-			{
-				// start also the local search
-				AsyncStartNewsSearch(_searchResultNode);
+            if (mergeWithLocalResults)
+            {
+                // start also the local search
+                AsyncStartNewsSearch(_searchResultNode);
             }
         }
 
@@ -1926,7 +1926,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-				owner.FeedSources.SearchRemoteFeed(searchUrl, resultContainer.Finder);
+                owner.FeedSources.SearchRemoteFeed(searchUrl, resultContainer.Finder);
             }
             catch (Exception ex)
             {
@@ -1979,11 +1979,11 @@ namespace RssBandit.WinGui.Forms
 
             if (feedsNode != null && feedsNode.Control != null)
             {
-            	FeedSourceEntry entry = FeedSourceEntryOf(feedsNode);
-            	if (entry != null) SelectFeedSource(entry);
+                FeedSourceEntry entry = FeedSourceEntryOf(feedsNode);
+                if (entry != null) SelectFeedSource(entry);
                 SelectNode(feedsNode);
                 
-				// populates listview items:
+                // populates listview items:
                 OnTreeFeedAfterSelectManually(feedsNode); //??
                 MoveFeedDetailsToFront();
 
@@ -2030,13 +2030,13 @@ namespace RssBandit.WinGui.Forms
         }
 
         internal void NavigateToFeed(INewsFeed f)
-		{
-			NavigateToNode(TreeHelper.FindNode(
-				GetAllSubscriptionRootNodes().ConvertAll(
-				n => {
-					return (TreeFeedsNodeBase)n;
-				}), f));
-		}
+        {
+            NavigateToNode(TreeHelper.FindNode(
+                GetAllSubscriptionRootNodes().ConvertAll(
+                n => {
+                    return (TreeFeedsNodeBase)n;
+                }), f));
+        }
 
         private void NavigateToFeedNewsItem(INewsItem item)
         {
@@ -2062,14 +2062,14 @@ namespace RssBandit.WinGui.Forms
         {
             if (feedsNode == null && item == null) return;
             if (_navigationActionInProgress) return; // back/forward,... pressed
-        	HistoryEntry entry = new HistoryEntry(feedsNode, item);
+            HistoryEntry entry = new HistoryEntry(feedsNode, item);
 #if PHOENIX
             // we have to switch off events:
-        	ultraToolbarsManager.EventManager.AllEventsEnabled = false;
-			ultraToolbarsManager.NavigationToolbar.NavigateTo(new NavigationHistoryItem(entry.ToString(), entry));
-			ultraToolbarsManager.EventManager.AllEventsEnabled = true;
+            ultraToolbarsManager.EventManager.AllEventsEnabled = false;
+            ultraToolbarsManager.NavigationToolbar.NavigateTo(new NavigationHistoryItem(entry.ToString(), entry));
+            ultraToolbarsManager.EventManager.AllEventsEnabled = true;
 #else
-			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
+            _feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
 #endif
 
             if (item!= null && TaskbarManager.IsPlatformSupported)
@@ -2087,7 +2087,7 @@ namespace RssBandit.WinGui.Forms
             if (parent == null)
                 parent = GetRoot(RootFolderType.MyFeeds);
 
-        	FeedSourceEntry entry = FeedSourceEntryOf(parent);
+            FeedSourceEntry entry = FeedSourceEntryOf(parent);
             string feedTitle = null;
             string category = parent.CategoryStoreName;
 
@@ -2114,9 +2114,9 @@ namespace RssBandit.WinGui.Forms
                         }
                     }
 
-					if (!multipleSubscriptions && entry.Source.IsSubscribed(feedUrl))
+                    if (!multipleSubscriptions && entry.Source.IsSubscribed(feedUrl))
                     {
-						INewsFeed f2 = entry.Source.GetFeeds()[feedUrl];
+                        INewsFeed f2 = entry.Source.GetFeeds()[feedUrl];
                         owner.MessageInfo(String.Format(SR.GUIFieldLinkRedundantInfo,
                                                         (f2.category == null
                                                              ? String.Empty
@@ -2154,14 +2154,14 @@ namespace RssBandit.WinGui.Forms
                                 f.refreshrate = 60;
                                 //f.storiesrecentlyviewed = new ArrayList(); 				
                                 //f.deletedstories = new ArrayList(); 				
-								if (!entry.Source.HasCategory(category))
+                                if (!entry.Source.HasCategory(category))
                                 {
-									entry.Source.AddCategory(category);
+                                    entry.Source.AddCategory(category);
                                 }
-								entry.Source.ChangeCategory(f, category);
+                                entry.Source.ChangeCategory(f, category);
 
                                 f.alertEnabled = false;
-								f = entry.Source.AddFeed(f);
+                                f = entry.Source.AddFeed(f);
                                 owner.FeedWasModified(f, NewsFeedProperty.FeedAdded);
                                 //owner.FeedlistModified = true;
 
@@ -2169,7 +2169,7 @@ namespace RssBandit.WinGui.Forms
 
                                 try
                                 {
-									entry.Source.AsyncGetItemsForFeed(f.link, true, true);
+                                    entry.Source.AsyncGetItemsForFeed(f.link, true, true);
                                 }
                                 catch (Exception e)
                                 {
@@ -2198,7 +2198,7 @@ namespace RssBandit.WinGui.Forms
         {
             listFeedItems.FeedColumnLayout = owner.GlobalFeedColumnLayout;
             
-			LoadAndRestoreSubscriptionTreeState();
+            LoadAndRestoreSubscriptionTreeState();
             if (Visible)
             {
                 LoadAndRestoreBrowserTabState();
@@ -2324,26 +2324,26 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-		private void OnFeedSourceSubscriptionsLoaded(object sender, FeedSourceEventArgs e)
-		{
-			PopulateFeedSubscriptions(e.Entry, RssBanditApplication.DefaultCategory);
-		}
+        private void OnFeedSourceSubscriptionsLoaded(object sender, FeedSourceEventArgs e)
+        {
+            PopulateFeedSubscriptions(e.Entry, RssBanditApplication.DefaultCategory);
+        }
 
-		void OnAllFeedSourceSubscriptionsLoaded(object sender, EventArgs e)
-		{
-			//remember subscription tree state:
-			ApplyAfterAllSubscriptionListsLoaded();
+        void OnAllFeedSourceSubscriptionsLoaded(object sender, EventArgs e)
+        {
+            //remember subscription tree state:
+            ApplyAfterAllSubscriptionListsLoaded();
 
-			SetGuiStateFeedback(SR.GUIStatusDone);
-			
+            SetGuiStateFeedback(SR.GUIStatusDone);
+            
 #if !NOAUTO_REFRESH
-			// start the refresh timers
-			_timerRefreshFeeds.Start();
-			_timerRefreshCommentFeeds.Start();
+            // start the refresh timers
+            _timerRefreshFeeds.Start();
+            _timerRefreshCommentFeeds.Start();
 #else
-			Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
+            Trace.WriteLine("ATTENTION!. REFRESH TIMER DISABLED FOR DEBUGGING!");
 #endif
-		}
+        }
 
         /// <summary>
         /// Callback for DelayedTasks timer
@@ -2535,57 +2535,57 @@ namespace RssBandit.WinGui.Forms
             OnNavigatorGroupClick(null, null);
         }
 
-		private void OnNavigatorSelectedGroupChanging(object sender, CancelableGroupEventArgs e)
-		{
-			if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
-				return;
+        private void OnNavigatorSelectedGroupChanging(object sender, CancelableGroupEventArgs e)
+        {
+            if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
+                return;
 
-			TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
-			if (myRoot != null)
-			{
-				// remember subscription node selection:
-				if (Navigator.SelectedGroup.Key != Resource.NavigatorGroup.RssSearch) 
-					Navigator.SelectedGroup.Tag = TreeSelectedFeedsNode;
-				// hide all other root nodes:
-				ShowSubscriptionRootNodes(false);
-				// make my root node visible:
-				myRoot.Visible = true;
-				_lastVisualFeedSource = myRoot.Text;
-				treeFeeds.Parent.Controls.Remove(treeFeeds);
-				e.Group.Container.Controls.Add(treeFeeds);
-				if (!treeFeeds.Visible)
-				{
-					treeFeeds.Dock = DockStyle.Fill;
-					treeFeeds.Visible = true;
-				}
-			}
-		}
+            TreeFeedsNodeBase myRoot = GetSubscriptionRootNode(e.Group.Text);
+            if (myRoot != null)
+            {
+                // remember subscription node selection:
+                if (Navigator.SelectedGroup.Key != Resource.NavigatorGroup.RssSearch) 
+                    Navigator.SelectedGroup.Tag = TreeSelectedFeedsNode;
+                // hide all other root nodes:
+                ShowSubscriptionRootNodes(false);
+                // make my root node visible:
+                myRoot.Visible = true;
+                _lastVisualFeedSource = myRoot.Text;
+                treeFeeds.Parent.Controls.Remove(treeFeeds);
+                e.Group.Container.Controls.Add(treeFeeds);
+                if (!treeFeeds.Visible)
+                {
+                    treeFeeds.Dock = DockStyle.Fill;
+                    treeFeeds.Visible = true;
+                }
+            }
+        }
 
-		private void OnNavigatorSelectedGroupChanged(object sender, GroupEventArgs e)
-		{
-			if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
-			{
-				owner.Mediator.SetEnabled("-cmdFeedSourceProperties");
-				owner.Mediator.SetEnabled("-cmdDeleteFeedSource");
-			}
-			else
-			{
-				SubscriptionRootNode myRoot = GetSubscriptionRootNode(e.Group.Text);
-				if (myRoot != null)
-				{
-					// restore node selection:
-					TreeFeedsNodeBase groupSelectedNode = e.Group.Tag as TreeFeedsNodeBase;
-					if (groupSelectedNode != null)
-					{
-						TreeSelectedFeedsNode = groupSelectedNode;
-						OnTreeFeedAfterSelectManually(groupSelectedNode);
-					}
-					owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
-					owner.Mediator.SetEnabled(FeedSourceType.DirectAccess != owner.FeedSources[myRoot.SourceID].SourceType,
-						"cmdDeleteFeedSource");
-				}
-			}
-		}
+        private void OnNavigatorSelectedGroupChanged(object sender, GroupEventArgs e)
+        {
+            if (e.Group.Key == Resource.NavigatorGroup.RssSearch)
+            {
+                owner.Mediator.SetEnabled("-cmdFeedSourceProperties");
+                owner.Mediator.SetEnabled("-cmdDeleteFeedSource");
+            }
+            else
+            {
+                SubscriptionRootNode myRoot = GetSubscriptionRootNode(e.Group.Text);
+                if (myRoot != null)
+                {
+                    // restore node selection:
+                    TreeFeedsNodeBase groupSelectedNode = e.Group.Tag as TreeFeedsNodeBase;
+                    if (groupSelectedNode != null)
+                    {
+                        TreeSelectedFeedsNode = groupSelectedNode;
+                        OnTreeFeedAfterSelectManually(groupSelectedNode);
+                    }
+                    owner.Mediator.SetEnabled("+cmdFeedSourceProperties");
+                    owner.Mediator.SetEnabled(FeedSourceType.DirectAccess != owner.FeedSources[myRoot.SourceID].SourceType,
+                        "cmdDeleteFeedSource");
+                }
+            }
+        }
 
         private void OnNavigatorGroupClick(object sender, GroupEventArgs e)
         {
@@ -2681,10 +2681,10 @@ namespace RssBandit.WinGui.Forms
                             else
                             {
                                 fi = (IFeedDetails) item.FeedDetails.Clone();
-                                fi.ItemsList.Clear();
+                                fi.ReplaceItems(Enumerable.Empty<INewsItem>());
                                 temp.Add(item.Feed.link, fi);
                             }
-                            fi.ItemsList.Add(item);
+                            fi.AddItem(item);
                         }
 
                         var redispItems = new FeedInfoList(category);
@@ -2705,10 +2705,10 @@ namespace RssBandit.WinGui.Forms
                         if (fi != null)
                         {
                             var fi2 = (IFeedDetails) fi.Clone();
-                            fi2.ItemsList.Clear();
+                            fi2.ReplaceItems(Enumerable.Empty<INewsItem>());
                             foreach (INewsItem ni in groupSelected)
                             {
-                                fi2.ItemsList.Add(ni);
+                                fi2.AddItem(ni);
                             }
                             BeginTransformFeed(fi2, tn, source.GetStyleSheet(tn.DataKey));
                         }

@@ -393,7 +393,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reactive">
-      <Name>System.Interactive</Name>
+      <Name>System.Reactive</Name>
       <HintPath>..\Common\Libraries\System.Reactive.dll</HintPath>
       <Private>True</Private>
     </Reference>

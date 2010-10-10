@@ -4064,7 +4064,7 @@ namespace RssBandit
                 }
             } //foreach(INewsItem ri...)
 
-            flaggedItemsFeed.Items.Clear();
+            flaggedItemsFeed.Clear();
         }
 
         /// <summary>
@@ -4102,7 +4102,7 @@ namespace RssBandit
                 // remove from collection
                 if (flaggedItemsFeed.Items.Contains(theItem))
                 {
-                    flaggedItemsFeed.Items.Remove(theItem);
+                    flaggedItemsFeed.Remove(theItem);
                 }
             }
             else
@@ -4222,7 +4222,7 @@ namespace RssBandit
                 // remove
                 if (flaggedItemsFeed.Items.Contains(theItem))
                 {
-                    flaggedItemsFeed.Items.Remove(theItem);
+                    flaggedItemsFeed.Remove(theItem);
                 }
             }
             else
@@ -4307,7 +4307,7 @@ namespace RssBandit
                     {
                         // still there, so we can update the item.
                         
-                        watchedItemsFeed.Items.Remove(ni); //remove old copy of the INewsItem 
+                        watchedItemsFeed.Remove(ni); //remove old copy of the INewsItem 
                         FeedSourceEntry entry = FeedSources[sourceID];
                         INewsItem watchedItem = entry.Source.CopyNewsItemTo(ni, watchedItemsFeed);
                         OptionalItemElement.AddOrReplaceOriginalFeedReference(watchedItem, ni.Feed.link, sourceID);
@@ -4350,7 +4350,7 @@ namespace RssBandit
                 // remove
                 if (watchedItemsFeed.Items.Contains(theItem))
                 {
-                    watchedItemsFeed.Items.Remove(theItem);
+                    watchedItemsFeed.Remove(theItem);
                 }
 
                 if (!string.IsNullOrEmpty(theItem.CommentRssUrl) &&
@@ -4550,7 +4550,7 @@ namespace RssBandit
             // remove from flagged local feed (there are copies of NewsItems)
             if (flaggedItemsFeed.Items.Contains(theItem))
             {
-                flaggedItemsFeed.Items.Remove(theItem);
+                flaggedItemsFeed.Remove(theItem);
             }
 
 
@@ -4589,7 +4589,7 @@ namespace RssBandit
             // node container 'Waste basket' itself)
             if (!yetDeleted && deletedItemsFeed.Items.Contains(theItem))
             {
-                deletedItemsFeed.Items.Remove(theItem);
+                deletedItemsFeed.Remove(theItem);
             }
         }
 

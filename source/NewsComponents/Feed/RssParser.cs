@@ -202,26 +202,26 @@ namespace NewsComponents.Feed
 /*
  * not used?
  * 
-		/// <summary>
-		/// Helper function breaks up a string containing quote characters into 
-		///	a series of XPath concat() calls. 
-		/// </summary>
-		/// <param name="input">input string</param>
-		/// <returns>broken up string</returns>
-		private static string buildXPathString (string input) {
-			string[] components = input.Split(new char[] { '\''});
-			string result = "";
-			result += "concat(''";
-			for (int i = 0; i < components.Length; i++) {
-				result += ", '" + components[i] + "'";
-				if (i < components.Length - 1) {
-					result += ", \"'\"";
-				}
-			}
-			result += ")";
-			Console.WriteLine(result);
-			return result;
-		}
+        /// <summary>
+        /// Helper function breaks up a string containing quote characters into 
+        ///	a series of XPath concat() calls. 
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>broken up string</returns>
+        private static string buildXPathString (string input) {
+            string[] components = input.Split(new char[] { '\''});
+            string result = "";
+            result += "concat(''";
+            for (int i = 0; i < components.Length; i++) {
+                result += ", '" + components[i] + "'";
+                if (i < components.Length - 1) {
+                    result += ", \"'\"";
+                }
+            }
+            result += ")";
+            Console.WriteLine(result);
+            return result;
+        }
 */
 
 
@@ -296,8 +296,8 @@ namespace NewsComponents.Feed
                 }
 
                 /* string nodeNamespaceUri = reader.NamespaceURI;
-				if (string.IsNullOrEmpty(nodeNamespaceUri))
-					nodeNamespaceUri = itemNamespaceUri;	*/
+                if (string.IsNullOrEmpty(nodeNamespaceUri))
+                    nodeNamespaceUri = itemNamespaceUri;	*/
                 // if in node has no namespace, assume in RSS namespace
 
                 // save some string comparisons
@@ -315,7 +315,7 @@ namespace NewsComponents.Feed
                 if ((description == null) || (localname == atomized_strings[nt_body]) ||
                     (localname == atomized_strings[nt_encoded]))
                 {
-                	//prefer to replace rss:description/dc:description with content:encoded
+                    //prefer to replace rss:description/dc:description with content:encoded
 
                     if ((namespaceuri == atomized_strings[nt_ns_xhtml])
                         && (localname == atomized_strings[nt_body]))
@@ -330,38 +330,38 @@ namespace NewsComponents.Feed
                         ctype = ContentType.Xhtml;
                         continue;
                     }
-                	
-					if ((namespaceuri == atomized_strings[nt_ns_content])
-                	    && (localname == atomized_strings[nt_encoded]))
-                	{
-                		if (!reader.IsEmptyElement)
-                		{
-                			baseUrl = reader.BaseURI;
-                			description = ReadElementString(reader);
-                		}
-                		ctype = ContentType.Html;
-                		continue;
-                	}
-                	
-					if ((nodeNamespaceUriEqual2Item || nodeNamespaceUriEqual2DC)
-                	    && (localname == atomized_strings[nt_description]))
-                	{
-                		if (!reader.IsEmptyElement)
-                		{
-                			baseUrl = reader.BaseURI;
-                			description = ReadElementString(reader);
-                		}
-                		ctype = ContentType.Text;
-                		continue;
-                	}
+                    
+                    if ((namespaceuri == atomized_strings[nt_ns_content])
+                        && (localname == atomized_strings[nt_encoded]))
+                    {
+                        if (!reader.IsEmptyElement)
+                        {
+                            baseUrl = reader.BaseURI;
+                            description = ReadElementString(reader);
+                        }
+                        ctype = ContentType.Html;
+                        continue;
+                    }
+                    
+                    if ((nodeNamespaceUriEqual2Item || nodeNamespaceUriEqual2DC)
+                        && (localname == atomized_strings[nt_description]))
+                    {
+                        if (!reader.IsEmptyElement)
+                        {
+                            baseUrl = reader.BaseURI;
+                            description = ReadElementString(reader);
+                        }
+                        ctype = ContentType.Text;
+                        continue;
+                    }
                 }
 
-            	if (link != null && link.Trim().Length == 0)
+                if (link != null && link.Trim().Length == 0)
                     link = null; // reset on empty elements
 
                 if ((link == null) || (localname == atomized_strings[nt_guid]))
                 {
-                	//favor rss:guid over rss:link
+                    //favor rss:guid over rss:link
 
                     if (nodeNamespaceUriEqual2Item
                         && (localname == atomized_strings[nt_guid]))
@@ -384,18 +384,18 @@ namespace NewsComponents.Feed
 
                         continue;
                     }
-                	if (nodeNamespaceUriEqual2Item
-                	    && (localname == atomized_strings[nt_link]))
-                	{
-                		if (!reader.IsEmptyElement)
-                		{
-                			link = ReadElementUrl(reader);
-                		}
-                		continue;
-                	}
+                    if (nodeNamespaceUriEqual2Item
+                        && (localname == atomized_strings[nt_link]))
+                    {
+                        if (!reader.IsEmptyElement)
+                        {
+                            link = ReadElementUrl(reader);
+                        }
+                        continue;
+                    }
                 }
 
-            	if (title == null)
+                if (title == null)
                 {
                     if (nodeNamespaceUriEqual2Item
                         && (localname == atomized_strings[nt_title]))
@@ -411,7 +411,7 @@ namespace NewsComponents.Feed
 
                 if ((author == null) || (localname == atomized_strings[nt_creator]))
                 {
-                	//prefer dc:creator to <author>
+                    //prefer dc:creator to <author>
 
                     if (nodeNamespaceUriEqual2DC &&
                         (localname == atomized_strings[nt_creator] ||
@@ -423,18 +423,18 @@ namespace NewsComponents.Feed
                         }
                         continue;
                     }
-                	
-					if (nodeNamespaceUriEqual2Item && (localname == atomized_strings[nt_author]))
-                	{
-                		if (!reader.IsEmptyElement)
-                		{
-                			author = ReadElementString(reader);
-                		}
-                		continue;
-                	}
+                    
+                    if (nodeNamespaceUriEqual2Item && (localname == atomized_strings[nt_author]))
+                    {
+                        if (!reader.IsEmptyElement)
+                        {
+                            author = ReadElementString(reader);
+                        }
+                        continue;
+                    }
                 }
 
-            	if ((parentId == null) && (localname == atomized_strings[nt_reference]))
+                if ((parentId == null) && (localname == atomized_strings[nt_reference]))
                 {
                     if (namespaceuri == atomized_strings[nt_ns_annotate])
                     {
@@ -451,18 +451,18 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
-            	
-				if (nodeNamespaceUriEqual2Item
-            	    && (localname == atomized_strings[nt_category]))
-            	{
-            		if (!reader.IsEmptyElement)
-            		{
-            			subjects.Add(ReadElementString(reader));
-            		}
-            		continue;
-            	}
+                
+                if (nodeNamespaceUriEqual2Item
+                    && (localname == atomized_strings[nt_category]))
+                {
+                    if (!reader.IsEmptyElement)
+                    {
+                        subjects.Add(ReadElementString(reader));
+                    }
+                    continue;
+                }
 
-            	if ((localname == atomized_strings[nt_flagstatus])
+                if ((localname == atomized_strings[nt_flagstatus])
                     && (namespaceuri == atomized_strings[nt_ns_bandit_2003]))
                 {
                     if (!reader.IsEmptyElement)
@@ -471,19 +471,19 @@ namespace NewsComponents.Feed
                     }
                     continue;
                 }
-            	
-				if ((localname == atomized_strings[nt_flagState])
-            	    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
-            	{
-            		if (!reader.IsEmptyElement)
-            		{
-            			NewsGatorFlagStatus ngFlagState = (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), ReadElementString(reader));
-            			flagged = (Flagged)Enum.Parse(typeof(Flagged), ngFlagState.ToString()); 
-            		}
-            		continue;
-            	}
+                
+                if ((localname == atomized_strings[nt_flagState])
+                    && (namespaceuri == atomized_strings[nt_ns_newsgator]))
+                {
+                    if (!reader.IsEmptyElement)
+                    {
+                        NewsGatorFlagStatus ngFlagState = (NewsGatorFlagStatus) Enum.Parse(typeof(NewsGatorFlagStatus), ReadElementString(reader));
+                        flagged = (Flagged)Enum.Parse(typeof(Flagged), ngFlagState.ToString()); 
+                    }
+                    continue;
+                }
 
-            	if ((localname == atomized_strings[nt_duration])
+                if ((localname == atomized_strings[nt_duration])
                     && (namespaceuri == atomized_strings[nt_ns_itunes]))
                 {
                     if (!reader.IsEmptyElement)
@@ -723,7 +723,7 @@ namespace NewsComponents.Feed
                     catch (FormatException fe)
                     {
                         /* date was improperly formated*/
-                    	LogParseDateFormatException(f, fe);
+                        LogParseDateFormatException(f, fe);
                         continue;
                     }
                 }
@@ -939,7 +939,7 @@ namespace NewsComponents.Feed
                         && (localname == atomized_strings[nt_link]) &&
                         ((reader["rel"] == null) ||
                          (reader["rel"].Equals("alternate") /* || 
-							 reader["rel"].Equals("self") */)))
+                             reader["rel"].Equals("self") */)))
                     {
                         if (reader["href"] != null)
                         {
@@ -1347,7 +1347,7 @@ namespace NewsComponents.Feed
                     catch (FormatException fe)
                     {
                         /* date was improperly formated*/
-						LogParseDateFormatException(f, fe);
+                        LogParseDateFormatException(f, fe);
                         continue;
                     }
                 }
@@ -1408,10 +1408,10 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public static List<INewsItem> DownloadItemsFromFeed(NewsFeed f, IWebProxy proxy, bool offline)
+        public static IList<INewsItem> DownloadItemsFromFeed(NewsFeed f, IWebProxy proxy, bool offline)
         {
             //REM gets called from Bandit (retrive comment feeds)
-            List<INewsItem> returnList = GetList<INewsItem>.Empty;
+            IList<INewsItem> returnList = GetList<INewsItem>.Empty;
 
             if (offline)
                 return returnList;
@@ -1422,7 +1422,7 @@ namespace NewsComponents.Feed
             {
                 if (RssParser.CanProcessUrl(f.link))
                 {
-                    returnList = RssParser.GetItemsForFeed(f, mem, false).itemsList;
+                    returnList = RssParser.GetItemsForFeed(f, mem, false).ItemsList;
                 }
             }
 
@@ -1440,7 +1440,7 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public static List<INewsItem> DownloadItemsFromFeed(string feedUrl)
+        public static IList<INewsItem> DownloadItemsFromFeed(string feedUrl)
         {
             NewsFeed f = new NewsFeed();
             f.link = feedUrl;
@@ -1462,16 +1462,16 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<INewsItem> GetItemsForFeed(INewsFeed f)
+        public IList<INewsItem> GetItemsForFeed(INewsFeed f)
         {
             if (offline)
                 return new List<INewsItem>();
 
-            List<INewsItem> returnList;
+            IList<INewsItem> returnList;
 
             using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
             {
-                returnList = GetItemsForFeed(f, mem, false).itemsList;
+                returnList = GetItemsForFeed(f, mem, false).ItemsList;
             }
 
             return returnList;
@@ -1487,7 +1487,7 @@ namespace NewsComponents.Feed
         /// version 0.91, 1.0 or 2.0</exception>
         /// <exception cref="XmlException">If an error occured parsing the 
         /// RSS feed</exception>	
-        public List<INewsItem> GetItemsForFeed(string feedUrl)
+        public IList<INewsItem> GetItemsForFeed(string feedUrl)
         {
             NewsFeed f = new NewsFeed();
             f.link = feedUrl;
@@ -1769,9 +1769,9 @@ namespace NewsComponents.Feed
             //TODO: Investigate whether we can use a singleton XmlNameTable object
 
             /* For examples of the perf improvements from using name tables see 
-			 * http://blogs.msdn.com/mfussell/archive/2004/04/28/121854.aspx
-			 * http://www.tkachenko.com/blog/archives/000181.html 
-			 */
+             * http://blogs.msdn.com/mfussell/archive/2004/04/28/121854.aspx
+             * http://www.tkachenko.com/blog/archives/000181.html 
+             */
 
             object[] atomized_names = new object[NT_SIZE];
 
@@ -1991,13 +1991,13 @@ namespace NewsComponents.Feed
                 {
                     return ContentType.Xhtml;
                 }
-            	if (mimetype.IndexOf("html") != -1)
-            	{
-            		return ContentType.Html;
-            	}
-            	return mimetype.IndexOf("text") != -1 ? ContentType.Text : ContentType.Unknown;
+                if (mimetype.IndexOf("html") != -1)
+                {
+                    return ContentType.Html;
+                }
+                return mimetype.IndexOf("text") != -1 ? ContentType.Text : ContentType.Unknown;
             }
-        	return ContentType.Text;
+            return ContentType.Text;
         }
 
 
@@ -2026,11 +2026,11 @@ namespace NewsComponents.Feed
 #if FORCE_USE_XML_ENCODING	
     // force the usage of the encoding provided by the XML feed,
     // not that of the HTTP header:
-			XmlValidatingReader r = reader as XmlValidatingReader;
-			if (r != null && !Encoding.UTF8.Equals(r.Encoding)) {
-				result = Encoding.UTF8.GetString(r.Encoding.GetBytes(sb == null ? result : sb.ToString()));
-				return result;
-			}
+            XmlValidatingReader r = reader as XmlValidatingReader;
+            if (r != null && !Encoding.UTF8.Equals(r.Encoding)) {
+                result = Encoding.UTF8.GetString(r.Encoding.GetBytes(sb == null ? result : sb.ToString()));
+                return result;
+            }
 #endif
             return (sb == null ? result : sb.ToString());
         }
@@ -2127,8 +2127,8 @@ namespace NewsComponents.Feed
                             }
                             catch (FormatException fex)
                             {
-								LogParseDateFormatException(f, fex);
-							}
+                                LogParseDateFormatException(f, fex);
+                            }
                             finally
                             {
                                 matched = true;
@@ -2297,8 +2297,8 @@ namespace NewsComponents.Feed
                             }
                             catch (FormatException fex)
                             {
-								LogParseDateFormatException(f, fex);
-							}
+                                LogParseDateFormatException(f, fex);
+                            }
                             finally
                             {
                                 matched = true;
@@ -2353,10 +2353,10 @@ namespace NewsComponents.Feed
             }
         }
 
-		private static void LogParseDateFormatException(INewsFeed f, Exception fex)
-		{
-			_log.Warn(string.Format("Error parsing date from channel {{{0}}} from feed {{{1}}}:", f.title, f.link), fex);                 
-		}
+        private static void LogParseDateFormatException(INewsFeed f, Exception fex)
+        {
+            _log.Warn(string.Format("Error parsing date from channel {{{0}}} from feed {{{1}}}:", f.title, f.link), fex);                 
+        }
 
         /// <summary>
         /// Posts a comment to a website using the CommentAPI specification described at 
@@ -2416,9 +2416,9 @@ namespace NewsComponents.Feed
         }
     } //RssParser  
 
-	/// <summary>
-	/// RSS parse exception
-	/// </summary>
+    /// <summary>
+    /// RSS parse exception
+    /// </summary>
     [Serializable]
     public class RssParserException : ApplicationException
     {
@@ -2429,35 +2429,35 @@ namespace NewsComponents.Feed
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
         //
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssParserException"/> class.
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
         public RssParserException()
         {
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssParserException"/> class.
-		/// </summary>
-		/// <param name="message">The message.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public RssParserException(string message) : base(message)
         {
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssParserException"/> class.
-		/// </summary>
-		/// <param name="message">The message.</param>
-		/// <param name="inner">The inner.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="inner">The inner.</param>
         public RssParserException(string message, Exception inner) : base(message, inner)
         {
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RssParserException"/> class.
-		/// </summary>
-		/// <param name="info">The object that holds the serialized object data.</param>
-		/// <param name="context">The contextual information about the source or destination.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssParserException"/> class.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
         protected RssParserException(
             SerializationInfo info,
             StreamingContext context)
@@ -2598,38 +2598,38 @@ namespace NewsComponents.Feed
             {
                 return Resource.Manager.GetStream("Resources.rss-0.91.dtd");
             }
-        	if (absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd") ||
-        	    absoluteUri.AbsoluteUri.EndsWith("Strict/EN"))
-        	{
-        		return Resource.Manager.GetStream("Resources.xhtml1-strict.dtd");
-        	}
-        	if (
-        		absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") ||
-        		absoluteUri.AbsoluteUri.EndsWith("Transitional/EN"))
-        	{
-        		return Resource.Manager.GetStream("Resources.xhtml1-transitional.dtd");
-        	}
-        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-lat1.ent") ||
-        	    absoluteUri.AbsoluteUri.IndexOf("Latin") == -1)
-        	{
-        		return Resource.Manager.GetStream("Resources.xhtml-lat1.ent");
-        	}
-        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-special.ent") ||
-        	    absoluteUri.AbsoluteUri.IndexOf("Special") == -1)
-        	{
-        		return Resource.Manager.GetStream("Resources.xhtml-special.ent");
-        	}
-        	if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-symbol.ent") ||
-        	    absoluteUri.AbsoluteUri.IndexOf("Symbol") == -1)
-        	{
-        		return Resource.Manager.GetStream("Resources.xhtml-symbol.ent");
-        	}
+            if (absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd") ||
+                absoluteUri.AbsoluteUri.EndsWith("Strict/EN"))
+            {
+                return Resource.Manager.GetStream("Resources.xhtml1-strict.dtd");
+            }
+            if (
+                absoluteUri.AbsoluteUri.ToLower().Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd") ||
+                absoluteUri.AbsoluteUri.EndsWith("Transitional/EN"))
+            {
+                return Resource.Manager.GetStream("Resources.xhtml1-transitional.dtd");
+            }
+            if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-lat1.ent") ||
+                absoluteUri.AbsoluteUri.IndexOf("Latin") == -1)
+            {
+                return Resource.Manager.GetStream("Resources.xhtml-lat1.ent");
+            }
+            if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-special.ent") ||
+                absoluteUri.AbsoluteUri.IndexOf("Special") == -1)
+            {
+                return Resource.Manager.GetStream("Resources.xhtml-special.ent");
+            }
+            if (absoluteUri.AbsoluteUri.ToLower().EndsWith("xhtml-symbol.ent") ||
+                absoluteUri.AbsoluteUri.IndexOf("Symbol") == -1)
+            {
+                return Resource.Manager.GetStream("Resources.xhtml-symbol.ent");
+            }
 
-        	/* 
-			 using(Stream xsdStream = ){
-				feedsSchema = XmlSchema.Read(xsdStream, null); 
-			}
-			*/
+            /* 
+             using(Stream xsdStream = ){
+                feedsSchema = XmlSchema.Read(xsdStream, null); 
+            }
+            */
 
             try
             {
