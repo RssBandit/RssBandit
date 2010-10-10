@@ -94,7 +94,9 @@ namespace RssBandit.WinGui.ViewModel
 
         private void AddNewsFeed(INewsFeed feed)
         {
-            var vm = new FeedViewModel(feed, this);
+            var obs = _entry.Source.GetFeedDetailsForItem(feed).ObserveOnDispatcher();
+
+            var vm = new FeedViewModel(feed, obs, this);
 
             IFolderHolderNode folder = GetOrCreateFolderForCategory(feed.category);
 
