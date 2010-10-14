@@ -947,7 +947,7 @@ namespace NewsComponents
         /// <param name="tag">optional, can be used by the caller</param>
         public void SearchRemoteFeed(string searchFeedUrl, object tag)
         {
-            var unreturnedMatchItems = new List<INewsItem>(1);
+            IList<INewsItem> unreturnedMatchItems = new List<INewsItem>(1);
             try
             {
                 unreturnedMatchItems = RssParser.DownloadItemsFromFeed(searchFeedUrl);
