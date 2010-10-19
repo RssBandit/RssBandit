@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF4.Ribbon.v10.2</name>
+        <name>InfragisticsWPF4.Ribbon.v10.3</name>
     </assembly>
     <members>
         <member name="M:LocalizedCategoryAttribute.GetLocalizedString(System.String)">
@@ -4377,6 +4377,33 @@
             <summary>The name of the grouping</summary>
         </member>
         <member name="P:Infragistics.Windows.Themes.RibbonOffice2k7Silver.Locator.ResourcePath">
+            <summary>The path to the embedded resources within the assembly</summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.RibbonOffice2010Blue">
+            <summary>
+            Class used to supply style resources for the Lite look for a Ribbons
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.RibbonOffice2010Blue.Instance">
+            <summary>
+            Returns a static instance of this type (read-only)
+            </summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.RibbonOffice2010Blue.Locator">
+            <summary>
+            Identifies the location of a specific theme grouping
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.RibbonOffice2010Blue.Locator.Assembly">
+            <summary>The assembly containg the resource set</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.RibbonOffice2010Blue.Locator.Theme">
+            <summary>The name of the theme</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.RibbonOffice2010Blue.Locator.Grouping">
+            <summary>The name of the grouping</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.RibbonOffice2010Blue.Locator.ResourcePath">
             <summary>The path to the embedded resources within the assembly</summary>
         </member>
         <member name="T:Infragistics.Windows.Themes.RibbonHighContrast">

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF4.Controls.Menus.XamMenu.v10.2</name>
+        <name>InfragisticsWPF4.Controls.Menus.XamMenu.v10.3</name>
     </assembly>
     <members>
         <member name="T:Infragistics.AutomationPeers.XamContextMenuAutomationPeer">
@@ -664,6 +664,16 @@
             <summary>
             Gets a ScrollViewer that is used to scroll the items in the
             ItemsHost.
+            </summary>
+        </member>
+        <member name="T:Infragistics.Controls.Menus.Primitives.IconContentControl">
+            <summary>
+            An internal content control used to display the Icon inside the XamMenuItem template.
+            </summary>
+        </member>
+        <member name="M:Infragistics.Controls.Menus.Primitives.IconContentControl.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Infragistics.Controls.Menus.Primitives.IconContentControl"/> class.
             </summary>
         </member>
         <member name="T:Infragistics.Controls.Menus.Properties.Resources">

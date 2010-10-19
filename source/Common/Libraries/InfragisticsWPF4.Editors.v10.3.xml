@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF4.Editors.v10.2</name>
+        <name>InfragisticsWPF4.Editors.v10.3</name>
     </assembly>
     <members>
         <member name="M:LocalizedCategoryAttribute.GetLocalizedString(System.String)">
@@ -5525,65 +5525,6 @@
             The full day of week name from <see cref="T:System.Globalization.DateTimeFormatInfo"/> is used.
             </summary>
         </member>
-        <member name="T:Infragistics.Windows.Editors.DayOfWeekFlags">
-            <summary>
-            A flagged enumeration used to identify days of the week.
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.None">
-            <summary>
-            None
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Sunday">
-            <summary>
-            Sunday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Monday">
-            <summary>
-            Monday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Tuesday">
-            <summary>
-            Tuesday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Wednesday">
-            <summary>
-            Wednesday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Thursday">
-            <summary>
-            Thursday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Friday">
-            <summary>
-            Friday
-            </summary>
-        </member>
-        <member name="F:Infragistics.Windows.Editors.DayOfWeekFlags.Saturday">
-            <summary>
-            Saturday
-            </summary>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetFirstDayOfWeekForDate(System.DateTime)">
-            <summary>
-            Returns the date that represents the start of the week that contains the specified date.
-            </summary>
-            <param name="date">The date whose week is to be evaluated</param>
-            <returns>The date that represents the first day of the week.</returns>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetItemColumnCount(Infragistics.Windows.Editors.CalendarMode)">
-            <summary>
-            Returns the number of item columns regardless of the hidden days of week.
-            </summary>
-            <param name="mode"></param>
-            <returns></returns>
-        </member>
         <member name="M:Infragistics.Windows.Editors.CalendarManager.GetDayOfWeekNumber(System.DateTime)">
             <summary>
             Returns the number of the day of the week based on the first day of week.
@@ -5599,69 +5540,24 @@
             <param name="honorDisabledDays">True to account for the hidden days of the week</param>
             <returns>A number between 0 and 6 that represents how many days into the week, the specified day represents based on the current first day of week.</returns>
         </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetVisibleDayCount(Infragistics.Windows.Editors.DayOfWeekFlags,System.DayOfWeek,System.DayOfWeek)">
+        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetItemColumnCount(Infragistics.Windows.Editors.CalendarMode)">
             <summary>
-            Calculates the number of visible days of the week between the specified day of the week and the 
+            Returns the number of item columns regardless of the hidden days of week.
             </summary>
-            <param name="hiddenDays">The hidden days</param>
-            <param name="firstDayOfWeek">Day considered the start of the week</param>
-            <param name="dayOfWeek">Day of the week to evaluate</param>
+            <param name="mode"></param>
             <returns></returns>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetFirstWeekOfYearDate(System.Int32)">
-            <summary>
-            Returns the <see cref="T:System.DateTime"/> for the first day of the year in the first week of the year regardless of the hidden days of week.
-            </summary>
-            <param name="year">Year number</param>
-            <returns>DateTime for the first day of the year in the first week number of the year.</returns>
-            <remarks>
-            <p class="body">Returns the <see cref="T:System.DateTime"/> for the day that starts the first week of the year based on the <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.</p>
-            </remarks>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetFirstWeekOfYearDate(System.Int32,System.Int32,System.Int32@)">
-            <summary>
-            Returns the <see cref="T:System.DateTime"/> for the first day of the year in the first week of the year regardless of the hidden days of week.
-            </summary>
-            <param name="year">Year number</param>
-            <param name="era">Era</param>
-            <param name="additionalOffset">Out param that is initialized with the number of days before the returned date that would be the first day of the week.</param>
-            <returns>DateTime for the first day of the year in the first week number of the year.</returns>
-            <remarks>
-            <p class="body">Returns the <see cref="T:System.DateTime"/> for the day that starts the first week of the year based on the <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.</p>
-            </remarks>
         </member>
         <member name="M:Infragistics.Windows.Editors.CalendarManager.GetWeekNumberForDate(System.DateTime)">
             <summary>
-            Returns the week number for a particular date using the current <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.
+            Returns the week number for a particular date using the current CalendarWeekRule and FirstDayOfWeek.
             </summary>
             <param name="date">DateTime</param>
             <returns>Integer denoting the week number that the date belongs to.</returns>
             <remarks>
             <p class="body">The System.Globalization.Calendar's GetWeekOfYear method simply returns the number of weeks into the year that the date falls on. It does not seem to use the weekrule specified in the arguments. e.g. If the first day of week is sunday and the weekrule is Jan 1, then 12/31/2000 (Sunday) should return 1. Instead it returns 54 and 1/1/2001 (Monday) returns 1.</p>
-            <p class="body">This routine returns the correct week number for the specified date based on the <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.</p>
-            <p class="note"> Note, this may be a week for a year other than the year of the date. e.g. 12/31/2000, week rule of Jan 1, and week start of sunday will return 1 because this date falls into the first week of the year 2001.</p>
+            <p class="body">This routine returns the correct week number for the specified date based on the CalendarWeekRule and FirstDayOfWeek.</p>
+            <p class="note"> Note, this may be a week for a year other than the year of the date. e.g. 12/31/2000, week tt of Jan 1, and week start of sunday will return 1 because this date falls into the first week of the year 2001.</p>
             </remarks>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.GetWeekNumberForDate(System.DateTime,System.Int32@)">
-            <summary>
-            Returns the week number for a particular date using the current <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.
-            </summary>
-            <param name="date">DateTime</param>
-            <param name="yearContainingWeek">Out integer to receive the year for which the week number belongs.</param>
-            <returns>Integer denoting the week number that the date belongs to.</returns>
-            <remarks>
-            <p class="body">The System.Globalization.Calendar's GetWeekOfYear method simply returns the number of weeks into the year that the date falls on. It does not seem to use the weekrule specified in the arguments. e.g. If the first day of week is sunday and the weekrule is Jan 1, then 12/31/2000 (Sunday) should return 1. Instead it returns 54 and 1/1/2001 (Monday) returns 1.</p>
-            <p class="body">This routine returns the correct week number for the specified date based on the <see cref="P:Infragistics.Windows.Editors.CalendarManager.WeekRule"/> and <see cref="P:Infragistics.Windows.Editors.CalendarManager.FirstDayOfWeekResolved"/>.</p>
-            <p class="note"> Note, this may be a week for a year other than the year of the date. e.g. 12/31/2000, week rule of Jan 1, and week start of sunday will return 1 because this date falls into the first week of the year 2001.</p>
-            </remarks>
-        </member>
-        <member name="M:Infragistics.Windows.Editors.CalendarManager.IsSet(Infragistics.Windows.Editors.DayOfWeekFlags,System.DayOfWeek)">
-            <summary>
-            Indicates if the specified day of the week is set in the specified day of week flags.
-            </summary>
-            <param name="days">The flags to evaluate</param>
-            <param name="day">The day of week to evaluate</param>
-            <returns>True if the day is included in the specified flags, otherwise false is returned.</returns>
         </member>
         <member name="T:Infragistics.Windows.Editors.CalendarWeekNumber">
             <summary>
@@ -10439,6 +10335,11 @@
             The associated dropdown is open
             </summary>
         </member>
+        <member name="F:Infragistics.Windows.Editors.MaskedEditorStates.All">
+            <summary>
+            The associated dropdown is open
+            </summary>
+        </member>
         <member name="T:Infragistics.Windows.Editors.MaskedEditorCommands">
             <summary>
             Provides the list of RoutedCommands supported by the XamMaskedEditor. 
@@ -11383,6 +11284,13 @@
             <param name="e">The event arguments</param>
             <seealso cref="E:Infragistics.Windows.Editors.ValueEditor.EditModeValidationError"/>
         </member>
+        <member name="M:Infragistics.Windows.Editors.ValuePresenter.OnEditorValueChanged(System.Windows.RoutedEventArgs)">
+            <summary>
+            Called when the editor's value has changed but it's <seealso cref="E:Infragistics.Windows.Editors.ValueEditor.ValueChanged"/> event has been suppressed.
+            </summary>
+            <param name="args">The event arguments</param>
+            <seealso cref="E:Infragistics.Windows.Editors.ValueEditor.ValueChanged"/>
+        </member>
         <member name="M:Infragistics.Windows.Editors.ValuePresenter.CommitEditValue(System.Object,System.Boolean@)">
             <summary>
             Called after OnEditModeEnding however before OnEditModeEnded. This is called after
@@ -11426,6 +11334,13 @@
             edit mode and do any processing required from this event.
             </summary>
             <param name="e"></param>
+        </member>
+        <member name="M:Infragistics.Windows.Editors.ValuePresenter.ShouldSuppressEvent(System.Windows.RoutedEventArgs)">
+            <summary>
+            Determines whether the event associated with the specified event arguments should be suppressed.
+            </summary>
+            <param name="args">The event arguments which will be fired with the event if it is not suppressed.</param>
+            <returns>True if the event should be suppressed; False otherwise.</returns>
         </member>
         <member name="P:Infragistics.Windows.Editors.ValuePresenter.Editor">
             <summary>
@@ -12140,6 +12055,33 @@
             <summary>The name of the grouping</summary>
         </member>
         <member name="P:Infragistics.Windows.Themes.EditorsOffice2k7Silver.Locator.ResourcePath">
+            <summary>The path to the embedded resources within the assembly</summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.EditorsOffice2010Blue">
+            <summary>
+            Class used to supply style resources for the Office2010Blue look for a editor elements that are shared
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.EditorsOffice2010Blue.Instance">
+            <summary>
+            Returns a static instance of this type (read-only)
+            </summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.EditorsOffice2010Blue.Locator">
+            <summary>
+            Identifies the location of a specific theme grouping
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.EditorsOffice2010Blue.Locator.Assembly">
+            <summary>The assembly containg the resource set</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.EditorsOffice2010Blue.Locator.Theme">
+            <summary>The name of the theme</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.EditorsOffice2010Blue.Locator.Grouping">
+            <summary>The name of the grouping</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.EditorsOffice2010Blue.Locator.ResourcePath">
             <summary>The path to the embedded resources within the assembly</summary>
         </member>
         <member name="T:Infragistics.Windows.Themes.EditorsWashBaseDark">
