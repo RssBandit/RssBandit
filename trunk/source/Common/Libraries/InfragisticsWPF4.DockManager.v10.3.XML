@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>InfragisticsWPF4.DockManager.v10.2</name>
+        <name>InfragisticsWPF4.DockManager.v10.3</name>
     </assembly>
     <members>
         <member name="M:LocalizedCategoryAttribute.GetLocalizedString(System.String)">
@@ -2724,6 +2724,11 @@
         <member name="F:Infragistics.Windows.DockManager.DockManagerUtilities.VisibilityChangedEvent">
             <summary>
             Routed event raised when the element's Visibility has changed.
+            </summary>
+        </member>
+        <member name="T:Infragistics.Windows.DockManager.DockManagerBrushHelper">
+            <summary>
+            Provides static brush properties from the base <see cref="T:Infragistics.Windows.Controls.BrushHelper"/>
             </summary>
         </member>
         <member name="T:Infragistics.Windows.DockManager.DocumentContentHost">
@@ -5984,6 +5989,33 @@
             <summary>The name of the grouping</summary>
         </member>
         <member name="P:Infragistics.Windows.Themes.DockManagerOffice2k7Silver.Locator.ResourcePath">
+            <summary>The path to the embedded resources within the assembly</summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.DockManagerOffice2010Blue">
+            <summary>
+            Class used to supply style resources for the Office2010Blue look for a DockManagers
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Instance">
+            <summary>
+            Returns a static instance of this type (read-only)
+            </summary>
+        </member>
+        <member name="T:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Locator">
+            <summary>
+            Identifies the location of a specific theme grouping
+            </summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Locator.Assembly">
+            <summary>The assembly containg the resource set</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Locator.Theme">
+            <summary>The name of the theme</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Locator.Grouping">
+            <summary>The name of the grouping</summary>
+        </member>
+        <member name="P:Infragistics.Windows.Themes.DockManagerOffice2010Blue.Locator.ResourcePath">
             <summary>The path to the embedded resources within the assembly</summary>
         </member>
         <member name="T:Infragistics.Windows.Themes.DockManagerRoyale">
