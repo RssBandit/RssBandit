@@ -4,8 +4,8 @@
     xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
     xmlns:Converters="clr-namespace:RssBandit.Converters"
     xmlns:Ribbon="http://infragistics.com/Ribbon"
-                        xmlns:Behaviors="clr-namespace:RssBandit.WinGui.Behaviors"
-                        Height="300" Width="300"
+    xmlns:Behaviors="clr-namespace:RssBandit.WinGui.Behaviors"
+    Height="300" Width="300"
     Title="{Binding DisplayName}"
     Icon="{Binding ApplicationIcon}"
     ResizeMode="CanResizeWithGrip"
@@ -153,7 +153,7 @@
         </Ribbon:RibbonWindowContentHost.Ribbon>
 
         <ContentPresenter Content="{Binding}" />
-
+        
         <Ribbon:RibbonWindowContentHost.StatusBar>
             <StatusBar Name="statusBar">
                 <!--TODO: Add StatusBar Items -->
