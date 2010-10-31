@@ -7,10 +7,12 @@
 
     <DataTemplate DataType="{x:Type ViewModel:MainWindowViewModel}">
         <Grid>
-            <igDock:XamDockManager Name="xamDockManager">
+            <igDock:XamDockManager Name="xamDockManager" Theme="{Binding Path=CurrentTheme, Mode=TwoWay}">
+                <!-- according to http://help.infragistics.com/Help/NetAdvantage/WPF/2010.3/CLR4.0/html/xamDockManager_About_Saving_and_Loading_Layouts.html
+                     we name all relevant split/docking panes to get flexible for the future while support persist/restore of user-docking layouts -->
                 <igDock:XamDockManager.Panes>
-                    <igDock:SplitPane>
-                        <igDock:ContentPane Header="Feeds Pane">
+                    <igDock:SplitPane Name="subscriptionsSplitPane">
+                        <igDock:ContentPane Name="subscriptionsDockingPane" Header="{ext:Res Id=MainForm_SubscriptionNavigatorCaption,Default=Subscriptions#}">
                             <TreeView Name="tree" Grid.Column="0"
                 ItemsSource="{Binding FeedSources.Sources}"
                 b:SelectedItemProxy.SelectedItemInput="{Binding ElementName=tree, Path=SelectedItem}"
@@ -25,16 +27,22 @@
                                 </TreeView.ItemContainerStyle>
                             </TreeView>
                         </igDock:ContentPane>
-
                     </igDock:SplitPane>
 
                 </igDock:XamDockManager.Panes>
 
-                <!--TODO: Add a layout container or a DocumentContentHost here-->
+                <!--We can use Add a layout container or a DocumentContentHost here... -->
                 <igDock:DocumentContentHost>
-                    <igDock:SplitPane>
-                        <igDock:TabGroupPane>
-                            <igDock:ContentPane Header="Feed Details">
+                    <igDock:SplitPane Name="subscriptionDetailsSplitPane">
+                        <igDock:TabGroupPane Name="subscriptionDetailsTabGroupPane">
+                            <!-- 
+                                according to http://help.infragistics.com/Help/NetAdvantage/WPF/2010.3/CLR4.0/html/xamDockManager_About_Saving_and_Loading_Layouts.html
+                                we use the SerializationId additional to Name, to enable restore of dynamically created web browser tabs via InitializePaneContent event. 
+                                For this purpose we encode a dynamic SerializationId like so "::webBrowserTab::URL". This way we do not need to maintain/write/read a
+                                separate "Open Browsers URL" history file.
+                            -->
+                            <igDock:ContentPane Name="subscriptionDetailsDockingPane" SerializationId="::defaultSubscriptionDetails" 
+                                                Header="{ext:Res Id=FeedDetailDocumentTabCaption,Default=FeedDetails#}">
                                 <StackPanel>
                                     <ItemsControl ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}" />
                                     <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello#}"></Button>
