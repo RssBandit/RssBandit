@@ -724,6 +724,16 @@ namespace RssBandit
         }
 
         /// <summary>
+        /// Gets the name of the file containing the information about the shell window layout
+        /// when the application was last closed 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetShellLayoutFileName()
+        {
+            return Path.Combine(GetUserPath(), ".shell_layout.xml");
+        }
+
+        /// <summary>
         /// Gets the name of the subscription tree state file.
         /// </summary>
         /// <returns></returns>

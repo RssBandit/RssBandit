@@ -20,6 +20,7 @@ using Infragistics.Windows.Ribbon;
 using RssBandit.AppServices;
 using RssBandit.AppServices.Util;
 using RssBandit.Util;
+using RssBandit.WinGui.Behaviors;
 using RssBandit.WinGui.Commands;
 
 namespace RssBandit.WinGui.ViewModel
@@ -35,9 +36,12 @@ namespace RssBandit.WinGui.ViewModel
         private PropertyObserver<IApplicationContext> _contextObserver;
 
         public string DisplayName { get; private set; }
-        public MainWindowViewModel(RssBanditApplication current)
+        public MainWindowViewModel(RssBanditApplication current, IShellLayoutManager layoutManager)
             : base(current)
         {
+            // init layout manager (adapter); that raise property changed and inject the XamDockManager instance into the adapter:
+            LayoutManager = layoutManager;
+
             DisplayName = RssBanditApplication.CaptionOnly;
             // assign the recent selected theme, or the default:
             CurrentTheme = RssBanditApplication.Current.GuiSettings.GetString("theme", Win32.IsOSAtLeastWindows7 ? "Scenic" : "Office2k7Black");
@@ -50,6 +54,18 @@ namespace RssBandit.WinGui.ViewModel
             _contextObserver = PropertyObserver.Create(RssBanditApplication.Current.Context);
 
             _contextObserver.RegisterHandler(c => c.SelectedNode, c => OnTreeModelSelectionChanged(c.SelectedNode));
+        }
+
+        private IShellLayoutManager _shellLayoutManager;
+
+        public IShellLayoutManager LayoutManager
+        {
+            get { return _shellLayoutManager; }
+            set 
+            {
+                _shellLayoutManager = value;
+                OnPropertyChanged(() => LayoutManager);
+            }
         }
 
         /// <summary>

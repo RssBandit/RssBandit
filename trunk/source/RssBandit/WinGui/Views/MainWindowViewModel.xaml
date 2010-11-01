@@ -7,7 +7,8 @@
 
     <DataTemplate DataType="{x:Type ViewModel:MainWindowViewModel}">
         <Grid>
-            <igDock:XamDockManager Name="xamDockManager" Theme="{Binding Path=CurrentTheme, Mode=TwoWay}">
+            <igDock:XamDockManager Name="xamDockManager" Theme="{Binding Path=CurrentTheme, Mode=TwoWay}"
+                                   b:ShellLayoutDockManagerAdapter.LayoutManager="{Binding LayoutManager}">
                 <!-- according to http://help.infragistics.com/Help/NetAdvantage/WPF/2010.3/CLR4.0/html/xamDockManager_About_Saving_and_Loading_Layouts.html
                      we name all relevant split/docking panes to get flexible for the future while support persist/restore of user-docking layouts -->
                 <igDock:XamDockManager.Panes>
