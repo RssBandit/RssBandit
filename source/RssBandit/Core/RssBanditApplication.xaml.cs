@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using RssBandit.WinGui.Behaviors;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.ViewModel;
 
@@ -20,7 +21,7 @@ namespace RssBandit
             MainWindow window = new MainWindow();
 
             // Create the ViewModel to which the main window binds.
-            var viewModel = new MainWindowViewModel(Current);
+            var viewModel = new MainWindowViewModel(Current, new ShellLayoutDockManagerAdapter());
 
             
             // When the ViewModel asks to be closed, close the window.
