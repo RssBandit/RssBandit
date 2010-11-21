@@ -1,13 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using Infragistics.Windows.DockManager;
 using Infragistics.Windows.DockManager.Events;
 using NewsComponents.Utils;
+using RssBandit.WinGui.Commands;
 
 namespace RssBandit.WinGui.Behaviors
 {
-    public class ShellLayoutDockManagerAdapter : DependencyObject, IShellLayoutManager
+    public class ShellLayoutDockManagerAdapter : IShellLayoutManager
     {
 
         #region LayoutManager dep. property
@@ -16,8 +18,8 @@ namespace RssBandit.WinGui.Behaviors
         /// LayoutManager Attached Dependency Property
         /// </summary>
         public static readonly DependencyProperty LayoutManagerProperty =
-            DependencyProperty.RegisterAttached("LayoutManager", typeof(object), typeof(ShellLayoutDockManagerAdapter),
-                new FrameworkPropertyMetadata((object)null,
+            DependencyProperty.RegisterAttached("LayoutManager", typeof(ShellLayoutDockManagerAdapter), typeof(ShellLayoutDockManagerAdapter),
+                new FrameworkPropertyMetadata((ShellLayoutDockManagerAdapter)null,
                     new PropertyChangedCallback(OnLayoutManagerChanged)));
 
         /// <summary>
@@ -151,6 +153,20 @@ namespace RssBandit.WinGui.Behaviors
                 DockManager.LoadLayout(_defaultLayout);
             }
         }
+        #endregion
+
+        #region Commands
+        private RelayCommand _resetLayoutCommand;
+
+        /// <summary>
+        ///   Returns the command that, when invoked, attempts
+        ///   to reset the window frames docking layout to the default.
+        /// </summary>
+        public ICommand ResetShellLayoutCommand
+        {
+            get { return _resetLayoutCommand ?? (_resetLayoutCommand = new RelayCommand(param => ResetLayout(), param => true)); }
+        }
+
         #endregion
     }
 }

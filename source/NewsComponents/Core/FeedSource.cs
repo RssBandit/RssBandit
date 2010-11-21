@@ -245,9 +245,9 @@ namespace NewsComponents
 
         private readonly ReplaySubject<KeyValuePair<string, IFeedDetails>> itemsSubject = new ReplaySubject<KeyValuePair<string, IFeedDetails>>();
 
-        public IObservable<IFeedDetails> GetFeedDetailsForItem(INewsFeed item)
+        public IObservable<IFeedDetails> GetFeedDetailsForItem(INewsFeed feed)
         {
-            return itemsSubject.Where(kvp => kvp.Key == item.link).Select(kvp => kvp.Value);
+            return itemsSubject.Where(kvp => kvp.Key == feed.link).Select(kvp => kvp.Value);
         }
 
         protected readonly ObservableCollection<INewsFeed> _feeds = new ObservableCollection<INewsFeed>();
