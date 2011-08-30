@@ -175,7 +175,11 @@ namespace RssBandit.WinGui.Forms
             {
                 try
                 {
-                    if (String.IsNullOrEmpty(title) && url.StartsWith("http://"))
+                    if (String.IsNullOrEmpty(title) && 
+                        (
+                         url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                         url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                        ))
                     {
                         title = HtmlHelper.FindTitle(url, url, owner.Proxy, CredentialCache.DefaultCredentials);
                     }
@@ -198,16 +202,21 @@ namespace RssBandit.WinGui.Forms
                     jlcRecentContents.RemoveAt(0); 
                 }
 
-                string iconPath = (url.StartsWith("feed://") ? RssBanditApplication.GetFeedIconPath() : RssBanditApplication.GetWebPageIconPath()); 
-
-                jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
+                if (!String.IsNullOrEmpty(title))
                 {
-                    IconReference = new IconReference(iconPath, 0),
-                    Arguments = String.Concat("-n:", url)
-                });
+                    string iconPath = (url.StartsWith("feed://")
+                                           ? RssBanditApplication.GetFeedIconPath()
+                                           : RssBanditApplication.GetWebPageIconPath());
 
-                jlcRecentContents.Add(url); 
-                jumpList.Refresh();                               
+                    jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
+                                                   {
+                                                       IconReference = new IconReference(iconPath, 0),
+                                                       Arguments = String.Concat("-n:", url)
+                                                   });
+
+                    jlcRecentContents.Add(url);
+                    jumpList.Refresh();
+                }
             }
         }
 
