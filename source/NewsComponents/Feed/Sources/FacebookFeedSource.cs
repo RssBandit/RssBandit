@@ -121,7 +121,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The Facebook application ID for RSS Bandit
         /// </summary>
-        private static string ApplicationId = "15028810303";
+        private static string ApplicationId = "15028810303";    //REVIEW: not used, what is it thought of, any hint to FB API docs?
 
         /// <summary>
         /// The Facebook application key for RSS Bandit
@@ -428,9 +428,9 @@ namespace NewsComponents.Feed
         ///<param name="token">The Facebook API auth token</param>   
         public void SetAuthToken(string token)
         {
-            if (!string.IsNullOrEmpty(authToken))
+            if (!string.IsNullOrEmpty(token))
             {
-                this.authToken = authToken;
+                this.authToken = token;
             }
         }
 

@@ -125,12 +125,12 @@ namespace NewsComponents.Utils {
 
 		#region Methods
 		/// <summary>
-		/// Get the filter (XslTransform) to use for import.
+        /// Get the filter (XslCompiledTransform) to use for import.
 		/// </summary>
-		/// <returns>System.Xml.Xsl.XslTransform containing the transform that will convert the input to the native feedlist format</returns>
-		public XslTransform GetImportXsl()
+        /// <returns>System.Xml.Xsl.XslCompiledTransform containing the transform that will convert the input to the native feedlist format</returns>
+		public XslCompiledTransform GetImportXsl()
 		{
-			string _formatName;
+			string formatName;
 
 			if(this._feedFormat == ImportFeedFormat.Unknown)
 				this._feedFormat = this.DetectFormat();
@@ -138,13 +138,13 @@ namespace NewsComponents.Utils {
 			switch(this._feedFormat)
 			{
 				case ImportFeedFormat.OPML:
-					_formatName = FILTER_FORMAT_OPML;
+					formatName = FILTER_FORMAT_OPML;
 					break;
 				case ImportFeedFormat.OCS:
-					_formatName = FILTER_FORMAT_OCS;
+					formatName = FILTER_FORMAT_OCS;
 					break;
 				case ImportFeedFormat.SIAM:
-					_formatName = FILTER_FORMAT_SIAM;
+					formatName = FILTER_FORMAT_SIAM;
 					break;
 				case ImportFeedFormat.Bandit:
 				case ImportFeedFormat.Unknown:
@@ -154,26 +154,12 @@ namespace NewsComponents.Utils {
 
 			// Open the resource and build our XslTransform
 
-			using (Stream _xsltStream = Resource.Manager.GetStream(String.Format("Resources.feedImportFilters.{0}.xslt", _formatName))) {
-				XslTransform _xslt = new XslTransform();
-				_xslt.Load(new XmlTextReader(_xsltStream));
-				return _xslt;			
-			}
-//
-//			// TODO: Find a better way to get the Assembly short name (ex: NewsComponents)
-//			string assemblyName = this.GetType().Assembly.FullName;
-//			string resName = assemblyName.Substring(0,assemblyName.IndexOf(",")) + ".feedImportFilters";
-//			ResourceManager _importFilterRM = new ResourceManager(resName, this.GetType().Assembly);
-//			_importFilterRM.IgnoreCase = true;
-//			
-//			// we can't load a string directly into an XslTransform, so we'll
-//			// need to do a little conversion
-//			string _xslText = _importFilterRM.GetString(_formatName);
-//			System.IO.StringReader _sr = new System.IO.StringReader(_xslText);			
-//			XslTransform _xslt = new XslTransform();
-//			_xslt.Load(new XmlTextReader(_sr));
-//
-//			return _xslt;			
+            using (Stream xsltStream = Resource.Manager.GetStream(String.Format("Resources.feedImportFilters.{0}.xslt", formatName)))
+            {
+                var xslt = new XslCompiledTransform();
+                xslt.Load(new XmlTextReader(xsltStream));
+                return xslt;
+            }
 			
 		}
 

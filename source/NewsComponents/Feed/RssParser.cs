@@ -1905,7 +1905,7 @@ namespace NewsComponents.Feed
 
             //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)	
             XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ProhibitDtd = false;
+            settings.DtdProcessing = DtdProcessing.Prohibit;
             settings.IgnoreWhitespace = true;
             settings.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
             XmlReader r = XmlReader.Create(feedStream, settings);

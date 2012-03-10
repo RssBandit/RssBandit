@@ -42,12 +42,12 @@ namespace NewsComponents.Collections
             _keyedEntryCollection = new KeyedDictionaryEntryCollection<TKey>();
         }
 
-        public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
+        public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
         {
             _keyedEntryCollection = new KeyedDictionaryEntryCollection<TKey>();
 
             foreach (KeyValuePair<TKey, TValue> entry in dictionary)
-                DoAddEntry((TKey)entry.Key, (TValue)entry.Value);
+                DoAddEntry(entry.Key, entry.Value);
         }
 
         public ObservableDictionary(IEqualityComparer<TKey> comparer)
@@ -55,12 +55,12 @@ namespace NewsComponents.Collections
             _keyedEntryCollection = new KeyedDictionaryEntryCollection<TKey>(comparer);
         }
 
-        public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
+        public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> dictionary, IEqualityComparer<TKey> comparer)
         {
             _keyedEntryCollection = new KeyedDictionaryEntryCollection<TKey>(comparer);
 
             foreach (KeyValuePair<TKey, TValue> entry in dictionary)
-                DoAddEntry((TKey)entry.Key, (TValue)entry.Value);
+                DoAddEntry(entry.Key, entry.Value);
         }
 
         #endregion public
@@ -591,7 +591,7 @@ namespace NewsComponents.Collections
             remove { CollectionChanged -= value; }
         }
 
-        protected virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected event NotifyCollectionChangedEventHandler CollectionChanged;
 
         #endregion INotifyCollectionChanged
 
@@ -603,7 +603,7 @@ namespace NewsComponents.Collections
             remove { PropertyChanged -= value; }
         }
 
-        protected virtual event PropertyChangedEventHandler PropertyChanged;
+        protected event PropertyChangedEventHandler PropertyChanged;
 
         #endregion INotifyPropertyChanged
 
@@ -613,15 +613,17 @@ namespace NewsComponents.Collections
 
         #region KeyedDictionaryEntryCollection<TKey>
 
-        protected class KeyedDictionaryEntryCollection<TKey> : KeyedCollection<TKey, DictionaryEntry>
+        protected class KeyedDictionaryEntryCollection<TK> : KeyedCollection<TK, DictionaryEntry>
         {
             #region constructors
 
             #region public
 
-            public KeyedDictionaryEntryCollection() : base() { }
+            public KeyedDictionaryEntryCollection()
+            { }
 
-            public KeyedDictionaryEntryCollection(IEqualityComparer<TKey> comparer) : base(comparer) { }
+            public KeyedDictionaryEntryCollection(IEqualityComparer<TK> comparer) : base(comparer) 
+            { }
 
             #endregion public
 
@@ -631,9 +633,9 @@ namespace NewsComponents.Collections
 
             #region protected
 
-            protected override TKey GetKeyForItem(DictionaryEntry entry)
+            protected override TK GetKeyForItem(DictionaryEntry entry)
             {
-                return (TKey)entry.Key;
+                return (TK)entry.Key;
             }
 
             #endregion protected
@@ -650,17 +652,17 @@ namespace NewsComponents.Collections
         #region Enumerator
 
         [Serializable, StructLayout(LayoutKind.Sequential)]
-        public struct Enumerator<TKey, TValue> : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IDictionaryEnumerator, IEnumerator
+        public struct Enumerator<TK, TV> : IEnumerator<KeyValuePair<TK, TV>>, IDisposable, IDictionaryEnumerator, IEnumerator
         {
             #region constructors
 
-            internal Enumerator(ObservableDictionary<TKey, TValue> dictionary, bool isDictionaryEntryEnumerator)
+            internal Enumerator(ObservableDictionary<TK, TV> dictionary, bool isDictionaryEntryEnumerator)
             {
                 _dictionary = dictionary;
                 _version = dictionary._version;
                 _index = -1;
                 _isDictionaryEntryEnumerator = isDictionaryEntryEnumerator;
-                _current = new KeyValuePair<TKey, TValue>();
+                _current = new KeyValuePair<TK, TV>();
             }
 
             #endregion constructors
@@ -669,7 +671,7 @@ namespace NewsComponents.Collections
 
             #region public
 
-            public KeyValuePair<TKey, TValue> Current
+            public KeyValuePair<TK, TV> Current
             {
                 get
                 {
@@ -696,11 +698,11 @@ namespace NewsComponents.Collections
                 _index++;
                 if (_index < _dictionary._keyedEntryCollection.Count)
                 {
-                    _current = new KeyValuePair<TKey, TValue>((TKey)_dictionary._keyedEntryCollection[_index].Key, (TValue)_dictionary._keyedEntryCollection[_index].Value);
+                    _current = new KeyValuePair<TK, TV>((TK)_dictionary._keyedEntryCollection[_index].Key, (TV)_dictionary._keyedEntryCollection[_index].Value);
                     return true;
                 }
                 _index = -2;
-                _current = new KeyValuePair<TKey, TValue>();
+                _current = new KeyValuePair<TK, TV>();
                 return false;
             }
 
@@ -743,7 +745,7 @@ namespace NewsComponents.Collections
                     {
                         return new DictionaryEntry(_current.Key, _current.Value);
                     }
-                    return new KeyValuePair<TKey, TValue>(_current.Key, _current.Value);
+                    return new KeyValuePair<TK, TV>(_current.Key, _current.Value);
                 }
             }
 
@@ -751,7 +753,7 @@ namespace NewsComponents.Collections
             {
                 ValidateVersion();
                 _index = -1;
-                _current = new KeyValuePair<TKey, TValue>();
+                _current = new KeyValuePair<TK, TV>();
             }
 
             #endregion IEnumerator implemenation
@@ -787,10 +789,10 @@ namespace NewsComponents.Collections
 
             #region fields
 
-            private ObservableDictionary<TKey, TValue> _dictionary;
+            private ObservableDictionary<TK, TV> _dictionary;
             private int _version;
             private int _index;
-            private KeyValuePair<TKey, TValue> _current;
+            private KeyValuePair<TK, TV> _current;
             private bool _isDictionaryEntryEnumerator;
 
             #endregion fields
