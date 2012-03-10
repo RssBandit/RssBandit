@@ -75,7 +75,7 @@ namespace NewsComponents.Utils
                       RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex RegExFindSrc =
-           new Regex(@"<[iI][mM][gG][\s]+[^>]*?src[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>",
+           new Regex(@"<[iI][mM][gG][\s]+[^>]*?src[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)",
                      RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled);
