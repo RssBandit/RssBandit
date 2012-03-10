@@ -5858,15 +5858,20 @@ namespace NewsComponents
         {
             var importFilter = new ImportFilter(doc);
 
-            XslTransform transform = importFilter.GetImportXsl();
+            var transform = importFilter.GetImportXsl();
 
             if (transform != null)
             {
-                // We have a format other than Bandit
-                // Apply the import filter (transform)
-                var temp = new XmlDocument();
-                temp.Load(transform.Transform(doc, null));
-                doc = temp;
+                using (MemoryStream s = new MemoryStream())
+                {
+                    // We have a format other than Bandit
+                    // Apply the import filter (transform)
+                    var temp = new XmlDocument();
+                    transform.Transform(doc, null, s);
+                    s.Seek(0, SeekOrigin.Begin);
+                    temp.Load(s);
+                    doc = temp;
+                }
             }
             else
             {
