@@ -5833,7 +5833,7 @@
     <value>_NewsgroupsConfiguration_Toolbars_Dock_Area_Left</value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Type">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics.Win.UltraWinToolbars.v6.3, Version=6.3.20063.1056, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <Value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</Value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Left.Parent">
     <value>$this</value>
@@ -5905,7 +5905,7 @@
     <value>_NewsgroupsConfiguration_Toolbars_Dock_Area_Right</value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Type">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics.Win.UltraWinToolbars.v6.3, Version=6.3.20063.1056, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <Value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</Value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Right.Parent">
     <value>$this</value>
@@ -5968,7 +5968,7 @@
     <value>_NewsgroupsConfiguration_Toolbars_Dock_Area_Top</value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Type">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics.Win.UltraWinToolbars.v6.3, Version=6.3.20063.1056, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <Value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</Value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Top.Parent">
     <value>$this</value>
@@ -6031,7 +6031,7 @@
     <value>_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom</value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Type">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics.Win.UltraWinToolbars.v6.3, Version=6.3.20063.1056, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <Value>Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea, Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</Value>
   </data>
   <data name="&gt;&gt;_NewsgroupsConfiguration_Toolbars_Dock_Area_Bottom.Parent">
     <value>$this</value>
@@ -7740,7 +7740,7 @@
     <value>ultraToolbarsManager</value>
   </data>
   <data name="&gt;&gt;ultraToolbarsManager.Type">
-    <value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics.Win.UltraWinToolbars.v6.3, Version=6.3.20063.1056, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+    <Value>Infragistics.Win.UltraWinToolbars.UltraToolbarsManager, Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</Value>
   </data>
   <data name="&gt;&gt;timerFilterGroups.Name">
     <value>timerFilterGroups</value>
