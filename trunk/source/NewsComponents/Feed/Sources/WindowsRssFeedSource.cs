@@ -3671,12 +3671,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Asynchronously downloads the feed using the Windows RSS platform
         /// </summary>
-        /// <param name="async">Determines whether the download should happen asynchronously</param>
-        public void RefreshFeed(bool async)
+        /// <param name="isAsync">Determines whether the download should happen asynchronously</param>
+        public void RefreshFeed(bool isAsync)
         {
             try
             {
-                if (async)
+                if (isAsync)
                 {
                     this.myfeed.AsyncDownload();
                 }
