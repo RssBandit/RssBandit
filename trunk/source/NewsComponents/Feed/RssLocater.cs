@@ -382,8 +382,9 @@ namespace NewsComponents.Feed {
 
 			List<string> list = new List<string>();
 	    
-			// Note that right now we only check that 
+			// Note that right now we only check that: 
 			// type="application/rss+xml" and href="urlToRssFile"
+            // type="application/atom+xml" and href="urlToAtomFile" - see http://www.iana.org/assignments/media-types/application/index.html / http://www.rfc-editor.org/rfc/rfc4287.txt
 
 			//<link rel="alternate" type="application/rss+xml" title="RSS" href="url/to/rss/file">
 			//<link rel=alternate type=application/rss+xml title=RSS href=url/to/rss/file>
@@ -391,8 +392,9 @@ namespace NewsComponents.Feed {
 			MatchCollection matches = autoDiscoverRegex.Matches(htmlContent);
 			foreach(Match match in matches)
 			{
-				if((match.Value.ToLower().IndexOf("application/atom+xml") > 0)
-					|| (match.Value.ToLower().IndexOf("application/rss+xml") > 0))
+				if((match.Value.ToLower().IndexOf("application/atom+xml", StringComparison.OrdinalIgnoreCase) > 0)
+                    || (match.Value.ToLower().IndexOf("application/rss+xml", StringComparison.OrdinalIgnoreCase) > 0)
+                    || (match.Value.ToLower().IndexOf("application/atom+xml", StringComparison.OrdinalIgnoreCase) > 0))
 				{
 					string url = match.Groups["href"].Value;
 					url = ConvertToAbsoluteUrl(url, baseUri);
