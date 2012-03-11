@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using NewsComponents.Feed;
 using NUnit.Framework;
 
@@ -28,8 +31,8 @@ namespace RssBandit.UnitTests
 		[Test, Ignore("Auto discovery of ATOM 0.3 Not yet implemented")]
 		public void GetRssAutoDiscoveryLinksFindsAtomLinks()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "PageWithAtomLinks.htm");
+			RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "PageWithAtomLinks.htm");
 			
 			Assert.AreEqual(1, feeds.Count, "Hmm, the page only has one feed and I couldn't find it..");
 			Assert.AreEqual(BASE_URL + "SampleATOM0.3Feed.xml", feeds[0], "ATOM was too small to discover.");
@@ -43,8 +46,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssAutoDiscoveryLinksFindsRssLinks()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "GetRssAutoDiscoveryLinks.html");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "GetRssAutoDiscoveryLinks.html");
 			
 			Assert.AreEqual(4, feeds.Count, "Obviously I could not count as I expected 4 feeds.");
 
@@ -53,7 +56,7 @@ namespace RssBandit.UnitTests
 			Assert.AreEqual(BASE_URL + "SampleRss1.0Feed.rss", (string)feeds[2]);
 			Assertion.AssertEquals("Missing version 2.0. Stuck in the past.", BASE_URL + "SampleRss2.0Feed.xml", (string)feeds[3]);
 
-			feeds = locater.GetRssFeedsForUrl(BASE_URL + "AutoDiscovery1.htm");
+			feeds = locater.GetRssFeedsForUrl(BASE_URL + "AutoDiscovery1.htm", true);
 			Assert.AreEqual(feeds.Count, 2);
 		}
 
@@ -64,8 +67,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssFeedsForUrlFindsFeedProtocolUrls()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssFeedsForUrl(BASE_URL + "feedProtocol.htm");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssFeedsForUrl(BASE_URL + "feedProtocol.htm", true);
 			Assert.AreEqual(3, feeds.Count);
 
 			Assert.AreEqual(BASE_URL + "SampleRss0.91Feed.xml", feeds[0].ToString());
@@ -79,8 +82,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssFeedsForUrlFindsLinksToWellKnownListeners()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssFeedsForUrl(BASE_URL + "localListeners.htm");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssFeedsForUrl(BASE_URL + "localListeners.htm", true);
 			Assert.AreEqual(8, feeds.Count);
 
 			Assert.AreEqual(BASE_URL + "SampleRss0.91Feed.xml", feeds[0].ToString());
@@ -99,8 +102,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssFeedsForUrlFindsAtomAndRssFeeds()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssFeedsForUrl(BASE_URL + "GetRssFeedsForUrl.html");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssFeedsForUrl(BASE_URL + "GetRssFeedsForUrl.html", true);
 			
 			Assert.AreEqual(4, feeds.Count);
 
@@ -109,7 +112,7 @@ namespace RssBandit.UnitTests
 			Assert.AreEqual(BASE_URL + "SampleRss1.0Feed.rss", feeds[2].ToString());
 			Assert.AreEqual(BASE_URL + "SampleRss2.0Feed.xml", feeds[3].ToString());
 			
-			feeds = locater.GetRssFeedsForUrl(BASE_URL + "LinksToExternalFeed.htm");
+			feeds = locater.GetRssFeedsForUrl(BASE_URL + "LinksToExternalFeed.htm", true);
 			Assertion.AssertEquals(1, feeds.Count);
 		}
 
@@ -121,8 +124,8 @@ namespace RssBandit.UnitTests
 		[Test, ExpectedException(typeof(WebException))]
 		public void GetRssAutoDiscoveryLinksThrowsWebExceptionIfFileNotFound()
 		{
-			RssLocater locater = new RssLocater();
-			locater.GetRssAutoDiscoveryLinks("http://127.0.0.1:8081/RssLocaterTestFiles/FileNotFound.html");
+            RssLocater locater = new RssLocater(null, null);
+			locater.GetRssAutoDiscoveryLinks(BASE_URL + "FileNotFound.html");
 		}
 
 		/// <summary>
@@ -132,8 +135,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssFeedsForUrlDoesNotThrowExceptionWhen404Encountered()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssFeedsForUrl("http://127.0.0.1:8081/RssLocaterTestFiles/FileNotFound.html");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssFeedsForUrl(BASE_URL +"FileNotFound.html", false);
 			Assert.AreEqual(0, feeds.Count);
 		}
 
@@ -144,8 +147,8 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssFeedsForUrlDoesNotFindPhantomFeeds()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssFeedsForUrl("http://127.0.0.1:8081/RssLocaterTestFiles/NoFeeds.html");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssFeedsForUrl(BASE_URL + "NoFeeds.html", true);
 			Assert.AreEqual(0, feeds.Count, "Impossibly, we found a feed where there are none.");
 		}
 
@@ -156,57 +159,18 @@ namespace RssBandit.UnitTests
 		[Test]
 		public void GetRssAutoDiscoveryLinksDoesNotFindPhantomFeeds()
 		{
-			RssLocater locater = new RssLocater();
-			ArrayList feeds = locater.GetRssAutoDiscoveryLinks("http://127.0.0.1:8081/RssLocaterTestFiles/NoFeeds.html");
+            RssLocater locater = new RssLocater(null, null);
+			var feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "NoFeeds.html");
 			Assert.AreEqual(0, feeds.Count, "Impossibly, we auto-discovered a feed where there are none.");
 		}
 
-		/// <summary>
-		/// If the web server is down, GetRssFeedsForUrl should not throw an 
-		/// exception. but GetRssAutoDiscoveryLinks should be quite exceptional!
-		/// </summary>
-		[Test]
-		public void GetRssFeedsForUrlDoesNotThrowExceptionWhenWebServerDown()
-		{
-			ArrayList feeds;
-
-			try
-			{
-				StopWebServer();
-				RssLocater locater = new RssLocater();
-				feeds = locater.GetRssFeedsForUrl("http://127.0.0.1:8081/RssLocaterTestFiles/NoFeeds.html");
-				Assert.AreEqual(0, feeds.Count, "Impossibly we found feeds where there are none.");
-			}
-			finally
-			{
-				StartWebServer();
-			}
-		}
-
-		/// <summary>
-		/// If the web server is down, GetRssAutoDiscoveryLinks should throw 
-		/// an exception!
-		/// </summary>
-		[Test, ExpectedException(typeof(System.Net.WebException))]
-		public void GetRssAutoDiscoveryLinksThrowsExceptionIfWebServerIsDown()
-		{
-			try
-			{
-				StopWebServer();
-				RssLocater locater = new RssLocater();
-				locater.GetRssAutoDiscoveryLinks("http://127.0.0.1:8081/RssLocaterTestFiles/NoFeeds.html");		
-			}
-			finally
-			{
-				StartWebServer();
-			}
-		}
+		
 
 		/// <summary>
 		/// Setups the test fixture by starting unpacking 
 		/// embedded resources and starting the web server.
 		/// </summary>
-		[SetUp]
+		[TestFixtureSetUp]
 		protected override void SetUp()
 		{
 			Console.WriteLine("SetupTestFixture");
@@ -218,11 +182,43 @@ namespace RssBandit.UnitTests
 		/// <summary>
 		/// Stops the web server and cleans up the files.
 		/// </summary>
-		[TearDown]
+		[TestFixtureTearDown]
 		protected override void TearDown()
 		{
 			base.TearDown();
-			DeleteDirectory(UNPACK_DESTINATION);
 		}
 	}
+
+
+    /// <summary>
+    /// RSS Locator tests without web server
+    /// </summary>
+    [TestFixture]
+    public class RssLocaterWithoutWebServerTests
+    {
+        private const string BASE_URL = "http://127.0.0.1:8081/RssLocaterTestFiles/";
+
+        /// <summary>
+        /// If the web server is down, GetRssFeedsForUrl should not throw an 
+        /// exception. but GetRssAutoDiscoveryLinks should be quite exceptional!
+        /// </summary>
+        [Test]
+        public void GetRssFeedsForUrlDoesNotThrowExceptionWhenWebServerDown()
+        {
+            RssLocater locater = new RssLocater(null, null);
+            IList<string> feeds = locater.GetRssFeedsForUrl(BASE_URL + "NoFeeds.html", false);
+            Assert.AreEqual(0, feeds.Count, "Impossibly we found feeds where there are none.");
+        }
+
+        /// <summary>
+        /// If the web server is down, GetRssAutoDiscoveryLinks should throw 
+        /// an exception!
+        /// </summary>
+        [Test, ExpectedException(typeof(SocketException))]
+        public void GetRssAutoDiscoveryLinksThrowsExceptionIfWebServerIsDown()
+        {
+            RssLocater locater = new RssLocater(null, null);
+            locater.GetRssAutoDiscoveryLinks(BASE_URL + "NoFeeds.html");
+        }
+    }
 }

@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -35,9 +36,12 @@ namespace NewsComponents.Storage
 		/// <param name="domain">The domain.</param>
 		/// <param name="configuration">The configuration.</param>
 		/// <returns></returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="configuration"/> is null</exception>
 		public static object GetService(StorageDomain domain, INewsComponentsConfiguration configuration)
 		{
-			IInitDataService service = new FileStorageDataService();
+		    if (configuration == null) throw new ArgumentNullException("configuration");
+		    
+            IInitDataService service = new FileStorageDataService();
 			if (domain == StorageDomain.UserCacheData)
 			{
 				service.Initialize(Path.Combine(
