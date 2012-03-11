@@ -28,8 +28,8 @@ namespace RssBandit.UnitTests
 		/// <remarks>
 		/// Remove the Ignore attribute after we've added ATOM support.
 		/// </remarks>
-		[Test, Ignore("Auto discovery of ATOM 0.3 Not yet implemented")]
-		public void GetRssAutoDiscoveryLinksFindsAtomLinks()
+		[Test]
+		public void GetRssAutoDiscoveryLinksFindsAtom10Links()
 		{
 			RssLocater locater = new RssLocater(null, null);
 			var feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "PageWithAtomLinks.htm");
