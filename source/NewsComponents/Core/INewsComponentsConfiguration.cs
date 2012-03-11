@@ -202,19 +202,26 @@ namespace NewsComponents
 		
 		#region INewsComponentsConfiguration Members
 
-		/// <summary>
-		/// Gets/Sets the application ID. This will be used e.g. to build
-		/// the relative path below the user's appdata (UserApplicationDataPath)
-		/// or local appdata (UserLocalApplicationDataPath) paths.
-		/// </summary>
-		/// <value>The application ID.</value>
-		public virtual string ApplicationID {
-			get { return appID; }
-			set { 
-				appID = value;
-				this.OnPropertyChanged("ApplicationID");
-			}
-		}
+        /// <summary>
+        /// Gets/Sets the application ID. This will be used e.g. to build
+        /// the relative path below the user's appdata (UserApplicationDataPath)
+        /// or local appdata (UserLocalApplicationDataPath) paths.
+        /// </summary>
+        /// <value>The application ID.</value>
+        public virtual string ApplicationID
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(appID))
+                    appID = defaultApplicationID;
+                return appID;
+            }
+            set
+            {
+                appID = value;
+                this.OnPropertyChanged("ApplicationID");
+            }
+        }
 
 		/// <summary>
 		/// Gets the application version. E.g. used to assemble the user agent string.

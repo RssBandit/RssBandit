@@ -4,4 +4,6 @@
   <pubDate>Fri, 04 Apr 2003 10:41:37 GMT</pubDate>
   <category>TestSubject</category>
   <description><![CDATA[TestDescription]]></description>
+  <fd:state read="0" flagged="0" xmlns:fd="http://www.bradsoft.com/feeddemon/xmlns/1.0/" />
+  <outgoing-links xmlns="http://www.25hoursaday.com/2003/RSSBandit/feeds/" />
 </item>

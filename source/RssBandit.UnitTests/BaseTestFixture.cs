@@ -10,14 +10,14 @@ namespace RssBandit.UnitTests
 	/// </summary>
 	public class BaseTestFixture
 	{
-		/// <summary>For ease of clean-up. Embedded resources are written to this directory (or a sub dir).</summary>
-		public const string UNPACK_DESTINATION = "UnitTestResources";
+        public static readonly string APP_NAME = "RssBanditUnitTests";
+        /// <summary>For ease of clean-up. Embedded resources are written to this directory (or a sub dir).</summary>
+        public static readonly string UNPACK_DESTINATION = Path.Combine(Path.GetTempPath(), APP_NAME + ".UnitTestResources");
 		/// <summary>For ease of clean-up and set-up, the web server files are written here.</summary>
-		public const string WEBROOT_PATH = UNPACK_DESTINATION + @"\WebRoot";
+        public static readonly string WEBROOT_PATH = UNPACK_DESTINATION + @"\WebRoot";
 		const string RESOURCE_ROOT = "RssBandit.UnitTests.Resources.";
 
-		public readonly string FEEDS_DIR = UNPACK_DESTINATION;
-		public readonly string APP_NAME = "RssBanditUnitTests";
+        public static readonly string FEEDS_DIR = UNPACK_DESTINATION;
 		
 		/// <summary>
 		/// Returns a resource stream given a resource name.  Assumes the resource 

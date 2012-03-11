@@ -19,20 +19,13 @@ namespace RssBandit.UnitTests
 		public void DateTimeExtEnsureFormats() 
 		{
 			DateTime dtUTCTime = new DateTime(2004, 6, 5, 5, 20, 9,0);
-			DateTime dtLocalTime = TimeZone.CurrentTimeZone.ToLocalTime(dtUTCTime);
 			
-			if (!TimeZone.CurrentTimeZone.IsDaylightSavingTime(dtLocalTime))		
-			{
-					// we need to pull this back an hour for our friends in Arizona..
-					dtLocalTime.AddHours(-1);
-			}
-				
-			// DateTimeExt.Parse returns the local time
-			DateTime dt = DateTimeExt.Parse("2004-06-05T04:20:09-01:00");
-			Assert.AreEqual(dtLocalTime , dt, "Invalid date returned by .Parse().");
+			// DateTimeExt.Parse returns the UTC time
+		    DateTime dt = DateTimeExt.Parse("2004-06-05T04:20:09-01:00");
+            Assert.AreEqual(dtUTCTime, dt, "Invalid date returned by .Parse().");
 
 			dt = DateTimeExt.Parse("2004-06-05T05:20:09+00:00");
-			Assert.AreEqual(dtLocalTime , dt, "Invalid date returned by .Parse().");
+            Assert.AreEqual(dtUTCTime, dt, "Invalid date returned by .Parse().");
 
 			//DateTimeExt.ToDateTime returns the GMT time 
 			DateTime dtx = DateTimeExt.ToDateTime("2004-06-05T06:20:09+01:00");
@@ -95,13 +88,13 @@ namespace RssBandit.UnitTests
 			DateTime fetchDate = DateTimeExt.Parse("Fri, 04 Apr 2003 10:41:37 GMT");
 			NewsItem item = new NewsItem(null, "TestTitle", "TestLink", "TestDescription", fetchDate, "TestSubject");
 			
-			item.FeedDetails = new FeedInfo("", null, "FeedTitle", "FeedLink", "FeedDescription");
+			item.FeedDetails = new FeedInfo("", null, null, "FeedTitle", "FeedLink", "FeedDescription");
 			Assert.AreEqual("FeedTitle", item.FeedDetails.Title, "The oh so creative title is wrong!");
 
-			Assertion.AssertEquals("Capt'n! The XML was not as we expected.", UnpackResource("Expected.RssItemTests.TestToString.xml"), item.ToString());
+			Assertion.AssertEquals("The XML was not as we expected.", UnpackResource("Expected.RssItemTests.TestToString.xml"), item.ToString());
 
 			// we can test here only GMT universal time (we are world wide organized :-) 
-			Assertion.AssertEquals("No GMT wrong.", UnpackResource("Expected.RssItemTests.TestToString.NoGMT.xml"), item.ToString(NewsItemSerializationFormat.RssItem, true));
+			Assertion.AssertEquals("No GMT wrong.", UnpackResource("Expected.RssItemTests.TestToString.NoGMT.xml"), item.ToString(NewsItemSerializationFormat.RssItem, false));
 			Assertion.AssertEquals("Not Standalone wrong.", UnpackResource("Expected.RssItemTests.TestToString.NotStandalone.xml"), item.ToString(NewsItemSerializationFormat.RssFeed, true));
 		}
 

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using Cassini;
 
 namespace RssBandit.UnitTests
@@ -57,17 +58,20 @@ namespace RssBandit.UnitTests
 		/// [TestFixtureTearDown] attribute.
 		/// </summary>
 		protected virtual void TearDown()
-		{
-			try
-			{
-				if (_webServer != null)
-				{
-					_webServer.Stop();
-					_webServer = null;
-				}
-				Directory.Delete(_webBinPath,true);
-			}
-			catch{}
+        {
+            try
+            {
+                if (_webServer != null)
+                {
+                    _webServer.Stop();
+                    _webServer = null;
+                    Thread.Sleep(250);
+                    Directory.Delete(_webBinPath, true);
+                    //Let everyone know
+                    Console.WriteLine(String.Format("Web Server shutdown succeeds"));
+                }
+            }
+            catch { }
 		}
 
 		/// <summary>
