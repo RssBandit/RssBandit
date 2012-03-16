@@ -35,18 +35,18 @@ namespace NewsComponents.Feed
                                                              new Dictionary<XmlQualifiedName, string>(0), String.Empty);
 
 
-        private string id;
+        private string _id;
 
 
         /// <summary>Gets/sets the id of this feed</summary>
         public string Id
         {
-            get { return id; }
-            set { id = value; }
+            get { return _id; }
+            set { _id = value; }
         }
 
 
-        private string feedLocation; //location in the cache not on the WWW
+        private string _feedLocation; //location in the cache not on the WWW
 
         /// <summary>
         /// Gets or sets the feed location.
@@ -54,11 +54,11 @@ namespace NewsComponents.Feed
         /// <value>The feed location.</value>
         public string FeedLocation
         {
-            get { return feedLocation; }
-            set { feedLocation = value; }
+            get { return _feedLocation; }
+            set { _feedLocation = value; }
         }
 
-        private readonly ObservableCollection<INewsItem> itemsList = new ObservableCollection<INewsItem>();
+        private readonly ObservableCollection<INewsItem> _itemsList = new ObservableCollection<INewsItem>();
 
         /// <summary>
         /// The list of news items belonging to the feed
@@ -71,7 +71,7 @@ namespace NewsComponents.Feed
 
         }
 
-        private Dictionary<XmlQualifiedName, string> optionalElements;
+        private readonly Dictionary<XmlQualifiedName, string> _optionalElements;
 
 
         /// <summary>
@@ -104,13 +104,13 @@ namespace NewsComponents.Feed
         /// <param name="itemsList"></param>
         public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList)
         {
-            this.id = id;
-            this.feedLocation = feedLocation;
-            ItemsList = new ReadOnlyObservableCollection<INewsItem>(this.itemsList);
+            this._id = id;
+            this._feedLocation = feedLocation;
+            ItemsList = new ReadOnlyObservableCollection<INewsItem>(this._itemsList);
             if (itemsList != null)
             {
-                
-                this.itemsList.AddRange(ItemsList);
+                foreach (var item in itemsList)
+                    this._itemsList.Add(item);
             }
         }
 
@@ -145,59 +145,57 @@ namespace NewsComponents.Feed
         public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList, string title, string link,
                         string description, IDictionary<XmlQualifiedName, string> optionalElements, string language)
         {
-            this.id = id;
-            this.feedLocation = feedLocation;
-            this.ItemsList = new ReadOnlyObservableCollection<INewsItem>(this.itemsList);
-            this.itemsList.AddRange(ItemsList);
+            this._id = id;
+            this._feedLocation = feedLocation;
+            this.ItemsList = new ReadOnlyObservableCollection<INewsItem>(this._itemsList);
 
-            this.title = title;
-            this.link = link;
-            this.description = description;
-            this.optionalElements = new Dictionary<XmlQualifiedName, string>(optionalElements);
-            this.language = language;
+            if (itemsList != null)
+            {
+                foreach (var item in itemsList)
+                    this._itemsList.Add(item);
+            }
 
-            if (RssHelper.IsNntpUrl(link))
-            {
-                type = FeedType.Nntp;
-            }
-            else
-            {
-                type = FeedType.Rss;
-            }
+            this._title = title;
+            this._link = link;
+            this._description = description;
+            this._optionalElements = new Dictionary<XmlQualifiedName, string>(optionalElements);
+            this._language = language;
+
+            _type = RssHelper.IsNntpUrl(link) ? FeedType.Nntp : FeedType.Rss;
         }
 
 
 
-        private string title;
+        private readonly string _title;
 
         /// <summary></summary>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
         }
 
-        private string description;
+        private readonly string _description;
 
         /// <summary></summary>
         public string Description
         {
-            get { return description; }
+            get { return _description; }
         }
 
-        private string link;
+        private readonly string _link;
 
         /// <summary></summary>
         public string Link
         {
-            get { return link; }
+            get { return _link; }
         }
 
-        private string language;
+        private readonly string _language;
 
         /// <summary></summary>
         public string Language
         {
-            get { return language; }
+            get { return _language; }
         }
 
         /// <summary>
@@ -205,38 +203,38 @@ namespace NewsComponents.Feed
         /// </summary>
         public Dictionary<XmlQualifiedName, string> OptionalElements
         {
-            get { return optionalElements; }
+            get { return _optionalElements; }
         }
 
-        private FeedType type;
+        private readonly FeedType _type;
 
         /// <summary>
         /// Gets the type of the FeedDetails
         /// </summary>
         public FeedType Type
         {
-            get { return type; }
+            get { return _type; }
         }
 
         public void AddItem(INewsItem item)
         {
-            itemsList.Add(item);
+            _itemsList.Add(item);
         }
         
         public void ReplaceItems(IEnumerable<INewsItem> newItems)
         {
-            itemsList.Clear();
-            itemsList.AddRange(newItems);
+            _itemsList.Clear();
+            _itemsList.AddRange(newItems);
         }
         
         public void RemoveItem(INewsItem item)
         {
-            itemsList.Remove(item);
+            _itemsList.Remove(item);
         }
         
         public void RemoveItemAt(int index)
         {
-            itemsList.RemoveAt(index);
+            _itemsList.RemoveAt(index);
         }
 
         /// <summary>
@@ -300,7 +298,7 @@ namespace NewsComponents.Feed
                 writer.WriteAttributeString("type", "channel");
                 // NamespaceCore.Feeds_v2003 == "http://www.25hoursaday.com/2003/RSSBandit/feeds/"
                 writer.WriteAttributeString("xmlns", NamespaceCore.BanditPrefix, null, NamespaceCore.Feeds_v2003);
-                writer.WriteElementString("title", title);
+                writer.WriteElementString("title", _title);
             }
             else if (format != NewsItemSerializationFormat.Channel)
             {
@@ -333,15 +331,15 @@ namespace NewsComponents.Feed
             writer.WriteElementString("description", Description);
 
             //other stuff
-            string[] optionals = new string[optionalElements.Count];
-            optionalElements.Values.CopyTo(optionals, 0); 
+            string[] optionals = new string[_optionalElements.Count];
+            _optionalElements.Values.CopyTo(optionals, 0); 
             foreach (var s in optionals)
             {
                 writer.WriteRaw(s);
             }
 
             //<item />
-            var items = itemsList.ToArray();
+            var items = _itemsList.ToArray();
 
             foreach (var item in items)
             {
@@ -404,10 +402,10 @@ namespace NewsComponents.Feed
         /// <returns>A copy of this FeedInfo</returns>
         public FeedInfo Clone(bool includeNewsItems)
         {
-            var toReturn = new FeedInfo(id, feedLocation,
-                                        (includeNewsItems ? new List<INewsItem>(itemsList) : new List<INewsItem>()),
-                                        title, link, description,
-                                        new Dictionary<XmlQualifiedName, string>(optionalElements), language);
+            var toReturn = new FeedInfo(_id, _feedLocation,
+                                        (includeNewsItems ? new List<INewsItem>(_itemsList) : new List<INewsItem>()),
+                                        _title, _link, _description,
+                                        new Dictionary<XmlQualifiedName, string>(_optionalElements), _language);
 
             return toReturn;
         }
@@ -432,10 +430,8 @@ namespace NewsComponents.Feed
         {
             var inMemoryDescriptions = new StringCollection();
             //string id;
-            byte[] content;
-            int count;
 
-            foreach (NewsItem item in itemsList)
+            foreach (NewsItem item in _itemsList)
             {
                 if (item.HasContent)
                 {
@@ -449,20 +445,20 @@ namespace NewsComponents.Feed
 
             if (reader != null)
             {
-                id = reader.ReadString();
+                _id = reader.ReadString();
 
-                while (!id.Equals(FileHelper.EndOfBinaryFileMarker) && !string.IsNullOrEmpty(id))
+                while (!_id.Equals(FileHelper.EndOfBinaryFileMarker) && !string.IsNullOrEmpty(_id))
                 {
-                    count = reader.ReadInt32();
-                    content = reader.ReadBytes(count);
+                    int count = reader.ReadInt32();
+                    byte[] content = reader.ReadBytes(count);
 
-                    if (!inMemoryDescriptions.Contains(id) && ContainsItemWithId(id))
+                    if (!inMemoryDescriptions.Contains(_id) && ContainsItemWithId(_id))
                     {
-                        writer.Write(id);
+                        writer.Write(_id);
                         writer.Write(count);
                         writer.Write(content);
                     }
-                    id = reader.ReadString();
+                    _id = reader.ReadString();
                 } //while(!id.Equals(...))
             } //if(reader!= null) 
         }
@@ -493,10 +489,10 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public int GetSize()
         {
-            int iSize = StringHelper.SizeOfStr(link);
-            iSize += StringHelper.SizeOfStr(title);
-            iSize += StringHelper.SizeOfStr(title);
-            iSize += StringHelper.SizeOfStr(description);
+            int iSize = StringHelper.SizeOfStr(_link);
+            iSize += StringHelper.SizeOfStr(_title);
+            iSize += StringHelper.SizeOfStr(_title);
+            iSize += StringHelper.SizeOfStr(_description);
             //iSize += this.SizeOf(this.optionalElements);
             return iSize;
         }
@@ -524,12 +520,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The list of feeds
         /// </summary>
-        private readonly List<IFeedDetails> feeds = new List<IFeedDetails>();
+        private readonly List<IFeedDetails> _feeds = new List<IFeedDetails>();
 
         /// <summary>
         /// The title of this list when displayed in a newspaper view
         /// </summary>
-        private readonly string title;
+        private readonly string _title;
 
         #endregion
 
@@ -541,7 +537,7 @@ namespace NewsComponents.Feed
         /// <param name="title">The name of the list</param>
         public FeedInfoList(string title)
         {
-            this.title = title;
+            this._title = title;
         }
 
         #endregion
@@ -553,7 +549,7 @@ namespace NewsComponents.Feed
         /// </summary>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
         }
 
         #endregion
@@ -568,7 +564,7 @@ namespace NewsComponents.Feed
         {
             var allItems = new List<INewsItem>();
 
-            foreach (FeedInfo fi in feeds)
+            foreach (FeedInfo fi in _feeds)
             {
                 allItems.InsertRange(0, fi.ItemsList);
             }
@@ -583,7 +579,7 @@ namespace NewsComponents.Feed
         /// <returns>The position into which the new feed was inserted</returns>
         public void Add(IFeedDetails feed)
         {
-            feeds.Add(feed);
+            _feeds.Add(feed);
         }
 
         /// <summary>
@@ -592,7 +588,7 @@ namespace NewsComponents.Feed
         /// <param name="feedCollection">The feed collection.</param>
         public void AddRange(IEnumerable<IFeedDetails> feedCollection)
         {
-            feeds.AddRange(feedCollection);
+            _feeds.AddRange(feedCollection);
         }
 
         /// <summary>
@@ -601,7 +597,7 @@ namespace NewsComponents.Feed
         /// <param name="feed">The IFeedDetails object to remove</param>
         public bool Remove(IFeedDetails feed)
         {
-            return feeds.Remove(feed);
+            return _feeds.Remove(feed);
         }
 
         /// <summary>
@@ -611,7 +607,7 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public bool Contains(IFeedDetails feed)
         {
-            return feeds.Contains(feed);
+            return _feeds.Contains(feed);
         }
 
         /// <summary>
@@ -619,7 +615,7 @@ namespace NewsComponents.Feed
         /// </summary>
         public void Clear()
         {
-            feeds.Clear();
+            _feeds.Clear();
         }
 
         /// <summary>
@@ -632,7 +628,7 @@ namespace NewsComponents.Feed
             {
                 int count = 0;
 
-                foreach (FeedInfo fi in feeds)
+                foreach (FeedInfo fi in _feeds)
                 {
                     count += fi.ItemsList.Count;
                 }
@@ -646,7 +642,7 @@ namespace NewsComponents.Feed
         /// <value>The count.</value>
         public int Count
         {
-            get { return feeds.Count; }
+            get { return _feeds.Count; }
         }
 
         /// <summary>
@@ -675,9 +671,9 @@ namespace NewsComponents.Feed
         {
             writer.WriteStartElement("newspaper");
             writer.WriteAttributeString("type", "group");
-            writer.WriteElementString("title", title);
+            writer.WriteElementString("title", _title);
 
-            foreach (var feed in feeds)
+            foreach (var feed in _feeds)
             {
                 feed.WriteTo(writer, NewsItemSerializationFormat.Channel, false);
             }
@@ -692,7 +688,7 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
-            return feeds.GetEnumerator();
+            return _feeds.GetEnumerator();
         }
 
         /// <summary>
@@ -701,7 +697,7 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         IEnumerator<IFeedDetails> IEnumerable<IFeedDetails>.GetEnumerator()
         {
-            return feeds.GetEnumerator();
+            return _feeds.GetEnumerator();
         }
 
         #endregion
@@ -719,7 +715,7 @@ namespace NewsComponents.Feed
         /// <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.ICollection"></see> cannot be cast automatically to the type of the destination array. </exception>
         public void CopyTo(IFeedDetails[] array, int index)
         {
-            feeds.CopyTo(array, index);
+            _feeds.CopyTo(array, index);
         }
 
 
