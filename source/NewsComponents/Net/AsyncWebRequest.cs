@@ -12,12 +12,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +26,7 @@ using NewsComponents.News;
 using NewsComponents.Utils;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using System.Net.Security;
+
 // for cookie management
 // for unsafeHeaderParsingFix
 // used for certificate issue handling
@@ -70,9 +68,10 @@ namespace NewsComponents.Net
         PUT
     }
 
-
+    // TODO: Split out Sync methods/vars to a separate SyncWebRequest or base class
+    
     /// <summary>
-    /// Summary description for AsyncWebRequest.
+    /// AsyncWebRequest class. 
     /// </summary>
     public sealed class AsyncWebRequest
     {
@@ -85,7 +84,7 @@ namespace NewsComponents.Net
         /// </summary>
         public static readonly DateTime MinValue = new DateTime(1981, 1, 1);
 
-        private static readonly ILog _log = DefaultLog.GetLogger(typeof(AsyncWebRequest));
+        private static readonly ILog Log = DefaultLog.GetLogger(typeof(AsyncWebRequest));
 
         /// <summary>
         /// Event triggered, if a not yet accepted CertificateIssue is raised by a web request.
@@ -98,7 +97,7 @@ namespace NewsComponents.Net
         /// </summary>
         /// <remarks>That content should be maintained completely from within
         /// the OnCertificateIssue event.</remarks>
-        private static Dictionary<string, IList<CertificateIssue>> trustedCertificateIssues =
+        private static Dictionary<string, IList<CertificateIssue>> _trustedCertificateIssues =
             new Dictionary<string, IList<CertificateIssue>>(5);
 
         /// <summary>
@@ -113,17 +112,17 @@ namespace NewsComponents.Net
 
         private const int DefaultTimeout = 2 * 60 * 1000; // 2 minute request timeout
 
-        private readonly Hashtable queuedRequests;
+        private readonly Hashtable _queuedRequests;
 
-        private readonly RequestThread requestThread;
+        private readonly RequestThread _requestThread;
 
         /// <summary>
         /// Constructor initialize a AsyncWebRequest instance
         /// </summary>
         public AsyncWebRequest()
         {
-            queuedRequests = Hashtable.Synchronized(new Hashtable(17));
-            requestThread = new RequestThread(this);
+            _queuedRequests = Hashtable.Synchronized(new Hashtable(17));
+            _requestThread = new RequestThread(this);
             taskFactory = new TaskFactory(new CancellationTokenSource().Token,
                                           TaskCreationOptions.PreferFairness,
                                            TaskContinuationOptions.ExecuteSynchronously,
@@ -156,7 +155,7 @@ namespace NewsComponents.Net
         {
             get
             {
-                return requestThread;
+                return _requestThread;
             }
         }
 
@@ -167,7 +166,7 @@ namespace NewsComponents.Net
         {
             get
             {
-                return queuedRequests.Count;
+                return _queuedRequests.Count;
             }
         }
 
@@ -181,11 +180,11 @@ namespace NewsComponents.Net
         {
             set
             {
-                trustedCertificateIssues = value;
+                _trustedCertificateIssues = value;
             }
             get
             {
-                return trustedCertificateIssues;
+                return _trustedCertificateIssues;
             }
         }
 
@@ -209,7 +208,6 @@ namespace NewsComponents.Net
         /// <summary>
         /// delegate used to call GetMultipleResponses asynchronously 
         /// </summary>
-        /// <param name="requests"></param>
         /// <param name="requests">The URLs to be fetched</param>
         /// <param name="category">the name of the feed category being refreshed</param>              
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
@@ -286,50 +284,7 @@ namespace NewsComponents.Net
             }
         }
 
-        /// <summary>
-        /// Used to create an HTTP request for processing
-        /// </summary>
-        /// <param name="requestParameter"></param>      
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
-        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState MakeRequest(RequestParameter requestParameter,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           int priority)
-        {
-            return
-                MakeRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, null, priority);
-        }
-
-        /// <summary>
-        /// Used to create an HTTP request for processing
-        /// </summary>
-        /// <param name="requestParameter"></param>
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>
-        // <param name="priority"></param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>
-        /// <exception cref="System.Security.SecurityException">The caller does not have permission to connect to the requested URI or a URI that the request is redirected to.</exception>
-        internal RequestState MakeRequest(RequestParameter requestParameter,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           RequestProgressCallback webRequestProgress,
-                                           int priority)
-        {
-            return
-                MakeRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, null, priority, null);
-        }
+        
 
         /// <summary>
         /// Used to create an HTTP request.
@@ -338,23 +293,15 @@ namespace NewsComponents.Net
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
         /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
         /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <param name="webRequestProgress">callback invoked as data is downloaded during the GET request</param>      
         /// <param name="priority">the priority of the request</param>
-        /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
         internal RequestState MakeRequest(RequestParameter requestParameter,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
-                                           RequestProgressCallback webRequestProgress,
-                                           int priority,
-                                           RequestState prevState)
+                                           int priority)
         {
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
-
-            //TODO: Do we still need this in a task based model?
-            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
-                return null; // httpRequest already there
 
             // here are the exceptions caused:
             WebRequest webRequest = WebRequest.Create(requestParameter.RequestUri);
@@ -366,18 +313,10 @@ namespace NewsComponents.Net
             if (httpRequest != null)
             {
                 // set extended HttpWebRequest params
-                if (webRequestProgress != null)
-                {
-                    httpRequest.Timeout = DefaultTimeout * 30; //one hour timeout for enclosures
-                }
-                else
-                {
-                    httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
-                }
+                httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
                 httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
                 httpRequest.Proxy = requestParameter.Proxy;
                 httpRequest.AllowAutoRedirect = false;
-                //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
                 httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
                                                      DecompressionMethods.Deflate;
                 if (requestParameter.Headers != null)
@@ -404,7 +343,7 @@ namespace NewsComponents.Net
 			
 							httpRequest.KeepAlive = false;		// to prevent open HTTP connection leak
 							httpRequest.ProtocolVersion = HttpVersion.Version10;	// to prevent "Underlying connection closed" exception(s)
-#endif */
+                #endif */
 
                 if (httpRequest.Proxy == null)
                 {
@@ -477,58 +416,17 @@ namespace NewsComponents.Net
                 Debug.Assert(false, "QueueRequest(): unsupported WebRequest type: " + webRequest.GetType());
             }
 
-            RequestState state;
+            RequestState state = new RequestState(this);
 
-            if (prevState != null)
-            {
-                state = prevState;
-
-                IDisposable dispResponse = state.Response;
-                if (dispResponse != null)
-                {
-                    dispResponse.Dispose();
-                    state.Response = null;
-                }
-
-                if (state.ResponseStream != null)
-                {
-                    // we don't want to get out of connections
-                    state.ResponseStream.Close();
-                }
-
-                if (state.Request != null)
-                {
-                    if (state.Request.Credentials != null)
-                    {
-                        state.Request.Credentials = null;
-                    }
-                    // prevent NotImplementedExceptions:
-                    if (state.Request is HttpWebRequest)
-                        state.Request.Abort();
-                }
-            }
-            else
-            {
-                state = new RequestState(this);
-
-                state.WebRequestStarted += webRequestStart;
-                state.WebRequestCompleted += webRequestComplete;
-                state.WebRequestException += webRequestException;
-                state.WebRequestProgress += webRequestProgress;
-                state.Priority = priority; // needed for additional requests
-                state.InitialRequestUri = webRequest.RequestUri;
-            }
-
+            state.WebRequestStarted += webRequestStart;
+            state.WebRequestCompleted += webRequestComplete;
+            state.WebRequestException += webRequestException;
+            state.Priority = priority; // needed for additional requests
+            state.InitialRequestUri = webRequest.RequestUri;
             state.Request = webRequest;
             state.RequestParams = requestParameter;
 
-            if (prevState == null)
-            {
-                // first httpRequest
-                queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
-            }
-
-            QueueRequest(state, priority);
+            PerformHttpRequestAsync(state, priority);
 
             return state;
         }
@@ -601,7 +499,7 @@ namespace NewsComponents.Net
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
 
-            if (prevState == null && queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
+            if (prevState == null && _queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
                 return null; // httpRequest already there
 
             // here are the exceptions caused:
@@ -625,7 +523,6 @@ namespace NewsComponents.Net
                 httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
                 httpRequest.Proxy = requestParameter.Proxy;
                 httpRequest.AllowAutoRedirect = false;
-                //httpRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
                 httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
                                                      DecompressionMethods.Deflate;
                 if (requestParameter.Headers != null)
@@ -746,10 +643,8 @@ namespace NewsComponents.Net
 
                 if (state.Request != null)
                 {
-                    if (state.Request.Credentials != null)
-                    {
-                        state.Request.Credentials = null;
-                    }
+                    state.Request.Credentials = null;
+                    
                     // prevent NotImplementedExceptions:
                     if (state.Request is HttpWebRequest)
                         state.Request.Abort();
@@ -773,10 +668,10 @@ namespace NewsComponents.Net
             if (prevState == null)
             {
                 // first httpRequest
-                queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
+                _queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
             }
 
-            QueueRequest(state, priority);
+            PerformHttpRequestAsync(state, priority);
 
             return state;
         }
@@ -787,9 +682,9 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="state">The HTTP request information</param>
         /// <param name="priority">The priority of the request</param>
-        private void QueueRequest(RequestState state, int priority)
+        private void PerformHttpRequestAsync(RequestState state, int priority)
         {
-            Task t = taskFactory.StartNew((x) =>
+            Task t = taskFactory.StartNew(x =>
             {
                 PerformHttpRequest((RequestState)x);
             }, state);
@@ -819,19 +714,19 @@ namespace NewsComponents.Net
             }
             catch (Exception signalException)
             {
-                _log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
+                Log.Error("Error during dispatch of StartDownloadCallBack()", signalException);
             }
             state.StartTime = DateTime.Now;
 
             try
             {
-                _log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
+                Log.Debug("calling BeginGetResponse for " + state.Request.RequestUri);
                 IAsyncResult result = state.Request.BeginGetResponse(this.ResponseCallback, state);
                 ThreadPool.RegisterWaitForSingleObject(result.AsyncWaitHandle, this.TimeoutCallback, state, state.Request.Timeout, true);
             }
             catch (Exception responseException)
             {
-                _log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
+                Log.Debug("BeginGetResponse exception for " + state.Request.RequestUri, responseException);
                 state.OnRequestException(responseException);
                 this.FinalizeWebRequest(state);
             }
@@ -858,7 +753,7 @@ namespace NewsComponents.Net
             if (timedOut)
             {
                 RequestState state = (RequestState)input;
-                _log.Info("Request Timeout: " + state.RequestUri);
+                Log.Info("Request Timeout: " + state.RequestUri);
                 //TODO: translate exception message:
                 state.OnRequestException(new WebException("Request timeout", WebExceptionStatus.Timeout));
                 FinalizeWebRequest(state);
@@ -874,13 +769,13 @@ namespace NewsComponents.Net
         {
             if (state != null && !state.requestFinalized)
             {
-                _log.Info("RequestStart cancelled: " + state.RequestUri);
+                Log.Info("RequestStart cancelled: " + state.RequestUri);
                 state.OnRequestCompleted(state.RequestParams.ETag, state.RequestParams.LastModified,
                                          RequestResult.NotModified);
-                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
                 state.requestFinalized = true;
 
-                if (queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
+                if (_queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
                     RaiseOnAllRequestsComplete();
             }
         }
@@ -893,7 +788,7 @@ namespace NewsComponents.Net
         {
             if (state != null && !state.requestFinalized)
             {
-                _log.Debug("Request finalized. Request of '" + state.InitialRequestUri.CanonicalizedUri() + "' took " +
+                Log.Debug("Request finalized. Request of '" + state.InitialRequestUri.CanonicalizedUri() + "' took " +
                            DateTime.Now.Subtract(state.StartTime) + " seconds");
 
                 // ensure we close the resource so we do not get out of INet connections
@@ -914,10 +809,8 @@ namespace NewsComponents.Net
                     //}
                     if (state.Request != null)
                     {
-                        if (state.Request.Credentials != null)
-                        {
-                            state.Request.Credentials = null;
-                        }
+                        state.Request.Credentials = null;
+                        
                         // prevent NotImplementedExceptions:
                         if (state.Request is HttpWebRequest)
                             state.Request.Abort();
@@ -925,14 +818,14 @@ namespace NewsComponents.Net
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("FinalizeWebRequest() caused exception", ex);
+                    Log.Error("FinalizeWebRequest() caused exception", ex);
                 }
 
-                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
                 RequestThread.EndRequest(state); // trigger next available threaded request
                 state.requestFinalized = true;
 
-                if (queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
+                if (_queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
                     RaiseOnAllRequestsComplete();
             }
         }
@@ -950,10 +843,6 @@ namespace NewsComponents.Net
 
             if (state == null)
                 return;
-
-            HttpWebResponse httpResponse;
-            FileWebResponse fileResponse;
-            NntpWebResponse nntpResponse;
 
             try
             {
@@ -975,15 +864,15 @@ namespace NewsComponents.Net
                     }
                 }
 
-                httpResponse = state.Response as HttpWebResponse;
-                fileResponse = state.Response as FileWebResponse;
-                nntpResponse = state.Response as NntpWebResponse;
+                HttpWebResponse httpResponse = state.Response as HttpWebResponse;
+                FileWebResponse fileResponse = state.Response as FileWebResponse;
+                NntpWebResponse nntpResponse = state.Response as NntpWebResponse;
 
                 if (httpResponse != null)
                 {
                     if (httpResponse.ResponseUri != state.RequestUri)
                     {
-                        _log.Debug(
+                        Log.Debug(
                             String.Format("httpResponse.ResponseUri != state.RequestUri: \r\n'{0}'\r\n'{1}'",
                                           httpResponse.ResponseUri, state.RequestUri));
                     }
@@ -1001,7 +890,7 @@ namespace NewsComponents.Net
                         }
                         catch (Exception lmEx)
                         {
-                            _log.Debug("httpResponse.LastModified() parse failure: " + lmEx.Message);
+                            Log.Debug("httpResponse.LastModified() parse failure: " + lmEx.Message);
                             // Build in header parser failed on provided date format
                             // Try our own parser (last chance)
                             try
@@ -1019,7 +908,7 @@ namespace NewsComponents.Net
                         state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
                                                        ReadCallback, state);
                         // async read started, so we are done here:
-                        _log.Debug("ResponseCallback() web response OK: " + state.RequestUri);
+                        Log.Debug("ResponseCallback() web response OK: " + state.RequestUri);
 
                         return;
                     }
@@ -1054,9 +943,9 @@ namespace NewsComponents.Net
 
                         state.movedPermanently = true;
                         //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                        _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                        _log.Debug("ResponseCallback() Moved: '" + state.InitialRequestUri + " to " + url2);
+                        Log.Debug("ResponseCallback() Moved: '" + state.InitialRequestUri + " to " + url2);
 
                         // Enqueue the request with the new Url. 
                         // We raise the queue priority a bit to get the retry request closer to the just
@@ -1099,9 +988,9 @@ namespace NewsComponents.Net
                         HttpCookieManager.GetCookies(httpResponse);
 
                         //Remove Url from queue 
-                        queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                        _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
-                        _log.Debug("ResponseCallback() Redirect: '" + state.InitialRequestUri + " to " + url2);
+                        Log.Debug("ResponseCallback() Redirect: '" + state.InitialRequestUri + " to " + url2);
                         // Enqueue the request with the new Url. 
                         // We raise the queue priority a bit to get the retry request closer to the just
                         // finished one. So the user get better feedback, because the whole processing
@@ -1138,7 +1027,7 @@ namespace NewsComponents.Net
                             state.RetryCount++;
 
                             //Remove Url from queue 
-                            queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                            _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                             // Enqueue the request with the new Url. 
                             // We raise the queue priority a bit to get the retry request closer to the just
@@ -1162,7 +1051,7 @@ namespace NewsComponents.Net
                                 state.RetryCount++;
 
                                 //Remove Url from queue 
-                                queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+                                _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
                                 // Enqueue the request with the new Url. 
                                 // We raise the queue priority a bit to get the retry request closer to the just
@@ -1220,7 +1109,7 @@ namespace NewsComponents.Net
                     state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
                                                    ReadCallback, state);
                     // async read started, so we are done here:
-                    _log.Debug("ResponseCallback() file response OK: " + state.RequestUri);
+                    Log.Debug("ResponseCallback() file response OK: " + state.RequestUri);
 
                     return;
                 }
@@ -1231,7 +1120,7 @@ namespace NewsComponents.Net
                     state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
                                                    ReadCallback, state);
                     // async read started, so we are done here:
-                    _log.Debug("ResponseCallback() nntp response OK: " + state.RequestUri);
+                    Log.Debug("ResponseCallback() nntp response OK: " + state.RequestUri);
 
                     return;
                 }
@@ -1246,7 +1135,7 @@ namespace NewsComponents.Net
             catch (ThreadAbortException)
             {
                 FinalizeWebRequest(state);
-                return; // ignore, just return
+                // ignore, just return
             }
             catch (Exception ex)
             {
@@ -1324,14 +1213,6 @@ namespace NewsComponents.Net
                 state.ResponseStream = state.RequestData;
                 state.ResponseStream.Seek(0, SeekOrigin.Begin);
 
-                //if (state.Response is HttpWebResponse)
-                //{
-                //    state.ResponseStream = GetDeflatedResponse(((HttpWebResponse) state.Response).ContentEncoding, state.RequestData);
-                //}
-                //else
-                //{
-                //    state.ResponseStream = GetDeflatedResponse(String.Empty, state.RequestData);
-                //}
                 state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri,
                                          state.RequestParams.ETag, state.RequestParams.LastModified,
                                          RequestResult.OK);
@@ -1341,126 +1222,17 @@ namespace NewsComponents.Net
             }
             catch (WebException e)
             {
-                _log.Error("ReadCallBack WebException raised. Status: " + e.Status, e);
+                Log.Error("ReadCallBack WebException raised. Status: " + e.Status, e);
                 state.OnRequestException(state.RequestParams.RequestUri, e);
             }
             catch (Exception e)
             {
-                _log.Error("ReadCallBack Exception raised", e);
+                Log.Error("ReadCallBack Exception raised", e);
                 state.OnRequestException(state.RequestParams.RequestUri, e);
             }
 
             FinalizeWebRequest(state);
         }
-
-        //		/// <summary>
-        //		/// Returns a deflated stream of the response sent by a web request. If the 
-        //		/// web server did not send a compressed stream then the original stream is returned
-        //		/// as a seekable MemoryStream. 
-        //		/// </summary>
-        //		/// <param name="response">WebResponse</param>
-        //		/// <returns>seekable Stream</returns>
-        //		public static Stream GetDeflatedResponse(WebResponse response){
-        //			if (response is HttpWebResponse)
-        //				return GetDeflatedResponse((HttpWebResponse)response);
-        //			else
-        //				return MakeSeekableStream(response.GetResponseStream());
-        //		}
-
-        ///// <summary>
-        ///// Returns a deflated version of the response sent by the web server. If the 
-        ///// web server did not send a compressed stream then the original stream is returned
-        ///// as a seekable MemoryStream. 
-        ///// </summary>
-        ///// <param name="response">HttpWebResponse</param>
-        ///// <returns>seekable Stream</returns>
-        //public static Stream GetDeflatedResponse(HttpWebResponse response)
-        //{
-        //    return GetDeflatedResponse(response.ContentEncoding,
-        //                               MakeSeekableStream(response.GetResponseStream()));
-        //}
-
-        ///// <summary>
-        ///// Overload for FileWebResponse.
-        ///// </summary>
-        ///// <param name="response">FileWebResponse</param>
-        ///// <returns>seekable Stream</returns>
-        //public static Stream GetDeflatedResponse(FileWebResponse response)
-        //{
-        //    return MakeSeekableStream(response.GetResponseStream());
-        //}
-
-        ///// <summary>
-        ///// Returns a deflated version of the response sent by the web server. If the 
-        ///// web server did not send a compressed stream then the original stream is returned. 
-        ///// </summary>
-        ///// <param name="encoding">Encoding of the stream. One of 'deflate' or 'gzip' or Empty.</param>
-        ///// <param name="inputStream">Input Stream</param>
-        ///// <returns>Seekable Stream</returns>
-        //public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
-        //{
-        //    const int BUFFER_SIZE = 4096; // 4K read buffer
-
-        //    Stream compressed, input = inputStream;
-        //    bool tryAgainDeflate = true;
-
-        //    if (input.CanSeek)
-        //        input.Seek(0, SeekOrigin.Begin);
-
-        //    if (encoding == "deflate")
-        //    {
-        //        //to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
-        //        //input = MakeSeekableStream(input);			// need them within mem to have a seekable stream
-        //        compressed = new InflaterInputStream(input); // try deflate with headers
-        //    }
-        //    else if (encoding == "gzip")
-        //    {
-        //        compressed = new GZipInputStream(input);
-        //    }
-        //    else
-        //    {
-        //        // allready seeked, just return
-        //        return input;
-        //    }
-
-        //    while (true)
-        //    {
-        //        MemoryStream decompressed = new MemoryStream();
-
-        //        try
-        //        {
-        //            int size = BUFFER_SIZE;
-        //            byte[] writeData = new byte[BUFFER_SIZE];
-        //            while (true)
-        //            {
-        //                size = compressed.Read(writeData, 0, size);
-        //                if (size > 0)
-        //                {
-        //                    decompressed.Write(writeData, 0, size);
-        //                }
-        //                else
-        //                {
-        //                    break;
-        //                }
-        //            }
-
-        //            //reposition to beginning of decompressed stream then return
-        //            decompressed.Seek(0, SeekOrigin.Begin);
-        //            return decompressed;
-        //        }
-        //        catch (SharpZipBaseException)
-        //        {
-        //            if (tryAgainDeflate && (encoding == "deflate"))
-        //            {
-        //                input.Seek(0, SeekOrigin.Begin); // reset position
-        //                compressed = new InflaterInputStream(input, new Inflater(true));
-        //                tryAgainDeflate = false;
-        //            }
-        //            else
-        //                throw;
-        //        }
-        //    } // while(true)
-        //}
 
         /// <summary>
         /// Helper to copy a non-seekable stream (like from a HttpResponse) 
@@ -2042,15 +1814,16 @@ namespace NewsComponents.Net
 
         private void RaiseOnAllRequestsComplete()
         {
-            if (OnAllRequestsComplete != null)
+            var handler = OnAllRequestsComplete;
+            if (handler != null)
             {
                 try
                 {
-                    OnAllRequestsComplete();
+                    handler();
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("OnAllRequestsComplete() event impl. caused an error", ex);
+                    Log.Error("OnAllRequestsComplete() event impl. caused an error", ex);
                 }
             }
         }
@@ -2060,328 +1833,38 @@ namespace NewsComponents.Net
             string url = e.WebRequest.RequestUri.CanonicalizedUri();
             ICollection trusted = null;
 
-            if (trustedCertificateIssues != null)
+            if (_trustedCertificateIssues != null)
             {
-                lock (trustedCertificateIssues)
+                lock (_trustedCertificateIssues)
                 {
-                    if (trustedCertificateIssues.ContainsKey(url))
-                        trusted = (ICollection)trustedCertificateIssues[url];
+                    if (_trustedCertificateIssues.ContainsKey(url))
+                        trusted = (ICollection)_trustedCertificateIssues[url];
                 }
             }
 
             if (trusted != null && trusted.Count > 0)
             {
-                foreach (CertificateIssue trustedIssue in trusted)
+                if (trusted.Cast<CertificateIssue>().Any(trustedIssue => trustedIssue == e.CertificateIssue))
                 {
-                    if (trustedIssue == e.CertificateIssue)
-                    {
-                        e.Cancel = false; // is an yet accepted certificate isse
-                        return;
-                    }
+                    e.Cancel = false; // is an yet accepted certificate isse
+                    return;
                 }
             }
 
-            if (OnCertificateIssue != null)
+            var handler = OnCertificateIssue;
+            if (handler != null)
             {
                 try
                 {
-                    OnCertificateIssue(sender, e);
+                    handler(sender, e);
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("OnCertificateIssue() event impl. caused an error", ex);
+                    Log.Error("OnCertificateIssue() event impl. caused an error", ex);
                 }
             }
         }
     }
 
-    #region Proxy authentication stuff
-    // first, we enabled default credentials to be used as proxy credentials
-    // in our app.config. For the CLR 3.x there is one more requirement to fullfill:
-    // see http://www.codeproject.com/KB/miscctrl/WPF_proxy_authentication.aspx
-
-    class ProxyCredentialsPolicy : ICredentialPolicy
-    {
-        bool ICredentialPolicy.ShouldSendCredential(Uri challengeUri, WebRequest request, NetworkCredential credential, IAuthenticationModule authenticationModule)
-        {
-            if (request != null && request.Proxy != null)
-                return true;
-            // only send, if web server explicitely request that:
-            return false;
-        }
-    }
-
-
-    #endregion
-
-    #region Certificate policy handling
-
-    /// <summary>
-    /// Possible Certificate issues.
-    /// </summary>
-    /// <remarks> The .NET Framework should expose these, but they don't.</remarks>
-    [Serializable]
-    public enum CertificateIssue : long
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        CertEXPIRED = 0x800B0101,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertVALIDITYPERIODNESTING = 0x800B0102,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertROLE = 0x800B0103,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertPATHLENCONST = 0x800B0104,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertCRITICAL = 0x800B0105,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertPURPOSE = 0x800B0106,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertISSUERCHAINING = 0x800B0107,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertMALFORMED = 0x800B0108,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertUNTRUSTEDROOT = 0x800B0109,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertCHAINING = 0x800B010A,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertREVOKED = 0x800B010C,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertUNTRUSTEDTESTROOT = 0x800B010D,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertREVOCATION_FAILURE = 0x800B010E,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertCN_NO_MATCH = 0x800B010F,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertWRONG_USAGE = 0x800B0110,
-        /// <summary>
-        /// 
-        /// </summary>
-        CertUNTRUSTEDCA = 0x800B0112
-    }
-
-    /// <summary>
-    /// Cancelable Event Argument class to handle certificate issues on web requests.
-    /// </summary>
-    [ComVisible(false)]
-    public class CertificateIssueCancelEventArgs : CancelEventArgs
-    {
-        /// <summary>
-        /// Problem/Issue caused
-        /// </summary>
-        public CertificateIssue CertificateIssue;
-
-        /// <summary>
-        /// The certificate, that casued the problem
-        /// </summary>
-        public X509Certificate Certificate;
-
-        /// <summary>
-        /// The involved WebRequest.
-        /// </summary>
-        public WebRequest WebRequest;
-
-        /// <summary>
-        /// Designated initializer
-        /// </summary>
-        /// <param name="issue">CertificateIssue</param>
-        /// <param name="cert">X509Certificate</param>
-        /// <param name="request">WebRequest</param>
-        /// <param name="cancel">bool</param>
-        public CertificateIssueCancelEventArgs(CertificateIssue issue, X509Certificate cert, WebRequest request,
-                                               bool cancel)
-            : base(cancel)
-        {
-            CertificateIssue = issue;
-            Certificate = cert;
-            WebRequest = request;
-        }
-    }
-
-    /// <summary>
-    /// Does enable certificate acceptance. 
-    /// See also http://weblogs.asp.net/tgraham/archive/2004/08/12/213469.aspx
-    /// and http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconhostingremoteobjectsininternetinformationservicesiis.asp
-    /// </summary>
-    internal class TrustSelectedCertificatePolicy : ICertificatePolicy
-    {
-        // this is marked obsolete by MS in the CLR 2.0
-        public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
-        {
-            try
-            {
-                if (problem != 0)
-                {
-                    // move bits around to get it casted from an signed int to a normal long enum type:
-                    CertificateIssue issue = (CertificateIssue)(((problem << 1) >> 1) + 0x80000000);
-
-                    // this is marked obsolete by MS in the CLR 2.0
-                    // It seems also they has broken the old impl., we don't get a valid cert object now (handle is 0) on WinXP SP2
-                    // via parameter, so we now use that of the servicepoint as a workaround:
-                    CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, sp.Certificate, req, true);
-                    AsyncWebRequest.RaiseOnCertificateIssue(sp, args);
-                    return !args.Cancel;
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("TrustSelectedCertificatePolicy.CheckValidationResult() error: " + ex.Message);
-            }
-            // The 1.1 framework calls this method with a problem of 0, even if nothing is wrong
-            return (problem == 0);
-        }
-
-        /// <summary>
-        /// Checks the server certificate.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="certificate">The certificate.</param>
-        /// <param name="chain">The chain.</param>
-        /// <param name="sslPolicyErrors">The SSL policy errors.</param>
-        /// <returns></returns>
-        public static bool CheckServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            //TODO: impl.
-            return true;
-        }
-
-    }
-
-    #endregion
-
-    #region cookie handling
-
-    /// <summary>
-    /// Used to manage cookies
-    /// </summary>
-    /// <remarks>see http://www.rendelmann.info/blog/CommentView.aspx?guid=bd99bcd5-7088-4d46-801e-c0fe622dc2e5</remarks>
-    internal class HttpCookieManager
-    {
-        private static readonly ILog _log = DefaultLog.GetLogger(typeof(HttpCookieManager));
-
-        /// <summary>
-        /// Retrieves the cookie(s) from windows system and assign them to the request, 
-        /// if available.
-        /// </summary>
-        /// <param name="request">HttpWebRequest</param>
-        public static void SetCookies(HttpWebRequest request)
-        {
-            CookieContainer c = GetCookieContainerUri(request.RequestUri);
-            if (c.Count > 0)
-                request.CookieContainer = c;
-        }
-
-        /// <summary>
-        /// Gets newly received cookie(s) and make them persistent within windows system.
-        /// </summary>
-        /// <param name="response">HttpWebResponse</param>
-        public static void GetCookies(HttpWebResponse response)
-        {
-            if (response.Headers["Set-Cookie"] != null)
-            {
-                /* 
-				 * It seems this may log users out of certain sites, 
-				 * see http://www.rssbandit.org/forum/topic.asp?whichpage=1&TOPIC_ID=2080&#4080
-				 *	- InternetSetCookie(response.ResponseUri.CanonicalizedUri(), null, response.Headers["Set-Cookie"]);
-				 */
-            }
-        }
-
-        [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool InternetGetCookie(
-            string lpszUrl, string lpszCookieName, StringBuilder lpCookieData, ref int lpdwSize);
-
-        [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool InternetSetCookie(
-            string lpszUrl, string lpszCookieName, string lpszCookieData);
-
-        private static CookieContainer GetCookieContainerUri(Uri url)
-        {
-            CookieContainer container = new CookieContainer();
-            string cookieHeaders = RetrieveIECookiesForUrl(url.CanonicalizedUri());
-            if (cookieHeaders.Length > 0)
-            {
-                try
-                {
-                    container.SetCookies(url, cookieHeaders);
-                }
-                catch (CookieException ce)
-                {
-                    //we might get an error on malformed cookies
-                    _log.Error(
-                        String.Format("GetCookieContainerUri() exception parsing '{0}' for url '{1}'", cookieHeaders,
-                                      url.CanonicalizedUri()), ce);
-                }
-            }
-            return container;
-        }
-
-
-        private static string RetrieveIECookiesForUrl(string url)
-        {
-            StringBuilder cookieHeader = new StringBuilder(new String(' ', 256), 256);
-            int datasize = cookieHeader.Length;
-            if (!InternetGetCookie(url, null, cookieHeader, ref datasize))
-            {
-                if (datasize < 0)
-                    return String.Empty;
-                cookieHeader = new StringBuilder(datasize); // resize with new datasize
-                InternetGetCookie(url, null, cookieHeader, ref datasize);
-            }
-            return FixupIECookies(cookieHeader);
-        }
-
-        /// <summary>
-        /// Fixups the cookies IE may return. 
-        /// If there is a semicolon, we replace it with a comma because 
-        /// .NET requires comma as a cookie separators.        
-        /// If there is a comma AND a semicolon, we escape the comma
-        /// first, then replace the semicolon with a comma 
-        /// </summary>
-        /// <param name="b">The b.</param>
-        /// <returns></returns>
-        private static string FixupIECookies(StringBuilder b)
-        {
-            string s = b.ToString();
-            if (s.IndexOf(",") >= 0 || s.IndexOf(";") >= 0)
-            {
-                s = s.Replace(",", escapedComma).Replace(";", ",");
-            }
-            return s;
-        }
-
-        private static readonly string escapedComma = HtmlHelper.UrlEncode(",");
-    }
-
-    #endregion
 }
 

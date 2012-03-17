@@ -460,9 +460,11 @@
     <Compile Include="Net\Events.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\HttpCookieManager.cs" />
     <Compile Include="Net\HttpDownloader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\ProxyCredentialsPolicy.cs" />
     <Compile Include="Net\RequestExceptions.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -475,6 +477,7 @@
     <Compile Include="Net\RequestThread.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\TrustSelectedCertificatePolicy.cs" />
     <Compile Include="News\NntpClient.cs">
       <SubType>Code</SubType>
     </Compile>
