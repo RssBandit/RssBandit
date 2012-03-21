@@ -21,7 +21,7 @@ namespace NewsComponents.Net
         public const int MAX_RETRIES = 25;	// how often we retry, if a url was a redirect (of a redirect of a redirect...)
         public const int BUFFER_SIZE = 4096;	// 4K
         
-        public event RequestStartCallback WebRequestStarted;
+        public event RequestStartCallback WebRequestBeforeStart;
         public event RequestCompleteCallback WebRequestCompleted;
         public event RequestExceptionCallback WebRequestException;
         public event RequestProgressCallback WebRequestProgress;
@@ -65,12 +65,12 @@ namespace NewsComponents.Net
 
         #endregion
 
-        public bool OnRequestStart()
+        public bool OnRequestBeforeStart()
         {
             bool cancel = false;
             try
             {
-                var handler = WebRequestStarted;
+                var handler = WebRequestBeforeStart;
                 if (handler != null)
                     handler(RequestUri, ref cancel);
             }

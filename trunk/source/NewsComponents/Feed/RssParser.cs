@@ -1396,18 +1396,20 @@ namespace NewsComponents.Feed
 
 
         /// <summary>
-        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items 
+        /// Reads the RSS feed from the NewsFeed link then caches and returns the feed items
         /// in an array list.
         /// </summary>
         /// <param name="f">Information about the feed. This information is updated based
-        /// on the results of processing the feed. </param>
+        /// on the results of processing the feed.</param>
         /// <param name="proxy">The proxy server to use to make the request.</param>
         /// <param name="offline">Indicates whether the application is offline or not.</param>
-        /// <returns>An arraylist of News items (i.e. instances of the NewsItem class)</returns>
-        /// <exception cref="ApplicationException">If the RSS feed is not 
+        /// <returns>
+        /// An arraylist of News items (i.e. instances of the NewsItem class)
+        /// </returns>
+        /// <exception cref="ApplicationException">If the RSS feed is not
         /// version 0.91, 1.0 or 2.0</exception>
-        /// <exception cref="XmlException">If an error occured parsing the 
-        /// RSS feed</exception>	
+        /// <exception cref="XmlException">If an error occured parsing the
+        /// RSS feed</exception>
         public static IList<INewsItem> DownloadItemsFromFeed(NewsFeed f, IWebProxy proxy, bool offline)
         {
             //REM gets called from Bandit (retrive comment feeds)
@@ -1416,9 +1418,9 @@ namespace NewsComponents.Feed
             if (offline)
                 return returnList;
 
-            ICredentials c = FeedSource.CreateCredentialsFrom(f);           
+            ICredentials c = FeedSource.CreateCredentialsFrom(f);
 
-            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, c, FeedSource.DefaultUserAgent, proxy))
+            using (Stream mem = SyncWebRequest.GetResponseStream(f.link, c, FeedSource.DefaultUserAgent, proxy))
             {
                 if (RssParser.CanProcessUrl(f.link))
                 {
@@ -1469,7 +1471,7 @@ namespace NewsComponents.Feed
 
             IList<INewsItem> returnList;
 
-            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
+            using (Stream mem = SyncWebRequest.GetResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
             {
                 returnList = GetItemsForFeed(f, mem, false).ItemsList;
             }

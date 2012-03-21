@@ -127,7 +127,7 @@ namespace NewsComponents.Net
         {
             currentTask = task;
 
-            WebResponse response = AsyncWebRequest.GetSyncResponse(HttpMethod.GET, task.DownloadItem.Enclosure.Url,
+            WebResponse response = SyncWebRequest.GetResponse(HttpMethod.Get, task.DownloadItem.Enclosure.Url,
                                                                    task.DownloadItem.Credentials,
                                                                    FeedSource.UserAgentString(String.Empty),
                                                                    task.DownloadItem.Proxy,
@@ -293,17 +293,3 @@ namespace NewsComponents.Net
         #endregion
     }
 }
-
-#region CVS Version Log
-
-/*
- * $Log: HttpDownloader.cs,v $
- * Revision 1.3  2007/06/10 18:41:26  carnage4life
- * Fixed issues with HttpDownloader.Finalize() causing NullReferenceExceptions
- *
- * Revision 1.2  2006/12/19 17:00:39  t_rendelmann
- * added: CVS log sections
- *
- */
-
-#endregion

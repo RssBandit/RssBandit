@@ -474,7 +474,9 @@
     <Compile Include="Net\RequestState.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\SyncWebRequest.cs" />
     <Compile Include="Net\TrustSelectedCertificatePolicy.cs" />
+    <Compile Include="Net\WebRequestBase.cs" />
     <Compile Include="News\NntpClient.cs">
       <SubType>Code</SubType>
     </Compile>

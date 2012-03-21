@@ -55,7 +55,7 @@ namespace RssBandit.WinGui
 			this.responseStream = null;
 			
 			try {
-				this.responseStream = AsyncWebRequest.GetSyncResponseStream(
+                this.responseStream = SyncWebRequest.GetResponseStream(
 					this.requestUrl, null, RssBanditApplication.UserAgent, this.Proxy); 							
 			} catch (ThreadAbortException) {
 				// eat up
