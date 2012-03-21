@@ -784,7 +784,8 @@ namespace RssBandit.WinGui.Utility {
 							
 			try {
 				//_log.Info("FrameworkCheckConnection('"+url+"') ");
-				using (HttpWebResponse response = (HttpWebResponse)NewsComponents.Net.AsyncWebRequest.GetSyncResponseHeadersOnly(url, proxy, 3 * 60 * 1000)) {	
+                using (HttpWebResponse response = (HttpWebResponse)NewsComponents.Net.SyncWebRequest.GetResponseHeadersOnly(url, proxy, 3 * 60 * 1000))
+                {	
 					if (response != null && String.Compare(response.Method, "HEAD") == 0) {	// success
 						response.Close();
 						return true;

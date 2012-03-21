@@ -167,7 +167,7 @@ namespace RssBandit.WinGui
 			return GetWebResponseStream(url, this.Credentials);			
 		}
 		private Stream GetWebResponseStream(string url, ICredentials credentials) {
-			return AsyncWebRequest.GetSyncResponseStream(url, credentials, RssBanditApplication.UserAgent, this.Proxy);			
+			return SyncWebRequest.GetResponseStream(url, credentials, RssBanditApplication.UserAgent, this.Proxy);			
 		}
 
 	

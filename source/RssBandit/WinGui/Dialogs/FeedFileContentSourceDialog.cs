@@ -55,7 +55,7 @@ namespace RssBandit.WinGui.Dialogs
 		}
 
 		private Stream GetFeedSourceStream() {
-			return AsyncWebRequest.GetSyncResponseStream(this.feedUrl, this.feedCredentials, RssBanditApplication.UserAgent, this.proxy);			
+            return SyncWebRequest.GetResponseStream(this.feedUrl, this.feedCredentials, RssBanditApplication.UserAgent, this.proxy);			
 		}
 		
 		private void LoadAndFormatFeedSource() {

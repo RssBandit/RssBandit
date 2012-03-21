@@ -4050,9 +4050,7 @@ namespace NewsComponents
                 {
 //external feed?
 
-                    using (
-                        Stream mem =
-                            AsyncWebRequest.GetSyncResponseStream(feedUrl, credentials, UserAgent, Proxy))
+                    using (var mem = SyncWebRequest.GetResponseStream(feedUrl, credentials, UserAgent, Proxy))
                     {
                         var f = new NewsFeed
                                     {

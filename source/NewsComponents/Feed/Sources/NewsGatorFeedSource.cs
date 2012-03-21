@@ -337,7 +337,7 @@ namespace NewsComponents.Feed
 
             try
             {
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(LocationApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(LocationApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -371,7 +371,7 @@ namespace NewsComponents.Feed
 
             //load feed list XML
             XmlDocument doc = new XmlDocument();
-            doc.Load(XmlReader.Create(AsyncWebRequest.GetSyncResponseStream(feedlistUrl, this.location.Credentials, this.Proxy, NgosTokenHeader)));
+            doc.Load(XmlReader.Create(SyncWebRequest.GetResponseStream(feedlistUrl, this.location.Credentials, this.Proxy, NgosTokenHeader)));
 
             XmlNode tokenNode = doc.DocumentElement.Attributes.GetNamedItem("token", "http://newsgator.com/schema/opml");
             if (tokenNode != null)
@@ -1109,7 +1109,7 @@ namespace NewsComponents.Feed
                 string clippingFolder = "<folderid>0</folderid>";
                 string body = String.Format(bodyTemplate, itemId, clipped ? clippingFolder : String.Empty);
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(clipApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(clipApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1225,7 +1225,7 @@ namespace NewsComponents.Feed
 
                 serializer.Serialize(XmlWriter.Create(sb, xws), body);
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(flagItemApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(flagItemApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1267,7 +1267,7 @@ namespace NewsComponents.Feed
                         break; 
                 }
 
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(PostItemApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(PostItemApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
              if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1298,7 +1298,7 @@ namespace NewsComponents.Feed
                 string markReadUrl = FeedApiUrl + "/" + feedId;
                 string body = "tok=" + syncToken + "&read=true";
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(markReadUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(markReadUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1414,7 +1414,7 @@ namespace NewsComponents.Feed
                 string folderDeleteUrl = FolderApiUrl + "/delete"; 
                 string body = "fld=" + folderId;
 
-                HttpWebResponse response = AsyncWebRequest.DeleteSyncResponse(folderDeleteUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.DeleteResponse(folderDeleteUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1440,7 +1440,7 @@ namespace NewsComponents.Feed
             string folderMoveUrl = FolderApiUrl + "/move";
             string body = "fld=" + folderId + "&parentId=" + parentId;
 
-            HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderMoveUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+            HttpWebResponse response = SyncWebRequest.PostResponse(folderMoveUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -1489,7 +1489,7 @@ namespace NewsComponents.Feed
                 string body = "fld=" + cat.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value + "&name="
                     + Uri.EscapeDataString(newName);
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderRenameUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(folderRenameUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -1613,9 +1613,9 @@ namespace NewsComponents.Feed
 
             string folderCreateUrl = FolderApiUrl + "/create";
             string body = "parentid=" + (cat.parent == null ? "0" : cat.parent.AnyAttr.FirstOrDefault(a => a.LocalName == "id").Value) 
-                + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF";            
-           
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                + "&name=" + Uri.EscapeDataString(folderName) + "&root=MYF";
+
+            HttpWebResponse response = SyncWebRequest.PostResponse(folderCreateUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 try
                 {
@@ -1705,7 +1705,7 @@ namespace NewsComponents.Feed
 
                 serializer.Serialize(XmlWriter.Create(sb, xws), location);
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)               
                 {
@@ -1742,7 +1742,7 @@ namespace NewsComponents.Feed
                 string moveApiUrl = SubscriptionApiUrl + "/" + NgosLocationName + "/movesubscription/" + feedId;
                 string body = "tofolderid=" + folderId;
 
-                HttpWebResponse response = AsyncWebRequest.PostSyncResponse(moveApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.PostResponse(moveApiUrl, body, this.location.Credentials, this.Proxy, NgosTokenHeader);
                 
                 try
                 {
@@ -1848,9 +1848,9 @@ namespace NewsComponents.Feed
                     XmlWriterSettings xws = new XmlWriterSettings();
                     xws.OmitXmlDeclaration = true;
 
-                    serializer.Serialize(XmlWriter.Create(sb, xws), location);                
+                    serializer.Serialize(XmlWriter.Create(sb, xws), location);
 
-                    HttpWebResponse response = AsyncWebRequest.PostSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                    HttpWebResponse response = SyncWebRequest.PostResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                     try
                     {
@@ -1955,9 +1955,9 @@ namespace NewsComponents.Feed
                 XmlWriterSettings xws = new XmlWriterSettings();
                 xws.OmitXmlDeclaration = true;
                                
-                serializer.Serialize(XmlWriter.Create(sb, xws), location); 
+                serializer.Serialize(XmlWriter.Create(sb, xws), location);
 
-                HttpWebResponse response = AsyncWebRequest.DeleteSyncResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
+                HttpWebResponse response = SyncWebRequest.DeleteResponse(SubscriptionApiUrl, sb.ToString(), this.location.Credentials, this.Proxy, NgosTokenHeader);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {

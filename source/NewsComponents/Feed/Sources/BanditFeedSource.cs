@@ -149,7 +149,7 @@ namespace NewsComponents.Feed
         /// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
         private void LoadFeedlist(string feedListUrl, ValidationEventHandler veh)
         {
-            LoadFeedlist(AsyncWebRequest.GetSyncResponseStream(feedListUrl, null, UserAgent, Proxy), veh);
+            LoadFeedlist(SyncWebRequest.GetResponseStream(feedListUrl, null, UserAgent, Proxy), veh);
             SearchHandler.CheckIndex();
         }
 
