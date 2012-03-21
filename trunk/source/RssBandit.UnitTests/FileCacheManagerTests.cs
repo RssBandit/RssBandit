@@ -15,7 +15,7 @@ namespace RssBandit.UnitTests
 	[TestFixture]
 	public class FileCacheManagerTests : CassiniHelperTestFixture
 	{
-		string _cacheDirectory = UNPACK_DESTINATION + @"\Cache";
+		//string _cacheDirectory = UNPACK_DESTINATION + @"\Cache";
 
         ///// <summary>
         ///// Tests that the Constructors throws IO exception if cache directory 

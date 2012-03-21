@@ -47,11 +47,11 @@ namespace RssBandit.UnitTests
 			DateTime fetchDate = DateTime.Now;
 
 			NewsItem item = new NewsItem(null, "TestTitle", "TestLink", "TestDescription", fetchDate, "TestSubject");
-			Assertion.AssertNull("Feed should be null.", item.Feed);
-			Assertion.AssertEquals("Strange. The title is wrong.", "TestTitle", item.Title);
-			//Assertion.AssertEquals("Weird. The description is wrong.", "TestDescription", item.);
-			Assertion.AssertEquals("Curious. The date is wrong.", fetchDate, item.Date);
-			Assertion.AssertEquals("Odd. The subject is wrong.", "TestSubject", item.Subject);
+			Assert.IsNull( item.Feed,"Feed should be null.");
+			Assert.AreEqual("TestTitle", item.Title, "Strange. The title is wrong.");
+            //Assert.AreEqual("TestDescription", item., "Weird. The description is wrong." );
+            Assert.AreEqual(fetchDate, item.Date,"Curious. The date is wrong.");
+            Assert.AreEqual("TestSubject", item.Subject, "Odd. The subject is wrong.");
 		}
 
 		/// <summary>
@@ -63,19 +63,19 @@ namespace RssBandit.UnitTests
 		public void CDATAStrippingAndEntityEscaping()
 		{
 			NewsItem item = new NewsItem(null, "", "link", "<![CDATA[This is stripped]]>", DateTime.Now, "");
-			Assertion.AssertEquals("Bad strip job.", "This is stripped", item.Content);
+			Assert.AreEqual( "This is stripped", item.Content,"Bad strip job.");
 
 			item = new NewsItem(null, "", "link", "<![CDATA[]]>How about now?", DateTime.Now, "");
-			Assertion.AssertEquals("Bad strip job.", "How about now?", item.Content);
+			Assert.AreEqual("How about now?", item.Content, "Bad strip job.");
 
 			item = new NewsItem(null, "", "link", "<![CDATA[]]>", DateTime.Now, "");
-			Assertion.AssertEquals("Should be empty.", null, item.Content);
+			Assert.AreEqual(null, item.Content, "Should be empty.");
 
 			item = new NewsItem(null, "", "link", "<?xml:namespace xmlns=blah>", DateTime.Now, "");
-			Assertion.AssertEquals("Bad escaping! Bad!", "<?xml:namespace xmlns=blah>", item.Content);
+			Assert.AreEqual("<?xml:namespace xmlns=blah>", item.Content, "Bad escaping! Bad!");
 			
 			item = new NewsItem(null, "", "link", "<?XML:NAMESPACE xmlns=blah>", DateTime.Now, "");
-			Assertion.AssertEquals("Bad escaping! Bad!", "<?XML:NAMESPACE xmlns=blah>", item.Content);
+			Assert.AreEqual("<?XML:NAMESPACE xmlns=blah>", item.Content, "Bad escaping! Bad!" );
 		}
 
 		/// <summary>
@@ -91,11 +91,11 @@ namespace RssBandit.UnitTests
 			item.FeedDetails = new FeedInfo("", null, null, "FeedTitle", "FeedLink", "FeedDescription");
 			Assert.AreEqual("FeedTitle", item.FeedDetails.Title, "The oh so creative title is wrong!");
 
-			Assertion.AssertEquals("The XML was not as we expected.", UnpackResource("Expected.RssItemTests.TestToString.xml"), item.ToString());
+			Assert.AreEqual(UnpackResource("Expected.RssItemTests.TestToString.xml"), item.ToString(), "The XML was not as we expected.");
 
 			// we can test here only GMT universal time (we are world wide organized :-) 
-			Assertion.AssertEquals("No GMT wrong.", UnpackResource("Expected.RssItemTests.TestToString.NoGMT.xml"), item.ToString(NewsItemSerializationFormat.RssItem, false));
-			Assertion.AssertEquals("Not Standalone wrong.", UnpackResource("Expected.RssItemTests.TestToString.NotStandalone.xml"), item.ToString(NewsItemSerializationFormat.RssFeed, true));
+			Assert.AreEqual(UnpackResource("Expected.RssItemTests.TestToString.NoGMT.xml"), item.ToString(NewsItemSerializationFormat.RssItem, false),"No GMT wrong.");
+			Assert.AreEqual(UnpackResource("Expected.RssItemTests.TestToString.NotStandalone.xml"), item.ToString(NewsItemSerializationFormat.RssFeed, true), "Not Standalone wrong.");
 		}
 
 		[SetUp]

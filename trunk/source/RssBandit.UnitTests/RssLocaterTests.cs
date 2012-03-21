@@ -54,7 +54,7 @@ namespace RssBandit.UnitTests
 			Assert.AreEqual(BASE_URL + "SampleRss0.91Feed.xml", (string)feeds[0]);
 			Assert.AreEqual(BASE_URL + "SampleRss0.92Feed.rss", (string)feeds[1]);
 			Assert.AreEqual(BASE_URL + "SampleRss1.0Feed.rss", (string)feeds[2]);
-			Assertion.AssertEquals("Missing version 2.0. Stuck in the past.", BASE_URL + "SampleRss2.0Feed.xml", (string)feeds[3]);
+            Assert.AreEqual( BASE_URL + "SampleRss2.0Feed.xml", (string)feeds[3],"Missing version 2.0. Stuck in the past.");
 
 			feeds = locater.GetRssFeedsForUrl(BASE_URL + "AutoDiscovery1.htm", true);
 			Assert.AreEqual(feeds.Count, 2);
@@ -113,7 +113,7 @@ namespace RssBandit.UnitTests
 			Assert.AreEqual(BASE_URL + "SampleRss2.0Feed.xml", feeds[3].ToString());
 			
 			feeds = locater.GetRssFeedsForUrl(BASE_URL + "LinksToExternalFeed.htm", true);
-			Assertion.AssertEquals(1, feeds.Count);
+            Assert.AreEqual(1, feeds.Count);
 		}
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace RssBandit.UnitTests
         /// If the web server is down, GetRssAutoDiscoveryLinks should throw 
         /// an exception!
         /// </summary>
-        [Test, ExpectedException(typeof(SocketException))]
+        [Test, ExpectedException(typeof(WebException))]
         public void GetRssAutoDiscoveryLinksThrowsExceptionIfWebServerIsDown()
         {
             RssLocater locater = new RssLocater(null, null);

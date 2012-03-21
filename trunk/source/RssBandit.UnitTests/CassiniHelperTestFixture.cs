@@ -18,8 +18,8 @@ namespace RssBandit.UnitTests
 		private Server _webServer;
 		private readonly int _webServerPort = 8081;
 		private readonly string _webServerVDir = "/";
-		private string _webrootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH);
-		private string _webBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH + @"\bin");
+	    private string _webrootPath; // = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH);
+	    private string _webBinPath; // = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH + @"\bin");
 		private string _webServerUrl; //built in Setup
 
 		/// <summary>
@@ -31,7 +31,10 @@ namespace RssBandit.UnitTests
 			//NOTE: Cassini is going to load itself AGAIN into another AppDomain,
 			// and will be getting it's Assembliesfrom the BIN, including another copy of itself!
 			// Therefore we need to do this step FIRST because I've removed Cassini from the GAC
- 
+
+            _webBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH + @"\bin");
+            _webrootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, WEBROOT_PATH);
+
 			//Copy our assemblies down into the web server's BIN folder
 			Directory.CreateDirectory(_webBinPath);
 			foreach(string file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))

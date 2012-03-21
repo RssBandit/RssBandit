@@ -109,7 +109,7 @@
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Rhino.Mocks.dll</HintPath>
+      <HintPath>ExternalDependencies\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -117,6 +117,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
@@ -133,6 +134,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AsyncWebRequestTests.cs" />
     <Compile Include="BaseTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,36 +168,11 @@
     </Compile>
     <Content Include="ExternalDependencies\Cassini.dll" />
     <Content Include="ExternalDependencies\Cassini.pdb" />
-    <Content Include="ExternalDependencies\mock-assembly.dll" />
-    <Content Include="ExternalDependencies\nonamespace-assembly.dll" />
-    <Content Include="ExternalDependencies\notestfixtures-assembly.dll" />
-    <Content Include="ExternalDependencies\nunit-console-runner.dll" />
-    <Content Include="ExternalDependencies\nunit-console.exe" />
-    <Content Include="ExternalDependencies\nunit-console.tests.dll" />
-    <Content Include="ExternalDependencies\nunit-gui-runner.dll" />
-    <Content Include="ExternalDependencies\nunit-gui.exe" />
-    <Content Include="ExternalDependencies\nunit.core.dll" />
-    <Content Include="ExternalDependencies\nunit.extensions.dll" />
     <Content Include="ExternalDependencies\nunit.framework.dll" />
-    <Content Include="ExternalDependencies\nunit.framework.tests.dll" />
-    <Content Include="ExternalDependencies\nunit.mocks.dll" />
-    <Content Include="ExternalDependencies\nunit.mocks.tests.dll" />
-    <Content Include="ExternalDependencies\nunit.testutilities.dll" />
-    <Content Include="ExternalDependencies\nunit.uikit.dll" />
-    <Content Include="ExternalDependencies\nunit.uikit.tests.dll" />
-    <Content Include="ExternalDependencies\nunit.util.dll" />
-    <Content Include="ExternalDependencies\nunit.util.tests.dll" />
-    <Content Include="ExternalDependencies\timing-tests.dll" />
-    <None Include="ExternalDependencies\mock-assembly.dll.config" />
-    <None Include="ExternalDependencies\nunit-console.exe.config" />
-    <None Include="ExternalDependencies\nunit-console.tests.dll.config" />
-    <None Include="ExternalDependencies\nunit-gui.exe.config" />
-    <None Include="ExternalDependencies\nunit.framework.tests.dll.config" />
-    <None Include="ExternalDependencies\nunit.mocks.tests.dll.config" />
-    <None Include="ExternalDependencies\nunit.uikit.tests.dll.config" />
-    <None Include="ExternalDependencies\nunit.util.tests.dll.config" />
-    <None Include="ExternalDependencies\NUnitTests.config" />
-    <None Include="ExternalDependencies\NUnitTests.nunit" />
+    <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
+    <EmbeddedResource Include="Resources\WebRoot\FailWithStatus.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Cache\172.0.0.1.8081.1214057202.df05c3d0bd8748e68f121451084e3e62.xml" />
     <EmbeddedResource Include="Resources\Expected\RssItemTests\TestToString.NoGMT.xml" />
     <EmbeddedResource Include="Resources\Expected\RssItemTests\TestToString.NotStandalone.xml" />
@@ -248,6 +225,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

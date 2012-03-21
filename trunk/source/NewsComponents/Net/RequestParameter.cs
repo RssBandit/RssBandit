@@ -55,7 +55,8 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// Class is a container for a all the needed web request parameter.
 	/// </summary>
-	public class RequestParameter {
+	public class RequestParameter 
+    {
 
 		#region ctor's
 		/// <summary>
@@ -70,52 +71,54 @@ namespace NewsComponents.Net
 		/// <remarks><see cref="SetCookies">SetCookies</see> is true by default</remarks>
 		public RequestParameter(Uri address, string userAgent, 
 			IWebProxy proxy, ICredentials credentials, DateTime ifModifiedSince, string eTag):
-			this(address, userAgent, proxy, credentials, ifModifiedSince, eTag, true) {
+			this(address, userAgent, proxy, credentials, ifModifiedSince, eTag, true, TimeSpan.FromMilliseconds(AsyncWebRequest.DefaultTimeout)) 
+        {
 		}
 
-		/// <summary>
-		/// Constructor initialize a RequestParameter instance.
-		/// </summary>
-		/// <param name="address">Requested Web Url</param>
-		/// <param name="userAgent">User Agent string the request should send</param>
-		/// <param name="proxy">IWebProxy instance, if a proxy should be used</param>
-		/// <param name="credentials">ICredentials instance, if credentials have to be used</param>
-		/// <param name="ifModifiedSince">Advanced Request Header info</param>
-		/// <param name="eTag">Advanced Request Header info</param>
-		/// <param name="setCookies">Set cookies on request</param>
+        /// <summary>
+        /// Constructor initialize a RequestParameter instance.
+        /// </summary>
+        /// <param name="address">Requested Web Url</param>
+        /// <param name="userAgent">User Agent string the request should send</param>
+        /// <param name="proxy">IWebProxy instance, if a proxy should be used</param>
+        /// <param name="credentials">ICredentials instance, if credentials have to be used</param>
+        /// <param name="ifModifiedSince">Advanced Request Header info</param>
+        /// <param name="eTag">Advanced Request Header info</param>
+        /// <param name="setCookies">Set cookies on request</param>
+        /// <param name="timeout">The timeout.</param>
 		public RequestParameter(Uri address, string userAgent, 
 			IWebProxy proxy, ICredentials credentials, 
-			DateTime ifModifiedSince, string eTag, bool setCookies) {
-			
-			this.requestUri = address;
-			this.userAgent = userAgent;
-			this.proxy = proxy;
-			this.credentials = credentials;
-			this.lastModified = ifModifiedSince;
-			this.eTag = eTag;
-			this.setCookies = setCookies;
-		}
+			DateTime ifModifiedSince, string eTag, bool setCookies, TimeSpan timeout) 
+        {
+			this._requestUri = address;
+			this._userAgent = userAgent;
+			this._proxy = proxy;
+			this._credentials = credentials;
+			this.LastModified = ifModifiedSince;
+			this.ETag = eTag;
+			this.SetCookies = setCookies;
+            this.Timeout = timeout;
+        }
 		#endregion
 
 		#region static creator routines
 
-
-		/// <summary>
-		/// To be provided
-		/// </summary>
-		/// <param name="address"></param>
-		/// <param name="userAgent"></param>
-		/// <param name="proxy"></param>
-		/// <param name="credentials"></param>
-		/// <param name="ifModifiedSince"></param>
-		/// <param name="eTag"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// Creates the request parameter with the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="userAgent">The user agent.</param>
+        /// <param name="proxy">The proxy.</param>
+        /// <param name="credentials">The credentials.</param>
+        /// <param name="ifModifiedSince">If modified since.</param>
+        /// <param name="eTag">The e tag.</param>
+        /// <returns></returns>
 		public static RequestParameter Create (Uri address, string userAgent, 
 			IWebProxy proxy, ICredentials credentials, DateTime ifModifiedSince, string eTag) {
 
 			return new RequestParameter(address, userAgent, proxy, credentials, ifModifiedSince, eTag );
-			
 		}
+
 		/// <summary>
 		/// Creates a new RequestParameter instance.
 		/// </summary>
@@ -123,7 +126,7 @@ namespace NewsComponents.Net
 		/// <param name="p"></param>
 		/// <returns></returns>
 		public static RequestParameter Create(Uri address, RequestParameter p) {
-			return new RequestParameter(address, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, p.SetCookies );
+			return new RequestParameter(address, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, p.SetCookies, p.Timeout );
 		}
 		/// <summary>
 		/// Creates a new RequestParameter instance.
@@ -132,7 +135,7 @@ namespace NewsComponents.Net
 		/// <param name="p"></param>
 		/// <returns></returns>
 		public static RequestParameter Create(ICredentials credentials, RequestParameter p) {
-			return new RequestParameter(p.RequestUri, p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies );
+			return new RequestParameter(p.RequestUri, p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies, p.Timeout );
 		}
 		/// <summary>
 		/// Creates a new RequestParameter instance.
@@ -141,7 +144,7 @@ namespace NewsComponents.Net
 		/// <param name="p"></param>
 		/// <returns></returns>
 		public static RequestParameter Create(bool setCookies, RequestParameter p) {
-			return new RequestParameter(p.RequestUri, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, setCookies );
+			return new RequestParameter(p.RequestUri, p.UserAgent, p.Proxy, p.Credentials, p.LastModified, p.ETag, setCookies, p.Timeout );
 		}
 
 		/// <summary>
@@ -152,65 +155,52 @@ namespace NewsComponents.Net
 		/// <param name="p">The RequestParameter.</param>
 		/// <returns></returns>
 		public static RequestParameter Create(Uri address,ICredentials credentials, RequestParameter p) {
-			return new RequestParameter(address, p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies );
+			return new RequestParameter(address, p.UserAgent, p.Proxy, credentials, p.LastModified, p.ETag, p.SetCookies, p.Timeout );
 		}
 
 		#endregion
 
 		#region request parameter properties
-		private Uri requestUri;
+		private readonly Uri _requestUri;
 		/// <summary>
 		/// Gets the Request Uri.
 		/// </summary>
-		public Uri RequestUri {	get { return this.requestUri; } }
+		public Uri RequestUri {	get { return this._requestUri; } }
 
-		private string userAgent;
+		private readonly string _userAgent;
 		/// <summary>
 		/// Gets the Request user agent string
 		/// </summary>
-		public string UserAgent { get { return this.userAgent; }	}
+		public string UserAgent { get { return this._userAgent; }	}
 
-		private IWebProxy proxy;
+		private readonly IWebProxy _proxy;
 		/// <summary>
 		/// Gets the proxy.
 		/// </summary>
-		public IWebProxy Proxy { get { return this.proxy; }	}
+		public IWebProxy Proxy { get { return this._proxy; }	}
 
-		private ICredentials credentials;
+		private readonly ICredentials _credentials;
 		/// <summary>
 		/// Gets the credentials.
 		/// </summary>
-		public ICredentials Credentials { get { return this.credentials; }	}
+		public ICredentials Credentials { get { return this._credentials; }	}
 
-		private DateTime lastModified;
-		/// <summary>
-		/// Gets the "last modified since" date
-		/// </summary>
-		public DateTime LastModified { 
-			get { return this.lastModified; }	
-			set { this.lastModified = value; }	
-		}
+	    /// <summary>
+	    /// Gets the "last modified since" date
+	    /// </summary>
+	    public DateTime LastModified { get; set; }
 
-		private string eTag;
-		/// <summary>
-		/// Gets ETag header info
-		/// </summary>
-		public string ETag { 
-			get { return this.eTag; }	
-			set { this.eTag = value; }	
-		}
+	    /// <summary>
+	    /// Gets ETag header info
+	    /// </summary>
+	    public string ETag { get; set; }
 
-		private bool setCookies;
-		/// <summary>
-		/// Gets/Set if cookies should be set on request (taken from IE)
-		/// </summary>
-        public bool SetCookies
-        {
-            get { return this.setCookies; }
-            set { this.setCookies = value; }
-        }
-        
-        /// <summary>
+	    /// <summary>
+	    /// Gets/Set if cookies should be set on request (taken from IE)
+	    /// </summary>
+	    public bool SetCookies { get; set; }
+
+	    /// <summary>
         /// Cookies to be used when sending the request
         /// </summary>
         public CookieCollection Cookies { get; set; }
@@ -225,6 +215,12 @@ namespace NewsComponents.Net
 		/// </summary>
 		/// <value>The client certificate.</value>
 		public X509Certificate2 ClientCertificate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timeout of this request
+        /// </summary>
+        public TimeSpan Timeout { get; set; }
+
 		#endregion
 	}
 }
