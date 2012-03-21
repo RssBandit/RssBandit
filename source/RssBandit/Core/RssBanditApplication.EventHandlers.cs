@@ -415,7 +415,10 @@ namespace RssBandit
                                     }
                                 }
                                 Trace.WriteLine(e.ExceptionThrown.StackTrace);
-                                UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true, entry);
+                                
+                                //TODO: reactivate/replace with reporting functionality in WPF:
+                                //UpdateXmlFeedErrorFeed(e.ExceptionThrown, e.FeedUri, true, entry);
+                                
                                 stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOneDone);
                             });
         }

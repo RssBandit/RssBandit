@@ -75,6 +75,8 @@ namespace NewsComponents.Net
     /// </summary>
     public sealed class AsyncWebRequest
     {
+        #region consts
+
         /// <summary>
         /// We use our own default MinValue for web requests to
         /// prevent first chance exceptions (InvalidRangeException on
@@ -82,23 +84,16 @@ namespace NewsComponents.Net
         /// in local Time, so we don't use DateTime.MinValue! It goes out
         /// of range if converted to universal time (e.g. if we have GMT +xy)
         /// </summary>
-        public static readonly DateTime MinValue = new DateTime(1981, 1, 1);
-
-        private static readonly ILog Log = DefaultLog.GetLogger(typeof(AsyncWebRequest));
+        private static readonly DateTime MinValue = new DateTime(1981, 1, 1);
 
         /// <summary>
-        /// Event triggered, if a not yet accepted CertificateIssue is raised by a web request.
+        /// Gets the default requests timeout: 2 minutes.
         /// </summary>
-        public static event EventHandler<CertificateIssueCancelEventArgs> OnCertificateIssue = null;
+        internal const int DefaultTimeout = 2*60*1000;
 
-        /// <summary>
-        /// Contains the url's as keys and the allowed (user interaction needed) 
-        /// CertificateIssue's within an ICollection as values.
-        /// </summary>
-        /// <remarks>That content should be maintained completely from within
-        /// the OnCertificateIssue event.</remarks>
-        private static Dictionary<string, IList<CertificateIssue>> _trustedCertificateIssues =
-            new Dictionary<string, IList<CertificateIssue>>(5);
+        #endregion
+
+        #region events
 
         /// <summary>
         /// Callback delegate used for OnAllRequestsComplete event.
@@ -110,11 +105,39 @@ namespace NewsComponents.Net
         /// </summary>
         public event RequestAllCompleteCallback OnAllRequestsComplete = null;
 
-        private const int DefaultTimeout = 2 * 60 * 1000; // 2 minute request timeout
+        /// <summary>
+        /// Event triggered, if a not yet accepted CertificateIssue is raised by a web request.
+        /// </summary>
+        public static event EventHandler<CertificateIssueCancelEventArgs> OnCertificateIssue = null;
+
+        #endregion
+
+        #region private members
+
+        /// <summary>
+        /// Contains the url's as keys and the allowed (user interaction needed) 
+        /// CertificateIssue's within an ICollection as values.
+        /// </summary>
+        /// <remarks>That content should be maintained completely from within
+        /// the OnCertificateIssue event.</remarks>
+        private static Dictionary<string, IList<CertificateIssue>> _trustedCertificateIssues =
+            new Dictionary<string, IList<CertificateIssue>>(5);
+
 
         private readonly Hashtable _queuedRequests;
 
-        private readonly RequestThread _requestThread;
+        /// <summary>
+        /// Scheduler which controls the maximum number of threads we use to perform concurrent HTTP requests
+        /// </summary>
+        private readonly PrioritizingTaskScheduler _scheduler;
+
+        private readonly TaskFactory _taskFactory;
+
+        private static readonly ILog Log = DefaultLog.GetLogger(typeof (AsyncWebRequest));
+
+        #endregion
+
+        #region ctor's
 
         /// <summary>
         /// Constructor initialize a AsyncWebRequest instance
@@ -122,11 +145,11 @@ namespace NewsComponents.Net
         public AsyncWebRequest()
         {
             _queuedRequests = Hashtable.Synchronized(new Hashtable(17));
-            _requestThread = new RequestThread(this);
-            taskFactory = new TaskFactory(new CancellationTokenSource().Token,
-                                          TaskCreationOptions.PreferFairness,
+            _scheduler = new PrioritizingTaskScheduler();
+            _taskFactory = new TaskFactory(new CancellationTokenSource().Token,
+                                           TaskCreationOptions.PreferFairness,
                                            TaskContinuationOptions.ExecuteSynchronously,
-                                           scheduler);
+                                           _scheduler);
         }
 
         /// <summary>
@@ -135,7 +158,7 @@ namespace NewsComponents.Net
         static AsyncWebRequest()
         {
 #if USENEW_CERTCHECK
-            // experimental:
+    // experimental:
             ServicePointManager.ServerCertificateValidationCallback =
                 TrustSelectedCertificatePolicy.CheckServerCertificate;  
 #else
@@ -147,17 +170,7 @@ namespace NewsComponents.Net
             // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
         }
 
-
-        /// <summary>
-        /// Returns the RequestThread used by this object. 
-        /// </summary>
-        internal RequestThread RequestThread
-        {
-            get
-            {
-                return _requestThread;
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Gets the pending queued requests.
@@ -188,117 +201,51 @@ namespace NewsComponents.Net
             }
         }
 
-        #region experimental code for batch request support
-
-        /// <summary>
-        /// Used to ensure that we aren't refreshing feeds multiple times. 
-        /// </summary>
-        /// <seealso cref="GetAsyncResponses"/>
-        private List<string> refreshesInProgress = new List<string>();
-        private Object SyncRoot = new Object();
-
-        /// <summary>
-        /// Scheduler which controls the maximum number of threads we use to perform concurrent HTTP requests
-        /// </summary>
-        private readonly PrioritizingTaskScheduler scheduler = new PrioritizingTaskScheduler();
-
-        private readonly TaskFactory taskFactory = null;
-
-
-        /// <summary>
-        /// delegate used to call GetMultipleResponses asynchronously 
-        /// </summary>
-        /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>              
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        private delegate void GetMultipleResponsesAsync(List<RequestParameter> requests,
-                                           string category, RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException);
-
         /// <summary>
         /// Used to make GET requests for multiple URLs asynchronously
         /// </summary>
         /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>
         /// <param name="webRequestStart">callback invoked when each GET request starts</param>
         /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
         /// <param name="webRequestException">callback invoked when each GET request fails</param>
         /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
         /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
-
-        public void GetAsyncResponses(List<RequestParameter> requests,
-                                           string category,
+        public void QueueRequestsAsync(List<RequestParameter> requests,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException)
         {
-            GetMultipleResponsesAsync method = new GetMultipleResponsesAsync(this.GetMultipleResponses);
-            method.BeginInvoke(requests, category, webRequestStart, webRequestComplete, webRequestException, null, null);
-        }
-
-        /// <summary>
-        /// Used to make GET requests for multiple URLs in parallel
-        /// </summary>
-        /// <param name="requests">The URLs to be fetched</param>
-        /// <param name="category">the name of the feed category being refreshed</param>       
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <exception cref="NotSupportedException">The request scheme specified in address has not been registered.</exception>
-        /// <exception cref="ArgumentNullException">The requestParameter is a null reference</exception>      
-        private void GetMultipleResponses(List<RequestParameter> requests,
-                                           string category,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException)
-        {
-            category.ExceptionIfNull("category");
-
-            //ensure that we don't have multiple attempts to refresh all feeds 
-            lock (SyncRoot)
-            {
-                if (refreshesInProgress.Contains(category))
-                    return;
-                else
-                    refreshesInProgress.Add(category);
-            }
-
-            int priority = 10;
-            ParallelOptions options = new ParallelOptions() { TaskScheduler = scheduler, MaxDegreeOfParallelism = scheduler.MaximumConcurrencyLevel };
+            const int priority = 10;  // needed for additional requests
+            
+            // Parallel options object specifies scheduler and max concurrent threads
+            ParallelOptions options = new ParallelOptions() { TaskScheduler = _scheduler, MaxDegreeOfParallelism = _scheduler.MaximumConcurrencyLevel };
 
             // Create an instance of the RequestState and perform the HTTP request for each of the request parameters           
-            Parallel.ForEach<RequestParameter>(requests, //collection of  
-                options, // Parallel options object specifies scheduler and max concurrent threads
-                (request) =>
+            Parallel.ForEach(requests, options, 
+                request =>
                 {
-                    RequestState state = MakeRequest(request, webRequestStart, webRequestComplete, webRequestException, priority);
-                    PerformHttpRequest(state);
+                    if (request != null && ! _queuedRequests.Contains(request.RequestUri.CanonicalizedUri()))
+                    {
+                        _queuedRequests.Add(request.RequestUri.CanonicalizedUri(), null);
+            
+                        var webRequest = PrepareRequest(request);
+
+                        var state = new RequestState(webRequest, priority, request);
+                        state.WebRequestStarted += webRequestStart;
+                        state.WebRequestCompleted += webRequestComplete;
+                        state.WebRequestException += webRequestException;
+
+                        PerformHttpRequest(state);
+                    }
                 });
 
-            lock (SyncRoot)
-            {
-                refreshesInProgress.Remove(category);
-            }
         }
-
-        
 
         /// <summary>
         /// Used to create an HTTP request.
         /// </summary>
         /// <param name="requestParameter">Could be modified for each subsequent request</param>
-        /// <param name="webRequestStart">callback invoked when each GET request starts</param>
-        /// <param name="webRequestComplete">callback invoked when each GET request completes</param>
-        /// <param name="webRequestException">callback invoked when each GET request fails</param>
-        /// <param name="priority">the priority of the request</param>
-        internal RequestState MakeRequest(RequestParameter requestParameter,
-                                           RequestStartCallback webRequestStart,
-                                           RequestCompleteCallback webRequestComplete,
-                                           RequestExceptionCallback webRequestException,
-                                           int priority)
+        internal WebRequest PrepareRequest(RequestParameter requestParameter)
         {
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
@@ -313,7 +260,7 @@ namespace NewsComponents.Net
             if (httpRequest != null)
             {
                 // set extended HttpWebRequest params
-                httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
+                httpRequest.Timeout = Convert.ToInt32(requestParameter.Timeout.TotalMilliseconds); // default: two minutes timeout 
                 httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
                 httpRequest.Proxy = requestParameter.Proxy;
                 httpRequest.AllowAutoRedirect = false;
@@ -399,6 +346,7 @@ namespace NewsComponents.Net
             else if (nntpRequest != null)
             {
                 // ten minutes timeout. Large timeout is needed if this is first time we are fetching news
+                //TODO: move the timeout handling to the requestor
                 nntpRequest.Timeout = DefaultTimeout * 5;
 
                 if (requestParameter.Credentials != null)
@@ -413,25 +361,11 @@ namespace NewsComponents.Net
             }
             else
             {
-                Debug.Assert(false, "QueueRequest(): unsupported WebRequest type: " + webRequest.GetType());
+                throw new NotImplementedException("Unsupported WebRequest type: " + webRequest.GetType());
             }
 
-            RequestState state = new RequestState(this);
-
-            state.WebRequestStarted += webRequestStart;
-            state.WebRequestCompleted += webRequestComplete;
-            state.WebRequestException += webRequestException;
-            state.Priority = priority; // needed for additional requests
-            state.InitialRequestUri = webRequest.RequestUri;
-            state.Request = webRequest;
-            state.RequestParams = requestParameter;
-
-            PerformHttpRequestAsync(state, priority);
-
-            return state;
+            return webRequest;
         }
-
-        #endregion
 
         /// <summary>
         /// Used to a queue an HTTP request for processing
@@ -451,8 +385,8 @@ namespace NewsComponents.Net
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, null, priority, null);
+                DoQueueRequest(requestParameter, webRequestStart, webRequestComplete,
+                             webRequestException, null, priority);
         }
 
         /// <summary>
@@ -475,8 +409,8 @@ namespace NewsComponents.Net
                                            int priority)
         {
             return
-                QueueRequest(requestParameter, webRequestStart, webRequestComplete,
-                             webRequestException, webRequestProgress, priority, null);
+                DoQueueRequest(requestParameter, webRequestStart, webRequestComplete,
+                             webRequestException, webRequestProgress, priority);
         }
 
         /// <summary>
@@ -488,192 +422,76 @@ namespace NewsComponents.Net
         /// <param name="webRequestStart"></param>
         /// <param name="webRequestProgress"></param>
         /// <param name="priority"></param>
-        /// <param name="prevState">If subsequent request, this should contain the previous RequestState</param>
-        internal RequestState QueueRequest(RequestParameter requestParameter,
+        private RequestState DoQueueRequest(RequestParameter requestParameter,
                                            RequestStartCallback webRequestStart,
                                            RequestCompleteCallback webRequestComplete,
                                            RequestExceptionCallback webRequestException,
                                            RequestProgressCallback webRequestProgress,
+                                           int priority)
+        {
+            if (requestParameter == null)
+                throw new ArgumentNullException("requestParameter");
+
+            if (_queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
+                return null; // httpRequest already there
+            
+            _queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
+            
+            var webRequest = PrepareRequest(requestParameter);
+
+            RequestState state = new RequestState(webRequest, priority, requestParameter);
+
+            state.WebRequestStarted += webRequestStart;
+            state.WebRequestCompleted += webRequestComplete;
+            state.WebRequestException += webRequestException;
+            state.WebRequestProgress += webRequestProgress;
+            
+            PerformHttpRequestAsync(state, priority);
+
+            return state;
+        }
+
+        private void QueueRequestAgain(RequestParameter requestParameter,
                                            int priority, RequestState prevState)
         {
             if (requestParameter == null)
                 throw new ArgumentNullException("requestParameter");
 
-            if (prevState == null && _queuedRequests.Contains(requestParameter.RequestUri.CanonicalizedUri()))
-                return null; // httpRequest already there
+            if (prevState == null)
+                throw new ArgumentNullException("prevState");
 
-            // here are the exceptions caused:
-            WebRequest webRequest = WebRequest.Create(requestParameter.RequestUri);
+            var webRequest = PrepareRequest(requestParameter);
 
-            HttpWebRequest httpRequest = webRequest as HttpWebRequest;
-            FileWebRequest fileRequest = webRequest as FileWebRequest;
-            NntpWebRequest nntpRequest = webRequest as NntpWebRequest;
+            RequestState state = prevState;
 
-            if (httpRequest != null)
+            IDisposable dispResponse = state.Response;
+            if (dispResponse != null)
             {
-                // set extended HttpWebRequest params
-                if (webRequestProgress != null)
-                {
-                    httpRequest.Timeout = DefaultTimeout * 30; //one hour timeout for enclosures
-                }
-                else
-                {
-                    httpRequest.Timeout = DefaultTimeout; // two minutes timeout 
-                }
-                httpRequest.UserAgent = FullUserAgent(requestParameter.UserAgent);
-                httpRequest.Proxy = requestParameter.Proxy;
-                httpRequest.AllowAutoRedirect = false;
-                httpRequest.AutomaticDecompression = DecompressionMethods.GZip |
-                                                     DecompressionMethods.Deflate;
-                if (requestParameter.Headers != null)
-                {
-                    httpRequest.Headers.Add(requestParameter.Headers);
-                }
-
-                // due to the reported bug 893620 some web server fail with a server error 500
-                // if we send DateTime.MinValue as IfModifiedSince. Smoe Unix derivates only know
-                // about valid lowest DateTime around 1970. So in the case we use the
-                // httpRequest class default setting:
-                if (requestParameter.LastModified > MinValue)
-                {
-                    httpRequest.IfModifiedSince = requestParameter.LastModified;
-                }
-
-                /* #if DEBUG
-							// further to investigate: with this setting we don't leak connections
-							// (try TCPView from http://www.sysinternals.com)
-							// read:
-							// * http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B819450
-							// * http://cephas.net/blog/2003/10/29/the_intricacies_of_http.html
-							// * http://weblogs.asp.net/jan/archive/2004/01/28/63771.aspx
-			
-							httpRequest.KeepAlive = false;		// to prevent open HTTP connection leak
-							httpRequest.ProtocolVersion = HttpVersion.Version10;	// to prevent "Underlying connection closed" exception(s)
-#endif */
-
-                if (httpRequest.Proxy == null)
-                {
-                    httpRequest.KeepAlive = false;
-                    httpRequest.Proxy = WebRequest.DefaultWebProxy;
-                    httpRequest.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                }
-
-                if (requestParameter.ETag != null)
-                {
-                    httpRequest.Headers.Add("If-None-Match", requestParameter.ETag);
-                    httpRequest.Headers.Add("A-IM", "feed");
-                }
-
-                if (requestParameter.Credentials != null)
-                {
-                    httpRequest.KeepAlive = true; // required for authentication to succeed
-                    httpRequest.ProtocolVersion = HttpVersion.Version11; // switch back
-                    httpRequest.Credentials = requestParameter.Credentials;
-                }
-
-                if (requestParameter.ClientCertificate != null)
-                {
-                    httpRequest.ClientCertificates.Add(requestParameter.ClientCertificate);
-                    httpRequest.Timeout *= 2;	// double the timeout (SSL && Client Certs used!)
-                }
-
-                if (requestParameter.SetCookies)
-                {
-                    HttpCookieManager.SetCookies(httpRequest);
-                }
-
-                if (requestParameter.Cookies != null)
-                {
-                    httpRequest.CookieContainer = new CookieContainer();
-                    httpRequest.CookieContainer.Add(requestParameter.Cookies);
-                }
-
-                //this prevents the feed mixup issue that we've been facing. See 
-                //http://www.davelemen.com/archives/2006/04/rss_bandit_feeds_mix_up.html
-                //for a user complaint about the issue. 
-                httpRequest.Pipelined = false;
-            }
-            else if (fileRequest != null)
-            {
-                fileRequest.Timeout = DefaultTimeout;
-
-                if (requestParameter.Credentials != null)
-                {
-                    fileRequest.Credentials = requestParameter.Credentials;
-                }
-            }
-            else if (nntpRequest != null)
-            {
-                // ten minutes timeout. Large timeout is needed if this is first time we are fetching news
-                nntpRequest.Timeout = DefaultTimeout * 5;
-
-                if (requestParameter.Credentials != null)
-                {
-                    nntpRequest.Credentials = requestParameter.Credentials;
-                }
-
-                if (requestParameter.LastModified > MinValue)
-                {
-                    nntpRequest.IfModifiedSince = requestParameter.LastModified;
-                }
-            }
-            else
-            {
-                Debug.Assert(false, "QueueRequest(): unsupported WebRequest type: " + webRequest.GetType());
+                dispResponse.Dispose();
+                state.Response = null;
             }
 
-            RequestState state;
-
-            if (prevState != null)
+            if (state.ResponseStream != null)
             {
-                state = prevState;
-
-                IDisposable dispResponse = state.Response;
-                if (dispResponse != null)
-                {
-                    dispResponse.Dispose();
-                    state.Response = null;
-                }
-
-                if (state.ResponseStream != null)
-                {
-                    // we don't want to get out of connections
-                    state.ResponseStream.Close();
-                }
-
-                if (state.Request != null)
-                {
-                    state.Request.Credentials = null;
-                    
-                    // prevent NotImplementedExceptions:
-                    if (state.Request is HttpWebRequest)
-                        state.Request.Abort();
-                }
-            }
-            else
-            {
-                state = new RequestState(this);
-
-                state.WebRequestStarted += webRequestStart;
-                state.WebRequestCompleted += webRequestComplete;
-                state.WebRequestException += webRequestException;
-                state.WebRequestProgress += webRequestProgress;
-                state.Priority = priority; // needed for additional requests
-                state.InitialRequestUri = webRequest.RequestUri;
+                // we don't want to get out of connections
+                state.ResponseStream.Close();
             }
 
+            if (state.Request != null)
+            {
+                state.Request.Credentials = null;
+
+                // prevent NotImplementedExceptions:
+                if (state.Request is HttpWebRequest)
+                    state.Request.Abort();
+            }
+            
+            
             state.Request = webRequest;
             state.RequestParams = requestParameter;
 
-            if (prevState == null)
-            {
-                // first httpRequest
-                _queuedRequests.Add(requestParameter.RequestUri.CanonicalizedUri(), null);
-            }
-
             PerformHttpRequestAsync(state, priority);
 
-            return state;
         }
 
 
@@ -684,22 +502,73 @@ namespace NewsComponents.Net
         /// <param name="priority">The priority of the request</param>
         private void PerformHttpRequestAsync(RequestState state, int priority)
         {
-            Task t = taskFactory.StartNew(x =>
+            Task t = _taskFactory.StartNew(x =>
             {
                 PerformHttpRequest((RequestState)x);
-            }, state);
+            }, state, CancellationToken.None, TaskCreationOptions.PreferFairness, _scheduler);
 
             //increase priority of the task if it needs to be performed quickly
             if (priority > 10)
-                scheduler.Prioritize(t);
+                _scheduler.Prioritize(t);
         }
 
+        /// <summary>
+        /// Performs the HTTP request (synchron).
+        /// </summary>
+        /// <param name="state">The state.</param>
+        private void PerformHttpRequest(RequestState state)
+        {
+            try
+            {
+                // next call returns true if the real request should be cancelled 
+                // (e.g. if no internet connection available)
+                if (state.OnRequestStart())
+                {
+                    // signal this state to the worker class
+                    this.RequestStartCancelled(state);
+                    return;
+                }
+            }
+            catch (Exception signalException)
+            {
+                Log.Error("Error during event dispatch of StartDownloadCallBack()", signalException);
+            }
+            
+            state.StartTime = DateTime.Now;
 
+            try
+            {
+                Log.Debug("calling GetResponse for " + state.Request.RequestUri);
+                state.Response = state.Request.GetResponse();
+            }
+            catch (Exception responseException)
+            {
+                //For some reason the HttpWebResponse class throws an exception on 3xx responses
+                WebException we = responseException as WebException;
+
+                if ((we != null) && (we.Response != null))
+                {
+                    state.Response = we.Response;
+                }
+                else
+                {
+                    Log.Debug("GetResponse exception for " + state.Request.RequestUri, responseException);
+                    state.OnRequestException(responseException);
+                    this.FinalizeWebRequest(state);
+                    return;
+                }
+            }
+
+            ProcessResponse(state);
+
+        }
+
+        /*
         /// <summary>
         /// Performs an HTTP request using the provided request state information
         /// </summary>
         /// <param name="state">The HTTP request information</param>
-        private void PerformHttpRequest(RequestState state)
+        private void PerformHttpRequestEx(RequestState state)
         {
             try
             {
@@ -731,7 +600,7 @@ namespace NewsComponents.Net
                 this.FinalizeWebRequest(state);
             }
         }
-
+        */
         /// <summary>
         /// To be provided
         /// </summary>
@@ -767,15 +636,15 @@ namespace NewsComponents.Net
         /// <param name="state"></param>
         internal void RequestStartCancelled(RequestState state)
         {
-            if (state != null && !state.requestFinalized)
+            if (state != null && !state.RequestFinalized)
             {
                 Log.Info("RequestStart cancelled: " + state.RequestUri);
                 state.OnRequestCompleted(state.RequestParams.ETag, state.RequestParams.LastModified,
                                          RequestResult.NotModified);
                 _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
-                state.requestFinalized = true;
+                state.RequestFinalized = true;
 
-                if (_queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
+                if (_queuedRequests.Count == 0)
                     RaiseOnAllRequestsComplete();
             }
         }
@@ -786,7 +655,7 @@ namespace NewsComponents.Net
         /// <param name="state"></param>
         internal void FinalizeWebRequest(RequestState state)
         {
-            if (state != null && !state.requestFinalized)
+            if (state != null && !state.RequestFinalized)
             {
                 Log.Debug("Request finalized. Request of '" + state.InitialRequestUri.CanonicalizedUri() + "' took " +
                            DateTime.Now.Subtract(state.StartTime) + " seconds");
@@ -822,20 +691,19 @@ namespace NewsComponents.Net
                 }
 
                 _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
-                RequestThread.EndRequest(state); // trigger next available threaded request
-                state.requestFinalized = true;
+                state.RequestFinalized = true;
 
-                if (_queuedRequests.Count == 0 && RequestThread.RunningRequests <= 0)
+                if (_queuedRequests.Count == 0)
                     RaiseOnAllRequestsComplete();
             }
         }
 
-
+        /*
         /// <summary>
         /// Callback gets called if BeginGetResponse() has any result.
         /// </summary>
         /// <param name="result"></param>
-        internal void ResponseCallback(IAsyncResult result)
+        private void ResponseCallback(IAsyncResult result)
         {
             RequestState state = null;
             if (result != null)
@@ -900,12 +768,12 @@ namespace NewsComponents.Net
                             }
                             catch (FormatException)
                             {
-                                /* ignore */
+                                // ignore 
                             }
                         }
 
                         state.ResponseStream = httpResponse.GetResponseStream();
-                        state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
+                        state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
                                                        ReadCallback, state);
                         // async read started, so we are done here:
                         Log.Debug("ResponseCallback() web response OK: " + state.RequestUri);
@@ -941,7 +809,7 @@ namespace NewsComponents.Net
                         //Check for any cookies
                         HttpCookieManager.GetCookies(httpResponse);
 
-                        state.movedPermanently = true;
+                        state.MovedPermanently = true;
                         //Remove Url from queue 
                         _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
 
@@ -968,10 +836,7 @@ namespace NewsComponents.Net
 
                         RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
                         QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
-
-
-                        // ping the queue listener thread to Dequeue the next request
-                        RequestThread.EndRequest(state);
+                        
                     }
                     else if (IsRedirect(httpResponse.StatusCode))
                     {
@@ -1015,9 +880,6 @@ namespace NewsComponents.Net
                                                     state.RequestParams);
                         QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
 
-
-                        // ping the queue listener thread to Dequeue the next request
-                        RequestThread.EndRequest(state);
                     }
                     else if (IsUnauthorized(httpResponse.StatusCode))
                     {
@@ -1037,8 +899,7 @@ namespace NewsComponents.Net
                             RequestParameter rqp =
                                 RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
                             QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
-                            // ping the queue listener thread to Dequeue the next request
-                            RequestThread.EndRequest(state);
+                            
                         }
                         else
                         {
@@ -1060,8 +921,7 @@ namespace NewsComponents.Net
                                 // action.
                                 RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
                                 QueueRequest(rqp, null, null, null, null, state.Priority + 1, state);
-                                // ping the queue listener thread to Dequeue the next request
-                                RequestThread.EndRequest(state);
+                                
                             }
                             else
                             {
@@ -1080,18 +940,20 @@ namespace NewsComponents.Net
                     }
                     else
                     {
-                        string statusCode = httpResponse.StatusDescription;
-                        if (String.IsNullOrEmpty(statusCode))
-                            statusCode = httpResponse.StatusCode.ToString();
+                        string statusDescription = httpResponse.StatusDescription;
+                        if (String.IsNullOrEmpty(statusDescription))
+                            statusDescription = httpResponse.StatusCode.ToString();
 
-                        string statusMessage = null;
+                        string htmlStatusMessage = null;
                         try
                         {
-                            statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd();
+                            htmlStatusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd();
                         }
                         catch { }
 
-                        throw new WebException("Unexpected HTTP Response: " + statusCode + "<p>" + (statusMessage ?? String.Empty));
+                        throw new WebException(String.IsNullOrEmpty(htmlStatusMessage) 
+                            ? String.Format("Unexpected HTTP Response: {0} ({1})", statusDescription, httpResponse.StatusCode)
+                            : htmlStatusMessage);
                     }
                 }
                 else if (fileResponse != null)
@@ -1106,7 +968,7 @@ namespace NewsComponents.Net
                     }
 
                     state.ResponseStream = fileResponse.GetResponseStream();
-                    state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
+                    state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
                                                    ReadCallback, state);
                     // async read started, so we are done here:
                     Log.Debug("ResponseCallback() file response OK: " + state.RequestUri);
@@ -1117,7 +979,7 @@ namespace NewsComponents.Net
                 {
                     state.RequestParams.LastModified = DateTime.Now;
                     state.ResponseStream = nntpResponse.GetResponseStream();
-                    state.ResponseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
+                    state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
                                                    ReadCallback, state);
                     // async read started, so we are done here:
                     Log.Debug("ResponseCallback() nntp response OK: " + state.RequestUri);
@@ -1139,10 +1001,295 @@ namespace NewsComponents.Net
             }
             catch (Exception ex)
             {
-                // does also cleanup, by calling FinalizeWebRequest(state):
+                Log.Debug("ResponseCallback() exception: " + state.RequestUri + " :" + ex.Message);
                 state.OnRequestException(state.InitialRequestUri, ex);
+                FinalizeWebRequest(state);
             }
         }
+*/
+
+        /// <summary>
+        /// WebResponse processing.
+        /// </summary>
+        internal void ProcessResponse(RequestState state)
+        {
+            try
+            {
+                HttpWebResponse httpResponse = state.Response as HttpWebResponse;
+                FileWebResponse fileResponse = state.Response as FileWebResponse;
+                NntpWebResponse nntpResponse = state.Response as NntpWebResponse;
+
+                if (httpResponse != null)
+                {
+                    if (httpResponse.ResponseUri != state.RequestUri)
+                    {
+                        Log.Debug(
+                            String.Format("httpResponse.ResponseUri != state.RequestUri: \r\n'{0}'\r\n'{1}'",
+                                          httpResponse.ResponseUri, state.RequestUri));
+                    }
+
+                    if (HttpStatusCode.OK == httpResponse.StatusCode ||
+                        HttpExtendedStatusCode.IMUsed == (HttpExtendedStatusCode)httpResponse.StatusCode)
+                    {
+                        HttpCookieManager.GetCookies(httpResponse);
+
+                        // provide last request Uri and ETag:
+                        state.RequestParams.ETag = httpResponse.Headers.Get("ETag");
+                        try
+                        {
+                            state.RequestParams.LastModified = httpResponse.LastModified;
+                        }
+                        catch (Exception lmEx)
+                        {
+                            Log.Debug("httpResponse.LastModified() parse failure: " + lmEx.Message);
+                            // Build in header parser failed on provided date format
+                            // Try our own parser (last chance)
+                            try
+                            {
+                                state.RequestParams.LastModified =
+                                    DateTimeExt.Parse(httpResponse.Headers.Get("Last-Modified"));
+                            }
+                            catch (FormatException)
+                            {
+                                /* ignore */
+                            }
+                        }
+
+                        state.ResponseStream = httpResponse.GetResponseStream();
+                        state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
+                                                       ReadCallback, state);
+                        // async read started, so we are done here:
+                        Log.Debug("ProcessResponse() web response OK: " + state.RequestUri);
+
+                        return;
+                    }
+
+                    if (httpResponse.StatusCode == HttpStatusCode.NotModified)
+                    {
+                        HttpCookieManager.GetCookies(httpResponse);
+
+                        string eTag = httpResponse.Headers.Get("ETag");
+                        // also if it was not modified, we receive a httpResponse.LastModified with current date!
+                        // so we did not store it (is is just the same as last-retrived)
+                        // provide last request Uri and ETag:
+                        state.OnRequestCompleted(state.InitialRequestUri, state.RequestParams.RequestUri, eTag, MinValue,
+                                                 RequestResult.NotModified);
+                        // cleanup:
+                        FinalizeWebRequest(state);
+                    }
+                    else if ((httpResponse.StatusCode == HttpStatusCode.MovedPermanently)
+                             || (httpResponse.StatusCode == HttpStatusCode.Moved))
+                    {
+                        state.RetryCount++;
+                        if (state.RetryCount > RequestState.MAX_RETRIES)
+                        {
+                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                            throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
+                                                   null, WebExceptionStatus.RequestCanceled, httpResponse);
+                        }
+
+                        string url2 = httpResponse.Headers["Location"];
+                        //Check for any cookies
+                        HttpCookieManager.GetCookies(httpResponse);
+
+                        state.MovedPermanently = true;
+                        //Remove Url from queue 
+                        _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+
+                        Log.Debug("ProcessResponse() Moved: '" + state.InitialRequestUri + " to " + url2);
+
+                        // Enqueue the request with the new Url. 
+                        // We raise the queue priority a bit to get the retry request closer to the just
+                        // finished one. So the user get better feedback, because the whole processing
+                        // of one request (including the redirection/moved/... ) is visualized as one update
+                        // action.
+
+
+                        Uri req;
+                        //Try absolute first
+                        if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
+                        {
+                            // Try relative
+                            if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
+                                throw new WebException(
+                                    string.Format(
+                                        "Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
+                                        httpResponse.ResponseUri, url2));
+                        }
+
+                        RequestParameter rqp = RequestParameter.Create(req, state.RequestParams);
+                        QueueRequestAgain(rqp, state.Priority + 1, state);
+
+                    }
+                    else if (IsRedirect(httpResponse.StatusCode))
+                    {
+                        state.RetryCount++;
+                        if (state.RetryCount > RequestState.MAX_RETRIES)
+                        {
+                            // there is no WebExceptionStatus.UnknownError in .NET 1.0 !!!
+                            throw new WebException("Repeated HTTP httpResponse: " + httpResponse.StatusCode,
+                                                   null, WebExceptionStatus.RequestCanceled, httpResponse);
+                        }
+
+                        string url2 = httpResponse.Headers["Location"];
+                        //Check for any cookies
+                        HttpCookieManager.GetCookies(httpResponse);
+
+                        //Remove Url from queue 
+                        _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+
+                        Log.Debug("ProcessResponse() Redirect: '" + state.InitialRequestUri + " to " + url2);
+                        // Enqueue the request with the new Url. 
+                        // We raise the queue priority a bit to get the retry request closer to the just
+                        // finished one. So the user get better feedback, because the whole processing
+                        // of one request (including the redirection/moved/... ) is visualized as one update
+                        // action.
+
+                        Uri req;
+                        //Try absolute first
+                        if (!Uri.TryCreate(url2, UriKind.Absolute, out req))
+                        {
+                            // Try relative
+                            if (!Uri.TryCreate(httpResponse.ResponseUri, url2, out req))
+                                throw new WebException(
+                                    string.Format(
+                                        "Original resource temporary redirected. Request new resource at '{0}{1}' failed: ",
+                                        httpResponse.ResponseUri, url2));
+                        }
+
+
+                        RequestParameter rqp =
+                            RequestParameter.Create(req, RebuildCredentials(state.RequestParams.Credentials, url2),
+                                                    state.RequestParams);
+                        QueueRequestAgain(rqp, state.Priority + 1, state);
+
+                    }
+                    else if (IsUnauthorized(httpResponse.StatusCode))
+                    {
+                        if (state.RequestParams.Credentials == null)
+                        {
+                            // no initial credentials, try with default credentials
+                            state.RetryCount++;
+
+                            //Remove Url from queue 
+                            _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+
+                            // Enqueue the request with the new Url. 
+                            // We raise the queue priority a bit to get the retry request closer to the just
+                            // finished one. So the user get better feedback, because the whole processing
+                            // of one request (including the redirection/moved/... ) is visualized as one update
+                            // action.
+                            RequestParameter rqp =
+                                RequestParameter.Create(CredentialCache.DefaultCredentials, state.RequestParams);
+                            QueueRequestAgain(rqp, state.Priority + 1, state);
+
+                        }
+                        else
+                        {
+                            // failed with provided credentials
+
+                            if (state.RequestParams.SetCookies)
+                            {
+                                // one more request without cookies
+
+                                state.RetryCount++;
+
+                                //Remove Url from queue 
+                                _queuedRequests.Remove(state.InitialRequestUri.CanonicalizedUri());
+
+                                // Enqueue the request with the new Url. 
+                                // We raise the queue priority a bit to get the retry request closer to the just
+                                // finished one. So the user get better feedback, because the whole processing
+                                // of one request (including the redirection/moved/... ) is visualized as one update
+                                // action.
+                                RequestParameter rqp = RequestParameter.Create(false, state.RequestParams);
+                                QueueRequestAgain(rqp, state.Priority + 1, state);
+
+                            }
+                            else
+                            {
+                                throw new ResourceAuthorizationException();
+                            }
+                        }
+                    }
+                    else if (IsAccessForbidden(httpResponse.StatusCode) &&
+                             state.InitialRequestUri.Scheme == "https")
+                    {
+                        throw new ClientCertificateRequiredException();
+                    }
+                    else if (httpResponse.StatusCode == HttpStatusCode.Gone)
+                    {
+                        throw new ResourceGoneException();
+                    }
+                    else
+                    {
+                        string statusDescription = httpResponse.StatusDescription;
+                        if (String.IsNullOrEmpty(statusDescription))
+                            statusDescription = httpResponse.StatusCode.ToString();
+
+                        string htmlStatusMessage = null;
+                        try
+                        {
+                            htmlStatusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd();
+                        }
+                        catch { }
+
+                        throw new WebException(String.IsNullOrEmpty(htmlStatusMessage)
+                            ? String.Format("Unexpected HTTP Response: {0} ({1})", statusDescription, httpResponse.StatusCode)
+                            : htmlStatusMessage);
+                    }
+                }
+                else if (fileResponse != null)
+                {
+                    string reqFile = fileResponse.ResponseUri.LocalPath;
+
+                    if (File.Exists(reqFile))
+                    {
+                        DateTime lwt = File.GetLastWriteTime(reqFile);
+                        state.RequestParams.ETag = lwt.ToString();
+                        state.RequestParams.LastModified = lwt;
+                    }
+
+                    state.ResponseStream = fileResponse.GetResponseStream();
+                    state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
+                                                   ReadCallback, state);
+                    // async read started, so we are done here:
+                    Log.Debug("ProcessResponse() file response OK: " + state.RequestUri);
+
+                    return;
+                }
+                else if (nntpResponse != null)
+                {
+                    state.RequestParams.LastModified = DateTime.Now;
+                    state.ResponseStream = nntpResponse.GetResponseStream();
+                    state.ResponseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
+                                                   ReadCallback, state);
+                    // async read started, so we are done here:
+                    Log.Debug("ProcessResponse() nntp response OK: " + state.RequestUri);
+
+                    return;
+                }
+                else
+                {
+                    Debug.Assert(false,
+                                 "ProcessResponse(): unhandled WebResponse type: " +
+                                 state.Response.GetType());
+                    FinalizeWebRequest(state);
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                FinalizeWebRequest(state);
+                // ignore, just return
+            }
+            catch (Exception ex)
+            {
+                Log.Debug("ProcessResponse() exception: " + state.RequestUri + " :" + ex.Message);
+                state.OnRequestException(state.InitialRequestUri, ex);
+                FinalizeWebRequest(state);
+            }
+        }
+
 
         private static ICredentials RebuildCredentials(ICredentials credentials, string redirectUrl)
         {
@@ -1195,14 +1342,14 @@ namespace NewsComponents.Net
 
                 if (read > 0)
                 {
-                    state.bytesTransferred += read;
-                    state.RequestData.Write(state.BufferRead, 0, read); // write buffer to mem stream, queue next read:
-                    responseStream.BeginRead(state.BufferRead, 0, RequestState.BUFFER_SIZE,
+                    state.BytesTransferred += read;
+                    state.RequestData.Write(state.ReadBuffer, 0, read); // write buffer to mem stream, queue next read:
+                    responseStream.BeginRead(state.ReadBuffer, 0, RequestState.BUFFER_SIZE,
                                              ReadCallback, state);
 
-                    if (((state.bytesTransferred / RequestState.BUFFER_SIZE) % 10) == 0)
+                    if (((state.BytesTransferred / RequestState.BUFFER_SIZE) % 10) == 0)
                     {
-                        state.OnRequestProgress(state.InitialRequestUri, state.bytesTransferred);
+                        state.OnRequestProgress(state.InitialRequestUri, state.BytesTransferred);
                     }
 
                     // continue read:

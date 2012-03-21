@@ -5562,12 +5562,14 @@ namespace NewsComponents
                     } //if(!websites.Contains(webSiteUrl.Authority)){					
                 } // for (int i = 0, len = keys.Length; i < len; i++){ 
 
-                AsyncWebRequest.GetAsyncResponses(   requests, 
-                                                     "#$% favicons #$%", //category name shouldn't clash with a user created category name
-                                                     null /* new RequestStartCallback(this.OnRequestStart) */,
-                                                     OnFaviconRequestComplete,
-                                                     null /* new RequestExceptionCallback(this.OnRequestException) */
-                                                  );
+                // use a new instance, we don't like to trigger the "AllRequestCompleted" for feed requests,
+                // and we don't need it here for favicons:
+                new AsyncWebRequest().QueueRequestsAsync(
+                    requests,
+                    null /* new RequestStartCallback(this.OnRequestStart) */,
+                    OnFaviconRequestComplete,
+                    null /* new RequestExceptionCallback(this.OnRequestException) */
+                );
             }
             catch (InvalidOperationException ioe)
             {
@@ -5697,10 +5699,10 @@ namespace NewsComponents
 
                 } // for (int i = 0, len = keys.Length; i < len; i++)
 
-                AsyncWebRequest.GetAsyncResponses(requests, String.Empty /* category */ , 
-                                                    OnRequestStart,
-                                                    OnRequestComplete,
-                                                    OnRequestException); 
+                AsyncWebRequest.QueueRequestsAsync(requests, 
+                                                   OnRequestStart,
+                                                   OnRequestComplete,
+                                                   OnRequestException); 
             }
             catch (InvalidOperationException ioe)
             {
@@ -5816,7 +5818,7 @@ namespace NewsComponents
                     }
                 } //for(i)
 
-                AsyncWebRequest.GetAsyncResponses(requests, category, OnRequestStart,
+                AsyncWebRequest.QueueRequestsAsync(requests, OnRequestStart,
                                             OnRequestComplete,
                                             OnRequestException);  
             }
@@ -6308,7 +6310,7 @@ namespace NewsComponents
                             feed.deletedstories.Contains(item.Id))
                         {
                             //items.Remove(item);  // calls internal IndexOf() and RemoveAt()	
-                            items.RemoveAt(i);
+                            fi.RemoveItemAt(i);
                             RelationCosmosRemove(item);
                             i--;
                             count--;
@@ -6371,7 +6373,7 @@ namespace NewsComponents
                         if (!deletedItems.Contains(newitem.Id))
                         {
                             receivedNewItems.Add(newitem);
-                            oldItems.Add(newitem);
+                            //oldItems.Add(newitem);
                             //perform whatever processing is needed
                             ReceivingNewsChannelServices.ProcessItem(newitem);
                         }
@@ -6443,8 +6445,8 @@ namespace NewsComponents
                             }
                         }
 
-                        oldItems.RemoveAt(index);
-                        oldItems.Add(newitem);
+                        //oldItems.RemoveAt(index);
+                        //oldItems.Add(newitem);
                         RelationCosmosRemove(olditem);
                         //	removedOldItems.Add(olditem); 
                     }

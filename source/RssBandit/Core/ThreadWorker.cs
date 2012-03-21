@@ -11,9 +11,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents.Collections;
+using NewsComponents.Net;
 using NewsComponents.Threading;
 using NewsComponents.Utils;
 using RssBandit;
@@ -74,46 +76,66 @@ namespace RssBandit
 			UltraTreeNode feedNode;
 			string stylesheet, html;
 
-			switch ((Task)task.TaskID) {
+			switch ((Task)task.TaskID) 
+            {
+                case Task.LoadAllFeedSourcesSubscriptions:
 
-				case Task.LoadAllFeedSourcesSubscriptions:
-					List<FeedSourceEntry> entries = (List<FeedSourceEntry>)task.Arguments[0];
-					var finished = new ManualResetEvent(false);
-					int max = entries.Count;
-					int current = 0;
+                    List<FeedSourceEntry> entries = (List<FeedSourceEntry>)task.Arguments[0];
+                    maxTasks = entries.Count;
 
-					for (int i = 0; i < max; i++ )
-					{
-						IndexedFeedSourceEntry e = new IndexedFeedSourceEntry(entries[i], i);
+                    Parallel.ForEach(entries, e =>
+                    {
+                        try
+                        {
+                            app.LoadFeedSourceSubscriptions(e, true);
+                            this.RaiseBackroundTaskProgress(task, maxTasks, currentTask, null, e);
+                        }
+                        catch (Exception loadEx)
+                        {
+                            this.RaiseBackroundTaskProgress(task, maxTasks, currentTask, loadEx, e);
+                        }
+                        finally
+                        {
+                            Interlocked.Increment(ref currentTask);
+                        }
+                    });
+                    
+                    //var finished = new ManualResetEvent(false);
+                    //int max = entries.Count;
+                    //int current = 0;
+
+                    //for (int i = 0; i < max; i++ )
+                    //{
+                    //    IndexedFeedSourceEntry e = new IndexedFeedSourceEntry(entries[i], i);
 						
-						PriorityThreadPool.QueueUserWorkItem(
-							delegate(object state)
-							{
-								IndexedFeedSourceEntry fs = (IndexedFeedSourceEntry)state;
-								int threadCurrent = fs.Index+1;
+                    //    PriorityThreadPool.QueueUserWorkItem(
+                    //        delegate(object state)
+                    //        {
+                    //            IndexedFeedSourceEntry fs = (IndexedFeedSourceEntry)state;
+                    //            int threadCurrent = fs.Index+1;
 								
-								try
-								{
-									app.LoadFeedSourceSubscriptions(fs.Entry, true);
-									this.RaiseBackroundTaskProgress(task, max, threadCurrent, null, fs.Entry);
-								}
-								catch (Exception loadEx)
-								{
-									this.RaiseBackroundTaskProgress(task, max, threadCurrent, loadEx, fs.Entry);
-								}
-								finally
-								{
-									if (Interlocked.Increment(ref current) >= max)
-									{
-										if (finished != null)
-											finished.Set();
-									}
-								}
-							}, e, 1);
-					}
+                    //            try
+                    //            {
+                    //                app.LoadFeedSourceSubscriptions(fs.Entry, true);
+                    //                this.RaiseBackroundTaskProgress(task, max, threadCurrent, null, fs.Entry);
+                    //            }
+                    //            catch (Exception loadEx)
+                    //            {
+                    //                this.RaiseBackroundTaskProgress(task, max, threadCurrent, loadEx, fs.Entry);
+                    //            }
+                    //            finally
+                    //            {
+                    //                if (Interlocked.Increment(ref current) >= max)
+                    //                {
+                    //                    if (finished != null)
+                    //                        finished.Set();
+                    //                }
+                    //            }
+                    //        }, e, 1);
+                    //}
 					
-					if (max > 0)
-						finished.WaitOne(Timeout.Infinite, true);
+                    //if (max > 0)
+                    //    finished.WaitOne(Timeout.Infinite, true);
 					
 					break;
 

@@ -191,7 +191,8 @@ namespace RssBandit.UnitTests
                 stream.Close();
             }
 
-            Assertion.AssertEquals("3 + 1 = 4.  4 Feeds expected because one is a duplicate!", 4, handler.Feeds.Count);
+            //Assertion.AssertEquals("3 + 1 = 4.  4 Feeds expected because one is a duplicate!", 4, handler.Feeds.Count);
+            Assert.AreEqual(4, handler.Feeds.Count, "3 + 1 = 4.  4 Feeds expected because one is a duplicate!");
 
             AssertFeedTitle("MSDN: Visual C#", "http://msdn.microsoft.com/vcsharp/rss.xml", handler);
             AssertFeedCategory("Development", "http://msdn.microsoft.com/vcsharp/rss.xml", handler);
@@ -236,9 +237,9 @@ namespace RssBandit.UnitTests
 
             //The first one should have been read. the second not.
             NewsItem item = (NewsItem)items[0];
-            Assertion.Assert(item.BeenRead);
+            Assert.IsTrue(item.BeenRead);
             item = (NewsItem)items[1];
-            Assertion.Assert(!item.BeenRead);
+            Assert.IsTrue(!item.BeenRead);
 
             //So let's read the second item.
             handler.MarkAllCachedItemsAsRead(feed);
@@ -249,7 +250,7 @@ namespace RssBandit.UnitTests
             {
                 handler.SaveFeedList(newFeedStream, FeedListFormat.NewsHandler);
                 newFeedStream.Close();
-                Assertion.Assert(File.Exists(Path.Combine(WEBROOT_PATH, @"NewsHandlerTestFiles\LocalTestFeedList_NEW.xml")));
+                Assert.IsTrue(File.Exists(Path.Combine(WEBROOT_PATH, @"NewsHandlerTestFiles\LocalTestFeedList_NEW.xml")));
             }
 
             //Let's reload and see what happens.
@@ -257,7 +258,8 @@ namespace RssBandit.UnitTests
             handler.LoadFeedlist(); 
             
             feed = handler.GetFeeds().Values.FirstOrDefault();
-            Assertion.AssertEquals("Should be two now.", 2, feed.storiesrecentlyviewed.Count);
+            //Assertion.AssertEquals("Should be two now.", 2, feed.storiesrecentlyviewed.Count);
+            Assert.AreEqual(2, feed.storiesrecentlyviewed.Count, "Should be two now.");
         }
 
         ///// <summary>

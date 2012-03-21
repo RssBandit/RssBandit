@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using NewsComponents;
 using NewsComponents.Storage;

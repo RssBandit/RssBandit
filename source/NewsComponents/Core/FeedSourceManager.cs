@@ -514,16 +514,18 @@ namespace NewsComponents
         /// Loads the feed sources.
         /// </summary>
         /// <param name="feedSourcesUrl">The feed sources URL.</param>
+        /// <exception cref="ArgumentNullException">If feedSourcesUrl is null or empty</exception>
+        /// <exception cref="FileNotFoundException">If feedSourcesUrl could not be found</exception>
         public void LoadFeedSources(string feedSourcesUrl)
         {
             if (String.IsNullOrEmpty(feedSourcesUrl))
-                return;
+                throw new ArgumentNullException("feedSourcesUrl");
+            
             if (!File.Exists(feedSourcesUrl))
-                return;
+                throw new FileNotFoundException("Could not find feed sources file '{0}' to load.", feedSourcesUrl);
 
             try
             {
-
                 XmlParserContext context =
                     new XmlParserContext(null, new RssBanditXmlNamespaceResolver(), null, XmlSpace.None);
                 using (XmlReader reader = new RssBanditXmlReader(FileHelper.OpenForRead(feedSourcesUrl), XmlNodeType.Document, context))
@@ -553,7 +555,8 @@ namespace NewsComponents
             }
             catch (Exception e)
             {
-                _log.Error("Error on deserializing feed source",e);                
+                _log.Error("Error on deserializing feed source",e);
+                throw;
             }
         }
 

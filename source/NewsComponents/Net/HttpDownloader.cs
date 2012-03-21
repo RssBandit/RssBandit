@@ -157,13 +157,14 @@ namespace NewsComponents.Net
                                                                 DateTime.MinValue, null);
             // global cookie handling:
             reqParam.SetCookies = FeedSource.SetCookies;
-
+            //one hour timeout for enclosures:
+            reqParam.Timeout = TimeSpan.FromHours(1);
 
             state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam,
                                                                            OnRequestStart,
                                                                            OnRequestComplete,
                                                                            OnRequestException,
-                                                                           new RequestProgressCallback(OnRequestProgress),
+                                                                           OnRequestProgress,
                                                                            priority);
         }
 

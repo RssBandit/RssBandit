@@ -13,122 +13,145 @@ using System.IO;
 
 namespace NewsComponents.Net
 {
-	/// <summary>
-	/// Summary description for RequestState.
-	/// </summary>
-	internal class RequestState
-	{
-		public event RequestStartCallback WebRequestStarted;
-		public event RequestCompleteCallback WebRequestCompleted;
-		public event RequestExceptionCallback WebRequestException;
-		public event RequestProgressCallback WebRequestProgress; 
+    /// <summary>
+    /// Summary description for RequestState.
+    /// </summary>
+    internal class RequestState
+    {
+        public const int MAX_RETRIES = 25;	// how often we retry, if a url was a redirect (of a redirect of a redirect...)
+        public const int BUFFER_SIZE = 4096;	// 4K
+        
+        public event RequestStartCallback WebRequestStarted;
+        public event RequestCompleteCallback WebRequestCompleted;
+        public event RequestExceptionCallback WebRequestException;
+        public event RequestProgressCallback WebRequestProgress;
 
-		public RequestState(AsyncWebRequest asyncWebRequest)
-		{
-			this.myAsyncWebRequest = asyncWebRequest;
-			this.Request = null;
-			this.ResponseStream = null;
-			this.RetryCount = 0;
-			this.BufferRead = new byte[BUFFER_SIZE];
-			#region experimental code
-//			this.allDone= new System.Threading.AutoResetEvent(false);
-			#endregion
-		}
+        private Stream _requestData;
+        
+        public byte[] ReadBuffer;
+        public long BytesTransferred;
 
-		
-		public bool OnRequestStart() {
-			return this.OnRequestStart(this.RequestUri);
-		}
-		public bool OnRequestStart(Uri requestUri) {
-			bool cancel = false;
-			try {
-				if (WebRequestStarted != null)
-					WebRequestStarted(requestUri, ref cancel);	
-			} catch {}
-			return cancel;
-		}
+        public bool MovedPermanently;
+        public bool RequestFinalized;
 
-		public void OnRequestException(Exception e) {
-			this.OnRequestException(this.RequestUri, e);
-		}
-		public void OnRequestException(Uri requestUri, Exception e) {
-			myAsyncWebRequest.FinalizeWebRequest(this);
-			try {
-				if (this.WebRequestException != null) {
-					this.WebRequestException(requestUri, e, this.Priority);
-				}
-			} catch { /* ignore ex. thrown in callback */ }
- 		}
+        public RequestParameter RequestParams;
+        public WebRequest Request;
+        public WebResponse Response;
+        public Stream ResponseStream;
 
-		public void OnRequestCompleted(string eTag, DateTime lastModfied, RequestResult result) {
-			this.OnRequestCompleted(this.InitialRequestUri, this.RequestUri, eTag, lastModfied, result);
-		}
-		public void OnRequestCompleted(Uri newUri, string eTag, DateTime lastModfied, RequestResult result) {
-			this.OnRequestCompleted(this.InitialRequestUri, newUri, eTag, lastModfied, result);
-		}
-		public void OnRequestCompleted(Uri requestUri,  Uri newUri, string eTag, DateTime lastModfied, RequestResult result) {
+        public int RetryCount;
+        public DateTime StartTime = DateTime.Now;
+        public int Priority;
+        public Uri InitialRequestUri;
+        
+        #region ctor's
 
-			try {
-				if (WebRequestCompleted != null) {
-					if (this.movedPermanently)
-						WebRequestCompleted(requestUri, this.ResponseStream, this.Response, newUri, eTag, lastModfied, result, this.Priority);
-					else
-                        WebRequestCompleted(requestUri, this.ResponseStream, this.Response, null, eTag, lastModfied, result, this.Priority);
-				}
-			} catch { /* ignore ex. thrown in callback */ }
-			
-		}
+        public RequestState()
+        {
+            this.ReadBuffer = new byte[BUFFER_SIZE];
+        }
 
-		public void OnRequestProgress(Uri requestUri, long bytesTransferred){
-		
-			try{
-				if(WebRequestProgress != null){
-					WebRequestProgress(requestUri, bytesTransferred); 
-				}
+        public RequestState(WebRequest request, int priority, RequestParameter requestParameter):
+            this()
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (requestParameter == null) throw new ArgumentNullException("requestParameter");
 
-			} catch { /* ignore ex. thrown in callback */ }
-		}
+            this.Request = request;
+            this.InitialRequestUri = request.RequestUri;
+            this.Priority = priority;
+            this.RequestParams = requestParameter;
+        }
 
-		public const int MAX_RETRIES = 25;	// how often we retry, if a url was a redirect (of a redirect of a redirect...)
-		public const int BUFFER_SIZE = 4096;	// 4K
+        #endregion
 
-		public byte[] BufferRead;
-		
-		public Stream RequestData {
-			get { 
-				if (_requestData == null)	//lazy init. "Redirects", or "Not modified" do not need it immediatly
-					_requestData = new MemoryStream();
-				return _requestData;
-			}
-		}
-		private Stream _requestData;
+        public bool OnRequestStart()
+        {
+            bool cancel = false;
+            try
+            {
+                var handler = WebRequestStarted;
+                if (handler != null)
+                    handler(RequestUri, ref cancel);
+            }
+            catch { /* ignore ex. thrown in callback */ }
+            return cancel;
+        }
+        
+        public void OnRequestException(Exception e)
+        {
+            this.OnRequestException(this.RequestUri, e);
+        }
+        
+        public void OnRequestException(Uri requestUri, Exception e)
+        {
+            try
+            {
+                var handler = WebRequestException;
+                if (handler != null)
+                {
+                    handler(requestUri, e, this.Priority);
+                }
+            }
+            catch { /* ignore ex. thrown in callback */ }
+        }
 
-		public bool movedPermanently;
-		public bool requestFinalized;
+        public void OnRequestCompleted(string eTag, DateTime lastModfied, RequestResult result)
+        {
+            this.OnRequestCompleted(this.InitialRequestUri, this.RequestUri, eTag, lastModfied, result);
+        }
 
-		public RequestParameter RequestParams; 
-		public WebRequest Request;
-		public AsyncWebRequest myAsyncWebRequest; 
-		public WebResponse Response;
-		public Stream ResponseStream;
-		
-		public int RetryCount;
-		public DateTime StartTime = DateTime.Now;
-		public int Priority;
-		public Uri InitialRequestUri;
-		public long bytesTransferred;
-		
-		#region experimental code
-		//public System.Threading.AutoResetEvent allDone;
-		//public bool timeOutOnRequest;
-		#endregion
+        public void OnRequestCompleted(Uri requestUri, Uri newUri, string eTag, DateTime lastModfied, RequestResult result)
+        {
+            try
+            {
+                var handler = WebRequestCompleted;
+                if (handler != null)
+                {
+                    if (this.MovedPermanently)
+                        handler(requestUri, this.ResponseStream, this.Response, newUri, eTag, lastModfied, result, this.Priority);
+                    else
+                        handler(requestUri, this.ResponseStream, this.Response, null, eTag, lastModfied, result, this.Priority);
+                }
+            }
+            catch { /* ignore ex. thrown in callback */ }
 
-		public Uri RequestUri {
-			get { 
-				if (Request != null) 
-					  return Request.RequestUri;
-				return null;
-			}
-		}
-	}
+        }
+
+        public void OnRequestProgress(Uri requestUri, long bytesTransferred)
+        {
+
+            try
+            {
+                if (WebRequestProgress != null)
+                {
+                    WebRequestProgress(requestUri, bytesTransferred);
+                }
+
+            }
+            catch { /* ignore ex. thrown in callback */ }
+        }
+
+        
+        public Stream RequestData
+        {
+            get
+            {
+                if (_requestData == null)	//lazy init. "Redirects", or "Not modified" do not need it immediatly
+                    _requestData = new MemoryStream();
+                return _requestData;
+            }
+        }
+        
+       
+        public Uri RequestUri
+        {
+            get
+            {
+                if (Request != null)
+                    return Request.RequestUri;
+                return null;
+            }
+        }
+    }
 }
