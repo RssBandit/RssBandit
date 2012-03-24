@@ -94,24 +94,6 @@ namespace NewsComponents.Net
                                            _scheduler);
         }
 
-        /// <summary>
-        /// Static constructor
-        /// </summary>
-        static AsyncWebRequest()
-        {
-#if USENEW_CERTCHECK
-    // experimental:
-            ServicePointManager.ServerCertificateValidationCallback =
-                TrustSelectedCertificatePolicy.CheckServerCertificate;  
-#else
-            ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
-#endif
-            // allow the manager to send proxy crendentials for proxies that require auth.:
-            AuthenticationManager.CredentialPolicy = new ProxyCredentialsPolicy();
-
-            // SetAllowUnsafeHeaderParsing(); now controlled by app.config 
-        }
-
         #endregion
 
         /// <summary>
