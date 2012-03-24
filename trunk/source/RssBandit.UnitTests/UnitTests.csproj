@@ -142,7 +142,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataServiceFactoryTests.cs" />
-    <Compile Include="FileCacheManagerTests.cs">
+    <Compile Include="FileStorageDataServiceTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BanditFeedSourceTests.cs">
