@@ -15,12 +15,11 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Storage;
 using NUnit.Framework;
-using RssBandit.UnitTests;
 
 namespace RssBandit.UnitTests
 {
 	/// <summary>
-    /// TODO: reactivate tests with new/renamed/refactored class
+    /// FileStorageDataService Tests that not require a web server
 	/// </summary>
 	[TestFixture]
     public class FileStorageDataServiceTests : BaseTestFixture
@@ -113,62 +112,12 @@ namespace RssBandit.UnitTests
             Assert.AreEqual(files.Length, 0, "There should be no files in the cache.");
         }
 
-        ///// <summary>
-        ///// SaveFeed can only be tested via NewsHandler.ApplyModifications method.
-        ///// </summary>
-        //[Test]
-        //public void SaveFeedCreatesCacheFile()
-        //{
-        //    string cacheDirectory = string.Empty;
-        //    try
-        //    {
-        //        cacheDirectory = NewsHandler.GetUserPath(APP_NAME);
-        //        UnpackResourceDirectory("Cache", new DirectoryInfo(cacheDirectory));
-        //        UnpackResourceDirectory("WebRoot.NewsHandlerTestFiles");
-        //        base.SetUp();
-
-        //        //Load feed list.
-        //        FileCacheManager cache = new FileCacheManager(Path.Combine(cacheDirectory, "Cache"));
-
-        //        NewsHandler handler = new NewsHandler(APP_NAME, cache);
-        //        handler.LoadFeedlist(new FileStream(WEBROOT_PATH + @"\NewsHandlerTestFiles\LocalTestFeedList.xml", FileMode.Open), null);
-        //        Assert.IsTrue(handler.FeedsListOK, "Feeds should be valid!");
-
-        //        //Grab a feed.
-        //        feedsFeed feed = handler.FeedsTable[NewsHandlerTests.BASE_URL + "LocalTestFeed.xml"];
-        //        Console.WriteLine("CACHEURL: " + feed.cacheurl);
-        //        FileInfo cachedFile = new FileInfo(Path.Combine(cacheDirectory, @"Cache\" + feed.cacheurl));
-
-        //        DateTime lastWriteTime = cachedFile.LastWriteTime;
-
-        //        Assert.IsNotNull(handler.GetFeedInfo(feed.link), "Feed info should not be null.");
-
-        //        //Save the cache.
-        //        Thread.Sleep(1000);
-        //        handler.ApplyFeedModifications(feed.link);
-
-        //        Assert.IsTrue(cache.FeedExists(feed), "The feed should have been saved to the cache");
-
-        //        string[] files = Directory.GetFiles(Path.Combine(cacheDirectory, "Cache"));
-        //        Assert.IsTrue(files.Length > 0, "There should be at least one cache file in the cache.");
-        //        cachedFile = new FileInfo(Path.Combine(cacheDirectory, @"Cache\" + feed.cacheurl));
-        //        Assert.IsTrue(cachedFile.LastWriteTime > lastWriteTime, "Didn't overwrite the file. Original: " + lastWriteTime + "  New: " + cachedFile.LastWriteTime);
-
-        //    }
-        //    finally
-        //    {
-        //        base.TearDown();
-        //        if (cacheDirectory.Length > 0 && Directory.Exists(cacheDirectory))
-        //            Directory.Delete(cacheDirectory, true);
-        //    }
-        //}
-
         /// <summary>
         /// Setups the test fixture by starting unpacking 
         /// embedded resources and starting the web server.
         /// </summary>
         [SetUp]
-        protected new void SetUp()
+        protected void SetUp()
         {
             DeleteDirectory(UNPACK_DESTINATION);
             UnpackResourceDirectory("Cache");
@@ -178,7 +127,7 @@ namespace RssBandit.UnitTests
         /// Stops the web server and cleans up the files.
         /// </summary>
         [TearDown]
-        protected new void TearDown()
+        protected void TearDown()
         {
             DeleteDirectory(UNPACK_DESTINATION);
             if (_cacheDirectory.Length > 0 && Directory.Exists(_cacheDirectory))
@@ -186,4 +135,96 @@ namespace RssBandit.UnitTests
         }
 
 	}
+
+    /// <summary>
+    /// FileStorageDataService Tests requiring a web server
+    /// </summary>
+    [TestFixture]
+    public class FileStorageDataServiceTestsRequiringWebServer : CassiniHelperTestFixture
+    {
+        private readonly string _cacheDirectory;
+        const string BASE_URL = "http://127.0.0.1:8081/NewsHandlerTestFiles/";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileStorageDataServiceTestsRequiringWebServer"/> class.
+        /// </summary>
+        public FileStorageDataServiceTestsRequiringWebServer()
+        {
+            _cacheDirectory = Path.Combine(UNPACK_DESTINATION, "Cache");
+        }
+
+        /// <summary>
+        /// SaveFeed can only be tested via NewsHandler.ApplyModifications method.
+        /// </summary>
+        [Test]
+        public void SaveFeedCreatesCacheFile()
+        {
+            //Load feed list.
+            var cache = new FileStorageDataService();
+            cache.Initialize(Path.GetFullPath(_cacheDirectory));
+
+            var handler = new BanditFeedSource(ConfigurationWithoutSearchIndexerAndUnitTestCache,
+                new SubscriptionLocation(WEBROOT_PATH + @"\NewsHandlerTestFiles\LocalTestFeedList.xml"));
+            handler.LoadFeedlist();
+            Assert.IsTrue(handler.FeedsListOK, "Feeds should be valid!");
+
+            //Grab a feed.
+            INewsFeed feed = handler.GetFeeds()[BASE_URL + @"LocalTestFeed.xml"];
+            //feedsFeed feed = handler.FeedsTable[NewsHandlerTests.BASE_URL + "LocalTestFeed.xml"];
+            Console.WriteLine("CACHEURL: " + feed.cacheurl);
+            FileInfo cachedFile = new FileInfo(Path.Combine(_cacheDirectory, feed.cacheurl));
+
+            DateTime lastWriteTime = cachedFile.LastWriteTime;
+
+            Assert.IsNotNull(handler.GetFeedDetails(feed.link), "Feed info should not be null.");
+
+            //Save the cache.
+            Thread.Sleep(1000);
+            handler.ApplyFeedModifications(feed.link);
+
+            Assert.IsTrue(cache.FeedExists(feed), "The feed should have been saved to the cache");
+
+            string[] files = Directory.GetFiles(_cacheDirectory);
+            Assert.IsTrue(files.Length > 0, "There should be at least one cache file in the cache.");
+            cachedFile = new FileInfo(Path.Combine(_cacheDirectory, feed.cacheurl));
+            Assert.IsTrue(cachedFile.LastWriteTime > lastWriteTime, "Didn't overwrite the file. Original: " + lastWriteTime + "  New: " + cachedFile.LastWriteTime);
+
+        }
+
+        private INewsComponentsConfiguration ConfigurationWithoutSearchIndexerAndUnitTestCache
+        {
+            get
+            {
+                var cfg = NewsComponentsConfiguration.Default as NewsComponentsConfiguration;
+                cfg.SearchIndexBehavior = SearchIndexBehavior.NoIndexing;
+                // UNPACK_DESTINATION without "Cache": that name will be automatically appended to the folder we provide here:
+                cfg.UserLocalApplicationDataPath = UNPACK_DESTINATION;
+                return cfg;
+            }
+        }
+
+        /// <summary>
+        /// Setups the test fixture by starting unpacking 
+        /// embedded resources and starting the web server.
+        /// </summary>
+        [SetUp]
+        protected new void SetUp()
+        {
+            DeleteDirectory(UNPACK_DESTINATION);
+            UnpackResourceDirectory("WebRoot.NewsHandlerTestFiles");
+            UnpackResourceDirectory("Cache");
+        }
+
+        /// <summary>
+        /// Stops the web server and cleans up the files.
+        /// </summary>
+        [TearDown]
+        protected new void TearDown()
+        {
+            base.TearDown();
+            //DeleteDirectory(UNPACK_DESTINATION);
+            //if (_cacheDirectory.Length > 0 && Directory.Exists(_cacheDirectory))
+            //    DeleteDirectory(_cacheDirectory);
+        }
+    }
 }
