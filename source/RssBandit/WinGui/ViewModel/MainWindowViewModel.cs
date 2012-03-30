@@ -220,6 +220,8 @@ namespace RssBandit.WinGui.ViewModel
                 if (sender is FeedViewModel)
                 {
                     CurrentRibbonContext = RibbonContext.Feed;
+                    var model = (FeedViewModel) sender;
+                    model.LoadFeedItems();
                 }
                 if (sender is FolderViewModel)
                 {

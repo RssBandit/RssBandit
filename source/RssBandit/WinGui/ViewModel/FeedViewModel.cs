@@ -107,5 +107,12 @@ namespace RssBandit.WinGui.ViewModel
             get;
             private set;
         }
+
+        public void LoadFeedItems()
+        {
+            FeedSourceEntry entry = RssBanditApplication.Current.FeedSources[Source.Name];
+            _newsItems.Clear();
+            _newsItems.AddRange(entry.Source.GetCachedItemsForFeed(_feed.link));
+        }
     }
 }
