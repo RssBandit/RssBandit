@@ -30,5 +30,16 @@ namespace RssBandit.Core
                 OnPropertyChanged(() => SelectedNode);
             }
         }
+
+        private IItemViewModelBase _selectedItem;
+        public IItemViewModelBase SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged(() => SelectedItem);
+            }
+        }
     }
 }

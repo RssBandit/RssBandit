@@ -14,10 +14,11 @@
                 <igDock:XamDockManager.Panes>
                     <igDock:SplitPane Name="subscriptionsSplitPane">
                         <igDock:ContentPane Name="subscriptionsDockingPane" Header="{ext:Res Id=MainForm_SubscriptionNavigatorCaption,Default=Subscriptions#}">
-                            <TreeView Name="tree" Grid.Column="0"
-                ItemsSource="{Binding FeedSources.Sources}"
-                b:SelectedItemProxy.SelectedItemInput="{Binding ElementName=tree, Path=SelectedItem}"
-                b:SelectedItemProxy.SelectedItem="{Binding SelectedTreeNodeItem, Mode=OneWayToSource}"
+                            <TreeView Name="tree" Grid.Column="0" 
+                                    VirtualizingStackPanel.IsVirtualizing = "true" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                    ItemsSource="{Binding FeedSources.Sources}" 
+                                    b:SelectedItemProxy.SelectedItemInput="{Binding ElementName=tree, Path=SelectedItem}"
+                                    b:SelectedItemProxy.SelectedItem="{Binding SelectedTreeNodeItem, Mode=OneWayToSource}"
                       >
                                 <TreeView.ItemContainerStyle>
                                     <Style TargetType="TreeViewItem">
@@ -46,8 +47,6 @@
                                                 Header="{ext:Res Id=FeedDetailDocumentTabCaption,Default=FeedDetails#}">
                                 <StackPanel>
                                     <ItemsControl ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}" />
-                                    <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello#}"></Button>
-                                    <Button Content="{ext:Res Id=NotYetImplementedFeature_Info,Default=Hello2#}"></Button>
                                 </StackPanel>
                             </igDock:ContentPane>
                         </igDock:TabGroupPane>

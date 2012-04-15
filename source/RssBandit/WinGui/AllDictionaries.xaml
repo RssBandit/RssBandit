@@ -6,6 +6,7 @@
         <ResourceDictionary Source="Views/FeedViewModel.xaml" />
         <ResourceDictionary Source="Views/FolderViewModel.xaml" />
         <ResourceDictionary Source="Views/CategorizedFeedSourceViewModel.xaml" />
+        <ResourceDictionary Source="Views/ItemViewModel.xaml" />
         <ResourceDictionary Source="CommonImages.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <RssBandit:ResourceAccess x:Key="Strings" />
