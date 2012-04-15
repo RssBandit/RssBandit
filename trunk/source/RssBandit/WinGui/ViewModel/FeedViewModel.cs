@@ -33,7 +33,7 @@ namespace RssBandit.WinGui.ViewModel
         private readonly PropertyObserver<INewsFeed> _feedObserver;
         private CollectionChangedObserver _itemsObserver;
         private readonly IDisposable _feedDetailsSubscription;
-        private readonly ObservableCollection<INewsItem> _newsItems = new ObservableCollection<INewsItem>();
+        private readonly ObservableCollection<ItemViewModel> _newsItems = new ObservableCollection<ItemViewModel>();
         private IFeedDetails _currentDetails;
 
         public FeedViewModel(INewsFeed feed, IObservable<IFeedDetails> details, CategorizedFeedSourceViewModel source)
@@ -41,7 +41,7 @@ namespace RssBandit.WinGui.ViewModel
             _feed = feed;
             _detailsObs = details;
             _feedObserver = PropertyObserver.Create(_feed);
-            NewsItems = new ReadOnlyObservableCollection<INewsItem>(_newsItems);
+            NewsItems = new ReadOnlyObservableCollection<ItemViewModel>(_newsItems);
 
             Source = source;
             //TODO: Image will be set to the downloaded favicon (later on, as it is downloaded)
@@ -69,9 +69,8 @@ namespace RssBandit.WinGui.ViewModel
             if (_currentDetails == null)
                 return;
 
-
-
-            _currentDetails.ItemsList.SynchronizeCollection(_newsItems, f => f, out _itemsObserver, context: SynchronizationContext.Current);
+            
+            _currentDetails.ItemsList.SynchronizeCollection(_newsItems, item => new ItemViewModel(item), out _itemsObserver, context: SynchronizationContext.Current);
         }
 
 
@@ -102,17 +101,19 @@ namespace RssBandit.WinGui.ViewModel
 
         public CategorizedFeedSourceViewModel Source { get; private set; }
 
-        public ReadOnlyObservableCollection<INewsItem> NewsItems
+        public ReadOnlyObservableCollection<ItemViewModel> NewsItems
         {
             get;
             private set;
         }
 
+       
         public void LoadFeedItems()
         {
             FeedSourceEntry entry = RssBanditApplication.Current.FeedSources[Source.Name];
             _newsItems.Clear();
-            _newsItems.AddRange(entry.Source.GetCachedItemsForFeed(_feed.link));
+            foreach (var itemLoaded in entry.Source.GetCachedItemsForFeed(_feed.link))
+                _newsItems.Add(new ItemViewModel(itemLoaded));
         }
     }
 }

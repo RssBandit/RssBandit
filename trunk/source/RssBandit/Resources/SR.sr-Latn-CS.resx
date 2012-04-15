@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Neklasifikovani izvori]</value>
@@ -365,7 +365,7 @@ Detalji: {1}</value>
     <value>Akcija otkazana. Naslov ne može biti prazan.</value>
   </data>
   <data name="MainMenuFileCaption" xml:space="preserve">
-    <value>&amp;Fajl</value>
+    <value>Fajl</value>
     <comment>Zaglavlje unutar glavnog menija</comment>
   </data>
   <data name="MainMenuFileDesc" xml:space="preserve">
@@ -2695,162 +2695,162 @@ neuspešno sa greškom:
   <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
     <value>Izaberi/promeni veličinu teksta u najveće...</value>
   </data>
-<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
     <value>Moj Google čitač feed-ova</value>
   </data>
-	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
     <value>Spremnik potpisanih feed-ova u Google čitaču</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
     <value>Moji NewsGator feed-ovi</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
     <value>Spremnik za potpisane feed-ove u NewsGator</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
     <value>Moja uobičajena feed lista feed-ova</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
     <value>Spremnik za potpisane feed-ove na RSS platformi</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
+  <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
     <value>Selektuj da li se ovaj predmet deli sa Google čitačom</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
+  <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
     <value>Dodaj ili ukloni predmet iz foldera isečaka u NewsGator Online</value>
   </data>
-	<data name="MenuSynchronizeFeedsCaption" space="preserve">
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
     <value>&amp;Sinhronizuj feed-ove...</value>
   </data>
-	<data name="MenuSynchronizeFeedsDesc" space="preserve">
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
     <value>Startuje Čarobnjak za sinhronizovanje feed-ova</value>
   </data>
-	<data name="ExceptionInvalidPlaylistName" space="preserve">
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
     <value>Molim vas navedite ispravno ime plejliste</value>
   </data>
-	<data name="NoTopStoriesMessage" space="preserve">
+  <data name="NoTopStoriesMessage" xml:space="preserve">
     <value>Nisu pronađene priče koje su linkovane sa vaših potpisa u proteklih '{0}' nedelju dana.</value>
   </data>
-	<data name="TopStoriesDescription" space="preserve">
+  <data name="TopStoriesDescription" xml:space="preserve">
     <value>Dole je lista najpopularniji linkova sa vaših potpisa u proteklih '{0}' nedelju dana. </value>
   </data>
-	<data name="ExceptionNoFeedSourceName" space="preserve">
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
     <value>Molim vas obezbedite ime za ovu listu potpisa</value>
   </data>
-	<data name="ExceptionNoPassword" space="preserve">
+  <data name="ExceptionNoPassword" xml:space="preserve">
     <value>Molim vas obezbedite ispravnu lozinku</value>
   </data>
-	<data name="ExceptionNoUserName" space="preserve">
+  <data name="ExceptionNoUserName" xml:space="preserve">
     <value>Molim vas obezbedite ispravno korisničko ime</value>
   </data>
-	<data name="MenuDownloadManager" space="preserve">
+  <data name="MenuDownloadManager" xml:space="preserve">
     <value>Menadžer za preuzimanje fajlova...</value>
   </data>
-	<data name="MenuDownloadManagerDesc" space="preserve">
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
     <value>Startuje menadžer preuzimanja fajlova</value>
   </data>
-	<data name="MenuDeleteFeedSourceCaption" space="preserve">
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
     <value>Obriši izvor feed-a...</value>
   </data>
-	<data name="MenuDeleteFeedSourceDesc" space="preserve">
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
     <value>Obriši ovaj izvor feed-a</value>
   </data>
-	<data name="MenuRenameFeedSourceCaption" space="preserve">
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
     <value>Preimenuj ovaj izvor feed-a...</value>
   </data>
-	<data name="MenuRenameFeedSourceDesc" space="preserve">
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
     <value>Preimenuj ovaj izvor feed-a</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
     <value>Ukloni izvor sinhronizacije</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
     <value>Da li ste sigurni da želite da uklnite '{0}' sa vaše liste izvora za sinhronizaciju?</value>
   </data>
-	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
     <value>{0} od {1} liste potpisa učitano</value>
   </data>
-	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
     <value>Sve liste potpisa učitane</value>
   </data>
-	<data name="ExecutableForFileStartupFailure" space="preserve">
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
     <value>Neusšeno startovanje aplikacije za fajl: {0}.
 
 Greška: {1}</value>
   </data>
-	<data name="MenuShowFeedSourceProperties" space="preserve">
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
     <value>Parametri...</value>
   </data>
-	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
     <value>Prikaži parametre izvora feed-a</value>
   </data>
-	<data name="ExceptionFeedlistCredentials" space="preserve">
+  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
     <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
   </data>
-	<data name="TreeFeedNodeType_Category" space="preserve">
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
     <value>Folder kategorije</value>
   </data>
-	<data name="TreeFeedNodeType_Feed" space="preserve">
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
     <value>Feed</value>
   </data>
-	<data name="TreeFeedNodeType_Finder" space="preserve">
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
     <value>Nalazač</value>
   </data>
-	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
     <value>Kategorija nalazača</value>
   </data>
-	<data name="TreeFeedNodeType_Root" space="preserve">
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
     <value>Koren potpisa</value>
   </data>
-	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
     <value>Pametni folder</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
     <value>Sadrži {0} nepročitanih predmeta</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
     <value>Sadrži 1 nepročitan predmet</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
     <value>Nema nepročitanih predmeta</value>
   </data>
-	<data name="Certificate_SelectionDialog_Title" space="preserve">
+  <data name="Certificate_SelectionDialog_Title" xml:space="preserve">
     <value>Izaberi X509 sertifikat klijenta</value>
   </data>
-	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
+  <data name="Certificate_ForFeedSiteRequired_Message" xml:space="preserve">
     <value>Sajt za feed '{0}' zahteva sertifikat klijenta. Molim vas izaberite jedan od instaliranih sertifikata.</value>
   </data>
-	<data name="Certificate_SelectionDialog_Message" space="preserve">
+  <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
     <value> Izaberite jedan od sertifikata prikazanih ispod kako bi bio dodeljen trenutnom feed-u:</value>
   </data>
-	<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+  <data name="FeedNodeFacebookFeedsCaption" xml:space="preserve">
     <value>Facebook News Feed</value>
   </data>
-	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+  <data name="FeedNodeFacebookFeedsDesc" xml:space="preserve">
     <value>Container of news feed from Facebook</value>
   </data>
-	<data name="ExceptionFacebookAuthToken" space="preserve">
+  <data name="ExceptionFacebookAuthToken" xml:space="preserve">
     <value>An error occured while trying to obtain a Facebook authorization token</value>
   </data>
-	<data name="ExceptionFacebookLogin" space="preserve">
+  <data name="ExceptionFacebookLogin" xml:space="preserve">
     <value>Facebook login failure</value>
   </data>
-	<data name="FacebookConnectFormTitle" space="preserve">
+  <data name="FacebookConnectFormTitle" xml:space="preserve">
     <value>Facebook Login</value>
   </data>
-	<data name="GroupByTime_LastMonth" space="preserve">
+  <data name="GroupByTime_LastMonth" xml:space="preserve">
     <value>Last Month</value>
   </data>
-	<data name="GroupByTime_LastWeek" space="preserve">
+  <data name="GroupByTime_LastWeek" xml:space="preserve">
     <value>Last Week</value>
   </data>
-	<data name="GroupByTime_Older" space="preserve">
+  <data name="GroupByTime_Older" xml:space="preserve">
     <value>Older</value>
   </data>
-	<data name="GroupByTime_Today" space="preserve">
+  <data name="GroupByTime_Today" xml:space="preserve">
     <value>Today</value>
   </data>
-	<data name="GroupByTime_Yesterday" space="preserve">
+  <data name="GroupByTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
-	</root>
+</root>

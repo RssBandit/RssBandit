@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FeedDefaultCategory" xml:space="preserve">
     <value>[Wiadomości niesklasyfikowane]</value>
@@ -355,7 +355,7 @@ Szczegóły: {1}</value>
     <value>Akcja anulowana. Pole tytułu nie może być puste.</value>
   </data>
   <data name="MainMenuFileCaption" xml:space="preserve">
-    <value>&amp;Plik</value>
+    <value>Plik</value>
     <comment>Caption within main menu</comment>
   </data>
   <data name="MainMenuFileDesc" xml:space="preserve">
@@ -2780,7 +2780,7 @@ Error: {1}</value>
   <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
     <value>Pokaż właściwości źródła kanałów</value>
   </data>
-  <data name="ExceptionFeedlistCredentials" space="preserve">
+  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
     <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
   </data>
   <data name="TreeFeedNodeType_Category" xml:space="preserve">
@@ -2819,34 +2819,34 @@ Error: {1}</value>
   <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
     <value>Wybierz jeden z wyświetlonych certyfikatów by przydzielić go do aktualnego kanału:</value>
   </data>
-<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+  <data name="FeedNodeFacebookFeedsCaption" xml:space="preserve">
     <value>Facebook News Feed</value>
   </data>
-	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+  <data name="FeedNodeFacebookFeedsDesc" xml:space="preserve">
     <value>Container of news feed from Facebook</value>
   </data>
-	<data name="ExceptionFacebookAuthToken" space="preserve">
+  <data name="ExceptionFacebookAuthToken" xml:space="preserve">
     <value>An error occured while trying to obtain a Facebook authorization token</value>
   </data>
-	<data name="ExceptionFacebookLogin" space="preserve">
+  <data name="ExceptionFacebookLogin" xml:space="preserve">
     <value>Facebook login failure</value>
   </data>
-	<data name="FacebookConnectFormTitle" space="preserve">
+  <data name="FacebookConnectFormTitle" xml:space="preserve">
     <value>Facebook Login</value>
   </data>
-	<data name="GroupByTime_LastMonth" space="preserve">
+  <data name="GroupByTime_LastMonth" xml:space="preserve">
     <value>Last Month</value>
   </data>
-	<data name="GroupByTime_LastWeek" space="preserve">
+  <data name="GroupByTime_LastWeek" xml:space="preserve">
     <value>Last Week</value>
   </data>
-	<data name="GroupByTime_Older" space="preserve">
+  <data name="GroupByTime_Older" xml:space="preserve">
     <value>Older</value>
   </data>
-	<data name="GroupByTime_Today" space="preserve">
+  <data name="GroupByTime_Today" xml:space="preserve">
     <value>Today</value>
   </data>
-	<data name="GroupByTime_Yesterday" space="preserve">
+  <data name="GroupByTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
-	</root>
+</root>

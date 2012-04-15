@@ -1,4 +1,14 @@
-﻿using System;
+﻿#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -86,6 +96,9 @@ namespace RssBandit.WinGui.Behaviors
                 var ribbon = tab.FindParent<XamRibbon>();
 
                 if (ribbon.SelectedTab == tab)
+                    return;
+
+                if (ribbon.IsMinimized) // no pre-selection of Ribbon Tab if ribbon is minimized:
                     return;
 
                 foreach (var tabItem in ribbon.Tabs)

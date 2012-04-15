@@ -2202,6 +2202,8 @@
     <Compile Include="WinGui\ViewModel\FeedSourcesViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FeedViewModel.cs" />
     <Compile Include="WinGui\ViewModel\FolderViewModel.cs" />
+    <Compile Include="WinGui\ViewModel\ItemViewModel.cs" />
+    <Compile Include="WinGui\ViewModel\ItemViewModelBase.cs" />
     <Compile Include="WinGui\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.cs" />
     <Compile Include="WinGui\Commands\RelayCommand.cs" />
@@ -2695,6 +2697,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WinGui\Views\FolderViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinGui\Views\ItemViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -33,7 +33,7 @@
                               IsMinimized="{Binding Path=ToolbarIsMinimized, Mode=TwoWay}" >
 
                 <Ribbon:XamRibbon.ApplicationMenu>
-                    <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaptionCaption,Default=File#}" 
+                    <Ribbon:ApplicationMenu Caption="{ext:Res Id=MainMenuFileCaption,Default=File#}" 
                                   Image="{Binding ApplicationMenuImage}" >
                         <Ribbon:ApplicationMenu.Items>
                             <Ribbon:MenuTool Id="cmdSubscribeTo" Caption="{ext:Res Id=MenuAppSubscribeToCaption,Default=Subscribe#}" ButtonType="DropDown" LargeImage="/Resources/Images/Toolbar/new.doc.32.png">

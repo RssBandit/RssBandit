@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddInGeneralFailure" xml:space="preserve">
     <value>Algemene fout in AddIn '{1}':
@@ -964,7 +964,7 @@ voor meer informatie over de fout.</value>
     <value>Bewerkings menu</value>
   </data>
   <data name="MainMenuFileCaption" xml:space="preserve">
-    <value>&amp;Bestand</value>
+    <value>Bestand</value>
   </data>
   <data name="MainMenuFileDesc" xml:space="preserve">
     <value>Bestandsbeheer</value>
@@ -2436,162 +2436,162 @@ failed with error:
   <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
     <value>Select/Change the feed details text to largest size...</value>
   </data>
-<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
+  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
     <value>My Google Reader Feeds</value>
   </data>
-	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
+  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in Google Reader</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
+  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
     <value>My NewsGator Feeds</value>
   </data>
-	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
+  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in NewsGator</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
+  <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
     <value>My Common Feed List Feeds</value>
   </data>
-	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
+  <data name="FeedNodeMyWindowsRssFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in Windows RSS platform</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
+  <data name="XsltDefaultTemplate_ToggleShareState" xml:space="preserve">
     <value>Share or unshare item in Google Reader</value>
   </data>
-	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
+  <data name="XsltDefaultTemplate_ToggleClipState" xml:space="preserve">
     <value>Add or remove item from clippings folder in NewsGator Online</value>
   </data>
-	<data name="MenuSynchronizeFeedsCaption" space="preserve">
+  <data name="MenuSynchronizeFeedsCaption" xml:space="preserve">
     <value>&amp;Synchronize Feeds...</value>
   </data>
-	<data name="MenuSynchronizeFeedsDesc" space="preserve">
+  <data name="MenuSynchronizeFeedsDesc" xml:space="preserve">
     <value>Launches the Synchronize Feeds Wizard</value>
   </data>
-	<data name="ExceptionInvalidPlaylistName" space="preserve">
+  <data name="ExceptionInvalidPlaylistName" xml:space="preserve">
     <value>Please specify a valid playlist name</value>
   </data>
-	<data name="NoTopStoriesMessage" space="preserve">
+  <data name="NoTopStoriesMessage" xml:space="preserve">
     <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
   </data>
-	<data name="TopStoriesDescription" space="preserve">
+  <data name="TopStoriesDescription" xml:space="preserve">
     <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
   </data>
-	<data name="ExceptionNoFeedSourceName" space="preserve">
+  <data name="ExceptionNoFeedSourceName" xml:space="preserve">
     <value>Please provide a name for this subscription list</value>
   </data>
-	<data name="ExceptionNoPassword" space="preserve">
+  <data name="ExceptionNoPassword" xml:space="preserve">
     <value>Please provide a valid password</value>
   </data>
-	<data name="ExceptionNoUserName" space="preserve">
+  <data name="ExceptionNoUserName" xml:space="preserve">
     <value>Please provide a valid username</value>
   </data>
-	<data name="MenuDownloadManager" space="preserve">
+  <data name="MenuDownloadManager" xml:space="preserve">
     <value>Download Manager...</value>
   </data>
-	<data name="MenuDownloadManagerDesc" space="preserve">
+  <data name="MenuDownloadManagerDesc" xml:space="preserve">
     <value>Launches the download manager</value>
   </data>
-	<data name="MenuDeleteFeedSourceCaption" space="preserve">
+  <data name="MenuDeleteFeedSourceCaption" xml:space="preserve">
     <value>Delete Feed Source...</value>
   </data>
-	<data name="MenuDeleteFeedSourceDesc" space="preserve">
+  <data name="MenuDeleteFeedSourceDesc" xml:space="preserve">
     <value>Delete this feed source</value>
   </data>
-	<data name="MenuRenameFeedSourceCaption" space="preserve">
+  <data name="MenuRenameFeedSourceCaption" xml:space="preserve">
     <value>Rename Feed Source...</value>
   </data>
-	<data name="MenuRenameFeedSourceDesc" space="preserve">
+  <data name="MenuRenameFeedSourceDesc" xml:space="preserve">
     <value>Rename this feed source</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
+  <data name="MessageBoxDeleteThisFeedSourceCaption" xml:space="preserve">
     <value>Remove Synchronization Source</value>
   </data>
-	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
+  <data name="MessageBoxDeleteThisFeedSourceQuestion" xml:space="preserve">
     <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
   </data>
-	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
+  <data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" xml:space="preserve">
     <value>{0} of {1} Subscription list(s) loaded</value>
   </data>
-	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
+  <data name="GUIStatusAllSubscriptionListsLoaded" xml:space="preserve">
     <value>All Subscription list(s) loaded</value>
   </data>
-	<data name="ExecutableForFileStartupFailure" space="preserve">
+  <data name="ExecutableForFileStartupFailure" xml:space="preserve">
     <value>Failed to start an application for file: {0}.
 
 Error: {1}</value>
   </data>
-	<data name="MenuShowFeedSourceProperties" space="preserve">
+  <data name="MenuShowFeedSourceProperties" xml:space="preserve">
     <value>Properties...</value>
   </data>
-	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
+  <data name="MenuShowFeedSourcePropertiesDesc" xml:space="preserve">
     <value>Show the feed source properties</value>
   </data>
-	<data name="ExceptionFeedlistCredentials" space="preserve">
+  <data name="ExceptionFeedlistCredentials" xml:space="preserve">
     <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
   </data>
-	<data name="TreeFeedNodeType_Category" space="preserve">
+  <data name="TreeFeedNodeType_Category" xml:space="preserve">
     <value>Category folder</value>
   </data>
-	<data name="TreeFeedNodeType_Feed" space="preserve">
+  <data name="TreeFeedNodeType_Feed" xml:space="preserve">
     <value>Feed</value>
   </data>
-	<data name="TreeFeedNodeType_Finder" space="preserve">
+  <data name="TreeFeedNodeType_Finder" xml:space="preserve">
     <value>Finder</value>
   </data>
-	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
+  <data name="TreeFeedNodeType_FinderCategory" xml:space="preserve">
     <value>Finder category</value>
   </data>
-	<data name="TreeFeedNodeType_Root" space="preserve">
+  <data name="TreeFeedNodeType_Root" xml:space="preserve">
     <value>Subscription root</value>
   </data>
-	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+  <data name="TreeFeedNodeType_SmartFolder" xml:space="preserve">
     <value>Smart folder</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountMultipleHint" xml:space="preserve">
     <value>Contains {0} unread items</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountSingleHint" xml:space="preserve">
     <value>Contains 1 unread item</value>
   </data>
-	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
+  <data name="TreeNodeTooltip_UnreadCountZeroHint" xml:space="preserve">
     <value>Contains no unread items</value>
   </data>
-	<data name="Certificate_SelectionDialog_Title" space="preserve">
+  <data name="Certificate_SelectionDialog_Title" xml:space="preserve">
     <value>Select a X509 Client Certificate</value>
   </data>
-	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
+  <data name="Certificate_ForFeedSiteRequired_Message" xml:space="preserve">
     <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
   </data>
-	<data name="Certificate_SelectionDialog_Message" space="preserve">
+  <data name="Certificate_SelectionDialog_Message" xml:space="preserve">
     <value> Select one of the displayed certificates below to assign it to the current feed:</value>
   </data>
-	<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+  <data name="FeedNodeFacebookFeedsCaption" xml:space="preserve">
     <value>Facebook News Feed</value>
   </data>
-	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+  <data name="FeedNodeFacebookFeedsDesc" xml:space="preserve">
     <value>Container of news feed from Facebook</value>
   </data>
-	<data name="ExceptionFacebookAuthToken" space="preserve">
+  <data name="ExceptionFacebookAuthToken" xml:space="preserve">
     <value>An error occured while trying to obtain a Facebook authorization token</value>
   </data>
-	<data name="ExceptionFacebookLogin" space="preserve">
+  <data name="ExceptionFacebookLogin" xml:space="preserve">
     <value>Facebook login failure</value>
   </data>
-	<data name="FacebookConnectFormTitle" space="preserve">
+  <data name="FacebookConnectFormTitle" xml:space="preserve">
     <value>Facebook Login</value>
   </data>
-	<data name="GroupByTime_LastMonth" space="preserve">
+  <data name="GroupByTime_LastMonth" xml:space="preserve">
     <value>Last Month</value>
   </data>
-	<data name="GroupByTime_LastWeek" space="preserve">
+  <data name="GroupByTime_LastWeek" xml:space="preserve">
     <value>Last Week</value>
   </data>
-	<data name="GroupByTime_Older" space="preserve">
+  <data name="GroupByTime_Older" xml:space="preserve">
     <value>Older</value>
   </data>
-	<data name="GroupByTime_Today" space="preserve">
+  <data name="GroupByTime_Today" xml:space="preserve">
     <value>Today</value>
   </data>
-	<data name="GroupByTime_Yesterday" space="preserve">
+  <data name="GroupByTime_Yesterday" xml:space="preserve">
     <value>Yesterday</value>
   </data>
-	</root>
+</root>

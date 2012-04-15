@@ -284,6 +284,7 @@
     <Compile Include="Core\IFeedDetails.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\IItemViewModelBase.cs" />
     <Compile Include="Core\INewsFeed.cs" />
     <Compile Include="Core\INewsItem.cs">
       <SubType>Code</SubType>
