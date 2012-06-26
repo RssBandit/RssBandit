@@ -298,69 +298,74 @@
     <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InfragisticsWPF4.v11.2, Version=11.2.20112.2125, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Shared.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.v11.2.dll</HintPath>
-    </Reference>
-    <Reference Include="InfragisticsWPF4.Ribbon.v11.2, Version=11.2.20112.2125, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.Ribbon.v11.2.dll</HintPath>
-    </Reference>
-    <Reference Include="InfragisticsWPF4.Editors.v11.2, Version=11.2.20112.2125, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.Editors.v11.2.dll</HintPath>
-    </Reference>
-    <Reference Include="InfragisticsWPF4.DockManager.v11.2, Version=11.2.20112.2125, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.DockManager.v11.2.dll</HintPath>
-    </Reference>
-    <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v11.2, Version=11.2.20112.2125, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.Controls.Menus.XamMenu.v11.2.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics4.Win.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Shared.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinTree.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.Misc.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTree.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.Misc.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinToolbars.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinEditors.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinToolbars.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinEditors.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinTabControl.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinExplorerBar.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTabControl.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinExplorerBar.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinStatusBar.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinStatusBar.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinStatusBar.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinStatusBar.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinExplorerBar.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinTabControl.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinExplorerBar.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTabControl.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinEditors.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinToolbars.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinEditors.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinToolbars.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Win.Misc.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.UltraWinTree.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.Misc.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTree.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Infragistics4.Shared.v11.2, Version=11.2.20112.2050, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="Infragistics4.Win.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Shared.v11.2.dll</HintPath>
+      <HintPath>..\Common\Libraries\Infragistics4.Win.v12.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\SharedXAML\InfragisticsWPF4.Controls.Menus.XamMenu.v12.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.DockManager.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.DockManager.v12.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Editors.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.Editors.v12.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.Ribbon.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.Ribbon.v12.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="InfragisticsWPF4.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Accessibility">
