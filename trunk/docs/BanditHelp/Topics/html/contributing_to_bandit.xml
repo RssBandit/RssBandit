@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Contributing to RSS Bandit</title>
+  <keywords>
+    <keyword translate="true">Contributing to RSS Bandit</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Contributing to RSS Bandit</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">To contribute to the project you can choose whatever section of work you like. All sources including this documentation can be found at </text><link displaytype="text" defaultstyle="true" type="weblink" href="http://sourceforge.net/projects/rssbandit/" styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">sourceforge.net</link><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">. You should be somewhat familiar with SVN and need an account at sourceforge.net (we prefer to know who works so hard to contribute).</text></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-bottom:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Start contributing by providing patches at </text><link displaytype="text" defaultstyle="true" type="weblink" href="http://sourceforge.net/tracker?group_id=96589?atid=615250" styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">http://sourceforge.net/tracker/?group_id=96589&amp;atid=615250</link><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">. They should be &quot;fresh&quot;, mean nearly the current state/version of the sources from within the SVN. Please describe what the patch is for and provide diff file(s).</text></para>
+  </body>
+</topic>

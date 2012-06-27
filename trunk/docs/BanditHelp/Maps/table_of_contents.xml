@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<map xmlns:xsi="http://www.w3.org/2001/XInclude">
+  <topicref type="topic" id="41088679122100" build="ALL" modified="2012-06-27T09:23:00.395Z" icon="0">
+    <caption translate="true">Bandit Help</caption>
+    <topicref type="topic" id="41088948156688" build="ALL" modified="2012-06-27T09:23:00.395Z" icon="0" href="welcome">
+      <caption translate="true">Welcome</caption>
+    </topicref>
+    <topicref type="topic" id="410871980411930" build="ALL" modified="2012-06-27T09:23:00.396Z" icon="0">
+      <caption translate="true">Getting Started</caption>
+      <topicref type="topic" id="410875923956581" build="ALL" modified="2012-06-27T09:23:00.396Z" icon="0" href="what_is_an_rss_feed">
+        <caption translate="true">What is an RSS feed</caption>
+      </topicref>
+      <topicref type="topic" id="410872858671687" build="ALL" modified="2012-06-27T09:23:00.396Z" icon="0" href="what_is_an_atom_feed">
+        <caption translate="true">What is an Atom feed</caption>
+      </topicref>
+      <topicref type="topic" id="410871836143489" build="ALL" modified="2012-06-27T09:23:00.396Z" icon="0" href="the_rss_bandit_user_interface">
+        <caption translate="true">The RSS Bandit user interface</caption>
+      </topicref>
+      <topicref type="topic" id="410875550770108" build="ALL" modified="2012-06-27T09:23:00.396Z" icon="0" href="subscribing_to_a_feed">
+        <caption translate="true">Subscribing to a feed</caption>
+      </topicref>
+      <topicref type="topic" id="410875780764008" build="ALL" modified="2012-06-27T09:23:00.397Z" icon="0" href="locating_new_feeds">
+        <caption translate="true">Locating new feeds</caption>
+      </topicref>
+      <topicref type="topic" id="410874495450075" build="ALL" modified="2012-06-27T09:23:00.397Z" icon="0" href="displaying_feeds">
+        <caption translate="true">Displaying feeds</caption>
+      </topicref>
+      <topicref type="topic" id="410875845345398" build="ALL" modified="2012-06-27T09:23:00.397Z" icon="0" href="posting_comments">
+        <caption translate="true">Posting Comments</caption>
+      </topicref>
+      <topicref type="topic" id="410875699237029" build="ALL" modified="2012-06-27T09:23:00.397Z" icon="0" href="subscribe_to_newsgroups">
+        <caption translate="true">Subscribe to Newsgroups</caption>
+      </topicref>
+      <topicref type="topic" id="410875843384366" build="ALL" modified="2012-06-27T09:23:00.398Z" icon="0" href="newspaper_views">
+        <caption translate="true">Newspaper Views</caption>
+      </topicref>
+      <topicref type="topic" id="410872478411357" build="ALL" modified="2012-06-27T09:23:00.398Z" icon="0" href="search">
+        <caption translate="true">Search your feeds</caption>
+      </topicref>
+      <topicref type="topic" id="410872297518682" build="ALL" modified="2012-06-27T09:23:00.398Z" icon="0" href="deleting_feed_items">
+        <caption translate="true">Deleting Feed Items</caption>
+      </topicref>
+      <topicref type="topic" id="410873252253874" build="ALL" modified="2012-06-27T09:23:00.398Z" icon="0" href="column_layout">
+        <caption translate="true">Column Layout</caption>
+      </topicref>
+      <topicref type="topic" id="410874491346269" build="ALL" modified="2012-06-27T09:23:00.399Z" icon="0" href="podcast_settings">
+        <caption translate="true">Podcast settings</caption>
+      </topicref>
+      <topicref type="topic" id="410873213014619" build="ALL" modified="2012-06-27T09:23:00.399Z" icon="0" href="customizing_fonts">
+        <caption translate="true">Customizing Fonts</caption>
+      </topicref>
+      <topicref type="topic" id="410871981186878" build="ALL" modified="2012-06-27T09:23:00.399Z" icon="0" href="changing_web_browser_security_settings">
+        <caption translate="true">Changing the web browser security settings</caption>
+      </topicref>
+      <topicref type="topic" id="410875423943360" build="ALL" modified="2012-06-27T09:23:00.399Z" icon="0" href="configuring_proxy_server_settings">
+        <caption translate="true">Configuring proxy server settings</caption>
+      </topicref>
+      <topicref type="topic" id="410874471131236" build="ALL" modified="2012-06-27T09:23:00.399Z" icon="0" href="managing_your_identities">
+        <caption translate="true">Managing Your Identities</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="410875659113042" build="ALL" modified="2012-06-27T09:23:00.400Z" icon="0" href="using_bandit_from_multiple_computers">
+      <caption translate="true">Using RSS Bandit from Multiple Computers</caption>
+      <topicref type="topic" id="410875456325936" build="ALL" modified="2012-06-27T09:23:00.400Z" icon="0" href="Synchronization_using_NewsGator_Online">
+        <caption translate="true">Synchronization using NewsGator Online</caption>
+      </topicref>
+      <topicref type="topic" id="410873099181581" build="ALL" modified="2012-06-27T09:23:00.400Z" icon="0" href="synchronization_using_google_reader">
+        <caption translate="true">Synchronization using Google Reader</caption>
+      </topicref>
+      <topicref type="topic" id="410872053493355" build="ALL" modified="2012-06-27T09:23:00.400Z" icon="0" href="synchronization_using_ftp">
+        <caption translate="true">Synchronization using FTP</caption>
+      </topicref>
+      <topicref type="topic" id="410873574760268" build="ALL" modified="2012-06-27T09:23:00.401Z" icon="0" href="synchronization_using_local_or_network_file">
+        <caption translate="true">Synchronization using a local or network file</caption>
+      </topicref>
+      <topicref type="topic" id="410874971398545" build="ALL" modified="2012-06-27T09:23:00.401Z" icon="0" href="synchronization_using_webDAV">
+        <caption translate="true">Synchronization using WebDAV</caption>
+      </topicref>
+      <topicref type="topic" id="410875838610796" build="ALL" modified="2012-06-27T09:23:00.401Z" icon="0" href="synchronization_using_dasBlog_weblog">
+        <caption translate="true">Synchronization using a dasBlog weblog</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="410874280060335" build="ALL" modified="2012-06-27T09:23:00.401Z" icon="0" href="advanced_topics">
+      <caption translate="true">Advanced Topics</caption>
+      <topicref type="topic" id="41089120589300" build="ALL" modified="2012-06-27T09:23:00.402Z" icon="0" href="customizing_the_way_feeds_look_using_xslt">
+        <caption translate="true">Customizing the Way Feeds Look using XSLT</caption>
+      </topicref>
+      <topicref type="topic" id="41087174790364" build="ALL" modified="2012-06-27T09:23:00.402Z" icon="0" href="creating_search_folders">
+        <caption translate="true">Creating Search Folders</caption>
+      </topicref>
+      <topicref type="topic" id="41085903252108" build="ALL" modified="2012-06-27T09:23:00.402Z" icon="0" href="search_query_syntax">
+        <caption translate="true">Search Query Syntax</caption>
+      </topicref>
+      <topicref type="topic" id="41086701318207" build="ALL" modified="2012-06-27T09:23:00.402Z" icon="0" href="adding_integration_with_your_favorite_search_engine">
+        <caption translate="true">Adding Integration with your Favorite Search Engine</caption>
+      </topicref>
+      <topicref type="topic" id="410875181528220" build="ALL" modified="2012-06-27T09:23:00.403Z" icon="0" href="building_and_using_bandit_plugins">
+        <caption translate="true">Building and Using RSS Bandit plugins</caption>
+      </topicref>
+      <topicref type="topic" id="410873134139175" build="ALL" modified="2012-06-27T09:23:00.403Z" icon="0" href="keyboard_shortcuts">
+        <caption translate="true">Keyboard Shortcuts</caption>
+      </topicref>
+      <topicref type="topic" id="410875037093098" build="ALL" modified="2012-06-27T09:23:00.403Z" icon="0" href="command_line_options">
+        <caption translate="true">Command Line Options</caption>
+      </topicref>
+      <topicref type="topic" id="410873988961100" build="ALL" modified="2012-06-27T09:23:00.403Z" icon="0" href="advanced_configuration_options">
+        <caption translate="true">Advanced Configuration Options</caption>
+      </topicref>
+      <topicref type="topic" id="410875737305961" build="ALL" modified="2012-06-27T09:23:00.404Z" icon="0" href="HowTo_make_RSS_Bandit_a_portable_application">
+        <caption translate="true">How to: make RSS Bandit a portable application</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="410872936247802" build="ALL" modified="2012-06-27T09:23:00.404Z" icon="0" href="faq">
+      <caption translate="true">FAQ</caption>
+    </topicref>
+    <topicref type="topic" id="410875561860204" build="ALL" modified="2012-06-27T09:23:00.404Z" icon="0" href="contributing_to_bandit">
+      <caption translate="true">Contributing to RSS Bandit</caption>
+    </topicref>
+    <topicref type="topic" id="410872103892818" build="ALL" modified="2012-06-27T09:23:00.405Z" icon="0" href="how_to_provide_feedback">
+      <caption translate="true">How to Provide Feedback</caption>
+    </topicref>
+  </topicref>
+</map>

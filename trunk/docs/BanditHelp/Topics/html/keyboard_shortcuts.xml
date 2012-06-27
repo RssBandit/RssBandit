@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Keyboard Shortcuts</title>
+  <keywords>
+    <keyword translate="true">Keyboard shortcuts</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Keyboard Shortcuts</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:14pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Viewing and exploring feeds</text></para>
+    <para styleclass="Normal" style="margin-top:19px; margin-left:1px; line-height:1.0; tabstops:none;"><table rowcount="25" colcount="2" style="width:100%; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:1px; border-spacing:0px; cell-border-width:1px; border-color:#a0a0a0; border-style:raised-color; background-color:none; head-row-background-color:none; alt-row-background-color:none;">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">To do this</text></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Press this</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Refresh all feeds subscribed to</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-F5</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Refresh the specific selected feed (focus on the treeview or listview)</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F5</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Catch Up the selected feed, mark all the feed items read</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-Q</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Select all feed items in the listview</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-A</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Mark all selected feed items unread</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-U</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Rename a category or feed title within the tree</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F2</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Subscribe to a new feed, create a new feed</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F4</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Create a new category, treeview focused</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Shift-F4</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Delete a feed or category, treeview focused</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Del</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Autodiscover feeds</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-S</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Post a reply to the selected feed item</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-R</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Move to the next unread feed item (focus on the treeview or listview)</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Space</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Navigate between the treeview, listview and item detail pane</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Tab, Shift-Tab</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Switch between Feed Details Tab and the various Browser Tabs</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-Tab, Shift-Ctrl-Tab</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Close the current Browser Tab</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-F4</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Show Feed Properites</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-P</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Show the Options dialogue</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-O</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Download Feeds</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-Shift-D</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Upload Feeds</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-Shift-U</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Close and Exit</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Alt-F4</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Import Feeds</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-I</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Export Feeds</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-E</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">View Help</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F1</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Update Category</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Shift-F5</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><anchor id="H2" styleclass="Normal text" style="font-family:&apos;Arial Unicode MS&apos;; font-size:10pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;"></anchor><text styleclass="Normal" style="font-family:Verdana; font-size:14pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Viewing and exploring web pages</text></para>
+    <para styleclass="Normal" style="margin-top:19px; margin-left:1px; line-height:1.0; tabstops:none;"><table rowcount="7" colcount="2" style="width:100%; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:1px; border-spacing:0px; cell-border-width:1px; border-color:#a0a0a0; border-style:raised-color; background-color:none; head-row-background-color:none; alt-row-background-color:none;">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">To do this</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Press this</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Open a new Browser Tab</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Ctrl-N</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Refresh the Browser Tab Content (should have the focus)</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F5</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Navigate back in the history of the current Browser Tab</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Alt-Left</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Navigate forward in the history of the current Browser Tab</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Alt-Right</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Set the focus to/select the Url navigation dropdown</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#ffffcc;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F11</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Set the focus to/select the Search phrase dropdown</text></para>
+        </td>
+        <td style="vertical-align:middle; background-color:#efefef;">
+          <para><text styleclass="label" style="font-family:Verdana; font-size:11pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">F12</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

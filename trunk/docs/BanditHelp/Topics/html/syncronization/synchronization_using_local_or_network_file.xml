@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../helpproject.xsd">
+  <title translate="true">Synchronization using a local or network file</title>
+  <keywords>
+    <keyword translate="true">Synchronization using a local or network file</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Synchronization using a local or network file</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Using a file share simply copies the file to a network file share specified in the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">UNC directory path</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">. Figure 1 shows an example where RSS Bandit is configured to store the Feeds data in the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">RSSBanditFeeds</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> folder of the server </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">YourServer</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">.</text></para>
+    <para styleclass="Normal" style="text-align:center; margin-top:14px; line-height:1.0; tabstops:none;"><image src="RemoteFeedsDialogue_FileShare.gif" scale="100.00%" styleclass="Image Caption"><title translate="true">Figure 1: Remote Feeds Dialogue - File Share</title></image></para>
+    <para styleclass="Normal" style="text-align:center; line-height:1.0; tabstops:none;"><text styleclass="figure" style="font-family:Arial; font-size:8pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Figure 1: Remote Feeds Dialogue - File Share</text></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-bottom:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Obviously, you will need read/write access to this network share from each computer with which you wish to synchronize RSS Bandit.</text></para>
+  </body>
+</topic>

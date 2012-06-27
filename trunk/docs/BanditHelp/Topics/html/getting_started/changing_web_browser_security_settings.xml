@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../helpproject.xsd">
+  <title translate="true">Changing the web browser security settings</title>
+  <keywords>
+    <keyword translate="true">Changing the web browser security settings</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Changing the web browser security settings</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">&#32;</text></para>
+    <para styleclass="Normal" style="line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">When opening a web page in Rss Bandit, Rss Bandit uses an internal web browser to display the page. In order to configure the security for this browser, go to the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Tools</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> menu and select </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Options</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> to bring up the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Options</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> dialog. Click on the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Web Browser</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> tab to bring up the dialog you see in figure 1.</text></para>
+    <para styleclass="Normal" style="text-align:center; margin-top:14px; line-height:1.0; tabstops:none;"><image src="rssbandit_WebBrowserDialog.gif" scale="100.00%" styleclass="Image Caption"><title translate="true">Web Browser Settings Dialog</title></image></para>
+    <para styleclass="Normal" style="text-align:center; line-height:1.0; tabstops:none;"><text styleclass="figure" style="font-family:Arial; font-size:8pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">Figure 1. Web Browser Dialog</text></para>
+    <para styleclass="Normal" style="margin-top:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">The image displays the default settings in Rss Bandit. Please note that changing any of these settings will be active immediately only on new Browser Tabs, or on any Browser tab after restarting the application (section named </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Security, Restrictions</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">).</text></para>
+    <para styleclass="Normal" style="margin-top:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Section </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">On Link Clicked and New Window</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> controls the behavior of Rss Bandit, if you clicked a web link or the link target needs to be opened in a new window. Option </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-style:italic; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Open a new Tab</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> is the default and recommended selection. Any other option delegates the security handling to the called programs, either your configured </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-style:italic; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Default Web Browser</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> or the </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-style:italic; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">executable</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> to be started!</text></para>
+    <para styleclass="Normal" style="margin-top:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">If you choose to change these settings, do so at your own risk. Following table is a description of each setting in section </text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Security, Restrictions</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">.</text></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-left:1px; line-height:1.0; tabstops:none;"><table rowcount="7" colcount="3" style="width:auto; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:1px; border-spacing:0px; cell-border-width:1px; border-color:#a0a0a0; border-style:raised-color; background-color:none; head-row-background-color:none; alt-row-background-color:none;">
+      <tr style="vertical-align:top">
+        <td style="vertical-align:middle;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Setting</text></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Description</text></para>
+        </td>
+        <td style="vertical-align:middle;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Risk</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Javascript allowed</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether Javascript in the page will execute.</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Allowing Javascript to run also allows those annoying pop-up ads to run. Un-trusted sites have been known to use Javascript to spoof a trusted web site login in an attempt to gain your user name and password.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Low Risk.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">ActiveX Controls allowed</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether embedded ActiveX controls will be downloaded and execute.</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Although ActiveX controls can provide a rich user experience, they can also pose a huge security risk when run from an un-trusted site. In the past, security flaws in Internet Explorer have led to exploits via ActiveX controls.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Medium to High Risk.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Java Applets allowed</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether Java applets will be downloaded and execute in the browser&apos;s Java Virtual Machine.</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Java runs in a protected &quot;SandBox&quot; and thus ostensibly cannot harm your system. However, in the past, security flaws have been found in various browser JVM&apos;s such as Netscape that would allow malicious code to affect a user&apos;s system.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Low to Medium Risk.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Video allowed</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether embedded video clips (Real video, windows media file, QuickTime, etc...) will be downloaded and played.</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enabling this setting allows for embedded videos within a web page to play via &quot;helper&quot; applications registered for the video. Examples of &quot;helper&quot; applications are QuickTime, Real Player, and Windows Media Player. I am not aware of any major security risk in allowing videos, however pages with lots of video clips can take a long time to download.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Low Risk</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Background Sounds allowed</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether embedded audio clips (Real audio, windows media file, MP3, etc...) will be downloaded and played.</text></para>
+        </td>
+        <td style="background-color:#eee8aa;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enabling this setting allows for embedded audio clips within a web page to play via &quot;helper&quot; applications registered for the audio content. Examples of &quot;helper&quot; applications are Winamp, Real Player, and Windows Media Player. I am not aware of any major security risk in allowing audio, however pages with lots of audio clips can take a long time to download.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Low Risk</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Downloading of images allowed</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Enables/disables whether images are downloaded and displayed in the browser.</text></para>
+        </td>
+        <td style="background-color:#dcdcdc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">If enabled, images within a web page are downloaded by the browser. If disabled, the spot where an image would appear remains blank. There is no security risk to allowing images, but disabling them will allow a page to download and render more quickly.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:8pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">No Risk.</text></para>
+        </td>
+      </tr>
+    </table></para>
+  </body>
+</topic>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../helpproject.xsd">
+  <title translate="true">Command Line Options</title>
+  <keywords>
+    <keyword translate="true">Command Line Options</keyword>
+    <keyword translate="true">Start Options</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Command Line Options</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">RSS Bandit also supports some command line options to control how the application starts and what User Interface Language should be used. The command line syntax to be used:</text></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-left:40px; line-height:1.0; tabstops:none;"><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">RssBandit.exe [options] &lt;feedUrl&gt; [&lt;feedUrl&gt; ]*</text></para>
+    <para styleclass="Normal" style="margin-top:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">The application accepts fully qualified feed URL&apos;s as </text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">&lt;feedUrl&gt;</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> parameters you want to like to subscribe to.</text></para>
+    <para styleclass="Normal" style="margin-top:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Here is the complete list of supported options and their descriptions:</text></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-left:1px; line-height:1.0; tabstops:none;"><table rowcount="5" colcount="2" style="width:100%; cell-padding:1px; cell-spacing:0px; page-break-inside:auto; border-width:1px; border-spacing:0px; cell-border-width:1px; border-color:#a0a0a0; border-style:raised-color; background-color:none; head-row-background-color:none; alt-row-background-color:none;">
+      <tr style="vertical-align:top">
+        <td style="width:198px;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Option</text></para>
+        </td>
+        <td style="vertical-align:middle; width:446px;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Description</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:198px; background-color:#efefef;">
+          <para><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">-h</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">[elp]</text></para>
+        </td>
+        <td style="vertical-align:middle; width:446px; background-color:#efefef;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Opens a message box that lists all available command line options</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:198px; background-color:#ffffcc;">
+          <para><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">-t</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">[askbar]</text></para>
+        </td>
+        <td style="vertical-align:middle; width:446px; background-color:#ffffcc;">
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Application starts minimized; it will be only visible as a small icon in the windows task notification area (where the clock runs)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:198px; background-color:#efefef;">
+          <para styleclass="Normal" style="line-height:1.0; tabstops:none;"><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">-c</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">[ulture]</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">:</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">&lt;text&gt;</text></para>
+        </td>
+        <td style="vertical-align:middle; width:446px; background-color:#efefef;">
+          <para styleclass="Normal" style="line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Application User Interface will use the specified culture. The</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">&#32;</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">&lt;text&gt;</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">&#32;</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">parameter</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">&#32;</text><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">have to be spcified following the RFC 1766 standard in the format &quot;&lt;languagecode2&gt;-&lt;country/regioncode2&gt;&quot;, where &lt;languagecode2&gt; is a lowercase two-letter code derived from ISO 639-1 and &lt;country/regioncode2&gt; is an uppercase two-letter code derived from ISO 3166. For example, U.S. English is &quot;en-US&quot;. In cases where a two-letter language code is not available, the three-letter code derived from ISO 639-2 is used; for example, the three-letter code &quot;div&quot; is used for cultures that use the Dhivehi language. Some culture names have suffixes that specify the script; for example, &quot;-Cyrl&quot; specifies the Cyrillic script, &quot;-Latn&quot; specifies the Latin script.</text></para>
+          <para><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">The </text><link displaytype="text" defaultstyle="true" type="weblink" href="http://www.rssbandit.org/ow.asp?SupportedLanguageMatrix" styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">supported language matrix</link><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> provides a list of the current supported User Interface Languages valid for the available versions of RSS Bandit (please note: some of them need to have the appropriate operating system language extension package installed to get correctly displayed, e.g. Chinese-Simplified).</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:198px; background-color:#efefef;">
+          <para styleclass="Normal" style="line-height:1.0; tabstops:none;"><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:bold; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">-r</text><text styleclass="userinput" style="font-family:&apos;Times New Roman&apos;; font-size:12pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">[esetUI]</text></para>
+        </td>
+        <td style="vertical-align:middle; width:446px; background-color:#efefef;">
+          <para styleclass="Normal" style="line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Will reset the user interface to the default (by not loading the .settings.xml at startup)</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal" style="margin-top:14px; margin-bottom:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">&#32;</text></para>
+  </body>
+</topic>
