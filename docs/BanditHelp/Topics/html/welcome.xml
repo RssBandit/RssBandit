@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">welcome</title>
+  <keywords>
+    <keyword translate="true">welcome</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Heading1" style="font-family:Verdana; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Welcome</text></para>
+    </header>
+    <para styleclass="Normal" style="margin-top:19px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">You are at the Online Help of RSS Bandit. Herein you will read more about &#160;how to use and work with the Application and get some useful tips to make your work with the program as easy as possible.</text></para>
+    <para styleclass="note" style="text-align:left; text-indent:0px; margin-top:15px; margin-right:15px; margin-bottom:0px; margin-left:23px; line-height:1.0; background-color:#ffffcc; white-space:normal; page-break-inside:auto; page-break-after:auto; padding:7px; border-color:#999999; border-style:single; border-width:1px; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Please note</text><text styleclass="note" style="font-family:Verdana; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">: to discuss advanced topics or get some help that you did not find in this documentation, feel free to post at our </text><link displaytype="text" defaultstyle="true" type="weblink" href="http://forum.rssbandit.org/" styleclass="Normal" style="font-family:Verdana; font-size:11pt; font-weight:bold; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">forum</link><text styleclass="note" style="font-family:Verdana; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">.</text></para>
+    <para styleclass="Normal" style="margin-top:15px; margin-bottom:14px; line-height:1.0; tabstops:none;"><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">To learn more about how to work with and navigate within this help, read </text><link displaytype="text" defaultstyle="true" type="topiclink" href="help_on_help" styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true">Help on Help</link><text styleclass="Normal" style="font-family:Verdana; font-size:11pt; text-decoration:none; vertical-align:baseline; color:#000000;" translate="true"> please.</text></para>
+  </body>
+</topic>
