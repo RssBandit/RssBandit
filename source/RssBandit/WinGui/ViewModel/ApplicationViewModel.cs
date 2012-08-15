@@ -23,8 +23,16 @@ using RssBandit.WinGui.Forms;
 
 namespace RssBandit.WinGui.ViewModel
 {
+    public enum DetailsView
+    {
+        SingleLine,
+        MultiLine
+    }
+
     public partial class ApplicationViewModel : ModelBase
     {
+        private DetailsView _detailsView;
+
         private readonly RssBanditApplication _current;
         private static readonly ILog Log = DefaultLog.GetLogger(typeof (ApplicationViewModel));
         private RelayCommand _addFacebookFeedSourceCommand;
@@ -133,6 +141,39 @@ namespace RssBandit.WinGui.ViewModel
 
                 return _addWindowsCommonFeedSourceCommand;
             }
+        }
+
+        private RelayCommand _viewDetailsAsSingleLineCommand;
+        public ICommand ViewDetailsAsSingleLineCommand
+        {
+            get
+            {
+                if (_viewDetailsAsSingleLineCommand == null)
+                    _viewDetailsAsSingleLineCommand = new RelayCommand(param => DisplayViewDetailsAsSingleLine(), param => CanDisplayViewDetailsAsSingleLine);
+
+                return _viewDetailsAsSingleLineCommand;
+            }
+        }
+
+        private RelayCommand _viewDetailsAsMultiLineCommand;
+        public ICommand ViewDetailsAsMultiLineCommand
+        {
+            get
+            {
+                if (_viewDetailsAsMultiLineCommand == null)
+                    _viewDetailsAsMultiLineCommand = new RelayCommand(param => DisplayViewDetailsAsMultiLine(), param => CanDisplayViewDetailsAsMultiLine);
+
+                return _viewDetailsAsMultiLineCommand;
+            }
+        }
+
+        public bool CanDisplayViewDetailsAsSingleLine
+        {
+            get { return _detailsView == DetailsView.MultiLine; }
+        }
+        public bool CanDisplayViewDetailsAsMultiLine
+        {
+            get { return _detailsView == DetailsView.SingleLine; }
         }
 
         public bool CanAddFacebookFeedSource
@@ -368,6 +409,17 @@ namespace RssBandit.WinGui.ViewModel
         {
             get { return FeedSource.Offline; }
             set { FeedSource.Offline = value; }
+        }
+
+        public DetailsView CurrentItemDetailsView
+        {
+            get { return _detailsView; }
+            set
+            {
+                _detailsView = value;
+
+                OnPropertyChanged(() => CurrentItemDetailsView);
+            }
         }
 
         public CategorizedFeedSourceViewModel ViewModelOf(FeedSourceEntry entry)
@@ -651,6 +703,17 @@ namespace RssBandit.WinGui.ViewModel
                 handler(this, EventArgs.Empty);
         }
 
+        private void DisplayViewDetailsAsSingleLine()
+        {
+            CurrentItemDetailsView = DetailsView.SingleLine;
+           
+        }
+
+        private void DisplayViewDetailsAsMultiLine()
+        {
+            CurrentItemDetailsView = DetailsView.MultiLine;
+        }
+        
         /// <summary>
         ///   Callback for UITasksTimer
         /// </summary>

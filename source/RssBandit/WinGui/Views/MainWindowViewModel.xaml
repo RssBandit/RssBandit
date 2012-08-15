@@ -1,12 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ext="clr-namespace:RssBandit.WinGui.MarkupExtensions"
-                     xmlns:igDock="http://infragistics.com/DockManager"
+                    xmlns:Converters="clr-namespace:RssBandit.Converters"
+                    xmlns:igDock="http://infragistics.com/DockManager"
                     xmlns:ViewModel="clr-namespace:RssBandit.WinGui.ViewModel"
+                    xmlns:ig="http://schemas.infragistics.com/xaml"
                     xmlns:b="clr-namespace:RssBandit.WinGui.Behaviors">
 
     <DataTemplate DataType="{x:Type ViewModel:MainWindowViewModel}">
         <Grid>
+            <Grid.Resources>
+                <Converters:EnumParameterToVisibilityConverter x:Key="enumToVisibilityConverter" />
+            </Grid.Resources>
             <igDock:XamDockManager Name="xamDockManager" Theme="{Binding Path=CurrentTheme, Mode=TwoWay}"
                                    b:ShellLayoutDockManagerAdapter.LayoutManager="{Binding LayoutManager}">
                 <!-- according to http://help.infragistics.com/Help/NetAdvantage/WPF/2010.3/CLR4.0/html/xamDockManager_About_Saving_and_Loading_Layouts.html
@@ -46,7 +51,10 @@
                             <igDock:ContentPane Name="subscriptionDetailsDockingPane" SerializationId="::defaultSubscriptionDetails" 
                                                 Header="{ext:Res Id=FeedDetailDocumentTabCaption,Default=FeedDetails#}">
                                 <StackPanel>
-                                    <ItemsControl ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}" />
+                                    <ig:XamGrid Visibility="{Binding CurrentItemDetailsView, Converter={StaticResource enumToVisibilityConverter},ConverterParameter=SingleLine}" 
+                                                ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}" />
+                                    <ListView  Visibility="{Binding CurrentItemDetailsView, Converter={StaticResource enumToVisibilityConverter},ConverterParameter=MultiLine}" 
+                                               ItemsSource="{Binding SelectedTreeNodeItem.NewsItems}"  />
                                 </StackPanel>
                             </igDock:ContentPane>
                         </igDock:TabGroupPane>

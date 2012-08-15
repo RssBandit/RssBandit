@@ -343,6 +343,10 @@
       <HintPath>..\Common\Libraries\Infragistics4.Win.v12.1.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="InfragisticsWPF4.Controls.Grids.XamGrid.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\InfragisticsWPF4.Controls.Grids.XamGrid.v12.1.dll</HintPath>
+    </Reference>
     <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\SharedXAML\InfragisticsWPF4.Controls.Menus.XamMenu.v12.1.dll</HintPath>
@@ -506,6 +510,7 @@
     </None>
     <Compile Include="Converters\BytesToMegabytesConverter.cs" />
     <Compile Include="Converters\CommonConverters.cs" />
+    <Compile Include="Converters\EnumParameterToVisibilityConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\FileNameToIconConverter.cs" />
     <Compile Include="Converters\NotVisibleConverter.cs" />
@@ -2214,9 +2219,6 @@
     <Compile Include="WinGui\Commands\RelayCommand.cs" />
     <Compile Include="Converters\NodesSortedByCategoryTitleConverter.cs" />
     <Compile Include="WinGui\ViewModel\TreeNodeViewModelBase.cs" />
-    <Compile Include="WinGui\Controls\BanditRibbon.xaml.cs">
-      <DependentUpon>BanditRibbon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WinGui\Controls\CollapsibleSplitter.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -2682,10 +2684,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WinGui\CommonImages.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WinGui\Controls\BanditRibbon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
