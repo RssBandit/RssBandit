@@ -148,6 +148,14 @@
                                           Behaviors:TabItemSelectedBringIntoView.RibbonTabContext="Feed"
                                           Behaviors:TabItemSelectedBringIntoView.CurrentContext="{Binding CurrentRibbonContext, Mode=TwoWay}">
                     </Ribbon:RibbonTabItem>
+                    <Ribbon:RibbonTabItem x:Name="mnuBandView" Header="View#">
+                        <Ribbon:RibbonGroup Caption="Details#">
+                            <Ribbon:ButtonTool Id="cmdViewDetailsAsSingleLine" Caption="One-line view#" Command="{Binding Path=ViewDetailsAsSingleLineCommand}"
+                                                          Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                            <Ribbon:ButtonTool Id="cmdViewDetailsAsMultipleLine" Caption="Multi-line view#" Command="{Binding Path=ViewDetailsAsMultiLineCommand}"
+                                                          Ribbon:RibbonGroup.MinimumSize="ImageOnly" Ribbon:RibbonGroup.MaximumSize="ImageAndTextLarge"/>
+                        </Ribbon:RibbonGroup>
+                    </Ribbon:RibbonTabItem>
                 </Ribbon:XamRibbon.Tabs>   
             </Ribbon:XamRibbon>
         </Ribbon:RibbonWindowContentHost.Ribbon>
