@@ -1,6 +1,7 @@
 #region CVS Version Header
 /*
  * $Id$
+ * $HeadURL$
  * Last modified by $Author$
  * Last modified at $Date$
  * $Revision$
@@ -697,11 +698,12 @@ namespace RssBandit.WinGui.Utility {
 
 			//_log.Info("InternetGetConnectedState() returned " + connected.ToString());
 
-			//Some people have reported problems with return value of InternetGetConnectedState 
-			//on Windows Vista
-			if (!connected && Win32.IsOSWindowsVista){
-				connected = true;
-			}
+			//InternetCheckConnection(url, FLAG_ICC_FORCE_CONNECTION, 0) solves the wakness with Vista/Win7:
+			////Some people have reported problems with return value of InternetGetConnectedState 
+			////on Windows Vista
+			//if (!connected && Win32.IsOSWindowsVista){
+			//	connected = true;
+			//}
 
 			// not sure here, if we are really connected. 
 			// So we test it explicitly.
@@ -767,7 +769,7 @@ namespace RssBandit.WinGui.Utility {
 			string url = GetProbeUrl();	
 			try {
 				//_log.Info("ApiCheckConnection('"+url+"') ");
-				if (InternetCheckConnection(url, 0, 0)) 
+				if (InternetCheckConnection(url, FLAG_ICC_FORCE_CONNECTION, 0)) 
 					return true;
 			} catch (Exception ex) {
 				_log.Error("ApiCheckConnection('"+url+"') failed with error: " + Marshal.GetLastWin32Error(), ex);
