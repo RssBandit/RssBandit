@@ -948,9 +948,9 @@ namespace RssBandit.WinGui.Forms
             this.panelFeedItems = new System.Windows.Forms.Panel();
             this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
             this.listFeedItems = new RssBandit.WinGui.Controls.ThListView.ThreadedListView();
-            this.colHeadline = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
-            this.colDate = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
-            this.colTopic = new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader();
+            this.colHeadline = ((RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader)(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader()));
+            this.colDate = ((RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader)(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader()));
+            this.colTopic = ((RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader)(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader()));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this._status = new System.Windows.Forms.StatusBar();
             this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
@@ -1011,7 +1011,7 @@ namespace RssBandit.WinGui.Forms
             this.NavigatorSearch.Location = new System.Drawing.Point(1, 31);
             this.NavigatorSearch.Name = "NavigatorSearch";
             this.helpProvider1.SetShowHelp(this.NavigatorSearch, false);
-            this.NavigatorSearch.Size = new System.Drawing.Size(320, 326);
+            this.NavigatorSearch.Size = new System.Drawing.Size(320, 336);
             this.NavigatorSearch.TabIndex = 1;
             // 
             // panelRssSearch
@@ -1022,7 +1022,7 @@ namespace RssBandit.WinGui.Forms
             this.panelRssSearch.Location = new System.Drawing.Point(0, 0);
             this.panelRssSearch.Name = "panelRssSearch";
             this.helpProvider1.SetShowHelp(this.panelRssSearch, false);
-            this.panelRssSearch.Size = new System.Drawing.Size(320, 326);
+            this.panelRssSearch.Size = new System.Drawing.Size(320, 336);
             this.panelRssSearch.TabIndex = 0;
             // 
             // treeFeeds
@@ -1154,14 +1154,14 @@ namespace RssBandit.WinGui.Forms
             this.listFeedItems.TabIndex = 0;
             this.listFeedItems.UseCompatibleStateImageBehavior = false;
             this.listFeedItems.View = System.Windows.Forms.View.Details;
-            this.listFeedItems.ListLayoutModified += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ListLayoutEventArgs>(this.OnFeedListLayoutModified);
-            this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
-            this.listFeedItems.ExpandThread += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ThreadEventArgs>(this.OnFeedListExpandThread);
             this.listFeedItems.ListLayoutChanged += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ListLayoutEventArgs>(this.OnFeedListLayoutChanged);
-            this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
-            this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
+            this.listFeedItems.ListLayoutModified += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ListLayoutEventArgs>(this.OnFeedListLayoutModified);
+            this.listFeedItems.ExpandThread += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ThreadEventArgs>(this.OnFeedListExpandThread);
             this.listFeedItems.AfterExpandThread += new System.EventHandler<RssBandit.WinGui.Controls.ThListView.ThreadEventArgs>(this.OnFeedListAfterExpandThread);
+            this.listFeedItems.ItemActivate += new System.EventHandler(this.OnFeedListItemActivate);
+            this.listFeedItems.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.OnFeedListItemDrag);
             this.listFeedItems.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnFeedListItemKeyUp);
+            this.listFeedItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnFeedListMouseDown);
             // 
             // colHeadline
             // 
@@ -1289,14 +1289,15 @@ namespace RssBandit.WinGui.Forms
             this._docContainer.DockingManager = TD.SandDock.DockingManager.Whidbey;
             this._docContainer.Guid = new System.Guid("f032a648-4262-4312-ab2b-abe5094272bd");
             this._docContainer.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
-            ((TD.SandDock.LayoutSystemBase)(new TD.SandDock.DocumentLayoutSystem(285, 404, new TD.SandDock.DockControl[] {
+            ((TD.SandDock.LayoutSystemBase)(new TD.SandDock.DocumentLayoutSystem(295, 414, new TD.SandDock.DockControl[] {
                         this._docFeedDetails}, this._docFeedDetails)))});
             this._docContainer.Location = new System.Drawing.Point(0, 30);
             this._docContainer.Manager = null;
+            this._docContainer.Margin = new System.Windows.Forms.Padding(0);
             this._docContainer.Name = "_docContainer";
             this._docContainer.Renderer = new TD.SandDock.Rendering.Office2003Renderer();
             this.helpProvider1.SetShowHelp(this._docContainer, false);
-            this._docContainer.Size = new System.Drawing.Size(287, 406);
+            this._docContainer.Size = new System.Drawing.Size(297, 416);
             this._docContainer.TabIndex = 100;
             // 
             // _docFeedDetails
@@ -1304,10 +1305,10 @@ namespace RssBandit.WinGui.Forms
             this._docFeedDetails.Closable = false;
             this._docFeedDetails.Controls.Add(this.panelFeedDetails);
             this._docFeedDetails.Guid = new System.Guid("9c7b7643-2ed3-402c-9e86-3c958341c81f");
-            this._docFeedDetails.Location = new System.Drawing.Point(5, 35);
+            this._docFeedDetails.Location = new System.Drawing.Point(0, 35);
             this._docFeedDetails.Name = "_docFeedDetails";
             this.helpProvider1.SetShowHelp(this._docFeedDetails, false);
-            this._docFeedDetails.Size = new System.Drawing.Size(277, 366);
+            this._docFeedDetails.Size = new System.Drawing.Size(287, 376);
             this._docFeedDetails.TabIndex = 150;
             this._docFeedDetails.Text = "Feed Details";
             // 
@@ -1321,7 +1322,6 @@ namespace RssBandit.WinGui.Forms
             this.panelClientAreaContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelClientAreaContainer.Location = new System.Drawing.Point(0, 0);
             this.panelClientAreaContainer.Name = "panelClientAreaContainer";
-            this.panelClientAreaContainer.Padding = new System.Windows.Forms.Padding(5);
             this.helpProvider1.SetShowHelp(this.panelClientAreaContainer, false);
             this.panelClientAreaContainer.Size = new System.Drawing.Size(671, 446);
             this.panelClientAreaContainer.TabIndex = 1015;
@@ -1331,10 +1331,10 @@ namespace RssBandit.WinGui.Forms
             this.panelFeedDetailsContainer.Controls.Add(this._docContainer);
             this.panelFeedDetailsContainer.Controls.Add(this.detailHeaderCaption);
             this.panelFeedDetailsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelFeedDetailsContainer.Location = new System.Drawing.Point(379, 5);
+            this.panelFeedDetailsContainer.Location = new System.Drawing.Point(374, 0);
             this.panelFeedDetailsContainer.Name = "panelFeedDetailsContainer";
             this.helpProvider1.SetShowHelp(this.panelFeedDetailsContainer, false);
-            this.panelFeedDetailsContainer.Size = new System.Drawing.Size(287, 436);
+            this.panelFeedDetailsContainer.Size = new System.Drawing.Size(297, 446);
             this.panelFeedDetailsContainer.TabIndex = 106;
             // 
             // detailHeaderCaption
@@ -1356,7 +1356,7 @@ namespace RssBandit.WinGui.Forms
             this.detailHeaderCaption.Name = "detailHeaderCaption";
             this.detailHeaderCaption.Padding = new System.Drawing.Size(5, 0);
             this.helpProvider1.SetShowHelp(this.detailHeaderCaption, false);
-            this.detailHeaderCaption.Size = new System.Drawing.Size(287, 30);
+            this.detailHeaderCaption.Size = new System.Drawing.Size(297, 30);
             this.detailHeaderCaption.TabIndex = 0;
             this.detailHeaderCaption.Text = "Welcome!";
             this.detailHeaderCaption.WrapText = false;
@@ -1364,10 +1364,10 @@ namespace RssBandit.WinGui.Forms
             // splitterNavigator
             // 
             this.splitterNavigator.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.splitterNavigator.Location = new System.Drawing.Point(372, 5);
+            this.splitterNavigator.Location = new System.Drawing.Point(367, 0);
             this.splitterNavigator.Name = "splitterNavigator";
             this.helpProvider1.SetShowHelp(this.splitterNavigator, false);
-            this.splitterNavigator.Size = new System.Drawing.Size(7, 436);
+            this.splitterNavigator.Size = new System.Drawing.Size(7, 446);
             this.splitterNavigator.TabIndex = 1;
             this.splitterNavigator.TabStop = false;
             // 
@@ -1385,11 +1385,11 @@ namespace RssBandit.WinGui.Forms
             this.Navigator.Groups.AddRange(new Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarGroup[] {
             ultraExplorerBarGroup1});
             this.Navigator.GroupSettings.Style = Infragistics.Win.UltraWinExplorerBar.GroupStyle.ControlContainer;
-            this.Navigator.Location = new System.Drawing.Point(50, 5);
+            this.Navigator.Location = new System.Drawing.Point(45, 0);
             this.Navigator.Name = "Navigator";
             this.Navigator.NavigationMaxGroupHeaders = 5;
             this.helpProvider1.SetShowHelp(this.Navigator, false);
-            this.Navigator.Size = new System.Drawing.Size(322, 436);
+            this.Navigator.Size = new System.Drawing.Size(322, 446);
             this.Navigator.Style = Infragistics.Win.UltraWinExplorerBar.UltraExplorerBarStyle.OutlookNavigationPane;
             this.Navigator.TabIndex = 0;
             // 
@@ -1398,10 +1398,10 @@ namespace RssBandit.WinGui.Forms
             this.pNavigatorCollapsed.BackColor = System.Drawing.Color.Transparent;
             this.pNavigatorCollapsed.Controls.Add(this.navigatorHiddenCaption);
             this.pNavigatorCollapsed.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pNavigatorCollapsed.Location = new System.Drawing.Point(5, 5);
+            this.pNavigatorCollapsed.Location = new System.Drawing.Point(0, 0);
             this.pNavigatorCollapsed.Name = "pNavigatorCollapsed";
             this.helpProvider1.SetShowHelp(this.pNavigatorCollapsed, false);
-            this.pNavigatorCollapsed.Size = new System.Drawing.Size(45, 436);
+            this.pNavigatorCollapsed.Size = new System.Drawing.Size(45, 446);
             this.pNavigatorCollapsed.TabIndex = 104;
             this.pNavigatorCollapsed.Visible = false;
             // 
@@ -1425,7 +1425,7 @@ namespace RssBandit.WinGui.Forms
             this.navigatorHiddenCaption.Name = "navigatorHiddenCaption";
             this.navigatorHiddenCaption.Padding = new System.Drawing.Size(0, 5);
             this.helpProvider1.SetShowHelp(this.navigatorHiddenCaption, false);
-            this.navigatorHiddenCaption.Size = new System.Drawing.Size(35, 436);
+            this.navigatorHiddenCaption.Size = new System.Drawing.Size(35, 446);
             this.navigatorHiddenCaption.TabIndex = 105;
             this.navigatorHiddenCaption.Text = "Feed Subscriptions";
             this.navigatorHiddenCaption.WrapText = false;
@@ -1437,19 +1437,19 @@ namespace RssBandit.WinGui.Forms
             // 
             // _timerTreeNodeExpand
             // 
-            this._timerTreeNodeExpand.Interval = 1000;
+            this._timerTreeNodeExpand.Interval = 1000D;
             this._timerTreeNodeExpand.SynchronizingObject = this;
             this._timerTreeNodeExpand.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerTreeNodeExpandElapsed);
             // 
             // _timerRefreshFeeds
             // 
-            this._timerRefreshFeeds.Interval = 600000;
+            this._timerRefreshFeeds.Interval = 600000D;
             this._timerRefreshFeeds.SynchronizingObject = this;
             this._timerRefreshFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerFeedsRefreshElapsed);
             // 
             // _timerRefreshCommentFeeds
             // 
-            this._timerRefreshCommentFeeds.Interval = 600000;
+            this._timerRefreshCommentFeeds.Interval = 600000D;
             this._timerRefreshCommentFeeds.SynchronizingObject = this;
             this._timerRefreshCommentFeeds.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimerCommentFeedsRefreshElapsed);
             // 
