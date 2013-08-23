@@ -32,7 +32,6 @@ using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using TD.SandDock;
 using TD.SandDock.Rendering;
-using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace RssBandit.WinGui.Forms
@@ -3405,15 +3404,24 @@ namespace RssBandit.WinGui.Forms
                 }
                 else
                 {
-                    int sourceID = 0;
-                    OptionalItemElement.GetOriginalFeedReference(currentNewsItem, out sourceID);
+                    int sourceId;
+                    OptionalItemElement.GetOriginalFeedReference(currentNewsItem, out sourceId);
 
-                    if (owner.FeedSources.ContainsKey(sourceID))
-                        entry = owner.FeedSources[sourceID];
+                    if (owner.FeedSources.ContainsKey(sourceId))
+                        entry = owner.FeedSources[sourceId];
                 }
 
-				FeedSource source = entry != null ? entry.Source:null;                 
-                var ikp = new INewsItem[e.Item.KeyPath.Length];
+				if (entry == null && currentNewsItem.Feed != null)
+	            {
+		            entry = FeedSourceEntryOf(currentNewsItem.Feed.link);
+	            }
+
+				FeedSource source = entry != null ? entry.Source:null;
+
+	            if (source == null)
+		            return;
+
+				var ikp = new INewsItem[e.Item.KeyPath.Length];
                 e.Item.KeyPath.CopyTo(ikp, 0);
                 IList<INewsItem> itemKeyPath = ikp;
 
