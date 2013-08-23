@@ -1547,8 +1547,8 @@ namespace RssBandit.WinGui.Forms
             if (components == null)
                 components = new Container();
             _trayAni = new NotifyIconAnimation(components);
-            _trayAni.DoubleClick += OnTrayIconDoubleClick;
-            _trayAni.BalloonClick += OnTrayIconDoubleClick;
+            _trayAni.Click += OnTrayIconClick;
+            _trayAni.BalloonClick += OnTrayIconClick;
             _trayAni.BalloonTimeout += OnTrayAniBalloonTimeoutClose;
             _trayAni.ContextMenu = _notifyContextMenu;
 
