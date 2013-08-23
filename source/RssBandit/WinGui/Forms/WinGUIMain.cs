@@ -2056,7 +2056,7 @@ namespace RssBandit.WinGui.Forms
 			_feedItemImpressionHistory.Add(new HistoryEntry(feedsNode, item));
 #endif
 
-            if (item!= null && TaskbarManager.IsPlatformSupported)
+			if (item != null && item.Link != null && TaskbarManager.IsPlatformSupported)
             {
                 string urlToFeedAndItem = item.Link.Replace("http://", "feed://") + "*" + item.FeedLink; 
                 AddUrlToJumpList(urlToFeedAndItem, item.Title); 
