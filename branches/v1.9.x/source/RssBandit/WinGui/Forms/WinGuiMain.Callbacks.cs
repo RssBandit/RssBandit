@@ -3864,7 +3864,7 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        private void OnTrayIconDoubleClick(object sender, EventArgs e)
+        private void OnTrayIconClick(object sender, EventArgs e)
         {
             owner.CmdShowMainGui(null);
             //user is interested about the message this time
