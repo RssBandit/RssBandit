@@ -171,7 +171,8 @@ namespace NewsComponents.Search
 		/// Gets true if an Index exists.
 		/// </summary>
 		/// <returns></returns>
-		public bool IndexExists {
+		public bool IndexExists 
+		{
 			get { return IndexReader.IndexExists(this.BaseDirectory); }
 		}
 
@@ -200,7 +201,8 @@ namespace NewsComponents.Search
 		/// Resets the pending operations (clear) and
 		/// reset the index (re-create new) as one operation.
 		/// </summary>
-		public virtual void Reset() {
+		public virtual void Reset() 
+		{
 			ResetPendingOperations();
 			ResetIndex();
 		}
@@ -243,8 +245,10 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <remarks>This operation is added to the pending index operations queue.</remarks>
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
-		public virtual void  Add(Document doc, string culture) {
-			lock(this.pendingIndexOperations.SyncRoot){
+		public virtual void  Add(Document doc, string culture) 
+		{
+			if (IsIndexerRunning) lock (this.pendingIndexOperations.SyncRoot)
+				{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.AddSingleDocument,
 					new PendingIndexOperation(IndexOperation.AddSingleDocument, new object[]{doc, culture}));
 				startProcessPendingOpsSignal.Set();
@@ -259,7 +263,7 @@ namespace NewsComponents.Search
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
 		public virtual void AddRange(Document[] docs, string culture)
 		{
-			lock (this.pendingIndexOperations.SyncRoot)
+			if (IsIndexerRunning) lock (this.pendingIndexOperations.SyncRoot)
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.AddMultipleDocuments,
 					new PendingIndexOperation(IndexOperation.AddMultipleDocuments, new object[] { docs, culture }));
@@ -280,7 +284,7 @@ namespace NewsComponents.Search
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
 		public virtual void Delete(Term term)
 		{
-			lock (this.pendingIndexOperations.SyncRoot)
+			if (IsIndexerRunning) lock (this.pendingIndexOperations.SyncRoot)
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.DeleteDocuments,
 					new PendingIndexOperation(IndexOperation.DeleteDocuments, new object[] { term }));
@@ -293,8 +297,10 @@ namespace NewsComponents.Search
 		/// but with a lower priority.
 		/// </summary>
 		/// <param name="term">The term.</param>
-		public virtual void DeleteFeed(Term term) {
-			lock (this.pendingIndexOperations.SyncRoot) {
+		public virtual void DeleteFeed(Term term)
+		{
+			if (IsIndexerRunning) lock (this.pendingIndexOperations.SyncRoot)
+			{
 				// differs only in the priority, the operation is the same:
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.DeleteFeed,
 					new PendingIndexOperation(IndexOperation.DeleteDocuments, new object[] { term }));
@@ -310,7 +316,7 @@ namespace NewsComponents.Search
 		/// <exception cref="InvalidOperationException">If the index is closed </exception>
 		public virtual void Optimize()
 		{
-			lock (this.pendingIndexOperations.SyncRoot)
+			if (IsIndexerRunning) lock (this.pendingIndexOperations.SyncRoot)
 			{
 				this.pendingIndexOperations.Enqueue((int)IndexOperation.OptimizeIndex,
 					new PendingIndexOperation(IndexOperation.OptimizeIndex, null));
@@ -395,6 +401,11 @@ namespace NewsComponents.Search
 		#endregion
 
 		#region private methods (IndexThread related)
+
+		private bool IsIndexerRunning
+		{
+			get { return rwhProcessPendingOps != null && startProcessPendingOpsSignal != null; }
+		}
 
 		private void StartIndexerThread () 
 		{
