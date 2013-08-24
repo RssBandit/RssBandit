@@ -1642,7 +1642,7 @@ namespace RssBandit
 		public DialogResult MessageQuestion(string text, string captionPostfix)
 		{
 			if (MainForm != null && MainForm.IsHandleCreated)
-				Win32.SetForegroundWindow(MainForm.Handle);
+				Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
 			DialogResult res = MessageBox.Show(
 				MainForm, text,
 				CaptionOnly + " " + captionPostfix,
@@ -1662,7 +1662,7 @@ namespace RssBandit
         public DialogResult MessageInfo(string text)
         {
             if (MainForm != null && MainForm.IsHandleCreated)
-                Win32.SetForegroundWindow(MainForm.Handle);
+                Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
             return MessageBox.Show(MainForm, text,
                                    CaptionOnly,
                                    MessageBoxButtons.OK,
@@ -1679,7 +1679,7 @@ namespace RssBandit
         public DialogResult MessageWarn(string text)
         {
             if (MainForm != null && MainForm.IsHandleCreated)
-                Win32.SetForegroundWindow(MainForm.Handle);
+                Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
             return MessageBox.Show(MainForm, text,
                                    CaptionOnly,
                                    MessageBoxButtons.OK,
@@ -1696,7 +1696,7 @@ namespace RssBandit
         public DialogResult MessageError(string text)
         {
             if (MainForm != null && MainForm.IsHandleCreated)
-                Win32.SetForegroundWindow(MainForm.Handle);
+                Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
             return MessageBox.Show(MainForm, text,
                                    Caption,
                                    MessageBoxButtons.OK,
@@ -3285,24 +3285,13 @@ namespace RssBandit
         }
 
         /// <summary>
-        /// Migrate NewsGator settings from Remote Feed List Storage to Feed Source. 
+        /// Migrate NewsGator settings from Remote Feed List Storage: now invalid. 
         /// </summary>
         internal void CheckAndMigrateNewsGatorSettings()
         {
-            //migrate newsgator feed source
             if (Preferences.RemoteStorageProtocol == RemoteStorageProtocolType.NewsgatorOnline)
             {
-                if (!String.IsNullOrEmpty(Preferences.RemoteStorageUserName) && !String.IsNullOrEmpty(Preferences.RemoteStoragePassword))
-                {
-                    var creds = new NetworkCredential(Preferences.RemoteStorageUserName, Preferences.RemoteStoragePassword);
-                    var loc = new SubscriptionLocation(FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator), creds);
-					FeedSource fs = FeedSource.CreateFeedSource(sourceManager.UniqueKey, FeedSourceType.NewsGator, loc);
-                    FeedSourceEntry entry = sourceManager.Add(fs, SR.FeedNodeMyNewsGatorFeedsCaption);
-					if (FeedSourceAdded != null)
-						FeedSourceAdded(this, new FeedSourceEventArgs(entry));
-                }
-                Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.UNC; //default 
-                Preferences.RemoteStorageUserName = Preferences.RemoteStoragePassword = Preferences.RemoteStorageLocation = null;
+				Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.Unknown; 
             }
         }
 
@@ -3541,15 +3530,8 @@ namespace RssBandit
                 }
             }
         }
-
-
-
-        public void SynchronizeFeeds()
-        {
-            this.SynchronizeFeeds(FeedSourceType.Unknown); 
-        }
-
-        public void SynchronizeFeeds(FeedSourceType sourceType)
+		
+		public void SynchronizeFeeds(FeedSourceType sourceType)
         {
         
 			using (var wiz = new SynchronizeFeedsWizard(sourceType))
@@ -3557,7 +3539,7 @@ namespace RssBandit
 				try
 				{
 					if (MainForm.IsHandleCreated)
-						Win32.SetForegroundWindow(MainForm.Handle);
+						Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
 					wiz.ShowDialog(guiMain);
 				}
 				catch (Exception ex)
@@ -3568,54 +3550,50 @@ namespace RssBandit
 
 				if (wiz.DialogResult == DialogResult.OK)
 				{
-					FeedSourceEntry entry = null;
-					FeedSource fs;
-					int id = sourceManager.UniqueKey;
-					if (wiz.SelectedFeedSource == FeedSourceType.WindowsRSS)
+					var id = sourceManager.UniqueKey;
+					var locName = FeedSourceManager.BuildSubscriptionName(id, wiz.SelectedFeedSource);
+					SubscriptionLocation loc = null;
+
+					switch (wiz.SelectedFeedSource)
 					{
-						fs = FeedSource.CreateFeedSource(
-							id, FeedSourceType.WindowsRSS,
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.WindowsRSS),
-								null));
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
-					}
-					else if (wiz.SelectedFeedSource == FeedSourceType.Google)
-					{
-						SubscriptionLocation loc =
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Google),
+						case FeedSourceType.WindowsRSS:
+							loc = new SubscriptionLocation(locName, null);
+							break;
+#if ! FEEDLY_FEATURE
+						case FeedSourceType.Google:
+							loc = new SubscriptionLocation(locName,
 								new NetworkCredential(wiz.UserName, wiz.Password));
-						fs = FeedSource.CreateFeedSource(id, FeedSourceType.Google, loc);
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
-
-					}
-					else if (wiz.SelectedFeedSource == FeedSourceType.NewsGator)
-					{
-
-						SubscriptionLocation loc =
-							new SubscriptionLocation(
-								FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.NewsGator),
+							break;
+#endif
+						case FeedSourceType.NewsGator:
+							loc = new SubscriptionLocation(locName,
 								new NetworkCredential(wiz.UserName, wiz.Password));
-						fs = FeedSource.CreateFeedSource(id, FeedSourceType.NewsGator, loc);
-						entry = sourceManager.Add(fs, wiz.FeedSourceName);
-                    }
-                    else if (wiz.SelectedFeedSource == FeedSourceType.Facebook)
-                    {
-                        SubscriptionLocation loc =
-                            new SubscriptionLocation(
-                                FeedSourceManager.BuildSubscriptionName(sourceManager.UniqueKey, FeedSourceType.Facebook), 
-                                new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
-                        fs = FeedSource.CreateFeedSource(id, FeedSourceType.Facebook, loc);
-                        entry = sourceManager.Add(fs, wiz.FeedSourceName);
-                    }
+							break;
+						case FeedSourceType.Facebook:
+							loc = new SubscriptionLocation(locName,
+								new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
+							break;
+#if FEEDLY_FEATURE
+						case FeedSourceType.FeedlyCloud:
+							loc = new SubscriptionLocation(locName,
+								new NetworkCredential(wiz.UserName, wiz.Password));
+							break;
+#endif
+						default:
+							throw new NotImplementedException("FEEDLY_FEATURE is under construction...");
+					}
 
-					if (entry != null)
+					if (loc != null)
 					{
+						var fs = FeedSource.CreateFeedSource(id, wiz.SelectedFeedSource, loc);
+						var entry = sourceManager.Add(fs, wiz.FeedSourceName);
+						
 						AddFeedSourceToUserInterface(entry);
+						
 						if (FeedSourceAdded != null)
 							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
 					}
+					
 				}
 			}
         }
@@ -5835,7 +5813,7 @@ namespace RssBandit
                 if (postReplyForm != null)
                 {
                     postReplyForm.Show();
-                    Win32.SetForegroundWindow(postReplyForm.Handle);
+                    Win32.NativeMethods.SetForegroundWindow(postReplyForm.Handle);
                 }
             }
         }
@@ -6149,7 +6127,7 @@ namespace RssBandit
             	try
             	{
             		if (MainForm.IsHandleCreated)
-            			Win32.SetForegroundWindow(MainForm.Handle);
+            			Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
             		wiz.ShowDialog(guiMain);
             	}
             	catch (Exception ex)

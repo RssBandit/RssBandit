@@ -1708,7 +1708,7 @@ namespace RssBandit
             postReplyForm.DisplayTitle = false; 
 
             postReplyForm.Show(); // open non-modal
-            Win32.SetForegroundWindow(postReplyForm.Handle);
+            Win32.NativeMethods.SetForegroundWindow(postReplyForm.Handle);
         }
 
         /// <summary>
@@ -1748,7 +1748,7 @@ namespace RssBandit
                 postReplyForm.PostToFeed = f;
 
                 postReplyForm.Show(); // open non-modal
-                Win32.SetForegroundWindow(postReplyForm.Handle);
+                Win32.NativeMethods.SetForegroundWindow(postReplyForm.Handle);
             }
         }
 

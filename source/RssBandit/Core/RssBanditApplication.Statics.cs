@@ -849,30 +849,13 @@ namespace RssBandit
                 throw;
             }
 
-            CheckAndRegisterIEMenuExtensions();
+            Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
         }
 
-        /// <summary>
-        /// Checks and register IE Menu Extensions.
-        /// Ensures that there is a 'Subscribe in RSS Bandit' menu option. Also if we 
-        /// are the default aggregator, we remove the option to subscribe in the default 
-        /// aggregator.			
-        /// </summary>
+        [Obsolete("Please use/call Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions() instead", false)]
         public static void CheckAndRegisterIEMenuExtensions()
         {
-            try
-            {
-                //if we are the default aggregator then remove that menu option since it is redundant
-                if (Win32.Registry.IsInternetExplorerExtensionRegistered(Win32.IEMenuExtension.DefaultFeedAggregator))
-                    Win32.Registry.UnRegisterInternetExplorerExtension(Win32.IEMenuExtension.DefaultFeedAggregator);
-
-                if (!Win32.Registry.IsInternetExplorerExtensionRegistered(Win32.IEMenuExtension.Bandit))
-                    Win32.Registry.RegisterInternetExplorerExtension(Win32.IEMenuExtension.Bandit);
-            }
-            catch (Exception ex)
-            {
-                _log.Debug("CheckAndRegisterIEMenuExtensions(): Unable to modify InternetExplorerExtension", ex);
-            }
+			Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
         }
 
         /// <summary>

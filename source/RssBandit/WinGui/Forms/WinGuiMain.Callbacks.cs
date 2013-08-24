@@ -1171,7 +1171,7 @@ namespace RssBandit.WinGui.Forms
         private void OnFormLoad(object sender, EventArgs eva)
         {
             // do not display the ugly form init/resizing...
-            Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_HIDE);
+            Win32.NativeMethods.ShowWindow(Handle, Win32.NativeMethods.ShowWindowStyles.SW_HIDE);
 
             _uiTasksTimer.Tick += OnTasksTimerTick;
 
@@ -1202,7 +1202,7 @@ namespace RssBandit.WinGui.Forms
             if (owner.CommandLineArgs.StartInTaskbarNotificationAreaOnly || SystemTrayOnlyVisible)
             {
                 // forced to show in Taskbar Notification Area
-                Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_HIDE);
+                Win32.NativeMethods.ShowWindow(Handle, Win32.NativeMethods.ShowWindowStyles.SW_HIDE);
             }
             else
             {
@@ -1431,8 +1431,8 @@ namespace RssBandit.WinGui.Forms
 
             try
             {
-                if (m.Msg == (int) Win32.Message.WM_KEYDOWN ||
-                    m.Msg == (int) Win32.Message.WM_SYSKEYDOWN)
+                if (m.Msg == (int) Win32.NativeMethods.Message.WM_KEYDOWN ||
+                    m.Msg == (int) Win32.NativeMethods.Message.WM_SYSKEYDOWN)
                 {
                     Keys msgKey = ((Keys) (int) m.WParam & Keys.KeyCode);
 #if DEBUG
@@ -1714,14 +1714,14 @@ namespace RssBandit.WinGui.Forms
                             }
                         }
                 }
-                else if (m.Msg == (int) Win32.Message.WM_LBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.Message.WM_RBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.Message.WM_MBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.Message.WM_LBUTTONUP ||
-                         m.Msg == (int) Win32.Message.WM_MBUTTONUP ||
-                         m.Msg == (int) Win32.Message.WM_RBUTTONUP ||
-                         m.Msg == (int) Win32.Message.WM_XBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.Message.WM_XBUTTONUP)
+                else if (m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONUP ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONUP ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONUP ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONDBLCLK ||
+                         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONUP)
                 {
                     _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
@@ -1734,7 +1734,7 @@ namespace RssBandit.WinGui.Forms
                         _webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
                     }
                 }
-                else if (m.Msg == (int) Win32.Message.WM_MOUSEMOVE)
+                else if (m.Msg == (int) Win32.NativeMethods.Message.WM_MOUSEMOVE)
                 {
                     var p = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
                     if (Math.Abs(p.X - _lastMousePosition.X) > 5 ||
@@ -1769,7 +1769,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                if (m.Msg == (int) Win32.Message.WM_SIZE)
+                if (m.Msg == (int) Win32.NativeMethods.Message.WM_SIZE)
                 {
                     if (((int) m.WParam) == 1 /*SIZE_MINIMIZED*/&& OnMinimize != null)
                     {
@@ -1781,8 +1781,8 @@ namespace RssBandit.WinGui.Forms
                     //					ctrl.Focus();
                     //				}
                 }
-                else if ( /* m.Msg == (int)WM_CLOSE || */ m.Msg == (int) Win32.Message.WM_QUERYENDSESSION ||
-                                                          m.Msg == (int) Win32.Message.WM_ENDSESSION)
+                else if ( /* m.Msg == (int)WM_CLOSE || */ m.Msg == (int) Win32.NativeMethods.Message.WM_QUERYENDSESSION ||
+                                                          m.Msg == (int) Win32.NativeMethods.Message.WM_ENDSESSION)
                 {
                     // This is here to deal with dealing with system shutdown issues
                     // Read http://www.kuro5hin.org/story/2003/4/17/22853/6087#banditshutdown for details
@@ -1794,7 +1794,7 @@ namespace RssBandit.WinGui.Forms
                     //this.SaveUIConfiguration(true);
                     owner.SaveApplicationState(true);
                 }
-                else if (m.Msg == (int) Win32.Message.WM_CLOSE &&
+                else if (m.Msg == (int) Win32.NativeMethods.Message.WM_CLOSE &&
                          owner.Preferences.HideToTrayAction != HideToTray.OnClose)
                 {
                     _forceShutdown = true; // the closing handler ask for that now
@@ -2144,7 +2144,7 @@ namespace RssBandit.WinGui.Forms
 
         private void HideToSystemTray()
         {
-            Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_HIDE);
+            Win32.NativeMethods.ShowWindow(Handle, Win32.NativeMethods.ShowWindowStyles.SW_HIDE);
             if (WindowState != FormWindowState.Minimized)
                 WindowState = FormWindowState.Minimized;
             SystemTrayOnlyVisible = true;
@@ -2153,8 +2153,8 @@ namespace RssBandit.WinGui.Forms
         private void RestoreFromSystemTray()
         {
             Show();
-            Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_RESTORE);
-            Win32.SetForegroundWindow(Handle);
+            Win32.NativeMethods.ShowWindow(Handle, Win32.NativeMethods.ShowWindowStyles.SW_RESTORE);
+            Win32.NativeMethods.SetForegroundWindow(Handle);
             SystemTrayOnlyVisible = false;
 
             //if application was launced in SystemTrayOnlyVisible mode then we have to wait 
@@ -2171,8 +2171,8 @@ namespace RssBandit.WinGui.Forms
             {
                 if (WindowState == FormWindowState.Minimized)
                 {
-                    Win32.ShowWindow(Handle, Win32.ShowWindowStyles.SW_RESTORE);
-                    Win32.SetForegroundWindow(Handle);
+                    Win32.NativeMethods.ShowWindow(Handle, Win32.NativeMethods.ShowWindowStyles.SW_RESTORE);
+                    Win32.NativeMethods.SetForegroundWindow(Handle);
                 }
                 else
                 {
@@ -2964,7 +2964,7 @@ namespace RssBandit.WinGui.Forms
                     // enter the dropped feed details.  Otherwise the feed
                     // details window can pop up underneath the drop source,
                     // which is confusing.
-                    Win32.SetForegroundWindow(Handle);
+                    Win32.NativeMethods.SetForegroundWindow(Handle);
 
                     var sData = (string) e.Data.GetData(DataFormats.Text);
                     DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[] {target, sData});
@@ -4387,7 +4387,7 @@ namespace RssBandit.WinGui.Forms
                 try
                 {
                     // just a dummy message:
-                    Message m = Message.Create(Handle, (int) Win32.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
+                    Message m = Message.Create(Handle, (int) Win32.NativeMethods.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
                     cType.InvokeMember("ProcessCmdKey",
                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                        null, c, new object[] {m, keyData});
