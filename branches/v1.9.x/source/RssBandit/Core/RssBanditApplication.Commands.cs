@@ -1091,7 +1091,7 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdSynchronizeFeeds(ICommand sender)
         {
-            SynchronizeFeeds(); 
+			SynchronizeFeeds(FeedSourceType.Unknown); 
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using IEControl;
 using Interop.ThumbCache;
 using Microsoft.Win32;
 using NewsComponents.Utils;
@@ -1497,6 +1498,13 @@ namespace RssBandit
 			/// 	<c>true</c> if [current RSS bandit version executes first time after installation]; otherwise, <c>false</c>.
 			/// </value>
 			bool ThisVersionExecutesFirstTimeAfterInstallation { get; set; }
+
+			/// <summary>
+			/// Checks the and initialize internet explorer browser emulation for the current executable.
+			/// </summary>
+			/// <param name="appExeName">Name of the application exe (without path, but with extension).</param>
+			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
+			void CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion);
 		}
 
 		#endregion
@@ -1577,6 +1585,45 @@ namespace RssBandit
 			}
 			
 			#region IRegistry
+
+			/// <summary>
+			/// Checks the and initialize internet explorer browser emulation for the current executable.
+			/// </summary>
+			/// <param name="appExeName">Name of the application exe (without path, but with extension).</param>
+			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
+			void IRegistry.CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion)
+			{
+				var currentVersion = GetInternetExplorerVersion();
+
+				// see http://support.microsoft.com/kb/969393 
+				if (currentVersion >= new Version(9, 10))
+				{
+					InternetExplorerFeature.SetBrowserEmulation(appExeName,
+						forceToInstalledIEVersion
+							? InternetFeatureBrowserEmulation.IE10StandardMode
+							: InternetFeatureBrowserEmulation.IE10Mode);
+					return;
+				}
+
+				if (currentVersion >= new Version(9, 0))
+				{
+					InternetExplorerFeature.SetBrowserEmulation(appExeName,
+						forceToInstalledIEVersion
+							? InternetFeatureBrowserEmulation.IE9StandardMode
+							: InternetFeatureBrowserEmulation.IE9Mode);
+					return;
+				}
+
+				if (currentVersion >= new Version(8, 0))
+				{
+					InternetExplorerFeature.SetBrowserEmulation(appExeName,
+						forceToInstalledIEVersion
+							? InternetFeatureBrowserEmulation.IE8StandardMode
+							: InternetFeatureBrowserEmulation.IE8Mode);
+					return;
+				}
+
+			}
 
 			/// <summary>
 			/// Set/Get the Port number to be used by the Single Instance Activator.
@@ -2123,8 +2170,18 @@ namespace RssBandit
 		/// </summary>
 		private class PortableRegistry : IRegistry
 		{
-			private int instanceActivatorPort;
-			
+			private int _instanceActivatorPort;
+
+			/// <summary>
+			/// Checks the and initialize internet explorer browser emulation for the current executable.
+			/// </summary>
+			/// <param name="appExeName">Name of the application exe (without path, but with extension).</param>
+			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
+			void IRegistry.CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion)
+			{
+				// no implementation: we don't like to touch the guest machine with registry changes...
+			}
+
 			/// <summary>
 			/// Set/Get the Port number to be used by the Single Instance Activator.
 			/// </summary>
@@ -2136,8 +2193,8 @@ namespace RssBandit
 			/// </remarks>
 			int IRegistry.InstanceActivatorPort {
 				get {
-					if (instanceActivatorPort != 0)
-						return instanceActivatorPort;
+					if (_instanceActivatorPort != 0)
+						return _instanceActivatorPort;
 					
 					string portFile = Path.Combine(RssBanditApplication.GetUserPath(), ".port");
 					int retval = 0;
@@ -2153,8 +2210,8 @@ namespace RssBandit
 							retval = Int16.Parse(content);
 						}
 						
-						instanceActivatorPort = retval;
-						return instanceActivatorPort;
+						_instanceActivatorPort = retval;
+						return _instanceActivatorPort;
 						
 					} catch (Exception ex) {
 						_log.Error("Cannot get InstanceActivatorPort from .port file", ex);
@@ -2162,7 +2219,7 @@ namespace RssBandit
 					} 
 				}
 				set {
-					if (instanceActivatorPort != value) {
+					if (_instanceActivatorPort != value) {
 						string portFilePath = RssBanditApplication.GetUserPath();
 						try {
 							if (!Directory.Exists(portFilePath))
@@ -2174,7 +2231,7 @@ namespace RssBandit
 								w.Flush();
 							}
 						
-							instanceActivatorPort = value;
+							_instanceActivatorPort = value;
 						
 						} catch (Exception ex) {
 							Win32._log.Error("Cannot set InstanceActivatorPort in .port file", ex);

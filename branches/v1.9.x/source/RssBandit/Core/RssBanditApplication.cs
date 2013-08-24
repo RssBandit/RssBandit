@@ -5266,6 +5266,15 @@ namespace RssBandit
             CheckAndRegisterIEMenuExtensions();
         }
 
+		/// <summary>
+		/// Checks the and initialize IE browser emulation.
+		/// </summary>
+		internal static void CheckAndInitIEBrowserEmulation()
+		{
+			Win32.Registry.CheckAndInitInternetExplorerBrowserEmulation(
+				Path.GetFileName(Application.ExecutablePath), false);
+		}
+
         /// <summary>
         /// Checks and init sounds events.
         /// </summary>
