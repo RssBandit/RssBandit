@@ -19,8 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using Microsoft.Win32;
 
 namespace IEControl
 {
@@ -33,10 +35,8 @@ namespace IEControl
 	/// http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
 	/// http://msdn.microsoft.com/workshop/security/szone/overview/sec_featurecontrols.asp
 	/// </remarks>
-	internal sealed class InternetFeature
+	internal static class InternetFeature
 	{
-		private static NativeMethods pi = new NativeMethods();
-		
 		/// <summary>
 		/// Determines whether the specified feature is enabled.
 		/// </summary>
@@ -50,8 +50,8 @@ namespace IEControl
 		{
 			if (!OSHelper.IsOSAtLeastWindowsXPSP2 && !OSHelper.IsIE6) 
 				return false;
-			
-			return pi.isEnabled(feature, flags);
+
+			return NativeMethods.isEnabled(feature, flags);
 		}
 
 		/// <summary>
@@ -64,23 +64,21 @@ namespace IEControl
 		public static void SetEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable)
 		{
 			if (OSHelper.IsOSAtLeastWindowsXPSP2 && OSHelper.IsIE6) {
-				pi.setEnabled(feature, flags, enable);
+				NativeMethods.setEnabled(feature, flags, enable);
 			}
 		}
 
-		private InternetFeature() {}
-
 		#region Interop calles (keep separately, to prevent JIT compile failes in public functions!)
-		sealed class NativeMethods {
-			
-			internal bool isEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
+		static class NativeMethods 
+		{
+			internal static bool isEnabled(InternetFeatureList feature, GetFeatureFlag flags) {
 				int HRESULT = CoInternetIsFeatureEnabled(feature, (int)flags);
 				//If the HRESULT is 0 or positive (a success code), the method 
 				//returns without creating or throwing an exception:
 				Marshal.ThrowExceptionForHR(HRESULT);
 				return (HRESULT == Interop.S_OK);
 			}
-			internal void setEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable) {
+			internal static void setEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable) {
 				int HRESULT = CoInternetSetFeatureEnabled(feature, (int)flags, enable);
 				//If the HRESULT is 0 or positive (a success code), the method 
 				//returns without creating or throwing an exception:
@@ -110,8 +108,121 @@ namespace IEControl
 			#endregion
 		}
 		#endregion
-
 		
+	}
+
+	/// <summary>
+	/// Helps to control the web browser emulation behavior of the hosted IE
+	/// </summary>
+	public static class InternetExplorerFeature
+	{
+		private const string FeatureBrowserEmulationRegKey = @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
+
+		/// <summary>
+		/// Sets the browser emulation.
+		/// </summary>
+		/// <param name="applicationExeName">Name of the application executable (withut path, but with extension).</param>
+		/// <param name="value">The value.</param>
+		public static void SetBrowserEmulation(string applicationExeName, InternetFeatureBrowserEmulation value)
+		{
+			try
+			{
+				RegistryKey key = Registry.CurrentUser
+					.OpenSubKey(FeatureBrowserEmulationRegKey, true);
+
+				if (key == null)
+					key = Registry.CurrentUser.CreateSubKey(FeatureBrowserEmulationRegKey);
+
+				if (key != null)
+				{
+					key.SetValue(applicationExeName, (int)value);
+					key.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("SetBrowserEmulation({0}, {1}) caused an exception: {2}", applicationExeName, value, ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Gets the browser emulation.
+		/// </summary>
+		/// <param name="applicationExeName">Name of the application executable (withut path, but with extension).</param>
+		/// <returns></returns>
+		public static InternetFeatureBrowserEmulation GetBrowserEmulation(string applicationExeName)
+		{
+			int value = 0;
+
+			try
+			{
+				RegistryKey key = Registry.CurrentUser
+					.OpenSubKey(FeatureBrowserEmulationRegKey, false);
+
+				if (key != null)
+				{
+					value = Convert.ToInt32(key.GetValue(applicationExeName, 0));
+					key.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("GetBrowserEmulation({0}) caused an exception: {1}", applicationExeName, ex.Message);
+			}
+
+			if (Enum.IsDefined(typeof(InternetFeatureBrowserEmulation), value))
+				return (InternetFeatureBrowserEmulation)value;
+
+			return 0;
+		}
+	}
+
+
+	/// <summary>
+	/// Contains the feature controls for Microsoft Internet Explorer.
+	/// See also: http://blogs.msdn.com/b/ie/archive/2009/03/10/more-ie8-extensibility-improvements.aspx
+	/// and: http://msdn.microsoft.com/en-us/library/ee330730(v=vs.85).aspx#browser_emulation
+	/// </summary>
+	public enum InternetFeatureBrowserEmulation : int
+	{
+		/// <summary>
+		/// Webpages containing standards-based !DOCTYPE directives are displayed in IE7 Standards mode. 
+		/// Default value for applications hosting the WebBrowser Control
+		/// </summary>
+		Default = 7000,
+
+		/// <summary>
+		/// Webpages containing standards-based !DOCTYPE directives are displayed in IE8 mode. 
+		/// Default value for Internet Explorer 8
+		/// </summary>
+		IE8Mode = 8000,
+
+		/// <summary>
+		/// Webpages are displayed in IE8 Standards mode, regardless of the !DOCTYPE directive.
+		/// </summary>
+		IE8StandardMode = 8888,
+
+		/// <summary>
+		/// Internet Explorer 9. Webpages containing standards-based !DOCTYPE directives are displayed in IE9 mode. 
+		/// Default value for Internet Explorer 9
+		/// </summary>
+		IE9Mode = 9000,
+
+		/// <summary>
+		/// Windows Internet Explorer 9. Webpages are displayed in IE9 Standards mode, regardless of the !DOCTYPE directive
+		/// </summary>
+		IE9StandardMode = 9999,
+
+		/// <summary>
+		/// Internet Explorer 10. Webpages containing standards-based !DOCTYPE directives are displayed in IE10 Standards mode. 
+		/// Default value for Internet Explorer 10
+		/// </summary>
+		IE10Mode = 10000,
+
+		/// <summary>
+		/// Internet Explorer 10. Webpages are displayed in IE10 Standards mode, regardless of the !DOCTYPE directive
+		/// </summary>
+		IE10StandardMode = 10001
 	}
 
 	/// <summary>
