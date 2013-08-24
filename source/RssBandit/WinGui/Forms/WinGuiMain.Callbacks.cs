@@ -1217,6 +1217,7 @@ namespace RssBandit.WinGui.Forms
             // about a still existing Offline Mode...
             Utils.SetIEOffline(owner.InternetConnectionOffline);
 
+			RssBanditApplication.CheckAndInitIEBrowserEmulation();
 			RssBanditApplication.CheckAndInitSoundEvents();
             
 			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
