@@ -60,7 +60,12 @@ try
 }
 catch (exception)
 {
-	alert("iecontext_subscribefeed.htm::exception:"+exception.message);
+    if (exception.Message = "Permission denied") {
+        alert("Your browser security settings do not allow this feature.\nTo use this feature, you have to check on 'Allow active content to run files on My Computer'.\n\nFile: iecontext_subscribefeed.htm");
+    }
+    else {
+        alert("iecontext_subscribefeed.htm::exception:" + exception.message);
+    }
 }
 
 function getContainingA(Element)

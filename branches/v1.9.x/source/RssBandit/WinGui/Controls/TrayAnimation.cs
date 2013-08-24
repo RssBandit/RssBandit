@@ -248,7 +248,7 @@ namespace RssBandit.WinGui.Controls
 			#endregion
 
 			protected virtual void Dispose(bool disposing) {
-				Win32.PostMessage(new HandleRef(this, Handle), (uint)Win32.Message.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+				Win32.NativeMethods.PostMessage(new HandleRef(this, Handle), (uint)Win32.NativeMethods.Message.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 				DestroyHandle();
 			}
 
@@ -827,17 +827,17 @@ namespace RssBandit.WinGui.Controls
 			if (MouseUp != null) MouseUp(this, e);	  
 			if (e.Button == MouseButtons.Right && _contextMenu != null) 
 			{
-				Win32.POINT p = new Win32.POINT();
-				Win32.GetCursorPos(out p);
+				Win32.NativeMethods.POINT p = new Win32.NativeMethods.POINT();
+				Win32.NativeMethods.GetCursorPos(out p);
 
 				// See Q135788 in the Microsoft Knowledge Base for more info.
-				Win32.SetForegroundWindow(new HandleRef(_messages, _messages.Handle));
+				Win32.NativeMethods.SetForegroundWindow(new HandleRef(_messages, _messages.Handle));
 				// we cannot call _contextMenu.Show(control, point): we don't have a control reference
 				Type ctxType = _contextMenu.GetType();
 				try {
 					ctxType.InvokeMember("OnPopup", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance, null, _contextMenu, new object[]{EventArgs.Empty});
-					Win32.TrackPopupMenuEx(new HandleRef(ContextMenu, ContextMenu.Handle), 0, p.x, p.y, new HandleRef(_messages, _messages.Handle), IntPtr.Zero);
-					Win32.PostMessage(new HandleRef(_messages, _messages.Handle), (uint)Win32.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
+					Win32.NativeMethods.TrackPopupMenuEx(new HandleRef(ContextMenu, ContextMenu.Handle), 0, p.x, p.y, new HandleRef(_messages, _messages.Handle), IntPtr.Zero);
+					Win32.NativeMethods.PostMessage(new HandleRef(_messages, _messages.Handle), (uint)Win32.NativeMethods.Message.WM_NULL, IntPtr.Zero, IntPtr.Zero);
 					// clicks handled in this.OnPerformContextMenuClick()...
 				} catch{}
 			}

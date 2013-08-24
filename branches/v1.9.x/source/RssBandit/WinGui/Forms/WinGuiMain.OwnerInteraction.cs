@@ -3755,7 +3755,7 @@ namespace RssBandit.WinGui.Forms
                 dialog.CustomCommand.Click += OnSecurityIssueDialogCustomCommandClick;
                 dialog.CustomCommand.Visible = (e.Certificate != null && e.Certificate.Handle != IntPtr.Zero);
 
-                Win32.SetForegroundWindow(Handle); // ensure, it is in front
+                Win32.NativeMethods.SetForegroundWindow(Handle); // ensure, it is in front
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
                     e.Cancel = false;

@@ -1070,31 +1070,7 @@ namespace RssBandit.WinGui.Utility {
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Returns whether Windows XP Visual Styles are currently enabled
-		/// </summary>
-		public static bool VisualStylesEnabled {
-			get {
-				OperatingSystem os = Environment.OSVersion;
-
-				// check if the OS id XP or higher
-				if (os.Platform == PlatformID.Win32NT && ((os.Version.Major == 5 && os.Version.Minor >= 1) || os.Version.Major > 5)) {
-					// are themes enabled
-					if (UxTheme.IsThemeActive() && UxTheme.IsAppThemed()) {
-						Win32.DLLVERSIONINFO version = new Win32.DLLVERSIONINFO();
-						version.cbSize = Marshal.SizeOf(typeof(Win32.DLLVERSIONINFO));
-
-						// are we using Common Controls v6
-						if (Win32.DllGetVersion(ref version) == 0) {
-							return (version.dwMajorVersion > 5);
-						}
-					}
-				}
-
-				return false;
-			}
-		}
+		
 	}// Utils
 
 	#endregion

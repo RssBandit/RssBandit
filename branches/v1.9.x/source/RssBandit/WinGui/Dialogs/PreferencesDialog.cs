@@ -1094,7 +1094,7 @@ namespace RssBandit.WinGui.Dialogs {
 				MessageBox.Show(this, String.Format(SR.ExceptionSettingDefaultAggregator,ex.Message),
 					SR.GUIErrorMessageBoxCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			RssBanditApplication.CheckAndRegisterIEMenuExtensions();
+			Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions(); ;
 		}
 	
 		private void btnSelectExecutable_Click(object sender, EventArgs e) {

@@ -36,10 +36,10 @@ namespace RssBandit
 			public UInt32 dwHitRate;
 			public UInt32 dwSizeLow;
 			public UInt32 dwSizeHigh;
-			public Win32.FILETIME LastModifiedTime;
-			public Win32.FILETIME ExpireTime;
-			public Win32.FILETIME LastAccessTime;
-			public Win32.FILETIME LastSyncTime;
+			public Win32.NativeMethods.FILETIME LastModifiedTime;
+			public Win32.NativeMethods.FILETIME ExpireTime;
+			public Win32.NativeMethods.FILETIME LastAccessTime;
+			public Win32.NativeMethods.FILETIME LastSyncTime;
 			public IntPtr lpHeaderInfo;
 			public UInt32 dwHeaderInfoSize;
 			public string lpszFileExtension;
@@ -83,7 +83,7 @@ namespace RssBandit
 			}
 
 			int lastError = Marshal.GetLastWin32Error();
-			if( lastError == Win32.ERROR_ACCESS_DENIED )
+			if( lastError == Win32.NativeMethods.ERROR_ACCESS_DENIED )
 			{
 				ThrowAccessDenied( url );
 			}
@@ -124,22 +124,22 @@ namespace RssBandit
 		private static void CheckLastError( string url, bool ignoreInsufficientBuffer )
 		{
 			int lastError = Marshal.GetLastWin32Error();
-			if( lastError == Win32.ERROR_INSUFFICIENT_BUFFER )
+			if( lastError == Win32.NativeMethods.ERROR_INSUFFICIENT_BUFFER )
 			{
 				if( !ignoreInsufficientBuffer )
 				{
 					ThrowInsufficientBuffer( url );
 				}
 			}
-			else if( lastError == Win32.ERROR_FILE_NOT_FOUND )
+			else if( lastError == Win32.NativeMethods.ERROR_FILE_NOT_FOUND )
 			{
 				ThrowFileNotFound( url );
 			}
-			else if( lastError == Win32.ERROR_ACCESS_DENIED )
+			else if( lastError == Win32.NativeMethods.ERROR_ACCESS_DENIED )
 			{
 				ThrowAccessDenied( url );
 			}
-			else if( lastError != Win32.ERROR_SUCCESS )
+			else if( lastError != Win32.NativeMethods.ERROR_SUCCESS )
 			{
 				throw new ApplicationException( "Unexpected error, code=" + lastError.ToString() );
 			}
@@ -253,12 +253,12 @@ namespace RssBandit
 				if( hEnum == IntPtr.Zero )
 				{
 					int lastError = Marshal.GetLastWin32Error();
-					if( lastError == Win32.ERROR_INSUFFICIENT_BUFFER )
+					if( lastError == Win32.NativeMethods.ERROR_INSUFFICIENT_BUFFER )
 					{
 						buffer = Marshal.AllocHGlobal( (int) structSize );
 						hEnum = FindFirstUrlCacheEntry( urlPattern, buffer, out structSize );
 					}
-					else if( lastError == Win32.ERROR_NO_MORE_ITEMS )
+					else if( lastError == Win32.NativeMethods.ERROR_NO_MORE_ITEMS )
 					{
 						return results;
 					}
@@ -291,12 +291,12 @@ namespace RssBandit
 					if( nextResult != 1 )
 					{
 						int lastError = Marshal.GetLastWin32Error();
-						if( lastError == Win32.ERROR_INSUFFICIENT_BUFFER )
+						if( lastError == Win32.NativeMethods.ERROR_INSUFFICIENT_BUFFER )
 						{
 							buffer = Marshal.AllocHGlobal( (int) structSize );
 							nextResult = FindNextUrlCacheEntry( hEnum, buffer, out structSize );
 						}
-						else if( lastError == Win32.ERROR_NO_MORE_ITEMS )
+						else if( lastError == Win32.NativeMethods.ERROR_NO_MORE_ITEMS )
 						{
 							break;
 						}
