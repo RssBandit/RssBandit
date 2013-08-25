@@ -332,7 +332,8 @@ namespace NewsComponents
 		/// Creates the default configuration.
 		/// </summary>
 		/// <returns></returns>
-		private static INewsComponentsConfiguration CreateDefaultConfiguration() {
+		private static INewsComponentsConfiguration CreateDefaultConfiguration() 
+		{
 			NewsComponentsConfiguration cfg = new NewsComponentsConfiguration();
 			cfg.ApplicationID = defaultApplicationID;
 			
@@ -343,10 +344,6 @@ namespace NewsComponents
 			string mydocs = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), cfg.ApplicationID);
 			cfg.DownloadedFilesDataPath = Path.Combine(mydocs, "My Downloaded Files");
 
-			string path = Path.Combine(cfg.UserLocalApplicationDataPath, "Cache");
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
-			
 			cfg.PersistedSettings = new SettingStore(cfg.ApplicationID);
 
 			return cfg;

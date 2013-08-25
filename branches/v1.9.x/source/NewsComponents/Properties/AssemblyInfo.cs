@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("rssbandit.org")]
 [assembly: AssemblyProduct("RssBandit")]
-[assembly: AssemblyCopyright("(C) 2003-2008 by www.rssbandit.org")]
+[assembly: AssemblyCopyright("(C) 2003-2013 by www.rssbandit.org")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
