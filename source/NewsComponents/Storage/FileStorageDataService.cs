@@ -42,12 +42,13 @@ namespace NewsComponents.Storage {
 		/// Initializes the data service with the specified initialization data.
 		/// </summary>
 		/// <param name="initData">The initialization data.
-		/// Can be a connection string, or a file path;
+		/// Here it is a file path base, used as a cache;
 		/// depending on the implementation of the data service</param>
 		public override void Initialize(string initData)
 		{
 			initData.ExceptionIfNullOrEmpty("initData");
-			base.Initialize(initData);
+			
+			base.Initialize(Path.Combine(initData, "Cache"));
 			
 			if(!Directory.Exists(CacheLocation))
 				Directory.CreateDirectory(CacheLocation); 
