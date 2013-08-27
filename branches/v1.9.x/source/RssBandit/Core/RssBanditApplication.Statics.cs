@@ -865,28 +865,15 @@ namespace RssBandit
         /// <returns>true, if registered, else false</returns>
         public static bool IsDefaultAggregator()
         {
-            return IsDefaultAggregator(Application.ExecutablePath);
-        }
-
-        /// <summary>
-        /// Method test the provided appPath (incl. .exe name!), if it is registered as the
-        /// default "feed:" protocol scheme handler.
-        /// </summary>
-        /// <param name="appPath">Full path name incl. executable name</param>
-        /// <returns>true, if registered, else false</returns>
-        public static bool IsDefaultAggregator(string appPath)
-        {
+            string appPath = Application.ExecutablePath;
             bool isDefault = false;
             try
             {
                 string currentHandler = Win32.Registry.CurrentFeedProtocolHandler;
                 if (string.IsNullOrEmpty(currentHandler))
-                {
-                    // we just take over the control, if it is not yet set
-                    MakeDefaultAggregator();
-                    isDefault = true;
-                }
-                isDefault = (String.Concat(appPath, " ", "\"", "%1", "\"").CompareTo(currentHandler) == 0);
+	                return false;
+                
+				isDefault = (String.Concat(appPath, " ", "\"", "%1", "\"").CompareTo(currentHandler) == 0);
             }
             catch (SecurityException secex)
             {

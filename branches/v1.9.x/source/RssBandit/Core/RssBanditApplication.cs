@@ -3340,6 +3340,9 @@ namespace RssBandit
 				
 				}//foreach
 
+				// script might be changed in this new version:
+				Win32.Registry.UnRegisterInternetExplorerExtension(Win32.IEMenuExtension.Bandit);
+				
 				//reset first app start flag:
 				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
 							
@@ -5241,7 +5244,6 @@ namespace RssBandit
                 _log.Error("Unexpected error on checking for default aggregator.", e);
             }
 
-            CheckAndRegisterIEMenuExtensions();
         }
 
 		/// <summary>

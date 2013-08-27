@@ -406,20 +406,30 @@ namespace RssBandit
 					{
 						RegistryKey registryKey = Microsoft.Win32.Registry.CurrentUser
 							.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_LOCALMACHINE_LOCKDOWN", false);
-						if (registryKey == null)
-						{
-							root = "HKLM";
-							registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_LOCALMACHINE_LOCKDOWN", false);
-						}
+						
 						if (registryKey != null)
 						{
-							int value;
-							if (Int32.TryParse(registryKey.GetValue("iexplore.exe", 0) as string, out value))
+							int value = Convert.ToInt32(registryKey.GetValue("iexplore.exe", -1));
+							if (value >= 0)
 							{
 								registryKey.Close();
 								return value != 0;
 							}
+							registryKey.Close();
+						}
 
+						root = "HKLM";
+						registryKey = Microsoft.Win32.Registry.LocalMachine
+							.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_LOCALMACHINE_LOCKDOWN", false);
+						
+						if (registryKey != null)
+						{
+							int value = Convert.ToInt32(registryKey.GetValue("iexplore.exe", -1));
+							if (value >= 0)
+							{
+								registryKey.Close();
+								return value != 0;
+							}
 							registryKey.Close();
 						}
 					}
