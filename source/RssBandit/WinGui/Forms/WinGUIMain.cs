@@ -2187,6 +2187,10 @@ namespace RssBandit.WinGui.Forms
             {
                 LoadAndRestoreBrowserTabState();
             }
+			
+			owner.AskAndCheckForDefaultAggregator();
+			Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
+
             _startupTimer.Interval = 1000*
                                      RssBanditApplication.ReadAppSettingsEntry(
                                          "ForcedRefreshOfFeedsAtStartupDelay.Seconds", 30);
