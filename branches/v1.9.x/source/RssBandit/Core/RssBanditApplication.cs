@@ -3478,7 +3478,7 @@ namespace RssBandit
             }
             catch (Exception e)
             {
-                e.Source = sourceEntry.Name; 
+				e.Source = sourceEntry.Name + " / ID: " + sourceEntry.ID + " / location: " + sourceEntry.Source.SubscriptionLocation.Location; 
 
 				if (IsAsyncCall)
 					throw;
