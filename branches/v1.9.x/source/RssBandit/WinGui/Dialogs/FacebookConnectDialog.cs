@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using IEControl;
 
 namespace RssBandit.WinGui.Dialogs
 {
@@ -24,7 +25,7 @@ namespace RssBandit.WinGui.Dialogs
         /// <summary>
         /// Browser object used to navigate to Facebook Connect dialog
         /// </summary>
-        private WebBrowser browserFB;
+        private HtmlControl browserFB;
         
         /// <summary>
         /// Initializes the dialog with the location from which the user should login to Facebook from.
@@ -32,12 +33,16 @@ namespace RssBandit.WinGui.Dialogs
         /// <param name="fbconnectUrl">The URL to the Facebook login page</param>
         public FacebookConnectDialog(Uri fbconnectUrl): this() 
         {
-            this.browserFB.Navigate(fbconnectUrl);
+            this.browserFB.Navigate(fbconnectUrl.OriginalString);
         }
 
         private FacebookConnectDialog()
         {
             InitializeComponent();
+			
+			this.browserFB.NavigateComplete += this.FacebookConnectDialog_Navigated;
+			this.browserFB.OnQuit += this.FacebookConnectDialog_CloseWebBrowserRequest;
+            
         }
 
 
@@ -46,17 +51,24 @@ namespace RssBandit.WinGui.Dialogs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FacebookConnectDialog_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        private void FacebookConnectDialog_Navigated(object sender, BrowserNavigateComplete2Event e)
         {
-            if (e.Url.PathAndQuery.Contains("desktopapp.php"))
+	        var url = new Uri(e.url, UriKind.Absolute);
+            if (url.PathAndQuery.Contains("desktopapp.php"))
             {                 
                 base.DialogResult = DialogResult.OK;
             }
-            else if (e.Url.PathAndQuery.Contains("authorize.php"))
+            else if (url.PathAndQuery.Contains("authorize.php"))
             {
                 authorizationComplete = true;               
             }
         }
+
+	    private void FacebookConnectDialog_CloseWebBrowserRequest(object sender, EventArgs e)
+	    {
+		    authorizationComplete = false;
+			Close();
+	    }
 
         /// <summary>
         /// Handle user canceling the form instead of completing sign-in/connect process. 

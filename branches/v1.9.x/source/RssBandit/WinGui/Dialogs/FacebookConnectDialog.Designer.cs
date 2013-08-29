@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
+using IEControl;
 using RssBandit.Resources;
 namespace RssBandit.WinGui.Dialogs
 {
@@ -31,31 +32,41 @@ namespace RssBandit.WinGui.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            this.browserFB = new WebBrowser();
-            base.SuspendLayout();
-            this.browserFB.Dock = DockStyle.Fill;
-            this.browserFB.Location = new Point(0, 0);
-            this.browserFB.MinimumSize = new Size(20, 20);
-            this.browserFB.Name = "browserFB";
-            this.browserFB.ScrollBarsEnabled = false;
-            this.browserFB.Size = new Size(700, 490);
-            this.browserFB.TabIndex = 0;
-            this.browserFB.Navigated += new WebBrowserNavigatedEventHandler(this.FacebookConnectDialog_Navigated);
-            base.AutoScaleDimensions = new SizeF(6f, 13f);
-            base.AutoScaleMode = AutoScaleMode.Font;
-            base.ClientSize = new Size(700, 490);
-            base.Controls.Add(this.browserFB);
-            base.FormBorderStyle = FormBorderStyle.Sizable;
-            base.IsMdiContainer = true;
-            base.MaximizeBox = false;
-            base.MinimizeBox = false;
-            base.Name = "FacebookConnect";
-            base.StartPosition = FormStartPosition.CenterParent;
-            this.Text = SR.FacebookConnectFormTitle;
-            base.FormClosed += new FormClosedEventHandler(this.FacebookConnectDialog_FormClosed);
-            base.ResumeLayout(false);
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;            
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FacebookConnectDialog));
+			this.browserFB = new IEControl.HtmlControl();
+			((System.ComponentModel.ISupportInitialize)(this.browserFB)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// browserFB
+			// 
+			this.browserFB.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.browserFB.Enabled = true;
+			this.browserFB.Location = new System.Drawing.Point(0, 0);
+			this.browserFB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.browserFB.MinimumSize = new System.Drawing.Size(27, 25);
+			this.browserFB.Name = "browserFB";
+			this.browserFB.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("browserFB.OcxState")));
+			this.browserFB.OpticalZoomFactor = 100;
+			this.browserFB.Size = new System.Drawing.Size(749, 603);
+			this.browserFB.TabIndex = 0;
+			// 
+			// FacebookConnectDialog
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(749, 603);
+			this.Controls.Add(this.browserFB);
+			this.IsMdiContainer = true;
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "FacebookConnectDialog";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Facebook Login";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FacebookConnectDialog_FormClosed);
+			((System.ComponentModel.ISupportInitialize)(this.browserFB)).EndInit();
+			this.ResumeLayout(false);
+
         }
 
         #endregion

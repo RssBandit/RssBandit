@@ -181,5 +181,32 @@ namespace NewsComponents.Utils
 			return b.ToString();
 		}
 
+		internal static string Rot13(string value)
+		{
+			const char c13 = (char)13;
+			const char c26 = (char)26;
+
+			var result = new StringBuilder(value.Length);
+			foreach (char c in value)
+			{
+				char rc = c;
+				if (c >= 'a' && c <= 'z')
+				{
+					rc -= 'a';
+					rc += c13;
+					rc %= c26;
+					rc += 'a';
+				}
+				else if (c >= 'A' && c <= 'Z')
+				{
+					rc -= 'A';
+					rc += c13;
+					rc %= c26;
+					rc += 'A';
+				}
+				result.Append(rc);
+			}
+			return result.ToString();
+		}
 	}
 }

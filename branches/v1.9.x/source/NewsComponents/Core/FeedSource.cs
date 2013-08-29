@@ -10,6 +10,7 @@
 
 #endregion
 
+
 #region framework usings
 
 using System;
@@ -32,8 +33,15 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
 using log4net;
+using System.Security.Cryptography.X509Certificates;
+
+#endregion
+
+#region project usings
+
 using NewsComponents.Collections;
 using NewsComponents.Feed;
+using NewsComponents.Feed.Sources;
 using NewsComponents.Net;
 using NewsComponents.News;
 using NewsComponents.RelationCosmos;
@@ -45,12 +53,6 @@ using NewsComponents.Utils;
 using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
-using System.Security.Cryptography.X509Certificates;
-using NewsComponents.Feed;
-
-#endregion
-
-#region project usings
 
 #endregion
 
@@ -91,12 +93,12 @@ namespace NewsComponents
         /// </summary>
         Unknown = 0,
         /// <summary>
-        /// The feeds are sourced from Google Reader.
+        /// Obsolete. The feeds are sourced from Google Reader (dead in summer 2013).
         /// </summary>
         Google,
 
         /// <summary>
-        /// The feeds are sourced from NewsGator Online.
+        /// Obsolete. The feeds are sourced from NewsGator Online (dead in 2010).
         /// </summary>
         NewsGator,
 
@@ -113,7 +115,12 @@ namespace NewsComponents
         /// <summary>
         /// The feed is sourced from the Facebook news feed.
         /// </summary>
-        Facebook
+        Facebook,
+
+		/// <summary>
+		/// The feedly cloud. Our replacement for the google reader...
+		/// </summary>
+		FeedlyCloud,
     }
 
 
@@ -251,7 +258,10 @@ namespace NewsComponents
                     break;
                 case FeedSourceType.Facebook:
                     handler = new FacebookFeedSource(configuration, location); 
-                    break; 
+                    break;
+				case FeedSourceType.FeedlyCloud:
+					handler = new FeedlyCloudFeedSource(configuration, location);
+					break;
                 default:
                     break;
             }

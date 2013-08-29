@@ -46,12 +46,11 @@ namespace RssBandit.WinGui.Forms
         private Label lblPassword;
         private TextBox textPassword;
         private WizardPage pageStartImport;
-        private RadioButton radioGoogleReader;
+        private RadioButton radioFeedlyCloud;
         private RadioButton radioCommonFeedlist;
         private Button _btnImmediateFinish;
         private Wizard wizard;
-        private Label label1;
-        private RadioButton radioNewsGator;
+		private Label label1;
         private WizardPage pageSourceName;
         private TextBox textFeedSourceName;
         private Label label2;
@@ -67,13 +66,9 @@ namespace RssBandit.WinGui.Forms
                 {
                     return FeedSourceType.WindowsRSS;
                 }
-                else if (radioGoogleReader.Checked)
+                else if (radioFeedlyCloud.Checked)
                 {
-                    return FeedSourceType.Google;
-                }
-                else if (radioNewsGator.Checked)
-                {
-                    return FeedSourceType.NewsGator;
+                    return FeedSourceType.FeedlyCloud;
                 }
                 else if (radioFacebook.Checked)
                 {
@@ -92,13 +87,9 @@ namespace RssBandit.WinGui.Forms
                 {
                     radioCommonFeedlist.Checked = true;
                 }
-                else if (value == FeedSourceType.Google)
+                else if (value == FeedSourceType.FeedlyCloud)
                 {
-                    radioGoogleReader.Checked = true;
-                }
-                else if (value == FeedSourceType.NewsGator)
-                {
-                    radioNewsGator.Checked  = true;
+                    radioFeedlyCloud.Checked = true;
                 }
                 else if (value == FeedSourceType.Facebook)
                 {
@@ -189,196 +180,187 @@ namespace RssBandit.WinGui.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SynchronizeFeedsWizard));
-            this.chkDisplayWelcome = new System.Windows.Forms.CheckBox();
-            this.pageFeedCredentials = new Divelements.WizardFramework.WizardPage();
-            this.lblFeedCredentialsIntro = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.textUser = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.textPassword = new System.Windows.Forms.TextBox();
-            this.pageSourceName = new Divelements.WizardFramework.WizardPage();
-            this.textFeedSourceName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pageStartImport = new Divelements.WizardFramework.WizardPage();
-            this.radioFacebook = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.radioNewsGator = new System.Windows.Forms.RadioButton();
-            this.radioGoogleReader = new System.Windows.Forms.RadioButton();
-            this.radioCommonFeedlist = new System.Windows.Forms.RadioButton();
-            this._btnImmediateFinish = new System.Windows.Forms.Button();
-            this.wizard = new Divelements.WizardFramework.Wizard();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.pageFeedCredentials.SuspendLayout();
-            this.pageSourceName.SuspendLayout();
-            this.pageStartImport.SuspendLayout();
-            this.wizard.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // chkDisplayWelcome
-            // 
-            this.chkDisplayWelcome.Checked = true;
-            this.chkDisplayWelcome.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.chkDisplayWelcome, "chkDisplayWelcome");
-            this.chkDisplayWelcome.Name = "chkDisplayWelcome";
-            // 
-            // pageFeedCredentials
-            // 
-            this.pageFeedCredentials.Controls.Add(this.lblFeedCredentialsIntro);
-            this.pageFeedCredentials.Controls.Add(this.lblUsername);
-            this.pageFeedCredentials.Controls.Add(this.textUser);
-            this.pageFeedCredentials.Controls.Add(this.lblPassword);
-            this.pageFeedCredentials.Controls.Add(this.textPassword);
-            resources.ApplyResources(this.pageFeedCredentials, "pageFeedCredentials");
-            this.pageFeedCredentials.Name = "pageFeedCredentials";
-            this.pageFeedCredentials.NextPage = this.pageSourceName;
-            this.pageFeedCredentials.PreviousPage = this.pageStartImport;
-            this.pageFeedCredentials.BeforeDisplay += new System.EventHandler(this.OnPageFeedCredentials_BeforeDisplay);
-            // 
-            // lblFeedCredentialsIntro
-            // 
-            resources.ApplyResources(this.lblFeedCredentialsIntro, "lblFeedCredentialsIntro");
-            this.lblFeedCredentialsIntro.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblFeedCredentialsIntro.Name = "lblFeedCredentialsIntro";
-            // 
-            // lblUsername
-            // 
-            resources.ApplyResources(this.lblUsername, "lblUsername");
-            this.lblUsername.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblUsername.Name = "lblUsername";
-            // 
-            // textUser
-            // 
-            resources.ApplyResources(this.textUser, "textUser");
-            this.textUser.Name = "textUser";
-            this.textUser.TextChanged += new System.EventHandler(this.textUser_TextChanged);
-            // 
-            // lblPassword
-            // 
-            resources.ApplyResources(this.lblPassword, "lblPassword");
-            this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblPassword.Name = "lblPassword";
-            // 
-            // textPassword
-            // 
-            resources.ApplyResources(this.textPassword, "textPassword");
-            this.textPassword.Name = "textPassword";
-            this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
-            // 
-            // pageSourceName
-            // 
-            this.pageSourceName.Controls.Add(this.textFeedSourceName);
-            this.pageSourceName.Controls.Add(this.label2);
-            resources.ApplyResources(this.pageSourceName, "pageSourceName");
-            this.pageSourceName.Name = "pageSourceName";
-            this.pageSourceName.PreviousPage = this.pageFeedCredentials;
-            this.pageSourceName.BeforeDisplay += new System.EventHandler(this.OnPageSourceName_BeforeDisplay);
-            // 
-            // textFeedSourceName
-            // 
-            resources.ApplyResources(this.textFeedSourceName, "textFeedSourceName");
-            this.textFeedSourceName.Name = "textFeedSourceName";
-            this.textFeedSourceName.TextChanged += new System.EventHandler(this.textFeedSourceName_TextChanged);
-            this.textFeedSourceName.Validated += new System.EventHandler(this.OnControlValidated);
-            this.textFeedSourceName.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);
-            // 
-            // label2
-            // 
-            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // pageStartImport
-            // 
-            this.pageStartImport.Controls.Add(this.radioFacebook);
-            this.pageStartImport.Controls.Add(this.label1);
-            this.pageStartImport.Controls.Add(this.radioNewsGator);
-            this.pageStartImport.Controls.Add(this.radioGoogleReader);
-            this.pageStartImport.Controls.Add(this.radioCommonFeedlist);
-            resources.ApplyResources(this.pageStartImport, "pageStartImport");
-            this.pageStartImport.Name = "pageStartImport";
-            this.pageStartImport.NextPage = this.pageFeedCredentials;
-            // 
-            // radioFacebook
-            // 
-            resources.ApplyResources(this.radioFacebook, "radioFacebook");
-            this.radioFacebook.Name = "radioFacebook";
-            this.radioFacebook.TabStop = true;
-            this.radioFacebook.UseVisualStyleBackColor = true;
-            this.radioFacebook.CheckedChanged += new System.EventHandler(this.radioFacebook_CheckedChanged);
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label1.Name = "label1";
-            // 
-            // radioNewsGator
-            // 
-            resources.ApplyResources(this.radioNewsGator, "radioNewsGator");
-            this.radioNewsGator.Name = "radioNewsGator";
-            this.radioNewsGator.UseVisualStyleBackColor = true;
-            this.radioNewsGator.CheckedChanged += new System.EventHandler(this.radioNewsGator_CheckedChanged);
-            // 
-            // radioGoogleReader
-            // 
-            resources.ApplyResources(this.radioGoogleReader, "radioGoogleReader");
-            this.radioGoogleReader.Checked = true;
-            this.radioGoogleReader.Name = "radioGoogleReader";
-            this.radioGoogleReader.TabStop = true;
-            this.radioGoogleReader.UseVisualStyleBackColor = true;
-            this.radioGoogleReader.CheckedChanged += new System.EventHandler(this.radioGoogleReader_CheckedChanged);
-            // 
-            // radioCommonFeedlist
-            // 
-            resources.ApplyResources(this.radioCommonFeedlist, "radioCommonFeedlist");
-            this.radioCommonFeedlist.Name = "radioCommonFeedlist";
-            this.radioCommonFeedlist.UseVisualStyleBackColor = true;
-            this.radioCommonFeedlist.CheckedChanged += new System.EventHandler(this.radioCommonFeedlist_CheckedChanged);
-            // 
-            // _btnImmediateFinish
-            // 
-            resources.ApplyResources(this._btnImmediateFinish, "_btnImmediateFinish");
-            this._btnImmediateFinish.Name = "_btnImmediateFinish";
-            this._btnImmediateFinish.Click += new System.EventHandler(this.OnImmediateFinish_Click);
-            // 
-            // wizard
-            // 
-            this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
-            this.wizard.Controls.Add(this.pageStartImport);
-            this.wizard.Controls.Add(this.pageSourceName);
-            this.wizard.Controls.Add(this.pageFeedCredentials);
-            this.wizard.Controls.Add(this._btnImmediateFinish);
-            resources.ApplyResources(this.wizard, "wizard");
-            this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
-            this.wizard.Name = "wizard";
-            this.wizard.SelectedPage = this.pageStartImport;
-            this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
-            this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // SynchronizeFeedsWizard
-            // 
-            resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.wizard);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SynchronizeFeedsWizard";
-            this.pageFeedCredentials.ResumeLayout(false);
-            this.pageFeedCredentials.PerformLayout();
-            this.pageSourceName.ResumeLayout(false);
-            this.pageSourceName.PerformLayout();
-            this.pageStartImport.ResumeLayout(false);
-            this.pageStartImport.PerformLayout();
-            this.wizard.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            this.ResumeLayout(false);
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SynchronizeFeedsWizard));
+			this.chkDisplayWelcome = new System.Windows.Forms.CheckBox();
+			this.pageFeedCredentials = new Divelements.WizardFramework.WizardPage();
+			this.lblFeedCredentialsIntro = new System.Windows.Forms.Label();
+			this.lblUsername = new System.Windows.Forms.Label();
+			this.textUser = new System.Windows.Forms.TextBox();
+			this.lblPassword = new System.Windows.Forms.Label();
+			this.textPassword = new System.Windows.Forms.TextBox();
+			this.pageSourceName = new Divelements.WizardFramework.WizardPage();
+			this.textFeedSourceName = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.pageStartImport = new Divelements.WizardFramework.WizardPage();
+			this.radioFacebook = new System.Windows.Forms.RadioButton();
+			this.label1 = new System.Windows.Forms.Label();
+			this.radioFeedlyCloud = new System.Windows.Forms.RadioButton();
+			this.radioCommonFeedlist = new System.Windows.Forms.RadioButton();
+			this._btnImmediateFinish = new System.Windows.Forms.Button();
+			this.wizard = new Divelements.WizardFramework.Wizard();
+			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+			this.pageFeedCredentials.SuspendLayout();
+			this.pageSourceName.SuspendLayout();
+			this.pageStartImport.SuspendLayout();
+			this.wizard.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// chkDisplayWelcome
+			// 
+			this.chkDisplayWelcome.Checked = true;
+			this.chkDisplayWelcome.CheckState = System.Windows.Forms.CheckState.Checked;
+			resources.ApplyResources(this.chkDisplayWelcome, "chkDisplayWelcome");
+			this.chkDisplayWelcome.Name = "chkDisplayWelcome";
+			// 
+			// pageFeedCredentials
+			// 
+			this.pageFeedCredentials.Controls.Add(this.lblFeedCredentialsIntro);
+			this.pageFeedCredentials.Controls.Add(this.lblUsername);
+			this.pageFeedCredentials.Controls.Add(this.textUser);
+			this.pageFeedCredentials.Controls.Add(this.lblPassword);
+			this.pageFeedCredentials.Controls.Add(this.textPassword);
+			resources.ApplyResources(this.pageFeedCredentials, "pageFeedCredentials");
+			this.pageFeedCredentials.Name = "pageFeedCredentials";
+			this.pageFeedCredentials.NextPage = this.pageSourceName;
+			this.pageFeedCredentials.PreviousPage = this.pageStartImport;
+			this.pageFeedCredentials.BeforeDisplay += new System.EventHandler(this.OnPageFeedCredentials_BeforeDisplay);
+			// 
+			// lblFeedCredentialsIntro
+			// 
+			resources.ApplyResources(this.lblFeedCredentialsIntro, "lblFeedCredentialsIntro");
+			this.lblFeedCredentialsIntro.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblFeedCredentialsIntro.Name = "lblFeedCredentialsIntro";
+			// 
+			// lblUsername
+			// 
+			resources.ApplyResources(this.lblUsername, "lblUsername");
+			this.lblUsername.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblUsername.Name = "lblUsername";
+			// 
+			// textUser
+			// 
+			resources.ApplyResources(this.textUser, "textUser");
+			this.textUser.Name = "textUser";
+			this.textUser.TextChanged += new System.EventHandler(this.textUser_TextChanged);
+			// 
+			// lblPassword
+			// 
+			resources.ApplyResources(this.lblPassword, "lblPassword");
+			this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblPassword.Name = "lblPassword";
+			// 
+			// textPassword
+			// 
+			resources.ApplyResources(this.textPassword, "textPassword");
+			this.textPassword.Name = "textPassword";
+			this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
+			// 
+			// pageSourceName
+			// 
+			this.pageSourceName.Controls.Add(this.textFeedSourceName);
+			this.pageSourceName.Controls.Add(this.label2);
+			resources.ApplyResources(this.pageSourceName, "pageSourceName");
+			this.pageSourceName.Name = "pageSourceName";
+			this.pageSourceName.PreviousPage = this.pageFeedCredentials;
+			this.pageSourceName.BeforeDisplay += new System.EventHandler(this.OnPageSourceName_BeforeDisplay);
+			// 
+			// textFeedSourceName
+			// 
+			resources.ApplyResources(this.textFeedSourceName, "textFeedSourceName");
+			this.textFeedSourceName.Name = "textFeedSourceName";
+			this.textFeedSourceName.TextChanged += new System.EventHandler(this.textFeedSourceName_TextChanged);
+			this.textFeedSourceName.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);
+			this.textFeedSourceName.Validated += new System.EventHandler(this.OnControlValidated);
+			// 
+			// label2
+			// 
+			this.label2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
+			// pageStartImport
+			// 
+			this.pageStartImport.Controls.Add(this.radioFacebook);
+			this.pageStartImport.Controls.Add(this.label1);
+			this.pageStartImport.Controls.Add(this.radioFeedlyCloud);
+			this.pageStartImport.Controls.Add(this.radioCommonFeedlist);
+			resources.ApplyResources(this.pageStartImport, "pageStartImport");
+			this.pageStartImport.Name = "pageStartImport";
+			this.pageStartImport.NextPage = this.pageFeedCredentials;
+			// 
+			// radioFacebook
+			// 
+			resources.ApplyResources(this.radioFacebook, "radioFacebook");
+			this.radioFacebook.Name = "radioFacebook";
+			this.radioFacebook.TabStop = true;
+			this.radioFacebook.UseVisualStyleBackColor = true;
+			this.radioFacebook.CheckedChanged += new System.EventHandler(this.radioFacebook_CheckedChanged);
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.label1.Name = "label1";
+			// 
+			// radioFeedlyCloud
+			// 
+			resources.ApplyResources(this.radioFeedlyCloud, "radioFeedlyCloud");
+			this.radioFeedlyCloud.Checked = true;
+			this.radioFeedlyCloud.Name = "radioFeedlyCloud";
+			this.radioFeedlyCloud.TabStop = true;
+			this.radioFeedlyCloud.UseVisualStyleBackColor = true;
+			this.radioFeedlyCloud.CheckedChanged += new System.EventHandler(this.radioFeedlyCloud_CheckedChanged);
+			// 
+			// radioCommonFeedlist
+			// 
+			resources.ApplyResources(this.radioCommonFeedlist, "radioCommonFeedlist");
+			this.radioCommonFeedlist.Name = "radioCommonFeedlist";
+			this.radioCommonFeedlist.UseVisualStyleBackColor = true;
+			this.radioCommonFeedlist.CheckedChanged += new System.EventHandler(this.radioCommonFeedlist_CheckedChanged);
+			// 
+			// _btnImmediateFinish
+			// 
+			resources.ApplyResources(this._btnImmediateFinish, "_btnImmediateFinish");
+			this._btnImmediateFinish.Name = "_btnImmediateFinish";
+			this._btnImmediateFinish.Click += new System.EventHandler(this.OnImmediateFinish_Click);
+			// 
+			// wizard
+			// 
+			this.wizard.BannerImage = ((System.Drawing.Image)(resources.GetObject("wizard.BannerImage")));
+			this.wizard.Controls.Add(this.pageStartImport);
+			this.wizard.Controls.Add(this.pageSourceName);
+			this.wizard.Controls.Add(this.pageFeedCredentials);
+			this.wizard.Controls.Add(this._btnImmediateFinish);
+			resources.ApplyResources(this.wizard, "wizard");
+			this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
+			this.wizard.Name = "wizard";
+			this.wizard.SelectedPage = this.pageSourceName;
+			this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
+			this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
+			// 
+			// errorProvider1
+			// 
+			this.errorProvider1.ContainerControl = this;
+			// 
+			// SynchronizeFeedsWizard
+			// 
+			resources.ApplyResources(this, "$this");
+			this.Controls.Add(this.wizard);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "SynchronizeFeedsWizard";
+			this.pageFeedCredentials.ResumeLayout(false);
+			this.pageFeedCredentials.PerformLayout();
+			this.pageSourceName.ResumeLayout(false);
+			this.pageSourceName.PerformLayout();
+			this.pageStartImport.ResumeLayout(false);
+			this.pageStartImport.PerformLayout();
+			this.wizard.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+			this.ResumeLayout(false);
 
         }
         #endregion
@@ -437,11 +419,6 @@ namespace RssBandit.WinGui.Forms
             Close();
         }
 
-        private void radioNewsGator_CheckedChanged(object sender, EventArgs e)
-        {
-            this.pageStartImport.NextPage = pageFeedCredentials; 
-        }
-
         private void radioCommonFeedlist_CheckedChanged(object sender, EventArgs e)
         {
             this.pageStartImport.NextPage = this.pageSourceName;             
@@ -459,12 +436,12 @@ namespace RssBandit.WinGui.Forms
             this.OnControlValidating(sender, new System.ComponentModel.CancelEventArgs()); 
         }
 
-        private void radioGoogleReader_CheckedChanged(object sender, EventArgs e)
+        private void radioFeedlyCloud_CheckedChanged(object sender, EventArgs e)
         {
-            this.pageStartImport.NextPage = pageFeedCredentials; 
+            //this.pageStartImport.NextPage = pageFeedCredentials; 
+			this.pageStartImport.NextPage = this.pageSourceName; 
         }
-
-
+		
         private void OnPageFeedCredentials_BeforeMoveNext(object sender, EventArgs e)
         {
             this.OnControlValidating(this.textUser, new System.ComponentModel.CancelEventArgs());
@@ -526,13 +503,9 @@ namespace RssBandit.WinGui.Forms
                     this.textFeedSourceName.Text = SR.FeedNodeMyWindowsRssFeedsCaption;
                     this.pageSourceName.PreviousPage = this.pageStartImport;
                     break; 
-                case FeedSourceType.NewsGator:
-                    this.textFeedSourceName.Text = SR.FeedNodeMyNewsGatorFeedsCaption;
-                    this.pageSourceName.PreviousPage = this.pageFeedCredentials;
-                    break; 
-                case FeedSourceType.Google:
-                    this.textFeedSourceName.Text = SR.FeedNodeMyGoogleReaderFeedsCaption;
-                    this.pageSourceName.PreviousPage = this.pageFeedCredentials;
+                case FeedSourceType.FeedlyCloud:
+                    this.textFeedSourceName.Text = SR.FeedNodeMyFeedlyCloudFeedsCaption;
+					this.pageSourceName.PreviousPage = this.pageStartImport;
                     break; 
                 case FeedSourceType.Facebook:
                     this.textFeedSourceName.Text = SR.FeedNodeFacebookFeedsCaption;
@@ -614,25 +587,3 @@ namespace RssBandit.WinGui.Forms
     }
 
 }
-
-#region CVS Version Log
-/*
- * $Log: SynchronizeFeedsWizard.cs,v $
- * Revision 1.42  2007/08/02 13:37:40  t_rendelmann
- * added support to NewsSubscriptionWizard for rewire the credential step on authentication exceptions
- *
- * Revision 1.41  2007/01/21 12:54:09  t_rendelmann
- * fixed: HtmlDecoding/Mnemonics issue caused by feed titles using "&" and the like in discovered feeds dropdown and subscription wizard; as a test Url you can use e.g.  http://www.codeplex.com/entlib/Release/ProjectReleases.aspx?ReleaseId=1649
- *
- * Revision 1.40  2006/11/24 12:18:45  t_rendelmann
- * small fix: recent used category in the subscription wizard was not validated against the categories
- *
- * Revision 1.39  2006/11/11 14:42:42  t_rendelmann
- * added: DialogBase base Form to be able to inherit simple OK/Cancel dialogs;
- * added new PodcastOptionsDialog (inherits DialogBase)
- *
- * Revision 1.38  2006/10/17 15:43:36  t_rendelmann
- * fixed: HTML entities in feed (-item) urls not decoded (https://sourceforge.net/tracker/index.php?func=detail&aid=1564959&group_id=96589&atid=615248)
- *
- */
-#endregion

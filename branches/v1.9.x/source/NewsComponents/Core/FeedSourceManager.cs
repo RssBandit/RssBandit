@@ -235,10 +235,6 @@ namespace NewsComponents
 			/// Property key for the password part of credentials
 			/// </summary>
 			public const string Password = "pwd";
-            /// <summary>
-            /// Property key used to identify the column layout for unread items for the feed source
-            /// </summary>
-            public const string UnreadItemsLayout = "unread-items-layout"; 
         }
 
         #endregion 

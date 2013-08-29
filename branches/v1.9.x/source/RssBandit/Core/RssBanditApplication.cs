@@ -268,9 +268,10 @@ namespace RssBandit
 
 		private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
 		{
-			ExceptionHelper.CatchAndCollectExceptions(action, exceptions);
+			try { action(); }
+			catch (ConfigurationErrorsException ex) { exceptions.Add(ex); }
 		}
-
+		
         public RssBanditApplication()
         {
             commandLineOptions = new CommandLineOptions();
@@ -760,7 +761,6 @@ namespace RssBandit
         /// <param name="e">The exception</param>
         public void HandleFeedlistException(Exception e)
         {
-            //TODO: change/add error messages to include source name/file!
             e.PreserveExceptionStackTrace();
 
             ResourceAuthorizationException rae = e as ResourceAuthorizationException; 
@@ -4633,7 +4633,7 @@ namespace RssBandit
 					f.link, updateNodeIcon, entry);
             	return;
             }
-			_log.Error("XML Feed error called with now feed or ne feed url", e);
+			_log.Error("XML Feed error called with no feed or feed link", e);
         }
 
 		
