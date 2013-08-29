@@ -54,7 +54,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FEEDLY_FEATURE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -144,6 +144,9 @@
       <Name>Lucene.Net</Name>
       <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Org.Mime4Net, Version=1.8.3189.15061, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
@@ -180,6 +183,9 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TorSteroids.Common">
+      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -234,6 +240,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Feed\Sources\FacebookFeedSource.cs" />
+    <Compile Include="Feed\Sources\FeedlyCloudFeedSource.cs" />
+    <Compile Include="Feed\Sources\FeedlyCloudUpdater.cs" />
     <Compile Include="Feed\Sources\GoogleReaderFeedSource.cs" />
     <Compile Include="Feed\Sources\GoogleReaderModifier.cs" />
     <Compile Include="Feed\Sources\NewsGatorFeedSource.cs" />
@@ -390,7 +398,6 @@
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\ExceptionHelper.cs" />
     <Compile Include="Utils\FileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -437,6 +444,7 @@
     <Compile Include="Xml\Serialization\XmlSerializerCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>

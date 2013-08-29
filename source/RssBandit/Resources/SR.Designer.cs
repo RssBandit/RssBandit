@@ -1198,6 +1198,24 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Feedly Feeds.
+        /// </summary>
+        internal static string FeedNodeMyFeedlyCloudFeedsCaption {
+            get {
+                return ResourceManager.GetString("FeedNodeMyFeedlyCloudFeedsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container of subscribed feeds in the Feedly Cloud.
+        /// </summary>
+        internal static string FeedNodeMyFeedlyCloudFeedsDesc {
+            get {
+                return ResourceManager.GetString("FeedNodeMyFeedlyCloudFeedsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Feeds.
         /// </summary>
         internal static string FeedNodeMyFeedsCaption {
@@ -1212,42 +1230,6 @@ namespace RssBandit.Resources {
         internal static string FeedNodeMyFeedsDesc {
             get {
                 return ResourceManager.GetString("FeedNodeMyFeedsDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My Google Reader Feeds.
-        /// </summary>
-        internal static string FeedNodeMyGoogleReaderFeedsCaption {
-            get {
-                return ResourceManager.GetString("FeedNodeMyGoogleReaderFeedsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Container of subscribed feeds in Google Reader.
-        /// </summary>
-        internal static string FeedNodeMyGoogleReaderFeedsDesc {
-            get {
-                return ResourceManager.GetString("FeedNodeMyGoogleReaderFeedsDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My NewsGator Feeds.
-        /// </summary>
-        internal static string FeedNodeMyNewsGatorFeedsCaption {
-            get {
-                return ResourceManager.GetString("FeedNodeMyNewsGatorFeedsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Container of subscribed feeds in NewsGator.
-        /// </summary>
-        internal static string FeedNodeMyNewsGatorFeedsDesc {
-            get {
-                return ResourceManager.GetString("FeedNodeMyNewsGatorFeedsDesc", resourceCulture);
             }
         }
         

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddInGeneralFailure" xml:space="preserve">
     <value>An general failure occured in AddIn '{1}':
@@ -544,18 +544,6 @@ Error:{1}.</value>
   </data>
   <data name="FeedNodeFacebookFeedsDesc" xml:space="preserve">
     <value>Container of news feed from Facebook</value>
-  </data>
-  <data name="FeedNodeMyGoogleReaderFeedsCaption" xml:space="preserve">
-    <value>My Google Reader Feeds</value>
-  </data>
-  <data name="FeedNodeMyGoogleReaderFeedsDesc" xml:space="preserve">
-    <value>Container of subscribed feeds in Google Reader</value>
-  </data>
-  <data name="FeedNodeMyNewsGatorFeedsCaption" xml:space="preserve">
-    <value>My NewsGator Feeds</value>
-  </data>
-  <data name="FeedNodeMyNewsGatorFeedsDesc" xml:space="preserve">
-    <value>Container of subscribed feeds in NewsGator</value>
   </data>
   <data name="FeedNodeMyWindowsRssFeedsCaption" xml:space="preserve">
     <value>My Common Feed List Feeds</value>
@@ -2537,5 +2525,11 @@ Error: {1}</value>
   </data>
   <data name="CmdLineNavigateToDesc" xml:space="preserve">
     <value>Open the specified URL in a tab or navigate to the specified feed item</value>
+  </data>
+  <data name="FeedNodeMyFeedlyCloudFeedsCaption" xml:space="preserve">
+    <value>My Feedly Feeds</value>
+  </data>
+  <data name="FeedNodeMyFeedlyCloudFeedsDesc" xml:space="preserve">
+    <value>Container of subscribed feeds in the Feedly Cloud</value>
   </data>
 </root>

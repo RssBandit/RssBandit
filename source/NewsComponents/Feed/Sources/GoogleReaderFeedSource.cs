@@ -242,10 +242,12 @@ namespace NewsComponents.Feed
             {
                 myFeeds = new feeds();
             }
-
-            //load feed list from Google Reader and use settings from subscriptions.xml
-            this.BootstrapAndLoadFeedlist(myFeeds);
-            GoogleReaderUpdater.StartBackgroundThread(); 
+			
+			//TR: gr is dead now
+			
+            ////load feed list from Google Reader and use settings from subscriptions.xml
+            //this.BootstrapAndLoadFeedlist(myFeeds);
+            //GoogleReaderUpdater.StartBackgroundThread(); 
         }
 
         /// <summary>
@@ -366,6 +368,9 @@ namespace NewsComponents.Feed
         /// </summary>
         private void UpdateFeedList()
         {
+			//TR: gr is dead now
+			return;
+
             bool feedlistModified = false, categoriesModified = false; 
 
             IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();

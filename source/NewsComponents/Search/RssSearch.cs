@@ -299,7 +299,7 @@ namespace NewsComponents.Search
 			}
 			set { 
 				what = value; 
-				whatYearOnly = DateTimeExt.DateAsInteger(what); 
+				whatYearOnly = what.DateToInteger(); 
 				if (what > DateTime.MinValue)
 					whatRelativeToToday = TimeSpan.Zero;
 			}
@@ -349,7 +349,7 @@ namespace NewsComponents.Search
 		public override bool Match(INewsItem item) { 
 			if (this.WhatRelativeToToday.CompareTo(TimeSpan.Zero) == 0) {
 				// compare dates only
-				int itemDate = DateTimeExt.DateAsInteger(item.Date);
+				int itemDate = item.Date.DateToInteger();
 				switch(this.WhatKind){	// we don't consider the date as UTC!?
 					case DateExpressionKind.Equal:
 						return itemDate == whatYearOnly;
@@ -390,49 +390,57 @@ namespace NewsComponents.Search
 	/// <remarks>Both <c>Bottom</c> and <c>Top</c> have to be
 	/// specified!</remarks>
 	[Serializable]
-	public class SearchCriteriaDateRange: ISearchCriteria {
-		
+	public class SearchCriteriaDateRange : ISearchCriteria
+	{
+
 		/// <summary>
 		/// Defines the minimum range value: Jan., 1. 1980
 		/// </summary>
 		public static readonly DateTime MinValue = new DateTime(1980, 1, 1);
-		
+
 		/// <summary>
 		///  Defines the lower Date of the range.
 		/// </summary>
-		public DateTime Bottom {
-			get { 
-				return lowDate; 
+		public DateTime Bottom
+		{
+			get
+			{
+				return lowDate;
 			}
-			set { 
-				lowDate = value; 
-				lowDateOnly = DateTimeExt.DateAsInteger(lowDate); 
+			set
+			{
+				lowDate = value;
+				lowDateOnly = lowDate.DateToInteger();
 			}
 		}
-		
+
 		private int lowDateOnly;	// store the pre-calced year only integer
 		private DateTime lowDate;
 
 		/// <summary>
 		///  Defines the upper Date of the range.
 		/// </summary>
-		public DateTime Top {
-			get { 
-				return highDate; 
+		public DateTime Top
+		{
+			get
+			{
+				return highDate;
 			}
-			set { 
-				highDate = value; 
-				highDateOnly = DateTimeExt.DateAsInteger(highDate); 
+			set
+			{
+				highDate = value;
+				highDateOnly = highDate.DateToInteger();
 			}
 		}
-		
+
 		private int highDateOnly;	// store the pre-calced year only integer
 		private DateTime highDate;
-		
+
 		/// <summary>
 		/// Default initializer
 		/// </summary>
-		public SearchCriteriaDateRange() {
+		public SearchCriteriaDateRange()
+		{
 			this.Bottom = DateTime.MinValue;
 			this.Top = DateTime.Now;
 		}
@@ -442,29 +450,33 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <param name="bottom"></param>
 		/// <param name="top"></param>
-		public SearchCriteriaDateRange(DateTime bottom, DateTime top):this(){		
-			this.Bottom = bottom; 
+		public SearchCriteriaDateRange(DateTime bottom, DateTime top)
+			: this()
+		{
+			this.Bottom = bottom;
 			this.Top = top;
 		}
-		
-		
+
+
 		/// <summary>
 		/// interface impl. ISearchCriteria
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public override bool Match(INewsItem item) { 
+		public override bool Match(INewsItem item)
+		{
 			// compare dates only
-			int itemDate = DateTimeExt.DateAsInteger(item.Date);
+			int itemDate = item.Date.DateToInteger();
 			return itemDate > lowDateOnly && itemDate < highDateOnly;
-		}  
+		}
 		/// <summary>
 		/// [Not yet implemented]
 		/// </summary>
 		/// <param name="feed"></param>
 		/// <returns></returns>
-		public override bool Match(FeedInfo feed) { 
-					
+		public override bool Match(FeedInfo feed)
+		{
+
 			return false;
 		} 
 	}

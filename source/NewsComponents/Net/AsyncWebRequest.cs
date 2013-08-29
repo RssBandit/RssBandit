@@ -607,7 +607,7 @@ namespace NewsComponents.Net
                             try
                             {
                                 state.RequestParams.LastModified =
-                                    DateTimeExt.Parse(httpResponse.Headers.Get("Last-Modified"));
+									DateTimeExt.ParseRfc2822DateTime(httpResponse.Headers.Get("Last-Modified"));
                             }
                             catch (FormatException)
                             {
@@ -794,13 +794,24 @@ namespace NewsComponents.Net
                 		string statusCode = httpResponse.StatusDescription;
                 		if (String.IsNullOrEmpty(statusCode))
                 			statusCode = httpResponse.StatusCode.ToString();
-
+						
                 		string statusMessage = null;
                 		try { 
                 			statusMessage = new StreamReader(httpResponse.GetResponseStream()).ReadToEnd(); 
                 		}catch { }
 
-                		throw new WebException("Unexpected HTTP Response: " + statusCode + "<p>" + (statusMessage ?? String.Empty));
+                		if (String.IsNullOrEmpty(statusMessage))
+                		{
+							throw new WebException("Unexpected HTTP Response: " + statusCode);
+                		}
+                		else
+                		{
+                			if (statusMessage.Contains("<"))
+								throw new WebException(statusMessage);
+
+							throw new WebException("<html><head><title>Unexpected HTTP Response</title></head><body><h2>Unexpected HTTP Response: " +statusCode+ "</h2><p>" + statusMessage + "</p></html>");
+                		}
+                		
                 	}
                 }
                 else if (fileResponse != null)

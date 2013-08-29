@@ -440,18 +440,14 @@ namespace RssBandit.SpecialFeeds
 				INewsItem n = feedInfo.ItemsList[i];
 				if (n != null)
 				{
-					int sourceID;
-					string feedUrlRef = OptionalItemElement.GetOriginalFeedReference(n, out sourceID);
-					if (!String.IsNullOrEmpty(feedUrlRef) && sourceID == entry.ID)
+					int sourceId;
+					string feedUrlRef = OptionalItemElement.GetOriginalFeedReference(n, out sourceId);
+					
+					if (!String.IsNullOrEmpty(feedUrlRef) && sourceId == entry.ID &&
+					    String.Equals(feedUrlRef, feedUrl, StringComparison.OrdinalIgnoreCase))
+					{
 						removeAtIndex.Push(i);
-
-					//XmlElement xe = RssHelper.GetOptionalElement(n, AdditionalElements.OriginalFeedOfErrorItem);
-					//if (xe != null && xe.InnerText == feedUrl)
-					//{
-					//    removeAtIndex.Push(i);
-					//    break;
-					//}
-
+					}
 				}
 			}
 
@@ -639,11 +635,6 @@ namespace RssBandit.SpecialFeeds
 				if ((e is XmlException) && StringHelper.ContainsInvalidXmlChars(e.Message))
 				{
 					msg = e.Message.Substring(5);
-				}
-
-				if (msg.IndexOf("<") >= 0)
-				{
-					msg = HtmlHelper.HtmlEncode(msg);
 				}
 
 				writer.WriteStartElement("p");
