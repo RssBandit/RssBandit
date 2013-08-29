@@ -41,6 +41,7 @@ using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using RssBandit.Filter;
 using RssBandit.Resources;
+using RssBandit.SpecialFeeds;
 using RssBandit.Utility.Keyboard;
 using RssBandit.WebSearch;
 using RssBandit.WinGui.Controls;
@@ -2268,9 +2269,14 @@ namespace RssBandit.WinGui.Forms
         private void OnFeedDeleted(object sender, FeedSourceFeedUrlTitleEventArgs e)
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
-
+			
+			// user clicks to "remove feed" within feed detail view, so clean this if it was the recent view:
+	        bool isExceptionNodeItemDisplayed = false;
+	        if (this.CurrentSelectedFeedItem != null && this.CurrentSelectedFeedItem.Feed != null)
+		        isExceptionNodeItemDisplayed = this.CurrentSelectedFeedItem.Feed is ExceptionManager;
+	        
             ExceptionNode.UpdateReadStatus();
-            PopulateSmartFolder((TreeFeedsNodeBase) ExceptionNode, false);
+			PopulateSmartFolder((TreeFeedsNodeBase)ExceptionNode, isExceptionNodeItemDisplayed);
 
             if (tn == null || tn.Type != FeedNodeType.Feed || e.FeedUrl != tn.DataKey)
             {

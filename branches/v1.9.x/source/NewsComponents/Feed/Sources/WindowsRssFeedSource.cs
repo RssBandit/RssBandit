@@ -1707,7 +1707,13 @@ namespace NewsComponents.Feed
             {
                 try
                 {
-                    return myitem.PubDate.Equals(NoPubDate) ? myitem.LastDownloadTime : myitem.PubDate;
+					// issue #1379 https://sourceforge.net/p/rssbandit/bugs/1379/
+					// see http://msdn.microsoft.com/en-us/library/windows/desktop/ms685800(v=vs.85).aspx
+					// that date is adjusted for local time zone, so we convert to UTC 
+					// (display handles conversion to the users local time zone)...
+                    return myitem.PubDate.Equals(NoPubDate) 
+						? myitem.LastDownloadTime.ToUniversalTime() 
+						: myitem.PubDate.ToUniversalTime();
                 }
                 catch (Exception e) /* thrown if Windows RSS platform can't parse the date */
                 {

@@ -11,9 +11,9 @@
 using System.Reflection;
 using System.Resources;
 
-[assembly: AssemblyVersion("1.9.0.1109")]
-[assembly: AssemblyFileVersion("1.9.0.1109")]
-[assembly: AssemblyInformationalVersion("1.9.1109")]
+[assembly: AssemblyVersion("1.9.0.1122")]
+[assembly: AssemblyFileVersion("1.9.0.1122")]
+[assembly: AssemblyInformationalVersion("1.9.1122")]
 [assembly: SatelliteContractVersion("1.9.0")]
 
 
