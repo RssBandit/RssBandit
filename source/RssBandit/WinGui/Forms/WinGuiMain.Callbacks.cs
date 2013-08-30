@@ -1636,23 +1636,43 @@ namespace RssBandit.WinGui.Forms
                                      !listFeedItems.Focused)
                             {
                                 // browser detail pane has focus
-                                //Trace.WriteLine("htmlDetail.Focused:"+htmlDetail.Focused);
-                                IHTMLDocument2 htdoc = htmlDetail.Document2;
-                                if (htdoc != null)
-                                {
-                                    IHTMLElement2 htbody = htdoc.GetBody();
-                                    if (htbody != null)
-                                    {
-                                        int num1 = htbody.getScrollTop();
-                                        htbody.setScrollTop(num1 + 20);
-                                        int num2 = htbody.getScrollTop();
-                                        if (num1 == num2)
-                                        {
-                                            MoveToNextUnreadItem();
-                                            processed = true;
-                                        }
-                                    }
-                                }
+                                // IEControl behavior is different depending on the !DOCTYPE:
+								// html 5 and "older modes"
+	                            var html5Mode = true;
+	                            if (CurrentSelectedFeedsNode != null)
+	                            {
+		                            var tn = CurrentSelectedFeedsNode;
+		                            var entry = FeedSourceEntryOf(tn);
+									// default stylesheet is html5 now:
+									if (entry != null)
+										html5Mode = String.IsNullOrEmpty(entry.Source.GetStyleSheet(tn.DataKey));
+	                            }
+
+	                            IHTMLElement2 htbody = null;
+	                            if (html5Mode)
+	                            {
+									IHTMLDocument3 htdoc3 = htmlDetail.Document as IHTMLDocument3;
+		                            if (htdoc3 != null)
+			                            htbody = htdoc3.documentElement() as IHTMLElement2;
+	                            }
+	                            else
+	                            {
+									IHTMLDocument2 htdoc2 = htmlDetail.Document2;
+									if (htdoc2 != null)
+										htbody = htdoc2.GetBody();
+	                            }
+
+								if (htbody != null)
+								{
+									int num1 = htbody.getScrollTop();
+									htbody.setScrollTop(num1 + 20);
+									int num2 = htbody.getScrollTop();
+									if (num1 == num2)
+									{
+										MoveToNextUnreadItem();
+										processed = true;
+									}
+								}
                             }
                             else
                             {
