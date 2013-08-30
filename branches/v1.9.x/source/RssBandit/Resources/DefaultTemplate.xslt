@@ -31,23 +31,21 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 -->
 <xsl:param name="MarkItemsAsReadWhenViewed" />
 
-<xsl:output method='html' indent='yes' /> 
-
+<xsl:output method='html' indent='yes' encoding='utf-8' />
+  
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- match channel group newspaper -->
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <xsl:template match="newspaper[@type='group']">
+<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC ""></xsl:text>
 <html><head><title><xsl:value-of select='title'/></title>
 <!-- <base href="{//channel/link}" /> -->
 <xsl:call-template name="embedded_style" />
 </head>
 <body id="body">
- <xsl:attribute name="onscroll">
-  <xsl:if test="$MarkItemsAsReadWhenViewed != false">
-  handleScroll()
-  </xsl:if>
- </xsl:attribute>
-
+<xsl:if test="$MarkItemsAsReadWhenViewed != false">
+  <xsl:attribute name="onscroll">handleScroll()</xsl:attribute>
+</xsl:if>
 <table height="100%" width="100%">	
 <tr>
 <td class="PostFrame" height="100%" width="100%" valign="top">	
@@ -56,13 +54,13 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <xsl:choose>
 	  <xsl:when test='$CurrentPageNumber &gt; 1'>
 	    <a href="fdaction:?action=previouspage&amp;pagetype=category" class="img">  	 
-	   <img src="$IMAGEDIR$leftarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px" />
 	   </a><a href="fdaction:?action=previouspage&amp;pagetype=category">  	 	  
 	   <xsl:value-of select='localized:PreviousPageText()' />
 	   </a>
 	   </xsl:when>
 	  <xsl:otherwise>
-	  <img src="$IMAGEDIR$leftarrow.gif" /><xsl:value-of select='localized:PreviousPageText()' />	  
+	  <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px"/><xsl:value-of select='localized:PreviousPageText()' />	  
 	  </xsl:otherwise>
 </xsl:choose>&#160;<xsl:choose>
 	  <xsl:when test='$LastPageNumber &gt; $CurrentPageNumber'>
@@ -70,11 +68,11 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	     <xsl:value-of select='localized:NextPageText()' />
 	   </a>
 	   <a href="fdaction:?action=nextpage&amp;pagetype=category" class="img">  	 
-	   <img src="$IMAGEDIR$rightarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>
 	   </a>	    
 	  </xsl:when>
 	  <xsl:otherwise>
-	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$rightarrow.gif" />	   
+	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>	   
 	  </xsl:otherwise>
 </xsl:choose>
 	 |&#160;<xsl:value-of select='localized:DisplayingPageText()' />&#160;<xsl:value-of select='$CurrentPageNumber' />&#160;<xsl:value-of select='localized:PageOfText()' />&#160;<xsl:value-of select='$LastPageNumber' />
@@ -134,7 +132,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	  <xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/>
 	 </xsl:attribute>
 	 
-	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" >
+	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" style="vertical-align:bottom;padding-right:3px" >
 	 <xsl:attribute name="alt"> 
 	  <xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/>
 	 </xsl:attribute>
@@ -171,13 +169,13 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <xsl:choose>
 	  <xsl:when test='$CurrentPageNumber &gt; 1'>
 	    <a href="fdaction:?action=previouspage&amp;pagetype=category" class="img">  	 
-	   <img src="$IMAGEDIR$leftarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px"/>
 	   </a><a href="fdaction:?action=previouspage&amp;pagetype=category">  	 	  
 	   <xsl:value-of select='localized:PreviousPageText()' />
 	   </a>
 	   </xsl:when>
 	  <xsl:otherwise>
-	  <img src="$IMAGEDIR$leftarrow.gif" /><xsl:value-of select='localized:PreviousPageText()' />	  
+	  <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px"/><xsl:value-of select='localized:PreviousPageText()' />	  
 	  </xsl:otherwise>
 </xsl:choose>&#160;<xsl:choose>
 	  <xsl:when test='$LastPageNumber &gt; $CurrentPageNumber'>
@@ -185,11 +183,11 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	     <xsl:value-of select='localized:NextPageText()' />
 	   </a>
 	   <a href="fdaction:?action=nextpage&amp;pagetype=category" class="img">  	 
-	   <img src="$IMAGEDIR$rightarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>
 	   </a>	    
 	  </xsl:when>
 	  <xsl:otherwise>
-	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$rightarrow.gif" />	   
+	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>	   
 	  </xsl:otherwise>
 </xsl:choose>
 	 |&#160;<xsl:value-of select='localized:DisplayingPageText()' />&#160;<xsl:value-of select='$CurrentPageNumber' />&#160;<xsl:value-of select='localized:PageOfText()' />&#160;<xsl:value-of select='$LastPageNumber' />
@@ -206,18 +204,16 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <!-- match channel newspaper -->
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <xsl:template match="newspaper[@type='channel']">
+<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC ""></xsl:text>
 <html><head><title><xsl:value-of select='//channel/title'/></title>
 <base href="{//channel/link}" />
 <xsl:call-template name="embedded_style" />
 </head>
 <body id="body">
- <xsl:attribute name="onscroll">
   <xsl:if test="$MarkItemsAsReadWhenViewed != false">
-  handleScroll()
+    <xsl:attribute name="onscroll">handleScroll()</xsl:attribute>
   </xsl:if>
- </xsl:attribute>
- 
-  <table height="100%" width="100%">
+<table height="100%" width="100%">
 <tr>
   <td class="PostFrame" height="100%" width="100%" valign="top">
 	<xsl:if test="string-length(//channel/image/url) &gt; 0">    
@@ -239,24 +235,24 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <xsl:choose>
 	  <xsl:when test='$CurrentPageNumber &gt; 1'>
 	    <a href="fdaction:?action=previouspage&amp;pagetype=feed" class="img">  	 
-	   <img src="$IMAGEDIR$leftarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px"/>
 	   </a><a href="fdaction:?action=previouspage&amp;pagetype=feed">  	 	  
 	   <xsl:value-of select='localized:PreviousPageText()' />
 	   </a>
 	   </xsl:when>
 	  <xsl:otherwise>
-	  <img src="$IMAGEDIR$leftarrow.gif" /><xsl:value-of select='localized:PreviousPageText()' />	  
+	  <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px" /><xsl:value-of select='localized:PreviousPageText()' />	  
 	  </xsl:otherwise>
 </xsl:choose>&#160;<xsl:choose>
 	  <xsl:when test='$LastPageNumber &gt; $CurrentPageNumber'>
 	   <a href="fdaction:?action=nextpage&amp;pagetype=feed">  	 	  
 	     <xsl:value-of select='localized:NextPageText()' />
 	   </a><a href="fdaction:?action=nextpage&amp;pagetype=feed" class="img">  	 
-	   <img src="$IMAGEDIR$rightarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>
 	   </a>	    
 	  </xsl:when>
 	  <xsl:otherwise>
-	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$rightarrow.gif" />	   
+	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>	   
 	  </xsl:otherwise>
 </xsl:choose>
 	 |&#160;<xsl:value-of select='localized:DisplayingPageText()' />&#160;<xsl:value-of select='$CurrentPageNumber' />&#160;<xsl:value-of select='localized:PageOfText()' />&#160;<xsl:value-of select='$LastPageNumber' />
@@ -300,7 +296,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	  <xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/>
 	 </xsl:attribute>
 	 
-	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" >
+	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" style="vertical-align:bottom;padding-right:3px">
 	 <xsl:attribute name="alt"> 
 	  <xsl:value-of  disable-output-escaping='yes' select='current()/enclosure/@url'/>
 	 </xsl:attribute>
@@ -337,24 +333,24 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <xsl:choose>
 	  <xsl:when test='$CurrentPageNumber &gt; 1'>
 	    <a href="fdaction:?action=previouspage&amp;pagetype=feed" class="img">  	 
-	   <img src="$IMAGEDIR$leftarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px"/>
 	   </a><a href="fdaction:?action=previouspage&amp;pagetype=feed">  	 	  
 	   <xsl:value-of select='localized:PreviousPageText()' />
 	   </a>
 	   </xsl:when>
 	  <xsl:otherwise>
-	  <img src="$IMAGEDIR$leftarrow.gif" /><xsl:value-of select='localized:PreviousPageText()' />	  
+	  <img src="$IMAGEDIR$PrevPage16.gif" border="0" style="vertical-align:bottom;padding-right:3px" /><xsl:value-of select='localized:PreviousPageText()' />	  
 	  </xsl:otherwise>
 </xsl:choose>&#160;<xsl:choose>
 	  <xsl:when test='$LastPageNumber &gt; $CurrentPageNumber'>
 	   <a href="fdaction:?action=nextpage&amp;pagetype=feed">  	 	  
 	     <xsl:value-of select='localized:NextPageText()' />
 	   </a><a href="fdaction:?action=nextpage&amp;pagetype=feed" class="img">  	 
-	   <img src="$IMAGEDIR$rightarrow.gif" border="0"/>
+	   <img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>
 	   </a>	    
 	  </xsl:when>
 	  <xsl:otherwise>
-	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$rightarrow.gif" />	   
+	   <xsl:value-of select='localized:NextPageText()' /><img src="$IMAGEDIR$NextPage16.gif" border="0" style="vertical-align:bottom;padding-left:3px"/>	   
 	  </xsl:otherwise>
 </xsl:choose>
 	 |&#160;<xsl:value-of select='localized:DisplayingPageText()' />&#160;<xsl:value-of select='$CurrentPageNumber' />&#160;<xsl:value-of select='localized:PageOfText()' />&#160;<xsl:value-of select='$LastPageNumber' />
@@ -372,14 +368,14 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <!-- match single news item -->
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <xsl:template match="newspaper[@type='newsitem']">
+<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC ""></xsl:text>
 <html><head><title><xsl:value-of select='//item/title'/></title>
 <base href="{//item/link}" />
 <xsl:call-template name="embedded_style" />
 </head>
-  <body>
-  <div class="PostItemContent" id="item1">
-	<table height="90%" width="100%" >
-	  <tr>
+  <body id="body">
+  <table height="100%" width="100%">
+	<tr>
 	<td class="PostFrame" height="100%" width="100%" valign="top">
 	  <xsl:if test="//channel/image">
 		<div class="PostTitle" style="FLOAT: right">
@@ -391,15 +387,14 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	  </xsl:if>
 	  <div class="PostTitle">
 
-         
-        <xsl:variable name="itemID">
-            <xsl:choose>
-             <xsl:when test="//item/guid">
-		<xsl:value-of select="//item/guid" />
-	     </xsl:when>
-	     <xsl:when test="//item/link">
-		<xsl:value-of select="//item/link" />
-	     </xsl:when>
+    <xsl:variable name="itemID">
+      <xsl:choose>
+        <xsl:when test="//item/guid">
+	      	<xsl:value-of select="//item/guid" />
+	      </xsl:when>
+	      <xsl:when test="//item/link">
+		      <xsl:value-of select="//item/link" />
+	      </xsl:when>
 	    </xsl:choose>
 	  </xsl:variable>
 	  
@@ -437,7 +432,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	  <xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/>
 	 </xsl:attribute>
 	 
-	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" >
+	<img border="0" src="$IMAGEDIR$play.gif" height="16" width="16" style="vertical-align:bottom;padding-right:3px" >
 	 <xsl:attribute name="alt"> 
 	  <xsl:value-of  disable-output-escaping='yes' select='//item/enclosure/@url'/>
 	 </xsl:attribute>
@@ -468,7 +463,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	</td>
 	  </tr>
 	</table>
-	</div>
+	
 	</body></html>
   </xsl:template>
 
@@ -584,82 +579,95 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <xsl:template name="embedded_style">
 <style type="text/css">
-	body { background-color: #808080; color: black; font-family: verdana, arial, sans-serif; 
-	margin: 5px; padding 0px;}
-	
-	a, a:visited, a:active { 
-	color: #355EA0;
-	text-decoration: none;
-	border-bottom: 1px dotted #355EA0;
-	}
-	
-	a.img { border-bottom: 0px hidden } 
-	
-	a:hover { 
-	color: #FF6600;
-	text-decoration: none;
-	border-bottom: 1px dotted #FF6600;
-	}
-	
-	div {
-	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
-	font-family: verdana, arial, sans-serif;
-	}
-	
-	td.PostFrame { background-color: white; border: 1px solid black; padding: 10px; }
-	
-	div.PostTitle { 
-	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
-	font-family: verdana, arial, sans-serif;
-	font-size: medium;
-	}
-	
-	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
-	border-width: 0px;
-	color: #FF6600;
-	font-weight: bold;
-	text-decoration: none;
-	}
-	
-	.PostTitle a:hover {
-	border-width: 0px;
-	text-decoration: underline;
-	}
-	
-	div.PageNavigation {
-	font-size: x-small;
-	border-top: 1px dotted #CBCBCB;
-	margin: 10px 0px 10px 0px;
-	padding: 2px 0px 2px 0px;
-	}
-	
-	div.PostInfos { 
-	color: #808080;
-	font-family: verdana, arial, sans-serif;	font-size: x-small;
-	font-weight: normal;
-	text-transform: none;
-	}
-	
-	div.PostContent {
-	font-size: x-small;
-	border-top: 1px dotted #CBCBCB;	
-	}
- 
- 	div.PostItemContent {
-	font-size: x-small;
-	margin: 10px 0px 10px 0px;
-	padding: 10px 0px 10px 0px;
-	border-bottom: 1px dotted #CBCBCB;
-	}
-	
-	div.PostSignature { 
-	text-align: right;
-	font-family: verdana, arial, sans-serif;	
-	font-size: xx-small; 
-	font-style: italic;
-	}
-	
-	.PostSignature a { font-size: x-small; }
+  @media print
+  {
+  div.PageNavigation { visibility:hidden; }
+  }
+  
+  /* IE hack: hide the unnessecary vertical scrollbar, but allow scrollers if needed
+  html {
+  overflow:auto;
+  }
+  */
+
+  body { color: black; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px; padding 0px;
+  }
+
+  a, a:visited, a:active {
+  color: #002D96;
+  text-decoration: none;
+  border-bottom: 1px dotted #002D96;
+  }
+
+  a.img { border-bottom: 0px hidden }
+
+  a:hover {
+  color: #002D96;
+  text-decoration: none;
+  border-bottom: 1px dotted #002D96;
+  }
+
+  div {
+  /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  td.PostFrame { background-color: white; padding: 8px; }
+
+  div.PostTitle {
+  /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size:larger;
+  }
+
+  .PostTitle a, .PostTitle a:active, .PostTitle a:visited {
+  border-width: 0px;
+  color: #002D96;
+  font-weight: bold;
+  text-decoration: none;
+  }
+
+  .PostTitle a:hover {
+  color:#1C4EA6;
+  border-width: 0px;
+  text-decoration: underline;
+  }
+
+  div.PageNavigation {
+  font-size: small;
+  margin: 5px 0px 10px 0px;
+  padding: 2px 0px 2px 0px;
+  }
+
+  div.PostInfos {
+  color: #808080;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: small;
+  font-weight:normal;
+  text-transform: none;
+  }
+
+  div.PostContent {
+  font-size: small;
+  border-top: 1px dotted #CBCBCB;
+  }
+
+  div.PostItemContent {
+  font-size: small;
+  margin: 10px 0px 10px 0px;
+  padding: 10px 0px 10px 0px;
+  border-bottom: 1px dotted #CBCBCB;
+  }
+
+  div.PostSignature {
+  text-align: right;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: x-small;
+  font-style: italic;
+  }
+
+  .PostSignature a { font-size: x-small; }
 </style>
 <script>
     window.onerror = handleError;

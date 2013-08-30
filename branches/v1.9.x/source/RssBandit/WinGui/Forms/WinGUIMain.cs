@@ -1374,6 +1374,7 @@ namespace RssBandit.WinGui.Forms
             // 
             // Navigator
             // 
+			this.Navigator.BorderStyle = Infragistics.Win.UIElementBorderStyle.None;
             this.Navigator.Controls.Add(this.NavigatorSearch);
             this.Navigator.Dock = System.Windows.Forms.DockStyle.Left;
             ultraExplorerBarGroup1.Container = this.NavigatorSearch;
