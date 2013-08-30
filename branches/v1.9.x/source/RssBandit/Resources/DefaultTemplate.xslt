@@ -786,48 +786,49 @@ function getItemDivs(){
 	var itemDivs = new Array(); 
 	
 	for(var i = 0; i <xsl:text disable-output-escaping='yes'>&lt;</xsl:text> allDivs.length; i++){
-		if(allDivs[i].id.indexOf("item")==0){ 
-		  itemDivs.push(allDivs[i]);
-		}
-	}	
-	return itemDivs	
-}
+  if(allDivs[i].id.indexOf("item")==0){
+  itemDivs.push(allDivs[i]);
+  }
+  }
+  return itemDivs
+  }
 
-  function handleScroll(){
-  
-  //try{  
+  function handleScroll()
+  {
 
-  // Detect currently visible feed item 
-  var items  = getItemDivs();  
-  var previousItem = currentItem; 
-  var previousIndex = currentIndex; 
-  var movedDown     =  (prevScrollPos  <xsl:text disable-output-escaping='yes'>&lt;</xsl:text> body.scrollTop);
-  var itemSelected  = false;  
+  var st = document.documentElement ? document.documentElement : document.body;
 
-  /* locate and highlight currently visible item, then deselect previous item */  
+  // Detect currently visible feed item
+  var items  = getItemDivs();
+  var previousItem = currentItem;
+  var previousIndex = currentIndex;
+  var movedDown     =  (prevScrollPos  <xsl:text disable-output-escaping='yes'>&lt;</xsl:text> st.scrollTop);
+  var itemSelected  = false;
+
+  /* locate and highlight currently visible item, then deselect previous item */
   for(var i = 0; i <xsl:text disable-output-escaping='yes'>&lt;</xsl:text> items.length; i++){  
     var item = items[i];
    
    //is current item the topmost one? 
-   if((item.offsetTop <xsl:text disable-output-escaping='yes'>&lt;=</xsl:text> body.scrollTop) <xsl:text disable-output-escaping='yes'>&amp;&amp;</xsl:text> ((item.offsetTop + item.offsetHeight + 10 /* padding */) <xsl:text disable-output-escaping='yes'>&gt;=</xsl:text> body.scrollTop)){
-        
-        currentItem  = item;  
-        currentIndex = i; 
-         
-       //if there is no next item or item is only one on screen then it is to be highlighted
-       if( ((i + 1) ==  items.length) ||        
-           ((item.offsetTop + item.offsetHeight) <xsl:text disable-output-escaping='yes'>&gt;=</xsl:text> (body.scrollTop + body.offsetHeight))){           
-          itemSelected = true;           
-          break;           
-       }             
-		
-       var nextItem = items[i + 1];  
-       
-       //is the next item 100% visible or does it take up a third or more of the page? 
-       // if so we should highlight it       
-       if( (nextItem.offsetTop + nextItem.offsetHeight) <xsl:text disable-output-escaping='yes'>&lt;=</xsl:text> (body.scrollTop + body.offsetHeight) 
-          ||  
-           (((body.scrollTop - nextItem.offsetTop) / (body.offsetHeight * 1.0)) <xsl:text disable-output-escaping='yes'>&gt;</xsl:text> 0.34) 
+   if((item.offsetTop <xsl:text disable-output-escaping='yes'>&lt;=</xsl:text> st.scrollTop) <xsl:text disable-output-escaping='yes'>&amp;&amp;</xsl:text> ((item.offsetTop + item.offsetHeight + 10 /* padding */) <xsl:text disable-output-escaping='yes'>&gt;=</xsl:text> st.scrollTop)){
+
+  currentItem  = item;
+  currentIndex = i;
+
+  //if there is no next item or item is only one on screen then it is to be highlighted
+  if( ((i + 1) ==  items.length) ||
+  ((item.offsetTop + item.offsetHeight) <xsl:text disable-output-escaping='yes'>&gt;=</xsl:text> (st.scrollTop + st.offsetHeight))){
+  itemSelected = true;
+  break;
+  }
+
+  var nextItem = items[i + 1];
+
+  //is the next item 100% visible or does it take up a third or more of the page?
+  // if so we should highlight it
+  if( (nextItem.offsetTop + nextItem.offsetHeight) <xsl:text disable-output-escaping='yes'>&lt;=</xsl:text> (st.scrollTop + st.offsetHeight)
+  ||
+  (((st.scrollTop - nextItem.offsetTop) / (st.offsetHeight * 1.0)) <xsl:text disable-output-escaping='yes'>&gt;</xsl:text> 0.34) 
           ) { 
        
         currentItem  = nextItem; 
@@ -854,19 +855,14 @@ function getItemDivs(){
   if(movedDown){
   
    for(var j = previousIndex; j <xsl:text disable-output-escaping='yes'>&lt;=</xsl:text> currentIndex; j++){
-	markItemRead(items[j]);
-   }
-   
+  markItemRead(items[j]);
   }
- 
- //}catch(err){}
-  
- prevScrollPos = body.scrollTop;  
-    
-    
-}
 
- 
+  }
+
+  prevScrollPos = st.scrollTop;
+
+}
 </script>
 </xsl:template>
 
