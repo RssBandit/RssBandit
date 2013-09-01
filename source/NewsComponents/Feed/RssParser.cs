@@ -707,7 +707,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-                                date = DateTimeExt.Parse(ReadElementString(reader));
+								date = DateTimeExt.ParseRfc2822DateTime(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -715,7 +715,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-                                date = DateTimeExt.ToDateTime(ReadElementString(reader));
+								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -1328,7 +1328,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-                                date = DateTimeExt.ToDateTime(ReadElementString(reader));
+								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -1339,7 +1339,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-                                date = DateTimeExt.ToDateTime(ReadElementString(reader));
+								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -2124,7 +2124,7 @@ namespace NewsComponents.Feed
                             {
                                 if (!reader.IsEmptyElement)
                                 {
-                                    channelBuildDate = DateTimeExt.Parse(ReadElementString(reader));
+                                    channelBuildDate = DateTimeExt.ParseRfc2822DateTime(ReadElementString(reader));
                                 }
                             }
                             catch (FormatException fex)
@@ -2294,7 +2294,7 @@ namespace NewsComponents.Feed
                             {
                                 if (!reader.IsEmptyElement)
                                 {
-                                    channelBuildDate = DateTimeExt.Parse(ReadElementString(reader));
+                                    channelBuildDate = DateTimeExt.ParseRfc2822DateTime(ReadElementString(reader));
                                 }
                             }
                             catch (FormatException fex)

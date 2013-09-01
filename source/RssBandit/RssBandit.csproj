@@ -34,10 +34,14 @@
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile />
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -76,7 +80,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
@@ -298,79 +302,57 @@
     <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Infragistics4.Shared.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Shared.v12.1.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.Misc.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.Misc.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Shared">
+      <HintPath>..\Common\Libraries\Infragistics.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinEditors.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinEditors.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win">
+      <HintPath>..\Common\Libraries\Infragistics.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinExplorerBar.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinExplorerBar.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.Misc">
+      <HintPath>..\Common\Libraries\Infragistics.Win.Misc.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinStatusBar.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinStatusBar.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.UltraWinEditors">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinEditors.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinTabControl.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTabControl.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.UltraWinExplorerBar">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinExplorerBar.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinToolbars.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinToolbars.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.UltraWinStatusBar">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinStatusBar.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.UltraWinTree.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.UltraWinTree.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.UltraWinTabControl">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinTabControl.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics4.Win.v12.1, Version=12.1.20121.2008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Infragistics4.Win.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Infragistics.Win.UltraWinToolbars">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinToolbars.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.Controls.Grids.XamGrid.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\InfragisticsWPF4.Controls.Grids.XamGrid.v12.1.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinTree">
+      <HintPath>..\Common\Libraries\Infragistics.Win.UltraWinTree.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.Controls.Menus.XamMenu.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\SharedXAML\InfragisticsWPF4.Controls.Menus.XamMenu.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="InfragisticsWPF">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.DockManager.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.DockManager.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="InfragisticsWPF.Controls.Grids.XamGrid">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.Controls.Grids.XamGrid.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.Editors.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.Editors.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="InfragisticsWPF.Controls.Menus.XamMenu">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.Controls.Menus.XamMenu.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.Ribbon.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.Ribbon.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="InfragisticsWPF.DataManager">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.DataManager.dll</HintPath>
     </Reference>
-    <Reference Include="InfragisticsWPF4.v12.1, Version=12.1.20121.2002, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Infragistics\NetAdvantage 2012.1\WPF\CLR4.0\Bin\WPFOnly\InfragisticsWPF4.v12.1.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="InfragisticsWPF.DockManager">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.DockManager.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Editors">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.Editors.dll</HintPath>
+    </Reference>
+    <Reference Include="InfragisticsWPF.Ribbon">
+      <HintPath>..\Common\Libraries\InfragisticsWPF.Ribbon.dll</HintPath>
     </Reference>
     <Reference Include="Accessibility">
       <Name>Accessibility</Name>
@@ -382,10 +364,6 @@
     <Reference Include="Eyefinder">
       <Name>Eyefinder</Name>
       <HintPath>..\Common\Libraries\Eyefinder.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IEControl">
       <Name>IEControl</Name>
@@ -487,6 +465,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="TorSteroids.Common">
+      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -520,6 +501,7 @@
     <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
     <Compile Include="Core\Exceptions.cs" />
     <Compile Include="Core\RssBanditApplication.Commands.cs" />
+    <None Include="packages.config" />
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
       <DependentUpon>SearchEnginesConfig.xsd</DependentUpon>

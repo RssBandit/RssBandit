@@ -274,7 +274,8 @@ namespace RssBandit
 
         private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
         {
-            ExceptionHelper.CatchAndCollectExceptions(action, exceptions);
+			try { action(); }
+			catch (ConfigurationErrorsException ex) { exceptions.Add(ex); }
         }
 
         public RssBanditApplication()
