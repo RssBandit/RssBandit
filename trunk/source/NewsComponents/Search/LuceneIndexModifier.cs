@@ -662,6 +662,7 @@ namespace NewsComponents.Search
 			lock (SyncRoot)
 			{
 				AssureOpen();
+				CreateIndexWriter();
                 try
                 {
                     indexWriter.DeleteDocuments(term);
