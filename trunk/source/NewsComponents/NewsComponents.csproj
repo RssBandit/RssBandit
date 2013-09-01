@@ -307,9 +307,9 @@
     <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>..\Common\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Msfeeds, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -324,6 +324,9 @@
       <HintPath>..\Common\Libraries\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Org.Mime4Net, Version=1.8.3189.15061, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
@@ -373,6 +376,9 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TorSteroids.Common">
+      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -584,7 +590,6 @@
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\ExceptionHelper.cs" />
     <Compile Include="Utils\FileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -631,6 +636,7 @@
     <Compile Include="Xml\Serialization\XmlSerializerCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>

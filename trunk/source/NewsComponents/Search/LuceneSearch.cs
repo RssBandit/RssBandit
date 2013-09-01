@@ -339,34 +339,37 @@ namespace NewsComponents.Search
 					}
 					
 				} 
-				else if (sc is SearchCriteriaAge) {
-					SearchCriteriaAge c = (SearchCriteriaAge) sc;
-					Term left, right; 
+				else if (sc is SearchCriteriaAge) 
+				{
+					SearchCriteriaAge c = (SearchCriteriaAge)sc;
+					Term left, right;
 					string pastDate = "19900101",
-					       pastDateTime = "199001010001";
-					string futureDate = DateTimeExt.DateAsInteger(DateTime.Now.AddYears(20)).ToString(),
-					       futureDateTime = DateTimeExt.DateAsInteger(DateTime.Now.AddYears(20)) + "0001";
-					
-					if (c.WhatRelativeToToday.CompareTo(TimeSpan.Zero) == 0) {
+						   pastDateTime = "199001010001";
+					string futureDate = DateTime.Now.AddYears(20).DateToInteger().ToString(NumberFormatInfo.InvariantInfo),
+						   futureDateTime = DateTime.Now.AddYears(20).DateToInteger().ToString(NumberFormatInfo.InvariantInfo) + "0001";
+
+					if (c.WhatRelativeToToday.CompareTo(TimeSpan.Zero) == 0)
+					{
 						// compare date only:
 						//TODO: validate provided date(s) to be in the allowed ranges (pastDate, futureDate)!
-						switch(c.WhatKind){	
+						switch (c.WhatKind)
+						{
 							case DateExpressionKind.Equal:
-								AddBooleanClauseMust(bRanges, new PrefixQuery(new Term(Keyword.ItemDate, c.WhatAsIntDateOnly.ToString())));  //itemDate == whatYearOnly;
+								AddBooleanClauseMust(bRanges, new PrefixQuery(new Term(Keyword.ItemDate, c.WhatAsIntDateOnly.ToString(NumberFormatInfo.InvariantInfo))));  //itemDate == whatYearOnly;
 								break;
 							case DateExpressionKind.OlderThan:
 								left = new Term(Keyword.ItemDate, pastDate);
-								right = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
+								right = new Term(Keyword.ItemDate, c.What.DateToInteger().ToString(NumberFormatInfo.InvariantInfo));
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate < whatYearOnly;
 								break;
 							case DateExpressionKind.NewerThan:
-								left = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.What).ToString());
+								left = new Term(Keyword.ItemDate, c.What.DateToInteger().ToString(NumberFormatInfo.InvariantInfo));
 								right = new Term(Keyword.ItemDate, futureDate);
 								AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate > whatYearOnly;
 								break;
-								
+
 							default:
-								break; 
+								break;
 						}
 					} else {
 						DateTime dt = DateTime.Now.ToUniversalTime().Subtract(c.WhatRelativeToToday);
@@ -388,11 +391,12 @@ namespace NewsComponents.Search
 					}
 					 
 				}
-				else if (sc is SearchCriteriaDateRange) {
+				else if (sc is SearchCriteriaDateRange) 
+				{
 					SearchCriteriaDateRange  c = (SearchCriteriaDateRange) sc;
-					
-					Term left = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Bottom).ToString());
-					Term right = new Term(Keyword.ItemDate, DateTimeExt.DateAsInteger(c.Top).ToString());
+
+					Term left = new Term(Keyword.ItemDate, c.Bottom.DateToInteger().ToString(NumberFormatInfo.InvariantInfo));
+					Term right = new Term(Keyword.ItemDate, c.Top.DateToInteger().ToString(NumberFormatInfo.InvariantInfo));
 					AddBooleanClauseMust(bRanges, new RangeQuery(left, right, true)); // return itemDate > whatYearOnly;
 				}	
 			}

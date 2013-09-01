@@ -599,7 +599,7 @@ namespace NewsComponents.Net
                             try
                             {
                                 state.RequestParams.LastModified =
-                                    DateTimeExt.Parse(httpResponse.Headers.Get("Last-Modified"));
+                                    DateTimeExt.ParseRfc2822DateTime(httpResponse.Headers.Get("Last-Modified"));
                             }
                             catch (FormatException)
                             {

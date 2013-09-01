@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("rssbandit.org")]
 [assembly: AssemblyProduct("RssBandit")]
-[assembly: AssemblyCopyright("(C) 2003-2012 by www.rssbandit.org")]
+[assembly: AssemblyCopyright("(C) 2003-2013 by www.rssbandit.org")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -34,4 +34,4 @@ using System.Runtime.InteropServices;
 // culture specific to save assembly resource resolve steps:
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: InternalsVisibleTo("RssBandit.UnitTests")]
+[assembly: InternalsVisibleTo("NewsComponents.UnitTests")]

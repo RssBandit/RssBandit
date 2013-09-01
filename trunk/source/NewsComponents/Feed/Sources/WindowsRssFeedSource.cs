@@ -181,11 +181,7 @@ namespace NewsComponents.Feed
 
                  if (feed != null)
                  {
-                     if (enabled){
-                         feed.EnableFeedPolling();
-                     }else{
-                         feed.DisableFeedPolling();
-                     }
+					 feed.IsFeedPollingEnabled = enabled;
                  }
              }//foreach
          }
@@ -2848,6 +2844,14 @@ namespace NewsComponents.Feed
             this.myfeed.SyncSetting = FEEDS_SYNC_SETTING.FSS_INTERVAL;
         }
 
+		public bool IsFeedPollingEnabled
+		{
+			get { return this.myfeed.SyncSetting == FEEDS_SYNC_SETTING.FSS_INTERVAL; }
+			set
+			{
+				this.myfeed.SyncSetting = value ? FEEDS_SYNC_SETTING.FSS_INTERVAL : FEEDS_SYNC_SETTING.FSS_MANUAL;
+			}
+		}
 
         #endregion 
 
@@ -3284,32 +3288,43 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlIgnore]
-        public virtual bool refreshrateSpecified { 
-            get { return myfeed.Interval > 0; }
-            set { myfeed.Interval = 0; }
-            }
+		public virtual bool refreshrateSpecified
+		{
+			get { return myfeed.Interval > 0 && IsFeedPollingEnabled; }
+			set
+			{
+				/* Windows RSS platform doesn't support this */
+				//myfeed.Interval = 0;
+				IsFeedPollingEnabled = value;
+			}
+		}
 
 
         /// <remarks/>
         [XmlElement("refresh-rate")]
-        public virtual int refreshrate
-        {
-            get
-            {
-                return myfeed.Interval * 60 * 1000; //convert minutes to milliseconds
-            }
+		public virtual int refreshrate
+		{
+			get
+			{
+				return myfeed.Interval * 60 * 1000; //convert minutes to milliseconds
+			}
 
-            set
-            {
-                if (value <= 0) return; /* Windows RSS platform doesn't support this */
-                value = value / (60 * 1000); //convert to minutes
+			set
+			{
+				if (value <= 0)
+				{
+					refreshrateSpecified = false;
+					return; /* Windows RSS platform doesn't support this */
+				}
 
-                if (!myfeed.Interval.Equals(value))
-                {
-                    myfeed.Interval = value;                  
-                }
-            }
-        }
+				value = value / (60 * 1000); //convert to minutes
+
+				if (!myfeed.Interval.Equals(value))
+				{
+					myfeed.Interval = value;
+				}
+			}
+		}
 
         /// <remarks />                
         [XmlIgnore]
