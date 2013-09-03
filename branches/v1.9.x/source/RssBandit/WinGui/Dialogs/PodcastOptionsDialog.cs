@@ -9,7 +9,6 @@
 
 using RssBandit.Resources;
 using RssBandit.AppServices;
-using RssBandit.WinGui.Controls;
 using System.Windows.Forms;
 using System.IO;
 
@@ -427,41 +426,3 @@ namespace RssBandit.WinGui.Dialogs
         }
 	}
 }
-
-#region CVS Version Log
-/*
- * $Log: PodcastOptionsDialog.cs,v $
- * Revision 1.10  2007/02/20 09:17:19  t_rendelmann
- * changes while applied pt-BR resources
- *
- * Revision 1.9  2007/02/04 15:27:18  t_rendelmann
- * prepared localization of the mainform; resources cleanup;
- *
- * Revision 1.8  2006/12/19 16:45:55  carnage4life
- * Changed podcast options dialog behavior with regards to Podcast folder vs. enclosure folder
- *
- * Revision 1.7  2006/12/09 22:57:04  carnage4life
- * Added support for specifying how many podcasts downloaded from new feeds
- *
- * Revision 1.6  2006/11/30 20:00:54  t_rendelmann
- * added new options to attachments tab
- *
- * Revision 1.5  2006/11/22 00:14:04  carnage4life
- * Added support for last of Podcast options
- *
- * Revision 1.4  2006/11/21 17:25:53  carnage4life
- * Made changes to support options for Podcasts
- *
- * Revision 1.3  2006/11/20 22:26:20  carnage4life
- * Added support for most of the Podcast and Attachment options except for podcast file extensions and copying podcasts to a specified folder
- *
- * Revision 1.2  2006/11/12 01:25:01  carnage4life
- * 1.) Added Support for Alert windows on received podcasts.
- * 2.) Fixed feed mixup issues
- *
- * Revision 1.1  2006/11/11 14:42:45  t_rendelmann
- * added: DialogBase base Form to be able to inherit simple OK/Cancel dialogs;
- * added new PodcastOptionsDialog (inherits DialogBase)
- *
- */
-#endregion
