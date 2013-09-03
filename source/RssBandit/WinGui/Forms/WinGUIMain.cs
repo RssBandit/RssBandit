@@ -2691,6 +2691,7 @@ namespace RssBandit.WinGui.Forms
                         }
                         
                         BeginTransformFeedList(redispItems, tn, source.GetCategoryStyleSheet(category));
+						SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
                     }
                     else
                     {
@@ -2706,6 +2707,7 @@ namespace RssBandit.WinGui.Forms
                                 fi2.ItemsList.Add(ni);
                             }
                             BeginTransformFeed(fi2, tn, source.GetStyleSheet(tn.DataKey));
+							SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
                         }
                     }
                 }

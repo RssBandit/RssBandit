@@ -782,7 +782,7 @@ namespace RssBandit.WinGui.Forms
                 startNode = TreeSelectedFeedsNode;
                 if (startNode != null && startNode.UnreadCount > 0)
                 {
-	                if (htmlPagingGoNext)
+	                if (htmlPagingGoNext && CurrentPageNumber < LastPageNumber)
 	                {
 		                SwitchPage(startNode.Type == FeedNodeType.Feed ? "feed" : "category", true);
 		                return;
@@ -2279,6 +2279,7 @@ namespace RssBandit.WinGui.Forms
                         if (tn.Selected)
                         {
                             BeginTransformFeed(fi2, tn, stylesheet);
+							SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
                         }
                     }
                 }
@@ -2348,6 +2349,7 @@ namespace RssBandit.WinGui.Forms
             {
                 FeedDetailTabState.Url = String.Empty;
                 BeginTransformFeedList(fil2, tn, stylesheet);
+				SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
             }
         }
 

@@ -2563,6 +2563,7 @@ namespace RssBandit.WinGui.Forms
 									{
 										FeedInfoList fiList = CreateFeedInfoList(tn.Text, items);
 										BeginTransformFeedList(fiList, tn, owner.Stylesheet);
+										SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
 									}
                                 }
                             }
@@ -3072,6 +3073,8 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
+	            _lastPageNumber = 0;
+
                 // get the current item/feedNode
                 INewsItem item = CurrentSelectedFeedItem = (INewsItem) selectedItem.Key;
                 TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
