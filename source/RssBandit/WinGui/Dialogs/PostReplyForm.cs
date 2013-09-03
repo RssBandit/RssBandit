@@ -175,17 +175,6 @@ namespace RssBandit.WinGui.Dialogs
 		}
 
         /// <summary>
-        /// Indicates whether the title element should be visible or not. 
-        /// </summary>
-        public bool DisplayTitle
-        {
-            set
-            {
-                this.txtTitle.Visible = value; 
-            }
-        }
-
-		/// <summary>
 		/// Gets the prefixed title.
 		/// </summary>
 		/// <param name="feedItemTitle">The feed item title.</param>

@@ -1705,7 +1705,6 @@ namespace RssBandit
             }
 
             postReplyForm.ReplyToItem  = item2reply;
-            postReplyForm.DisplayTitle = false; 
 
             postReplyForm.Show(); // open non-modal
             Win32.NativeMethods.SetForegroundWindow(postReplyForm.Handle);
