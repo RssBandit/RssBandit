@@ -18,7 +18,7 @@ using NewsComponents;
 namespace RssBandit.WinGui.Forms
 {
 	/// <summary>
-	/// Summary description for ImportFeedsDialog.
+	/// Import Feeds Dialog: requests a feed url to import
 	/// </summary>
 	public class ImportFeedsDialog : Form
 	{
@@ -75,12 +75,9 @@ namespace RssBandit.WinGui.Forms
 			this.comboCategory.Text = (selectedCategory ?? String.Empty);
 
 			this.comboFeedSource.DataSource = feedSources.GetOrderedFeedSources();
-			//foreach (FeedSourceEntry fsid in feedSources.GetOrderedFeedSources())
-			//{
-			//    int itemIndex = this.comboFeedSource.Items.Add(fsid.Name);
-			//    this.comboFeedSource.Items[itemIndex]
-			//}
-			this.comboFeedSource.SelectedItem = fs; //fs.Name; 
+			this.comboFeedSource.SelectedItem = fs;
+			
+			this.comboFeedSource.SelectedIndexChanged += this.comboFeedSource_SelectedIndexChanged;			
 		}
 		
 		public string FeedsUrlOrFile {get { return textUrlOrFile.Text; } }
@@ -174,7 +171,6 @@ namespace RssBandit.WinGui.Forms
 			this.comboFeedSource.Name = "comboFeedSource";
 			this.comboFeedSource.Sorted = true;
 			this.toolTip1.SetToolTip(this.comboFeedSource, resources.GetString("comboFeedSource.ToolTip"));
-			this.comboFeedSource.SelectedIndexChanged += new System.EventHandler(this.comboFeedSource_SelectedIndexChanged);
 			// 
 			// label4
 			// 
@@ -240,7 +236,6 @@ namespace RssBandit.WinGui.Forms
 
         private void comboFeedSource_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //FeedSource fs = feedSources.GetOrderedFeedSources()[comboFeedSource.SelectedIndex].Source;
 			FeedSourceEntry fs = comboFeedSource.SelectedItem as FeedSourceEntry;
 			this.comboCategory.Items.Clear();
 
