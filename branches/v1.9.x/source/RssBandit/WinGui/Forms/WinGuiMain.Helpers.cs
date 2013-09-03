@@ -767,11 +767,12 @@ namespace RssBandit.WinGui.Forms
         }
 
 
-        /// <summary>
-        /// Moves from the currently selected item to the next unread item. 
-        /// If no unread item is left then this method does nothing.
-        /// </summary>
-        public void MoveToNextUnreadItem()
+		/// <summary>
+		/// Moves from the currently selected item to the next unread item.
+		/// If no unread item is left then this method does nothing.
+		/// </summary>
+		/// <param name="htmlPagingGoNext">if set to <c>true</c> [HTML paging go next].</param>
+        public void MoveToNextUnreadItem(bool htmlPagingGoNext = false)
         {
             TreeFeedsNodeBase startNode = null, foundFeedsNode, rootNode = GetRoot(RootFolderType.MyFeeds);
             bool unreadFound = false;
@@ -781,6 +782,12 @@ namespace RssBandit.WinGui.Forms
                 startNode = TreeSelectedFeedsNode;
                 if (startNode != null && startNode.UnreadCount > 0)
                 {
+	                if (htmlPagingGoNext)
+	                {
+		                SwitchPage(startNode.Type == FeedNodeType.Feed ? "feed" : "category", true);
+		                return;
+	                }
+
                     unreadFound = FindNextUnreadItem(startNode);
                     if (!unreadFound)
                     {
