@@ -410,9 +410,8 @@ namespace NewsComponents.Feed
                 if (item.HasContent)
                 {
                     writer.Write(item.Id);
-                    byte[] tempContent = item.GetContent();
-                    writer.Write(tempContent.Length);
-                    writer.Write(tempContent);
+					writer.Write(item.GetContent().Length);
+					writer.Write(item.GetContent());
                     inMemoryDescriptions.Add(item.Id);
                 }
             } //foreach(NewsItem...)

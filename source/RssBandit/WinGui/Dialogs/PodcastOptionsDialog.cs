@@ -357,15 +357,25 @@ namespace RssBandit.WinGui.Dialogs
 		}
 		#endregion
 
-		private void btnSelectCopyPodcastToFolder_Click(object sender, System.EventArgs e) {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.RootFolder = System.Environment.SpecialFolder.MyComputer;
-            dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
-             
-			DialogResult result = dlg.ShowDialog(); 	 
-			 	  	 
-			if(result == DialogResult.OK) {
-                this.txtCopyPodcastToFolder.Text = dlg.SelectedPath;	 
+		private void btnSelectCopyPodcastToFolder_Click(object sender, System.EventArgs e)
+		{
+			using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+			{
+				dlg.RootFolder = System.Environment.SpecialFolder.Desktop;
+				dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
+				
+				if (!string.IsNullOrEmpty(this.txtCopyPodcastToFolder.Text) &&
+				    Directory.Exists(this.txtCopyPodcastToFolder.Text))
+				{
+					dlg.SelectedPath = this.txtCopyPodcastToFolder.Text;
+				}
+
+				DialogResult result = dlg.ShowDialog();
+
+				if (result == DialogResult.OK)
+				{
+					this.txtCopyPodcastToFolder.Text = dlg.SelectedPath;
+				}
 			}
 
 			//clear any error messages that may have previously occured

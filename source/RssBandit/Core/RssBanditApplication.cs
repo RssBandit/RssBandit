@@ -5911,7 +5911,8 @@ namespace RssBandit
 					 
                     if (optionDialog.chkCopyPodcastToFolder.Checked)
                     {
-						FeedSource.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
+						Preferences.PodcastFolder =
+							FeedSource.PodcastFolder = optionDialog.txtCopyPodcastToFolder.Text;
                     }
                     else
                     {
