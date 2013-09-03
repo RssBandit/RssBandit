@@ -1167,16 +1167,25 @@ namespace RssBandit.WinGui.Dialogs {
             RssBanditApplication.Current.Kernel.Get<ICoreApplication>().ShowPodcastOptionsDialog(this, null);
 		}
 
-		private void btnSelectEnclosureFolder2_Click(object sender, EventArgs e) {
+		private void btnSelectEnclosureFolder2_Click(object sender, EventArgs e)
+		{
+			using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+			{
+				dlg.RootFolder = Environment.SpecialFolder.Desktop;
+				dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
 
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.RootFolder = Environment.SpecialFolder.MyComputer;
-            dlg.Description = SR.BrowseForFolderEnclosureDownloadLocation;
-            
-			DialogResult result = dlg.ShowDialog(); 	 
-			 	  	 
-			if(result == DialogResult.OK) { 	 
-				this.textEnclosureDirectory.Text = dlg.SelectedPath; 	 
+				if (!string.IsNullOrEmpty(this.textEnclosureDirectory.Text) &&
+					Directory.Exists(this.textEnclosureDirectory.Text))
+				{
+					dlg.SelectedPath = this.textEnclosureDirectory.Text;
+				}
+
+				DialogResult result = dlg.ShowDialog();
+
+				if (result == DialogResult.OK)
+				{
+					this.textEnclosureDirectory.Text = dlg.SelectedPath;
+				}
 			}
 		}
 
