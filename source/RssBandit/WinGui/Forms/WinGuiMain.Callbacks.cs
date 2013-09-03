@@ -1637,19 +1637,26 @@ namespace RssBandit.WinGui.Forms
                             {
                                 // browser detail pane has focus
                                 // IEControl behavior is different depending on the !DOCTYPE:
-								// html 5 and "older modes"
-	                            var html5Mode = true;
+								// internal stylesheet uses HTML 5 now, others use "older modes".
+								// We might introduce a advanced flag "custom stylesheets use HTML5" to get a 
+								// more "user controlled" behavior.
+	                            var internalStylesheetUsed = true;
 	                            if (CurrentSelectedFeedsNode != null)
 	                            {
-		                            var tn = CurrentSelectedFeedsNode;
-		                            var entry = FeedSourceEntryOf(tn);
-									// default stylesheet is html5 now:
+									var tn = CurrentSelectedFeedsNode;
+									var entry = FeedSourceEntryOf(tn);
+									
 									if (entry != null)
-										html5Mode = String.IsNullOrEmpty(entry.Source.GetStyleSheet(tn.DataKey));
-	                            }
+									{
+										if (tn.Type == FeedNodeType.Feed)
+											internalStylesheetUsed = String.IsNullOrEmpty(entry.Source.GetStyleSheet(tn.DataKey));
+										if (tn.Type == FeedNodeType.Category)
+											internalStylesheetUsed = String.IsNullOrEmpty(entry.Source.GetCategoryStyleSheet(tn.CategoryStoreName));
+									}
+								}
 
 	                            IHTMLElement2 htbody = null;
-	                            if (html5Mode)
+	                            if (internalStylesheetUsed)
 	                            {
 									IHTMLDocument3 htdoc3 = htmlDetail.Document as IHTMLDocument3;
 		                            if (htdoc3 != null)
@@ -1669,7 +1676,7 @@ namespace RssBandit.WinGui.Forms
 									int num2 = htbody.getScrollTop();
 									if (num1 == num2)
 									{
-										MoveToNextUnreadItem();
+										MoveToNextUnreadItem(true);
 										processed = true;
 									}
 								}
