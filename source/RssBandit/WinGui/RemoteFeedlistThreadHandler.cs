@@ -9,6 +9,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.IO;
 using System.Net;
@@ -148,64 +149,80 @@ namespace RssBandit.WinGui
         /// <param name="syncFormat">The synchronization format to use</param>
         public void RunUpload(SynchronizationFormat syncFormat)
         {
-            string feedlistXml = Path.Combine(Path.GetTempPath(), "feedlist.xml");
-           
-            //copy BanditFeedSource feed list to subscriptions.xml 
-            FeedSourceEntry entry = rssBanditApp.FeedSources.GetOrderedFeedSources().Find(fs => fs.SourceType == FeedSourceType.DirectAccess);               
-            File.Copy(entry.Source.SubscriptionLocation.Location, RssBanditApplication.GetFeedListFileName(), true); 
-
-            List<string> files = new List<string>(new[] {
-                                 RssBanditApplication.GetFeedListFileName(),
-                                 RssBanditApplication.GetFlagItemsFileName(),
-                                 RssBanditApplication.GetSearchFolderFileName(),
-                                 RssBanditApplication.GetSentItemsFileName(),
-                                 feedlistXml
-                             });
+			List<string> files = new List<string>(new[] {
+                RssBanditApplication.GetFeedSourcesFileName(),
+                RssBanditApplication.GetFlagItemsFileName(),
+                RssBanditApplication.GetSearchFolderFileName(),
+                RssBanditApplication.GetSentItemsFileName(),
+				RssBanditApplication.GetWatchedItemsFileName()
+            });
         	
-			// add files managed by Bandit data storage:
+			// add files managed by Bandit data storage (column layout and user identities):
 			IUserRoamingDataService dataService = IoC.Resolve<IUserRoamingDataService>();
-			if (dataService != null)
-				files.AddRange(dataService.GetUserDataFileNames());
+	        if (dataService != null)
+	        {
+		        files.AddRange(dataService.GetUserDataFileNames());
+	        }
 
-			// add files managed by NewComponents feed source data storage:
+	        // add files managed by NewComponents feed source data storage (e.g. Nntp Server Definitions filename) :
 			rssBanditApp.FeedSources.ForEach(f =>
 				{
 					files.AddRange(f.GetDataServiceFiles());
+					files.Add(f.SubscriptionLocation.Location);
 				});
-			
-            ZipOutputStream zos;
 
-            try
+	        try
             {
                 rssBanditApp.SaveApplicationState();
-               
-                //convert subscriptions.xml to feedlist.xml then save to temp folder
-                using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt"))
-                {
-                    XslCompiledTransform xslt = new XslCompiledTransform();
-                    xslt.Load(new XmlTextReader(xsltStream));
-                    xslt.Transform(entry.Source.SubscriptionLocation.Location, feedlistXml);
-                }
 
+				// Older versions support:
+				FeedSourceEntry entry = rssBanditApp.FeedSources.Sources.FirstOrDefault(
+					fs => fs.SourceType == FeedSourceType.DirectAccess);
+	        
+				if (entry != null)
+				{
+					//copy BanditFeedSource feed list to subscriptions.xml (backward versions compatibility support)
+					File.Copy(entry.Source.SubscriptionLocation.Location,
+						RssBanditApplication.OldVersionSupport.GetSubscriptionsFileName(),
+						true);
+
+					//convert subscriptions.xml to feedlist.xml then save to temp folder
+					using (Stream xsltStream = Resource.GetStream("Resources.feedlist2subscriptions.xslt"))
+					{
+						XslCompiledTransform xslt = new XslCompiledTransform();
+						xslt.Load(new XmlTextReader(xsltStream));
+						xslt.Transform(
+							entry.Source.SubscriptionLocation.Location,
+							RssBanditApplication.OldVersionSupport.GetFeedListFileName());
+					}
+
+					files.AddRange(new[] {
+						RssBanditApplication.OldVersionSupport.GetSubscriptionsFileName(),
+						RssBanditApplication.OldVersionSupport.GetFeedListFileName()
+						});
+				}
+				
                 using (MemoryStream tempStream = new MemoryStream())
                 {
-                    switch (remoteProtocol)
-                    {
-                        case RemoteStorageProtocolType.UNC:
+	                //ZipOutputStream zos;
+	                switch (remoteProtocol)
+					{
+						case RemoteStorageProtocolType.UNC:
 
-                            FileStream fs =
-                                FileHelper.OpenForWrite(
-                                    Path.Combine(Environment.ExpandEnvironmentVariables(remoteLocation), remoteFileName));
-                            zos = new ZipOutputStream(fs);
-                            FileHelper.ZipFiles(files, zos);
-                            zos.Close();
-                            fs.Close(); 
+							using (FileStream fs = FileHelper.OpenForWrite(
+								     Path.Combine(Environment.ExpandEnvironmentVariables(remoteLocation), remoteFileName)))
+							{
+								using (var zos = new ZipOutputStream(fs))
+								{
+									FileHelper.ZipFiles(files, zos);
+								}
+							}
 
-                            break;
+							break;
                      
                         case RemoteStorageProtocolType.dasBlog:
 
-                            //save feed list
+                            //save direct access feed list as OPML:
                             rssBanditApp.BanditFeedSource.SaveFeedList(tempStream, FeedListFormat.OPML);
                             tempStream.Position = 0;
 
@@ -230,113 +247,108 @@ namespace RssBandit.WinGui
 
 
                         case RemoteStorageProtocolType.FTP: // Send to FTP server
-                            //save feed list 
-                            zos = new ZipOutputStream(tempStream);
-							FileHelper.ZipFiles(files, zos);
+                             
+							using (var zos = new ZipOutputStream(tempStream))
+							{
+								FileHelper.ZipFiles(files, zos);
 
-                            tempStream.Position = 0;
+								tempStream.Position = 0;
 
-                            Uri remoteUri = new Uri(remoteLocation);
-                       
-
-                            UriBuilder builder = new UriBuilder(remoteUri);
-                            builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
+								Uri remoteUri = new Uri(remoteLocation);
+								UriBuilder builder = new UriBuilder(remoteUri);
+								builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
 
 
-                            /* set up the FTP connection */
-                            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(builder.Uri);
-                            ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-                            ftpRequest.KeepAlive = false;
-                            ftpRequest.UseBinary = true;
-                            ftpRequest.UsePassive =
-                                settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
-                            ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
-                            ftpRequest.ContentLength = tempStream.Length;
+								/* set up the FTP connection */
+								FtpWebRequest ftpRequest = (FtpWebRequest) WebRequest.Create(builder.Uri);
+								ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+								ftpRequest.KeepAlive = false;
+								ftpRequest.UseBinary = true;
+								ftpRequest.UsePassive =
+									settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
+								ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
+								ftpRequest.ContentLength = tempStream.Length;
 
-                            /* perform upload */
-                            try
-                            {
-                                // The buffer size is set to 2kb
-                                const int buffLength = 2048;
-                                byte[] buff = new byte[buffLength];
+								/* perform upload */
+								try
+								{
+									// The buffer size is set to 2kb
+									const int buffLength = 2048;
+									byte[] buff = new byte[buffLength];
 
-                            	// Stream to which the file to be upload is written
-                                Stream strm = ftpRequest.GetRequestStream();
+									// Stream to which the file to be upload is written
+									using (Stream strm = ftpRequest.GetRequestStream())
+									{
 
-                                // Read from the file stream 2kb at a time
-                                int contentLen = tempStream.Read(buff, 0, buffLength);
+										// Read from the file stream 2kb at a time
+										int contentLen = tempStream.Read(buff, 0, buffLength);
 
-                                // Till Stream content ends
-                                while (contentLen != 0)
-                                {
-                                    // Write Content from the file stream to the 
-                                    // FTP Upload Stream
-                                    strm.Write(buff, 0, contentLen);
-                                    contentLen = tempStream.Read(buff, 0, buffLength);
-                                }
+										// Till Stream content ends
+										while (contentLen != 0)
+										{
+											// Write Content from the file stream to the 
+											// FTP Upload Stream
+											strm.Write(buff, 0, contentLen);
+											contentLen = tempStream.Read(buff, 0, buffLength);
+										}
+									}
+								}
+								catch (Exception ex)
+								{
+									//ToDO: Add support for switching between active and passive mode
+									p_operationException = ex;
+									_log.Error("FTP Upload Error", ex);
+								}
+							}
 
-                                // Close the Request Stream
-                                strm.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                //ToDO: Add support for switching between active and passive mode
-                                p_operationException = ex; 
-                                _log.Error("FTP Upload Error", ex);                             
-                            }
-
-                            //close zip stream 
-                            zos.Close();
-
-                            break;
+							break;
 
 
                         case RemoteStorageProtocolType.WebDAV:
 
-                            zos = new ZipOutputStream(tempStream);
-							FileHelper.ZipFiles(files, zos);
+							using (var zos = new ZipOutputStream(tempStream))
+							{
+								FileHelper.ZipFiles(files, zos);
 
-                            remoteUri = new Uri(remoteLocation.EndsWith("/")
-                                                    ?
-                                                        remoteLocation + remoteFileName
-                                                    :
-                                                        remoteLocation + "/" + remoteFileName);
+								var remoteUri = new Uri(remoteLocation.EndsWith("/")
+									? remoteLocation + remoteFileName
+									: remoteLocation + "/" + remoteFileName);
 
-                            tempStream.Position = 0;
+								tempStream.Position = 0;
 
-                            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
-                            request.Method = "PUT";
-                            request.ContentType = "application/zip";
-                            request.AllowAutoRedirect = true;
-                            request.UserAgent = RssBanditApplication.UserAgent;
-                            request.Proxy = rssBanditApp.Proxy;
+								HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
+								request.Method = "PUT";
+								request.ContentType = "application/zip";
+								request.AllowAutoRedirect = true;
+								request.UserAgent = RssBanditApplication.UserAgent;
+								request.Proxy = rssBanditApp.Proxy;
 
-                            if (!string.IsNullOrEmpty(credentialUser))
-                            {
-                                NetworkCredential nc =
-                                    FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
+								if (!string.IsNullOrEmpty(credentialUser))
+								{
+									NetworkCredential nc =
+										FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
 
-                                CredentialCache cc = new CredentialCache();
-                                cc.Add(remoteUri, "Basic", nc);
-                                cc.Add(remoteUri, "Digest", nc);
-                                cc.Add(remoteUri, "NTLM", nc);
+									CredentialCache cc = new CredentialCache();
+									cc.Add(remoteUri, "Basic", nc);
+									cc.Add(remoteUri, "Digest", nc);
+									cc.Add(remoteUri, "NTLM", nc);
 
-                                request.Credentials = cc;
-                            }
+									request.Credentials = cc;
+								}
 
-                            byte[] bytes = new byte[tempStream.Length];
-                            tempStream.Read(bytes, 0, bytes.Length);
-                            zos.Close();
+								byte[] bytes = new byte[tempStream.Length];
+								tempStream.Read(bytes, 0, bytes.Length);
+								
+								request.ContentLength = bytes.Length;
 
-                            request.ContentLength = bytes.Length;
+								Stream requestStream = request.GetRequestStream();
+								requestStream.Write(bytes, 0, bytes.Length);
+								requestStream.Close();
 
-                            Stream requestStream = request.GetRequestStream();
-                            requestStream.Write(bytes, 0, bytes.Length);
-                            requestStream.Close();
+								request.GetResponse().Close();
+							}
 
-                            request.GetResponse().Close();
-
-                            break;
+							break;
 
                         default:
 
@@ -347,7 +359,7 @@ namespace RssBandit.WinGui
                     }
                 }
 
-                // Cool, we made it
+	            // Cool, we made it
             }
             catch (ThreadAbortException)
             {
@@ -481,10 +493,8 @@ namespace RssBandit.WinGui
                     case RemoteStorageProtocolType.WebDAV:
 
                         remoteUri = new Uri(remoteLocation.EndsWith("/")
-                                                ?
-                                                    remoteLocation + remoteFileName
-                                                :
-                                                    remoteLocation + "/" + remoteFileName);
+                                                ? remoteLocation + remoteFileName
+                                                : remoteLocation + "/" + remoteFileName);
 
                         HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
                         request.Method = "GET";
@@ -522,11 +532,6 @@ namespace RssBandit.WinGui
                         (remoteProtocol == RemoteStorageProtocolType.dasBlog_1_3))
                     {
                         rssBanditApp.BanditFeedSource.ImportFeedlist(importStream);
-                    }
-                    else if (remoteProtocol == RemoteStorageProtocolType.NewsgatorOnline)
-                    {
-                        rssBanditApp.BanditFeedSource.ImportFeedlist(syncedFeeds, null, true /* replace */, true
-                            /* keepLocalSettings */);
                     }
                     else
                     {
@@ -569,32 +574,35 @@ namespace RssBandit.WinGui
         /// <param name="syncFormat">The synchronization format used</param>
         public void Synchronize(Stream stream, SynchronizationFormat syncFormat)
         {
-            /* we support both subscriptions.xml and feedlist.xml */
+            /* we support both old version's subscriptions.xml and feedlist.xml */
 
-            string feedlist = Path.GetFileName(RssBanditApplication.GetFeedListFileName());
-            string oldschoolfeedlist = Path.GetFileName(RssBanditApplication.GetOldFeedListFileName());
+            string feedsources = Path.GetFileName(RssBanditApplication.GetFeedSourcesFileName());
+            string subscriptionsOld = Path.GetFileName(RssBanditApplication.OldVersionSupport.GetSubscriptionsFileName());
+			string feedlistOld = Path.GetFileName(RssBanditApplication.OldVersionSupport.GetFeedListFileName());
             string flaggeditems = Path.GetFileName(RssBanditApplication.GetFlagItemsFileName());
             string searchfolders = Path.GetFileName(RssBanditApplication.GetSearchFolderFileName());
             string sentitems = Path.GetFileName(RssBanditApplication.GetSentItemsFileName());
+            string watcheditems = Path.GetFileName(RssBanditApplication.GetWatchedItemsFileName());
             bool subscriptionsXmlSeen = false;
 
 
             if (syncFormat == SynchronizationFormat.Zip)
             {
-                /* A point to consider is what happens if an exception occurs in the 
-                 * middle of this process? 
-                 */
                 ZipInputStream zis = new ZipInputStream(stream);
 
                 ZipEntry theEntry;
                 while ((theEntry = zis.GetNextEntry()) != null)
                 {
-                    if (theEntry.Name == feedlist)
+	                if (theEntry.Name == feedsources)
+	                {
+		                rssBanditApp.FeedSources.LoadFeedSources(zis);
+	                }
+                    else if (!subscriptionsXmlSeen && (theEntry.Name == subscriptionsOld))
                     {
                         subscriptionsXmlSeen = true;
                         rssBanditApp.BanditFeedSource.ReplaceFeedlist(zis);
                     }
-                    else if (!subscriptionsXmlSeen && (theEntry.Name == oldschoolfeedlist))
+                    else if (!subscriptionsXmlSeen && (theEntry.Name == feedlistOld))
                     {
                         rssBanditApp.BanditFeedSource.ReplaceFeedlist(zis);
                     }
@@ -617,6 +625,13 @@ namespace RssBandit.WinGui
 
                         sentItemsFeed.Add(lff2);
                     }
+					else if (theEntry.Name == watcheditems)
+					{
+						LocalFeedsFeed watchedItemsFeed = rssBanditApp.WatchedItemsFeed;
+						LocalFeedsFeed lff2 = new WatchedItemsFeed(rssBanditApp.BanditFeedSourceEntry, new XmlTextReader(zis));
+
+						watchedItemsFeed.Add(lff2);
+					}
                     else if (theEntry.Name == searchfolders)
                     {
                         XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
@@ -629,14 +644,34 @@ namespace RssBandit.WinGui
 						if (dataService != null)
 						{
 							if (DataEntityName.None != dataService.SetContentForDataFile(theEntry.Name, zis))
-								continue;
+								continue; // was handled here
 						}
 
 						// remaining: set files managed by NewComponents feed source data storage:
+	                    bool handled = false;
 						rssBanditApp.FeedSources.ForEach(
 							f =>
 							{
-								f.SetContentForDataServiceFile(theEntry.Name, zis);
+								if (!handled && f.SetContentForDataServiceFile(theEntry.Name, zis))
+								{
+									handled = true;
+								}
+							});
+						
+						if (handled)
+							continue;
+
+						rssBanditApp.FeedSources.ForEach(
+							f =>
+							{
+								if (!handled && f.SubscriptionLocation.Location.EndsWith(theEntry.Name, StringComparison.OrdinalIgnoreCase))
+								{
+									if (f.Type == FeedSourceType.DirectAccess)
+										subscriptionsXmlSeen = true;	// do not import/replace from older subscription version files
+
+									f.ReplaceFeedlist(zis);
+									handled = true;
+								}
 							});
                     }
                 } //while

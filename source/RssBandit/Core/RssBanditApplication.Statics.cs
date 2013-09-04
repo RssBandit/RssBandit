@@ -659,15 +659,7 @@ namespace RssBandit
 			return Path.Combine(GetUserPath(), "feedsources.xml");
 		}
 
-        /// <summary>
-        /// Gets the name of the feed list file.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetFeedListFileName()
-        {
-            return Path.Combine(GetUserPath(), "subscriptions.xml");
-        }
-
+        
         /// <summary>
         /// Gets the name of the generated Top Stories page
         /// </summary>
@@ -684,15 +676,6 @@ namespace RssBandit
         public static string GetCommentsFeedListFileName()
         {
             return Path.Combine(GetUserPath(), "comment-subscriptions.xml");
-        }
-
-        /// <summary>
-        /// Gets the old name of the feed list file.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetOldFeedListFileName()
-        {
-            return Path.Combine(GetUserPath(), "feedlist.xml");
         }
 
         /// <summary>
@@ -790,47 +773,6 @@ namespace RssBandit
 
 
         
-        /// <summary>
-        /// Handles errors that occur during schema validation of RSS feed list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public static void CommentFeedListValidationCallback(object sender,
-                                                             ValidationEventArgs args)
-        {
-            if (args.Severity == XmlSeverityType.Warning)
-            {
-                _log.Info(GetCommentsFeedListFileName() + " validation warning: " + args.Message);
-            }
-            else if (args.Severity == XmlSeverityType.Error)
-            {
-                _log.Error(GetCommentsFeedListFileName() + " validation error: " + args.Message);
-            }
-        }
-
-        /// <summary>
-        /// Handles errors that occur during schema validation of RSS feed list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public static void FeedListValidationCallback(object sender,
-                                                      ValidationEventArgs args)
-        {
-			//Note: seems to be not called anymore...
-            if (args.Severity == XmlSeverityType.Warning)
-            {
-                _log.Info(GetFeedListFileName() + " validation warning: " + args.Message);
-            }
-            else if (args.Severity == XmlSeverityType.Error)
-            {
-                validationErrorOccured = true;
-
-                _log.Error(GetFeedListFileName() + " validation error: " + args.Message);
-                args.Exception.PreserveExceptionStackTrace();
-                ExceptionManager.Publish(args.Exception);
-            }
-        }
-
         /// <summary>
         /// Method install Bandit as the "feed:" url scheme handler
         /// </summary>
@@ -989,6 +931,29 @@ namespace RssBandit
 			}
 			return String.Empty;
 		}
+
+	    public static class OldVersionSupport
+	    {
+			/// <summary>
+			/// Gets the name of the feed list file, version before we used feed sources.
+			/// </summary>
+			/// <returns></returns>
+			public static string GetSubscriptionsFileName()
+			{
+				return Path.Combine(GetUserPath(), "subscriptions.xml");
+			}
+
+			/// <summary>
+			/// Gets the old name of the feed list file.
+			/// </summary>
+			/// <returns></returns>
+			public static string GetFeedListFileName()
+			{
+				return Path.Combine(GetUserPath(), "feedlist.xml");
+			}
+
+	    }
+
         #endregion
     }
 }

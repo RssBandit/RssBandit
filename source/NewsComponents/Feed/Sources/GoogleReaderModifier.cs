@@ -507,6 +507,8 @@ namespace NewsComponents.Feed
         /// <param name="source"></param>
         public void RegisterFeedSource(GoogleReaderFeedSource source)
         {
+			if (FeedSources.ContainsKey(source.GoogleUserName))
+				FeedSources.Remove(source.GoogleUserName);
             FeedSources.Add(source.GoogleUserName, source);
         }
 

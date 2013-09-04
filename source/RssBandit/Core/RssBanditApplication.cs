@@ -3386,8 +3386,8 @@ namespace RssBandit
             }
 
             //checks if new feed file exists and if we can migrate some older:
-            string oldSubscriptionFile = GetFeedListFileName();
-            string veryOldSubscriptionFile = GetOldFeedListFileName();
+			string oldSubscriptionFile = OldVersionSupport.GetSubscriptionsFileName();
+			string veryOldSubscriptionFile = OldVersionSupport.GetFeedListFileName();
 
             if (!File.Exists(currentFeedListFileName))
             {

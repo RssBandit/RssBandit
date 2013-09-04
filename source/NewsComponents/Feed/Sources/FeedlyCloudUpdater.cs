@@ -239,6 +239,8 @@ namespace NewsComponents.Feed.Sources
 		/// <param name="source"></param>
 		public void RegisterFeedSource(FeedlyCloudFeedSource source)
 		{
+			if (FeedSources.ContainsKey(source.GoogleUserName))
+				FeedSources.Remove(source.GoogleUserName);
 			FeedSources.Add(source.GoogleUserName, source);
 		}
 
