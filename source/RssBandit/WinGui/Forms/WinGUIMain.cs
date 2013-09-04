@@ -2689,9 +2689,9 @@ namespace RssBandit.WinGui.Forms
                             if (fi.ItemsList.Count > 0)
                                 redispItems.Add(fi);
                         }
-                        
-                        BeginTransformFeedList(redispItems, tn, source.GetCategoryStyleSheet(category));
+
 						SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
+						BeginTransformFeedList(redispItems, tn, source.GetCategoryStyleSheet(category));
                     }
                     else
                     {
@@ -2706,8 +2706,8 @@ namespace RssBandit.WinGui.Forms
                             {
                                 fi2.ItemsList.Add(ni);
                             }
-                            BeginTransformFeed(fi2, tn, source.GetStyleSheet(tn.DataKey));
 							SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
+							BeginTransformFeed(fi2, tn, source.GetStyleSheet(tn.DataKey));
                         }
                     }
                 }

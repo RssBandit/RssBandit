@@ -88,7 +88,7 @@ namespace RssBandit.WinGui
 		/// </summary>
 		public event EventHandler<DiscoveredFeedsInfoEventArgs> NewFeedsDiscovered;
 
-		internal void SetControls (AppPopupMenuCommand dropDown, AppButtonToolCommand clearList) 
+		public void SetControls (AppPopupMenuCommand dropDown, AppButtonToolCommand clearList) 
 		{
 			this.itemDropdown = dropDown; 
 			this.clearListButton = clearList;
@@ -113,18 +113,7 @@ namespace RssBandit.WinGui
 
 		}
 		
-		/// <summary>
-		/// Resets the control. Should get called after Toolbar.LoadFromXml(), 
-		/// because the items maintained dynamically.
-		/// </summary>
-		internal void Reset() {
-			this.itemDropdown.Tools.Clear();
-			this.itemDropdown.Tools.Add(this.clearListButton);
-			this.itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
-			// init to non-dicovered:
-			this.itemDropdown.SharedProps.AppearancesSmall.Appearance = discoveredAppearance[0];
-			this.itemDropdown.SharedProps.AppearancesLarge.Appearance = discoveredAppearance[1];
-		}
+		
 		
 		/// <summary>
 		/// Discover feeds in the provided content.
@@ -132,12 +121,19 @@ namespace RssBandit.WinGui
 		/// <param name="htmlContent">string content to lookup</param>
 		/// <param name="pageUrl">string Url of the content. Used to calculate relative link targets.</param>
 		/// <param name="pageTitle">string Title of the content. Used as the menu entry Text on the managed dropdown control</param>
-		public void DiscoverFeedInContent(string htmlContent, string pageUrl, string pageTitle) {
-			if (workerPriorityCounter == Int32.MaxValue )	// new requests will get the highest prio.
+		public void DiscoverFeedInContent(string htmlContent, string pageUrl, string pageTitle)
+		{
+			if (String.IsNullOrEmpty(htmlContent))
+				return;
+
+			if (workerPriorityCounter == Int32.MaxValue)	// new requests will get the highest prio.
 				workerPriorityCounter = 0;	// reset, if Bandit runs for a long time
-			if (string.IsNullOrEmpty(pageTitle)) {
+			
+			if (string.IsNullOrEmpty(pageTitle))
+			{
 				string def = pageUrl;
-				try { def = new Uri(pageUrl).Host; } catch (UriFormatException) { /* ignore */ }
+				try { def = new Uri(pageUrl).Host; }
+				catch (Exception) { /* ignore all */ }
 				pageTitle = HtmlHelper.FindTitle(htmlContent, def);
 			}
 			CallbackState state = new CallbackState(htmlContent, pageUrl, pageTitle);
@@ -213,8 +209,23 @@ namespace RssBandit.WinGui
 		#endregion
 
 		#region private methods/properties
-		
-		internal static string StripAndShorten(string s) {
+
+		/// <summary>
+		/// Resets the control. Should get called after Toolbar.LoadFromXml(), 
+		/// because the items maintained dynamically.
+		/// </summary>
+		private void Reset()
+		{
+			this.itemDropdown.Tools.Clear();
+			this.itemDropdown.Tools.Add(this.clearListButton);
+			this.itemDropdown.Tools["cmdDiscoveredFeedsListClear"].InstanceProps.IsFirstInGroup = true;
+			// init to non-dicovered:
+			this.itemDropdown.SharedProps.AppearancesSmall.Appearance = discoveredAppearance[0];
+			this.itemDropdown.SharedProps.AppearancesLarge.Appearance = discoveredAppearance[1];
+		}
+
+		private static string StripAndShorten(string s)
+		{
 			return Utilities.StripMnemonics(StringHelper.ShortenByEllipsis(s, 40));
 		}
 		
@@ -222,7 +233,8 @@ namespace RssBandit.WinGui
 		/// Thread entry point
 		/// </summary>
 		/// <param name="state"></param>
-		private void ThreadRun(object state) {
+		private void ThreadRun(object state)
+		{
 			CallbackState cbs = (CallbackState)state;
 			this.AsyncDiscoverFeedsInContent(cbs.HtmlContent, cbs.PageUrl, cbs.PageTitle);
 		}
@@ -233,15 +245,17 @@ namespace RssBandit.WinGui
 		/// <param name="htmlContent"></param>
 		/// <param name="pageUrl"></param>
 		/// <param name="pageTitle"></param>
-		private void AsyncDiscoverFeedsInContent(string htmlContent, string pageUrl, string pageTitle) {
+		private void AsyncDiscoverFeedsInContent(string htmlContent, string pageUrl, string pageTitle)
+		{
 
-			if (string.IsNullOrEmpty( pageUrl) )
+			if (string.IsNullOrEmpty(pageUrl))
 				return;
 
 			string baseUrl = GetBaseUrlOf(pageUrl);
 			AppButtonToolCommand foundItem = null;
-			
-			lock(SyncRoot) {		
+
+			lock (SyncRoot)
+			{
 				// simple search for baseUrl, so we may prevent lookup of the content
 				foreach (AppButtonToolCommand item in discoveredFeeds.Keys)
 				{
@@ -249,7 +263,7 @@ namespace RssBandit.WinGui
 					if (discoveredFeeds.TryGetValue(item, out info))
 					{
 						string url = info.SiteBaseUrl;
-						if (0 == String.Compare(baseUrl, url, true))
+						if (String.Equals(baseUrl, url, StringComparison.OrdinalIgnoreCase))
 						{
 							foundItem = item;
 						}
@@ -257,48 +271,57 @@ namespace RssBandit.WinGui
 				}
 			}
 
-			if (foundItem != null) {	
+			if (foundItem != null)
+			{
 
 				foundItem.SharedProps.Caption = StripAndShorten(pageTitle);
 
-			} else {
+			}
+			else
+			{
 
 				NewsComponents.Feed.RssLocater locator = new NewsComponents.Feed.RssLocater(Proxy, RssBanditApplication.UserAgent);	//we did not really need the proxy. Content is allready loaded
 				List<string> feeds = null;
-				try {
+				try
+				{
 					// You can use this to simplify debugging IEControl HTML output.
 					// That is slightly different than the HTML we would get from a direct request!
 					//					using(System.IO.StreamWriter writer = System.IO.File.CreateText(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "IEContent.htm"))) {
 					//						writer.Write(htmlContent);
 					//						writer.Flush();
 					//					}
-					feeds = locator.GetRssFeedsForUrlContent(pageUrl, htmlContent, false);	
-				} catch (Exception){
+					feeds = locator.GetRssFeedsForUrlContent(pageUrl, htmlContent, false);
+				}
+				catch (Exception)
+				{
 					//catch up all, if it fails, it returns an empty list
 				}
-				if (feeds != null && feeds.Count > 0) {
+				if (feeds != null && feeds.Count > 0)
+				{
 					feeds = this.CheckAndRemoveSubscribedFeeds(feeds, baseUrl);
 				}
-				
-				if (feeds != null && feeds.Count > 0) {
-				
+
+				if (feeds != null && feeds.Count > 0)
+				{
+
 					DiscoveredFeedsInfo info = new DiscoveredFeedsInfo(feeds, pageTitle, baseUrl);
 					this.Add(info);
 					return;
-				} 
+				}
 
 			}
-			
+
 			RefreshDiscoveredItemContainer();
 
 		}
-		
-		
-		private static string GetBaseUrlOf(string pageUrl) {
+
+
+		private static string GetBaseUrlOf(string pageUrl)
+		{
 			Uri uri = null;
-			if (pageUrl != null) 
+			if (pageUrl != null)
 				Uri.TryCreate(pageUrl, UriKind.Absolute, out uri);
-			
+
 			if (uri == null)
 				return pageUrl;
 			string leftPart = uri.GetLeftPart(UriPartial.Path);
