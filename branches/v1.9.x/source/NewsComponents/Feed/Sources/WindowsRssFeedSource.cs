@@ -1490,7 +1490,11 @@ namespace NewsComponents.Feed
             this.myfeed = owner;
             /* do this here because COM interop is too slow to check it each time property is accessed */
             this._id = String.IsNullOrEmpty(myitem.Guid)
-                ? (String.IsNullOrEmpty(myitem.Link) ? myitem.Title.GetHashCode().ToString() : myitem.Link)
+                ? (String.IsNullOrEmpty(myitem.Link) 
+					? String.IsNullOrEmpty(myitem.Title) 
+						? Guid.NewGuid().ToString("N") 
+						: myitem.Title.GetHashCode().ToString(NumberFormatInfo.InvariantInfo) 
+					: myitem.Link)
                 : myitem.Guid; 
             this._beenRead = myitem.IsRead;
 
