@@ -1246,6 +1246,7 @@ namespace NewsComponents
 
 		// per instance:
 		private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
+		private object _domainStoresLock = new Object();
 
         /// <summary>
         /// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
@@ -1270,15 +1271,15 @@ namespace NewsComponents
 		{
 			get
 			{
-				if (_domainStores.ContainsKey(StorageDomain.UserCacheData))
-					return (IUserCacheDataService)_domainStores[StorageDomain.UserCacheData];
-				IUserCacheDataService service = (IUserCacheDataService)DataServiceFactory.GetService(
-					StorageDomain.UserCacheData, p_configuration);
-				_domainStores.Add(StorageDomain.UserCacheData, service);
-				
-				return service;
+				IDisposable service;
+				if (_domainStores.TryGetValue(StorageDomain.UserCacheData, out service))
+					return (IUserCacheDataService)service;
+
+				return AddAndGetService<IUserCacheDataService>(StorageDomain.UserCacheData);
 			}
 		}
+
+		
 
         /// <summary>
         /// Gets the user data service instance.
@@ -1288,14 +1289,11 @@ namespace NewsComponents
         {
             get
             {
-				if (_domainStores.ContainsKey(StorageDomain.UserData))
-					return (IUserDataService)_domainStores[StorageDomain.UserData];
+				IDisposable service;
+				if (_domainStores.TryGetValue(StorageDomain.UserData, out service))
+					return (IUserDataService)service;
 
-				IUserDataService service = (IUserDataService)DataServiceFactory.GetService(
-					StorageDomain.UserData, p_configuration);
-				_domainStores.Add(StorageDomain.UserData, service);
-				
-				return service;
+				return AddAndGetService<IUserDataService>(StorageDomain.UserData);
             }
         }
 
@@ -1307,14 +1305,26 @@ namespace NewsComponents
 		{
 			get
 			{
-				if (_domainStores.ContainsKey(StorageDomain.UserRoamingData))
-					return (IUserRoamingDataService)_domainStores[StorageDomain.UserRoamingData];
+				IDisposable service;
+				if (_domainStores.TryGetValue(StorageDomain.UserRoamingData, out service))
+					return (IUserRoamingDataService)service;
 
-				IUserRoamingDataService service = (IUserRoamingDataService)DataServiceFactory.GetService(
-					StorageDomain.UserRoamingData, p_configuration);
-				_domainStores.Add(StorageDomain.UserRoamingData, service);
-				
-				return service;
+				return AddAndGetService<IUserRoamingDataService>(StorageDomain.UserRoamingData);
+			}
+		}
+
+		private T AddAndGetService<T>(StorageDomain domain)
+		{
+			lock (_domainStoresLock)
+			{
+				IDisposable service;
+				if (_domainStores.TryGetValue(domain, out service))
+					return (T)service;
+
+				service = (IDisposable)DataServiceFactory.GetService(domain, p_configuration);
+				_domainStores.Add(domain, service);
+
+				return (T)service;
 			}
 		}
 
@@ -1332,14 +1342,22 @@ namespace NewsComponents
 		/// </summary>
 		/// <param name="dataFileName">Name of the data file.</param>
 		/// <param name="content">The content.</param>
-		public void SetContentForDataServiceFile(string dataFileName, Stream content )
+		public bool SetContentForDataServiceFile(string dataFileName, Stream content )
 		{
-			ReplaceDataWithContent(dataFileName, content);
+			return ReplaceDataWithContent(dataFileName, content);
 		}
-		
-		protected virtual void ReplaceDataWithContent(string dataFileName, Stream content)
+
+		/// <summary>
+		/// Implement to replace the data identified by <paramref name="dataFileName"/> with 
+		/// the provided <paramref name="content"/>.
+		/// </summary>
+		/// <param name="dataFileName">Name of the data file.</param>
+		/// <param name="content">The content.</param>
+		/// <returns></returns>
+		protected virtual bool ReplaceDataWithContent(string dataFileName, Stream content)
 		{
 			// can be overridden by FeedSource impl.
+			return false;
 		}
 
         /// <summary>
@@ -2979,75 +2997,7 @@ namespace NewsComponents
         {
             SaveFeedList(feedStream, FeedListFormat.NewsHandler);
         }
-
-
-        /// <summary>
-        /// Helper method used for constructing OPML file. It traverses down the tree on the 
-        /// path defined by 'category' starting with 'startNode'. 
-        /// </summary>
-        /// <param name="startNode">Node to start with</param>
-        /// <param name="category">A category path, e.g. 'Category1\SubCategory1'.</param>
-        /// <returns>The leaf category node.</returns>
-        /// <remarks>If one category in the path is not found, it will be created.</remarks>
-        private static XmlElement CreateCategoryHive(XmlElement startNode, string category)
-        {
-            if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
-
-            string[] catHives = category.Split(CategorySeparator.ToCharArray());
-            XmlElement n;
-            bool wasNew = false;
-
-            foreach (var catHive in catHives)
-            {
-                if (!wasNew)
-                {
-                    string xpath = "child::outline[@title=" + buildXPathString(catHive) + " and (count(@*)= 1)]";
-                    n = (XmlElement) startNode.SelectSingleNode(xpath);
-                }
-                else
-                {
-                    n = null;
-                }
-
-                if (n == null)
-                {
-                    n = startNode.OwnerDocument.CreateElement("outline");
-                    n.SetAttribute("title", catHive);
-                    startNode.AppendChild(n);
-                    wasNew = true; // shorten search
-                }
-
-                startNode = n;
-            } //foreach
-
-            return startNode;
-        }
-
-
-        /// <summary>
-        /// Helper function breaks up a string containing quote characters into 
-        ///	a series of XPath concat() calls. 
-        /// </summary>
-        /// <param name="input">input string</param>
-        /// <returns>broken up string</returns>
-        public static string buildXPathString(string input)
-        {
-            string[] components = input.Split(new[] {'\''});
-            string result = "";
-            result += "concat(''";
-            for (int i = 0; i < components.Length; i++)
-            {
-                result += ", '" + components[i] + "'";
-                if (i < components.Length - 1)
-                {
-                    result += ", \"'\"";
-                }
-            }
-            result += ")";
-            Console.WriteLine(result);
-            return result;
-        }
-
+		
         /// <summary>
         /// Saves the whole feed list incl. empty categories to the specified stream
         /// </summary>
@@ -3223,8 +3173,7 @@ namespace NewsComponents
             f.lastmodified = DateTime.MinValue;
         }
 
-
-        /// <summary>
+		/// <summary>
         /// Used to clear the information about when last the feeds downloaded. This allows
         /// us to refetch the feed without sending If-Modified-Since or If-None-Match header
         /// information and thus force a download. 
@@ -3247,8 +3196,7 @@ namespace NewsComponents
         {
             itemsTable.Clear();          
         }
-
-
+		
         /// <summary>
         /// Marks all items stored in the internal cache of RSS items as read.
         /// </summary>
@@ -3260,8 +3208,7 @@ namespace NewsComponents
             }
         }
 
-
-        /// <summary>
+		/// <summary>
         /// Marks all items stored in the internal cache of RSS items as read
         /// for a particular category.
         /// </summary>
@@ -3358,6 +3305,73 @@ namespace NewsComponents
         {
             return (subscriptionRelevantPropertyChanges & changedProperty) != NewsFeedProperty.None;
         }
+		
+		/// <summary>
+		/// Helper method used for constructing OPML file. It traverses down the tree on the 
+		/// path defined by 'category' starting with 'startNode'. 
+		/// </summary>
+		/// <param name="startNode">Node to start with</param>
+		/// <param name="category">A category path, e.g. 'Category1\SubCategory1'.</param>
+		/// <returns>The leaf category node.</returns>
+		/// <remarks>If one category in the path is not found, it will be created.</remarks>
+		private static XmlElement CreateCategoryHive(XmlElement startNode, string category)
+		{
+			if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
+
+			string[] catHives = category.Split(CategorySeparator.ToCharArray());
+			XmlElement n;
+			bool wasNew = false;
+
+			foreach (var catHive in catHives)
+			{
+				if (!wasNew)
+				{
+					string xpath = "child::outline[@title=" + buildXPathString(catHive) + " and (count(@*)= 1)]";
+					n = (XmlElement)startNode.SelectSingleNode(xpath);
+				}
+				else
+				{
+					n = null;
+				}
+
+				if (n == null)
+				{
+					n = startNode.OwnerDocument.CreateElement("outline");
+					n.SetAttribute("title", catHive);
+					startNode.AppendChild(n);
+					wasNew = true; // shorten search
+				}
+
+				startNode = n;
+			} //foreach
+
+			return startNode;
+		}
+
+
+		/// <summary>
+		/// Helper function breaks up a string containing quote characters into 
+		///	a series of XPath concat() calls. 
+		/// </summary>
+		/// <param name="input">input string</param>
+		/// <returns>broken up string</returns>
+		public static string buildXPathString(string input)
+		{
+			string[] components = input.Split(new[] { '\'' });
+			string result = "";
+			result += "concat(''";
+			for (int i = 0; i < components.Length; i++)
+			{
+				result += ", '" + components[i] + "'";
+				if (i < components.Length - 1)
+				{
+					result += ", \"'\"";
+				}
+			}
+			result += ")";
+			Console.WriteLine(result);
+			return result;
+		}
 
         /// <summary>
         /// Do apply any internal work needed after some feed or feed item properties 

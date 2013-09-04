@@ -477,11 +477,16 @@ namespace NewsComponents.Feed
 			return service.GetUserDataFileNames();
 		}
 
-		protected override void ReplaceDataWithContent(string dataFileName, Stream content)
+		protected override bool ReplaceDataWithContent(string dataFileName, Stream content)
 		{
 			// my IUserDataService has relevant files, reset ivar(s):
 			if (DataEntityName.NntpServerDefinitions == UserDataService.SetContentForDataFile(dataFileName, content))
+			{
 				nntpServers = null;
+				return true;
+			}
+
+			return false;
 		}
 
 		#region NntpServerDefinition Credentials handling

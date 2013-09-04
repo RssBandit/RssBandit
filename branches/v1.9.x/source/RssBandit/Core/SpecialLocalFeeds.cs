@@ -12,7 +12,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Web;
 using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +21,6 @@ using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Net;
 using NewsComponents.Utils;
-using RssBandit;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.Common;
@@ -71,11 +69,15 @@ namespace RssBandit.SpecialFeeds
 			migrationRequired = runSelfHealingFlagStatus || (bool)RssBanditApplication.PersistedSettings.GetProperty(
 			                                                      	MigrationKey, typeof(bool), true);
 
-			if (reader == null)
-				reader = this.GetDefaultReader();
-
-			using (reader)
+			if (reader != null)
+			{
 				LoadItems(reader, migratedItemsOwner);
+			}
+			else
+			{
+				using (reader = this.GetDefaultReader())
+					LoadItems(reader, migratedItemsOwner);
+			}
 		}
 
 		/// <summary>
@@ -175,6 +177,31 @@ namespace RssBandit.SpecialFeeds
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="WatchedItemsFeed"/> class.
+		/// </summary>
+		/// <param name="migratedItemsOwner">The migrated items owner.</param>
+		/// <param name="reader">The reader.</param>
+		public WatchedItemsFeed(FeedSourceEntry migratedItemsOwner, XmlReader reader) :
+			base(migratedItemsOwner, RssBanditApplication.GetSentItemsFileName(),
+				 SR.FeedNodeWatchedItemsCaption,
+				 SR.FeedNodeWatchedItemsDesc, false)
+		{
+			// set this to indicate required migration:
+			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
+			                          	MigrationKey, typeof(bool), true);
+
+			if (reader != null)
+			{
+				LoadItems(reader, migratedItemsOwner);
+			}
+			else
+			{
+				using (reader = this.GetDefaultReader())
+					LoadItems(reader, migratedItemsOwner);
+			}
+		}
+
+		/// <summary>
 		/// Overridden to migrate an item.
 		/// Base implementation just return the <paramref name="newsItem"/>.
 		/// </summary>
@@ -243,11 +270,16 @@ namespace RssBandit.SpecialFeeds
 			// set this to indicate required migration:
 			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
 			                          	MigrationKey, typeof(bool), true);
-			
-			if (reader == null)
-				reader = this.GetDefaultReader();
-			using (reader)
+
+			if (reader != null)
+			{
 				LoadItems(reader, migratedItemsOwner);
+			}
+			else
+			{
+				using (reader = this.GetDefaultReader())
+					LoadItems(reader, migratedItemsOwner);
+			}
 		}
 
 		/// <summary>
