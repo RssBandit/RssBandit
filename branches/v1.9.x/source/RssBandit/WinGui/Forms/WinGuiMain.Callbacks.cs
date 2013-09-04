@@ -2561,9 +2561,9 @@ namespace RssBandit.WinGui.Forms
                                 	IList<INewsItem> items = isf.Items;
 									if (items.Count > 0)
 									{
+										SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
 										FeedInfoList fiList = CreateFeedInfoList(tn.Text, items);
 										BeginTransformFeedList(fiList, tn, owner.Stylesheet);
-										SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
 									}
                                 }
                             }

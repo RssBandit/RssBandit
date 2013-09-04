@@ -2278,8 +2278,8 @@ namespace RssBandit.WinGui.Forms
                         //check to see if we still have focus 
                         if (tn.Selected)
                         {
-                            BeginTransformFeed(fi2, tn, stylesheet);
 							SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
+							BeginTransformFeed(fi2, tn, stylesheet);
                         }
                     }
                 }
@@ -2348,8 +2348,8 @@ namespace RssBandit.WinGui.Forms
             if (tn.Selected)
             {
                 FeedDetailTabState.Url = String.Empty;
-                BeginTransformFeedList(fil2, tn, stylesheet);
 				SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
+				BeginTransformFeedList(fil2, tn, stylesheet);
             }
         }
 
