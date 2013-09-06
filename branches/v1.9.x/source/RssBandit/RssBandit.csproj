@@ -616,7 +616,9 @@
     <EmbeddedResource Include="Resources\AppTrayXP.ico" />
     <EmbeddedResource Include="Resources\Connected.ico" />
     <EmbeddedResource Include="Resources\default-feedlist.xml" />
-    <EmbeddedResource Include="Resources\DefaultTemplate.xslt" />
+    <EmbeddedResource Include="Resources\DefaultTemplate.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Resources\delete.16.png" />
     <EmbeddedResource Include="Resources\Disconnected.ico" />
     <None Include="Resources\feed.discovered.16.png" />
@@ -2277,6 +2279,7 @@
     <Compile Include="WinGui\Utility\CommandMediator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Utility\FaviconCache.cs" />
     <Compile Include="WinGui\Utility\FontColorHelper.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -146,10 +146,6 @@ namespace RssBandit.WinGui.Forms
         // Used for commentRss implementation
         private readonly Dictionary<string, object> tempFeedItemsRead = new Dictionary<string, object>();
 
-        //Stores Image object for favicons so we can reuse the same object if used by
-        //multiple feeds. 
-        private readonly Dictionary<string, Image> _favicons = new Dictionary<string, Image>();
-
         // used to store temp. the currently yet populated feeds to speedup category population
         private readonly Dictionary<string, object> feedsCurrentlyPopulated = new Dictionary<string, object>();
 
