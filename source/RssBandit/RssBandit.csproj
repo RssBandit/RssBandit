@@ -2187,6 +2187,7 @@
     <Compile Include="WinGui\CommonImages.cs" />
     <Compile Include="WinGui\Behaviors\ShellLayoutDockManagerAdapter.cs" />
     <Compile Include="WinGui\Utility\Extensions.cs" />
+    <Compile Include="WinGui\Utility\FaviconCache.cs" />
     <Compile Include="WinGui\Utility\WpfWindowSerializer.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.Callbacks.cs" />
     <Compile Include="WinGui\ViewModel\ApplicationViewModel.UITaskTimer.cs" />
