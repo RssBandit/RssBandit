@@ -13,3 +13,5 @@ b) Start RSS Bandit.
 c) You will find the "Send to OneNote" feature as a context menu entry
    for individual feed item posts.
 
+For any details about the implementation have a look to the source code
+and http://blogs.msdn.com/b/andrew_may/archive/2005/02/14/372450.aspx
