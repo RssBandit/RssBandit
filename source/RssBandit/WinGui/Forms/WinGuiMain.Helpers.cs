@@ -2047,7 +2047,7 @@ namespace RssBandit.WinGui.Forms
                                     {
                                         e.DownloadItem
                                     };
-                    toastNotifier.Alert(f.title, 1, items);
+                    toastNotifier.Alert(f, 0, items);
                 }
             } //if(feedHandler.GetFeeds().Contains(..))
         }
@@ -2216,7 +2216,7 @@ namespace RssBandit.WinGui.Forms
                         tn.UnreadCount < unread.Count)
                     {
                         //test flag on feed, if toast enabled
-                        toastNotifier.Alert(tn.Text, tn.UnreadCount, unread);
+                        toastNotifier.Alert(tn, tn.UnreadCount, unread);
                     }
 
                     if (tn.UnreadCount != unread.Count)

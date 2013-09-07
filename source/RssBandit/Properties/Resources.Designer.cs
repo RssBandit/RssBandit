@@ -61,6 +61,16 @@ namespace RssBandit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Add {
+            get {
+                object obj = ResourceManager.GetObject("Add", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap add_newsserver_16 {
@@ -76,16 +86,6 @@ namespace RssBandit.Properties {
         internal static System.Drawing.Bitmap add_user_16 {
             get {
                 object obj = ResourceManager.GetObject("add_user_16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap AniImagesXP {
-            get {
-                object obj = ResourceManager.GetObject("AniImagesXP", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,29 +113,9 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon AppBusyXP {
-            get {
-                object obj = ResourceManager.GetObject("AppBusyXP", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
         internal static System.Drawing.Icon AppTray {
             get {
                 object obj = ResourceManager.GetObject("AppTray", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon AppTrayXP {
-            get {
-                object obj = ResourceManager.GetObject("AppTrayXP", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -321,6 +301,16 @@ namespace RssBandit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Refresh {
+            get {
+                object obj = ResourceManager.GetObject("Refresh", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap rssbandit_16 {
@@ -343,9 +333,9 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon RssDiscovered0 {
+        internal static System.Drawing.Icon RssFeedAdd {
             get {
-                object obj = ResourceManager.GetObject("RssDiscovered0", resourceCulture);
+                object obj = ResourceManager.GetObject("RssFeedAdd", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -353,9 +343,9 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon RssDiscovered1 {
+        internal static System.Drawing.Icon RssFeedRefresh {
             get {
-                object obj = ResourceManager.GetObject("RssDiscovered1", resourceCulture);
+                object obj = ResourceManager.GetObject("RssFeedRefresh", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -406,16 +396,6 @@ namespace RssBandit.Properties {
         internal static System.Drawing.Icon UnreadFeedItems {
             get {
                 object obj = ResourceManager.GetObject("UnreadFeedItems", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon UnreadFeedItemsXP {
-            get {
-                object obj = ResourceManager.GetObject("UnreadFeedItemsXP", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

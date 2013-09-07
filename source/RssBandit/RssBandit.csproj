@@ -341,14 +341,17 @@
     <None Include="Resources\ShortcutSettings.xsx">
       <DependentUpon>ShortcutSettings.xsd</DependentUpon>
     </None>
+    <Content Include="Media\addfacebook.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Media\Feed Discovered.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\New Attachment Downloaded.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\New Feed Items Received.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\InfragisticsShared.de.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
@@ -477,18 +480,23 @@
     <None Include="Resources\View_Certificate_16.png" />
     <Resource Include="Resources\error.png" />
     <None Include="Resources\envelope_icon.ICO" />
+    <None Include="Resources\Add.ico" />
+    <None Include="Media\addrssfeed.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Media\webpage.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Resources\AniImages.png" />
     <Content Include="Resources\facebook.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\google.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\rss.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\webpage.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\Refresh.ico" />
+    <None Include="Resources\RssFeedAdd.ico" />
+    <None Include="Resources\RssFeedRefresh.ico" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -608,12 +616,9 @@
     <None Include="Resources\2003Plus.gif" />
     <None Include="Resources\add.newsserver.16.png" />
     <None Include="Resources\add.user.16.png" />
-    <EmbeddedResource Include="Resources\AniImagesXP.png" />
     <Resource Include="Resources\App.ico" />
     <EmbeddedResource Include="Resources\AppBusy.ico" />
-    <EmbeddedResource Include="Resources\AppBusyXP.ico" />
     <EmbeddedResource Include="Resources\AppTray.ico" />
-    <EmbeddedResource Include="Resources\AppTrayXP.ico" />
     <EmbeddedResource Include="Resources\Connected.ico" />
     <EmbeddedResource Include="Resources\default-feedlist.xml" />
     <EmbeddedResource Include="Resources\DefaultTemplate.xslt">
@@ -635,8 +640,6 @@
     <None Include="Resources\no.feed.discovered.32.png" />
     <None Include="Resources\rssbandit.16.png" />
     <None Include="Resources\rssbandit.32.png" />
-    <EmbeddedResource Include="Resources\RssDiscovered0.ico" />
-    <EmbeddedResource Include="Resources\RssDiscovered1.ico" />
     <EmbeddedResource Include="Resources\SearchEnginesConfig.xsd">
       <SubType>
       </SubType>
@@ -721,7 +724,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\UnreadFeedItems.ico" />
-    <EmbeddedResource Include="Resources\UnreadFeedItemsXP.ico" />
     <EmbeddedResource Include="Resources\WizardTask.Failed.png" />
     <EmbeddedResource Include="Resources\WizardTask.InProgress.png" />
     <EmbeddedResource Include="Resources\WizardTask.Pending.png" />

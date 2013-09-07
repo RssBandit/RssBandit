@@ -19,7 +19,6 @@ using RssBandit.WinGui.Forms.ControlHelpers;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
-using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 
@@ -92,11 +91,11 @@ namespace RssBandit.WinGui.Forms
                 IconReference = new IconReference(RssBanditApplication.GetFacebookIconPath(), 0),
                 Arguments = "-f"
             });
-            jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
-            {
-                IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
-                Arguments = "-g"
-            });
+			//jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
+			//{
+			//	IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
+			//	Arguments = "-g"
+			//});
             jumpList.AddUserTasks(new JumpListSeparator());
             jumpList.AddUserTasks(new JumpListLink(Resource.OutgoingLinks.ProjectNewsUrl, SR.JumpListGoToWebsiteCaption)
             {
@@ -108,13 +107,13 @@ namespace RssBandit.WinGui.Forms
             //
             //thumbnail toolbar button setup
             //
-            buttonAdd = new ThumbnailToolbarButton(Properties.Resources.RssDiscovered1, SR.ThumbnailButtonAdd);
+            buttonAdd = new ThumbnailToolbarButton(Properties.Resources.Add, SR.ThumbnailButtonAdd);
             buttonAdd.Enabled = true;
-            buttonAdd.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonAddClicked);
+            buttonAdd.Click += OnTaskBarButtonAddClicked;
 
-            buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.feedRefresh, SR.ThumbnailButtonRefresh);
+            buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.RssFeedRefresh, SR.ThumbnailButtonRefresh);
             buttonRefresh.Enabled = true;
-            buttonRefresh.Click += new EventHandler<ThumbnailButtonClickedEventArgs>(OnTaskBarButtonRefreshClick);
+            buttonRefresh.Click += OnTaskBarButtonRefreshClick;
 
             TaskbarManager.Instance.ThumbnailToolbars.AddButtons(this.Handle, buttonAdd, buttonRefresh);            
         }
@@ -272,7 +271,7 @@ namespace RssBandit.WinGui.Forms
 
         private void InitToaster()
         {
-            toastNotifier = new ToastNotifier(null, //this.ultraDesktopAlert,
+            toastNotifier = new ToastNotifier(this.ultraDesktopAlert,
                 OnExternalActivateFeedItem,
                 OnExternalDisplayFeedProperties,
                 OnExternalActivateFeed,
@@ -1553,7 +1552,7 @@ namespace RssBandit.WinGui.Forms
             _trayAni.ContextMenu = _notifyContextMenu;
 
             //_trayManager = new TrayStateManager(_trayAni, imageTrayAnimation);
-            _trayManager = new TrayStateManager(_trayAni, null);
+            _trayManager = new TrayStateManager(_trayAni);
             _trayManager.SetState(ApplicationTrayState.NormalIdle);
         }
 
