@@ -1207,7 +1207,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         if (p.Icon == null)
                         {
-                            p.Icon = Resource.LoadIcon("Resources.feedRefresh.ico");
+	                        p.Icon = Properties.Resources.Refresh; //Resource.LoadIcon("Resources.feedRefresh.ico");
                             _status.Refresh();
                         }
                     }
@@ -1824,7 +1824,7 @@ namespace RssBandit.WinGui.Forms
                               feed.alertEnabled)) && modified)
                         {
                             // new flag on feed, states if toast is enabled (off by default)
-                            toastNotifier.Alert(tn.Text, unreadBefore, unread);
+                            toastNotifier.Alert(tn, unreadBefore, unread);
                         }
                     }
 
