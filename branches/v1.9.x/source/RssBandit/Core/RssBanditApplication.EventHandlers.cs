@@ -299,7 +299,7 @@ namespace RssBandit
         /// <param name="e"></param>
         internal void OnDownloadedEnclosure(object sender, DownloadItemEventArgs e)
         {
-			FeedSourceEntry entry = sourceManager.SourceOf((FeedSource)sender);
+			FeedSourceEntry entry = sourceManager.SourceOfFeed(e.DownloadItem.OwnerFeedId);
 			
 			/* create playlists in media players if that option is selected */
             if (Preferences.AddPodcasts2WMP)
@@ -315,7 +315,7 @@ namespace RssBandit
             /* update GUI if needed */
             InvokeOnGui(delegate
                             {
-                                guiMain.OnEnclosureReceived(entry, e);
+								guiMain.OnEnclosureReceived(entry, e.DownloadItem);
                             });
         }
 

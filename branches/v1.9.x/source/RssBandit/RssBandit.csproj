@@ -488,6 +488,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\AniImages.png" />
+    <None Include="Resources\download.enclosure.32.png" />
     <Content Include="Resources\facebook.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1800,78 +1801,6 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.bg.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.de.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.es.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.fr.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.hi.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.it.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ja.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ko.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.nl-NL.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pl.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.pt-BR.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.ru.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-Cyrl-CS.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.sr-Latn-CS.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.tr.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHS.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\ToastNotify.zh-CHT.resx">
-      <DependentUpon>ToastNotify.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Forms\WinGUIMain.resx">
       <DependentUpon>WinGUIMain.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2228,16 +2157,10 @@
     <Compile Include="WinGui\Forms\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinGui\Forms\ToastNotify.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="WinGui\Forms\WinGUIMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Forms\WinGuiMain.UITaskTimer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WinGui\Genghis\AniForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinGui\Genghis\CursorChanger.cs">
