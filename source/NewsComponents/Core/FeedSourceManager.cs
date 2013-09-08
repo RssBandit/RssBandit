@@ -454,11 +454,9 @@ namespace NewsComponents
 		{
 			if (newsFeed == null)
 				return null;
-			foreach (FeedSourceEntry id in _feedSources.Values)
-				if (ReferenceEquals(id.Source, newsFeed.owner))
-					return id;
-			return null;
+			return _feedSources.Values.FirstOrDefault(id => ReferenceEquals(id.Source, newsFeed.owner));
 		}
+
 		/// <summary>
 		/// Gets the source of a <paramref name="newsItem"/>.
 		/// </summary>
@@ -469,6 +467,19 @@ namespace NewsComponents
 			if (newsItem == null)
 				return null;
 			return SourceOf(newsItem.Feed);
+		}
+
+		/// <summary>
+		/// Gets the SourceEntry of the provided feed Url or null if not found
+		/// </summary>
+		/// <param name="feedUrl">The feed URL.</param>
+		/// <returns></returns>
+		public FeedSourceEntry SourceOfFeed(string feedUrl)
+		{
+			if (String.IsNullOrEmpty(feedUrl))
+				return null;
+
+			return _feedSources.Values.FirstOrDefault(id => id.Source.IsSubscribed(feedUrl));
 		}
 
 		/// <summary>

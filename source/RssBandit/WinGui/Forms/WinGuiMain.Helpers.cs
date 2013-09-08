@@ -2032,20 +2032,20 @@ namespace RssBandit.WinGui.Forms
 		/// Invoked by RssBanditApplication when an enclosure has been successfully dowbloaded
 		/// </summary>
 		/// <param name="entry">The entry.</param>
-		/// <param name="e">The <see cref="NewsComponents.Net.DownloadItemEventArgs"/> instance containing the event data.</param>
-		internal void OnEnclosureReceived(FeedSourceEntry entry, DownloadItemEventArgs e)
+		/// <param name="downloadItem">The <see cref="NewsComponents.Net.DownloadItemEventArgs"/> instance containing the event data.</param>
+		internal void OnEnclosureReceived(FeedSourceEntry entry, DownloadItem downloadItem)
         {
             /* display alert window on new download available */
-            if (entry.Source.IsSubscribed(e.DownloadItem.OwnerFeedId))
+            if (entry.Source.IsSubscribed(downloadItem.OwnerFeedId))
             {
-				INewsFeed f = entry.Source.GetFeeds()[e.DownloadItem.OwnerFeedId];
+				INewsFeed f = entry.Source.GetFeeds()[downloadItem.OwnerFeedId];
 
 				if (entry.Source.GetEnclosureAlert(f.link))
                 {
-                    e.DownloadItem.OwnerFeed = f;
+                    downloadItem.OwnerFeed = f;
                     var items = new List<DownloadItem>
                                     {
-                                        e.DownloadItem
+                                        downloadItem
                                     };
                     toastNotifier.Alert(f, 0, items);
                 }

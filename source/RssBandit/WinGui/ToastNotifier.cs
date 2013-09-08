@@ -49,6 +49,7 @@ namespace RssBandit.WinGui
 		private bool _disposing;
 		private readonly Dictionary<string, object> _contextCache = new Dictionary<string, object>();
 		private readonly object _contextCacheSyncRoot = new object();
+		private readonly Random _keyGen = new Random();
 		#endregion
 
 		#region ctor()'s
@@ -111,21 +112,21 @@ namespace RssBandit.WinGui
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
 				windowInfo.Image = node.ImageResolved;
 				windowInfo.Data = firstItem;	// this should be in the event's Context property, but is not (bugbug in IG component)
-				windowInfo.Key = firstItem.FeedLink;
+				var link = windowInfo.Key = "#F{0}".FormatWith(_keyGen.Next());
 
 				lock (_contextCacheSyncRoot)
 				{
-					if (!_contextCache.ContainsKey(firstItem.FeedLink))
-						_contextCache.Add(firstItem.FeedLink, firstItem);
+					if (!_contextCache.ContainsKey(link))
+						_contextCache.Add(link, firstItem);
 				}
 
 				windowInfo.Caption = "<a href=\"{2}\"><font face=\"Verdana\" size=\"+1\"><b>{0} ({1})</b></font></a><br/>&nbsp;"
-					.FormatWith(node.Text, unreadCount, firstItem.FeedLink);
+					.FormatWith(node.Text, unreadCount, link);
 				windowInfo.Text = String.Format("<a href=\"{2}\"><font face=\"Verdana\">{0}<br/><span style=\"font-style:italic_x003B_\">{1}</span></font></a>", 
 					SR.GUIStatusFeedJustReceivedItemsMessage.FormatWith( unreadCount - dispItemCount),
-					StringHelper.ShortenByEllipsis(firstItem.Title, 35), firstItem.FeedLink);
+					StringHelper.ShortenByEllipsis(firstItem.Title, 35), link);
 				windowInfo.FooterText = "<font face=\"Verdana\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
-					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, firstItem.FeedLink);
+					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
 				
 				_alertWindow.Show(windowInfo);
 			}
@@ -161,9 +162,9 @@ namespace RssBandit.WinGui
 			if (_alertWindow != null && unreadCount > dispItemCount)
 			{
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
-				windowInfo.Image = Properties.Resources.rssbandit_32;
+				windowInfo.Image = Properties.Resources.download_enclosure_32;
 				windowInfo.Data = firstItem;	// this should be in the event's Context property, but is not (bugbug in IG component)
-				var link = windowInfo.Key = firstItem.OwnerFeed.link;
+				var link = windowInfo.Key = "#D{0}".FormatWith(_keyGen.Next());
 
 				lock (_contextCacheSyncRoot)
 				{
@@ -171,11 +172,12 @@ namespace RssBandit.WinGui
 						_contextCache.Add(link, firstItem);
 				}
 
-				windowInfo.Caption = "<a href=\"{2}\"><font face=\"Verdana\" size=\"+1\"><b>{0} ({1})</b></font></a><br/>&nbsp;"
-					.FormatWith(feed.title, unreadCount, link);
-				windowInfo.Text = String.Format("<a href=\"{2}\" title=\"{3}\"><font face=\"Verdana\">{0}<br/><span style=\"font-style:italic_x003B_\">{1}</span></font></a>",
-					SR.GUIStatusFeedJustReceivedItemsMessage.FormatWith(unreadCount - dispItemCount),
-					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, 35), link, firstItem.Enclosure.Description);
+				windowInfo.Caption = "<a href=\"{1}\"><font face=\"Verdana\" size=\"+1\"><b>{0}</b></font></a><br/>&nbsp;"
+					.FormatWith(feed.title, link);
+				windowInfo.Text = String.Format("<a href=\"{2}\" title=\"{3}\"><font face=\"Verdana\">{0}<br/>{1}</font></a>",
+					SR.GUIStatusEnclosureJustReceivedItemsMessage,
+					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, 35), link, 
+					String.IsNullOrEmpty(firstItem.Enclosure.Description) ? firstItem.File.LocalName : firstItem.Enclosure.Description);
 				windowInfo.FooterText = "<font face=\"Verdana\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
 					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
 

@@ -629,13 +629,13 @@ namespace NewsComponents.Net
             try
             {
                 IWebProxy proxy = task.DownloadItem.Proxy;
-                var sourceUri = new Uri(task.DownloadItem.File.Source);
-                Uri proxyUri = proxy.GetProxy(sourceUri);
+				var sourceUri = new Uri(task.DownloadItem.File.Source);
+				Uri proxyUri = proxy.GetProxy(sourceUri);
+				//trim trailing '/' because it causes BITS to throw an exception
+				string proxyUriStr = proxyUri.ToString().TrimEnd('/');
 
-                if (!proxy.IsBypassed(proxyUri))
+				if (!proxy.IsBypassed(proxyUri))
                 {
-                    //trim trailing '/' because it causes BITS to throw an exception
-                    string proxyUriStr = proxyUri.ToString().TrimEnd('/');
                     backgroundCopyJob.SetProxySettings(BG_JOB_PROXY_USAGE.BG_JOB_PROXY_USAGE_OVERRIDE, proxyUriStr, null);
                 }
 
@@ -741,7 +741,7 @@ namespace NewsComponents.Net
         /// <param name="pJob">The BITS job reference.</param>
         private void OnJobModification(DownloadTask task, IBackgroundCopyJob pJob)
         {
-            _BG_JOB_PROGRESS progress;
+            BG_JOB_PROGRESS progress;
             pJob.GetProgress(out progress);
 
             var args = new DownloadTaskProgressEventArgs((long) progress.BytesTotal,

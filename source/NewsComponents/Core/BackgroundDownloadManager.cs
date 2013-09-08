@@ -703,22 +703,22 @@ namespace NewsComponents
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The task information.</param>
         private void OnDownloadCompleted(object sender, TaskEventArgs e)
-        {
-            string fileLocation = Path.Combine(e.Task.DownloadFilesBase, e.Task.DownloadItem.File.LocalName);
+		{
+
+	        if (e.Task == null)
+	        {
+		        return;
+	        }
+
+			string fileLocation = Path.Combine(e.Task.DownloadFilesBase, e.Task.DownloadItem.File.LocalName);
             string finalLocation = Path.Combine(e.Task.DownloadItem.TargetFolder, e.Task.DownloadItem.File.LocalName);
 
             _log.InfoFormat("Finished downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
                             e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId,
                             e.Task.DownloadItem.OwnerFeedId, finalLocation);
 
-
-            /*
-				e.Task.State = DownloadTaskState.Downloaded;	
-				DownloadRegistryManager.Current.UpdateTask(e.Task); 
-			 */
-
-       
-            ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 			
+			
+            // We have a UI for managing enclosures we'll need to keep the task around !
             //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
 
             try
@@ -727,25 +727,32 @@ namespace NewsComponents
 				 * Add Zone.Identifier to File to indicate that the file was downloaded from the Web
 				 * See http://geekswithblogs.net/ssimakov/archive/2004/08/17/9805.aspx for more details
 				 */
-                var FS = new FileStreams(fileLocation);
+	            try
+	            {
+		            var FS = new FileStreams(fileLocation);
 
-                //Remove Zone.Identifier if it already exists since we can't trust it
-                //Not sure if this can happen. 
-                int i = FS.IndexOf("Zone.Identifier");
-                if (i != -1)
-                {
-                    FS.Remove("Zone.Identifier");
-                }
+		            //Remove Zone.Identifier if it already exists since we can't trust it
+		            //Not sure if this can happen. 
+		            int i = FS.IndexOf("Zone.Identifier");
+		            if (i != -1)
+		            {
+			            FS.Remove("Zone.Identifier");
+		            }
 
-                FS.Add("Zone.Identifier");
-                FileStream fs = FS["Zone.Identifier"].Open(FileMode.OpenOrCreate, FileAccess.Write);
-                var writer = new StreamWriter(fs);
-                writer.WriteLine("[ZoneTransfer]");
-                writer.WriteLine("ZoneId=3");
-                writer.Close();
-                fs.Close();
+		            FS.Add("Zone.Identifier");
+		            FileStream fs = FS["Zone.Identifier"].Open(FileMode.OpenOrCreate, FileAccess.Write);
+		            var writer = new StreamWriter(fs);
+		            writer.WriteLine("[ZoneTransfer]");
+		            writer.WriteLine("ZoneId=3");
+		            writer.Close();
+		            fs.Close();
+	            }
+	            catch (Exception ex)
+	            {
+					_log.ErrorFormat("Failed to assign Internet (Download) Zone to {0}: {1}", fileLocation, ex.Message);
+	            }
 
-                if (!Directory.Exists(e.Task.DownloadItem.TargetFolder))
+	            if (!Directory.Exists(e.Task.DownloadItem.TargetFolder))
                 {
                     Directory.CreateDirectory(e.Task.DownloadItem.TargetFolder);
                 }
@@ -783,25 +790,26 @@ namespace NewsComponents
         /// <param name="e">The download error information.</param>
         private void OnDownloadError(object sender, DownloadTaskErrorEventArgs e)
         {
-            /* 
-				e.Task.State = DownloadTaskState.DownloadError;					
-				DownloadRegistryManager.Current.UpdateTask( e.Task );
-			*/
-            _log.InfoFormat("Error downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
-                            e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId,
-                            e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
+	        if (e.Task == null)
+	        {
+				_log.ErrorFormat("Error downloading enclosure:{0} ", e.Exception);
+		        return;
+	        }
+	        
+		    _log.InfoFormat("Error downloading enclosure '{0}' from item '{1}' in feed '{2}' to {3}",
+			    e.Task.DownloadItem.Enclosure.Url, e.Task.DownloadItem.OwnerItemId,
+			    e.Task.DownloadItem.OwnerFeedId, e.Task.DownloadItem.TargetFolder);
 
-            ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 
-            e.Task.ErrorText = string.Format(ComponentsText.ExceptionDownloadingEnclosure, e.Exception.Message);
-            e.Task.State = DownloadTaskState.DownloadError;
+		    ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 
+		    e.Task.ErrorText = string.Format(ComponentsText.ExceptionDownloadingEnclosure, e.Exception.Message);
+		    e.Task.State = DownloadTaskState.DownloadError;
 
-            //DownloadRegistryManager.Current.UnRegisterTask(e.Task);
-
-            DownloadRegistryManager.Current.UpdateTask(e.Task);
-            if (e.Task.Downloader != null)
-            {
-                Release(e.Task.Downloader);
-            }
+		    DownloadRegistryManager.Current.UpdateTask(e.Task);
+		    if (e.Task.Downloader != null)
+		    {
+			    Release(e.Task.Downloader);
+		    }
+	        
         }
 
         /// <summary>
@@ -811,10 +819,13 @@ namespace NewsComponents
         /// <param name="e">The download progress task information.</param>
         private static void OnDownloadProgress(object sender, DownloadTaskProgressEventArgs e)
         {
-            e.Task.FileSize = e.BytesTotal;
-            e.Task.TransferredSize = e.BytesTransferred;
+	        if (e.Task != null)
+	        {
+		        e.Task.FileSize = e.BytesTotal;
+		        e.Task.TransferredSize = e.BytesTransferred;
 
-            DownloadRegistryManager.Current.UpdateTask(e.Task);
+		        DownloadRegistryManager.Current.UpdateTask(e.Task);
+	        }
         }
 
         /// <summary>
@@ -824,21 +835,23 @@ namespace NewsComponents
         /// <param name="e">The task information.</param>
         private void OnDownloadStarted(object sender, TaskEventArgs e)
         {
-            e.Task.State = DownloadTaskState.Downloading;
-            DownloadRegistryManager.Current.UpdateTask(e.Task);
+	        if (e.Task != null)
+	        {
+		        e.Task.State = DownloadTaskState.Downloading;
+		        DownloadRegistryManager.Current.UpdateTask(e.Task);
 
-            if (DownloadStarted != null)
-            {
-                var eventArgs = new DownloadStartedEventArgs(e.Task.DownloadItem);
-                DownloadStarted(this, eventArgs);
-                if (eventArgs.Cancel)
-                {
-                    CancelDownload(eventArgs.DownloadItem);
-                }
-            }
+		        if (DownloadStarted != null)
+		        {
+			        var eventArgs = new DownloadStartedEventArgs(e.Task.DownloadItem);
+			        DownloadStarted(this, eventArgs);
+			        if (eventArgs.Cancel)
+			        {
+				        CancelDownload(eventArgs.DownloadItem);
+			        }
+		        }
+	        }
         }
-
-
+		
         /// <summary>
         /// Method to unregister Downloader events and invoke Dispose() on the downloader.
         /// </summary>

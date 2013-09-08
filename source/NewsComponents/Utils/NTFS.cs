@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 //Encapsulates access to alternative data streams of an NTFS file.
 //Adapted from a C++ sample by Dino Esposito,
 //http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnfiles/html/ntfs5.asp
+// see also http://msdn.microsoft.com/en-us/magazine/cc163677.aspx
 
 namespace NewsComponents.Utils
 {
@@ -72,29 +73,36 @@ namespace NewsComponents.Utils
         {
             public int dwStreamID;
             public int dwStreamAttributes;
-            public LARGE_INTEGER Size;
+            //public LARGE_INTEGER Size;
+            public long Size;
             public int dwStreamNameSize;
         }
 
-		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern SafeFileHandle CreateFile(string Name, [MarshalAs(UnmanagedType.U4)] FileAccessAPI Access, [MarshalAs(UnmanagedType.U4)] FileShare Share, IntPtr securityAttributes,
-											   [MarshalAs(UnmanagedType.U4)] FileMode Creation, [MarshalAs(UnmanagedType.U4)] FileFlags Flags, IntPtr template);
+		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern SafeFileHandle CreateFile(
+			[MarshalAs(UnmanagedType.LPTStr)] string filename, 
+			[MarshalAs(UnmanagedType.U4)] FileAccessAPI access, 
+			[MarshalAs(UnmanagedType.U4)] FileShare share,
+			IntPtr securityAttributes,						// optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
+			[MarshalAs(UnmanagedType.U4)] FileMode creation,
+			[MarshalAs(UnmanagedType.U4)] FileFlags flagsAndAttributes, 
+			IntPtr templateFile);
 
 		[DllImport("kernel32", CharSet = CharSet.Unicode)]
         public static extern bool DeleteFile(string Name);
 
 
         [DllImport("kernel32")]
-        public static extern bool BackupRead(SafeFileHandle hFile, IntPtr pBuffer, int lBytes, ref int lRead, bool bAbort,
-                                             bool bSecurity, ref int Context);
+        public static extern bool BackupRead(SafeFileHandle hFile, IntPtr pBuffer, uint lBytes, ref uint lRead, bool bAbort,
+                                             bool bSecurity, ref IntPtr context);
 
         [DllImport("kernel32")]
-        public static extern bool BackupRead(SafeFileHandle hFile, ref WIN32_STREAM_ID pBuffer, int lBytes, ref int lRead,
-                                             bool bAbort, bool bSecurity, ref int Context);
+        public static extern bool BackupRead(SafeFileHandle hFile, ref WIN32_STREAM_ID pBuffer, uint lBytes, ref uint lRead,
+											 bool bAbort, bool bSecurity, ref IntPtr context);
 
         [DllImport("kernel32")]
-        public static extern bool BackupSeek(SafeFileHandle hFile, int dwLowBytesToSeek, int dwHighBytesToSeek, ref int dwLow,
-                                             ref int dwHigh, ref int Context);
+        public static extern bool BackupSeek(SafeFileHandle hFile, uint dwLowBytesToSeek, uint dwHighBytesToSeek, ref uint dwLow,
+                                             ref uint dwHigh, ref IntPtr context);
     }
 
     /// <summary>
@@ -306,13 +314,13 @@ namespace NewsComponents.Utils
                 if (hFile.IsInvalid) return;
 
                 Kernel32.WIN32_STREAM_ID sid = new Kernel32.WIN32_STREAM_ID();
-                int dwStreamHeaderSize = Marshal.SizeOf(sid);
-                int Context = 0;
+                uint dwStreamHeaderSize = (uint)Marshal.SizeOf(sid);
+                IntPtr Context = IntPtr.Zero;
                 bool Continue = true;
                 while (Continue)
                 {
                     //Read the next stream header
-                    int lRead = 0;
+                    uint lRead = 0;
                     Continue =
                         Kernel32.BackupRead(hFile, ref sid, dwStreamHeaderSize, ref lRead, false, false, ref Context);
                     if (Continue && lRead == dwStreamHeaderSize)
@@ -324,7 +332,7 @@ namespace NewsComponents.Utils
                             IntPtr pName = Marshal.AllocHGlobal(sid.dwStreamNameSize);
                             try
                             {
-                                Kernel32.BackupRead(hFile, pName, sid.dwStreamNameSize, ref lRead, false, false,
+                                Kernel32.BackupRead(hFile, pName, (uint)sid.dwStreamNameSize, ref lRead, false, false,
                                                     ref Context);
                                 char[] bName = new char[sid.dwStreamNameSize];
                                 Marshal.Copy(pName, bName, 0, sid.dwStreamNameSize);
@@ -342,7 +350,7 @@ namespace NewsComponents.Utils
                                 }
 
                                 //Add the stream to the collection
-                                Items.Add(new StreamInfo(this, sName, sid.Size.ToInt64()));
+                                Items.Add(new StreamInfo(this, sName, sid.Size));
                             }
                             finally
                             {
@@ -351,15 +359,24 @@ namespace NewsComponents.Utils
                         }
 
                         //Skip the stream contents
-                        int l = 0;
-                        int h = 0;
+                        uint l = 0;
+                        uint h = 0;
                         Continue =
-                            Kernel32.BackupSeek(hFile, sid.Size.Low, sid.Size.High, ref l, ref h, ref Context);
+							Kernel32.BackupSeek(hFile, GetLowWord(sid.Size), GetHighWord(sid.Size), ref l, ref h, ref Context);
                     }
                     else break;
                 }
             }
         }
+
+	    internal uint GetLowWord(long value)
+	    {
+		    return (uint) ((value << 32) >> 32);
+	    }
+		internal uint GetHighWord(long value)
+		{
+			return (uint)(value >> 32);
+		}
 
         #endregion
 
