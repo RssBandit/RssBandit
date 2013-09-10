@@ -140,8 +140,10 @@ namespace RssBandit.WinGui.Forms
         {
 			if (MySplashForm == null) return;
 
-			try {
-				MySplashForm.Invoke(new MethodInvoker(MySplashForm.Close));
+			try
+			{
+				if (MySplashForm.IsHandleCreated)
+					MySplashForm.Invoke(new MethodInvoker(MySplashForm.Close));
 			}
 			catch (Exception) {
 			}

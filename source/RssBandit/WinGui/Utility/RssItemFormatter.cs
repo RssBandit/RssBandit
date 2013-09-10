@@ -57,14 +57,10 @@ namespace RssBandit.WinGui.Utility
 
         private readonly IDictionary<string, StylesheetDescriptor> stylesheetTable = new Dictionary<string, StylesheetDescriptor>(17); 
 
-		static NewsItemFormatter() {
-			using (Stream xsltStream = Resource.GetStream("Resources.DefaultTemplate.xslt")) {
-				_defaultTmpl = new StreamReader(xsltStream).ReadToEnd();	
-			}
-
-			using (Stream xsltStream = Resource.GetStream("Resources.SearchResultsTemplate.xslt")) {
-				_searchTmpl = new StreamReader(xsltStream).ReadToEnd();	
-			}          
+		static NewsItemFormatter()
+		{
+			_defaultTmpl = Properties.Resources.DefaultTemplate_xslt;
+			_searchTmpl = Properties.Resources.SearchResultsTemplate_xslt;
 		}
 
 		public NewsItemFormatter():this(String.Empty, _defaultTmpl) {

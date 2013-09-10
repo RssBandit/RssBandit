@@ -29,7 +29,6 @@
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
@@ -498,6 +497,7 @@
     <None Include="Resources\Refresh.ico" />
     <None Include="Resources\RssFeedAdd.ico" />
     <None Include="Resources\RssFeedRefresh.ico" />
+    <None Include="Resources\TopStories.css" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
