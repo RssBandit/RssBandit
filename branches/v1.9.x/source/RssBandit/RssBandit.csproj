@@ -622,9 +622,9 @@
     <EmbeddedResource Include="Resources\AppTray.ico" />
     <EmbeddedResource Include="Resources\Connected.ico" />
     <EmbeddedResource Include="Resources\default-feedlist.xml" />
-    <EmbeddedResource Include="Resources\DefaultTemplate.xslt">
+    <None Include="Resources\DefaultTemplate.xslt">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </None>
     <None Include="Resources\delete.16.png" />
     <EmbeddedResource Include="Resources\Disconnected.ico" />
     <None Include="Resources\feed.discovered.16.png" />
@@ -645,7 +645,7 @@
       <SubType>
       </SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SearchResultsTemplate.xslt" />
+    <None Include="Resources\SearchResultsTemplate.xslt" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
       <SubType>
