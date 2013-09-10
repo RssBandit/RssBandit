@@ -591,7 +591,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   */
 
   body { color: black; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0px; padding 0px;
+  margin: 0px; padding: 0px;
   }
 
   a, a:visited, a:active {

@@ -2156,7 +2156,6 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 _trayAni.Visible = false;
-                toastNotifier.Dispose();
                 _uiTasksTimer.Stop();
 				owner.SaveFeedSources();
                 SaveUIConfiguration(true);

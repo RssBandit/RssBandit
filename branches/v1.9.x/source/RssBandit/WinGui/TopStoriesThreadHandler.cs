@@ -93,6 +93,10 @@ namespace RssBandit.WinGui{
             writer.WriteStartElement("html");
             writer.WriteStartElement("head");
             writer.WriteElementString("title", String.Format(SR.TopStoriesHtmlPageTitle, RssBanditApplication.Name));
+			writer.WriteStartElement("style");
+			writer.WriteAttributeString("type", "text/css");
+			writer.WriteRaw(Properties.Resources.TopStories_css);
+			writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteStartElement("body");
 
@@ -113,7 +117,7 @@ namespace RssBandit.WinGui{
                     writer.WriteStartElement("p");
                     writer.WriteStartElement("a");
                     writer.WriteAttributeString("href", topStory.HRef);
-                    writer.WriteString(topStory.Text);
+                    writer.WriteRaw(topStory.Text); // might be a img tag/ref.
                     writer.WriteEndElement(); //a 
                     //writer.WriteString(" (" + topStory.Score + ")"); 
 

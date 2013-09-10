@@ -1,7 +1,17 @@
+#region Version Info Header
+/*
+ * $Id$
+ * $HeadURL$
+ * Last modified by $Author$
+ * Last modified at $Date$
+ * $Revision$
+ */
+#endregion
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Infragistics.Win;
 using Infragistics.Win.Misc;
 using NewsComponents;
 using NewsComponents.Net;
@@ -35,9 +45,12 @@ namespace RssBandit.WinGui
 	/// <summary>
 	/// Manages Toast Notification Windows.
 	/// </summary>
-	public class ToastNotifier: IDisposable
+	public class ToastNotifier
 	{
 		#region private variables
+
+		private const int maxItemTextWith = 45;
+		
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(ToastNotifier));
 
 	    private readonly UltraDesktopAlert _alertWindow;
@@ -46,24 +59,25 @@ namespace RssBandit.WinGui
         private readonly FeedActivateCallback _feedActivateCallback;
         private readonly EnclosureActivateCallback _enclosureActivateCallback;
 
-		private bool _disposing;
-		private readonly Dictionary<string, object> _contextCache = new Dictionary<string, object>();
-		private readonly object _contextCacheSyncRoot = new object();
 		private readonly Random _keyGen = new Random();
+		
 		#endregion
 
 		#region ctor()'s
 		
-        public ToastNotifier(UltraDesktopAlert alert,
+        public ToastNotifier(
+			UltraDesktopAlert desktopAlert,
             ItemActivateCallback onItemActivateCallback, 
 			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
 			FeedActivateCallback onFeedActivateCallback, 
 			EnclosureActivateCallback onEnclosureActivateCallback) 
         {
-		    _alertWindow = alert;
+			if (desktopAlert == null)
+				throw new ArgumentNullException("desktopAlert");
+		    
+			_alertWindow = desktopAlert;
 			_alertWindow.Style = DesktopAlertStyle.Office2007;
 			_alertWindow.DesktopAlertLinkClicked += OnDesktopAlertLinkClicked;
-	        _alertWindow.DesktopAlertClosed += OnDesktopAlertClosed;
 			
 			this._itemActivateCallback = onItemActivateCallback;
 			this._displayFeedPropertiesCallback = onFeedPropertiesDialog;
@@ -95,9 +109,6 @@ namespace RssBandit.WinGui
 			if (node == null || dispItemCount < 0 || items == null || items.Count == 0)
 				return;
 
-			if (_disposing)
-				return;
-
 			int unreadCount = items.Aggregate(0, (i, item) =>
 			{
 				if (item.BeenRead)
@@ -111,21 +122,20 @@ namespace RssBandit.WinGui
 			{
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
 				windowInfo.Image = node.ImageResolved;
-				windowInfo.Data = firstItem;	// this should be in the event's Context property, but is not (bugbug in IG component)
+				windowInfo.Data = firstItem;	
+				
+				_alertWindow.TreatCaptionAsLink = DefaultableBoolean.False;
+				_alertWindow.TreatTextAsLink = DefaultableBoolean.False;
+				_alertWindow.TreatFooterTextAsLink = DefaultableBoolean.False;
+				
 				var link = windowInfo.Key = "#F{0}".FormatWith(_keyGen.Next());
-
-				lock (_contextCacheSyncRoot)
-				{
-					if (!_contextCache.ContainsKey(link))
-						_contextCache.Add(link, firstItem);
-				}
-
-				windowInfo.Caption = "<a href=\"{2}\"><font face=\"Verdana\" size=\"+1\"><b>{0} ({1})</b></font></a><br/>&nbsp;"
+				
+				windowInfo.Caption = "<a href=\"{2}\"><font face=\"Tahoma\" size=\"+1\"><b>{0} ({1})</b></font></a>"
 					.FormatWith(node.Text, unreadCount, link);
-				windowInfo.Text = String.Format("<a href=\"{2}\"><font face=\"Verdana\">{0}<br/><span style=\"font-style:italic_x003B_\">{1}</span></font></a>", 
+				windowInfo.Text = String.Format("<a href=\"{2}\"><font face=\"Tahoma\">{0}<br/><span style=\"font-style:italic_x003B_\">{1}</span></font></a>", 
 					SR.GUIStatusFeedJustReceivedItemsMessage.FormatWith( unreadCount - dispItemCount),
-					StringHelper.ShortenByEllipsis(firstItem.Title, 35), link);
-				windowInfo.FooterText = "<font face=\"Verdana\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
+					StringHelper.ShortenByEllipsis(firstItem.Title, maxItemTextWith), link);
+				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
 					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
 				
 				_alertWindow.Show(windowInfo);
@@ -152,9 +162,6 @@ namespace RssBandit.WinGui
 			if (feed == null || dispItemCount < 0 || items == null || items.Count == 0)
 				return;
 
-			if (_disposing)
-				return;
-
 			int unreadCount = items.Count;
 
 			var firstItem = items[0];
@@ -163,109 +170,79 @@ namespace RssBandit.WinGui
 			{
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
 				windowInfo.Image = Properties.Resources.download_enclosure_32;
-				windowInfo.Data = firstItem;	// this should be in the event's Context property, but is not (bugbug in IG component)
+				windowInfo.Data = firstItem;	
+
+				_alertWindow.TreatCaptionAsLink = DefaultableBoolean.False;
+				_alertWindow.TreatTextAsLink = DefaultableBoolean.False;
+				_alertWindow.TreatFooterTextAsLink = DefaultableBoolean.False;
+				
 				var link = windowInfo.Key = "#D{0}".FormatWith(_keyGen.Next());
 
-				lock (_contextCacheSyncRoot)
-				{
-					if (!_contextCache.ContainsKey(link))
-						_contextCache.Add(link, firstItem);
-				}
-
-				windowInfo.Caption = "<a href=\"{1}\"><font face=\"Verdana\" size=\"+1\"><b>{0}</b></font></a><br/>&nbsp;"
+				windowInfo.Caption = "<a href=\"{1}\"><font face=\"Tahoma\" size=\"+1\"><b>{0}</b></font></a><br/>&nbsp;"
 					.FormatWith(feed.title, link);
-				windowInfo.Text = String.Format("<a href=\"{2}\" title=\"{3}\"><font face=\"Verdana\">{0}<br/>{1}</font></a>",
+				windowInfo.Text = String.Format("<a href=\"{2}\" title=\"{3}\"><font face=\"Tahoma\">{0}<br/>{1}</font></a>",
 					SR.GUIStatusEnclosureJustReceivedItemsMessage,
-					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, 35), link, 
+					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, maxItemTextWith), link, 
 					String.IsNullOrEmpty(firstItem.Enclosure.Description) ? firstItem.File.LocalName : firstItem.Enclosure.Description);
-				windowInfo.FooterText = "<font face=\"Verdana\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
+				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
 					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
 
 				_alertWindow.Show(windowInfo);
 			}
         }
 
+		
+		#endregion
+		
+		#region private members
+
 		private void OnDesktopAlertLinkClicked(object sender, DesktopAlertLinkClickedEventArgs e)
 		{
 			e.LinkClickedArgs.OpenLink = false;
-			object cacheItem;
 
-			// workaround. IG should contain the item in e.LinkClickedArgs.Context, but it does not :-(
-			if (_contextCache.TryGetValue(e.LinkClickedArgs.LinkRef, out cacheItem))
+			var key = e.LinkClickedArgs.LinkRef;
+			object alertItem = _alertWindow.GetWindowInfo(key).Data;
+
+			var newsItem = alertItem as INewsItem;
+			var dwldItem = alertItem as DownloadItem;
+
+			switch (e.LinkType)
 			{
-				var newsItem = cacheItem as INewsItem;
-				var dwldItem = cacheItem as DownloadItem;
+				case DesktopAlertLinkType.Footer:
+					// navigate to feed options dialog
+					if (_displayFeedPropertiesCallback != null && (newsItem != null || dwldItem != null))
+					{
+						try { _displayFeedPropertiesCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
+						catch { }
+					}
+					break;
 
-				switch (e.LinkType)
-				{
-					case DesktopAlertLinkType.Footer:
-						// navigate to feed options dialog
-						if (_displayFeedPropertiesCallback != null && (newsItem != null || dwldItem != null))
-						{
-							try { _displayFeedPropertiesCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
-							catch { }
-						}
-						break;
+				case DesktopAlertLinkType.Caption:
+					// navigate to feed
+					if (_feedActivateCallback != null && (newsItem != null || dwldItem != null))
+					{
+						try { _feedActivateCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
+						catch { }
+					}
+					break;
 
-					case DesktopAlertLinkType.Caption:
-						// navigate to feed
-						if (_feedActivateCallback != null && (newsItem != null || dwldItem != null))
-						{
-							try { _feedActivateCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
-							catch { }
-						}
-						break;
-						
-					case DesktopAlertLinkType.Text:
-						// navigate to feed item
-						if (_itemActivateCallback != null && newsItem != null)
-						{
-							try { _itemActivateCallback(newsItem); }
-							catch { }
-						}
-						else if (_enclosureActivateCallback != null && dwldItem != null)
-						{
-							try { _enclosureActivateCallback(dwldItem); }
-							catch { }
-						}
-						break;
-				}
+				case DesktopAlertLinkType.Text:
+					// navigate to feed item
+					if (_itemActivateCallback != null && newsItem != null)
+					{
+						try { _itemActivateCallback(newsItem); }
+						catch { }
+					}
+					else if (_enclosureActivateCallback != null && dwldItem != null)
+					{
+						try { _enclosureActivateCallback(dwldItem); }
+						catch { }
+					}
+					break;
 			}
-		}
 
-		private void OnDesktopAlertClosed(object sender, DesktopAlertClosedEventArgs e)
-		{
-			if (e.WindowInfo.Key != null)
-			{
-				lock (_contextCacheSyncRoot)
-				{
-					// workaround. IG should contain the item in e.LinkClickedArgs.Context, but it does not :-(
-					_contextCache.Remove(e.WindowInfo.Key);
-				}
-			}
 		}
-
-		
 		
 		#endregion
-
-		#region private members
-
-		
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose() {
-			_disposing = true;
-			//lock (_toastWindows) {
-			//    foreach(ToastNotify f in _toastWindows) {                    
-			//        f.RequestClose();
-			//    }
-			//}
-		}
-
-		#endregion
-
 	}
 }
