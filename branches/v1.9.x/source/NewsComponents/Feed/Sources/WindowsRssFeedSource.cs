@@ -1890,11 +1890,11 @@ namespace NewsComponents.Feed
         }
 
 
-        private List<string> outgoingRelationships = new List<string>(); 
+		private List<TitledLink> outgoingRelationships = new List<TitledLink>(); 
         /// <summary>
         /// Returns a collection of strings representing URIs to outgoing links in a feed. 
         /// </summary>
-        public List<string> OutGoingLinks
+        public List<TitledLink> OutGoingLinks
         {
             get
             {
@@ -2064,9 +2064,9 @@ namespace NewsComponents.Feed
             }
 
             // <link /> 
-            if (!string.IsNullOrEmpty(HRef))
+            if (!string.IsNullOrEmpty(Link))
             {
-                writer.WriteElementString("link", HRef);
+                writer.WriteElementString("link", Link);
             }
 
             // <pubDate /> 			we write it with InvariantInfo to get them stored in a non-localized format
@@ -2086,7 +2086,7 @@ namespace NewsComponents.Feed
             }
 
             //<guid>
-            if (!string.IsNullOrEmpty(Id) && (Id.Equals(HRef) == false))
+            if (!string.IsNullOrEmpty(Id) && (Id.Equals(Link) == false))
             {
                 writer.WriteStartElement("guid");
                 writer.WriteAttributeString("isPermaLink", "false");
@@ -2196,12 +2196,21 @@ namespace NewsComponents.Feed
             }
 
             //<rssbandit:outgoing-links />            
-            writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
-            foreach (string outgoingLink in OutGoingLinks)
-            {
-                writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
-            }
-            writer.WriteEndElement();
+			if (OutGoingLinks.Count > 0)
+			{
+				var localPrefix = writer.LookupPrefix(NamespaceCore.Feeds_v2004);
+
+				writer.WriteStartElement(localPrefix, "outgoing-links", NamespaceCore.Feeds_v2004);
+				foreach (var outgoingLink in OutGoingLinks)
+				{
+					writer.WriteStartElement(localPrefix, "link", NamespaceCore.Feeds_v2004);
+					if (!String.IsNullOrEmpty(outgoingLink.Title))
+						writer.WriteAttributeString("title", outgoingLink.Title);
+					writer.WriteString(outgoingLink.Url);
+					writer.WriteEndElement();
+				}
+				writer.WriteEndElement();
+			}
 
             /* everything else */
             foreach (string s in OptionalElements.Values)
@@ -2221,7 +2230,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Return a web reference, a resource ID, mail/message ID, NNTP post ID.
         /// </summary>
-        public string HRef
+		string IRelation.HRef
         {
             get { return this.Link; }
         }
@@ -2230,11 +2239,11 @@ namespace NewsComponents.Feed
         /// Return a list of outgoing Relation objects, e.g. 
         /// links the current relation resource points to.
         /// </summary>
-        public IList<string> OutgoingRelations
+		IList<string> IRelation.OutgoingRelations
         {
             get
             {
-                return outgoingRelationships;
+				return outgoingRelationships.ConvertAll(link => link.Url);
             }
         }
 

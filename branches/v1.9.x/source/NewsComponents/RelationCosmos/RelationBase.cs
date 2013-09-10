@@ -23,7 +23,7 @@ namespace NewsComponents.RelationCosmos
 		/// <summary>
 		/// Gets an empty list
 		/// </summary>
-        protected static List<string> EmptyList = new List<string>(0);
+		protected static List<TitledLink> EmptyList = new List<TitledLink>(0);
 
         /// <summary>
         /// Internal initializer.
@@ -69,15 +69,15 @@ namespace NewsComponents.RelationCosmos
         /// Return a list of outgoing Relation objects, e.g. 
         /// links the current relation resource points to.
         /// </summary>
-        public IList<string> OutgoingRelations
+        IList<string> IRelation.OutgoingRelations
         {
-            get { return outgoingRelationships; }
+            get { return outgoingRelationships.ConvertAll(link => link.Url); }
         }
 
         /// <summary>
         /// Stores the outgoing relation(s).
         /// </summary>
-        protected internal List<string> outgoingRelationships;
+		protected internal List<TitledLink> outgoingRelationships;
 
         /// <summary>
         /// The DateTime the item was published/updated. It should be specified as UTC.

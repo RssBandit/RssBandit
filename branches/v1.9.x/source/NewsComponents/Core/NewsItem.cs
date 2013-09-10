@@ -470,7 +470,7 @@ namespace NewsComponents
         public NewsItem(INewsFeed feed, string title, string link, string content, DateTime date, string subject,
                         ContentType ctype, Dictionary<XmlQualifiedName, string> otherElements, string id,
                         string parentId, string baseUrl,
-                        List<string> outgoingLinks)
+                        List<TitledLink> outgoingLinks)
         {
             OptionalElements = otherElements;
 
@@ -520,13 +520,13 @@ namespace NewsComponents
             this.subject = subject;
 
             if (outgoingLinks != null)
-                OutGoingLinks = outgoingLinks;
+				outgoingRelationships = outgoingLinks;
 
             if (FeedSource.buildRelationCosmos)
             {
                 if (outgoingLinks == null)
                 {
-                    ProcessOutGoingLinks(content);
+					outgoingRelationships = ProcessOutGoingLinks(content);
                 }
 
                 bool idEqHref = ReferenceEquals(HRef, p_id);
@@ -541,12 +541,12 @@ namespace NewsComponents
                     // dealing with the relationcosmos string comparer (references only!):
                     string p_parentIdUrl = RelationCosmos.RelationCosmos.UrlTable.Add(p_parentId);
 
-                    if (ReferenceEquals(outgoingRelationships, GetList<string>.Empty))
+                    if (ReferenceEquals(outgoingRelationships, GetList<TitledLink>.Empty))
                     {
-                        outgoingRelationships = new List<string>(1);
+                        outgoingRelationships = new List<TitledLink>(1);
                     }
 
-                    outgoingRelationships.Add(p_parentIdUrl);
+                    outgoingRelationships.Add(new TitledLink(p_parentIdUrl, p_feed.title));
                 }
             }
         }
@@ -741,7 +741,7 @@ namespace NewsComponents
         /// <summary>
         /// Returns a collection of strings representing URIs to outgoing links in a feed. 
         /// </summary>
-        public List<string> OutGoingLinks
+        public List<TitledLink> OutGoingLinks
         {
             get { return outgoingRelationships; }
             internal set { outgoingRelationships = value; }
@@ -948,15 +948,24 @@ namespace NewsComponents
                 }
             }
 
-            //<rssbandit:outgoing-links />            
-            writer.WriteStartElement("outgoing-links", NamespaceCore.Feeds_v2003);
-            foreach (var outgoingLink in OutGoingLinks)
-            {
-                writer.WriteElementString("link", NamespaceCore.Feeds_v2003, outgoingLink);
-            }
-            writer.WriteEndElement();
+            //<rssbandit:outgoing-links />  
+	        if (OutGoingLinks.Count > 0)
+	        {
+		        var localPrefix = writer.LookupPrefix(NamespaceCore.Feeds_v2004);
+				
+				writer.WriteStartElement(localPrefix, "outgoing-links", NamespaceCore.Feeds_v2004);
+		        foreach (var outgoingLink in OutGoingLinks)
+		        {
+					writer.WriteStartElement(localPrefix, "link", NamespaceCore.Feeds_v2004);
+			        if (!String.IsNullOrEmpty(outgoingLink.Title))
+						writer.WriteAttributeString("title", outgoingLink.Title);
+			        writer.WriteString(outgoingLink.Url);
+			        writer.WriteEndElement();
+		        }
+		        writer.WriteEndElement();
+	        }
 
-            /* everything else */
+	        /* everything else */
             foreach (var s in OptionalElements.Values)
             {
                 writer.WriteRaw(s);
@@ -1152,20 +1161,17 @@ namespace NewsComponents
         /// Processes the <paramref name="content"/> for outgoing links and populate 
         /// the outgoing links property. 
         /// </summary>
-        private void ProcessOutGoingLinks(string content)
+		private List<TitledLink> ProcessOutGoingLinks(string content)
         {
-            if (FeedSource.BuildRelationCosmos)
+	        if (FeedSource.BuildRelationCosmos)
             {
-                outgoingRelationships = HtmlHelper.RetrieveLinks(content);
+				return HtmlHelper.RetrieveTitledLinks(content);
             }
-            else
-            {
-                outgoingRelationships = new List<string>();
-            }
+	        return new List<TitledLink>();
         }
 
 
-        /// <summary>
+	    /// <summary>
         /// Gets the first n number of words from the provided string. 
         /// </summary>
         /// <param name="text">The target string</param>

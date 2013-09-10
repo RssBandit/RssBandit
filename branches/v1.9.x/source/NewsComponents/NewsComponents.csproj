@@ -151,10 +151,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
     </Reference>
-    <Reference Include="SgmlReaderDll, Version=1.7.2889.11114, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\SgmlReaderDll.dll</HintPath>
-    </Reference>
     <Reference Include="Snowball.Net">
       <Name>Snowball.Net</Name>
       <HintPath>..\Common\Libraries\Snowball.Net.dll</HintPath>
@@ -398,6 +394,7 @@
     <Compile Include="Utils\DateTimeExt.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\FastSgmlXPathReader.cs" />
     <Compile Include="Utils\FileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -420,9 +417,8 @@
     <Compile Include="Utils\SerializationInfoReader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utils\SimpleHyperLink.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Utils\SgmlParser.cs" />
+    <Compile Include="Utils\SgmlReader.cs" />
     <Compile Include="Utils\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
