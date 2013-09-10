@@ -94,8 +94,8 @@ namespace NewsComponents.Search
 				doc.Add(Field.UnIndexed(LuceneSearch.IndexDocument.ItemSummary, StringHelper.GetFirstWords(content.ToString(), 50)));
 
 				// append the previous stripped outgoing links to get indexed/tokenized:
-				foreach (string link in item.OutGoingLinks)
-					content.AppendFormat(" {0}", link);	
+				foreach (var link in item.OutGoingLinks)
+					content.AppendFormat(" {0}", link.Url);	
 
 				// simple text content:
 				doc.Add(Field.Text(LuceneSearch.IndexDocument.ItemContent, content.ToString()));

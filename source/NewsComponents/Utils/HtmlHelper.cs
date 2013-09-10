@@ -13,10 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using FastXPathReader;
 using log4net;
 using NewsComponents.Collections;
 using NewsComponents.Net;
@@ -55,42 +57,39 @@ namespace NewsComponents.Utils
     }
 
 
-    /// <summary>
-    /// Helper class to work on HTML content.
-    /// </summary>
-    public sealed class HtmlHelper
-    {
-        private static readonly Regex RegExFindHrefOrSrc =
-            new Regex(
-                @"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)",
-                RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+	/// <summary>
+	/// Helper class to work on HTML content.
+	/// </summary>
+	public sealed class HtmlHelper
+	{
+		private static readonly Regex RegExFindHrefOrSrc =
+			new Regex(
+				@"(?:<[iI][mM][gG]\s+([^>]*\s*)?src\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)|(?:<[aA]\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>)",
+				RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        //private static Regex RegExFindHref = new Regex(@"<a\s+([^>]*\s*)?href\s*=\s*(?:""(?<1>[/\a-z0-9_][^""]*)""|'(?<1>[/\a-z0-9_][^']*)'|(?<1>[/\a-z0-9_]\S*))(\s[^>]*)?>(?<2>.*?)</a>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        //private static Regex RegExBadTags =
-        //    new Regex(@"<(?:script|object|meta|embed|frameset|i?frame|link)[\s>]",
-        //              RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex RegExFindHref =
+			new Regex(@"<a[\s]+[^>]*?href[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>",
+				RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegExFindHref =
-            new Regex(@"<a[\s]+[^>]*?href[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)?<\/a>",
-                      RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex RegExFindSrc =
+			new Regex(@"<[iI][mM][gG][\s]+[^>]*?src[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)",
+				RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegExFindSrc =
-           new Regex(@"<[iI][mM][gG][\s]+[^>]*?src[\s]?=[\s""']+(.*?)[""']+.*?>([^<]+|.*?)",
-                     RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled);
+		// according to http://www.w3.org/TR/REC-html40/charset.html#entities
+		// Note: In SGML, it is possible to eliminate the final ";" after a character reference in some cases 
+		// (e.g., at a line break or immediately before a tag). In other circumstances it may not be eliminated 
+		// (e.g., in the middle of a word) - so we make use of the zero or one quantifier for ";":  
+		private static readonly Regex RegExAnyEntity =
+			new Regex("(?:&#[0-9]+;?|&#x[a-f0-9]+;?|&[a-z0-9]+;?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegExAnyTags = new Regex("</?[^<>]+>", RegexOptions.Compiled);
-        // according to http://www.w3.org/TR/REC-html40/charset.html#entities
-        // Note: In SGML, it is possible to eliminate the final ";" after a character reference in some cases 
-        // (e.g., at a line break or immediately before a tag). In other circumstances it may not be eliminated 
-        // (e.g., in the middle of a word) - so we make use of the zero or one quantifier for ";":  
-        private static readonly Regex RegExAnyEntity =
-            new Regex("(?:&#[0-9]+;?|&#x[a-f0-9]+;?|&[a-z0-9]+;?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex RegExFindTitle =
+			new Regex(@"<head\s*>.*<title\s*>(?<title>[^<]+)</title>.*</head>",
+				RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegExFindTitle =
-            new Regex(@"<head\s*>.*<title\s*>(?<title>[^<]+)</title>.*</head>",
-                      RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly List<string> WebImageExtensions = new List<string> {".png",".gif",".jpg",".jpeg",".ico"};
 
-        private static readonly Dictionary<string, string> _htmlEntities;
+	private static readonly Dictionary<string, string> _htmlEntities;
         // logging/tracing:
         private static readonly ILog _log = Log.GetLogger(typeof (HtmlHelper));
 
@@ -267,7 +266,62 @@ namespace NewsComponents.Utils
 
             return list;
         }
+		public static List<TitledLink> RetrieveTitledLinks(string html)
+		{
+			if (string.IsNullOrEmpty(html))
+				return GetList<TitledLink>.Empty;
 
+			List<TitledLink> list = new List<TitledLink>();
+
+			if (true)
+			{
+				using (FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader())
+				{
+					using (var inputStreamReader = new StringReader(html))
+					{
+						try
+						{
+							sgmlReader.InputStream = inputStreamReader;
+							sgmlReader.DocType = "HTML";
+							sgmlReader.CaseFolding = CaseFolding.ToLower;
+
+							while (sgmlReader.Read())
+							{
+								if (sgmlReader.NodeType == XmlNodeType.Element)
+								{
+									if (sgmlReader.Name == "a")
+									{
+										var href = sgmlReader.GetAttribute("href");
+										var linkTitle = sgmlReader.GetAttribute("title");
+										var linkText = sgmlReader.ReadInnerXml();
+										//var linkText = StripAnyTags(sgmlReader.ReadString());
+										
+										if (!String.IsNullOrEmpty(href))
+										{
+											href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
+											TitledLink link = new TitledLink(href, String.IsNullOrEmpty(linkTitle) ? linkText : linkTitle);
+
+											if (TitledLink.Empty == list.FirstOrDefault(newLink => link.Url.EqualsOrdinal(newLink.Url)))
+												list.Add(link);
+										}
+
+									}
+								}
+							} //while
+						}
+						catch (Exception e)
+						{
+							_log.Debug("Error retrieving title from HTML page", e);
+						}
+					}
+				}
+			}
+			
+			if (list.Count == 0)
+				list = GetList<TitledLink>.Empty;
+
+			return list;
+		}
 
         /// <summary>
         /// Expands relative links in the HTML input.
@@ -462,6 +516,19 @@ namespace NewsComponents.Utils
             return RegExAnyTags.Replace(html, String.Empty);
         }
 
+		/// <summary>
+		/// Determines whether the URL is an image link (e.g. ends with ".png" etc.)
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+	    public static bool IsImageLink(string url)
+	    {
+		    if (url == null)
+			    return false;
+
+		    return WebImageExtensions.Any(ext => url.EndsWith(ext));
+	    }
+
         /// <summary>
         /// Gets the title out of the HTML head section.
         /// </summary>
@@ -544,6 +611,70 @@ namespace NewsComponents.Utils
 
             return title;
         }
+
+		public static string FindTitle2(string url, string defaultIfNoMatch, IWebProxy proxy, ICredentials credentials)
+		{
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+			request.AllowAutoRedirect = true;
+			request.Proxy = proxy;
+			request.Credentials = credentials;
+			request.Timeout = 5 * 1000 /* 5 second timeout */;
+
+			if (FeedSource.SetCookies)
+			{
+				HttpCookieManager.SetCookies(request);
+			}
+
+			/* use bogus user agent since some sites will bounce you to unsupported browser page otherwise */
+			request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)";
+
+			string title = defaultIfNoMatch;
+
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+			{
+				using (FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader())
+				{
+					using (StreamReader inputStreamReader = new StreamReader(response.GetResponseStream()))
+					{
+						try
+						{
+							sgmlReader.InputStream = inputStreamReader;
+							sgmlReader.DocType = "HTML";
+							sgmlReader.CaseFolding = CaseFolding.ToLower;
+							bool done = false;
+
+							while (!done && sgmlReader.Read())
+							{
+								if (sgmlReader.NodeType == XmlNodeType.Element)
+								{
+									switch (sgmlReader.XPath)
+									{
+										case "//html/title":
+											title = sgmlReader.ReadElementContentAsString(); // .ReadInnerXml();
+											done = true;
+											break;
+										case "//html/head/title":
+											title = sgmlReader.ReadElementContentAsString();// .ReadInnerXml();
+											done = true;
+											break;
+										case "//html/body":
+											done = true;
+											break;
+									}
+								}
+							} //while
+						}
+						catch (Exception e)
+						{
+							_log.Debug("Error retrieving title from HTML page at " + url, e);
+						}
+					}
+				}
+			}
+
+			return title;
+		}
+
 
         /// <summary>
         /// Replace any bad tag of the form &lt;object> by &lt;bject> to make

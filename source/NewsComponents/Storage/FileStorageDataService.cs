@@ -47,8 +47,7 @@ namespace NewsComponents.Storage {
 		public override void Initialize(string initData)
 		{
 			initData.ExceptionIfNullOrEmpty("initData");
-			
-			base.Initialize(Path.Combine(initData, "Cache"));
+			base.Initialize(initData);
 			
 			if(!Directory.Exists(CacheLocation))
 				Directory.CreateDirectory(CacheLocation); 

@@ -162,8 +162,9 @@ namespace NewsComponents.Feed
         private const int nt_can_comment = 64;
         private const int nt_ns_fb = 65;
         private const int nt_error_response = 66;
+		private const int nt_ns_bandit_2004 = 67;
 
-        private const int NT_SIZE = 1 + nt_error_response; // last used + 1
+		private const int NT_SIZE = 1 + nt_ns_bandit_2004; // last used + 1
 
         #endregion
 
@@ -240,7 +241,7 @@ namespace NewsComponents.Feed
             {
                 reader.Read();
             }
-            return MakeRssItem(f, reader, atomized_strings, DateTime.Now.ToUniversalTime());
+            return MakeRssItem(f, reader, atomized_strings, DateTime.UtcNow);
         }
 
 
@@ -278,7 +279,7 @@ namespace NewsComponents.Feed
             bool watchComments = false, hasNewComments = false;
             ArrayList subjects = new ArrayList();
             List<IEnclosure> enclosures = null;
-            List<string> outgoingLinks = null;
+            List<TitledLink> outgoingLinks = null;
             bool beenRead = false;
             string itemNamespaceUri = reader.NamespaceURI; //the namespace URI of the RSS item
 
@@ -562,22 +563,38 @@ namespace NewsComponents.Feed
                     continue;
                 }
 
-                if ((localname == atomized_strings[nt_outgoinglinks])
-                    && (namespaceuri == atomized_strings[nt_ns_bandit_2003]))
+                if (localname == atomized_strings[nt_outgoinglinks])
                 {
-                    outgoingLinks = (outgoingLinks ?? new List<string>());
+                    outgoingLinks = (outgoingLinks ?? new List<TitledLink>());
 
-                    if (!reader.IsEmptyElement)
-                    {
-                        reader.Read(); //move to first link
-                        do
-                        {
-                            string hrefOut =
-                                RelationCosmos.RelationCosmos.UrlTable.Add(reader.ReadElementContentAsString());
-                            outgoingLinks.Add(hrefOut);
-                        } while (reader.NodeType != XmlNodeType.EndElement);
-                    } //if
-                    continue;
+					if (!reader.IsEmptyElement)
+					{
+						if (namespaceuri == atomized_strings[nt_ns_bandit_2003])
+						{
+							reader.Read(); //move to first link
+							do
+							{
+								string hrefOut = RelationCosmos.RelationCosmos.UrlTable.Add(reader.ReadElementContentAsString());
+								outgoingLinks.Add(new TitledLink(hrefOut));
+
+							} while (reader.NodeType != XmlNodeType.EndElement);
+						}
+						else if (namespaceuri == atomized_strings[nt_ns_bandit_2004])
+						{
+							reader.Read(); //move to first link
+							do
+							{
+								string hrefOut = RelationCosmos.RelationCosmos.UrlTable.Add(reader.ReadElementContentAsString());
+								string hrefTitle = null;
+								if (reader.HasAttributes)
+									hrefTitle = reader.GetAttribute("title", NamespaceCore.Feeds_v2004);
+								outgoingLinks.Add(new TitledLink(hrefOut, hrefTitle));
+
+							} while (reader.NodeType != XmlNodeType.EndElement);
+						}
+					} //if
+	                
+	                continue;
                 }
 
 
@@ -965,15 +982,11 @@ namespace NewsComponents.Feed
                 {
                     string url = ResolveRelativeUrl(reader, reader["href"]);
                     string type = reader["type"];
-                    long length = Int64.MinValue;
-
-                    try
-                    {
-                        length = Int64.Parse(reader["length"]);
-                    }
-                    catch
-                    {
-                    }
+                    
+					long length = Int64.MinValue;
+					var len = reader.GetAttribute("length");
+	                if (!String.IsNullOrEmpty(len))
+		                Int64.TryParse(len, out length);
 
                     if (!string.IsNullOrEmpty(url))
                     {
@@ -1830,8 +1843,8 @@ namespace NewsComponents.Feed
             atomized_names[nt_ns_xhtml] = nt.Add("http://www.w3.org/1999/xhtml");
             atomized_names[nt_ns_content] = nt.Add("http://purl.org/rss/1.0/modules/content/");
             atomized_names[nt_ns_annotate] = nt.Add("http://purl.org/rss/1.0/modules/annotate/");
-            //TODO: check: don't we need also the v2004/vCurrent namespace in this list?
             atomized_names[nt_ns_bandit_2003] = nt.Add(NamespaceCore.Feeds_v2003);
+            atomized_names[nt_ns_bandit_2004] = nt.Add(NamespaceCore.Feeds_v2004);
             atomized_names[nt_ns_slash] = nt.Add("http://purl.org/rss/1.0/modules/slash/");
             atomized_names[nt_ns_wfw] = nt.Add("http://wellformedweb.org/CommentAPI/");
             atomized_names[nt_ns_fd] = nt.Add("http://www.bradsoft.com/feeddemon/xmlns/1.0/");

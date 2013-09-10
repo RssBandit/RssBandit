@@ -1361,13 +1361,24 @@ namespace NewsComponents
 		}
 
         /// <summary>
-        /// Indicates whether the download interval has been reached. We should not start downloading feeds or favicons
+        /// Indicates whether the download interval has been reached. We should not start downloading feeds
         /// until this property is true. 
         /// </summary>
         public bool DownloadIntervalReached
         {
             get { return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= RefreshRate; }
         }
+
+		/// <summary>
+		/// Gets a value indicating whether the download interval for favicons has been reached.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if [download interval favicons reached]; otherwise, <c>false</c>.
+		/// </value>
+		public bool DownloadIntervalFaviconsReached
+		{
+			get { return (DateTime.Now - ApplicationStartTime).TotalMinutes >= 5; }
+		}
 
         /// <summary>
         /// Provide access to the RssParser for Rss specific tasks
@@ -2492,9 +2503,9 @@ namespace NewsComponents
                      */
 
                     //add vote to each URL linked from the item
-                    foreach (var url in item.OutGoingLinks)
+                    foreach (var link in item.OutGoingLinks)
                     {
-                        var href = new RelationHRefEntry(url, null, 0.0f);
+                        var href = new RelationHRefEntry(link.Url, link.Title, 0.0f);
                         if (!allLinks.ContainsKey(href))
                         {
                             allLinks[href] = new List<RankedNewsItem>();
@@ -2550,46 +2561,75 @@ namespace NewsComponents
             {
                 foreach (var rhf in weightedLinks)
                 {
-                    if (TopStoryTitles.ContainsKey(rhf.HRef))
-                    {
-                        rhf.Text = TopStoryTitles[rhf.HRef].storyTitle;
-                        Interlocked.Decrement(ref numTitlesToDownload);
-                    }
-                    else
-                    {
-                        RelationHRefEntry weightedLink = rhf;
+	                if (TopStoryTitles.ContainsKey(rhf.HRef))
+	                {
+		                rhf.Text = TopStoryTitles[rhf.HRef].storyTitle;
+		                Interlocked.Decrement(ref numTitlesToDownload);
+	                }
+	                else
+					{
+						RelationHRefEntry weightedLink = rhf;
 
-                        PriorityThreadPool.QueueUserWorkItem(
-                            delegate
-                                {
-                                    try
-                                    {
-                                        /* NOTE: Default link text is URL */
-                                        string title =
-                                            HtmlHelper.FindTitle(weightedLink.HRef, weightedLink.HRef, Proxy,
-                                                                 CredentialCache.DefaultCredentials);
-                                        weightedLink.Text = title;
-                                        if (!title.Equals(weightedLink.HRef) &&
-                                            !TopStoryTitles.ContainsKey(weightedLink.HRef))
-                                        {
-                                            TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
-                                            topStoriesModified = true;
-                                        }
-                                    }
-                                    finally
-                                    {
-                                        Interlocked.Decrement(ref numTitlesToDownload);
-                                        if (numTitlesToDownload <= 0)
-                                        {
-                                            if (eventX != null)
-                                                eventX.Set();
-                                        }
-                                    }
-                                },
-                            weightedLink,
-                            (int) ThreadPriority.Normal);
-                    }
-                }
+						if (!String.IsNullOrEmpty(weightedLink.Text))
+						{
+							TopStoryTitles.Add(weightedLink.HRef, new storyNdate(weightedLink.Text, DateTime.Now));
+							Interlocked.Decrement(ref numTitlesToDownload);
+							topStoriesModified = true;
+							continue;
+						}
+
+						if (HtmlHelper.IsImageLink(weightedLink.HRef))
+						{
+							var lastSlash = weightedLink.HRef.LastIndexOf("/");
+							if (lastSlash >= 0)
+							{
+								var fileName = weightedLink.HRef.Substring(lastSlash);
+								var title = Path.GetFileNameWithoutExtension(fileName);
+
+								if (!String.IsNullOrEmpty(title) &&
+									!TopStoryTitles.ContainsKey(weightedLink.HRef))
+								{
+									TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
+									topStoriesModified = true;
+								}
+							}
+
+							Interlocked.Decrement(ref numTitlesToDownload);
+							continue;
+						}
+
+						PriorityThreadPool.QueueUserWorkItem(
+								delegate
+								{
+									try
+									{
+										/* NOTE: Default link text is URL */
+										string title =
+											HtmlHelper.FindTitle2(weightedLink.HRef, weightedLink.HRef, Proxy,
+												CredentialCache.DefaultCredentials);
+										weightedLink.Text = title;
+										if (!title.Equals(weightedLink.HRef) &&
+											!TopStoryTitles.ContainsKey(weightedLink.HRef))
+										{
+											TopStoryTitles.Add(weightedLink.HRef, new storyNdate(title, DateTime.Now));
+											topStoriesModified = true;
+										}
+									}
+									finally
+									{
+										Interlocked.Decrement(ref numTitlesToDownload);
+										if (numTitlesToDownload <= 0)
+										{
+											if (eventX != null)
+												eventX.Set();
+										}
+									}
+								},
+								weightedLink,
+								(int)ThreadPriority.Normal);
+
+					} // end else if (TopStoryTitles.ContainsKey(rhf.HRef))
+				}
 
                 if (numTitlesToDownload > 0)
                 {
@@ -5417,7 +5457,7 @@ namespace NewsComponents
 		/// <returns></returns>
         public bool RefreshFavicons()
         {
-            if ((FeedsListOK == false) || isOffline || !DownloadIntervalReached)
+			if ((FeedsListOK == false) || isOffline || !DownloadIntervalFaviconsReached)
             {
                 //we don't have a feed list
                 return false;
