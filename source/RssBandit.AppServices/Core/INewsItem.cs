@@ -8,7 +8,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
@@ -190,9 +189,9 @@ namespace NewsComponents
 		Dictionary<XmlQualifiedName, string> OptionalElements { get; set; }
 
         /// <summary>
-        /// Returns a collection of strings representing URIs to outgoing links in a feed. 
+        /// Returns a collection of links representing URIs (and an optional title) to outgoing links in a feed. 
         /// </summary>
-        List<string> OutGoingLinks { get; }
+        List<TitledLink> OutGoingLinks { get; }
 
         /// <summary>
         /// Returns the feed object to which this item belongs

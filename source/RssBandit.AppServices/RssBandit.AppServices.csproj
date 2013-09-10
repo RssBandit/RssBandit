@@ -192,6 +192,7 @@
     <Compile Include="Core\RssBanditEnums.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\TitledLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\CommandBarInterfaces.cs">
       <SubType>Code</SubType>
