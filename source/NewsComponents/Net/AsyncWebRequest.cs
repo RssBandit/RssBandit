@@ -786,9 +786,15 @@ namespace NewsComponents.Net
                         }
                         catch { }
 
-                        throw new WebException(String.IsNullOrEmpty(htmlStatusMessage)
-                            ? String.Format("Unexpected HTTP Response: {0} ({1})", statusDescription, httpResponse.StatusCode)
-                            : htmlStatusMessage);
+                        if (String.IsNullOrEmpty(htmlStatusMessage))
+							throw new WebException("Unexpected HTTP Response: " + statusDescription);
+	                    
+						if (htmlStatusMessage.Contains("<"))
+		                    throw new WebException(htmlStatusMessage);
+
+	                    throw new WebException(
+							"<html><head><title>Unexpected HTTP Response</title></head><body><h2>Unexpected HTTP Response: " + 
+							statusDescription + "</h2><p>" + htmlStatusMessage + "</p></html>");
                     }
                 }
                 else if (fileResponse != null)
