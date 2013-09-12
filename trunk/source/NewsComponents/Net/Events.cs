@@ -210,51 +210,54 @@ namespace NewsComponents.Net
     #region EventArgs classes
 
     /// <summary>
-    /// Used to provide event information about the manifest.
+    /// Used to provide event information about the DownloadItem.
     /// </summary>
     public class DownloadItemEventArgs : EventArgs
     {
         /// <summary>
         /// The manifest reference.
         /// </summary>
-        private readonly DownloadItem manifestInEventsArgs;
+        private readonly DownloadItem _item;
 
-        /// <summary>
-        /// Constructor for a ManifestEventArgs.
-        /// </summary>
-        /// <param name="manifest">The <see cref="DownloadItem"/> reference.</param>
-        public DownloadItemEventArgs(DownloadItem manifest)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DownloadItemEventArgs"/> class.
+		/// </summary>
+		/// <param name="item">The <see cref="DownloadItem" /> reference.</param>
+        public DownloadItemEventArgs(DownloadItem item)
         {
-            manifestInEventsArgs = manifest;
+            _item = item;
         }
 
-        /// <summary>
-        /// Returns the manifest reference.
-        /// </summary>
+		/// <summary>
+		/// Gets the download item.
+		/// </summary>
+		/// <value>
+		/// The download item.
+		/// </value>
         public DownloadItem DownloadItem
         {
-            get { return manifestInEventsArgs; }
+            get { return _item; }
         }
     }
 
     /// <summary>
-    /// Used to provide information about manifest download errors.
+    /// Used to provide information about download errors.
     /// </summary>
     public class DownloadItemErrorEventArgs : DownloadItemEventArgs
     {
         /// <summary>
         /// The exception detected.
         /// </summary>
-        private readonly Exception exceptionContainedInManifestErrorEventArgs;
+        private readonly Exception _exception;
 
         /// <summary>
         /// Constructor for the ManifestErrorEventArgs.
         /// </summary>
-        /// <param name="manifest">The <see cref="DownloadItem"/> reference.</param>
+        /// <param name="item">The <see cref="DownloadItem"/> reference.</param>
         /// <param name="exception">The exception information.</param>
-        public DownloadItemErrorEventArgs(DownloadItem manifest, Exception exception) : base(manifest)
+        public DownloadItemErrorEventArgs(DownloadItem item, Exception exception) : base(item)
         {
-            exceptionContainedInManifestErrorEventArgs = exception;
+            _exception = exception;
         }
 
         /// <summary>
@@ -262,7 +265,7 @@ namespace NewsComponents.Net
         /// </summary>
         public Exception Exception
         {
-            get { return exceptionContainedInManifestErrorEventArgs; }
+            get { return _exception; }
         }
     }
 
@@ -274,7 +277,7 @@ namespace NewsComponents.Net
         /// <summary>
         /// The manifest instance.
         /// </summary>
-        private readonly DownloadItem downloadItem;
+        private readonly DownloadItem _downloadItem;
 
         /// <summary>
         /// Constructor for the DownloadProgressEventArgs.
@@ -288,7 +291,7 @@ namespace NewsComponents.Net
                                          DownloadItem item)
             : base(bytesTotal, bytesTransferred, filesTotal, filesTransferred)
         {
-            downloadItem = item;
+            _downloadItem = item;
         }
 
         /// <summary>
@@ -296,7 +299,7 @@ namespace NewsComponents.Net
         /// </summary>
         public DownloadItem DownloadItem
         {
-            get { return downloadItem; }
+            get { return _downloadItem; }
         }
     }
 

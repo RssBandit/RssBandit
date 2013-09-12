@@ -39,7 +39,7 @@ namespace NewsComponents.Net
         /// </summary>
         private static readonly DownloadRegistryManager instance = new DownloadRegistryManager();
 
-        private static readonly ILog Logger = DefaultLog.GetLogger(typeof (DownloadRegistryManager));
+		private static readonly ILog Logger = DefaultLog.GetLogger(typeof(DownloadRegistryManager));
 
         private SynchronizationContext _context;
 
@@ -349,15 +349,18 @@ namespace NewsComponents.Net
         {
             string filename = Path.Combine(RootDir.FullName,
                                            String.Format(CultureInfo.InvariantCulture, "{0}.task", task.TaskId));
-            try
-            {
-                using (Stream stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)
-                    )
-                {
-                    var formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, task);
-                }
-            }
+	        try
+	        {
+		        using (Stream stream = FileHelper.OpenForWrite(filename))
+		        {
+			        var formatter = new BinaryFormatter();
+			        formatter.Serialize(stream, task);
+		        }
+	        }
+	        catch (IOException ex)
+	        {
+				Logger.Error(ex);
+	        }
             catch (Exception ex)
             {
                 File.Delete(filename);
