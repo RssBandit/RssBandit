@@ -1429,9 +1429,9 @@ namespace NewsComponents.Feed
             if (offline)
                 return returnList;
 
-            ICredentials c = FeedSource.CreateCredentialsFrom(f);           
+            ICredentials c = FeedSource.CreateCredentialsFrom(f);
 
-            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, c, FeedSource.DefaultUserAgent, proxy))
+			using (var mem = SyncWebRequest.GetResponseStream(f.link, c, FeedSource.DefaultUserAgent, proxy))
             {
                 if (RssParser.CanProcessUrl(f.link))
                 {
@@ -1482,7 +1482,7 @@ namespace NewsComponents.Feed
 
             List<INewsItem> returnList;
 
-            using (Stream mem = AsyncWebRequest.GetSyncResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
+			using (var mem = SyncWebRequest.GetResponseStream(f.link, null, owner.UserAgent, owner.Proxy))
             {
                 returnList = GetItemsForFeed(f, mem, false).itemsList;
             }

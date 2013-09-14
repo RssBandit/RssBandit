@@ -172,7 +172,7 @@ namespace NewsComponents.Feed
 		/// <param name="enabled">Indicates whether automatic polling of feeds should be enabled or disabled</param>
          internal void ToggleFeedPolling(bool enabled)
          {
-             string[] keys = this.GetFeedsTableKeys();
+             var keys = this.GetFeedsTableKeys();
 
              foreach (string key in keys)
              {
@@ -959,11 +959,11 @@ namespace NewsComponents.Feed
         /// Downloads every feed that has either never been downloaded before or 
         /// whose elapsed time since last download indicates a fresh attempt should be made. 
         /// </summary>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// <param name="forceDownload">A flag that indicates whether download attempts should be made 
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(bool force_download)
+        public override void RefreshFeeds(bool forceDownload)
         {
             GetFeedsTableKeys();
             this.feedManager.AsyncSyncAll();            
@@ -975,16 +975,16 @@ namespace NewsComponents.Feed
         /// whose elapsed time since last download indicates a fresh attempt should be made. 
         /// </summary>
         /// <param name="category">Refresh all feeds, that are part of the category</param>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// <param name="forceDownload">A flag that indicates whether download attempts should be made 
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public override void RefreshFeeds(string category, bool force_download)
+        public override void RefreshFeeds(string category, bool forceDownload)
         {
             //RaiseOnUpdateFeedsStarted(force_download);
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
 
-            for (int i = 0, len = keys.Length; i < len; i++)
+            for (int i = 0, len = keys.Count; i < len; i++)
             {
                 if (!feedsTable.ContainsKey(keys[i])) // may have been redirected/removed meanwhile
                     continue;
@@ -1019,23 +1019,23 @@ namespace NewsComponents.Feed
         /// <summary>
         /// A subfolder was added.
         /// </summary>
-        /// <param name="Path">The path to the folder</param>
-        public void FolderAdded(string Path)
+        /// <param name="path">The path to the folder</param>
+        public void FolderAdded(string path)
         {
-            this.categories.Add(Path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(Path) as IFeedFolder));
+            this.categories.Add(path, new WindowsRssNewsFeedCategory(feedManager.GetFolder(path) as IFeedFolder));
             this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
-            RaiseOnAddedCategory(new CategoryEventArgs(Path));
+            RaiseOnAddedCategory(new CategoryEventArgs(path));
         }
 
         /// <summary>
         /// A subfolder was added.
         /// </summary>
-        /// <param name="Path">The path to the folder</param>
-        public void FolderDeleted(string Path)
+        /// <param name="path">The path to the folder</param>
+        public void FolderDeleted(string path)
         {
-            this.categories.Remove(Path);
+            this.categories.Remove(path);
             this.readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
-            RaiseOnDeletedCategory(new CategoryEventArgs(Path));
+            RaiseOnDeletedCategory(new CategoryEventArgs(path));
         }
 
         /// <summary>
@@ -1165,9 +1165,9 @@ namespace NewsComponents.Feed
                 title = Path.Substring(index + 1);
             }
 
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Count; i++)
             {
                 INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
@@ -1216,9 +1216,9 @@ namespace NewsComponents.Feed
                 title = oldPath.Substring(index + 1);
             }
 
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Count; i++)
             {
                 INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
@@ -1277,9 +1277,9 @@ namespace NewsComponents.Feed
                 title = oldPath.Substring(index + 1);
             }
 
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Count; i++)
             {
                 INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);
@@ -1327,9 +1327,9 @@ namespace NewsComponents.Feed
                 title = Path.Substring(index + 1);
             }
 
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Count; i++)
             {
                 INewsFeed f;
                 feedsTable.TryGetValue(keys[i], out f);

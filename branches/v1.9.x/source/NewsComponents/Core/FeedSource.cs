@@ -1377,7 +1377,29 @@ namespace NewsComponents
 		/// </value>
 		public bool DownloadIntervalFaviconsReached
 		{
-			get { return (DateTime.Now - ApplicationStartTime).TotalMinutes >= 5; }
+			get
+			{
+				return 
+					(DateTime.Now - ApplicationStartTime).TotalMinutes >= 5 &&
+					(DateTime.Now - LastFaviconDownladTime).TotalHours > 24;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the last favicon download date time for this feed source type.
+		/// </summary>
+		/// <value>The last favicon download date time.</value>
+		public DateTime LastFaviconDownladTime
+		{
+			get
+			{
+				return (DateTime)this.Configuration.PersistedSettings.GetProperty(
+					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), typeof(DateTime), DateTime.MinValue);
+			}
+			set
+			{
+				this.Configuration.PersistedSettings.SetProperty("FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), value);
+			}
 		}
 
         /// <summary>
@@ -2439,8 +2461,8 @@ namespace NewsComponents
         /// <summary>
         /// Helper method which retrieves the list of Keys in the FeedsTable object using the CopyTo method. 
         /// </summary>
-        /// <returns>An array containing the "keys" of the FeedsTable</returns>
-        protected string[] GetFeedsTableKeys()
+        /// <returns>An list containing the "keys" of the FeedsTable</returns>
+        protected IList<string> GetFeedsTableKeys()
         {
             string[] keys;
 
@@ -2470,11 +2492,11 @@ namespace NewsComponents
         /// since parameter and ending with today.</returns>
         public IList<RelationHRefEntry> GetTopStories(TimeSpan since, int numStories)
         {
-            string[] keys = GetFeedsTableKeys();
+            var keys = GetFeedsTableKeys();
             var allLinks =
                 new Dictionary<RelationHRefEntry, List<RankedNewsItem>>();
 
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Count; i++)
             {
                 if (!itemsTable.ContainsKey(keys[i]))
                 {
@@ -4054,9 +4076,7 @@ namespace NewsComponents
                 {
 //external feed?
 
-                    using (
-                        Stream mem =
-                            AsyncWebRequest.GetSyncResponseStream(feedUrl, credentials, UserAgent, Proxy))
+                    using (var mem = SyncWebRequest.GetResponseStream(feedUrl, credentials, UserAgent, Proxy))
                     {
                         var f = new NewsFeed
                                     {
@@ -4305,28 +4325,6 @@ namespace NewsComponents
         }
 
         /// <summary>
-        /// Retrieves the RSS feed for a particular subscription then converts
-        /// the blog posts or articles to an arraylist of items. The http requests are async calls.
-        /// </summary>
-        /// <param name="feedUrl">The URL of the feed to download</param>
-        /// <param name="forceDownload">if set to <c>true</c> [force download].</param>
-        /// <returns>
-        /// true, if the request really was queued up
-        /// </returns>
-        /// <exception cref="ApplicationException">If the RSS feed is not
-        /// version 0.91, 1.0 or 2.0</exception>
-        /// <exception cref="XmlException">If an error occured parsing the
-        /// RSS feed</exception>
-        /// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
-        /// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
-        /// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>
-        //	[MethodImpl(MethodImplOptions.Synchronized)]
-        public bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload)
-        {
-            return AsyncGetItemsForFeed(feedUrl, forceDownload, false);
-        }
-
-        /// <summary>
         /// Retrieves the RSS feed for a particular subscription then converts 
         /// the blog posts or articles to an arraylist of items. The http requests are async calls.
         /// </summary>
@@ -4345,89 +4343,124 @@ namespace NewsComponents
         //	[MethodImpl(MethodImplOptions.Synchronized)]
         public virtual bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual)
         {
-            if (feedUrl == null || feedUrl.Trim().Length == 0)
-                throw new ArgumentNullException("feedUrl");
+			RequestParameter reqParam = null;
+			bool requestNeedsToBeQueued = AsyncGetItemsForFeed(feedUrl, forceDownload, manual, out reqParam);
 
-            string etag = null;
-            bool requestQueued = false;
+			if (requestNeedsToBeQueued)
+			{
+				int priority = 10;
+				if (forceDownload)
+					priority += 100;
+				if (manual)
+					priority += 1000;
 
-            int priority = 10;
-            if (forceDownload)
-                priority += 100;
-            if (manual)
-                priority += 1000;
+				AsyncWebRequest.QueueRequest(reqParam,
+											OnRequestStart,
+											OnRequestComplete,
+											OnRequestException, priority);
+			}
 
-
-            try
-            {
-                var reqUri = new Uri(feedUrl);
-
-                try
-                {
-                    if ((!forceDownload) || isOffline)
-                    {
-                        GetCachedItemsForFeed(feedUrl); //load feed into itemsTable
-                        RaiseOnUpdatedFeed(reqUri, null, RequestResult.NotModified, priority, false);
-                        return false;
-                    }
-                }
-                catch (XmlException xe)
-                {
-                    //cache file is corrupt
-                    Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToDescriptiveString());
-                }
-
-                //We need a reference to the feed so we can see if a cached object exists
-                INewsFeed theFeed = null;
-                if (feedsTable.ContainsKey(feedUrl))
-                    theFeed = feedsTable[feedUrl];
-
-                if (theFeed == null)
-                    return false;
-
-
-                // only if we "real" go over the wire for an update:
-                RaiseOnUpdateFeedStarted(reqUri, forceDownload, priority);
-
-                //DateTime lastRetrieved = DateTime.MinValue; 
-                DateTime lastModified = DateTime.MinValue;
-
-                if (!manual && itemsTable.ContainsKey(feedUrl)) 
-                {
-                    etag = theFeed.etag;
-                    lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
-                }
-
-
-                //get credentials from server definition if this is a newsgroup subscription
-                ICredentials c = RssHelper.IsNntpUrl(theFeed.link)
-                                     ? GetNntpServerCredentials(theFeed)
-                                     : CreateCredentialsFrom(theFeed);
-
-                RequestParameter reqParam =
-                    RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
-                // global cookie handling:
-                reqParam.SetCookies = SetCookies;
-				// assign any client certificate attached to a feed:
-            	reqParam.ClientCertificate = GetClientCertificate(theFeed);
-
-                AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
-                                             OnRequestStart,
-                                             OnRequestComplete,
-                                             OnRequestException, priority);
-
-                requestQueued = true;
-            }
-            catch (Exception e)
-            {
-                Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToDescriptiveString());
-                RaiseOnUpdateFeedException(feedUrl, e, priority);
-            }
-
-            return requestQueued;
+			return requestNeedsToBeQueued; 
         }
 
+		/// <summary>
+		/// Retrieves the RSS feed for a particular subscription then converts the blog posts or articles to the itemsTable. 
+		/// This method only retrieves items from local disk. It returns the details required to make an HTTP request if the item 
+		/// could not be loaded locally. 
+		/// </summary>
+		/// <param name="feedUrl">The URL of the feed to download</param>
+		/// <param name="forceDownload">Flag indicates whether cached feed items 
+		/// can be returned or whether the application must fetch resources from 
+		/// the web</param>
+		/// <param name="manual">Flag indicates whether the call was initiated by user (true), or
+		/// by automatic refresh timer (false)</param>
+		/// <param name="reqParam">Used to provide information as to how to make an HTTP request to retrieve the feed 
+		/// if it could not be found locally</param>
+		/// <exception cref="ApplicationException">If the RSS feed is not version 0.91, 1.0 or 2.0</exception>
+		/// <exception cref="XmlException">If an error occured parsing the RSS feed</exception>
+		/// <exception cref="ArgumentNullException">If feedUrl is a null reference</exception>
+		/// <exception cref="UriFormatException">If an error occurs while attempting to format the URL as an Uri</exception>
+		/// <returns>true, if the request really was queued up</returns>
+		/// <remarks>Result arraylist is returned by OnUpdatedFeed event within UpdatedFeedEventArgs</remarks>		
+		//	[MethodImpl(MethodImplOptions.Synchronized)]
+		protected virtual bool AsyncGetItemsForFeed(string feedUrl, bool forceDownload, bool manual, out RequestParameter reqParam)
+		{
+			if (feedUrl == null || feedUrl.Trim().Length == 0)
+				throw new ArgumentNullException("feedUrl");
+
+			string etag = null;
+			bool requestQueued = false;
+			reqParam = null;
+
+			int priority = 10;
+			if (forceDownload)
+				priority += 100;
+			if (manual)
+				priority += 1000;
+
+
+			try
+			{
+				var reqUri = new Uri(feedUrl);
+
+				try
+				{
+					if ((!forceDownload) || isOffline)
+					{
+						GetCachedItemsForFeed(feedUrl); //load feed into itemsTable
+						RaiseOnUpdatedFeed(reqUri, null, RequestResult.NotModified, priority, false);
+						return false;
+					}
+				}
+				catch (XmlException xe)
+				{
+					//cache file is corrupt
+					Trace("Unexpected error retrieving cached feed '{0}': {1}", feedUrl, xe.ToDescriptiveString());
+				}
+
+				//We need a reference to the feed so we can see if a cached object exists
+				INewsFeed theFeed = null;
+				if (feedsTable.ContainsKey(feedUrl))
+					theFeed = feedsTable[feedUrl];
+
+				if (theFeed == null)
+					return false;
+
+
+				// only if we "real" go over the wire for an update:
+				RaiseOnUpdateFeedStarted(reqUri, forceDownload, priority);
+
+				//DateTime lastRetrieved = DateTime.MinValue; 
+				DateTime lastModified = DateTime.MinValue;
+
+				if (!manual && itemsTable.ContainsKey(feedUrl))
+				{
+					etag = theFeed.etag;
+					lastModified = (theFeed.lastretrievedSpecified ? theFeed.lastretrieved : theFeed.lastmodified);
+				}
+
+
+				//get credentials from server definition if this is a newsgroup subscription
+				ICredentials c = RssHelper.IsNntpUrl(theFeed.link)
+									 ? GetNntpServerCredentials(theFeed)
+									 : CreateCredentialsFrom(theFeed);
+
+				reqParam = RequestParameter.Create(reqUri, UserAgent, Proxy, c, lastModified, etag);
+				// global cookie handling:
+				reqParam.SetCookies = SetCookies;
+				// assign any client certificate attached to a feed:
+				reqParam.ClientCertificate = GetClientCertificate(theFeed);
+
+				requestQueued = true;
+			}
+			catch (Exception e)
+			{
+				Trace("Unexpected error on QueueRequest(), processing feed '{0}': {1}", feedUrl, e.ToDescriptiveString());
+				RaiseOnUpdateFeedException(feedUrl, e, priority);
+			}
+
+			return requestQueued;
+		}
 		/// <summary>
 		/// Gets the client certificate for a feed.
 		/// </summary>
@@ -4995,31 +5028,12 @@ namespace NewsComponents
                         {
                             favicon = GenerateFaviconUrl(requestUri, ext);
 							UserCacheDataService.SaveBinaryContent(favicon, bytes);
-							//string filelocation = Path.Combine(UserCacheDataService.CacheLocation, favicon);
-
-							//using (FileStream fs = FileHelper.OpenForWrite(filelocation))
-							//{
-							//    var bw = new BinaryWriter(fs);
-							//    bw.Write(bytes);
-							//    bw.Flush();
-							//}
                         }
                     }
-                    //else
-                    //{
-                    //     favicon == null; reset
-                    //}
 
                     // The "CopyTo()" construct prevents against InvalidOpExceptions/ArgumentOutOfRange
                     // exceptions and keep the loop alive if FeedsTable gets modified from other thread(s)
-                    string[] keys;
-
-                    lock (feedsTable)
-                    {
-                        keys = new string[feedsTable.Count];
-                        if (feedsTable.Count > 0)
-                            feedsTable.Keys.CopyTo(keys, 0);
-                    }
+	                var keys = GetFeedsTableKeys();
 
                     //get all feeds that should use the returned favicon
                     foreach (var feedUrl in keys)
@@ -5459,45 +5473,35 @@ namespace NewsComponents
         {
 			if ((FeedsListOK == false) || isOffline || !DownloadIntervalFaviconsReached)
             {
-                //we don't have a feed list
+                //we don't have a feed list, or the time interval is not reached
                 return false;
             }
 
-            var websites = new StringCollection();
+            var websites = new HashSet<string>();
+			var requests = new List<RequestParameter>(); 
 
             try
             {
-                string[] keys = GetFeedsTableKeys();
-
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
+				foreach (var key in GetFeedsTableKeys())
                 {
-                    if (!itemsTable.ContainsKey(keys[i]))
+                    if (!itemsTable.ContainsKey(key))
                     {
                         continue;
                     }
 
-                    var fi = (FeedInfo) itemsTable[keys[i]];
+                    var fi = itemsTable[key];
 
-                    Uri webSiteUrl = null;
-                    try
-                    {
-                        webSiteUrl = new Uri(fi.link);
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    if (webSiteUrl == null || !webSiteUrl.Scheme.ToLower().Equals("http"))
+                    Uri webSiteUrl;
+                    Uri.TryCreate(fi.Link, UriKind.Absolute,  out webSiteUrl);
+                    
+                    if (webSiteUrl == null || !webSiteUrl.Scheme.EqualsOrdinalIgnoreCase(Uri.UriSchemeHttp))
                     {
                         continue;
                     }
 
                     if (!websites.Contains(webSiteUrl.Authority))
                     {
-                        var reqUri = new UriBuilder("http", webSiteUrl.Authority)
+						var reqUri = new UriBuilder(Uri.UriSchemeHttp, webSiteUrl.Authority)
                                          {
                                              Path = "favicon.ico"
                                          };
@@ -5521,16 +5525,21 @@ namespace NewsComponents
                         // global cookie handling:
                         reqParam.SetCookies = SetCookies;
 
-                        AsyncWebRequest.QueueRequest(reqParam,
-                                                     null /* new RequestQueuedCallback(this.OnRequestQueued) */,
-                                                     null /* new RequestStartCallback(this.OnRequestStart) */,
-                                                     OnFaviconRequestComplete,
-                                                     null /* new RequestExceptionCallback(this.OnRequestException) */,
-                                                     100 /* priority*/);
+						//add to list of requests we will execute asynchronously
+						requests.Add(reqParam);
 
                         websites.Add(webSiteUrl.Authority);
                     } //if(!websites.Contains(webSiteUrl.Authority)){					
-                } //foreach(FeedInfo fi in itemsTable.Values){
+				} // foreach
+
+				// use a new instance, we don't like to trigger the "AllRequestCompleted" for feed requests,
+				// and we don't need it here for favicons:
+				new AsyncWebRequest().QueueRequestsAsync(
+					requests,
+					null /* new RequestStartCallback(this.OnRequestStart) */,
+					OnFaviconRequestComplete,
+					null /* new RequestExceptionCallback(this.OnRequestException) */
+				);
             }
             catch (InvalidOperationException ioe)
             {
@@ -5545,11 +5554,11 @@ namespace NewsComponents
         /// Downloads every feed that has either never been downloaded before or 
         /// whose elapsed time since last download indicates a fresh attempt should be made. 
         /// </summary>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// <param name="forceDownload">A flag that indicates whether download attempts should be made 
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public virtual void RefreshFeeds(bool force_download)
+        public virtual void RefreshFeeds(bool forceDownload)
         {
             if (FeedsListOK == false)
             {
@@ -5558,17 +5567,15 @@ namespace NewsComponents
             }
 
             bool anyRequestQueued = false;
+			var requests = new List<RequestParameter>(); 
 
             try
             {
-                RaiseOnUpdateFeedsStarted(force_download);
+                RaiseOnUpdateFeedsStarted(forceDownload);
 
-                string[] keys = GetFeedsTableKeys();
+                var keys = GetFeedsTableKeys();
 
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
-
-                for (int i = 0, len = keys.Length; i < len; i++)
+                for (int i = 0, len = keys.Count; i < len; i++)
                 {
                     if (keys[i] == null || !feedsTable.ContainsKey(keys[i]))
                         // may have been redirected/removed meanwhile
@@ -5579,7 +5586,7 @@ namespace NewsComponents
                     try
                     {
                         // new: giving up after ten unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 10)
+                        if (!forceDownload && current.causedExceptionCount >= 10)
                         {
                             continue;
                         }
@@ -5589,12 +5596,14 @@ namespace NewsComponents
                             continue;
                         }
 
+						RequestParameter reqParam;
+	                    
                         if (itemsTable.ContainsKey(current.link))
                         {
                             //check if feed downloaded in the past
 
                             //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
+                            if ((!forceDownload) && current.lastretrievedSpecified)
                             {
                                 double timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
@@ -5608,13 +5617,16 @@ namespace NewsComponents
                             } //if(current.lastretrievedSpecified...) 
 
 
-                            if (AsyncGetItemsForFeed(current.link, true, false))
-                                anyRequestQueued = true;
+							if (AsyncGetItemsForFeed(current.link, true, false, out reqParam))
+							{
+								requests.Add(reqParam);
+								anyRequestQueued = true;
+							}
                         }
                         else
                         {
                             // not yet loaded, so not loaded from cache, new subscribed or imported
-                            if ((!force_download) && current.lastretrievedSpecified &&
+                            if ((!forceDownload) && current.lastretrievedSpecified &&
                                 string.IsNullOrEmpty(current.cacheurl))
                             {
                                 // imported may have lastretrievedSpecified set to reduce the initial payload
@@ -5629,16 +5641,19 @@ namespace NewsComponents
                                 }
                             }
 
-                            if (!force_download)
+                            if (!forceDownload)
                             {
                                 // not in itemsTable, cacheurl set - but no cache file anymore?
                                 if (!string.IsNullOrEmpty(current.cacheurl) &&
                                     !UserCacheDataService.FeedExists(current))
-                                    force_download = true;
+                                    forceDownload = true;
                             }
 
-                            if (AsyncGetItemsForFeed(current.link, force_download, false))
-                                anyRequestQueued = true;
+							if (AsyncGetItemsForFeed(current.link, forceDownload, false, out reqParam))
+							{
+								requests.Add(reqParam);
+								anyRequestQueued = true;
+							}
                         }
 
                         Thread.Sleep(15); // force a context switches
@@ -5649,6 +5664,12 @@ namespace NewsComponents
                               e.ToDescriptiveString());
                     }
                 } //for(i)
+
+				AsyncWebRequest.QueueRequestsAsync(requests,
+												   OnRequestStart,
+												   OnRequestComplete,
+												   OnRequestException); 
+
             }
             catch (InvalidOperationException ioe)
             {
@@ -5668,11 +5689,11 @@ namespace NewsComponents
         /// whose elapsed time since last download indicates a fresh attempt should be made. 
         /// </summary>
         /// <param name="category">Refresh all feeds, that are part of the category</param>
-        /// <param name="force_download">A flag that indicates whether download attempts should be made 
+        /// <param name="forceDownload">A flag that indicates whether download attempts should be made 
         /// or whether the cache can be used.</param>
         /// <remarks>This method uses the cache friendly If-None-Match and If-modified-Since
         /// HTTP headers when downloading feeds.</remarks>	
-        public virtual void RefreshFeeds(string category, bool force_download)
+        public virtual void RefreshFeeds(string category, bool forceDownload)
         {
             if (FeedsListOK == false)
             {
@@ -5684,14 +5705,13 @@ namespace NewsComponents
 
             try
             {
-                RaiseOnUpdateFeedsStarted(force_download);
+				List<RequestParameter> requests = new List<RequestParameter>(); 
 
-                string[] keys = GetFeedsTableKeys();
+                RaiseOnUpdateFeedsStarted(forceDownload);
 
-                //foreach(string sKey in FeedsTable.Keys){
-                //  NewsFeed current = FeedsTable[sKey];	
+                var keys = GetFeedsTableKeys();
 
-                for (int i = 0, len = keys.Length; i < len; i++)
+                for (int i = 0, len = keys.Count; i < len; i++)
                 {
                     if (keys[i] == null || !feedsTable.ContainsKey(keys[i]))
                         // may have been redirected/removed meanwhile
@@ -5702,7 +5722,7 @@ namespace NewsComponents
                     try
                     {
                         // new: giving up after three unsuccessfull requests
-                        if (!force_download && current.causedExceptionCount >= 3)
+                        if (!forceDownload && current.causedExceptionCount >= 3)
                         {
                             continue;
                         }
@@ -5712,12 +5732,13 @@ namespace NewsComponents
                             continue;
                         }
 
-                        if (itemsTable.ContainsKey(current.link))
+						RequestParameter reqParam;
+						if (itemsTable.ContainsKey(current.link))
                         {
                             //check if feed downloaded in the past
 
                             //check if enough time has elapsed as to require a download attempt
-                            if ((!force_download) && current.lastretrievedSpecified)
+                            if ((!forceDownload) && current.lastretrievedSpecified)
                             {
                                 double timeSinceLastDownload =
                                     DateTime.Now.Subtract(current.lastretrieved).TotalMilliseconds;
@@ -5733,16 +5754,22 @@ namespace NewsComponents
 
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (AsyncGetItemsForFeed(current.link, true, true))
-                                    anyRequestQueued = true;
+								if (AsyncGetItemsForFeed(current.link, true, true, out reqParam))
+								{
+									requests.Add(reqParam);
+									anyRequestQueued = true;
+								}
                             }
                         }
                         else
                         {
                             if (current.category != null && IsChildOrSameCategory(category, current.category))
                             {
-                                if (AsyncGetItemsForFeed(current.link, force_download, false))
-                                    anyRequestQueued = true;
+								if (AsyncGetItemsForFeed(current.link, forceDownload, false, out reqParam))
+								{
+									requests.Add(reqParam);
+									anyRequestQueued = true;
+								}
                             }
                         }
 
@@ -5754,6 +5781,11 @@ namespace NewsComponents
                               e.ToDescriptiveString());
                     }
                 } //for(i)
+
+				AsyncWebRequest.QueueRequestsAsync(requests, OnRequestStart,
+											OnRequestComplete,
+											OnRequestException); 
+
             }
             catch (InvalidOperationException ioe)
             {

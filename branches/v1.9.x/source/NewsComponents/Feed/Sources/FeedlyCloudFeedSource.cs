@@ -211,7 +211,7 @@ namespace NewsComponents.Feed.Sources
 				HtmlHelper.UrlEncode( "urn:rssbandit.org"), HtmlHelper.UrlEncode(AuthScope), HtmlHelper.UrlEncode("1.9.x_experimental"));
 			try
 			{
-				StreamReader reader = new StreamReader(AsyncWebRequest.GetSyncResponseStream(fullUrl, null, this.Proxy));
+				StreamReader reader = new StreamReader(SyncWebRequest.GetResponseStream(fullUrl, null, this.Proxy));
 				string[] response = reader.ReadToEnd().Split('\n');
 
 				foreach (string s in response)

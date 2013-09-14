@@ -526,7 +526,6 @@ namespace NewsComponents.Feed
                 reqParam = RequestParameter.Create(false, reqParam);
 
                 AsyncWebRequest.QueueRequest(reqParam,
-                                             null,
                                              OnRequestStart,
                                              OnRequestComplete,
                                              OnRequestException, priority);

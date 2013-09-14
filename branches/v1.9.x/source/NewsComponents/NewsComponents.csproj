@@ -168,6 +168,18 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -277,9 +289,11 @@
     <Compile Include="Net\Events.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\HttpCookieManager.cs" />
     <Compile Include="Net\HttpDownloader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\ProxyCredentialsPolicy.cs" />
     <Compile Include="Net\RequestExceptions.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -289,9 +303,9 @@
     <Compile Include="Net\RequestState.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Net\RequestThread.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Net\SyncWebRequest.cs" />
+    <Compile Include="Net\TrustSelectedCertificatePolicy.cs" />
+    <Compile Include="Net\WebRequestBase.cs" />
     <Compile Include="News\NntpClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -372,6 +386,7 @@
     <Compile Include="Threading\BinaryHeap.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Threading\PrioritizingTaskScheduler.cs" />
     <Compile Include="Threading\PriorityQueue.cs">
       <SubType>Code</SubType>
     </Compile>

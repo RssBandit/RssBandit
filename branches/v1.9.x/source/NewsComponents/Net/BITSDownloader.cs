@@ -357,7 +357,7 @@ namespace NewsComponents.Net
                                               out IBackgroundCopyJob copyJob)
         {
             copyJob = null;
-            if (task.JobId != null)
+            if (task.JobId != null && task.DownloadErrorResumeCount < BackgroundDownloadManager.MaxDownloadErrorResumes)
             {
                 Guid jobId = task.JobId.Value;
 
