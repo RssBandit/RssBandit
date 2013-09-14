@@ -105,7 +105,7 @@ namespace NewsComponents.Net
             set
             {
                 _jobId = value;
-                RaisePropertyChanged("JobId");
+                RaisePropertyChanged(()=>JobId);
             }
         }
 
@@ -119,7 +119,7 @@ namespace NewsComponents.Net
             set
             {
                 state = value;
-                RaisePropertyChanged("State");
+                RaisePropertyChanged(()=>State);
             }
         }
 
@@ -131,7 +131,7 @@ namespace NewsComponents.Net
             set
             {
                 _errorText = value;
-                RaisePropertyChanged("ErrorText");
+                RaisePropertyChanged(()=>ErrorText);
             }
         }
 
@@ -152,7 +152,7 @@ namespace NewsComponents.Net
             set
             {
                 _fileName = value;
-                RaisePropertyChanged("FileName");
+                RaisePropertyChanged(()=>FileName);
             }
         }
 
@@ -164,7 +164,7 @@ namespace NewsComponents.Net
             internal set
             {
                 _fileSize = value;
-                RaisePropertyChanged("FileSize");
+                RaisePropertyChanged(()=>FileSize);
 
                 CalculatePercentComplete();
             }
@@ -178,7 +178,7 @@ namespace NewsComponents.Net
             internal set
             {
                 _transferredSize = value;
-                RaisePropertyChanged("TransferredSize");
+                RaisePropertyChanged(()=>TransferredSize);
 
                 CalculatePercentComplete();
             }
@@ -201,8 +201,19 @@ namespace NewsComponents.Net
                 PercentComplete = 0;
             }
 
-            RaisePropertyChanged("PercentComplete");
+            RaisePropertyChanged(()=>PercentComplete);
         }
+
+	    private int _downloadErrorResumeCount;
+	    public int DownloadErrorResumeCount
+	    {
+		    get { return _downloadErrorResumeCount; }
+		    set
+		    {
+			    _downloadErrorResumeCount = value;
+			    RaisePropertyChanged(()=>DownloadErrorResumeCount);
+		    }
+	    }
 
         public bool CanCancelResume
         {
@@ -235,8 +246,8 @@ namespace NewsComponents.Net
             set
             {
                 _downloader = value;
-                RaisePropertyChanged("CanCancelResume");
-                RaisePropertyChanged("Downloader");
+                RaisePropertyChanged(()=>CanCancelResume);
+                RaisePropertyChanged(()=>Downloader);
             }
         }
 
@@ -279,6 +290,8 @@ namespace NewsComponents.Net
                 DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
             else /* there used to be a typo in the field name */
                 DownloadFilesBase = reader.GetString("_donwnloadFilesBase", null);
+	        if (reader.Contains("_downloadErrorResumeCount"))
+		        _downloadErrorResumeCount = reader.GetInt("_downloadErrorResumeCount", 0);
         }
 
         /// <summary>
@@ -299,7 +312,8 @@ namespace NewsComponents.Net
             info.AddValue("_createDate", TimeZoneInfo.ConvertTimeToUtc(_createDate));
             info.AddValue("_fileName", _fileName);
             info.AddValue("_errorText", _errorText);
-            info.AddValue("_supportsBITS", _supportsBITS); 
+            info.AddValue("_supportsBITS", _supportsBITS);
+			info.AddValue("_downloadErrorResumeCount", DownloadErrorResumeCount);
         }
 
         #endregion

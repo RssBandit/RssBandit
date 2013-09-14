@@ -255,7 +255,7 @@ namespace NewsComponents.Feed {
 
 		private Stream GetWebPage(string url)
 		{
-			return AsyncWebRequest.GetSyncResponseStream(url, this.Credentials, this.userAgent, this.Proxy);			
+			return SyncWebRequest.GetResponseStream(url, this.Credentials, this.userAgent, this.Proxy);			
 		}
 	
 		/// <summary>

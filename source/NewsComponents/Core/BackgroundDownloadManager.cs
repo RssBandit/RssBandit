@@ -84,6 +84,12 @@ namespace NewsComponents
 
         #region Public Properties
 
+		/// <summary>
+		/// The maximum download item error resume counter; Downloaders will only try to resume a download
+		/// until this counter is reached.
+		/// </summary>
+	    internal const int MaxDownloadErrorResumes = 5;
+
         /// <summary>
         /// This is the location where BITS should temporarily download files until moving them to 
         /// TargetFolder on completion. 
@@ -803,6 +809,7 @@ namespace NewsComponents
 		    ////TODO: Once we have a UI for managing enclosures we'll need to keep the task around 
 		    e.Task.ErrorText = string.Format(ComponentsText.ExceptionDownloadingEnclosure, e.Exception.Message);
 		    e.Task.State = DownloadTaskState.DownloadError;
+		    e.Task.DownloadErrorResumeCount += 1;
 
 		    DownloadRegistryManager.Current.UpdateTask(e.Task);
 		    if (e.Task.Downloader != null)

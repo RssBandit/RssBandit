@@ -127,7 +127,13 @@ namespace NewsComponents.Net
         {
             currentTask = task;
 
-            WebResponse response = AsyncWebRequest.GetSyncResponse(HttpMethod.GET, task.DownloadItem.Enclosure.Url,
+			// If we resume way too often, just return
+			if (CheckForResumeAndProceed(currentTask))
+	        {
+		        return;
+	        }
+
+	        WebResponse response = SyncWebRequest.GetResponse(HttpMethod.Get, task.DownloadItem.Enclosure.Url,
                                                                    task.DownloadItem.Credentials,
                                                                    FeedSource.UserAgentString(String.Empty),
                                                                    task.DownloadItem.Proxy,
@@ -149,6 +155,12 @@ namespace NewsComponents.Net
         {
             currentTask = task;
 
+			// If we resume way too often, just return
+			if (CheckForResumeAndProceed(currentTask))
+			{
+				return;
+			}
+
             Uri reqUri = new Uri(task.DownloadItem.Enclosure.Url);
             int priority = 10;
 
@@ -160,12 +172,10 @@ namespace NewsComponents.Net
 
 
             state = BackgroundDownloadManager.AsyncWebRequest.QueueRequest(reqParam,
-                                                                           null
-                                                                           /* new RequestQueuedCallback(this.OnRequestQueued) */,
                                                                            OnRequestStart,
                                                                            OnRequestComplete,
                                                                            OnRequestException,
-                                                                           new RequestProgressCallback(OnRequestProgress),
+                                                                           OnRequestProgress,
                                                                            priority);
         }
 
@@ -190,9 +200,21 @@ namespace NewsComponents.Net
 
         #endregion
 
-        #region IDisposable implementation
+		#region private 
 
-        //  take care of IDisposable too   
+	    private bool CheckForResumeAndProceed(DownloadTask task)
+	    {
+		    if (task != null && task.DownloadErrorResumeCount >= BackgroundDownloadManager.MaxDownloadErrorResumes)
+			    return true;
+
+		    return false;
+	    }
+
+	    #endregion
+
+		#region IDisposable implementation
+
+		//  take care of IDisposable too   
         /// <summary>
         /// Allows graceful cleanup of hard resources
         /// </summary>
@@ -294,17 +316,3 @@ namespace NewsComponents.Net
         #endregion
     }
 }
-
-#region CVS Version Log
-
-/*
- * $Log: HttpDownloader.cs,v $
- * Revision 1.3  2007/06/10 18:41:26  carnage4life
- * Fixed issues with HttpDownloader.Finalize() causing NullReferenceExceptions
- *
- * Revision 1.2  2006/12/19 17:00:39  t_rendelmann
- * added: CVS log sections
- *
- */
-
-#endregion

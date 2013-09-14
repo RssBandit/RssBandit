@@ -10,8 +10,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
+using TorSteroids.Common.Extensions;
 
 namespace NewsComponents.Utils
 {
@@ -31,10 +33,22 @@ namespace NewsComponents.Utils
 		/// <param name="text">String to test</param>
 		/// <returns>True, if 'text' was null or of length zero</returns>
 		/// <remarks>Trimming of the string happens</remarks>
+		[Obsolete("Use String.IsNullOrWhiteSpace(...) instead", false)]
 		public static bool EmptyTrimOrNull(string text) {
 			return (text == null || text.Trim().Length == 0);
 		}
-		
+
+		/// <summary>
+		/// Get the property name from the provided expression. E.g. GetPropertyName( () =&gt; myInstance.ObjectId )
+		/// will return "ObjectId".
+		/// </summary>
+		/// <param name="expression">Linq expression</param>
+		/// <returns></returns>
+		public static string GetPropertyName(Expression<Func<Object>> expression)
+		{
+			return expression.GetPropertyName();
+		}
+
 		/// <summary>
 		/// Return the size of a string in byte. Consider, if it is null.
 		/// </summary>
