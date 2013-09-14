@@ -178,18 +178,21 @@ namespace RssBandit.WinGui.Forms
             Navigator.ContextMenu = new ContextMenu();
 
             var subSourceDelete = new AppContextMenuCommand("cmdDeleteFeedSource",
-                                                  owner.Mediator,
-                                                  new ExecuteCommandHandler(CmdDeleteFeedSource),
+                                                  owner.Mediator, CmdDeleteFeedSource,
                                                   SR.MenuDeleteFeedSourceCaption, SR.MenuDeleteFeedSourceDesc,
                                                   _shortcutHandler);
             var subSourceProperties = new AppContextMenuCommand("cmdFeedSourceProperties",
-                                                  owner.Mediator,
-                                                  new ExecuteCommandHandler(CmdShowFeedSourceProperties),
+                                                  owner.Mediator, CmdShowFeedSourceProperties,
                                                   SR.MenuShowFeedSourceProperties, SR.MenuShowFeedSourcePropertiesDesc,
                                                   _shortcutHandler);
 
-            Navigator.ContextMenu.MenuItems.AddRange(new[]{subSourceDelete, subSourceProperties}); 
-             
+            Navigator.ContextMenu.MenuItems.AddRange(new[]{subSourceDelete, subSourceProperties});
+
+			Navigator.Groups[Resource.NavigatorGroup.RssSearch].Settings.AppearancesSmall.HeaderAppearance.Image =
+				Properties.Resources.feedsource_search_16;
+			Navigator.Groups[Resource.NavigatorGroup.RssSearch].Settings.AppearancesLarge.HeaderAppearance.Image =
+		        Properties.Resources.feedsource_search_32;
+	
             if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
             {
                 //ToggleNavigationPaneView(NavigationPaneView.Subscriptions);
@@ -241,6 +244,9 @@ namespace RssBandit.WinGui.Forms
             navigatorHiddenCaption.Appearance.BackColor2 =
                 FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientDark;
             navigatorHiddenCaption.Appearance.BackGradientStyle = GradientStyle.Horizontal;
+	        navigatorHiddenCaption.Appearance.Image = Properties.Resources.Arrows_Right_16;
+			navigatorHiddenCaption.Appearance.ImageHAlign = HAlign.Center;
+			navigatorHiddenCaption.Appearance.ImageVAlign = VAlign.Top;
             navigatorHiddenCaption.ForeColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderForecolor;
             navigatorHiddenCaption.ImageClick += OnNavigatorExpandImageClick;
         }
@@ -1497,7 +1503,7 @@ namespace RssBandit.WinGui.Forms
             //if(Win32.IsOSAtLeastWindowsVista)
             //    _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
             //else
-            _treeImages = Resource.LoadBitmapStrip("Resources.TreeImagesXP.png", new Size(16, 16));
+            _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
 
             _listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
             _allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.png", new Size(16, 16));

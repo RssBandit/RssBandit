@@ -154,9 +154,6 @@
   <data name="feed_discovered_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\feed.discovered.32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="feedRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\feedrefresh.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="hotnews_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\hotnews.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -168,9 +165,6 @@
   </data>
   <data name="Minus_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\2003minus.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="nntp_doc_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\nntp.doc.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="no_feed_discovered_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\no.feed.discovered.16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -189,18 +183,6 @@
   </data>
   <data name="UnreadFeedItems" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\unreadfeeditems.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="search_folder_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\search_folder_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="search_folder_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\search_folder_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="subscriptions_folder_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\subscriptions_folder_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="subscriptions_folder_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\subscriptions_folder_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="New_Certificate_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\new_certificate_16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -234,5 +216,47 @@
   </data>
   <data name="TopStories_css" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\topstories.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Arrows_Right_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2003Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_bandit_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_bandit_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_bandit_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_bandit_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_facebook_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_facebook_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_facebook_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_facebook_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_feedly_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_feedly_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_feedly_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_feedly_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_search_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_search_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_search_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_search_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_winRss_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_winRss_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="feedsource_winRss_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\feedsource_winRss_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subscription_wizard_finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subscription_wizard_finished.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subscription_wizard_welcome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subscription_wizard_welcome.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subsription_banner_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subsription_banner_image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

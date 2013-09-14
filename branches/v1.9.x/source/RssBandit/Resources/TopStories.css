@@ -1,0 +1,116 @@
+﻿@media print
+{
+    div.PageNavigation
+    {
+        visibility: hidden;
+    }
+}
+
+/* IE hack: hide the unnessecary vertical scrollbar, but allow scrollers if needed
+  html {
+  overflow:auto;
+  }
+  */
+
+body
+{
+    color: black;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 10px;
+}
+
+a, a:visited, a:active
+{
+    color: #002D96;
+    text-decoration: none;
+    border-bottom: 1px dotted #002D96;
+}
+
+    a.img
+    {
+        border-bottom: 0px hidden;
+    }
+
+    a:hover
+    {
+        color: #002D96;
+        text-decoration: none;
+        border-bottom: 1px dotted #002D96;
+    }
+
+div
+{
+    /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+td.PostFrame
+{
+    background-color: white;
+    padding: 8px;
+}
+
+div.PostTitle
+{
+    /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: larger;
+}
+
+.PostTitle a, .PostTitle a:active, .PostTitle a:visited
+{
+    border-width: 0px;
+    color: #002D96;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .PostTitle a:hover
+    {
+        color: #1C4EA6;
+        border-width: 0px;
+        text-decoration: underline;
+    }
+
+div.PageNavigation
+{
+    font-size: small;
+    margin: 5px 0px 10px 0px;
+    padding: 2px 0px 2px 0px;
+}
+
+div.PostInfos
+{
+    color: #808080;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: small;
+    font-weight: normal;
+    text-transform: none;
+}
+
+div.PostContent
+{
+    font-size: small;
+    border-top: 1px dotted #CBCBCB;
+}
+
+div.PostItemContent
+{
+    font-size: small;
+    margin: 10px 0px 10px 0px;
+    padding: 10px 0px 10px 0px;
+    border-bottom: 1px dotted #CBCBCB;
+}
+
+div.PostSignature
+{
+    text-align: right;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-small;
+    font-style: italic;
+}
+
+.PostSignature a
+{
+    font-size: x-small;
+}
