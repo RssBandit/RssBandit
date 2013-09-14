@@ -133,6 +133,16 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Arrows_Right_16 {
+            get {
+                object obj = ResourceManager.GetObject("Arrows_Right_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Comment_16 {
             get {
                 object obj = ResourceManager.GetObject("Comment_16", resourceCulture);
@@ -230,12 +240,102 @@ namespace RssBandit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon feedRefresh {
+        internal static System.Drawing.Bitmap feedsource_bandit_16 {
             get {
-                object obj = ResourceManager.GetObject("feedRefresh", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("feedsource_bandit_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_bandit_32 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_bandit_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_facebook_16 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_facebook_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_facebook_32 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_facebook_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_feedly_16 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_feedly_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_feedly_32 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_feedly_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_search_16 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_search_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_search_32 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_search_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_winRss_16 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_winRss_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap feedsource_winRss_32 {
+            get {
+                object obj = ResourceManager.GetObject("feedsource_winRss_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -285,16 +385,6 @@ namespace RssBandit.Properties {
         internal static System.Drawing.Bitmap New_Certificate_16 {
             get {
                 object obj = ResourceManager.GetObject("New_Certificate_16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap nntp_doc_16 {
-            get {
-                object obj = ResourceManager.GetObject("nntp_doc_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -380,26 +470,6 @@ namespace RssBandit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap search_folder_16 {
-            get {
-                object obj = ResourceManager.GetObject("search_folder_16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap search_folder_32 {
-            get {
-                object obj = ResourceManager.GetObject("search_folder_32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;xsl:stylesheet version=&apos;1.0&apos; 
         ///xmlns:xsl=&apos;http://www.w3.org/1999/XSL/Transform&apos;
         ///xmlns:content = &apos;http://purl.org/rss/1.0/modules/content/&apos;
@@ -421,9 +491,9 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap subscriptions_folder_16 {
+        internal static System.Drawing.Bitmap subscription_wizard_finished {
             get {
-                object obj = ResourceManager.GetObject("subscriptions_folder_16", resourceCulture);
+                object obj = ResourceManager.GetObject("subscription_wizard_finished", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -431,9 +501,19 @@ namespace RssBandit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap subscriptions_folder_32 {
+        internal static System.Drawing.Bitmap subscription_wizard_welcome {
             get {
-                object obj = ResourceManager.GetObject("subscriptions_folder_32", resourceCulture);
+                object obj = ResourceManager.GetObject("subscription_wizard_welcome", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap subsription_banner_image {
+            get {
+                object obj = ResourceManager.GetObject("subsription_banner_image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

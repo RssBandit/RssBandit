@@ -1207,7 +1207,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         if (p.Icon == null)
                         {
-	                        p.Icon = Properties.Resources.Refresh; //Resource.LoadIcon("Resources.feedRefresh.ico");
+	                        p.Icon = Properties.Resources.Refresh;
                             _status.Refresh();
                         }
                     }

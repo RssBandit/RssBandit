@@ -171,6 +171,11 @@ namespace RssBandit.WinGui.Dialogs
 			//
 			InitializeComponent();
         	ApplyComponentTranslations();
+	        
+			this.Icon = Properties.Resources.RssFeedAdd;
+	        this.wizard.BannerImage = Properties.Resources.subsription_banner_image;
+			this.wizard.MarginImage = Properties.Resources.subscription_wizard_welcome;
+
 			// fix the link label(s) linkarea size to fit the whole text (in all translations):
 			this.lblReloadNntpListOfGroups.LinkArea = new LinkArea(0,this.lblReloadNntpListOfGroups.Text.Length );
 			this.lblAutodiscoverHelp.LinkArea = new LinkArea(0, this.lblAutodiscoverHelp.Text.Length);
@@ -185,7 +190,7 @@ namespace RssBandit.WinGui.Dialogs
 
 			// form location management:
 			windowSerializer = new WindowSerializer(this);
-			windowSerializer.SaveOnlyLocation = true;
+			windowSerializer.SaveOnlyLocation = false;
 			windowSerializer.SaveNoWindowState = true;
 
 			windowSerializer.LoadStateEvent += OnWindowSerializerLoadStateEvent;
@@ -1080,6 +1085,8 @@ namespace RssBandit.WinGui.Dialogs
 				// move to next wizard page 
 				wizard.GoNext();
 			}
+
+			this.wizard.MarginImage = Properties.Resources.subscription_wizard_welcome;
 		}
 
 		private void OnWindowSerializerLoadStateEvent(object sender, Genghis.Preferences preferences) {
@@ -1125,6 +1132,7 @@ namespace RssBandit.WinGui.Dialogs
 		private void OnFinishPage_BeforeDisplay(object sender, EventArgs e)
 		{
 			this._btnImmediateFinish.Visible = false;
+			this.wizard.MarginImage = Properties.Resources.subscription_wizard_finished;
 		}
 
 		private void OnFinishPage_BeforeMoveBack(object sender, System.ComponentModel.CancelEventArgs e)

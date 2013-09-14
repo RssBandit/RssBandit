@@ -470,11 +470,6 @@
     <EmbeddedResource Include="Resources\TreeImages.png" />
     <EmbeddedResource Include="Resources\AllToolImages.png" />
     <EmbeddedResource Include="Resources\ListImages.png" />
-    <EmbeddedResource Include="Resources\TreeImagesXP.png" />
-    <None Include="Resources\search_folder_16.png" />
-    <None Include="Resources\search_folder_32.png" />
-    <None Include="Resources\subscriptions_folder_16.png" />
-    <None Include="Resources\subscriptions_folder_32.png" />
     <None Include="Resources\New_Certificate_16.png" />
     <None Include="Resources\View_Certificate_16.png" />
     <Resource Include="Resources\error.png" />
@@ -488,16 +483,24 @@
     </Content>
     <EmbeddedResource Include="Resources\AniImages.png" />
     <None Include="Resources\download.enclosure.32.png" />
-    <Content Include="Resources\facebook.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\google.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\2003Right.png" />
+    <None Include="Resources\feedsource_bandit_16.png" />
+    <None Include="Resources\feedsource_bandit_32.png" />
+    <None Include="Resources\feedsource_facebook_16.png" />
+    <None Include="Resources\feedsource_facebook_32.png" />
+    <None Include="Resources\feedsource_feedly_16.png" />
+    <None Include="Resources\feedsource_feedly_32.png" />
+    <None Include="Resources\feedsource_winRss_16.png" />
+    <None Include="Resources\feedsource_winRss_32.png" />
+    <None Include="Resources\feedsource_search_16.png" />
+    <None Include="Resources\feedsource_search_32.png" />
     <None Include="Resources\Refresh.ico" />
     <None Include="Resources\RssFeedAdd.ico" />
     <None Include="Resources\RssFeedRefresh.ico" />
     <None Include="Resources\TopStories.css" />
+    <None Include="Resources\subsription_banner_image.png" />
+    <None Include="Resources\subscription_wizard_finished.png" />
+    <None Include="Resources\subscription_wizard_welcome.png" />
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -630,13 +633,10 @@
     <None Include="Resources\feed.discovered.16.png" />
     <None Include="Resources\feed.discovered.32.png" />
     <EmbeddedResource Include="Resources\feedlist2subscriptions.xslt" />
-    <EmbeddedResource Include="Resources\feedRefresh.ico" />
     <EmbeddedResource Include="Resources\Html.16.png" />
     <EmbeddedResource Include="Resources\Html.32.png" />
     <EmbeddedResource Include="Resources\iecontext_subscribebandit.htm" />
     <EmbeddedResource Include="Resources\iecontext_subscribefeed.htm" />
-    <EmbeddedResource Include="Resources\ListStateImages.bmp" />
-    <None Include="Resources\nntp.doc.png" />
     <None Include="Resources\no.feed.discovered.16.png" />
     <None Include="Resources\no.feed.discovered.32.png" />
     <None Include="Resources\rssbandit.16.png" />

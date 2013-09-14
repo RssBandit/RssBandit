@@ -282,15 +282,15 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 
 		private void CreateViewMenu(AppPopupMenuCommand mc) {
 			
-			AppStateButtonToolCommand toogleTreeViewState = new AppStateButtonToolCommand(
-				"cmdToggleTreeViewState", owner.Mediator, main.CmdDockShowSubscriptions,
-				SR.MenuToggleTreeViewStateCaption, SR.MenuToggleTreeViewStateDesc, 
-				Resource.ToolItemImage.ToggleSubscriptions, shortcutHandler);
+			//AppStateButtonToolCommand toogleTreeViewState = new AppStateButtonToolCommand(
+			//	"cmdToggleTreeViewState", owner.Mediator, main.CmdDockShowSubscriptions,
+			//	SR.MenuToggleTreeViewStateCaption, SR.MenuToggleTreeViewStateDesc, 
+			//	Resource.ToolItemImage.ToggleSubscriptions, shortcutHandler);
 
-			AppStateButtonToolCommand toggleRssSearchViewState = new AppStateButtonToolCommand(
-				"cmdToggleRssSearchTabState", owner.Mediator, main.CmdDockShowRssSearch,
-				SR.MenuToggleRssSearchTabStateCaption, SR.MenuToggleRssSearchTabStateDesc, 
-				Resource.ToolItemImage.ToggleRssSearch, shortcutHandler);
+			//AppStateButtonToolCommand toggleRssSearchViewState = new AppStateButtonToolCommand(
+			//	"cmdToggleRssSearchTabState", owner.Mediator, main.CmdDockShowRssSearch,
+			//	SR.MenuToggleRssSearchTabStateCaption, SR.MenuToggleRssSearchTabStateDesc, 
+			//	Resource.ToolItemImage.ToggleRssSearch, shortcutHandler);
 
 			AppPopupMenuCommand toolbarsDropDownMenu = new AppPopupMenuCommand(
 				"mnuViewToolbars", owner.Mediator, null, 
@@ -451,8 +451,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
             }
 
            // must be added to the toolbar first:
-            this.manager.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
-            mc.Tools.AddRange(new ToolBase[] { toogleTreeViewState, toggleRssSearchViewState, toolbarsDropDownMenu, layoutPositionDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
+            this.manager.Tools.AddRange(new ToolBase[] { /*toogleTreeViewState, toggleRssSearchViewState,*/ layoutPositionDropDownMenu, toolbarsDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
+            mc.Tools.AddRange(new ToolBase[] { /*toogleTreeViewState, toggleRssSearchViewState,*/ layoutPositionDropDownMenu, toolbarsDropDownMenu, columnChooserDropDownMenu, textSizeDropDownMenu, outlookReadingViewState });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryView;
 			}

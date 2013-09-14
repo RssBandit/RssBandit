@@ -1282,10 +1282,10 @@ namespace RssBandit.WinGui.Forms
 			group.Text = entry.Name;
 
 			Infragistics.Win.Appearance small = new Infragistics.Win.Appearance();
-			small.Image = Properties.Resources.subscriptions_folder_16;
+			small.Image = GetImageForFeedSource(entry, true);
 			group.Settings.AppearancesSmall.HeaderAppearance = small;
 			Infragistics.Win.Appearance large = new Infragistics.Win.Appearance();
-			large.Image = Properties.Resources.subscriptions_folder_32;
+			large.Image = GetImageForFeedSource(entry, false);
 			group.Settings.AppearancesLarge.HeaderAppearance = large;
 
 			if (onTop)
@@ -1299,6 +1299,22 @@ namespace RssBandit.WinGui.Forms
 			}
         	view.ResumeLayout(false); 
 		}
+
+	    private Image GetImageForFeedSource(FeedSourceEntry entry, bool small)
+	    {
+		    switch (entry.SourceType)
+		    {
+			    case FeedSourceType.DirectAccess:
+				    return (small ? Properties.Resources.feedsource_bandit_16 : Properties.Resources.feedsource_bandit_32);
+				case FeedSourceType.Facebook:
+					return (small ? Properties.Resources.feedsource_facebook_16 : Properties.Resources.feedsource_facebook_32);
+				case FeedSourceType.FeedlyCloud:
+					return (small ? Properties.Resources.feedsource_feedly_16 : Properties.Resources.feedsource_feedly_32);
+				case FeedSourceType.WindowsRSS:
+					return (small ? Properties.Resources.feedsource_winRss_16 : Properties.Resources.feedsource_winRss_32);
+			}
+		    return null;
+	    }
 
 		public void RemoveFeedSourceView(FeedSourceEntry entry)
 		{
@@ -2999,16 +3015,6 @@ namespace RssBandit.WinGui.Forms
             }
 
             CurrentDragNode = null;
-        }
-
-        private void OnTimerTreeNodeExpandElapsed(object sender, ElapsedEventArgs e)
-        {
-            //_timerTreeNodeExpand.Stop();
-            //if (CurrentDragHighlightNode != null) 
-            //{
-            //    if (!CurrentDragHighlightNode.Expanded)
-            //        CurrentDragHighlightNode.Expanded = true;
-            //}
         }
 
         private void OnTimerFeedsRefreshElapsed(object sender, ElapsedEventArgs e)
