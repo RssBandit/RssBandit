@@ -143,6 +143,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AddIn\AddInBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -162,6 +165,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\CollectionInterfaces.cs" />
+    <Compile Include="Configuration\IPersistedSettings.cs" />
     <Compile Include="Core\CommonInterfaces.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,9 +202,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UI\WindowManagementInterfaces.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

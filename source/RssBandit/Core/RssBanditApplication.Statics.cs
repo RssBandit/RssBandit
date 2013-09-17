@@ -397,11 +397,11 @@ namespace RssBandit
         {
             get
             {
-                return (bool) guiSettings.GetProperty("AskForMakeDefaultAggregator", true);
+                return PersistedSettings.GetProperty("AskForMakeDefaultAggregator", true);
             }
             set
             {
-                guiSettings.SetProperty("AskForMakeDefaultAggregator", value);
+				PersistedSettings.SetProperty("AskForMakeDefaultAggregator", value);
             }
         }
 
@@ -639,16 +639,21 @@ namespace RssBandit
 
 
         /// <summary>
-        /// Gets the name of the settings file.
+        /// Gets the name of the UI settings file.
         /// </summary>
         /// <returns></returns>
-        public static string GetSettingsFileName()
+        public static string GetUiSettingsFileName()
         {
             string clr = String.Empty;
             if (NewsComponents.Utils.Common.ClrVersion.Major > 1)
-                clr = NewsComponents.Utils.Common.ClrVersion.Major.ToString();
-            return Path.Combine(GetUserPath(), ".settings" + clr + ".xml");
+                clr = NewsComponents.Utils.Common.ClrVersion.Major.ToString(NumberFormatInfo.InvariantInfo);
+            return Path.Combine(GetUserPath(), ".uisettings" + clr + ".xml");
         }
+
+		public static string GetGlobalSettingsFileName()
+		{
+			return Path.Combine(GetUserPath(), ".global.settings.xml");
+		}
 
 		/// <summary>
 		/// Gets the name of the feed sources file.

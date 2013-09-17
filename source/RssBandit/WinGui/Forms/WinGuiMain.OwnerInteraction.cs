@@ -45,7 +45,7 @@ namespace RssBandit.WinGui.Forms
             Close();
         }
 
-        public void SaveUIConfiguration(bool forceFlush)
+        public void SaveConfiguration(bool forceFlush)
         {
             try
             {
@@ -57,6 +57,7 @@ namespace RssBandit.WinGui.Forms
                 if (forceFlush)
                 {
                     owner.GuiSettings.Flush();
+					owner.GlobalSettings.Flush();
                 }
             }
             catch (Exception ex)

@@ -62,12 +62,12 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeFlaggedFeedsCaption,
 			     SR.FeedNodeFlaggedFeedsDesc, false)
 		{
-			runSelfHealingFlagStatus = (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                                 	SelfHealingFlagStatusKey, typeof(bool), true);
+			runSelfHealingFlagStatus = RssBanditApplication.PersistedSettings.GetProperty(
+			                                 	SelfHealingFlagStatusKey, true);
 
 			// set this to indicate required migration:
-			migrationRequired = runSelfHealingFlagStatus || (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                                                      	MigrationKey, typeof(bool), true);
+			migrationRequired = runSelfHealingFlagStatus || RssBanditApplication.PersistedSettings.GetProperty(
+			                                                      	MigrationKey, true);
 
 			if (reader != null)
 			{
@@ -169,8 +169,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeWatchedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                          	MigrationKey, typeof(bool), true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
 			
 			using (XmlReader reader = this.GetDefaultReader())
 				LoadItems(reader, migratedItemsOwner);
@@ -187,8 +186,7 @@ namespace RssBandit.SpecialFeeds
 				 SR.FeedNodeWatchedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                          	MigrationKey, typeof(bool), true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
 
 			if (reader != null)
 			{
@@ -268,8 +266,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeSentItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                          	MigrationKey, typeof(bool), true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
 
 			if (reader != null)
 			{
@@ -339,8 +336,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeDeletedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = (bool)RssBanditApplication.PersistedSettings.GetProperty(
-			                          	MigrationKey, typeof(bool), true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
 
 			using (XmlReader reader = this.GetDefaultReader())
 				LoadItems(reader, migratedItemsOwner);

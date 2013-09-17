@@ -2214,6 +2214,7 @@
     <Compile Include="WinGui\Utility\RssItemFormatter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WinGui\Utility\Settings.cs" />
     <Compile Include="WinGui\Utility\WheelSupport.cs">
       <SubType>Code</SubType>
     </Compile>

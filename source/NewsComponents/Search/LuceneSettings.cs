@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using Lucene.Net.Store;
+using RssBandit.AppServices.Configuration;
 using Directory=Lucene.Net.Store.Directory;
 using Logger = RssBandit.Common.Logging;
 
@@ -75,7 +76,8 @@ namespace NewsComponents.Search
 		/// Gets the index path.
 		/// </summary>
 		/// <value>The index path.</value>
-		internal string IndexPath {
+		internal string IndexPath
+		{
 			get { return this.indexPath; }
 		}
 
@@ -83,41 +85,45 @@ namespace NewsComponents.Search
         /// Gets the index directory (returns a new object instance).
         /// </summary>
         /// <value>The index directory.</value>
-        internal Directory GetIndexDirectory() {
-            return this.GetIndexDirectory(false);
-        }
+		internal Directory GetIndexDirectory()
+		{
+			return this.GetIndexDirectory(false);
+		}
 
         /// <summary>
         /// Gets the index directory (returns a new object instance).
         /// </summary>
         /// <value>The index directory.</value>
-        internal Directory GetIndexDirectory(bool create) {
-
-            if (IsRAMBasedSearch) {
-                return new RAMDirectory();
-            } else {
-                return FSDirectory.GetDirectory(this.indexPath, create);
-            }
-
+		internal Directory GetIndexDirectory(bool create)
+        {
+	        if (IsRAMBasedSearch)
+			{
+				return new RAMDirectory();
+			}
+	        return FSDirectory.GetDirectory(this.indexPath, create);
         }
 
 		/// <summary>
 		/// Gets the search index behavior.
 		/// </summary>
 		/// <value>The search index behavior.</value>
-		public SearchIndexBehavior SearchIndexBehavior {
-			get { return this.behavior;  }
+		public SearchIndexBehavior SearchIndexBehavior
+		{
+			get { return this.behavior; }
 		}
 		
 		/// <summary>
 		/// Gets or sets the last index optimization date time.
 		/// </summary>
 		/// <value>The last index optimization.</value>
-		public DateTime LastIndexOptimization {
-			get {
-				return (DateTime)settings.GetProperty("Lucene.LastIndexOptimization", typeof(DateTime), DateTime.MinValue);
+		public DateTime LastIndexOptimization
+		{
+			get
+			{
+				return settings.GetProperty("Lucene.LastIndexOptimization", DateTime.MinValue);
 			}
-			set {
+			set
+			{
 				settings.SetProperty("Lucene.LastIndexOptimization", value);
 			}
 		}
@@ -132,8 +138,8 @@ namespace NewsComponents.Search
 		{
 			if (IsRAMBasedSearch)
 				return "Index@RAM";
-			else
-				return "Index@"+ this.indexPath;
+			
+			return "Index@"+ this.indexPath;
 		}
 
 		private static string BuildAndCreateIndexDirectoryPath(INewsComponentsConfiguration configuration) 

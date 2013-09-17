@@ -226,40 +226,48 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="elements"></param>
 		/// <param name="elementName"></param>
-		/// <param name="elementNamespace"></param>
+		/// <param name="elementNamespace">Optional</param>
 		/// <returns></returns>
-		static public XmlElement GetOptionalElement(IDictionary elements, string elementName, string elementNamespace) {
+		static public XmlElement GetOptionalElement(IDictionary elements, string elementName, string elementNamespace = "")
+		{
 			if (elements == null || elements.Count == 0)
 				return null;
-			
+
 			XmlQualifiedName qname = GetOptionalElementKey(elements, elementName, elementNamespace);
-			if (qname != null) {
-				string elem  = (string) elements[qname];
-				if(elem != null) {
-					return (XmlElement) elementCreator.ReadNode(new XmlTextReader(new StringReader(elem))); 
+			if (qname != null)
+			{
+				string elem = (string)elements[qname];
+				if (elem != null)
+				{
+					return (XmlElement)elementCreator.ReadNode(new XmlTextReader(new StringReader(elem)));
 				}
 			}
 			return null;
 		}
+
 		/// <summary>
 		/// Returns the optional XmlElement if found within the provided list,
 		/// else null.
 		/// </summary>
 		/// <param name="elements"></param>
 		/// <param name="elementName"></param>
-		/// <param name="elementNamespace"></param>
+		/// <param name="elementNamespace">Optional</param>
 		/// <returns></returns>
-		static public XmlElement[] GetOptionalElements(IDictionary elements, string elementName, string elementNamespace) {
+		static public XmlElement[] GetOptionalElements(IDictionary elements, string elementName, string elementNamespace = "")
+		{
 			if (elements == null || elements.Count == 0)
 				return null;
-			
+
 			XmlQualifiedName[] qnames = GetOptionalElementKeys(elements, elementName, elementNamespace);
-			if (qnames != null) {
+			if (qnames != null)
+			{
 				List<XmlElement> xElements = new List<XmlElement>();
-				foreach (XmlQualifiedName qname in qnames) {
-					string elem  = (string) elements[qname];
-					if(elem != null) {
-						xElements.Add((XmlElement)elementCreator.ReadNode(new XmlTextReader(new StringReader(elem)))); 
+				foreach (XmlQualifiedName qname in qnames)
+				{
+					string elem = (string)elements[qname];
+					if (elem != null)
+					{
+						xElements.Add((XmlElement)elementCreator.ReadNode(new XmlTextReader(new StringReader(elem))));
 					}
 				}
 				return xElements.ToArray();
@@ -274,12 +282,13 @@ namespace NewsComponents.Utils
 		/// <param name="elements"></param>
 		/// <param name="qName">XmlQualifiedName</param>
 		/// <returns>XmlQualifiedName</returns>
-		static public XmlQualifiedName GetOptionalElementKey(IDictionary elements, XmlQualifiedName qName) {
+		static public XmlQualifiedName GetOptionalElementKey(IDictionary elements, XmlQualifiedName qName)
+		{
 			if (elements == null || elements.Count == 0 || qName == null)
 				return null;
 			return GetOptionalElementKey(elements, qName.Name, qName.Namespace);
 		}
-		
+
 		/// <summary>
 		/// Returns the optional XmlElement if found within the provided list,
 		/// else null.

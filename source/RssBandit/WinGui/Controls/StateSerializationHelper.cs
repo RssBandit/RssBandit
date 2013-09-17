@@ -20,7 +20,6 @@ using System.Windows.Forms;
 using Genghis;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
-using NewsComponents.Utils;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Utility;
 
@@ -405,19 +404,19 @@ namespace RssBandit.WinGui.Controls {
 		/// </summary>
 		/// <param name="explorerBar">UltraExplorerBar</param>
 		/// <param name="store">Settings</param>
-		/// <param name="preferenceID">String. The ID the settings should come from 
+		/// <param name="preferenceId">String. The ID the settings should come from 
 		/// (multiple sets may exist in the Preference store)</param>
 		/// <exception cref="ArgumentNullException">If any of the parameters is null</exception>
 		/// <exception cref="InvalidOperationException">If the collection of groups allow duplicate keys
 		///  or any group does not have a unique key</exception>
-		public static void LoadExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceID) {
+		internal static void LoadExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceId) {
 			
 			if (explorerBar == null)
 				throw new ArgumentNullException("explorerBar");
 			if (store == null)
 				throw new ArgumentNullException("store");
-			if (preferenceID == null || preferenceID.Length == 0)
-				throw new ArgumentNullException("preferenceID");
+			if (preferenceId == null || preferenceId.Length == 0)
+				throw new ArgumentNullException("preferenceId");
 
 			if (explorerBar.Groups.AllowDuplicateKeys)
 				throw new InvalidOperationException("UltraExplorerBarGroupsCollection must provide unique Keys to support Load/Save settings operations.");
@@ -425,7 +424,7 @@ namespace RssBandit.WinGui.Controls {
 //			explorerBar.LoadFromXml(@"D:\expl.xml");
 //			return;
 
-			Preferences prefReader = store.GetSubnode(preferenceID);
+			Preferences prefReader = store.GetSubnode(preferenceId);
 			int version = prefReader.GetInt32("version", 0);	// make the impl. extendable
 			if (version < 1)
 				return;	// wrong version
@@ -486,19 +485,19 @@ namespace RssBandit.WinGui.Controls {
 		/// </summary>
 		/// <param name="explorerBar">UltraExplorerBar</param>
 		/// <param name="store">Settings</param>
-		/// <param name="preferenceID">String. The ID the settings should come from 
+		/// <param name="preferenceId">String. The ID the settings should come from 
 		/// (multiple sets may exist in the Preference store)</param>
 		/// <exception cref="ArgumentNullException">If any of the parameters is null</exception>
 		/// <exception cref="InvalidOperationException">If the collection of groups allow duplicate keys
 		///  or any group does not have a unique key</exception>
-		public static void SaveExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceID) {
+		internal static void SaveExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceId) {
 			
 			if (explorerBar == null)
 				throw new ArgumentNullException("explorerBar");
 			if (store == null)
 				throw new ArgumentNullException("store");
-			if (preferenceID == null || preferenceID.Length == 0)
-				throw new ArgumentNullException("preferenceID");
+			if (string.IsNullOrEmpty(preferenceId))
+				throw new ArgumentNullException("preferenceId");
 
 			if (explorerBar.Groups.AllowDuplicateKeys)
 				throw new InvalidOperationException("UltraExplorerBarGroupsCollection must provide unique Keys to support Load/Save settings operations.");
@@ -506,7 +505,7 @@ namespace RssBandit.WinGui.Controls {
 //			explorerBar.SaveAsXml(@"D:\expl.xml");
 //			return;
 			
-			Preferences prefWriter = store.GetSubnode(preferenceID);
+			Preferences prefWriter = store.GetSubnode(preferenceId);
 			prefWriter.SetProperty("version", 1);		// make the impl. extendable
 
 			prefWriter.SetProperty("Location.X", explorerBar.Location.X);
