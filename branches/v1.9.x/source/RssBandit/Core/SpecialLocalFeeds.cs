@@ -24,6 +24,7 @@ using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.Common;
+using RssBandit.WinGui.Utility;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.SpecialFeeds
@@ -36,11 +37,6 @@ namespace RssBandit.SpecialFeeds
 	/// </summary>
 	internal class FlaggedItemsFeed:LocalFeedsFeed
 	{
-		private const string MigrationKey = "FlaggedItemsFeed.migrated.to.1.7";
-		// as long the FlagStatus of NewsItem's wasn't persisted all the time, 
-		// we have to re-init the feed item's FlagStatus from the flagged items collection:
-		private const string SelfHealingFlagStatusKey = "RunSelfHealing.FlagStatus";
-
 		private readonly bool runSelfHealingFlagStatus;
 
 		/// <summary>
@@ -63,11 +59,11 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeFlaggedFeedsDesc, false)
 		{
 			runSelfHealingFlagStatus = RssBanditApplication.PersistedSettings.GetProperty(
-			                                 	SelfHealingFlagStatusKey, true);
+												Ps.FlaggedItemsFeedSelfHealingFlagStatusRequired, true);
 
 			// set this to indicate required migration:
 			migrationRequired = runSelfHealingFlagStatus || RssBanditApplication.PersistedSettings.GetProperty(
-			                                                      	MigrationKey, true);
+																	Ps.FlaggedItemsFeedMigrationRequired, true);
 
 			if (reader != null)
 			{
@@ -144,7 +140,10 @@ namespace RssBandit.SpecialFeeds
 		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
 			if (migrationRequired && loadSucceeds)
-				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
+			{
+				RssBanditApplication.PersistedSettings.SetProperty(Ps.FlaggedItemsFeedMigrationRequired, false);
+				RssBanditApplication.PersistedSettings.SetProperty(Ps.FlaggedItemsFeedSelfHealingFlagStatusRequired, false);
+			}
 		}
 	}
 
@@ -157,8 +156,6 @@ namespace RssBandit.SpecialFeeds
 	/// </summary>
 	internal class WatchedItemsFeed : LocalFeedsFeed
 	{
-		private const string MigrationKey = "WatchedItemsFeed.migrated.to.1.7";
-		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WatchedItemsFeed"/> class.
 		/// </summary>
@@ -169,7 +166,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeWatchedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(Ps.WatchedItemsFeedMigrationRequired, true);
 			
 			using (XmlReader reader = this.GetDefaultReader())
 				LoadItems(reader, migratedItemsOwner);
@@ -186,7 +183,7 @@ namespace RssBandit.SpecialFeeds
 				 SR.FeedNodeWatchedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(Ps.WatchedItemsFeedMigrationRequired, true);
 
 			if (reader != null)
 			{
@@ -231,7 +228,7 @@ namespace RssBandit.SpecialFeeds
 		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
 			if (migrationRequired && loadSucceeds)
-				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
+				RssBanditApplication.PersistedSettings.SetProperty(Ps.WatchedItemsFeedMigrationRequired, false);
 		}
 	}
 
@@ -244,8 +241,6 @@ namespace RssBandit.SpecialFeeds
 	/// </summary>
 	internal class SentItemsFeed : LocalFeedsFeed
 	{
-		private const string MigrationKey = "SentItemsFeed.migrated.to.1.7";
-		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SentItemsFeed"/> class.
 		/// </summary>
@@ -266,7 +261,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeSentItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(Ps.SentItemsFeedMigrationRequired, true);
 
 			if (reader != null)
 			{
@@ -311,7 +306,7 @@ namespace RssBandit.SpecialFeeds
 		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
 			if (migrationRequired && loadSucceeds)
-				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
+				RssBanditApplication.PersistedSettings.SetProperty(Ps.SentItemsFeedMigrationRequired, false);
 		}
 	}
 
@@ -324,8 +319,6 @@ namespace RssBandit.SpecialFeeds
 	/// </summary>
 	internal class DeletedItemsFeed : LocalFeedsFeed
 	{
-		private const string MigrationKey = "DeletedItemsFeed.migrated.to.1.7";
-		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DeletedItemsFeed"/> class.
 		/// </summary>
@@ -336,7 +329,7 @@ namespace RssBandit.SpecialFeeds
 			     SR.FeedNodeDeletedItemsDesc, false)
 		{
 			// set this to indicate required migration:
-			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(MigrationKey, true);
+			migrationRequired = RssBanditApplication.PersistedSettings.GetProperty(Ps.DeletedItemsFeedMigrationRequired, true);
 
 			using (XmlReader reader = this.GetDefaultReader())
 				LoadItems(reader, migratedItemsOwner);
@@ -374,7 +367,7 @@ namespace RssBandit.SpecialFeeds
 		protected override void OnItemsLoaded(bool loadSucceeds)
 		{
 			if (migrationRequired && loadSucceeds)
-				RssBanditApplication.PersistedSettings.SetProperty(MigrationKey, false);
+				RssBanditApplication.PersistedSettings.SetProperty(Ps.DeletedItemsFeedMigrationRequired, false);
 		}
 	}
 

@@ -322,7 +322,8 @@ namespace NewsComponents
 			return cfg;
 		}
 		
-		#region PersistedSettings impl.
+		#region local PersistedSettings impl.
+
 		class SettingStore: IPersistedSettings 
 		{
 			private readonly string settingsRoot;
@@ -414,6 +415,23 @@ namespace NewsComponents
 
 		#endregion
 	}
+
 	#endregion
+
+	#region our Persisted setting consts
+
+	/// <summary>
+	/// "P"ersisted "s"etting consts
+	/// </summary>
+	internal static class Ps
+	{
+		private const string ComponentPrefix = "NewsComponents.";
+
+		public const string LastFaviconDownladTimeMask  = ComponentPrefix + "FeedSource.{0}.LastFaviconDownladTime";
+		public const string LuceneLastIndexOptimization = ComponentPrefix + "Lucene.LastIndexOptimization";
+	}
+
+	#endregion
+
 }
 

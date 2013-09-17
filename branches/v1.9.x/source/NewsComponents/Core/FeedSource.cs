@@ -1394,12 +1394,12 @@ namespace NewsComponents
 			get
 			{
 				return this.Configuration.PersistedSettings.GetProperty(
-					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), DateTime.MinValue);
+					Ps.LastFaviconDownladTimeMask.FormatWith(Type), DateTime.MinValue);
 			}
 			set
 			{
 				this.Configuration.PersistedSettings.SetProperty(
-					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), value);
+					Ps.LastFaviconDownladTimeMask.FormatWith(Type), value);
 			}
 		}
 

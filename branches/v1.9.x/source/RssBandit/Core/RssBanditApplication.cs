@@ -1197,11 +1197,11 @@ namespace RssBandit
         {
             get
             {
-                return PersistedSettings.GetProperty("LastAutoUpdateCheck", DateTime.MinValue);
+                return PersistedSettings.GetProperty(Ps.LastAutoUpdateCheck, DateTime.MinValue);
             }
             set
             {
-				PersistedSettings.SetProperty("LastAutoUpdateCheck", value);
+				PersistedSettings.SetProperty(Ps.LastAutoUpdateCheck, value);
             }
         }
 
@@ -2528,7 +2528,7 @@ namespace RssBandit
                 _log.Error("RemoveUnreadItemsSearchFolders() Exception (reading/saving file).", ex);
             }
 
-			PersistedSettings.SetProperty("UnreadItemsSearchFolders.migrated.to.1.9", true);
+			PersistedSettings.SetProperty(Ps.UnreadItemsSearchFoldersMigrationRequired, false);
         }
 
 
@@ -2540,7 +2540,7 @@ namespace RssBandit
 			// Read search folder file
 			if (File.Exists(fileName))
 			{
-				if (!PersistedSettings.GetProperty("UnreadItemsSearchFolders.migrated.to.1.9", true))
+				if (PersistedSettings.GetProperty(Ps.UnreadItemsSearchFoldersMigrationRequired, true))
 					RemoveUnreadItemsSearchFolders(fileName);
 
 				using (Stream stream = FileHelper.OpenForRead(fileName))
