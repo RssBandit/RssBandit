@@ -113,18 +113,18 @@ namespace NewsComponents.Search
 		}
 		
 		/// <summary>
-		/// Gets or sets the last index optimization date time.
+		/// Gets or sets the last index optimization date time (Utc).
 		/// </summary>
 		/// <value>The last index optimization.</value>
 		public DateTime LastIndexOptimization
 		{
 			get
 			{
-				return settings.GetProperty("Lucene.LastIndexOptimization", DateTime.MinValue);
+				return settings.GetProperty(Ps.LuceneLastIndexOptimization, DateTime.MinValue);
 			}
 			set
 			{
-				settings.SetProperty("Lucene.LastIndexOptimization", value);
+				settings.SetProperty(Ps.LuceneLastIndexOptimization, value);
 			}
 		}
 

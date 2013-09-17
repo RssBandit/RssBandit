@@ -500,7 +500,7 @@ namespace RssBandit
                     t = t.AddDays(14);
                 else
                     t = t.AddMonths(1);
-                if (DateTime.Compare(t, DateTime.Now) < 0)
+                if (DateTime.Compare(t, DateTime.UtcNow) < 0)
                     CheckForUpdates(mode);
             }
         }
@@ -514,7 +514,7 @@ namespace RssBandit
             {
                 if (DialogResult.No == MessageQuestion(SR.DialogQuestionNewAppVersionAvailable))
                 {
-                    LastAutoUpdateCheck = DateTime.Now;
+                    LastAutoUpdateCheck = DateTime.UtcNow;
                 }
                 else
                 {
@@ -522,12 +522,12 @@ namespace RssBandit
 
                     // for now we do not download anything, just display the SF download page:
 					NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.ProjectDownloadUrl, CaptionOnly + ": Download", true, true);
-                    LastAutoUpdateCheck = DateTime.Now;
+                    LastAutoUpdateCheck = DateTime.UtcNow;
                 }
             }
             else
             {
-                LastAutoUpdateCheck = DateTime.Now;
+                LastAutoUpdateCheck = DateTime.UtcNow;
 
                 if (mode == AutoUpdateMode.Manually)
                     MessageInfo(SR.DialogMessageNoNewAppVersionAvailable);

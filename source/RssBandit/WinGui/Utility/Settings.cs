@@ -10,18 +10,36 @@
 
 using System;
 using System.Collections;
-using System.Configuration;
 using System.IO;
 using System.Xml;
 using Genghis;
 using JetBrains.Annotations;
-using NewsComponents;
 using NewsComponents.Utils;
 using RssBandit.AppServices.Configuration;
 using RssBandit.Common.Logging;
 
 namespace RssBandit.WinGui.Utility
 {
+	/// <summary>
+	/// "P"ersisted "s"etting consts
+	/// </summary>
+	internal static class Ps
+	{
+		public const string LastAutoUpdateCheck = "LastAutoUpdateCheck";
+		
+		// migration keys are for backward compat. (read old formats and convert in background)
+		public const string UnreadItemsSearchFoldersMigrationRequired = "UnreadItemsSearchFolders.migrationRequired.to.1.9";
+		public const string WatchedItemsFeedMigrationRequired = "WatchedItemsFeed.migrationRequired.to.1.7";
+		public const string SentItemsFeedMigrationRequired = "SentItemsFeed.migrationRequired.to.1.7";
+		public const string DeletedItemsFeedMigrationRequired = "DeletedItemsFeed.migrationRequired.to.1.7";
+		public const string FlaggedItemsFeedMigrationRequired = "FlaggedItemsFeed.migrationRequired.to.1.7";
+		/// <summary>
+		/// As long the FlagStatus of NewsItem's wasn't persisted all the time in the feed, 
+		/// we have to re-init the feed item's FlagStatus from the flagged items collection:
+		/// </summary>
+		public const string FlaggedItemsFeedSelfHealingFlagStatusRequired = "FlaggedItemsFeed.RunSelfHealing.FlagStatus";
+	}
+
 	/// <summary>
 	/// Helper to save/restore Gui Settings (other than User Preferences).
 	/// This includes such things like Window size and position, panel sizes, dock layout etc.
@@ -106,7 +124,16 @@ namespace RssBandit.WinGui.Utility
 				_userStore.Remove(Path + name);
 				return;
 			}
-			_userStore[Path + name] = Convert.ToString(value);
+
+			if (value is DateTime)
+			{
+				_userStore[Path + name] = ((DateTime) value).ToString("u");
+			}
+			else
+			{
+				_userStore[Path + name] = Convert.ToString(value);	
+			}
+			
 			_userStoreModified = true;
 		}
 
