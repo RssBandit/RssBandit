@@ -43,6 +43,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using RssBandit.AppServices.Configuration;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
@@ -105,6 +106,7 @@ namespace RssBandit
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
         private static Settings guiSettings;
+        private static Settings globalSettings;
         
         internal const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
@@ -263,7 +265,9 @@ namespace RssBandit
 			}
 
             // Gui Settings (Form position, layouts,...)
-            guiSettings = new Settings(String.Empty);
+            guiSettings = new Settings(GetUiSettingsFileName(), String.Empty);
+            // other global settings (used Frontend, NewsComponents)
+			globalSettings = new Settings(GetGlobalSettingsFileName(), "rssbandit.app");
         }
 
 		private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
@@ -462,7 +466,7 @@ namespace RssBandit
             else
                 cfg.DownloadedFilesDataPath = GetDefaultEnclosuresPath();
 
-            cfg.PersistedSettings = GuiSettings;
+            cfg.PersistedSettings = PersistedSettings;
 
             // once written a valid value:
             if (Preferences.RefreshRate >= 0)
@@ -1175,10 +1179,14 @@ namespace RssBandit
         {
             get { return guiSettings; }
         }
+		public Settings GlobalSettings
+		{
+			get { return globalSettings; }
+		}
 
 		public static IPersistedSettings PersistedSettings
 		{
-			get { return guiSettings; }
+			get { return globalSettings; }
 		}
 
         /// <summary>
@@ -1189,17 +1197,12 @@ namespace RssBandit
         {
             get
             {
-                return
-                    (DateTime)
-                    GuiSettings.GetProperty("Application.LastAutoUpdateCheck", DateTime.MinValue, typeof (DateTime));
+                return PersistedSettings.GetProperty("LastAutoUpdateCheck", DateTime.MinValue);
             }
             set
             {
-                GuiSettings.SetProperty("Application.LastAutoUpdateCheck", value);
-                GuiSettings.Flush();
+				PersistedSettings.SetProperty("LastAutoUpdateCheck", value);
             }
-//			get { return this.Preferences.LastAutoUpdateCheck; }
-//			set { this.Preferences.LastAutoUpdateCheck = value; SavePreferences(); }
         }
 
         public GuiStateManager StateHandler
@@ -2498,104 +2501,63 @@ namespace RssBandit
         /// </summary>
         /// <remarks>This code used to be in the custom action for the installer but was moved once we got rid 
         /// of custom actions due to Vista install issues</remarks>
-        private static void RemoveUnreadItemsSearchFolders()
+        private static void RemoveUnreadItemsSearchFolders(string fileName)
         {
-            string searchfolders = GetSearchFolderFileName();
-
-            try
+			try
             {
-                var doc = new XmlDocument();
+				if (File.Exists(fileName))
+	            {
+					var doc = new XmlDocument();
 
-                if (File.Exists(searchfolders))
-                {
-                    //there should be an 'Unread Items' there
-                    doc.Load(searchfolders);
-                }
-                else
-                {
-                    return;
-                }
+		            // lookup the 'Unread Items' there
+					doc.Load(fileName);
+					
+		            var unreadItems = (XmlElement)
+			            doc.SelectSingleNode("/FinderSearchNodes/RssFinderNodes/RssFinder[FullPath = 'Unread Items']");
 
-                var unreadItems =
-                    (XmlElement)
-                    doc.SelectSingleNode("/FinderSearchNodes/RssFinderNodes/RssFinder[FullPath = 'Unread Items']");
+		            if (unreadItems != null)
+		            {
+			            unreadItems.ParentNode.RemoveChild(unreadItems);
+		            }
 
-                if (unreadItems != null)
-                {
-                    unreadItems.ParentNode.RemoveChild(unreadItems);
-                }
-
-                doc.Save(searchfolders);
+					doc.Save(fileName);
+	            }
             }
             catch (Exception ex)
             {
                 _log.Error("RemoveUnreadItemsSearchFolders() Exception (reading/saving file).", ex);
             }
+
+			PersistedSettings.SetProperty("UnreadItemsSearchFolders.migrated.to.1.9", true);
         }
 
 
-        // For backward compatibility (read previous defined search folder settings)
-        // we read the old defs. from GuiSettings 
-        // If we get something from there, we save it immediatly to the new file/location used for
-        // search folders, then removing the entry from settings.
-        // If we did not found something in settings, we test for the saerch folder defs. file and read it.
+        // we test for the search folder defs. file and read it.
         public FinderSearchNodes LoadSearchFolders()
         {
-            RemoveUnreadItemsSearchFolders();
+	        var fileName = GetSearchFolderFileName();
 
-            FinderSearchNodes fsn = null;
-            bool needs2saveNew = false;
+			// Read search folder file
+			if (File.Exists(fileName))
+			{
+				if (!PersistedSettings.GetProperty("UnreadItemsSearchFolders.migrated.to.1.9", true))
+					RemoveUnreadItemsSearchFolders(fileName);
 
-            string s = GuiSettings.GetString("FinderNodes", null);
+				using (Stream stream = FileHelper.OpenForRead(fileName))
+				{
+					try
+					{
+						XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof(FinderSearchNodes));
+						return (FinderSearchNodes)ser.Deserialize(stream);
+					}
+					catch (Exception ex)
+					{
+						_log.Error("LoadSearchFolders::Load Exception (reading/deserialize file).", ex);
+					}
+				}
+			}
 
-            if (s == null)
-            {
-                // no old defs found. Read from search folder file
-
-                if (File.Exists(GetSearchFolderFileName()))
-                {
-                    using (Stream stream = FileHelper.OpenForRead(GetSearchFolderFileName()))
-                    {
-                        try
-                        {
-                            XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
-                            fsn = (FinderSearchNodes) ser.Deserialize(stream);
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Error("LoadSearchFolders::Load Exception (reading/deserialize file).", ex);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                try
-                {
-                    XmlSerializer ser = XmlHelper.SerializerCache.GetSerializer(typeof (FinderSearchNodes));
-                    fsn = (FinderSearchNodes) ser.Deserialize(new StringReader(s));
-                    needs2saveNew = true;
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("LoadSearchFolders::Load Exception (reading/deserialize string.", ex);
-                }
-            }
-
-            if (fsn == null)
-            {
-                //exception occured or xsi:nil = true in searchfolders.xml
-                fsn = new FinderSearchNodes();
-            }
-
-            if (needs2saveNew)
-            {
-                SaveSearchFolders(); // save to new file
-                GuiSettings.SetProperty("FinderNodes", null); // remove from .settings.xml
-            }
-
-
-            return fsn;
+	        return  new FinderSearchNodes();
         }
 
         public void SaveSearchFolders()
@@ -4895,7 +4857,7 @@ namespace RssBandit
             InvokeOnGui(delegate
                             {
                                 if (!guiMain.ShutdownInProgress)
-                                    guiMain.DelayTask(DelayedTasks.SaveUIConfiguration);
+                                    guiMain.DelayTask(DelayedTasks.SaveConfiguration);
                             });
 
             SaveApplicationState();

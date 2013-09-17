@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
@@ -2174,7 +2175,7 @@ namespace RssBandit.WinGui.Forms
                 _trayAni.Visible = false;
                 _uiTasksTimer.Stop();
 				owner.SaveFeedSources();
-                SaveUIConfiguration(true);
+                SaveConfiguration(true);
             }
         }
 
@@ -2915,7 +2916,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnTreeFeedDragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.Text))
+			if (e.Data.GetDataPresent(DataFormats.Text) || e.Data.GetDataPresent("UniformResourceLocator"))
             {
                 if ((e.AllowedEffect & DragDropEffects.Link) == DragDropEffects.Link)
                 {
@@ -3010,7 +3011,23 @@ namespace RssBandit.WinGui.Forms
                     Win32.NativeMethods.SetForegroundWindow(Handle);
 
                     var sData = (string) e.Data.GetData(DataFormats.Text);
-                    DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[] {target, sData});
+	                if (String.IsNullOrEmpty(sData))
+	                {
+						object data = e.Data.GetData("UniformResourceLocator");
+						var ms = data as MemoryStream;
+		                if (ms != null)
+		                {
+			                byte[] bytes = ms.ToArray();
+			                Encoding encod = Encoding.ASCII;
+			                String url = encod.GetString(bytes);
+			                sData = url.Substring(0, url.IndexOf('\0'));
+		                }
+	                }
+
+	                if (!String.IsNullOrEmpty(sData))
+	                {
+		                DelayTask(DelayedTasks.AutoSubscribeFeedUrl, new object[] {target, sData});
+	                }
                 }
             }
 

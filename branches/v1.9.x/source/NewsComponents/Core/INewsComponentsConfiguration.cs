@@ -16,6 +16,7 @@ using log4net;
 using Microsoft.Win32;
 
 using NewsComponents.Utils;
+using RssBandit.AppServices.Configuration;
 using Logger = RssBandit.Common.Logging;
 
 namespace NewsComponents
@@ -97,34 +98,6 @@ namespace NewsComponents
 
 	#endregion
 	
-	#region IPersistedSettings interface
-
-	/// <summary>
-	/// Defines the interface to a permanent/persisted settings storage impl.
-	/// Permanent/persisted means: the settings must be available for multiple
-	/// (sequential) running application sessions.
-	/// </summary>
-	public interface IPersistedSettings
-	{
-		/// <summary>
-		/// Gets the property value.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="returnType">Type of the return.</param>
-		/// <param name="defaultValue">The default value.</param>
-		/// <returns></returns>
-		object GetProperty(string name, Type returnType, object defaultValue);
-		
-		/// <summary>
-		/// Sets the property value.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="value">The value.</param>
-		void SetProperty(string name, object value);
-	}
-
-	#endregion
-
 	#region SearchIndexBehavior enum
 
 	/// <summary>
@@ -361,27 +334,36 @@ namespace NewsComponents
 			}
 			
 			#region IPersistedSettings Members
-
-			public object GetProperty(string name, Type returnType, object defaultValue) {
+			
+			public T GetProperty<T>(string propertyName, T defaultValue)
+			{
 				RegistryKey key = null;
-				try {
+				try
+				{
 					key = Registry.CurrentUser.OpenSubKey(settingsRoot, false);
 					if (key == null)
 						return defaultValue;
-					
-					object val = key.GetValue(name, defaultValue);
-					if (val != null) {
-						try {
-							return Convert.ChangeType(val, returnType);
-						} catch {}
+
+					object val = key.GetValue(propertyName, defaultValue);
+					if (val != null)
+					{
+						try
+						{
+							return(T) Convert.ChangeType(val, typeof(T));
+						}
+						catch { }
 					}
-					
+
 					return defaultValue;
-					
-				} catch (Exception ex) {
-					_log.Error("Failed to read value of '"+name+"' from registry hive '" + settingsRoot + "'.", ex);
+
+				}
+				catch (Exception ex)
+				{
+					_log.Error("Failed to read value of '" + propertyName + "' from registry hive '" + settingsRoot + "'.", ex);
 					return defaultValue;
-				} finally {
+				}
+				finally
+				{
 					if (key != null) key.Close();
 				}
 			}

@@ -353,7 +353,7 @@ namespace NewsComponents
         /// <summary>
         /// Indicates when the application first started
         /// </summary>
-        private static readonly DateTime ApplicationStartTime = DateTime.Now;
+        private static readonly DateTime ApplicationStartTime = DateTime.UtcNow;
 
         private static readonly byte[] bmp_magic = new byte[] {0x42, 0x4d};
         private static readonly int bmp_magic_len = bmp_magic.Length;
@@ -1366,7 +1366,7 @@ namespace NewsComponents
         /// </summary>
         public bool DownloadIntervalReached
         {
-            get { return (DateTime.Now - ApplicationStartTime).TotalMilliseconds >= RefreshRate; }
+            get { return (DateTime.UtcNow - ApplicationStartTime).TotalMilliseconds >= RefreshRate; }
         }
 
 		/// <summary>
@@ -1380,8 +1380,8 @@ namespace NewsComponents
 			get
 			{
 				return 
-					(DateTime.Now - ApplicationStartTime).TotalMinutes >= 5 &&
-					(DateTime.Now - LastFaviconDownladTime).TotalHours > 24;
+					(DateTime.UtcNow - ApplicationStartTime).TotalMinutes >= 5 &&
+					(DateTime.UtcNow - LastFaviconDownladTime).TotalHours > 12;
 			}
 		}
 
@@ -1393,12 +1393,13 @@ namespace NewsComponents
 		{
 			get
 			{
-				return (DateTime)this.Configuration.PersistedSettings.GetProperty(
-					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), typeof(DateTime), DateTime.MinValue);
+				return this.Configuration.PersistedSettings.GetProperty(
+					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), DateTime.MinValue);
 			}
 			set
 			{
-				this.Configuration.PersistedSettings.SetProperty("FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), value);
+				this.Configuration.PersistedSettings.SetProperty(
+					"FeedSource.{0}.LastFaviconDownladTime".FormatWith(Type), value);
 			}
 		}
 
@@ -5490,35 +5491,44 @@ namespace NewsComponents
                     }
 
                     var fi = itemsTable[key];
+					string requestUrl = fi.Link;
 
-                    Uri webSiteUrl;
-                    Uri.TryCreate(fi.Link, UriKind.Absolute,  out webSiteUrl);
+	                var xElem = RssHelper.GetOptionalElement(fi.OptionalElements, "image");
+	                if (xElem != null)
+	                {
+		                var urlNode = xElem.SelectSingleNode("url");
+		                if (urlNode != null)
+			                requestUrl = urlNode.InnerText;
+	                }
+					
+                    Uri requestUri;
+					Uri.TryCreate(requestUrl, UriKind.Absolute, out requestUri);
                     
-                    if (webSiteUrl == null || !webSiteUrl.Scheme.EqualsOrdinalIgnoreCase(Uri.UriSchemeHttp))
+                    if (requestUri == null || !requestUri.Scheme.EqualsOrdinalIgnoreCase(Uri.UriSchemeHttp))
                     {
                         continue;
                     }
 
-                    if (!websites.Contains(webSiteUrl.Authority))
+                    if (!websites.Contains(requestUri.Authority))
                     {
-						var reqUri = new UriBuilder(Uri.UriSchemeHttp, webSiteUrl.Authority)
+						var reqUri = new UriBuilder(Uri.UriSchemeHttp, requestUri.Authority)
                                          {
                                              Path = "favicon.ico"
                                          };
 
                         try
                         {
-                            webSiteUrl = reqUri.Uri;
+                            requestUri = reqUri.Uri;
                         }
                         catch (UriFormatException)
                         {
                             /* probably a local machine feed */
-                            _log.ErrorFormat("Error creating URL '{0}/{1}' in RefreshFavicons", webSiteUrl,
+                            _log.ErrorFormat("Error creating URL '{0}/{1}' in RefreshFavicons", requestUri,
                                              "favicon.ico");
                             continue;
                         }
 
-                        RequestParameter reqParam = RequestParameter.Create(webSiteUrl, UserAgent, Proxy,
+                        RequestParameter reqParam = RequestParameter.Create(requestUri, UserAgent, Proxy,
                                                                             /* ICredentials */ null,
                                                                             /* lastModified */ DateTime.MinValue,
                                                                             /* etag */ null);
@@ -5528,9 +5538,11 @@ namespace NewsComponents
 						//add to list of requests we will execute asynchronously
 						requests.Add(reqParam);
 
-                        websites.Add(webSiteUrl.Authority);
+                        websites.Add(requestUri.Authority);
                     } //if(!websites.Contains(webSiteUrl.Authority)){					
 				} // foreach
+
+	            LastFaviconDownladTime = DateTime.UtcNow;
 
 				// use a new instance, we don't like to trigger the "AllRequestCompleted" for feed requests,
 				// and we don't need it here for favicons:

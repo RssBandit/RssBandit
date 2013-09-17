@@ -2371,10 +2371,10 @@ namespace RssBandit.WinGui.Forms
                 source.AsyncGetItemsForFeed(feedUrl, true, true);
             }
 
-            if (_uiTasksTimer[DelayedTasks.SaveUIConfiguration])
+            if (_uiTasksTimer[DelayedTasks.SaveConfiguration])
             {
-                _uiTasksTimer.StopTask(DelayedTasks.SaveUIConfiguration);
-                SaveUIConfiguration(true);
+                _uiTasksTimer.StopTask(DelayedTasks.SaveConfiguration);
+                SaveConfiguration(false);
             }
 
             if (_uiTasksTimer[DelayedTasks.ShowFeedPropertiesDialog])

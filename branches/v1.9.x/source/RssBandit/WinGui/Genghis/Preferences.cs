@@ -57,7 +57,7 @@ namespace Genghis
     public abstract class Preferences : IDisposable
     {
         static Type backingStore = null;    // The back-end data storage class.
-        string path;
+        protected string path;
 
         /// <summary>
         /// Constructs a preferences writer at the root.</summary>
@@ -68,11 +68,11 @@ namespace Genghis
 
         /// <summary>
         /// Constructs a preferences writer with a path.</summary>
-        /// <param name="path">
+        /// <param name="domain">
         /// The path under which the preferences will be saved.</param>
-        protected Preferences(string path)
+        protected Preferences(string domain)
         {
-            this.path = ValidatePath(path, "path");
+            this.path = ValidatePath(domain, "path");
         }
 
         public virtual void Dispose()
@@ -88,15 +88,19 @@ namespace Genghis
             Dispose();
         }
 
-        /// <summary>
-        /// Validates the path argument.</summary>
-        private string ValidatePath(string path, string argumentName)
+		/// <summary>
+		/// Validates the path argument.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		/// <param name="argumentName">Name of the argument.</param>
+		/// <returns></returns>
+        protected string ValidatePath(string path, string argumentName)
         {
             if (path.Length > 0 && path[path.Length - 1] != '/')
             {
                 path = path + '/';
             }
-            return path;
+			return path;
         }
 
         public string Path
@@ -304,28 +308,28 @@ namespace Genghis
     /// </remarks>
     class IsolatedStorageUserPreferencesStore : Preferences
     {
-        static StringDictionary userStore;
-        static bool userStoreModified;
+        private readonly StringDictionary _userStore;
+        private bool _userStoreModified;
         //static StringDictionary machineStore;
         //static bool machineStoreModified;
 
         /// <summary>Initializes instance variables and loads initial settings from
         /// the backing store.</summary>
-        /// <param name="path">
+        /// <param name="domain">
         /// Represents the name of the group the preferences are stored under.
         /// Roughly equivalent to a directory path or a registry key path.
         /// You can nest groups using the slash (/) character.
         /// "" (the empty string) represents the top-level group.  A slash (/)
         /// will be added to the end of the path if it is lacking one.</param>
-        public IsolatedStorageUserPreferencesStore(string path) : base(path)
+        public IsolatedStorageUserPreferencesStore(string domain) : base(domain)
         {
-            if (userStore == null)
+            if (_userStore == null)
             {
-                userStore = new StringDictionary();
+                _userStore = new StringDictionary();
 
                 // Load preferences.
                 Deserialize();
-                userStoreModified = false;
+                _userStoreModified = false;
 
                 // Flush the preferences on application exit.
                 System.Windows.Forms.Application.ApplicationExit += new EventHandler(OnApplicationExit);
@@ -349,7 +353,7 @@ namespace Genghis
         /// Returns the property value (with the same type as returnType).</returns>
         public override object GetProperty(string name, object defaultValue, Type returnType)
         {
-            string value = userStore[Path + name];
+            string value = _userStore[Path + name];
             if (value == null)
             {
                 return defaultValue;
@@ -380,8 +384,8 @@ namespace Genghis
         /// Decimal, DateTime and String.</remarks>
         public override void SetProperty(string name, object value)
         {
-            userStore[Path + name] = Convert.ToString(value);
-            userStoreModified = true;
+            _userStore[Path + name] = Convert.ToString(value);
+            _userStoreModified = true;
         }
 
 
@@ -393,11 +397,9 @@ namespace Genghis
         }
 
 
-
-
         /// <summary>
         /// Flush any outstanding preferences data on application exit.</summary>
-        private static void OnApplicationExit(object sender, EventArgs e)
+        private void OnApplicationExit(object sender, EventArgs e)
         {
             Serialize();
         }
@@ -448,7 +450,7 @@ namespace Genghis
 
         /// <summary>Deserializes to the userStore hashtable from an isolated storage stream.</summary>
         /// <remarks>Exceptions are silently ignored.</remarks>
-        private static void Deserialize()
+        private void Deserialize()
         {
             XmlTextReader reader = null;
             try
@@ -462,7 +464,7 @@ namespace Genghis
                     {
                         string name = reader.GetAttribute("name");
                         string value = reader.ReadString();
-                        userStore[name] = value;
+                        _userStore[name] = value;
                     }
                 }
 
@@ -483,9 +485,9 @@ namespace Genghis
 
         /// <summary>Serializes the userStore hashtable to an isolated storage stream.</summary>
         /// <remarks>Exceptions are silently ignored.</remarks>
-        private static void Serialize()
+        private void Serialize()
         {
-            if (userStoreModified == false)
+            if (_userStoreModified == false)
             {
                 return;
             }
@@ -506,7 +508,7 @@ namespace Genghis
                 writer.WriteStartElement("preferences");
 
                 // Write properties.
-                foreach (System.Collections.DictionaryEntry entry in userStore)
+                foreach (System.Collections.DictionaryEntry entry in _userStore)
                 {
                     writer.WriteStartElement("property");
                     writer.WriteAttributeString("name", (string)entry.Key);
@@ -519,7 +521,7 @@ namespace Genghis
                 writer.Close();
 
                 // No longer modified compared to the copy on disk.
-                userStoreModified = false;
+                _userStoreModified = false;
             }
             catch (Exception e)
             {

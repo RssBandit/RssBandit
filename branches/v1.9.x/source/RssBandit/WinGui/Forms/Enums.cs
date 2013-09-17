@@ -19,7 +19,7 @@ namespace RssBandit.WinGui.Forms
         RefreshTreeUnreadStatus = 128,
         SyncRssSearchTree = 256,
         InitOnFinishLoading = 512,
-        SaveUIConfiguration = 1024,
+        SaveConfiguration = 1024,
         NavigateToFeed = 2048,
         RefreshTreeCommentStatus = 4096,
     }
