@@ -829,14 +829,14 @@ namespace RssBandit.WinGui.Controls
             _sortOrder = sortOrder;
         }
 
-        public void InitFromConfig(string section, Settings reader)
+        public void InitFromConfig(string section, UiStateSettings reader)
         {
             _sortOrder =
                 (SortOrder)
                 reader.GetInt32(section + "/SubscribedFeedNodes.Sorter.SortOrder", (int) SortOrder.Descending);
         }
 
-        public void SaveToConfig(string section, Settings writer)
+        public void SaveToConfig(string section, UiStateSettings writer)
         {
             writer.SetProperty(section + "/SubscribedFeedNodes.Sorter.SortOrder", (int) _sortOrder);
         }

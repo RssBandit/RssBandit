@@ -1930,7 +1930,7 @@ namespace RssBandit.WinGui.Forms
         /// by the Settings class.
         /// </summary>
         /// <param name="writer"></param>
-        protected void OnSaveConfig(Settings writer)
+        protected void OnSaveConfig(UiStateSettings writer)
         {
             try
             {
@@ -1996,7 +1996,7 @@ namespace RssBandit.WinGui.Forms
         /// docked window states, toolbar button layout etc.
         /// </summary>
         /// <param name="reader"></param>
-        protected void OnLoadConfig(Settings reader)
+        protected void OnLoadConfig(UiStateSettings reader)
         {
             // do not init from stored settings on cmd line reset:
             if (owner.CommandLineArgs.ResetUserInterface)

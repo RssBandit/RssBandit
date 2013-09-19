@@ -19,6 +19,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using log4net;
+using RssBandit.AppServices.Configuration;
 using RssBandit.CLR20.DasBlog;
 using RssBandit.Common.Logging;
 using RssBandit.Core.Storage;
@@ -67,7 +68,7 @@ namespace RssBandit.WinGui
 
         public RemoteFeedlistThreadHandler(Operation operation, RssBanditApplication rssBanditApp,
                                            RemoteStorageProtocolType protocol, string remoteLocation,
-                                           string credentialUser, string credentialPwd, Settings settings)
+                                           string credentialUser, string credentialPwd, IPersistedSettings settings)
         {
             operationToRun = operation;
             this.rssBanditApp = rssBanditApp;
@@ -87,7 +88,7 @@ namespace RssBandit.WinGui
         private readonly string credentialUser;
         private readonly string credentialPassword;
         private string remoteFileName = "rssbandit-state.zip";
-        private readonly Settings settings;
+		private readonly IPersistedSettings settings;
 
         protected override void Run()
         {
@@ -97,43 +98,46 @@ namespace RssBandit.WinGui
                 RunUpload();
         }
 
-		public RemoteStorageProtocolType RemoteProtocol
-		{
-			get
-			{
-				return remoteProtocol;
-			}
-			set
-			{
-				remoteProtocol = value;
-			}
-		}
+	    #region public properties
 
-		public string RemoteLocation
-		{
-			get
-			{
-				return remoteLocation;
-			}
-			set
-			{
-				remoteLocation = value;
-			}
-		}
+	    public RemoteStorageProtocolType RemoteProtocol
+	    {
+		    get
+		    {
+			    return remoteProtocol;
+		    }
+		    set
+		    {
+			    remoteProtocol = value;
+		    }
+	    }
+
+	    public string RemoteLocation
+	    {
+		    get
+		    {
+			    return remoteLocation;
+		    }
+		    set
+		    {
+			    remoteLocation = value;
+		    }
+	    }
 
 
-        public string RemoteFileName
-        {
-            get
-            {
-                return remoteFileName;
-            }
-            set
-            {
-                remoteFileName = value;
-            }
-        }
+	    public string RemoteFileName
+	    {
+		    get
+		    {
+			    return remoteFileName;
+		    }
+		    set
+		    {
+			    remoteFileName = value;
+		    }
+	    }
 
+	    #endregion
 
         /// <summary>
         /// Upload application state either as a ZIP file or as a SIAM file 
@@ -264,8 +268,7 @@ namespace RssBandit.WinGui
 								ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
 								ftpRequest.KeepAlive = false;
 								ftpRequest.UseBinary = true;
-								ftpRequest.UsePassive =
-									settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
+								ftpRequest.UsePassive = settings.GetProperty(Ps.FtpConnectionModePassive, true);
 								ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
 								ftpRequest.ContentLength = tempStream.Length;
 
@@ -397,7 +400,6 @@ namespace RssBandit.WinGui
             {
                 Stream importStream = null;
                 string tempFileName = null;
-                feeds syncedFeeds = null;
 
                 switch (remoteProtocol)
                 {
@@ -440,7 +442,7 @@ namespace RssBandit.WinGui
                         ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
                         ftpRequest.KeepAlive = false;
                         ftpRequest.UseBinary = true;
-                        ftpRequest.UsePassive = settings.GetBoolean("RemoteFeedlist/Ftp.ConnectionMode.Passive", true);
+						ftpRequest.UsePassive = settings.GetProperty(Ps.FtpConnectionModePassive, true);
                         ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
 
 
@@ -455,29 +457,34 @@ namespace RssBandit.WinGui
                             const int buffLength = 2048;
                             byte[] buff = new byte[buffLength];
 
-                        	// Stream to which the file to be upload is written
-                            Stream strm = ftpRequest.GetResponse().GetResponseStream();
+	                        var response = (FtpWebResponse)ftpRequest.GetResponse();
+	                        
+		                    // Stream to which the file to be upload is written
+		                    Stream strm = response.GetResponseStream();
+		                    if (strm != null)
+		                    {
+			                    // Read from the FTP stream 2kb at a time
+			                    int contentLen = strm.Read(buff, 0, buffLength);
 
-                            // Read from the FTP stream 2kb at a time
-                            int contentLen = strm.Read(buff, 0, buffLength);
+			                    // Till Stream content ends
+			                    while (contentLen != 0)
+			                    {
+				                    // Write Content from the file stream to the 
+				                    // FTP Upload Stream
+				                    fileStream.Write(buff, 0, contentLen);
+				                    contentLen = strm.Read(buff, 0, buffLength);
+			                    }
 
-                            // Till Stream content ends
-                            while (contentLen != 0)
-                            {
-                                // Write Content from the file stream to the 
-                                // FTP Upload Stream
-                                fileStream.Write(buff, 0, contentLen);
-                                contentLen = strm.Read(buff, 0, buffLength);
-                            }
-
-                            // Close the Response Stream
-                            strm.Close();
+			                    // Close the Response Stream
+			                    strm.Close();
+		                    }
+	                        
                         }
                         catch (Exception ex)
                         {
                             //ToDO: Add support for switching between active and passive mode
                             this.p_operationException = ex; 
-                            _log.Error("FTP Upload Error", ex);
+                            _log.Error("FTP Download Error", ex);
                         }
 
                         fileStream.Close();
@@ -485,9 +492,9 @@ namespace RssBandit.WinGui
                         // save new setting:
                         //settings.SetProperty("RemoteFeedlist/Ftp.ConnectionMode.Passive", connectionMode_Passive);
 
-
-                        // Open the temporary file so we can import it
-                        importStream = File.OpenRead(tempFileName);
+						// Open the temporary file so we can import it
+						if (p_operationException == null)
+							importStream = File.OpenRead(tempFileName);
                         break;
 
                     case RemoteStorageProtocolType.WebDAV:
@@ -526,29 +533,31 @@ namespace RssBandit.WinGui
                 }
 
                 // Now import the downloaded feed list
-                try
-                {
-                    if ((remoteProtocol == RemoteStorageProtocolType.dasBlog) ||
-                        (remoteProtocol == RemoteStorageProtocolType.dasBlog_1_3))
-                    {
-                        rssBanditApp.BanditFeedSource.ImportFeedlist(importStream);
-                    }
-                    else
-                    {
-                        Synchronize(importStream, syncFormat);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    p_operationException = ex;
-                }
-                finally
-                {
-                    if (importStream != null)
-                        importStream.Close();
-                }
+	            if (importStream != null)
+	            {
+		            try
+		            {
+			            if ((remoteProtocol == RemoteStorageProtocolType.dasBlog) ||
+			                (remoteProtocol == RemoteStorageProtocolType.dasBlog_1_3))
+			            {
+				            rssBanditApp.BanditFeedSource.ImportFeedlist(importStream);
+			            }
+			            else
+			            {
+				            Synchronize(importStream, syncFormat);
+			            }
+		            }
+		            catch (Exception ex)
+		            {
+			            p_operationException = ex;
+		            }
+		            finally
+		            {
+			            importStream.Close();
+		            }
+	            }
 
-                if (tempFileName != null)
+	            if (tempFileName != null)
                     File.Delete(tempFileName);
             }
             catch (ThreadAbortException)

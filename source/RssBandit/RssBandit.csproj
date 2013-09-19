@@ -249,6 +249,14 @@
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\Libraries\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -1864,6 +1872,7 @@
     <Compile Include="Core\ServiceInfrastructure\IServiceDependencyContainer.cs" />
     <Compile Include="Core\ServiceInfrastructure\IServiceDependencyResolver.cs" />
     <Compile Include="Core\ServiceInfrastructure\ServiceProviderDependenyResolver.cs" />
+    <Compile Include="Core\ServiceInfrastructure\UnityDependencyResolver.cs" />
     <Compile Include="Core\ServiceManager.cs">
       <SubType>Code</SubType>
     </Compile>

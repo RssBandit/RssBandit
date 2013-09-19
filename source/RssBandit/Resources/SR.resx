@@ -2532,4 +2532,8 @@ Error: {1}</value>
   <data name="FeedNodeMyFeedlyCloudFeedsDesc" xml:space="preserve">
     <value>Container of subscribed feeds in the Feedly Cloud</value>
   </data>
+  <data name="ExceptionDuplicateFeedSourceName" xml:space="preserve">
+    <value>Sorry, but the name '{0}' seems to be already in use.</value>
+    <comment>Parameters: 0 - dupFeedSourceName (string) </comment>
+  </data>
 </root>

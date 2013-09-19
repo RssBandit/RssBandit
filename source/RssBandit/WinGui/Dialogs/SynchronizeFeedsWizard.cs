@@ -131,7 +131,7 @@ namespace RssBandit.WinGui.Forms
             windowSerializer.SaveOnlyLocation = true;
             windowSerializer.SaveNoWindowState = true;
           
-            // to get notified, if the inet connection state changes:
+			// to get notified, if the inet connection state changes:
             internetService = IoC.Resolve<IInternetService>();
             if (internetService != null)
             {
@@ -530,13 +530,26 @@ namespace RssBandit.WinGui.Forms
 
             if (ReferenceEquals(wizard.SelectedPage, pageSourceName) && sender == textFeedSourceName)
             {
-                if (textFeedSourceName.Text.Trim().Length == 0)
-                {
-                    errorProvider1.SetError(textFeedSourceName, SR.ExceptionNoFeedSourceName);
-                    this.pageSourceName.AllowMoveNext = false;
-                    this.pageSourceName.AllowCancel = true;
-                    e.Cancel = true;
-                }
+	            if (textFeedSourceName.Text.Trim().Length == 0)
+	            {
+		            errorProvider1.SetError(textFeedSourceName, SR.ExceptionNoFeedSourceName);
+		            this.pageSourceName.AllowMoveNext = false;
+		            this.pageSourceName.AllowCancel = true;
+		            e.Cancel = true;
+	            }
+	            else
+	            {
+		            ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
+					if (coreApp.FeedSources.Contains(textFeedSourceName.Text.Trim()))
+		            {
+						errorProvider1.SetError(textFeedSourceName, SR.ExceptionDuplicateFeedSourceName
+							.FormatWith(textFeedSourceName.Text.Trim()));
+
+						this.pageSourceName.AllowMoveNext = false;
+						this.pageSourceName.AllowCancel = true;
+						e.Cancel = true;
+		            }
+	            }
             }
             else if (ReferenceEquals(wizard.SelectedPage, pageFeedCredentials) && sender == textUser)
             {

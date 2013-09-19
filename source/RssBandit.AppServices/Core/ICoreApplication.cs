@@ -43,8 +43,15 @@ namespace RssBandit.AppServices
 		/// Returns the current global (specified via options)
 		/// Feed Refresh Rate in minutes.
 		/// </summary>
-		int CurrentGlobalRefreshRate { get; } 
-		
+		int CurrentGlobalRefreshRate { get; }
+
+		/// <summary>
+		/// Gets the feed sources.
+		/// </summary>
+		/// <value>
+		/// The feed sources.
+		/// </value>
+		IFeedSources FeedSources {get; }
 
 		/// <summary>
 		/// Gets the current application web proxy

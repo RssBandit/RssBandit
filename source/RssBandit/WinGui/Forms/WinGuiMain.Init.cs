@@ -597,7 +597,7 @@ namespace RssBandit.WinGui.Forms
 
             var sub1 = new AppContextMenuCommand("cmdNewFeed",
                                                  owner.Mediator,
-                                                 new ExecuteCommandHandler(owner.CmdNewFeed),
+                                                 owner.CmdNewFeed,
                                                  SR.MenuNewFeedCaption2, SR.MenuNewFeedDesc, 1,
                                                  _shortcutHandler);
 
@@ -605,7 +605,7 @@ namespace RssBandit.WinGui.Forms
 
             var sub2 = new AppContextMenuCommand("cmdNewCategory",
                                                  owner.Mediator,
-                                                 new ExecuteCommandHandler(owner.CmdNewCategory),
+                                                 owner.CmdNewCategory,
                                                  SR.MenuNewCategoryCaption, SR.MenuNewCategoryDesc, 2,
                                                  _shortcutHandler);
 
@@ -615,7 +615,7 @@ namespace RssBandit.WinGui.Forms
 
             var subR1 = new AppContextMenuCommand("cmdRefreshFeeds",
                                                   owner.Mediator,
-                                                  new ExecuteCommandHandler(owner.CmdRefreshFeeds),
+                                                  owner.CmdRefreshFeeds,
                                                   SR.MenuUpdateAllFeedsCaption,
                                                   SR.MenuUpdateAllFeedsDesc, 0, _shortcutHandler);
 
@@ -623,15 +623,14 @@ namespace RssBandit.WinGui.Forms
 
             var subR2 = new AppContextMenuCommand("cmdCatchUpCurrentSelectedNode",
                                                   owner.Mediator,
-                                                  new ExecuteCommandHandler(
-                                                      owner.CmdCatchUpCurrentSelectedNode),
+                                                  owner.CmdCatchUpCurrentSelectedNode,
                                                   SR.MenuCatchUpOnAllCaption, SR.MenuCatchUpOnAllDesc,
                                                   0, _shortcutHandler);
             //subR2.ImageList           = _listImages;
 
             var subR3 = new AppContextMenuCommand("cmdDeleteAll",
                                                   owner.Mediator,
-                                                  new ExecuteCommandHandler(owner.CmdDeleteAll),
+                                                  owner.CmdDeleteAll,
                                                   SR.MenuDeleteAllFeedsCaption,
                                                   SR.MenuDeleteAllFeedsDesc, 2, _shortcutHandler);
             //subR3.ImageList           = _toolImages;
@@ -644,18 +643,18 @@ namespace RssBandit.WinGui.Forms
 
 			var subSourceRename = new AppContextMenuCommand("cmdRenameFeedSource",
 												  owner.Mediator,
-												  new ExecuteCommandHandler(CmdRenameFeedSource),
+												  CmdRenameFeedSource,
 												  SR.MenuRenameFeedSourceCaption, SR.MenuRenameFeedSourceDesc,
 												  _shortcutHandler);
 			var subSourceDelete = new AppContextMenuCommand("cmdDeleteFeedSource",
 												  owner.Mediator,
-												  new ExecuteCommandHandler(CmdDeleteFeedSource),
+												  CmdDeleteFeedSource,
 												  SR.MenuDeleteFeedSourceCaption, SR.MenuDeleteFeedSourceDesc,
 												  _shortcutHandler);
 
 			var subSourceProperties = new AppContextMenuCommand("cmdFeedSourceProperties",
 												  owner.Mediator,
-												  new ExecuteCommandHandler(CmdShowFeedSourceProperties),
+												  CmdShowFeedSourceProperties,
 												  SR.MenuShowFeedSourceProperties, SR.MenuShowFeedSourcePropertiesDesc,
 												  _shortcutHandler);
 
