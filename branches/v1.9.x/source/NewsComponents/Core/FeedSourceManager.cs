@@ -21,6 +21,7 @@ using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Search; 
 using NewsComponents.Utils;
+using RssBandit.AppServices;
 
 namespace NewsComponents
 {
@@ -209,7 +210,7 @@ namespace NewsComponents
 	/// <summary>
 	/// Manages a list of feed sources
 	/// </summary>
-	public class FeedSourceManager
+	public class FeedSourceManager: IFeedSources
 	{
 
 

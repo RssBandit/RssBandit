@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddInGeneralFailure" xml:space="preserve">
     <value>Im AddIn '{1}' trat ein genereller Fehler auf:
@@ -2404,5 +2404,9 @@ Fehler: {1}</value>
   </data>
   <data name="GroupByTime_Yesterday" xml:space="preserve">
     <value>Gestern</value>
+  </data>
+  <data name="ExceptionDuplicateFeedSourceName" xml:space="preserve">
+    <value>Die Bezeichnung '{0}' ist bereits in Verwendung. Bitte wählen Sie eine andere.</value>
+    <comment>Parameters: 0 - dupFeedSourceName (string) </comment>
   </data>
 </root>

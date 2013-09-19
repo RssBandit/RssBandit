@@ -144,7 +144,7 @@ namespace NewsComponents
         {
             Location = location;
             Credentials = credentials;
-			CredentialsSupported = true;
+			CredentialsSupported = credentials != null;
         }
 
         /// <summary>

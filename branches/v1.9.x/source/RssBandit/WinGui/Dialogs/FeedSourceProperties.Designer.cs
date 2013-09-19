@@ -29,12 +29,12 @@
 		private void InitializeComponent()
 		{
 			this.grpCredentials = new System.Windows.Forms.GroupBox();
+			this.txtPassword = new System.Windows.Forms.TextBox();
+			this.lblPassword = new System.Windows.Forms.Label();
 			this.txtUsername = new System.Windows.Forms.TextBox();
 			this.lblUsername = new System.Windows.Forms.Label();
 			this.txtFeedSourceName = new System.Windows.Forms.TextBox();
 			this.lblFeedSourceName = new System.Windows.Forms.Label();
-			this.txtPassword = new System.Windows.Forms.TextBox();
-			this.lblPassword = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
 			this.grpCredentials.SuspendLayout();
 			this.SuspendLayout();
@@ -54,9 +54,9 @@
 			// 
 			// grpCredentials
 			// 
-			this.grpCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.grpCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpCredentials.Controls.Add(this.txtPassword);
 			this.grpCredentials.Controls.Add(this.lblPassword);
 			this.grpCredentials.Controls.Add(this.txtUsername);
@@ -68,51 +68,13 @@
 			this.grpCredentials.TabStop = false;
 			this.grpCredentials.Text = "Credentials";
 			// 
-			// txtUsername
-			// 
-			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtUsername.Location = new System.Drawing.Point(8, 46);
-			this.txtUsername.Name = "txtUsername";
-			this.txtUsername.Size = new System.Drawing.Size(263, 21);
-			this.txtUsername.TabIndex = 105;
-			// 
-			// lblUsername
-			// 
-			this.lblUsername.AutoSize = true;
-			this.lblUsername.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.lblUsername.Location = new System.Drawing.Point(9, 27);
-			this.lblUsername.Name = "lblUsername";
-			this.lblUsername.Size = new System.Drawing.Size(59, 13);
-			this.lblUsername.TabIndex = 106;
-			this.lblUsername.Text = "Username:";
-			// 
-			// txtFeedSourceName
-			// 
-			this.txtFeedSourceName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtFeedSourceName.Location = new System.Drawing.Point(20, 47);
-			this.txtFeedSourceName.Name = "txtFeedSourceName";
-			this.txtFeedSourceName.Size = new System.Drawing.Size(263, 21);
-			this.txtFeedSourceName.TabIndex = 103;
-			// 
-			// lblFeedSourceName
-			// 
-			this.lblFeedSourceName.AutoSize = true;
-			this.lblFeedSourceName.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.lblFeedSourceName.Location = new System.Drawing.Point(21, 28);
-			this.lblFeedSourceName.Name = "lblFeedSourceName";
-			this.lblFeedSourceName.Size = new System.Drawing.Size(101, 13);
-			this.lblFeedSourceName.TabIndex = 104;
-			this.lblFeedSourceName.Text = "Feed Source Name:";
-			// 
 			// txtPassword
 			// 
-			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.Location = new System.Drawing.Point(8, 100);
 			this.txtPassword.Name = "txtPassword";
-			this.txtPassword.Size = new System.Drawing.Size(263, 21);
+			this.txtPassword.Size = new System.Drawing.Size(263, 24);
 			this.txtPassword.TabIndex = 107;
 			this.txtPassword.UseSystemPasswordChar = true;
 			// 
@@ -122,9 +84,51 @@
 			this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblPassword.Location = new System.Drawing.Point(9, 81);
 			this.lblPassword.Name = "lblPassword";
-			this.lblPassword.Size = new System.Drawing.Size(57, 13);
+			this.lblPassword.Size = new System.Drawing.Size(71, 17);
 			this.lblPassword.TabIndex = 108;
 			this.lblPassword.Text = "Password:";
+			// 
+			// txtUsername
+			// 
+			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtUsername.Location = new System.Drawing.Point(8, 46);
+			this.txtUsername.Name = "txtUsername";
+			this.txtUsername.Size = new System.Drawing.Size(263, 24);
+			this.txtUsername.TabIndex = 105;
+			// 
+			// lblUsername
+			// 
+			this.lblUsername.AutoSize = true;
+			this.lblUsername.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblUsername.Location = new System.Drawing.Point(9, 27);
+			this.lblUsername.Name = "lblUsername";
+			this.lblUsername.Size = new System.Drawing.Size(74, 17);
+			this.lblUsername.TabIndex = 106;
+			this.lblUsername.Text = "Username:";
+			// 
+			// txtFeedSourceName
+			// 
+			this.txtFeedSourceName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.errorProvider.SetIconPadding(this.txtFeedSourceName, 5);
+			this.txtFeedSourceName.Location = new System.Drawing.Point(20, 47);
+			this.txtFeedSourceName.MaxLength = 80;
+			this.txtFeedSourceName.Name = "txtFeedSourceName";
+			this.txtFeedSourceName.Size = new System.Drawing.Size(263, 24);
+			this.txtFeedSourceName.TabIndex = 103;
+			this.txtFeedSourceName.TextChanged += new System.EventHandler(this.OnFeedSourceNameTextChanged);
+			this.txtFeedSourceName.Validating += new System.ComponentModel.CancelEventHandler(this.OnFeedSourceNameValidating);
+			// 
+			// lblFeedSourceName
+			// 
+			this.lblFeedSourceName.AutoSize = true;
+			this.lblFeedSourceName.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.lblFeedSourceName.Location = new System.Drawing.Point(21, 28);
+			this.lblFeedSourceName.Name = "lblFeedSourceName";
+			this.lblFeedSourceName.Size = new System.Drawing.Size(128, 17);
+			this.lblFeedSourceName.TabIndex = 104;
+			this.lblFeedSourceName.Text = "Feed Source Name:";
 			// 
 			// FeedSourceProperties
 			// 

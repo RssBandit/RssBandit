@@ -26,7 +26,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -43,6 +42,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Practices.Unity;
 using RssBandit.AppServices.Configuration;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
@@ -91,8 +91,7 @@ namespace RssBandit
     /// <summary>
     /// Summary description for WinGuiMainMediator.
     /// </summary>
-    internal partial class RssBanditApplication : ApplicationContext,
-                                                  ICoreApplication, IInternetService, IServiceProvider
+    internal partial class RssBanditApplication : ApplicationContext, ICoreApplication, IInternetService
     {
         #region Fields
 
@@ -105,8 +104,8 @@ namespace RssBandit
 
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
-        private static Settings guiSettings;
-        private static Settings globalSettings;
+        private static UiStateSettings guiSettings;
+        private static GlobalSettings globalSettings;
         
         internal const string DefaultPodcastFileExts = "mp3;mov;mp4;aac;aa;m4a;m4b;wma;wmv";
 
@@ -222,8 +221,10 @@ namespace RssBandit
 
         #region constructors and startup
 
-        internal static void StaticInit()
+        internal static void StaticInit(RssBanditApplication instance)
         {
+            Current = instance;
+        
             // set initial defaults
 			// advanced settings:
 			unconditionalCommentRss = false;
@@ -265,9 +266,9 @@ namespace RssBandit
 			}
 
             // Gui Settings (Form position, layouts,...)
-            guiSettings = new Settings(GetUiSettingsFileName(), String.Empty);
+            guiSettings = new UiStateSettings(GetUiSettingsFileName(), String.Empty);
             // other global settings (used Frontend, NewsComponents)
-			globalSettings = new Settings(GetGlobalSettingsFileName(), "rssbandit.app");
+			globalSettings = new GlobalSettings(GetGlobalSettingsFileName(), "rssbandit.app");
         }
 
 		private static void CollectConfigurationException(Action action, ICollection<ConfigurationErrorsException> exceptions)
@@ -281,8 +282,7 @@ namespace RssBandit
             commandLineOptions = new CommandLineOptions();
 
             InvokeOnGuiSync = a => GuiInvoker.Invoke(guiMain, a);
-
-            InvokeOnGui = a => GuiInvoker.InvokeAsync(guiMain, a);
+			InvokeOnGui = a => GuiInvoker.InvokeAsync(guiMain, a);
         }
 
         /// <summary>
@@ -416,7 +416,9 @@ namespace RssBandit
             return true;
         }
 
-        private void InitLocalFeeds()
+		internal static RssBanditApplication Current { [DebuggerStepThrough]get; private set; }
+
+		private void InitLocalFeeds()
         {
 			FeedSourceEntry migrationEntry = BanditFeedSourceEntry;
 
@@ -499,49 +501,26 @@ namespace RssBandit
 			// init service container. We init the parent parameter to this,
 			// so we can fallback for services to return instances
 			// on demand (and report about service requests we could not deliver):
-			IoC.Initialize(new ServiceProviderDependencyResolver(this));
+			IoC.Initialize(new UnityDependencyResolver());
 			
 			// create and register main services (keep the order!):
-			IServiceDependencyContainer container = IoC.Resolve<IServiceDependencyContainer>();
-			container.Register<ICoreApplication>(this);
-			container.Register<IInternetService>(this);
-			container.Register<IUserPreferences>(Preferences);
-			container.Register<IAddInManager>(addInManager);
+			var sContainer = IoC.Resolve<IServiceDependencyContainer>();
+			var uContainer = IoC.Resolve<IUnityContainer>();
 
-			container.Register<IUserCacheDataService>(
+			uContainer.RegisterType<ICoreApplication>(new InjectionFactory(x => Current));
+			uContainer.RegisterType<IInternetService>(new InjectionFactory(x => Current));
+			uContainer.RegisterType<IUserPreferences>(new InjectionFactory(x => Current.Preferences));
+			
+			uContainer.RegisterInstance(addInManager, new ContainerControlledLifetimeManager());
+
+			sContainer.Register<IUserCacheDataService>(
 			    DataServiceFactory.GetService(StorageDomain.UserCacheData));
-			container.Register<IUserDataService>(
+			sContainer.Register<IUserDataService>(
 				DataServiceFactory.GetService(StorageDomain.UserData));
-			container.Register<IUserRoamingDataService>(
+			sContainer.Register<IUserRoamingDataService>(
 				 DataServiceFactory.GetService(StorageDomain.UserRoamingData));
            
 			//TODO: add all the other services we provide...
-        }
-
-        /// <summary>
-        /// Gets the service object of the specified type.
-        /// </summary>
-        /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <returns>
-        /// 	<para>A service object of type <paramref name="serviceType"/>.</para>
-        /// 	<para>-or-</para>
-        /// 	<para>
-        /// 		<see langword="null"/> if there is no service object of type <paramref name="serviceType"/>.</para>
-        /// </returns>
-        object IServiceProvider.GetService(Type serviceType)
-        {
-			// this is now just a fallback of IoC resolve calls.
-			// The main purpose is now: provide services for the AddIns!
-            if (serviceType.Equals(typeof(ICoreApplication)))
-        		return IoC.Resolve<ICoreApplication>();
-			if (serviceType.Equals(typeof(IInternetService)))
-				return IoC.Resolve<IInternetService>();
-			if (serviceType.Equals(typeof(IUserPreferences)))
-				return IoC.Resolve<IUserPreferences>();
-			if (serviceType.Equals(typeof(IAddInManager)))
-				return IoC.Resolve<IAddInManager>();
-			
-            return null;
         }
 
         #endregion
@@ -630,6 +609,9 @@ namespace RssBandit
 
             if (addIns == null)
                 return;
+	        
+			var serviceProvider = IoC.Resolve<IServiceProvider>();
+
             foreach (var addIn in addIns)
             {
                 if (addIn.AddInPackages == null || addIn.AddInPackages.Count == 0)
@@ -638,7 +620,7 @@ namespace RssBandit
                 {
                     try
                     {
-                        package.Load(this);
+						package.Load(serviceProvider);
                     }
                     catch (Exception ex)
                     {
@@ -922,6 +904,7 @@ namespace RssBandit
 
 			if (rh.OperationSucceeds)
 			{
+				feedlistModified = true; // set state flag
 				guiMain.SaveSubscriptionTreeState();
 				guiMain.SyncFinderNodes();
 				columnLayoutManager.Reset();
@@ -970,6 +953,11 @@ namespace RssBandit
                 return guiMain.CurrentSelectedFeedSource;              
             }
         }
+
+		IFeedSources ICoreApplication.FeedSources
+		{
+			get { return FeedSources; }
+		}
 
         public FeedSourceManager FeedSources
         {
@@ -1175,11 +1163,11 @@ namespace RssBandit
             get { return searchEngines; }
         }
 
-        public Settings GuiSettings
+        public UiStateSettings GuiSettings
         {
             get { return guiSettings; }
         }
-		public Settings GlobalSettings
+		public GlobalSettings GlobalSettings
 		{
 			get { return globalSettings; }
 		}
@@ -3522,7 +3510,7 @@ namespace RssBandit
 					switch (wiz.SelectedFeedSource)
 					{
 						case FeedSourceType.WindowsRSS:
-							loc = new SubscriptionLocation(locName, null);
+							loc = new SubscriptionLocation(locName);
 							break;
 #if ! FEEDLY_FEATURE
 						case FeedSourceType.Google:

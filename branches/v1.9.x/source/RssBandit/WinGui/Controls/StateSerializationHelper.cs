@@ -409,7 +409,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <exception cref="ArgumentNullException">If any of the parameters is null</exception>
 		/// <exception cref="InvalidOperationException">If the collection of groups allow duplicate keys
 		///  or any group does not have a unique key</exception>
-		internal static void LoadExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceId) {
+		internal static void LoadExplorerBar(UltraExplorerBar explorerBar, UiStateSettings store, string preferenceId) {
 			
 			if (explorerBar == null)
 				throw new ArgumentNullException("explorerBar");
@@ -490,7 +490,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <exception cref="ArgumentNullException">If any of the parameters is null</exception>
 		/// <exception cref="InvalidOperationException">If the collection of groups allow duplicate keys
 		///  or any group does not have a unique key</exception>
-		internal static void SaveExplorerBar(UltraExplorerBar explorerBar, Settings store, string preferenceId) {
+		internal static void SaveExplorerBar(UltraExplorerBar explorerBar, UiStateSettings store, string preferenceId) {
 			
 			if (explorerBar == null)
 				throw new ArgumentNullException("explorerBar");

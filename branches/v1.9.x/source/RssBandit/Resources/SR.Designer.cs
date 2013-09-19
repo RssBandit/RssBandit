@@ -529,6 +529,15 @@ namespace RssBandit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, but the name &apos;{0}&apos; seems to be already in use..
+        /// </summary>
+        internal static string ExceptionDuplicateFeedSourceName {
+            get {
+                return ResourceManager.GetString("ExceptionDuplicateFeedSourceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download Failure.
         /// </summary>
         internal static string ExceptionEnclosureDownloadError {

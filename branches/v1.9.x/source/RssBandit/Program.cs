@@ -70,7 +70,7 @@ namespace RssBandit
             }
             //_log.Info("Application v" + RssBanditApplication.VersionLong + " started, running instance is " + running);
 
-            RssBanditApplication.StaticInit();
+			RssBanditApplication.StaticInit(appInstance);
             if (!running)
             {
                 // init to system default:

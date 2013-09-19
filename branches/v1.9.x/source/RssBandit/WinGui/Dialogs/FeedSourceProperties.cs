@@ -9,7 +9,10 @@
 #endregion
 
 using System;
+using System.Windows.Forms;
 using NewsComponents;
+using RssBandit.AppServices;
+using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Dialogs
 {
@@ -63,6 +66,38 @@ namespace RssBandit.WinGui.Dialogs
 		public string Password
 		{
 			get { return txtPassword.Text; }
+		}
+
+		private void OnFeedSourceNameValidating(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (txtFeedSourceName.Text.Trim().Length == 0)
+			{
+				errorProvider.SetError(txtFeedSourceName, SR.ExceptionNoFeedSourceName);
+				e.Cancel = true;
+			}
+			else
+			{
+				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
+				if (coreApp.FeedSources.Contains(txtFeedSourceName.Text.Trim()))
+				{
+					errorProvider.SetError(txtFeedSourceName, SR.ExceptionDuplicateFeedSourceName
+						.FormatWith(txtFeedSourceName.Text.Trim()));
+					e.Cancel = true;
+				}
+			}
+
+			if (!e.Cancel)
+			{
+				errorProvider.SetError((Control) sender, null);
+			}
+
+			btnSubmit.Enabled = !e.Cancel;
+		}
+
+		private void OnFeedSourceNameTextChanged(object sender, EventArgs e)
+		{
+			errorProvider.SetError((Control)sender, null);
+			btnSubmit.Enabled = true;
 		}
 	}
 }
