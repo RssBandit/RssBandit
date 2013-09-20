@@ -5,12 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Genghis.Windows.Forms;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
 using RssBandit.Resources;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Controls.ThListView;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Interfaces;
@@ -54,7 +56,11 @@ namespace RssBandit
 
                 if (isFolder != null)
                 {
-                    if (isFolder is FlaggedItemsNode || isFolder is WatchedItemsNode)
+	                if (isFolder is UnreadItemsNode)
+	                {
+						guiMain.RemoveAllFeedItems();
+	                } 
+					else if (isFolder is FlaggedItemsNode || isFolder is WatchedItemsNode)
                     {
                         // we need to unflag the items within each subscribed feed:
                         for (int i = 0, j = isFolder.Items.Count; i < j; i++)
@@ -68,6 +74,7 @@ namespace RssBandit
                         // simply clr all
                         isFolder.Items.Clear();
                     }
+
                     isFolder.Modified = true;
                     guiMain.PopulateSmartFolder(tn, true);
                     guiMain.UpdateTreeNodeUnreadStatus(tn, 0);

@@ -489,6 +489,13 @@ namespace RssBandit.WinGui.Forms
 								Resource.SubscriptionTreeImage.NntpSelected,
 								_treeFeedContextMenu);
 						}
+						else if (RssHelper.IsSecuredFeed(f))
+						{
+							tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.FeedSecured,
+											  Resource.SubscriptionTreeImage.FeedSecuredSelected,
+											  _treeFeedContextMenu,
+											  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
+						}
 						else
 						{
 							tn = new FeedNode(
@@ -1391,8 +1398,15 @@ namespace RssBandit.WinGui.Forms
                                   Resource.SubscriptionTreeImage.NntpSelected,
                                   _treeFeedContextMenu);
             }
-            else
+            else if (RssHelper.IsSecuredFeed(f))
             {
+				tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.FeedSecured,
+								  Resource.SubscriptionTreeImage.FeedSecuredSelected,
+								  _treeFeedContextMenu,
+								  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
+            }
+			else
+	        {
                 tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.Feed,
                                   Resource.SubscriptionTreeImage.FeedSelected,
                                   _treeFeedContextMenu,
@@ -2016,14 +2030,15 @@ namespace RssBandit.WinGui.Forms
             bool isSmartOrAggregated = (selectedNode.Type == FeedNodeType.Finder ||
                                         selectedNode.Type == FeedNodeType.SmartFolder);
 
+			List<INewsItem> unread = new List<INewsItem>(listFeedItems.Items.Count);
+				
 			//mark all viewed stories as read 
             // May be we are wrong here: how about a threaded item reference
             // with an ownerfeed, that is not a child of the current selectedNode?
             if (listFeedItems.Items.Count > 0)
             {
-				List<INewsItem> unread = new List<INewsItem>(listFeedItems.Items.Count);
-            
-                listFeedItems.BeginUpdate();
+				
+				listFeedItems.BeginUpdate();
 
                 for (int i = 0; i < listFeedItems.Items.Count; i++)
                 {
@@ -2043,10 +2058,11 @@ namespace RssBandit.WinGui.Forms
 
                         if (!newsItem.BeenRead)
                         {
-                            newsItem.BeenRead = true;
-							unread.Add(newsItem);
-							//UnreadItemsNode.Remove(newsItem);
+							if (!isSmartOrAggregated)	// handled later down...
+								newsItem.BeenRead = true;
 
+							unread.Add(newsItem);
+							
                             // now update tree state of rss items from different
                             // feeds (or also: category selected)
                             if (lvi.IndentLevel > 0 || selectedNode.Type == FeedNodeType.Finder)
@@ -2084,15 +2100,10 @@ namespace RssBandit.WinGui.Forms
             if (selectedNode.Type == FeedNodeType.Root)
             {
                 // all
-				//UnreadItemsNodeRemoveItems(UnreadItemsNode.Items);
                 UnreadItemsNodeRemoveAllItems(entry);
 				entry.Source.MarkAllCachedItemsAsRead();
 				owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
                 selectedNode.ResetReadStatus();
-                //UpdateTreeNodeUnreadStatus(selectedNode, 0);
-                
-				//ResetFindersReadStatus();
-                //SetGuiStateFeedback(String.Empty, ApplicationTrayState.NormalIdle);
             }
             else if (selectedNode.Type == FeedNodeType.Category)
             {
@@ -2108,14 +2119,14 @@ namespace RssBandit.WinGui.Forms
 						owner.FeedWasModified(feed, NewsFeedProperty.FeedItemReadState);
 						UpdateTreeNodeUnreadStatus(ownerNode, 0);
 					}
-					//UpdateTreeNodeUnreadStatus(selectedNode, 0);
+					
 				}
 
-                // category and childs
-                //WalkdownAndCatchupCategory(selectedNode);
             }
+
             if (isSmartOrAggregated)
             {
+				SetNewsItemsReadState(unread, true);
                 var sfNode = startNode as ISmartFolder;
                 if (sfNode != null) sfNode.UpdateReadStatus();
             }
@@ -2426,6 +2437,19 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
+		public void RemoveAllFeedItems()
+		{
+			using (new CursorChanger(Cursors.WaitCursor))
+			{
+				IList<ThreadedListViewItem> toRemove = GetAllLVItems();
+				if (toRemove.Count == 0)
+					return;
+
+				SetFeedItemsReadState(toRemove, true);
+				RemoveListviewItems(toRemove, true, true, true);
+			}
+		}
+
         /// <summary>
         /// Remove the selected feed items. 
         /// Called from the listview context menu.
@@ -2582,6 +2606,21 @@ namespace RssBandit.WinGui.Forms
 
             return listFeedItemsO.SelectedItems.Cast<ThreadedListViewItem>().ToList();
         }
+
+		/// <summary>
+		/// Helper function which gets the list of all list view items from the 
+		/// currently visible list view. 
+		/// </summary>
+		/// <returns>The list of selected ThreadedListViewItems</returns>
+		private IList<ThreadedListViewItem> GetAllLVItems()
+		{
+			if (listFeedItems.Visible)
+			{
+				return listFeedItems.Items.ToList();
+			}
+
+			return listFeedItemsO.Items.Cast<ThreadedListViewItem>().ToList();
+		}
 
 
         /// <summary>

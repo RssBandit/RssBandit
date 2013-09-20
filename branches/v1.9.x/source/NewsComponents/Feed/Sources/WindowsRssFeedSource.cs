@@ -381,6 +381,26 @@ namespace NewsComponents.Feed
             return this.GetItemsForFeed(feedUrl, false); 
         }
 
+		/// <summary>
+		/// Removes all information related to an item from the FeedSource. 
+		/// </summary>
+		/// <remarks>If the item doesn't exist in the FeedSource then nothing is done</remarks>
+		/// <param name="item">the item to delete</param>
+		public override void DeleteItem(INewsItem item)
+		{
+			WindowsRssNewsFeed f = item.Feed as WindowsRssNewsFeed;
+			if (f != null)
+			{
+				f.AddDeletedStory(item.Id);
+				var rssItem = f.ItemsList.FirstOrDefault(fi => fi.Id == item.Id) as WindowsRssNewsItem;
+				if (rssItem != null)
+					rssItem.Delete();
+			}
+
+			base.DeleteItem(item);
+		}
+
+
         /// <summary>
         /// Marks all items stored in the internal cache of RSS items as read
         /// for a particular feed.
@@ -2226,9 +2246,25 @@ namespace NewsComponents.Feed
 
         #endregion 
 
-        #region IRelation implementation 
+		#region public 
 
-        /// <summary>
+	    public void Delete()
+	    {
+		    try
+		    {
+			    myitem.Delete();
+		    }
+		    catch (Exception ex)
+		    {
+				_log.Error("Exception in WindowsRssNewsItem.Delete():", ex); 
+		    }
+	    }
+
+		#endregion
+
+		#region IRelation implementation
+
+		/// <summary>
         /// Return a web reference, a resource ID, mail/message ID, NNTP post ID.
         /// </summary>
 		string IRelation.HRef
@@ -3380,8 +3416,8 @@ namespace NewsComponents.Feed
         }
 
         /// <summary>
-        /// Removes an entry from the deletedstories collection
-        /// </summary>
+		/// Adds an entry to the deletedstories collection
+		/// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to add</param>
         public void AddDeletedStory(string storyid)
@@ -3396,9 +3432,9 @@ namespace NewsComponents.Feed
             }
         }
 
-        /// <summary>
-        /// Adds an entry to the deletedstories collection
-        /// </summary>
+		/// <summary>
+		/// Removes an entry from the deletedstories collection
+		/// </summary>
         /// <seealso cref="deletedstories"/>
         /// <param name="storyid">The ID to remove</param>
         public void RemoveDeletedStory(string storyid)
