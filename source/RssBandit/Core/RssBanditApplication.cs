@@ -4113,8 +4113,12 @@ namespace RssBandit
 
                 	OptionalItemElement.AddOrReplaceOriginalFeedReference(
                 		flagItem, theItem.Feed.link, entry.ID);
-                	
-                    flagItem.BeenRead = theItem.BeenRead;
+
+					// We do this because the flagged items are stored in one "feed", 
+					// but gets displayed one node per flag status. If one item is unread,
+					// all flag nodes gets the "unread" state.
+					flagItem.BeenRead = false; //theItem.BeenRead;
+
                     flaggedItemsFeed.Add(flagItem);
                 }
                 else

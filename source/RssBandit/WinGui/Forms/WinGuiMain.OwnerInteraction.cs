@@ -1024,8 +1024,9 @@ namespace RssBandit.WinGui.Forms
                 owner.Mediator.SetEnabled(
                     "-cmdFlagNewsItem", "-cmdNavigateToFeedHome", "-cmdNavigateToFeedCosmos",
                     "-cmdViewSourceOfFeed", "-cmdValidateFeed");
-                if ((feedsNode as FlaggedItemsNode) != null)
-                    owner.Mediator.SetEnabled("+cmdFlagNewsItem"); // allow re-flag of items
+				if ((feedsNode as FlaggedItemsNode) != null ||			// allow re-flag of items
+					(feedsNode as UnreadItemsNodePerSource) != null)	// allow flag in unread items node views
+                    owner.Mediator.SetEnabled("+cmdFlagNewsItem"); 
             }
             else if (feedsNode.Type == FeedNodeType.Finder)
             {

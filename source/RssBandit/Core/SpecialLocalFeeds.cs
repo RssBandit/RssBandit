@@ -1004,9 +1004,11 @@ namespace RssBandit.SpecialFeeds
 					XmlDocument doc = new XmlDocument(); 
 					doc.Load(reader); 
 					foreach(XmlElement elem in doc.SelectNodes("//item")){				
-						NewsItem item = RssParser.MakeRssItem(this,  new XmlNodeReader(elem)); 
-						
-						//Question: why we do this?
+						NewsItem item = RssParser.MakeRssItem(this,  new XmlNodeReader(elem));
+
+						// We do this because the flagged items are stored in one "feed", 
+						// but gets displayed one node per flag status. If one item is unread,
+						// all flag nodes gets the "unread" state.
 						item.BeenRead = true;
 						
 						item.FeedDetails = this.feedInfo;
