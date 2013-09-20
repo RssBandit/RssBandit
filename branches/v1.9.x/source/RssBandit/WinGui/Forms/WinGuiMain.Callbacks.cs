@@ -2470,7 +2470,7 @@ namespace RssBandit.WinGui.Forms
             if (TreeSelectedFeedsNode != null)
             {
                 listFeedItems.CheckForLayoutModifications();
-                TreeFeedsNodeBase tn = TreeSelectedFeedsNode;
+				TreeFeedsNodeBase tn = (TreeFeedsNodeBase)treeFeeds.SelectedNodes[0];
 				FeedSourceEntry entry = FeedSourceEntryOf(tn);
                     
                 if (tn.Type == FeedNodeType.Category)
@@ -2482,7 +2482,6 @@ namespace RssBandit.WinGui.Forms
                     {
                         MarkSelectedNodeRead(tn);
                         owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
-                        //owner.FeedlistModified = true;
                     }
                 }
                 else if (tn.Type == FeedNodeType.Feed)
@@ -2495,8 +2494,6 @@ namespace RssBandit.WinGui.Forms
                     {
                         MarkSelectedNodeRead(tn);
                         owner.SubscriptionModified(entry, NewsFeedProperty.FeedItemReadState);
-                        //owner.FeedlistModified = true;
-                        //this.UpdateTreeStatus(owner.FeedHandler.GetFeeds());					 
                     }
                 }
             } //if(this.TreeSelectedNode != null){		
