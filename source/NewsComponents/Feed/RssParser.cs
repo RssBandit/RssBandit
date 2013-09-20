@@ -1559,7 +1559,7 @@ namespace NewsComponents.Feed
                    maxItemAge = String.Empty,
                    language = String.Empty;
             DateTime defaultItemDate = RelationCosmos.RelationCosmos.UnknownPointInTime;
-            DateTime channelBuildDate = DateTime.Now.ToUniversalTime();
+            DateTime channelBuildDate = DateTime.UtcNow;
             bool newComments = false;
 
             int readItems = 0;

@@ -1271,13 +1271,18 @@ namespace RssBandit.WinGui.Forms
 
             var subTL1 = new AppContextMenuCommand("cmdDeleteAllNewsItems",
                                                    owner.Mediator,
-                                                   new ExecuteCommandHandler(
-                                                       owner.CmdDeleteAllFeedItems),
+                                                   owner.CmdDeleteAllFeedItems,
                                                    SR.MenuDeleteAllFeedItemsCaption,
                                                    SR.MenuDeleteAllFeedItemsDesc, 1, _shortcutHandler);
+
+			var subTL2 = new AppContextMenuCommand("cmdCatchUpCurrentSelectedNode",
+												  owner.Mediator,
+												  owner.CmdCatchUpCurrentSelectedNode,
+												  SR.MenuCatchUpThisFeedCaption,
+												  SR.MenuCatchUpThisFeedDesc, 0, _shortcutHandler);
             //subTL1.ImageList           = _listImages;
 
-            _treeLocalFeedContextMenu.MenuItems.AddRange(new MenuItem[] {subTL1});
+            _treeLocalFeedContextMenu.MenuItems.AddRange(new [] {subTL2, sep.CloneMenu(), subTL1});
 
             #endregion
 

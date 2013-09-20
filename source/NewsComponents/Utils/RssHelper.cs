@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using NewsComponents.Feed;
 using NewsComponents.News;
 
 namespace NewsComponents.Utils
@@ -421,7 +422,8 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
-		public static bool IsFeedUrl(string url) {
+		public static bool IsFeedUrl(string url) 
+		{
 			if (string.IsNullOrEmpty(url))
 				return false;
 			if (url.StartsWith("http") || url.StartsWith("file") || File.Exists(url))
@@ -434,13 +436,26 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
-		public static bool IsNntpUrl(string url) {
+		public static bool IsNntpUrl(string url) 
+		{
 			if (string.IsNullOrEmpty(url))
 				return false;
 			if (url.StartsWith(NntpWebRequest.NntpUriScheme) || url.StartsWith(NntpWebRequest.NewsUriScheme) || url.StartsWith(NntpWebRequest.NntpsUriScheme))
 				return true;
 			return false;
 		}
+
+		public static bool IsSecuredFeed(INewsFeed feed)
+		{
+			if (feed == null || string.IsNullOrEmpty(feed.link))
+				return false;
+
+			if (feed.authUser != null || feed.link.StartsWith("https"))
+				return true;
+
+			return false;
+		}
+
 		internal class NewsItemComparer: IComparer, IComparer<INewsItem> {
 		
 			#region private fields

@@ -130,7 +130,29 @@ namespace RssBandit.WinGui.Controls
 				return selectedItems; 
 			}
 		}
-			
+
+		public IList Items
+		{
+			get
+			{
+				ArrayList selectedItems = new ArrayList();
+				foreach (UltraTreeNodeExtended node in this.Nodes)
+				{
+					if (node.Level == 0)
+					{ //grouping like 'Yesterday' or 'Today'
+						foreach (UltraTreeNodeExtended childNode in node.Nodes)
+						{
+							selectedItems.Add(childNode.NodeOwner);
+						}
+					}
+					else
+					{
+						selectedItems.Add(node.NodeOwner);
+					}
+				}
+				return selectedItems;
+			}
+		}
 
 		public bool IsUpdatingSelection
 		{
