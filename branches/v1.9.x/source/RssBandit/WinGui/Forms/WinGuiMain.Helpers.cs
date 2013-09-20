@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using JetBrains.Annotations;
+using NewsComponents.Collections;
 using RssBandit.WinGui.Controls.ThListView;
 using RssBandit.WinGui.Controls.ThListView.Sorting;
 using AppInteropServices;
@@ -996,7 +998,7 @@ namespace RssBandit.WinGui.Forms
                 switch ((NewsItemSortField) Enum.Parse(typeof (NewsItemSortField), colKey, true))
                 {
                     case NewsItemSortField.Title:
-                        lvItems[colIndex[colKey]] = StringHelper.ShortenByEllipsis(StringHelper.StripNonDisplayChars(newsItem.Title), MaxHeadlineWidth);
+						lvItems[colIndex[colKey]] = StringHelper.ShortenByEllipsis(HtmlHelper.HtmlDecode(StringHelper.StripNonDisplayChars(newsItem.Title)), MaxHeadlineWidth);
                         break;
                     case NewsItemSortField.Subject:
                         if (authorInTopicColumn && !colIndex.ContainsKey("Author"))
@@ -2299,35 +2301,24 @@ namespace RssBandit.WinGui.Forms
         /// <param name="tn">the tree node</param>
         private void RefreshCategoryDisplay(TreeFeedsNodeBase tn)
         {
-            listFeedItems.BeginUpdate();
             string category = tn.CategoryStoreName;
-            var unreadItems = new FeedInfoList(category);
-            FeedSourceEntry entry = FeedSourceEntryOf(tn); 
+			FeedSourceEntry entry = FeedSourceEntryOf(tn);
+			
+			htmlDetail.Clear();
+            
+			listFeedItems.BeginUpdate();
+			PopulateListView(tn, new List<INewsItem>(), true);
+            WalkdownThenRefreshFeed(tn, false, true, tn);
+			listFeedItems.EndUpdate();
 
-            PopulateListView(tn, new List<INewsItem>(), true);
-            htmlDetail.Clear();
-            WalkdownThenRefreshFeed(tn, false, true, tn, unreadItems);
-
-
-            listFeedItems.EndUpdate();
-
-            //sort news items
-            //TODO: Ensure that there is no chance the code below can throw ArgumentOutOfRangeException 
-            ThreadedListViewColumnHeader colHeader = listFeedItems.Columns[listFeedItems.SortManager.SortColumnIndex];
-            IComparer<INewsItem> newsItemSorter =
-                RssHelper.GetComparer(listFeedItems.SortManager.SortOrder == SortOrder.Descending,
-                                      (NewsItemSortField) Enum.Parse(typeof (NewsItemSortField), colHeader.Key));
-
-            foreach (FeedInfo f in unreadItems)
-            {
-                f.ItemsList.Sort(newsItemSorter);
-            }
-
-
+            // get the sorted items, not yet grouped by their feeds:
+			IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items, true);
+			var redispItems = BuildGroupedFeedInfoList(category, items);
+			
             //store list of unread items then only send one page of results 
             //to newspaper view. 						
             _currentFeedNewsItems = null;
-            FeedInfoList fil2 = _currentCategoryNewsItems = unreadItems;
+			FeedInfoList fil2 = _currentCategoryNewsItems = redispItems;
             _currentPageNumber = _lastPageNumber = 1;
             int numItems = _currentCategoryNewsItems.NewsItemCount;
             string stylesheet = entry.Source.GetCategoryStyleSheet(category);
@@ -2343,8 +2334,7 @@ namespace RssBandit.WinGui.Forms
                     fil2 = GetCategoryItemsAtPage(1);
                 }
             }
-
-
+			
             if (tn.Selected)
             {
                 FeedDetailTabState.Url = String.Empty;
@@ -2352,6 +2342,33 @@ namespace RssBandit.WinGui.Forms
 				BeginTransformFeedList(fil2, tn, stylesheet);
             }
         }
+
+		private FeedInfoList BuildGroupedFeedInfoList([NotNull]string categoryName, [NotNull] IEnumerable<INewsItem> items)
+	    {
+			var temp = new KeyItemCollection<string, IFeedDetails>();
+
+			foreach (INewsItem item in items)
+			{
+				IFeedDetails fi;
+				if (!temp.TryGetValue(item.Feed.link, out fi))
+				{
+					fi = new FeedInfo(item.FeedDetails, null); //(IFeedDetails)item.FeedDetails.Clone();
+					//fi.ItemsList.Clear();
+					temp.Add(item.Feed.link, fi);
+				}
+				fi.ItemsList.Add(item);
+			}
+
+			var feedInfoList = new FeedInfoList(categoryName);
+
+			foreach (IFeedDetails fi in temp.Values)
+			{
+				if (fi.ItemsList.Count > 0)
+					feedInfoList.Add(fi);
+			}
+
+		    return feedInfoList;
+	    }
 
 
         internal void DeleteCategory(TreeFeedsNodeBase categoryFeedsNode)
@@ -2408,10 +2425,9 @@ namespace RssBandit.WinGui.Forms
         /// <param name="forceRefresh">true, if refresh should be forced</param>
         /// <param name="categorized">indicates whether this is part of the refresh or click of a category node</param>
         /// <param name="initialFeedsNode">This is the node where the refresh began from</param>
-        /// <param name="unreadItems">an array list to place the unread items in the category into. This is needed to render them afterwards 
         /// in a newspaper view</param>
         private void WalkdownThenRefreshFeed(TreeFeedsNodeBase startNode, bool forceRefresh, bool categorized,
-                                             TreeFeedsNodeBase initialFeedsNode, ICollection<IFeedDetails> unreadItems)
+                                             TreeFeedsNodeBase initialFeedsNode)
         {
             if (startNode == null) return;
 
@@ -2430,7 +2446,7 @@ namespace RssBandit.WinGui.Forms
                     if (child.Type != FeedNodeType.Feed && child.FirstNode != null)
                     {
                         //if (forceRefresh) {
-                        WalkdownThenRefreshFeed(child, forceRefresh, categorized, initialFeedsNode, unreadItems);
+                        WalkdownThenRefreshFeed(child, forceRefresh, categorized, initialFeedsNode);
                         //}
                     }
                     else
@@ -2475,7 +2491,6 @@ namespace RssBandit.WinGui.Forms
 
                                 if (fi.ItemsList.Count > 0)
                                 {
-                                    unreadItems.Add(fi);
                                     if (fi.ItemsList.Count != child.UnreadCount)
                                     {
                                         UpdateTreeNodeUnreadStatus(child, fi.ItemsList.Count);

@@ -24,6 +24,7 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 using Microsoft.Feeds.Interop;
 using NewsComponents.Core;
 using RssBandit.Common;
@@ -2656,16 +2657,17 @@ namespace NewsComponents.Feed
         /// Initializes the class
         /// </summary>
         /// <param name="feed">The IFeed instance that this object will wrap</param>
-        internal WindowsRssNewsFeed(IFeed feed) {
-            if (feed == null) throw new ArgumentNullException("feed"); 
-            this.myfeed = feed;
-            
-            /* do this here because COM interop is too slow to check it each time property is accessed */
-            this._id = myfeed.LocalId; 
-            
-            //make sure we have a list of items ready to go
-            this.LoadItemsList();             
-        }
+		internal WindowsRssNewsFeed([NotNull]IFeed feed)
+		{
+			if (feed == null) throw new ArgumentNullException("feed");
+			this.myfeed = feed;
+
+			/* do this here because COM interop is too slow to check it each time property is accessed */
+			this._id = myfeed.LocalId;
+
+			//make sure we have a list of items ready to go
+			this.LoadItemsList();
+		}
 
         /// <summary>
         /// Initializes the class
@@ -3503,15 +3505,6 @@ namespace NewsComponents.Feed
             {
                 /* can't set IFeed.LocalId */
             }
-        }
-
-        /// <summary>
-        /// Returns a copy of this object
-        /// </summary>
-        /// <returns>A copy of this object</returns>
-        public object Clone()
-        {
-            return new WindowsRssNewsFeed(myfeed);
         }
 
         /// <summary>

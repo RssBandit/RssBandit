@@ -2590,7 +2590,7 @@ namespace RssBandit.WinGui.Forms
                 return;
             //
             listFeedItemsO.IsUpdatingSelection = true;
-            ArrayList groupSelected = null;
+            List<INewsItem> groupSelected = null;
             //Select same nodes in listFeedItems ListView
             listFeedItems.SelectedItems.Clear();
             for (int i = 0; i < listFeedItemsO.Nodes.Count; i++)
@@ -2598,7 +2598,7 @@ namespace RssBandit.WinGui.Forms
                 if (listFeedItemsO.Nodes[i].Selected)
                 {
                     if (groupSelected == null)
-                        groupSelected = new ArrayList();
+                        groupSelected = new List<INewsItem>();
                     //Select all child nodes
                     for (int j = 0; j < listFeedItemsO.Nodes[i].Nodes.Count; j++)
                     {
@@ -2648,31 +2648,7 @@ namespace RssBandit.WinGui.Forms
                     if (tn.Type == FeedNodeType.Category)
                     {
                         string category = tn.CategoryStoreName;
-                        var temp = new Hashtable();
-
-                        foreach (INewsItem item in groupSelected)
-                        {
-                            IFeedDetails fi;
-                            if (temp.ContainsKey(item.Feed.link))
-                            {
-                                fi = (IFeedDetails) temp[item.Feed.link];
-                            }
-                            else
-                            {
-                                fi = (IFeedDetails) item.FeedDetails.Clone();
-                                fi.ItemsList.Clear();
-                                temp.Add(item.Feed.link, fi);
-                            }
-                            fi.ItemsList.Add(item);
-                        }
-
-                        var redispItems = new FeedInfoList(category);
-
-                        foreach (IFeedDetails fi in temp.Values)
-                        {
-                            if (fi.ItemsList.Count > 0)
-                                redispItems.Add(fi);
-                        }
+                        var redispItems = BuildGroupedFeedInfoList(category, groupSelected);
 
 						SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
 						BeginTransformFeedList(redispItems, tn, source.GetCategoryStyleSheet(category));
@@ -2684,8 +2660,8 @@ namespace RssBandit.WinGui.Forms
 
                         if (fi != null)
                         {
-                            var fi2 = (IFeedDetails) fi.Clone();
-                            fi2.ItemsList.Clear();
+                            var fi2 = new FeedInfo(fi, null); //(IFeedDetails) fi.Clone();
+                            //fi2.ItemsList.Clear();
                             foreach (INewsItem ni in groupSelected)
                             {
                                 fi2.ItemsList.Add(ni);

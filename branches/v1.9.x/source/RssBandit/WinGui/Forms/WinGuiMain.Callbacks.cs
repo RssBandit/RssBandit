@@ -2577,8 +2577,19 @@ namespace RssBandit.WinGui.Forms
                                 	IList<INewsItem> items = isf.Items;
 									if (items.Count > 0)
 									{
+										//sort news items
+										ThreadedListViewColumnHeader colHeader =
+											listFeedItems.Columns[listFeedItems.SortManager.SortColumnIndex];
+										IComparer<INewsItem> newsItemSorter =
+											RssHelper.GetComparer(listFeedItems.SortManager.SortOrder == System.Windows.Forms.SortOrder.Descending,
+																  (NewsItemSortField)Enum.Parse(typeof(NewsItemSortField), colHeader.Key));
+
+										List<INewsItem> sorted =(List<INewsItem>) items;
+										sorted.Sort(newsItemSorter);
+										
 										SetFocus2WebBrowser(htmlDetail); // detail browser should get focus
-										FeedInfoList fiList = CreateFeedInfoList(tn.Text, items);
+										_currentPageNumber = 1;
+										FeedInfoList fiList = _currentCategoryNewsItems = CreateFeedInfoList(tn.Text, sorted);
 										BeginTransformFeedList(fiList, tn, owner.Stylesheet);
 									}
                                 }
@@ -3626,48 +3637,43 @@ namespace RssBandit.WinGui.Forms
             if (listFeedItems.SelectedItems.Count > 0)
                 return;
 
-            TreeFeedsNodeBase feedsNode = CurrentSelectedFeedsNode;
-            if (feedsNode == null)
+            TreeFeedsNodeBase feedNode = CurrentSelectedFeedsNode;
+            if (feedNode == null)
                 return;
 
-            bool unreadOnly = true;
-            if (feedsNode.Type == FeedNodeType.Finder)
-                unreadOnly = false;
+	        bool unreadOnly = feedNode.Type != FeedNodeType.Finder;
 
-            IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items, unreadOnly);
+	        IList<INewsItem> items = NewsItemListFrom(listFeedItems.Items, unreadOnly);
             if (items == null || items.Count <= 1) // no need to re-sort on no or just one item
                 return;
 
+	        var category = feedNode.CategoryStoreName;
+			var redispItems = BuildGroupedFeedInfoList(category, items);
 
-            var temp = new Hashtable();
+	        _currentPageNumber = 1;
+            FeedSource source = FeedSourceOf(feedNode);
+			var styleSheet = String.Empty; // default
 
-            foreach (INewsItem item in items)
-            {
-                IFeedDetails fi;
-                if (temp.ContainsKey(item.Feed.link))
-                {
-					fi = (IFeedDetails)temp[item.Feed.link];
-                }
-                else
-                {
-					fi = (IFeedDetails)item.FeedDetails.Clone();
-                    fi.ItemsList.Clear();
-                    temp.Add(item.Feed.link, fi);
-                }
-                fi.ItemsList.Add(item);
-            }
+	        _currentFeedNewsItems = null;
+			if (feedNode is FeedNode)
+			{
+				if (redispItems.Count > 0)
+					_currentFeedNewsItems = new FeedInfo(redispItems[0], redispItems.GetAllNewsItems());
 
-            string category = feedsNode.CategoryStoreName;
-            var redispItems = new FeedInfoList(category);
+				if (source != null)
+					styleSheet = source.GetStyleSheet(feedNode.DataKey);
 
-			foreach (IFeedDetails fi in temp.Values)
-            {
-                if (fi.ItemsList.Count > 0)
-                    redispItems.Add(fi);
-            }
-            FeedSource source = FeedSourceOf(feedsNode); 
-            BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode, source != null ?
-				source.GetCategoryStyleSheet(category): String.Empty);
+				BeginTransformFeed(_currentFeedNewsItems, CurrentSelectedFeedsNode, styleSheet ?? String.Empty);
+			}
+			else
+			{
+				_currentCategoryNewsItems = redispItems;
+				if (source != null)
+					styleSheet = source.GetCategoryStyleSheet(category);
+
+				BeginTransformFeedList(redispItems, CurrentSelectedFeedsNode, styleSheet ?? String.Empty);
+			}
+	        
         }
 
         private void OnFeedListMouseDown(object sender, MouseEventArgs e)

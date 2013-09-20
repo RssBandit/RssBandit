@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml; 
 
@@ -18,7 +16,8 @@ namespace NewsComponents
 	/// <summary>
 	/// Interface represents information about a particular feed
 	/// </summary>
-	public interface IFeedDetails: ICloneable{
+	public interface IFeedDetails//: ICloneable
+	{
 		
 		/// <summary>Gets the Feed Language</summary>
 		string Language{ get; } 		
