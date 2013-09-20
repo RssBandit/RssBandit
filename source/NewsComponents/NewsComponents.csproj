@@ -132,9 +132,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.Msfeeds, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Common\Libraries\Interop.Msfeeds.dll</HintPath>
+    <Reference Include="Interop.Microsoft.Feeds.Interop">
+      <HintPath>..\Common\Libraries\Interop.Microsoft.Feeds.Interop.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
@@ -564,7 +564,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\facebook-newsfeed-2-atom.xslt" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>

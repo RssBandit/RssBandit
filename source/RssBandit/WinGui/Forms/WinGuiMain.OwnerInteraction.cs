@@ -2705,7 +2705,7 @@ namespace RssBandit.WinGui.Forms
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
             FeedSourceEntry entry = FeedSourceEntryOf(tn); 
-            if (tn == null || entry == null)
+            if (tn == null)
                 return;
 
             if (go2nextPage)
@@ -2722,7 +2722,7 @@ namespace RssBandit.WinGui.Forms
                 FeedInfo fi = GetFeedItemsAtPage(_currentPageNumber);
                 if (fi != null)
                 {
-                    BeginTransformFeed(fi, tn, entry.Source.GetStyleSheet(tn.DataKey));
+	                BeginTransformFeed(fi, tn, entry != null ? entry.Source.GetStyleSheet(tn.DataKey) : owner.Stylesheet);
                 }
             }
             else
@@ -2731,7 +2731,7 @@ namespace RssBandit.WinGui.Forms
                 FeedInfoList fil = GetCategoryItemsAtPage(_currentPageNumber);
                 if (fil != null)
                 {
-                    BeginTransformFeedList(fil, tn, entry.Source.GetCategoryStyleSheet(tn.CategoryStoreName));
+					BeginTransformFeedList(fil, tn, entry != null ? entry.Source.GetCategoryStyleSheet(tn.CategoryStoreName) : owner.Stylesheet);
                 }
             }
         }

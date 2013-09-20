@@ -10,7 +10,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -86,7 +85,7 @@ namespace NewsComponents.Feed
 		/// <param name="ifd">The object to copy from</param>
 		/// <param name="itemsList">The items list to use.</param>
 		public FeedInfo(IFeedDetails ifd, IEnumerable<INewsItem> itemsList)
-			: this(ifd.Id, String.Empty, new List<INewsItem>(itemsList),
+			: this(ifd.Id, String.Empty, new List<INewsItem>(itemsList ?? new List<INewsItem>()),
 				   ifd.Title, ifd.Link, ifd.Description,
 				   new Dictionary<XmlQualifiedName, string>(ifd.OptionalElements), ifd.Language)
 		{
@@ -117,7 +116,7 @@ namespace NewsComponents.Feed
         /// <param name="title"></param>
         /// <param name="link"></param>
         /// <param name="description"></param>
-        public FeedInfo(string id, string feedLocation, IList<INewsItem> itemsList, string title, string link,
+        public FeedInfo(string id, string feedLocation, IEnumerable<INewsItem> itemsList, string title, string link,
                         string description)
             : this(
                 id, feedLocation, itemsList, title, link, description, new Dictionary<XmlQualifiedName, string>(),
@@ -486,19 +485,14 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Represents a list of FeedInfo objects. This is primarily used for generating newspaper views of multiple feeds.
     /// </summary>
-    public class FeedInfoList : ICollection<IFeedDetails>
+    public class FeedInfoList : List<IFeedDetails>
     {
         #region Private Members
 
         /// <summary>
-        /// The list of feeds
-        /// </summary>
-        private readonly List<IFeedDetails> feeds = new List<IFeedDetails>();
-
-        /// <summary>
         /// The title of this list when displayed in a newspaper view
         /// </summary>
-        private readonly string title;
+        private readonly string _title;
 
         #endregion
 
@@ -510,7 +504,7 @@ namespace NewsComponents.Feed
         /// <param name="title">The name of the list</param>
         public FeedInfoList(string title)
         {
-            this.title = title;
+            this._title = title;
         }
 
         #endregion
@@ -522,7 +516,7 @@ namespace NewsComponents.Feed
         /// </summary>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
         }
 
         #endregion
@@ -537,58 +531,12 @@ namespace NewsComponents.Feed
         {
             var allItems = new List<INewsItem>();
 
-            foreach (FeedInfo fi in feeds)
+            foreach (FeedInfo fi in this)
             {
                 allItems.InsertRange(0, fi.ItemsList);
             }
 
             return allItems;
-        }
-
-        /// <summary>
-        /// Adds a new Feed to the list
-        /// </summary>
-        /// <param name="feed">The FeedInfo object to add</param>
-        /// <returns>The position into which the new feed was inserted</returns>
-        public void Add(IFeedDetails feed)
-        {
-            feeds.Add(feed);
-        }
-
-        /// <summary>
-        /// Adds the range of feeds (FeedInfo collection).
-        /// </summary>
-        /// <param name="feedCollection">The feed collection.</param>
-        public void AddRange(IEnumerable<IFeedDetails> feedCollection)
-        {
-            feeds.AddRange(feedCollection);
-        }
-
-        /// <summary>
-        /// Removes a Feed from the list
-        /// </summary>
-        /// <param name="feed">The IFeedDetails object to remove</param>
-        public bool Remove(IFeedDetails feed)
-        {
-            return feeds.Remove(feed);
-        }
-
-        /// <summary>
-        /// Tests to see if the specified feed is in the list
-        /// </summary>
-        /// <param name="feed"></param>
-        /// <returns></returns>
-        public bool Contains(IFeedDetails feed)
-        {
-            return feeds.Contains(feed);
-        }
-
-        /// <summary>
-        /// Removes all FeedInfo objects from the list
-        /// </summary>
-        public void Clear()
-        {
-            feeds.Clear();
         }
 
         /// <summary>
@@ -601,21 +549,12 @@ namespace NewsComponents.Feed
             {
                 int count = 0;
 
-                foreach (FeedInfo fi in feeds)
+                foreach (FeedInfo fi in this)
                 {
                     count += fi.ItemsList.Count;
                 }
                 return count;
             }
-        }
-
-        /// <summary>
-        /// Gets the total amount of NewsItem objects in the FeedInfo objects held by this list.
-        /// </summary>
-        /// <value>The count.</value>
-        public int Count
-        {
-            get { return feeds.Count; }
         }
 
         /// <summary>
@@ -644,9 +583,9 @@ namespace NewsComponents.Feed
         {
             writer.WriteStartElement("newspaper");
             writer.WriteAttributeString("type", "group");
-            writer.WriteElementString("title", title);
+            writer.WriteElementString("title", _title);
 
-            foreach (var feed in feeds)
+            foreach (IFeedDetails feed in this)
             {
                 feed.WriteTo(writer, NewsItemSerializationFormat.Channel, false);
             }
@@ -654,43 +593,9 @@ namespace NewsComponents.Feed
             writer.WriteEndElement();
         }
 
-
-        /// <summary>
-        /// Returns an enumerator used to iterate over the FeedInfo objects in the list
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator GetEnumerator()
-        {
-            return feeds.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator used to iterate over the FeedInfo objects in the list
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator<IFeedDetails> IEnumerable<IFeedDetails>.GetEnumerator()
-        {
-            return feeds.GetEnumerator();
-        }
-
         #endregion
 
         #region ICollection Members
-
-        /// <summary>
-        /// Copies the elements of the <see cref="T:System.Collections.ICollection"></see> to an <see cref="T:System.Array"></see>, starting at a particular <see cref="T:System.Array"></see> index.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"></see> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection"></see>. The <see cref="T:System.Array"></see> must have zero-based indexing.</param>
-        /// <param name="index">The zero-based index in array at which copying begins.</param>
-        /// <exception cref="T:System.ArgumentNullException">array is null. </exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">index is less than zero. </exception>
-        /// <exception cref="T:System.ArgumentException">array is multidimensional.-or- index is equal to or greater than the length of array.-or- The number of elements in the source <see cref="T:System.Collections.ICollection"></see> is greater than the available space from index to the end of the destination array. </exception>
-        /// <exception cref="T:System.InvalidCastException">The type of the source <see cref="T:System.Collections.ICollection"></see> cannot be cast automatically to the type of the destination array. </exception>
-        public void CopyTo(IFeedDetails[] array, int index)
-        {
-            feeds.CopyTo(array, index);
-        }
-
 
 		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
