@@ -82,7 +82,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <xsl:for-each select="//channel">
 
   <xsl:if test="string-length(current()/image/url) &gt; 0">
-<div class="PostTitle" style="FLOAT: right"> 
+<div class="PostTitleImage"> 
   <a href="{current()/image/link}" title="{current()/image/title}"><img src="{current()/image/url}"  alt="{current()/image/title}" border="0">
   <xsl:if test="current()/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="current()/image/width"/></xsl:attribute></xsl:if>
   <xsl:if test="current()/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="current()/image/height"/></xsl:attribute></xsl:if>
@@ -217,7 +217,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 <tr>
   <td class="PostFrame" height="100%" width="100%" valign="top">
 	<xsl:if test="string-length(//channel/image/url) &gt; 0">    
-    <div class="PostTitle" style="FLOAT: right">
+    <div class="PostTitleImage">
 	<a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
 	<xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
 	<xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>
@@ -378,7 +378,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 	<tr>
 	<td class="PostFrame" height="100%" width="100%" valign="top">
 	  <xsl:if test="//channel/image">
-		<div class="PostTitle" style="FLOAT: right">
+		<div class="PostTitleImage">
 		  <a href="{//channel/image/link}" title="{//channel/image/title}"><img src="{//channel/image/url}"  alt="{//channel/image/title}" border="0">
 		  <xsl:if test="//channel/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="//channel/image/width"/></xsl:attribute></xsl:if>
 		  <xsl:if test="//channel/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="//channel/image/height"/></xsl:attribute></xsl:if>
@@ -583,7 +583,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   {
   div.PageNavigation { visibility:hidden; }
   }
-  
+
   /* IE hack: hide the unnessecary vertical scrollbar, but allow scrollers if needed
   html {
   overflow:auto;
@@ -609,14 +609,12 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   }
 
   div {
-  /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
 
   td.PostFrame { background-color: white; padding: 8px; }
 
   div.PostTitle {
-  /* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size:larger;
   }
@@ -634,6 +632,10 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   text-decoration: underline;
   }
 
+  div.PostTitleImage {
+  float:right;
+  }
+
   div.PageNavigation {
   font-size: small;
   margin: 5px 0px 10px 0px;
@@ -649,12 +651,12 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   }
 
   div.PostContent {
-  font-size: small;
+  font-size: normal;
   border-top: 1px dotted #CBCBCB;
   }
 
   div.PostItemContent {
-  font-size: small;
+  font-size: normal;
   margin: 10px 0px 10px 0px;
   padding: 10px 0px 10px 0px;
   border-bottom: 1px dotted #CBCBCB;

@@ -27,7 +27,6 @@ using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 using Syndication.Extensibility;
 using SortOrder=System.Windows.Forms.SortOrder;
-using Infragistics.Win.UltraWinEditors;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.Net;
@@ -1334,7 +1333,7 @@ namespace RssBandit.WinGui.Forms
         /// <returns>unread items</returns>
         private IList<INewsItem> PopulateFullListView(IList<INewsItem> list)
         {
-            var aNew = new ThreadedListViewItem[list.Count];
+            var aNew = new List<ThreadedListViewItem>(list.Count);
 
             var unread = new List<INewsItem>(list.Count);
 
@@ -1358,28 +1357,37 @@ namespace RssBandit.WinGui.Forms
                 {
                     INewsItem item = list[i];
 
-                    if (!item.BeenRead)
-                        unread.Add(item);
+	                var parentId = item.ParentId;
 
-					bool hasRelations = NewsItemHasRelations(item);
+	                if (!String.IsNullOrEmpty(parentId) &&
+	                    list.Any(one => String.Equals(one.Link, parentId, StringComparison.Ordinal)))
+	                {
+		                continue; // show only top-items on initial load
+	                }
 
-                    ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
-                                                                        Resource.NewsItemImage.DefaultRead, colIndex,
-                                                                        false);
-                    _filterManager.Apply(newItem);
+	                bool hasRelations = NewsItemHasRelations(item);
+					
+	                if (!item.BeenRead)
+						unread.Add(item);
 
-                    aNew[i] = newItem;
+					ThreadedListViewItem newItem = CreateThreadedLVItem(item, hasRelations,
+																		Resource.NewsItemImage.DefaultRead, colIndex,
+																		false);
+					_filterManager.Apply(newItem);
+
+                    aNew.Add(newItem);
                 }
 
-                Array.Sort(aNew, listFeedItems.SortManager.GetComparer());
+				aNew.Sort(listFeedItems.SortManager.ItemComparer);
+                
                 listFeedItems.Items.AddRange(aNew);
                 ApplyNewsItemPropertyImages(aNew);
 
-                //listFeedItems.EndUpdate();
                 if (listFeedItemsO.Visible)
                 {
-                    listFeedItemsO.AddRange(aNew);
+                    listFeedItemsO.AddRange(aNew.ToArray());
                 }
+
                 return unread;
             }
             catch (Exception ex)
@@ -1514,29 +1522,6 @@ namespace RssBandit.WinGui.Forms
 
             return unread;
         }
-
-        //		private int GetInsertIndexOfItem(ThreadedListViewItem item) {
-        //			
-        //			if (this._lvSortHelper.Sorting == SortOrder.Ascending) {
-        //				for (int i = 0; i < listFeedItems.Items.Count; i++) {
-        //					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
-        //					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) >= 0)
-        //						return i;
-        //				} 
-        //
-        //				return 0;
-        //
-        //			} else {
-        //				for (int i = 0; i < listFeedItems.Items.Count; i++) {
-        //					ThreadedListViewItem tlv = (ThreadedListViewItem) listFeedItems.Items[i];
-        //					if (tlv.IndentLevel == 0 && this._lvSortHelper.Compare(item, tlv) <= 0)
-        //						return i;
-        //				}			
-        //
-        //			}
-        //			// mean: the caller should append the item
-        //			return listFeedItems.Items.Count;
-        //		}
 
         private bool NewsItemHasRelations(INewsItem item)
         {

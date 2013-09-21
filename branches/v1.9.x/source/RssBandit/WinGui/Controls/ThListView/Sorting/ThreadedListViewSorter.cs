@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Controls.ThListView.Sorting
@@ -82,17 +83,8 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 			if (BeforeSort != null)
 				BeforeSort(this, EventArgs.Empty);
 
-			if (_list.Items.Count > 1) {
-//				lock(_list.Items) {
-//					ThreadedListViewItem[] a = new ThreadedListViewItem[_list.Items.Count];
-//					_list.Items.CopyTo(a, 0);
-//					_list.BeginUpdate();
-//					_list.Items.Clear();
-//					Array.Sort(a, this.GetComparer());
-//					_list.Items.AddRange(a); 
-//					_list.EndUpdate();
-//				}
-
+			if (_list.Items.Count > 1) 
+			{
 				// may destroys Header control !!!
 				IComparer comp = this.GetComparer();
 				_list.ListViewItemSorter = comp;
@@ -118,27 +110,39 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 		/// If SortOrder is SortOrder.None, null is returned.
 		/// </summary>
 		/// <returns>IComparer</returns>
-		public IComparer GetComparer() {
-			if(_sortOrder != SortOrder.None) {
-				ThreadedListViewColumnHeader ch = _list.Columns[_columnIndex] as ThreadedListViewColumnHeader;
-				if (ch != null && _typeSorter.ContainsKey(ch.ColumnValueType)) {
-					return(ThreadedListViewItemComparer) Activator.CreateInstance((Type)_typeSorter[ch.ColumnValueType], new Object[] { _columnIndex, _sortOrder == SortOrder.Ascending } );
-				} else {
-					return new ThreadedListViewItemComparer( _columnIndex, _sortOrder == SortOrder.Ascending );
+		public IComparer GetComparer() 
+		{
+			if (_sortOrder != SortOrder.None)
+			{
+				ThreadedListViewColumnHeader ch = _list.Columns[_columnIndex];
+				if (ch != null && _typeSorter.ContainsKey(ch.ColumnValueType))
+				{
+					return (ThreadedListViewItemComparer)Activator.CreateInstance((Type)_typeSorter[ch.ColumnValueType], new Object[] { _columnIndex, _sortOrder == SortOrder.Ascending });
 				}
+				return new ThreadedListViewItemComparer(_columnIndex, _sortOrder == SortOrder.Ascending);
 			}
 			return null;
 		}
 
-		private void OnListColumnClick(object sender, ColumnClickEventArgs e) {
+		public IComparer<ThreadedListViewItem> ItemComparer
+		{
+			get { return (IComparer<ThreadedListViewItem>)GetComparer(); }
+		}
+
+		private void OnListColumnClick(object sender, ColumnClickEventArgs e) 
+		{
 			this.Sort(e.Column);
 		}
 
-		private void OnColumnHeaderCollectionChanged(object sender, ThreadedListViewColumnHeaderChangedEventArgs e) {
-			if (e.Action == ThreadedListViewColumnHeaderChangedAction.Remove) {
+		private void OnColumnHeaderCollectionChanged(object sender, ThreadedListViewColumnHeaderChangedEventArgs e) 
+		{
+			if (e.Action == ThreadedListViewColumnHeaderChangedAction.Remove)
+			{
 				ThreadedListViewColumnHeaderCollection c = sender as ThreadedListViewColumnHeaderCollection;
-				if (c != null && c.Count <= this._columnIndex) {
-					if (c.Count > 0 && e.Columns.Length == 1) {
+				if (c != null && c.Count <= this._columnIndex) 
+				{
+					if (c.Count > 0 && e.Columns.Length == 1)
+					{
 						this._columnIndex = c.Count - 1;
 					} else {
 						this._columnIndex = 0;

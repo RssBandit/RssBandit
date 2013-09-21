@@ -12,7 +12,7 @@ using System;
 namespace NewsComponents
 {
 	/// <summary>
-	/// SimpleHyperLink is a container for an Url and an assotiated Title
+	/// TitledLink is a container for an Url and an assotiated Title
 	/// </summary>
 	public struct TitledLink : IEquatable<TitledLink>
 	{
@@ -31,17 +31,17 @@ namespace NewsComponents
 		/// Initializes a new instance of the <see cref="TitledLink"/> class.
 		/// </summary>
 		/// <param name="url">The navigate URL.</param>
-		public TitledLink(string url) :
-			this(url, null) { }
+		public TitledLink(ref string url) :
+			this(ref url, null) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TitledLink"/> class.
 		/// </summary>
 		/// <param name="url">The navigate URL.</param>
 		/// <param name="title">The text.</param>
-		public TitledLink(string url, string title)
+		public TitledLink(ref string url, string title)
 		{
-			_url = (url != null ? url.ToLowerInvariant() : null);
+			_url = url;
 			_title = title;
 		}
 
@@ -77,7 +77,7 @@ namespace NewsComponents
 		/// </returns>
 		public override string ToString()
 		{
-			return String.Format("{0}: {1}",String.IsNullOrEmpty(Title) ? "<none>" : _title, _url);
+			return String.Format("{0}: {1}", _url, String.IsNullOrEmpty(_title) ? "<none>" : _title);
 		}
 
 		#endregion
@@ -94,7 +94,7 @@ namespace NewsComponents
 		/// </returns>
 		public bool Equals(TitledLink other)
 		{
-			if (!String.Equals(_url, other._url, StringComparison.Ordinal))
+			if (!String.Equals(_url, other._url, StringComparison.OrdinalIgnoreCase))
 				return false;
 			return true;
 		}
@@ -109,7 +109,6 @@ namespace NewsComponents
 		{
 			int result = 7;
 			result = 29*result + (_url != null ? _url.GetHashCode() : 0);
-			result = 29*result + (_title != null ? _title.GetHashCode() : 0);
 			return result;
 		}
 

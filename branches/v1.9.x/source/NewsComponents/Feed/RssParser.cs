@@ -575,7 +575,7 @@ namespace NewsComponents.Feed
 							do
 							{
 								string hrefOut = RelationCosmos.RelationCosmos.UrlTable.Add(reader.ReadElementContentAsString());
-								outgoingLinks.Add(new TitledLink(hrefOut));
+								outgoingLinks.Add(new TitledLink(ref hrefOut));
 
 							} while (reader.NodeType != XmlNodeType.EndElement);
 						}
@@ -588,7 +588,7 @@ namespace NewsComponents.Feed
 								string hrefTitle = null;
 								if (reader.HasAttributes)
 									hrefTitle = reader.GetAttribute("title", NamespaceCore.Feeds_v2004);
-								outgoingLinks.Add(new TitledLink(hrefOut, hrefTitle));
+								outgoingLinks.Add(new TitledLink(ref hrefOut, hrefTitle));
 
 							} while (reader.NodeType != XmlNodeType.EndElement);
 						}

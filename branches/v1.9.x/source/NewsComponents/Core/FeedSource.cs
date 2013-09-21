@@ -10,6 +10,7 @@
 
 #endregion
 
+using JetBrains.Annotations;
 
 #region framework usings
 
@@ -6550,7 +6551,7 @@ namespace NewsComponents
 
         #region RelationCosmos management
 
-        /// <summary>
+		/// <summary>
         /// </summary>
         /// <param name="item"></param>
         /// <param name="excludeItemsList"></param>

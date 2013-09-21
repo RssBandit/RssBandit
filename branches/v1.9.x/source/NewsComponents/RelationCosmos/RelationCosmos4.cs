@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
 
@@ -44,11 +45,11 @@ namespace NewsComponents.RelationCosmos
         /// </summary>
         private readonly Dictionary<string, IRelation> registeredRelations = new Dictionary<string, IRelation>(StringComparer.Comparer);
 
-        /// <summary>
-        /// Table of all outgoing links and the RelationBase instance(s) that link to them. We use Object becase the 
-        /// value may be instance of RelationBase or RelationList. 
-        /// </summary>
-        private readonly Dictionary<string, Object> relationsLinkTo = new Dictionary<string, Object>(50000,StringComparer.Comparer);
+		/// <summary>
+		/// Table of all outgoing links and the RelationBase instance(s) that link to them. We use Object becase the 
+		/// value may be instance of RelationBase or RelationList. 
+		/// </summary>
+		private readonly Dictionary<string, Object> relationsLinkTo = new Dictionary<string, Object>(50000,StringComparer.Comparer);
 
 		private readonly object syncRoot = new Object();
 
