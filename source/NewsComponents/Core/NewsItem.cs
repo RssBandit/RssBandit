@@ -546,7 +546,12 @@ namespace NewsComponents
                         outgoingRelationships = new List<TitledLink>(1);
                     }
 
-                    outgoingRelationships.Add(new TitledLink(p_parentIdUrl, p_feed.title));
+	                var parentLink = new TitledLink(ref p_parentIdUrl, p_feed.title);
+	                var idx = outgoingRelationships.IndexOf(parentLink);
+	                if (idx >= 0)
+		                outgoingRelationships[idx] = parentLink;
+					else
+						outgoingRelationships.Add(parentLink);
                 }
             }
         }

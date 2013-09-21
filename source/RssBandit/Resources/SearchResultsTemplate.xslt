@@ -27,7 +27,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 <tr>
 <td class="PostFrame" height="100%" width="100%" valign="top">
   <xsl:if test="current()/image">
-<div class="FeedTitle" style="FLOAT: right"> 
+<div class="FeedTitleImage"> 
   <a href="{current()/image/link}" title="{current()/image/title}"><img src="{current()/image/url}"  alt="{current()/image/title}" border="0">
   <xsl:if test="current()/image/width!=''"><xsl:attribute name="width"><xsl:value-of select="current()/image/width"/></xsl:attribute></xsl:if>
   <xsl:if test="current()/image/height!=''"><xsl:attribute name="height"><xsl:value-of select="current()/image/height"/></xsl:attribute></xsl:if>
@@ -35,7 +35,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 </div>
   </xsl:if>
   <div class="FeedTitle">			
-<a href='{current()/link}' style='text-decoration: none;'>
+<a href='{current()/link}'>
   <xsl:value-of  disable-output-escaping='yes' select='current()/title'/>
 </a>
   </div>
@@ -52,9 +52,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 	  <xsl:with-param name="current_position" select="concat(string($outerposition), 'in' , string(position()))" />
 	  <xsl:with-param name="current_item" select="." />
 	</xsl:call-template>
-	<a href='{current()/link}'>
-	  <b><xsl:value-of disable-output-escaping='yes' select="current()/title"/></b>
-	</a>		
+	<a href='{current()/link}'><xsl:value-of disable-output-escaping='yes' select="current()/title"/></a>		
   </div>
  
  <div class="PostBody">
@@ -126,9 +124,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 	<xsl:value-of  disable-output-escaping='yes' select='//channel/title'/>
 	  </a>
 	</div>
-	<!-- <div class="PostInfos">
-	<b><xsl:value-of disable-output-escaping='yes' select="current()/category"/></b>
-	</div> -->
+	
 	<div class="PostContent">
 	  <xsl:for-each select='//item'>
 		<div class="PostItemContent" id="{concat('item', string(position()))}" >
@@ -138,9 +134,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 		</xsl:call-template>
 		
 	<div class="PostInfos">	
-	  <a href='{current()/link}'>
-		<b><xsl:value-of disable-output-escaping='yes' select="current()/title"/></b>
-	  </a>
+	  <a href='{current()/link}'><xsl:value-of disable-output-escaping='yes' select="current()/title"/></a>
 	</div>
 	<xsl:choose>
 	  <xsl:when test='current()/xhtml:body'>
@@ -230,7 +224,7 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 		</a>
 	  </div>
 	  <div class="PostInfos">
-		<b><xsl:value-of disable-output-escaping='yes' select="//item/category"/></b>
+		<xsl:value-of disable-output-escaping='yes' select="//item/category"/>
 	  </div>
 	  <div class="PostContent">
 		<xsl:choose>
@@ -335,45 +329,44 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <xsl:template name="embedded_style">
 <style type="text/css">
-	body,td,div,.p,a{font-family:arial,sans-serif}
-	
+	body,td,div,.p,a{font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif}
+
 	div.FeedTitle{
+	padding-left:3px;
+	padding-bottom:3px;
+	margin-bottom:3px;
 	background:#e5ecf9;
-	color:#000;
-	border-top:1px solid #36c;
-	font-weight: bold;
-	text-decoration: none;
+	border-top:1px solid #002D96;
+	border-left:1px solid #002D96;
+	font-size:large;
 	}
-	
+
+  div.FeedTitleImage {
+	float:right;
+  padding-top:3px;
+	padding-right:3px;
+  border-top:1px solid #002D96;
+	border-right:1px solid #002D96;
+	}
+
 	.fl:link{color:#77c}
 	
-	a:link,.w,a.w:link,.w a:link,.q:visited,.q:link,.q:active,.q{color:#00c}
+	a{text-decoration:none}
+	a:hover{text-decoration:underline}
+	a:link,.w,a.w:link,.w a:link,.q:visited,.q:link,.q:active,.q{color:#002D96}
 	a:visited,.fl:visited{color:#551a8b}
 	a:active,.fl:active{color:red}
 
-	a:hover { 	
-	text-decoration: none;
-	border-bottom: 1px dotted;
-	}
-		
 	div,td{color:#000}
 	
 	div.PostTitle { 
 	/* font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	*/
-	font-family: verdana, arial, sans-serif;
-	font-size: medium;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	}
 	
 	.PostTitle a, .PostTitle a:active, .PostTitle a:visited {
 	border-width: 0px;
 	color: #FF6600;
-	font-weight: bold;
-	text-decoration: none;
-	}
-	
-	.PostTitle a:hover {
-	border-width: 0px;
-	text-decoration: underline;
 	}
 	
 	div.PostLink{
@@ -382,24 +375,20 @@ exclude-result-prefixes='content slash dc fd bndt localized atom'>
 	}
 	
 	div.PostBody{
-		font-family: verdana, arial, sans-serif;
+		font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 		font-weight: normal;
-		text-transform: none;
-		font-size: smaller;
 	}
 	
 	div.PostInfos { 
 	color: #808080;
-	font-family: verdana, arial, sans-serif;	font-size: x-small;
-	font-weight: normal;
-	text-transform: none;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size:larger;	
 	}	
 	
 	
 	div.PostSignature { 
 	text-align: right;
-	font-family: verdana, arial, sans-serif;	
-	font-size: xx-small; 
+	font-size: x-small; 
 	font-style: italic;
 	}
 	

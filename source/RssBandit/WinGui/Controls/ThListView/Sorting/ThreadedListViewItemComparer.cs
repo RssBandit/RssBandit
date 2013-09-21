@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Globalization;
 
@@ -17,7 +18,8 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 	/// <summary>
 	/// Provides simple text sorting (case sensitive)
 	/// </summary>
-	public class ThreadedListViewItemComparer: IComparer {
+	public class ThreadedListViewItemComparer : IComparer, IComparer<ThreadedListViewItem>
+	{
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -28,44 +30,38 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 			_ascending = ascending;
 		}
 
-		/// <summary>
-		/// Implementation of IComparer.Compare
-		/// </summary>
-		/// <param name="lhs">First Object to compare</param>
-		/// <param name="rhs">Second Object to compare</param>
-		/// <returns>Less that zero if lhs is less than rhs. Greater than zero if lhs greater that rhs. Zero if they are equal</returns>
-		public int Compare(object lhs, object rhs) {
-			ThreadedListViewItem lhsLvi = lhs as ThreadedListViewItem;
-			ThreadedListViewItem rhsLvi = rhs as ThreadedListViewItem;
+		#region IComparer<ThreadedListViewItem>
 
-			if(lhsLvi == null || rhsLvi == null)    // We only know how to sort ListViewItems, so return equal
+		public int Compare(ThreadedListViewItem lhsLvi, ThreadedListViewItem rhsLvi)
+		{
+			if (lhsLvi == null || rhsLvi == null)    // We only know how to sort ListViewItems, so return equal
 				return 0;
 
-			if (Object.ReferenceEquals(lhsLvi, rhsLvi))
+			if (ReferenceEquals(lhsLvi, rhsLvi))
 				return 0;
 
 			int result = 0;
 
-			if (lhsLvi.IndentLevel != rhsLvi.IndentLevel)  {
+			if (lhsLvi.IndentLevel != rhsLvi.IndentLevel)
+			{
 
-				if (lhsLvi.IndentLevel < rhsLvi.IndentLevel) {
-					
+				if (lhsLvi.IndentLevel < rhsLvi.IndentLevel)
+				{
+
 					if (rhsLvi.Parent != null && rhsLvi.Parent.Equals(lhsLvi)) 	// my thread
 						return -1;
 					return this.Compare(lhsLvi, rhsLvi.Parent);
 
-				} else {
-
-					if (lhsLvi.Parent != null && lhsLvi.Parent.Equals(rhsLvi)) 	// my thread
-						return 1;
-					return this.Compare(lhsLvi.Parent, rhsLvi);
 				}
-
-			} else {	// equal indentLevel
-
-				if (lhsLvi.Parent != null && !lhsLvi.Parent.Equals(rhsLvi.Parent))
-					return this.Compare(lhsLvi.Parent, rhsLvi.Parent);	
+				if (lhsLvi.Parent != null && lhsLvi.Parent.Equals(rhsLvi)) 	// my thread
+					return 1;
+				return this.Compare(lhsLvi.Parent, rhsLvi);
 			}
+			
+			// equal indentLevel
+
+			if (lhsLvi.Parent != null && !lhsLvi.Parent.Equals(rhsLvi.Parent))
+				return this.Compare(lhsLvi.Parent, rhsLvi.Parent);
 
 			ListViewItem.ListViewSubItemCollection lhsItems = lhsLvi.SubItems;
 			ListViewItem.ListViewSubItemCollection rhsItems = rhsLvi.SubItems;
@@ -73,23 +69,41 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 			string lhsText = (lhsItems.Count > _column) ? lhsItems[_column].Text : String.Empty;
 			string rhsText = (rhsItems.Count > _column) ? rhsItems[_column].Text : String.Empty;
 
-			if(lhsText.Length == 0 || rhsText.Length == 0)
+			if (lhsText.Length == 0 || rhsText.Length == 0)
 				result = lhsText.CompareTo(rhsText);
-			else {
+			else
+			{
 				// some classes may fail on compare, like DateTime
 				// so don't be the showstopper for inserts/displaying,
 				// but report the failure:
-				try {
+				try
+				{
 					result = OnCompare(lhsText, rhsText);
-				} catch (FormatException fex) {
+				}
+				catch (FormatException fex)
+				{
 					System.Diagnostics.Trace.WriteLine(this.ToString() + " failed to compare: " + fex.Message);
 				}
 			}
 
-			if(!_ascending)
+			if (!_ascending)
 				result = -result;
 
 			return result;
+		}
+
+		#endregion
+
+
+		/// <summary>
+		/// Implementation of IComparer.Compare
+		/// </summary>
+		/// <param name="lhs">First Object to compare</param>
+		/// <param name="rhs">Second Object to compare</param>
+		/// <returns>Less that zero if lhs is less than rhs. Greater than zero if lhs greater that rhs. Zero if they are equal</returns>
+		public int Compare(object lhs, object rhs)
+		{
+			return Compare(lhs as ThreadedListViewItem, rhs as ThreadedListViewItem);
 		}
 
 		/// <summary>
@@ -98,12 +112,15 @@ namespace RssBandit.WinGui.Controls.ThListView.Sorting
 		/// <param name="lhs">First Object to compare</param>
 		/// <param name="rhs">Second Object to compare</param>
 		/// <returns>Less that zero if lhs is less than rhs. Greater than zero if lhs greater that rhs. Zero if they are equal</returns>
-		protected virtual int OnCompare(string lhs, string rhs) {
-			return String.Compare(lhs, rhs, false);
+		protected virtual int OnCompare(string lhs, string rhs) 
+		{
+			return String.Compare(lhs, rhs, StringComparison.CurrentCulture);
 		}
 
 		private int _column;
 		private bool _ascending;
+		
+		
 	}
 
 	#region TextItemComparer

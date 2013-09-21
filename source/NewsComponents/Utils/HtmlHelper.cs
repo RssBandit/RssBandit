@@ -266,6 +266,12 @@ namespace NewsComponents.Utils
 
             return list;
         }
+
+		static readonly FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader
+		{
+			DocType = "HTML", CaseFolding = CaseFolding.ToLower, IgnoreDtd = true
+		};
+			
 		public static List<TitledLink> RetrieveTitledLinks(string html)
 		{
 			if (string.IsNullOrEmpty(html))
@@ -273,48 +279,55 @@ namespace NewsComponents.Utils
 
 			List<TitledLink> list = new List<TitledLink>();
 
-			if (true)
+			for (Match m = RegExFindHref.Match(html); m.Success; m = m.NextMatch())
 			{
-				using (FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader())
+				string href = m.Groups[1].Value.ToLower(); // filter non-real relation urls:
+				if (href.StartsWith("mailto:") || href.StartsWith("javascript:"))
 				{
-					using (var inputStreamReader = new StringReader(html))
+					continue;
+				}
+
+				if (href.Length == 0)
+					continue;
+
+				var linkText = m.Groups[2].Value;
+				var linkTitle = linkText;
+
+				using (var inputStreamReader = new StringReader(m.Groups[0].Value))
+				{
+					try
 					{
-						try
+						sgmlReader.InputStream = inputStreamReader;
+						while (sgmlReader.Read())
 						{
-							sgmlReader.InputStream = inputStreamReader;
-							sgmlReader.DocType = "HTML";
-							sgmlReader.CaseFolding = CaseFolding.ToLower;
-
-							while (sgmlReader.Read())
+							if (sgmlReader.NodeType == XmlNodeType.Element)
 							{
-								if (sgmlReader.NodeType == XmlNodeType.Element)
+								if (sgmlReader.Name == "a")
 								{
-									if (sgmlReader.Name == "a")
-									{
-										var href = sgmlReader.GetAttribute("href");
-										var linkTitle = sgmlReader.GetAttribute("title");
-										var linkText = sgmlReader.ReadInnerXml();
-										//var linkText = StripAnyTags(sgmlReader.ReadString());
-										
-										if (!String.IsNullOrEmpty(href))
-										{
-											href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
-											TitledLink link = new TitledLink(href, String.IsNullOrEmpty(linkTitle) ? linkText : linkTitle);
-
-											if (TitledLink.Empty == list.FirstOrDefault(newLink => link.Url.EqualsOrdinal(newLink.Url)))
-												list.Add(link);
-										}
-
-									}
+									href = sgmlReader.GetAttribute("href");
+									linkTitle = sgmlReader.GetAttribute("title");
+									linkText = sgmlReader.ReadInnerXml();
+									//var linkText = StripAnyTags(sgmlReader.ReadString());
 								}
-							} //while
-						}
-						catch (Exception e)
-						{
-							_log.Debug("Error retrieving title from HTML page", e);
-						}
+							}
+						} 
+					}
+					catch (Exception e)
+					{
+						_log.Debug("Error retrieving title with FastSgmlXPathReader() from HTML page", e);
 					}
 				}
+
+				if (!String.IsNullOrEmpty(href))
+				{
+					href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
+					TitledLink link = new TitledLink(ref href, String.IsNullOrEmpty(linkTitle) ? linkText : linkTitle);
+
+					var found = list.FirstOrDefault(newLink => link.Url.EqualsOrdinal(newLink.Url));
+					if (String.IsNullOrEmpty(found.Url))
+						list.Add(link);
+				}
+
 			}
 			
 			if (list.Count == 0)

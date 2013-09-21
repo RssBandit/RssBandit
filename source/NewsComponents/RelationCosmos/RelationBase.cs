@@ -56,22 +56,16 @@ namespace NewsComponents.RelationCosmos
         /// </summary>
         protected string p_id;
 
-//		/// <summary>
-//		/// The unique identifier of the parent.
-//		/// </summary>
-//		public virtual string ParentId { get { return p_parentId; } }
-//		/// <summary>
-//		/// A parent resource ID, parent mail/message ID, NNTP parent post ID.
-//		/// </summary>
-//		protected string p_parentId; 
-
         /// <summary>
         /// Return a list of outgoing Relation objects, e.g. 
         /// links the current relation resource points to.
         /// </summary>
         IList<string> IRelation.OutgoingRelations
         {
-            get { return outgoingRelationships.ConvertAll(link => link.Url); }
+	        get
+	        {
+				return outgoingRelationships.ConvertAll(link => link.Url);
+	        }
         }
 
         /// <summary>
@@ -199,84 +193,4 @@ namespace NewsComponents.RelationCosmos
         #endregion
     }
 
-    /// <summary>
-    /// A implementation of <see cref="RelationBase&lt;T&gt;"/>.
-    /// </summary>
-    public class RelationProxy<T> : RelationBase<T>
-        where T : RelationBase<T>
-    {
-        #region ctor(s)
-
-        /// <summary>
-        /// Internal initializer
-        /// </summary>
-        protected RelationProxy()
-        {
-            RealObject = null;
-        }
-
-        /// <summary>
-        /// Public Initializer
-        /// </summary>
-        /// <param name="href"></param>
-        /// <param name="pointInTime"></param>
-        public RelationProxy(string href, DateTime pointInTime) :
-            this(href, null, pointInTime)
-        {
-        }
-
-        /// <summary>
-        /// Public Initializer
-        /// </summary>
-        /// <param name="href"></param>
-        /// <param name="realObject"></param>
-        /// <param name="pointInTime"></param>
-        public RelationProxy(string href, object realObject, DateTime pointInTime) : this()
-        {
-            RealObject = realObject;
-            HRef = href;
-            base.PointInTime = pointInTime;
-        }
-
-        /// <summary>
-        /// Public Initializer
-        /// </summary>
-        /// <param name="href"></param>
-        /// <param name="pointInTime"></param>
-        /// <param name="adjustablePointInTime"></param>
-        public RelationProxy(string href, DateTime pointInTime, bool adjustablePointInTime) :
-            this(href, null, pointInTime, adjustablePointInTime)
-        {
-        }
-
-        /// <summary>
-        /// Public designated initializer
-        /// </summary>
-        /// <param name="href"></param>
-        /// <param name="realObject"></param>
-        /// <param name="pointInTime"></param>
-        /// <param name="adjustablePointInTime"></param>
-        public RelationProxy(string href, object realObject, DateTime pointInTime, bool adjustablePointInTime) : this()
-        {
-            RealObject = realObject;
-            HRef = href;
-            SetInternalPointInTime(pointInTime);
-            pointInTimeIsAdjustable = adjustablePointInTime;
-        }
-
-        #endregion
-
-        #region public methods/properties
-
-        /// <summary>
-        /// The accessor to the real object
-        /// </summary>
-        public object RealObject { get; set; }
-
-        #endregion
-
-        #region private vars
-
-        #endregion
-    }
 }
