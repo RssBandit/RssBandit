@@ -55,7 +55,8 @@ namespace RssBandit.WinGui.Forms
         private TextBox textFeedSourceName;
         private Label label2;
         private ErrorProvider errorProvider1;
-        private RadioButton radioFacebook;
+        private RadioButton radioFacebookReview;
+		private LinkLabel fbrssLinkHelp;
         private System.ComponentModel.IContainer components;
 
         public FeedSourceType SelectedFeedSource
@@ -70,7 +71,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     return FeedSourceType.FeedlyCloud;
                 }
-                else if (radioFacebook.Checked)
+                else if (radioFacebookReview.Checked)
                 {
                     return FeedSourceType.Facebook;
                 }
@@ -93,7 +94,7 @@ namespace RssBandit.WinGui.Forms
                 }
                 else if (value == FeedSourceType.Facebook)
                 {
-                    radioFacebook.Checked = true;
+                    radioFacebookReview.Checked = true;
                 }                
             }
         }
@@ -124,7 +125,9 @@ namespace RssBandit.WinGui.Forms
 			//
 			// Required for Windows Form Designer support
 			//
-			InitializeComponent();    
+			InitializeComponent();
+
+			this.Icon = Properties.Resources.Add;
 
             // form location management:
             windowSerializer = new WindowSerializer(this);
@@ -136,6 +139,7 @@ namespace RssBandit.WinGui.Forms
             if (internetService != null)
             {
                 internetService.InternetConnectionStateChange += OnInternetServiceInternetConnectionStateChange;
+	            radioFacebookReview.Enabled = false;//internetService.InternetAccessAllowed && !internetService.InternetConnectionOffline;
             }
             
             this.wizard.SelectedPage = this.pageStartImport;
@@ -193,7 +197,8 @@ namespace RssBandit.WinGui.Forms
 			this.textFeedSourceName = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pageStartImport = new Divelements.WizardFramework.WizardPage();
-			this.radioFacebook = new System.Windows.Forms.RadioButton();
+			this.fbrssLinkHelp = new System.Windows.Forms.LinkLabel();
+			this.radioFacebookReview = new System.Windows.Forms.RadioButton();
 			this.label1 = new System.Windows.Forms.Label();
 			this.radioFeedlyCloud = new System.Windows.Forms.RadioButton();
 			this.radioCommonFeedlist = new System.Windows.Forms.RadioButton();
@@ -282,21 +287,30 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// pageStartImport
 			// 
-			this.pageStartImport.Controls.Add(this.radioFacebook);
+			this.pageStartImport.Controls.Add(this.radioFacebookReview);
+			this.pageStartImport.Controls.Add(this.fbrssLinkHelp);
 			this.pageStartImport.Controls.Add(this.label1);
 			this.pageStartImport.Controls.Add(this.radioFeedlyCloud);
 			this.pageStartImport.Controls.Add(this.radioCommonFeedlist);
 			resources.ApplyResources(this.pageStartImport, "pageStartImport");
 			this.pageStartImport.Name = "pageStartImport";
 			this.pageStartImport.NextPage = this.pageFeedCredentials;
+			this.pageStartImport.BeforeMoveNext += new Divelements.WizardFramework.WizardPageEventHandler(this.OnPageStartImportBeforeMoveNext);
 			// 
-			// radioFacebook
+			// fbrssLinkHelp
 			// 
-			resources.ApplyResources(this.radioFacebook, "radioFacebook");
-			this.radioFacebook.Name = "radioFacebook";
-			this.radioFacebook.TabStop = true;
-			this.radioFacebook.UseVisualStyleBackColor = true;
-			this.radioFacebook.CheckedChanged += new System.EventHandler(this.radioFacebook_CheckedChanged);
+			resources.ApplyResources(this.fbrssLinkHelp, "fbrssLinkHelp");
+			this.fbrssLinkHelp.Name = "fbrssLinkHelp";
+			this.fbrssLinkHelp.TabStop = true;
+			this.fbrssLinkHelp.UseCompatibleTextRendering = true;
+			this.fbrssLinkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnFbRssLinkClicked);
+			// 
+			// radioFacebookReview
+			// 
+			resources.ApplyResources(this.radioFacebookReview, "radioFacebookReview");
+			this.radioFacebookReview.Name = "radioFacebookReview";
+			this.radioFacebookReview.UseVisualStyleBackColor = true;
+			this.radioFacebookReview.CheckedChanged += new System.EventHandler(this.radioFacebook_CheckedChanged);
 			// 
 			// label1
 			// 
@@ -307,9 +321,7 @@ namespace RssBandit.WinGui.Forms
 			// radioFeedlyCloud
 			// 
 			resources.ApplyResources(this.radioFeedlyCloud, "radioFeedlyCloud");
-			this.radioFeedlyCloud.Checked = true;
 			this.radioFeedlyCloud.Name = "radioFeedlyCloud";
-			this.radioFeedlyCloud.TabStop = true;
 			this.radioFeedlyCloud.UseVisualStyleBackColor = true;
 			this.radioFeedlyCloud.CheckedChanged += new System.EventHandler(this.radioFeedlyCloud_CheckedChanged);
 			// 
@@ -336,7 +348,7 @@ namespace RssBandit.WinGui.Forms
 			resources.ApplyResources(this.wizard, "wizard");
 			this.wizard.MarginImage = ((System.Drawing.Image)(resources.GetObject("wizard.MarginImage")));
 			this.wizard.Name = "wizard";
-			this.wizard.SelectedPage = this.pageSourceName;
+			this.wizard.SelectedPage = this.pageStartImport;
 			this.wizard.Cancel += new System.EventHandler(this.OnWizardCancel);
 			this.wizard.Finish += new System.EventHandler(this.OnWizardFinish);
 			// 
@@ -410,7 +422,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnInternetServiceInternetConnectionStateChange(object sender, InternetConnectionStateChangeEventArgs e)
         {
-            bool internetConnected = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
+            radioFacebookReview.Enabled = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
         }
 
         private void OnImmediateFinish_Click(object sender, EventArgs e)
@@ -448,7 +460,7 @@ namespace RssBandit.WinGui.Forms
             this.OnControlValidating(this.textPassword, new System.ComponentModel.CancelEventArgs()); 
         }
 
-        private void GetFacebookPermissions()
+        private bool GetFacebookPermissions()
         {
             if (this.SelectedFeedSource == FeedSourceType.Facebook)
             {
@@ -468,13 +480,18 @@ namespace RssBandit.WinGui.Forms
                         result = fcd.ShowDialog();
                     }
 
-                    /* get extended permission to access the news feed */
-                    string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey, "read_stream");
+	                if (result == DialogResult.OK)
+	                {
+		                /* get extended permission to access the news feed */
+		                string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate,
+			                FacebookConnectDialog.ApiKey, "read_stream");
 
-                    using (FacebookConnectDialog fcd2 = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
-                    {
-                        result = fcd2.ShowDialog();
-                    }
+		                using (FacebookConnectDialog fcd2 = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
+		                {
+			                result = fcd2.ShowDialog();
+			                return fcd2.AuthorizationComplete;
+		                }
+	                }
                 }
                 catch (WebException)
                 {
@@ -487,6 +504,8 @@ namespace RssBandit.WinGui.Forms
                 }               
 
             }
+
+	        return false;
         }
 
         private void OnPageFeedCredentials_BeforeDisplay(object sender, EventArgs e)
@@ -510,7 +529,6 @@ namespace RssBandit.WinGui.Forms
                 case FeedSourceType.Facebook:
                     this.textFeedSourceName.Text = SR.FeedNodeFacebookFeedsCaption;
                     this.pageSourceName.PreviousPage = this.pageStartImport;
-                    this.GetFacebookPermissions(); 
                     break; 
             }
         }
@@ -596,6 +614,27 @@ namespace RssBandit.WinGui.Forms
         {
             this.pageStartImport.NextPage = this.pageSourceName;             
         }
+
+		private void OnPageStartImportBeforeMoveNext(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (this.SelectedFeedSource == FeedSourceType.Facebook)
+			{
+				var ok = GetFacebookPermissions();
+				e.Cancel = !ok;
+			}
+			
+			if (this.SelectedFeedSource == FeedSourceType.Unknown)
+				e.Cancel = true;
+		}
+
+		private void OnFbRssLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var coreApp = IoC.Resolve<ICoreApplication>();
+			if (coreApp != null)
+			{
+				coreApp.NavigateToUrlAsUserPreferred("http://fbrss.com/", "Loading...", true, true);
+			}
+		}
 
     }
 
