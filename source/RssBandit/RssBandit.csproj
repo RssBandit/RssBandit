@@ -653,7 +653,9 @@
       <SubType>
       </SubType>
     </EmbeddedResource>
-    <None Include="Resources\SearchResultsTemplate.xslt" />
+    <None Include="Resources\SearchResultsTemplate.xslt">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Resources\ShortcutSettings.xml" />
     <EmbeddedResource Include="Resources\ShortcutSettings.xsd">
       <SubType>

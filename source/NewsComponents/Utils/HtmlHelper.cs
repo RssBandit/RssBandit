@@ -101,7 +101,7 @@ namespace NewsComponents.Utils
         /// <returns></returns>
         public static string ConvertToAbsoluteUrl(string url, string baseUrl)
         {
-            if (url == null || url.Length == 0)
+            if (string.IsNullOrEmpty(url))
                 return null;
             return ConvertToAbsoluteUrl(url, baseUrl, false);
         }
@@ -115,19 +115,12 @@ namespace NewsComponents.Utils
         /// <returns>converted Url</returns>
         public static string ConvertToAbsoluteUrl(string url, string baseUrl, bool onlyValid)
         {
-            if (url == null || url.Length == 0)
+            if (string.IsNullOrEmpty(url))
                 return null;
 
             Uri baseUri;
             Uri.TryCreate(baseUrl, UriKind.Absolute, out baseUri);
             return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
-
-            //try {
-            //    if (baseUrl != null && baseUrl.Length > 0)
-            //        baseUri = new Uri(baseUrl);
-            //} catch (UriFormatException) {}
-
-            //return ConvertToAbsoluteUrl(url, baseUri, onlyValid);
         }
 
         /// <summary>
@@ -163,18 +156,7 @@ namespace NewsComponents.Utils
             Uri result;
             if (Uri.TryCreate(baseUri, url, out result))
                 return result;
-            //try {
-            //    // we must check baseUri, because the Uri constructor
-            //    // will raise a NullRefEx in case it is used internally:
-            //    if (baseUri != null) {
-            //        return new Uri(baseUri,url); 
-            //    } else {
-            //        return new Uri(url); 
-            //    }
-            //} catch (UriFormatException) {
-            //    if (onlyValid) return null;
-            //}
-            //// return original:
+            
             return null;
         }
 
@@ -196,23 +178,11 @@ namespace NewsComponents.Utils
                 uri = ConvertToAbsoluteUriPath(uri);
                 return uri.AbsoluteUri;
             }
-            else
-            {
-                // one very last try:
-                if (url.IndexOf("/") >= 0)
-                    return url.Substring(0, url.LastIndexOf("/") + 1);
-                return url;
-            }
-
-            //try {
-            //    Uri uri = ConvertToAbsoluteUriPath(new Uri(url)); 
-            //    return uri.AbsoluteUri;
-            //} catch (UriFormatException) {
-            //    // one very last try:
-            //    if (url.IndexOf("/") >= 0)
-            //        return url.Substring(0, url.LastIndexOf("/")+1);
-            //    return url;
-            //}
+	        
+			// one very last try:
+	        if (url.IndexOf("/") >= 0)
+		        return url.Substring(0, url.LastIndexOf("/") + 1);
+	        return url;
         }
 
         /// <summary>
@@ -232,52 +202,19 @@ namespace NewsComponents.Utils
             return b.Uri;
         }
 
-        /// <summary>
-        /// Returns a RelationHRefDictionary with links found in HTML &lt;a href=""> attributes.
-        /// </summary>
-        /// <param name="html">String to work on</param>
-        /// <returns>List of URLs</returns>
-        public static List<string> RetrieveLinks(string html)
-        {
-            if (html == null || html.Length == 0)
-                return GetList<string>.Empty;
-
-            List<string> list = new List<string>();
-
-            for (Match m = RegExFindHref.Match(html); m.Success; m = m.NextMatch())
-            {
-                string href = m.Groups[1].ToString(); // filter non-real relation urls:
-                if (href.StartsWith("mailto:") || href.StartsWith("javascript:"))
-                {
-                    continue;
-                }		  
-
-                if (href.Length == 0)
-                    continue;
-
-                href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
-
-                if (!list.Contains(href))
-                    list.Add(href);
-            }
-
-            if (list.Count == 0)
-                list = GetList<string>.Empty;
-
-            return list;
-        }
-
-		static readonly FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader
-		{
-			DocType = "HTML", CaseFolding = CaseFolding.ToLower, IgnoreDtd = true
-		};
-			
-		public static List<TitledLink> RetrieveTitledLinks(string html)
+        public static List<TitledLink> RetrieveTitledLinks(string html)
 		{
 			if (string.IsNullOrEmpty(html))
 				return GetList<TitledLink>.Empty;
 
 			List<TitledLink> list = new List<TitledLink>();
+
+			FastSgmlXPathReader sgmlReader = new FastSgmlXPathReader
+			{
+				DocType = "HTML",
+				CaseFolding = CaseFolding.ToLower,
+				IgnoreDtd = true
+			};
 
 			for (Match m = RegExFindHref.Match(html); m.Success; m = m.NextMatch())
 			{
@@ -346,7 +283,7 @@ namespace NewsComponents.Utils
         /// </returns>
         public static string ExpandRelativeUrls(string html, string baseUrl)
         {
-            if (html == null || html.Length == 0)
+            if (string.IsNullOrEmpty(html))
                 return html;
 
             RelativeUrlExpander expander = new RelativeUrlExpander();
@@ -364,7 +301,7 @@ namespace NewsComponents.Utils
         /// <returns>The HTML content with all the images replaced</returns>
         public static string ReplaceImageLinks(string html, MatchEvaluator me)
         {
-            if (html == null || html.Length == 0)
+            if (string.IsNullOrEmpty(html))
                 return html;
 
             return RegExFindSrc.Replace(html, me); 
@@ -573,9 +510,10 @@ namespace NewsComponents.Utils
         /// <param name="credentials">Credentials for authenticating the request</param>
         /// <param name="proxy">Proxy server to direct the request through</param>
         /// <returns></returns>
+		//dup to FindTitle2() - which one we should use?
         public static string FindTitle(string url, string defaultIfNoMatch, IWebProxy proxy, ICredentials credentials)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AllowAutoRedirect = true;
             request.Proxy = proxy;
             request.Credentials = credentials; 
@@ -625,9 +563,10 @@ namespace NewsComponents.Utils
             return title;
         }
 
+		//dup to FindTitle() - which one we should use?
 		public static string FindTitle2(string url, string defaultIfNoMatch, IWebProxy proxy, ICredentials credentials)
 		{
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.AllowAutoRedirect = true;
 			request.Proxy = proxy;
 			request.Credentials = credentials;

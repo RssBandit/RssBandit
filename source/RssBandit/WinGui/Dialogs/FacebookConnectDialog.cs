@@ -17,7 +17,10 @@ namespace RssBandit.WinGui.Dialogs
         public static readonly string ApiKey = "2d8ab36a639b61dd7a1a9dab4f7a0a5a";
         public static readonly string TokenUrl = "http://www.25hoursaday.com/weblog/CreateFBtoken.aspx";
 
-        /// <summary>
+	    private static readonly string newPermUrltemplate =
+		    @"https://www.facebook.com/dialog/oauth?client_id=122649761132929&redirect_uri=http%3A%2F%2Ffbrss.com%2F&state=5872db4926bb00dacf0a443146e1c522&scope=user_groups,read_stream,user_status, user_interests,friends_interests,user_likes,friends_likes,user_status,user_checkins,friends_checkins,friends_status";
+        
+		/// <summary>
         /// Indicates that the user has authorized RSS Bandit to access their news feed. 
         /// </summary>
         private bool authorizationComplete = false; 
@@ -39,14 +42,21 @@ namespace RssBandit.WinGui.Dialogs
         private FacebookConnectDialog()
         {
             InitializeComponent();
-			
+
+			this.Icon = Properties.Resources.Add;
+
+			this.browserFB.SilentModeEnabled = true; // equivalent to browser.ScriptErrorsSuppressed = true;
 			this.browserFB.NavigateComplete += this.FacebookConnectDialog_Navigated;
 			this.browserFB.OnQuit += this.FacebookConnectDialog_CloseWebBrowserRequest;
             
         }
 
+	    public bool AuthorizationComplete
+	    {
+		    get { return this.authorizationComplete; }
+	    }
 
-        /// <summary>
+	    /// <summary>
         /// Confirm that we login/connection was successful.
         /// </summary>
         /// <param name="sender"></param>

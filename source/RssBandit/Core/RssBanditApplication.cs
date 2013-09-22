@@ -336,6 +336,15 @@ namespace RssBandit
                     return false;
             }
 
+			// google reader is dead (summer 2013):
+			var googlReaderFeedSource= sourceManager.Sources.FirstOrDefault(
+					entry => (entry.SourceType == FeedSourceType.Google));
+	        if (googlReaderFeedSource != null)
+	        {
+				sourceManager.Remove(googlReaderFeedSource);
+				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+	        }
+
             //make sure we have a direct access feed source
 			//DISCUSS: should we do so in the final release?
 			if (BanditFeedSourceEntry == null)
@@ -3512,16 +3521,14 @@ namespace RssBandit
 						case FeedSourceType.WindowsRSS:
 							loc = new SubscriptionLocation(locName);
 							break;
-#if ! FEEDLY_FEATURE
-						case FeedSourceType.Google:
-							loc = new SubscriptionLocation(locName,
-								new NetworkCredential(wiz.UserName, wiz.Password));
-							break;
-#endif
-						case FeedSourceType.NewsGator:
-							loc = new SubscriptionLocation(locName,
-								new NetworkCredential(wiz.UserName, wiz.Password));
-							break;
+						//case FeedSourceType.Google:
+						//	loc = new SubscriptionLocation(locName,
+						//		new NetworkCredential(wiz.UserName, wiz.Password));
+						//	break;
+						//case FeedSourceType.NewsGator:
+						//	loc = new SubscriptionLocation(locName,
+						//		new NetworkCredential(wiz.UserName, wiz.Password));
+						//	break;
 						case FeedSourceType.Facebook:
 							loc = new SubscriptionLocation(locName,
 								new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
