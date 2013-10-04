@@ -1,4 +1,4 @@
-Copyright (c) 2003-2008, Dare Obasanjo & Torsten Rendelmann
+Copyright (c) 2003-2013, Dare Obasanjo & Torsten Rendelmann
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, 
@@ -30,10 +30,10 @@ This application is dependent on libraries or source code from the following sou
 which have been credited below 
 
 * The #ZipLib library which is Copyright© Mike Krueger 
-* The SandBar & SandDock libraries which are Copyright ©2005 by Divelements Limited, 
+* The EyeFinder & SandDock libraries which are Copyright ©2005 by Divelements Limited, 
   (http://www.divil.co.uk/net)
 * Portions of Source Code are Copyright ©2002-2004 by The Genghis Group 
   (http://www.genghisgroup.com)
 * Portions of the Source Code are derived from the NntpClient library which is 
   Copyright ©2002 by Jack Palevich 
-* Documentation and Portions of the Source Code are Copyright ©2004-2006 by Phil Haack 		
+* Documentation and Portions of the Source Code are Copyright ©2004-2006 by Phil Haack, Oren Novotny 		
