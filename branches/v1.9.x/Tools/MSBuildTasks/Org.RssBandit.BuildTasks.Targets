@@ -6,6 +6,7 @@
     <MSBuildOrgRssBanditTasksLib>$(MSBuildOrgRssBanditTasksPath)\Org.RssBandit.BuildTasks.dll</MSBuildOrgRssBanditTasksLib>
   </PropertyGroup>
 
+  <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.SetEnvVar" />
   <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.BuildDay" />
   <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.VersionInfo" />
   <UsingTask AssemblyFile="$(MSBuildOrgRssBanditTasksLib)" TaskName="Org.RssBandit.MSBuild.SvnRepositoryPath" />
