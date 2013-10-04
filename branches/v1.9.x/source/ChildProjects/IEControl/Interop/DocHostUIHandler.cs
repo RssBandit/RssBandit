@@ -24,7 +24,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Security.Permissions;
 using System.Windows.Forms;
 
-namespace IEControl
+namespace IEControl.Impl
 {
 	/// <summary>
 	/// Summary description for DocHostUIHandler.
@@ -110,6 +110,7 @@ namespace IEControl
 		/// <param name="pcmdtReserved"></param>
 		/// <param name="pdispReserved"></param>
 		/// <returns></returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
 		public int ShowContextMenu(int dwID, Interop.POINT pt, object pcmdtReserved, object pdispReserved) {
 			int ret = Interop.S_FALSE;
 			Point location = hostControl.PointToClient(new Point(pt.x, pt.y));
@@ -125,6 +126,7 @@ namespace IEControl
 			return ret;
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
 		public int GetHostInfo(Interop.DOCHOSTUIINFO info) {
 			info.dwDoubleClick = Interop.DOCHOSTUIDBLCLICK_DEFAULT;
 			int flags = 0;
@@ -200,7 +202,10 @@ namespace IEControl
 
 			const int WM_KEYDOWN = 0x0100;
 			const int VK_CONTROL = 0x11;
-			
+
+			if (msg == null)
+				throw new ArgumentNullException("msg");
+
 			if (msg.message != WM_KEYDOWN)
 				return Interop.S_FALSE;				// no keydown, allow message
 
@@ -223,7 +228,8 @@ namespace IEControl
 		}
 
 		public int GetOptionKeyPath(string[] pbstrKey, int dw) {
-			pbstrKey[0] = null;
+			if (pbstrKey != null && pbstrKey.Length > 0)
+				pbstrKey[0] = null;
 			return Interop.S_OK;
 		}
 

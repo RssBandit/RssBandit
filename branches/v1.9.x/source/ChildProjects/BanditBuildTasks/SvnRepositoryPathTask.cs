@@ -16,7 +16,8 @@ namespace Org.RssBandit.MSBuild
     /// ]]></code>
 	/// <para>Fill the property named 'SVNRepositoryPath' with a path like this:</para>
 	/// <para>Input:  d:\svn\repo\Test\trunk</para>
-	/// <para>Output: file:///d:/svn/repo/Test/trunk</para>
+	/// <para>Output: file:///d:/svn/repo/Test/trunk
+	/// </para></example>
     public sealed class SvnRepositoryPath : Task
 	{
 		// Fields

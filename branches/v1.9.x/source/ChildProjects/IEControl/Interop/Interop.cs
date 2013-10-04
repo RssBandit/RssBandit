@@ -574,7 +574,7 @@ namespace IEControl {
 			void FreezeEvents([In, MarshalAs(UnmanagedType.Bool)] bool bFreeze);
 		}
 
-		[ComVisible(true), StructLayout(LayoutKind.Sequential)]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes"), ComVisible(true), StructLayout(LayoutKind.Sequential)]
 		public struct tagMSG
 		{
 			public IntPtr hwnd;

@@ -241,7 +241,7 @@ namespace IEControl
 			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
 			if (!NativeMethods.GetVersionEx(ref ifex)) {
 				int err = Marshal.GetLastWin32Error();
-				throw new Exception("GetVersionEx() failed with error ("+ err.ToString() +").");
+				throw new Exception(String.Format("Native function to retrieve version info failed with error '{0}'.", err));
 			}
 			servicePackMajor = ifex.wServicePackMajor;
 			servicePackMinor = ifex.wServicePackMinor;
@@ -256,7 +256,7 @@ namespace IEControl
 			ifex.dwOSVersionInfoSize = Marshal.SizeOf(ifex);
 			if (!NativeMethods.GetVersionEx(ref ifex)) {
 				int err = Marshal.GetLastWin32Error();
-				throw new Exception(String.Format("GetVersionEx() failed with error '{0}'.", err));
+				throw new Exception(String.Format("Native function to retrieve version info failed with error '{0}'.", err));
 			}
 			return (WindowsSuite) ifex.wSuiteMask;
 		}
