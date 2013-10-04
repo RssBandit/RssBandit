@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanditBuildTasks", "BanditBuildTasks.csproj", "{C25E906C-952C-4EE4-8369-AE9EAC13F348}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanditBuildTasks", "BanditBuildTasks\BanditBuildTasks.csproj", "{C25E906C-952C-4EE4-8369-AE9EAC13F348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanditBuildTasks.UnitTests", "..\BanditBuildTasks.UnitTests\BanditBuildTasks.UnitTests.csproj", "{402D5F0F-B7FF-4E76-98D6-4E7EDCD9C249}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanditBuildTasks.UnitTests", "BanditBuildTasks.UnitTests\BanditBuildTasks.UnitTests.csproj", "{402D5F0F-B7FF-4E76-98D6-4E7EDCD9C249}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA5569FA-48CE-4C01-ACC8-56C4F5938A65}"
 	ProjectSection(SolutionItems) = preProject

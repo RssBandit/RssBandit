@@ -1,6 +1,6 @@
 #region Copyright
 /*
-Copyright (c) 2004-2006 by Torsten Rendelmann
+Copyright (c) 2004-2013 by Torsten Rendelmann
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
+using System.Security;
 using Microsoft.Win32;
 
 namespace IEControl
@@ -45,7 +45,7 @@ namespace IEControl
 		/// <returns>
 		/// 	<c>true</c> if the specified feature is enabled; otherwise, <c>false</c>.
 		/// </returns>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public static bool IsEnabled(InternetFeatureList feature, GetFeatureFlag flags)
 		{
 			if (!OSHelper.IsOSAtLeastWindowsXPSP2 && !OSHelper.IsIE6) 
@@ -60,7 +60,7 @@ namespace IEControl
 		/// <param name="feature">The feature.</param>
 		/// <param name="flags">The flags.</param>
 		/// <param name="enable">if set to <c>true</c> [enable].</param>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public static void SetEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable)
 		{
 			if (OSHelper.IsOSAtLeastWindowsXPSP2 && OSHelper.IsIE6) {

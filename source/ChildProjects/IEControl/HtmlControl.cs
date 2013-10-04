@@ -24,9 +24,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Security.Permissions;
 using System.Windows.Forms;
-
+using IEControl.Impl;
 using Interop.SHDocVw;
 
 namespace IEControl
@@ -267,7 +268,6 @@ namespace IEControl
 		///<summary>
 		///Summary of HtmlControl.
 		///</summary>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
 		public HtmlControl()
 			: base("8856f961-340a-11d0-a96b-00c04fd705a2")
 		{
@@ -429,7 +429,7 @@ namespace IEControl
 		/// Workaround/BugBug: handle OnQuit/Zoom in IE8
 		/// </summary>
 		/// <param name="m"></param>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecuritySafeCritical]
 		protected override void WndProc(ref Message m)
 		{
             switch (m.Msg)
@@ -465,7 +465,7 @@ namespace IEControl
                 }
                 else
                     throw new InvalidOperationException(String.Format(
-                        "Invalid zoomfactor: {0}. Allowed values are between 10 and 1000", value));
+                        "Invalid zoom factor: {0}. Allowed values are between 10 and 1000", value));
             }
 	    }
 
@@ -762,7 +762,7 @@ namespace IEControl
 		/// enhance browser security. See also
 		/// http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
 		/// </summary>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public void EnhanceBrowserSecurityForProcess()
 		{
 			SetFeatureFlag where = SetFeatureFlag.SET_FEATURE_ON_PROCESS;
@@ -814,7 +814,7 @@ namespace IEControl
 		/// <returns>
 		/// 	<c>true</c> if the specified feature is enabled; otherwise, <c>false</c>.
 		/// </returns>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public static bool IsInternetFeatureEnabled(InternetFeatureList feature, GetFeatureFlag flags)
 		{
 			try {
@@ -831,7 +831,7 @@ namespace IEControl
 		/// <param name="feature">The feature.</param>
 		/// <param name="flags">The flags.</param>
 		/// <param name="enable">if set to <c>true</c> [enable].</param>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public static void SetInternetFeatureEnabled(InternetFeatureList feature, SetFeatureFlag flags, bool enable)
 		{
 			try {
@@ -849,6 +849,22 @@ namespace IEControl
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AnyBeforeNavigateEventListener {
 			get { return (BeforeNavigate != null);}
+		}
+
+		/// <summary>
+		/// Sets the zoom factor. Common values:
+		/// TextSize Smallest: factor = 0
+		/// TextSize Smaller: factor = 1
+        /// TextSize Medium: factor = 2 (100%)
+        /// TextSize Larger: factor = 3
+        /// TextSize Largest: factor = 4
+		/// </summary>
+		/// <param name="factor">The zoom factor.</param>
+		public void SetZoomFactor(int factor)
+		{
+			object Z = factor;
+			var NULL = new Object();
+			ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref Z, ref NULL);
 		}
 
 		#region unwanted 1
@@ -923,7 +939,7 @@ namespace IEControl
 			}
 		}
 
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		protected void SetHtmlText(string text)
 		{
 
@@ -955,7 +971,7 @@ namespace IEControl
 		}
 
 		// called from SelfNavigateComplete()
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		protected void SetBodyText(string text)
 		{
 			
@@ -1822,7 +1838,7 @@ namespace IEControl
 
 		#endregion
 
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		public new bool Focus()
 		{
 			DoVerb(Interop.OLEIVERB_UIACTIVATE);
@@ -1850,7 +1866,7 @@ namespace IEControl
 			}
 		}
 
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+		[SecurityCritical]
 		private void CheckAndActivate()
 		{
 			if (this.IsFlagSet(ControlBehaviorFlags.activate)) {
@@ -1862,7 +1878,6 @@ namespace IEControl
 		///<summary>
 		///Summary of CreateSink.
 		///</summary>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
 		protected override void CreateSink()
 		{
 			try {
@@ -1876,7 +1891,6 @@ namespace IEControl
 		///<summary>
 		///Summary of DetachSink.
 		///</summary>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
 		protected override void DetachSink()
 		{
 			try {
@@ -1889,8 +1903,8 @@ namespace IEControl
 		///<summary>
 		///Summary of AttachInterfaces.
 		///</summary>
-		[PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-		protected override void AttachInterfaces() {
+		protected override void AttachInterfaces()
+		{
 			try {
 				this.ocx = ((IWebBrowser2)(GetOcx()));
 				this.iwb2app = (Interop.IWebBrowser2Application) this.ocx;
@@ -2349,8 +2363,7 @@ namespace IEControl
             return false;
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        bool IMessageFilter.PreFilterMessage(ref Message m)
+		bool IMessageFilter.PreFilterMessage(ref Message m)
         {
             switch (m.Msg)
             {
