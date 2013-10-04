@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using NewsComponents;
@@ -18,7 +19,7 @@ using RssBandit.WinGui;
 
 namespace RssBandit.Core.Storage.Serialization
 {
-
+	[Serializable]
 	public class StatefullKeyItemCollection<TK, TI>: ObservableKeyItemCollection<TK, TI>
 	{
 		/// <summary>
@@ -34,6 +35,17 @@ namespace RssBandit.Core.Storage.Serialization
 		/// <param name="capacity">The capacity.</param>
 		public StatefullKeyItemCollection(int capacity) : base(capacity)
 		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StatefullKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// </summary>
+		/// <param name="info">The information.</param>
+		/// <param name="context">The context.</param>
+		protected StatefullKeyItemCollection(SerializationInfo info, StreamingContext context) :
+			base(info, context)
+		{
+			
 		}
 
 		/// <summary>

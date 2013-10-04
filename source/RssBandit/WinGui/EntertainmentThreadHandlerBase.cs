@@ -18,7 +18,7 @@ namespace RssBandit.WinGui
 	/// EntertainmentThreadHandlerBase used to display a waiting dialog (entertainment)
 	/// for a longer running task in a separate thread.
 	/// </summary>
-	public abstract class EntertainmentThreadHandlerBase
+	public abstract class EntertainmentThreadHandlerBase: IDisposable
 	{
 		protected AutoResetEvent p_workDone = new AutoResetEvent(false);
 		protected Exception p_operationException = null;
@@ -160,6 +160,43 @@ namespace RssBandit.WinGui
 		protected AutoResetEvent WorkDone {
 			get {	return p_workDone;	}
 		}
+
+		#region IDisposable
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing) 
+		{
+			if (disposing)
+			{
+				if (p_workDone != null)
+				{
+					p_workDone.Set();
+					p_workDone.Dispose();
+				}
+
+				p_workDone = null;
+
+				var disposable = p_waitDialog as EntertainmentDialog;
+				if (disposable != null)
+				{
+					disposable.Dispose();
+				}
+
+				p_waitDialog = null;
+			}
+		}
+
+		~EntertainmentThreadHandlerBase()
+		{
+			Dispose(false);
+		}
+
+		#endregion
 
 	}
 }

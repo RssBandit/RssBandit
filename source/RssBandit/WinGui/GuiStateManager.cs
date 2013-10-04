@@ -8,6 +8,8 @@
  */
 #endregion
 
+using System;
+using System.ComponentModel;
 
 namespace RssBandit.WinGui
 {
@@ -33,47 +35,59 @@ namespace RssBandit.WinGui
 	public class GuiStateManager
 	{
 		#region FeedSource state handling
-		public delegate void NewsHandlerBeforeStateMoveHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState, ref bool cancel);
-		public event NewsHandlerBeforeStateMoveHandler NewsHandlerBeforeStateMove;
-		public delegate void NewsHandlerStateMovedHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState);
-		public event NewsHandlerStateMovedHandler NewsHandlerStateMoved;
+		//public delegate void NewsHandlerBeforeStateMoveHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState, ref bool cancel);
+		public event EventHandler<NewsHandlerBeforeStateMoveCancelEventArgs> NewsHandlerBeforeStateMove;
+		//public delegate void NewsHandlerStateMovedHandler(FeedSourceBusyState oldState, FeedSourceBusyState newState);
+		public event EventHandler<NewsHandlerStateMovedEventArgs> NewsHandlerStateMoved;
 
 		/// <summary>
 		/// Used to indicate that the application has 
 		/// transitioned form one state to another.
 		/// </summary>
 		/// <param name="newState"></param>
-		public void MoveNewsHandlerStateTo(FeedSourceBusyState newState) {
-			FeedSourceBusyState oldState = this.sourceBusyState;
+		public void MoveNewsHandlerStateTo(FeedSourceBusyState newState) 
+		{
+			FeedSourceBusyState oldState = this._sourceBusyState;
 			bool shouldCancel = false;
 			
 			if (newState == oldState)	// not really a new state
 				return;
 
-			if (NewsHandlerBeforeStateMove != null) {
-				try {
-					NewsHandlerBeforeStateMove(oldState, newState, ref shouldCancel);
-				} catch {}
+			if (NewsHandlerBeforeStateMove != null)
+			{
+				try
+				{
+					NewsHandlerBeforeStateMoveCancelEventArgs args = new NewsHandlerBeforeStateMoveCancelEventArgs(oldState, newState, false);
+					NewsHandlerBeforeStateMove(this, args);
+					shouldCancel = args.Cancel;
+				}
+				catch { }
 			}
 			if (shouldCancel)
 				return;
 
-			this.sourceBusyState = newState;
-			if (NewsHandlerStateMoved != null) {
-				try {
-					NewsHandlerStateMoved(oldState, newState);
-				} catch {}
+			this._sourceBusyState = newState;
+			if (NewsHandlerStateMoved != null)
+			{
+				try
+				{
+					NewsHandlerStateMoved(this, new NewsHandlerStateMovedEventArgs( oldState, newState));
+				}
+				catch { }
 			}
 		}
-		private FeedSourceBusyState sourceBusyState = FeedSourceBusyState.Idle;
+
+		private FeedSourceBusyState _sourceBusyState = FeedSourceBusyState.Idle;
 		
 		/// <summary>
 		/// Gets the state of the news handler.
 		/// </summary>
 		/// <value></value>
-		public FeedSourceBusyState FeedSourceBusyState {
-			get { return sourceBusyState; }
+		public FeedSourceBusyState FeedSourceBusyState
+		{
+			get { return _sourceBusyState; }
 		}
+		
 		#endregion
 
 		#region internet connection state handling
@@ -134,4 +148,33 @@ namespace RssBandit.WinGui
 		#endregion
 
 	}
+
+	#region eventArgs classes
+
+	public class NewsHandlerStateMovedEventArgs : EventArgs
+	{
+		public FeedSourceBusyState OldState { get; private set; }
+		public FeedSourceBusyState NewState { get; private set; }
+
+		public NewsHandlerStateMovedEventArgs(FeedSourceBusyState oldState, FeedSourceBusyState newState)
+		{
+			this.OldState = oldState;
+			this.NewState = newState;
+		}
+	}
+
+	public class NewsHandlerBeforeStateMoveCancelEventArgs : CancelEventArgs
+	{
+		public FeedSourceBusyState OldState { get; private set; }
+		public FeedSourceBusyState NewState { get; private set; }
+
+		public NewsHandlerBeforeStateMoveCancelEventArgs(FeedSourceBusyState oldState, FeedSourceBusyState newState, bool cancel)
+			: base(cancel)
+		{
+			this.OldState = oldState;
+			this.NewState = newState;
+		}
+	}
+
+	#endregion
 }

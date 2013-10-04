@@ -327,12 +327,12 @@ namespace RssBandit
             }
             catch (Exception loadEx)
             {
-                _log.Error(
-                    String.Format("Failed to load feed sources from file:{0}: {1}.", GetFeedSourcesFileName(),
-                                  loadEx.Message), loadEx);
-                if (DialogResult.No ==
-					MessageQuestion(String.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?",
-                                                  Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
+                _log.Error("Failed to load feed sources from file:{0}: {1}."
+					.FormatWith(GetFeedSourcesFileName(), loadEx.Message), loadEx);
+
+                if (DialogResult.No == MessageQuestion(
+					"Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?"
+						.FormatWith(Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
 
@@ -343,6 +343,13 @@ namespace RssBandit
 	        {
 				sourceManager.Remove(googlReaderFeedSource);
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+
+		        MessageInfo(String.Concat("Bad news: the Google Reader itself is not anymore available and so ",
+					"we disabled this synchronizable feed source.{0}{0}",
+					"Good news: there is a alternative service available: feedly.com{0}{0}" ,
+					"Feel free to import your google reader feeds there and use their online services ",
+					"for now until we integrated cloud.feedly.com as a new synchronizable feed source...")
+					.FormatWith(Environment.NewLine));
 	        }
 
             //make sure we have a direct access feed source
@@ -1787,14 +1794,22 @@ namespace RssBandit
 
                     // Flush and close the trace output.
                     Trace.Listeners.Remove(myTextListener);
-                    myTextListener.Close();
                 }
             }
             else
             {
-                //if (File.Exists(p))
-                SearchEngineHandler.GenerateDefaultEngines();
-                SaveSearchEngines();
+				try
+				{
+					SearchEngineHandler.GenerateDefaultEngines(p);
+				}
+				catch (InvalidOperationException ioe)
+				{
+					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ioe);
+				}
+				catch (Exception ex)
+				{
+					_log.Error("Unexpected Error on saving GenerateDefaultEngines({0}).".FormatWith(p), ex);
+				}
             }
         }
 
@@ -1806,7 +1821,10 @@ namespace RssBandit
                     SearchEngineHandler.EnginesOK && SearchEngineHandler.Engines.Count > 0)
                 {
                     string p = Path.Combine(GetSearchesPath(), @"config.xml");
-                    SearchEngineHandler.SaveEngines(new FileStream(p, FileMode.Create));
+					using (Stream stream = FileHelper.OpenForWrite(p))
+					{
+						SearchEngineHandler.SaveEngines(stream);
+					}
                 }
             }
             catch (InvalidOperationException ioe)
@@ -1828,14 +1846,9 @@ namespace RssBandit
         /// <param name="args"></param>
         private static void SearchConfigValidationCallback(object sender, ValidationEventArgs args)
         {
-            if (args.Severity == XmlSeverityType.Warning)
-            {
-                _log.Info("Validation Warning on search engines list: " + args.Message);
-            }
-            else if (args.Severity == XmlSeverityType.Error)
+            if (args.Severity == XmlSeverityType.Error)
             {
                 validationErrorOccured = true;
-                _log.Error("Validation Error on search engines list: " + args.Message);
             }
         }
 
@@ -2726,10 +2739,6 @@ namespace RssBandit
                 }
                 catch (Exception e)
                 {
-                    // Release all resources held by the XmlTextWriter.
-                    if (writer != null)
-                        writer.Close();
-
                     // Report exception.
                     _log.Debug(
                         "SaveTrustedCertificateIssues: There was an error while serializing to Storage.  Ignoring.");
@@ -3279,7 +3288,7 @@ namespace RssBandit
                         
                         //due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
                         //into migrated feed list
-                        if (!StringHelper.EmptyTrimOrNull(oldsubs))
+                        if (!String.IsNullOrWhiteSpace(oldsubs))
                         {
                             FileStream stream = File.Open(oldsubs, FileMode.Open);
                             fs.Source.ImportFeedlist(stream);
@@ -4798,49 +4807,48 @@ namespace RssBandit
             }
         }
 
-        private static void OnRssParserBeforeStateChange(FeedSourceBusyState oldState, FeedSourceBusyState newState,
-                                                         ref bool cancel)
+		private static void OnRssParserBeforeStateChange(object sender, NewsHandlerBeforeStateMoveCancelEventArgs args)
         {
             // move to idle states
-            if (newState == FeedSourceBusyState.RefreshOneDone)
+            if (args.NewState == FeedSourceBusyState.RefreshOneDone)
             {
-                if (oldState >= FeedSourceBusyState.RefreshCategory)
+                if (args.OldState >= FeedSourceBusyState.RefreshCategory)
                 {
-                    cancel = true; // not allowed. Only RefreshAllDone can switch to idle
+                    args.Cancel = true; // not allowed. Only RefreshAllDone can switch to idle
                 }
             }
-            else if (newState < FeedSourceBusyState.RefreshCategory &&
-                     newState != FeedSourceBusyState.Idle &&
-                     oldState >= FeedSourceBusyState.RefreshCategory)
+            else if (args.NewState < FeedSourceBusyState.RefreshCategory &&
+                     args.NewState != FeedSourceBusyState.Idle &&
+                     args.OldState >= FeedSourceBusyState.RefreshCategory)
             {
-                cancel = true; // not allowed. RefreshAll or Categories in progress
+                args.Cancel = true; // not allowed. RefreshAll or Categories in progress
             }
         }
 
-        private void OnNewsHandlerStateChanged(FeedSourceBusyState oldState, FeedSourceBusyState newState)
+        private void OnNewsHandlerStateChanged(object sender, NewsHandlerStateMovedEventArgs args)
         {
             // move to idle states
-            if (newState == FeedSourceBusyState.RefreshOneDone)
+            if (args.NewState == FeedSourceBusyState.RefreshOneDone)
             {
                 stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.Idle);
             }
-            else if (newState == FeedSourceBusyState.RefreshAllDone)
+			else if (args.NewState == FeedSourceBusyState.RefreshAllDone)
             {
                 stateManager.MoveNewsHandlerStateTo(FeedSourceBusyState.Idle);
             }
-            else if (newState == FeedSourceBusyState.Idle)
+			else if (args.NewState == FeedSourceBusyState.Idle)
             {
                 SetGuiStateFeedbackText(String.Empty, ApplicationTrayState.NormalIdle);
             }
-            else if (newState == FeedSourceBusyState.RefreshCategory)
+			else if (args.NewState == FeedSourceBusyState.RefreshCategory)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusRefreshFeedsMessage, ApplicationTrayState.BusyRefreshFeeds);
             }
-            else if (newState == FeedSourceBusyState.RefreshOne)
+			else if (args.NewState == FeedSourceBusyState.RefreshOne)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusLoadingFeed, ApplicationTrayState.BusyRefreshFeeds);
             }
-            else if (newState == FeedSourceBusyState.RefreshAllAuto || newState == FeedSourceBusyState.RefreshAllForced)
+			else if (args.NewState == FeedSourceBusyState.RefreshAllAuto || args.NewState == FeedSourceBusyState.RefreshAllForced)
             {
                 SetGuiStateFeedbackText(SR.GUIStatusRefreshFeedsMessage, ApplicationTrayState.BusyRefreshFeeds);
             }
@@ -6255,7 +6263,7 @@ namespace RssBandit
 		/// </returns>
         public bool ContainsFeed(string address)
         {
-			if (StringHelper.EmptyTrimOrNull(address))
+			if (String.IsNullOrWhiteSpace(address))
 				return false;
 
 			return null != FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(address)); 
@@ -6276,7 +6284,7 @@ namespace RssBandit
 			title = null;
 			link = null;
 
-			if (StringHelper.EmptyTrimOrNull(url))
+			if (String.IsNullOrWhiteSpace(url))
 				return false;
 			
 			FeedSourceEntry entry = FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(url));

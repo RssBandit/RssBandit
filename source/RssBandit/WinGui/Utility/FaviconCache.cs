@@ -83,6 +83,7 @@ namespace RssBandit.WinGui.Utility
 		#region private
 
 		// check for size 16x16
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
 		private static bool ImageDataAreResized(ref byte[] imageData, string imageName, out Image favicon)
 		{
 			favicon = null;

@@ -961,9 +961,7 @@ namespace RssBandit.WinGui.Forms
                         break;
                 }
 
-                object Z = z;
-                var NULL = new Object();
-                htmlDetail.ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, ref Z, ref NULL);
+                htmlDetail.SetZoomFactor(z);
 
                 owner.Preferences.ReadingPaneTextSize = size;
                 owner.Mediator.SetChecked(false, "cmdFeedDetailTextSizeLargest", "cmdFeedDetailTextSizeLarger",

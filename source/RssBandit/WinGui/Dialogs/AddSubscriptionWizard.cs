@@ -686,7 +686,7 @@ namespace RssBandit.WinGui.Dialogs
 		private string ValidateFeedUri(string url, out Exception invalidUriException) {
 			invalidUriException = null;
 
-			if (StringHelper.EmptyTrimOrNull(url))
+			if (String.IsNullOrWhiteSpace(url))
 				return String.Empty; 
 
 			// canonicalize the provided url:

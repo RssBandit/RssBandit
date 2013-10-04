@@ -199,9 +199,13 @@ namespace RssBandit.WinGui
 		private void OnDesktopAlertLinkClicked(object sender, DesktopAlertLinkClickedEventArgs e)
 		{
 			e.LinkClickedArgs.OpenLink = false;
+			object alertItem = null;
 
-			var key = e.LinkClickedArgs.LinkRef;
-			object alertItem = _alertWindow.GetWindowInfo(key).Data;
+			if (e.WindowInfo != null)
+				alertItem = e.WindowInfo.Data;
+
+			//var key = e.LinkClickedArgs.LinkRef;
+			//object alertItem = _alertWindow.GetWindowInfo(key).Data;
 
 			var newsItem = alertItem as INewsItem;
 			var dwldItem = alertItem as DownloadItem;

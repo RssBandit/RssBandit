@@ -540,7 +540,7 @@ namespace RssBandit.WinGui.Forms
 					groups = (IList<string>)listOfGroups.Tag;
 				}
 
-				if (StringHelper.EmptyTrimOrNull(filterText)) {	// reset to view all
+				if (String.IsNullOrWhiteSpace(filterText)) {	// reset to view all
 					this.PopulateNewsGroups(sd, groups, application.CurrentSubscriptions(sd));
 				} else {	// do filter
 					Regex regFilter = new Regex(filterText.Trim(), RegexOptions.IgnoreCase);

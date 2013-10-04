@@ -53,6 +53,7 @@ namespace RssBandit.WinGui
 		private Dictionary<AppButtonToolCommand, DiscoveredFeedsInfo> discoveredFeeds;
 		private Queue newDiscoveredFeeds;
 		private readonly object SyncRoot = new Object();
+		private readonly object SyncItemDropdownTools = new object();
 
 		private readonly PriorityThread worker;
 		private int workerPriorityCounter;
@@ -333,8 +334,8 @@ namespace RssBandit.WinGui
 		{
 			lock(SyncRoot) 
 				discoveredFeeds.Clear();
-			
-			lock (itemDropdown.Tools)
+
+			lock (SyncItemDropdownTools)
 			{
 				itemDropdown.Tools.Clear();
 				itemDropdown.Tools.Add(clearListButton);
@@ -364,7 +365,7 @@ namespace RssBandit.WinGui
 				//remove entry
 				lock (SyncRoot)
 					discoveredFeeds.Remove(itemClicked);
-				lock (itemDropdown.Tools)
+				lock (SyncItemDropdownTools)
 				{
 					itemDropdown.Tools.Remove(itemClicked);
 					if (itemDropdown.Tools.Count > 1)
@@ -395,7 +396,7 @@ namespace RssBandit.WinGui
                         {
                             item = (AppButtonToolCommand)newDiscoveredFeeds.Dequeue();
                         }
-                        lock (itemDropdown.Tools)
+						lock (SyncItemDropdownTools)
                         {
                             if (itemDropdown.Tools.Contains(item))
                                 itemDropdown.Tools.Remove(item);
@@ -403,7 +404,7 @@ namespace RssBandit.WinGui
                         }
                     }
 
-                    lock (itemDropdown.Tools)
+					lock (SyncItemDropdownTools)
                     {
                         foreach (AppButtonToolCommand m in itemDropdown.Tools)
                         {
@@ -412,7 +413,7 @@ namespace RssBandit.WinGui
                         }
                     }
 
-                    lock (itemDropdown.Tools)
+					lock (SyncItemDropdownTools)
                     {
                         if (itemDropdown.Tools.Count > 1)
                             itemDropdown.Tools[1].InstanceProps.IsFirstInGroup = true;

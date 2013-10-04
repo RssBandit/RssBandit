@@ -340,6 +340,9 @@
     <Compile Include="Core\ExceptionLog4NetRenderer.cs" />
     <Compile Include="Core\Exceptions.cs" />
     <Compile Include="Core\RssBanditApplication.Commands.cs" />
+    <None Include="BanditHelp.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
@@ -348,10 +351,17 @@
     <None Include="Resources\ShortcutSettings.xsx">
       <DependentUpon>ShortcutSettings.xsd</DependentUpon>
     </None>
+    <Content Include="..\RssBandit Installer\LICENSE.txt">
+      <Link>LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Media\addfacebook.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\Feed Discovered.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\help2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\New Attachment Downloaded.wav">
@@ -483,9 +493,9 @@
     <Resource Include="Resources\error.png" />
     <None Include="Resources\envelope_icon.ICO" />
     <None Include="Resources\Add.ico" />
-    <None Include="Media\addrssfeed.ico">
+    <Content Include="Media\addrssfeed.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Media\webpage.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -509,10 +519,20 @@
     <None Include="Resources\subsription_banner_image.png" />
     <None Include="Resources\subscription_wizard_finished.png" />
     <None Include="Resources\subscription_wizard_welcome.png" />
+    <None Include="Resources\searches\bing.ico" />
+    <None Include="Resources\searches\config.xml" />
+    <None Include="Resources\searches\google.ico" />
+    <None Include="Resources\searches\yahoo.ico" />
+    <Content Include="templates\aura-8.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="templates\aura-8.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="templates\C64.fdxsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\default.fdxsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="templates\DOS.fdxsl">
@@ -2239,7 +2259,6 @@
     <Compile Include="Xml\Namespaces.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Resources\BanditHelp.chm" />
     <None Include="Resources\hotnews.16.png" />
     <Content Include="RssBandit.exe.log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1047,7 +1047,7 @@ namespace RssBandit
 						using (Stream myStream = sfd.OpenFile())
                         {
                             entry.Source.SaveFeedList(myStream, format, fc, includeEmptyCategories);
-                            myStream.Close();
+                            myStream.Flush();
                         }
                     }
                     catch (Exception ex)

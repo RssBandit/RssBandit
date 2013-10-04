@@ -350,7 +350,7 @@ namespace RssBandit.WinGui.Forms
             htmlDetail.AllowInPlaceNavigation = false;
 #if DEBUG
             // allow IEControl reporting of javascript errors while dev.:
-            htmlDetail.SilentModeEnabled = true;
+            htmlDetail.SilentModeEnabled = false;
 #else
 			this.htmlDetail.SilentModeEnabled = true;
 #endif
@@ -1491,13 +1491,25 @@ namespace RssBandit.WinGui.Forms
 			catch (IOException e)
 			{
 				_log.Error("File access error on user defined shortcut settings file. Using the default instead.", e);
-			} 
-
-			using (Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
-			{
-				_shortcutHandler.Load(settingsStream);
 			}
-		}
+
+	        try
+	        {
+		        using (Stream settingsStream = Resource.GetStream("Resources.ShortcutSettings.xml"))
+		        {
+			        _shortcutHandler.Load(settingsStream);
+					_shortcutHandler.Write(settingsPath);
+		        }
+	        }
+	        catch (InvalidShortcutSettingsFileException e)
+	        {
+		        _log.Warn("Failed to write user defined shortcut settings file. Using the default instead.", e);
+	        }
+	        catch (IOException e)
+	        {
+		        _log.Error("File access error on write user defined shortcut settings file. Using the default instead.", e);
+	        }
+        }
 
 
         protected void InitResources()

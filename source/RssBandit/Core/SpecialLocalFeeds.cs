@@ -946,7 +946,7 @@ namespace RssBandit.SpecialFeeds
 			
 				for(int i = 0; i < this.feedInfo.ItemsList.Count; i++){
 					INewsItem ni = feedInfo.ItemsList[i]; 
-					if(!StringHelper.EmptyTrimOrNull(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
+					if(!String.IsNullOrWhiteSpace(ni.CommentRssUrl) && ni.CommentRssUrl.Equals(commentFeedUrl)){
 						this.feedInfo.ItemsList.RemoveAt(i); 
 						break; 
 					}
