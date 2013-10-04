@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NewsComponents.Collections
 {
@@ -61,6 +62,18 @@ namespace NewsComponents.Collections
 			base(capacity, comparer)
 		{
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ObservableKeyItemCollection&lt;TK, TI&gt;"/> class.
+		/// </summary>
+		/// <param name="info">The information.</param>
+		/// <param name="context">The context.</param>
+		protected ObservableKeyItemCollection(SerializationInfo info, StreamingContext context) : 
+			base(info, context)
+		{
+			
+		}
+
 		#endregion
 
 		#region INotifyCollectionChanged

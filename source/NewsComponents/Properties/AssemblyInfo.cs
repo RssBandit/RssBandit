@@ -8,7 +8,7 @@
  */
 #endregion
 
-
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
@@ -29,6 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]		
 
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]
 // MSDN Magazine July 2002, p. 94: marks our bundled resources as
 // culture specific to save assembly resource resolve steps:
 [assembly: NeutralResourcesLanguage("en-US")]
