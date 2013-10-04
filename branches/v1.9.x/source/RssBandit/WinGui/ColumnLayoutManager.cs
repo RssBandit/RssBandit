@@ -285,6 +285,17 @@ namespace RssBandit.WinGui
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FeedColumnLayoutCollection"/> class.
+		/// </summary>
+		/// <param name="info">The information.</param>
+		/// <param name="context">The context.</param>
+		protected FeedColumnLayoutCollection(SerializationInfo info, StreamingContext context) :
+			base(info, context)
+		{
+			
+		}
+
 		#endregion
 
 		#region Similar Layout methods
@@ -862,7 +873,7 @@ namespace RssBandit.WinGui
 		/// <exception cref="T:System.Security.SecurityException">
 		/// The caller does not have the required permission.
 		/// </exception>
-		public void GetObjectData(SerializationInfo info, StreamingContext context)
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("version", 1);
 			info.AddValue("ColumnList", _columns);

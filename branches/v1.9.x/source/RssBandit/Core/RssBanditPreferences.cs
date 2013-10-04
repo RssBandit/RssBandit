@@ -1369,13 +1369,13 @@ namespace RssBandit {
 
 			this.RefreshRate = reader.GetInt("RefreshRate", FeedSource.DefaultRefreshRate);
             this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
-            this.EnclosureFolder = StringHelper.EmptyTrimOrNull(this.EnclosureFolder) 
+            this.EnclosureFolder = String.IsNullOrWhiteSpace(this.EnclosureFolder) 
                 ? RssBanditApplication.GetDefaultEnclosuresPath()
                 : this.EnclosureFolder; 
 			this.NumEnclosuresToDownloadOnNewFeed = reader.GetInt("NumEnclosuresToDownloadOnNewFeed", FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
 			this.EnclosureCacheSize = reader.GetInt("EnclosureCacheSize", FeedSource.DefaultEnclosureCacheSize);
             this.PodcastFolder = reader.GetString("PodcastFolder", String.Empty);
-            this.PodcastFolder = StringHelper.EmptyTrimOrNull(this.PodcastFolder)
+            this.PodcastFolder = String.IsNullOrWhiteSpace(this.PodcastFolder)
                 ? RssBanditApplication.GetDefaultPodcastPath()
                 : this.PodcastFolder; 
 			this.PodcastFileExtensions = reader.GetString("PodcastFileExtensions", RssBanditApplication.DefaultPodcastFileExts);

@@ -221,7 +221,7 @@ namespace RssBandit.WinGui.Controls
 		public virtual new string Text {
 			get { return base.Text; }
 			set { 
-				if (StringHelper.EmptyTrimOrNull(value))
+				if (String.IsNullOrWhiteSpace(value))
 					base.Text = SR.GeneralNewItemText;
 				else
 					base.Text = value;

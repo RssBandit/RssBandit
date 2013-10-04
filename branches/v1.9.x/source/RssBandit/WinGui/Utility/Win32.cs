@@ -1337,7 +1337,7 @@ namespace RssBandit
 						{
 							TextReader reader = new StreamReader(s);
 							string content = reader.ReadToEnd();
-							if (StringHelper.EmptyTrimOrNull(content))
+							if (String.IsNullOrWhiteSpace(content))
 								return retval;
 							retval = Int16.Parse(content);
 						}

@@ -24,7 +24,7 @@ namespace RssBandit
 	/// <summary>
 	/// Exception Publisher for File and Mail
 	/// </summary>
-	public class BanditExceptionPublisher : IExceptionPublisher
+	public sealed class BanditExceptionPublisher : IExceptionPublisher
 	{
 		private string m_LogName = Path.Combine(Path.GetTempPath(), "rssbandit.error.log");
 		private string m_OpMail = String.Empty;

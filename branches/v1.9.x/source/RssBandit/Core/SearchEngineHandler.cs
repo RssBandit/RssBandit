@@ -14,7 +14,9 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using NewsComponents;
+using NewsComponents.Utils;
 using RssBandit.Xml;
 using AppExceptions = Microsoft.ApplicationBlocks.ExceptionManagement;
 using Logger = RssBandit.Common.Logging;
@@ -134,7 +136,8 @@ namespace RssBandit.WebSearch
             settings.Schemas.Add(searchConfigSchema);
             //specify validation event handler passed by caller and the one we use 
             //internally to track state 
-            settings.ValidationEventHandler += veh;
+			if (veh != null)
+				settings.ValidationEventHandler += veh;
             settings.ValidationEventHandler += LoaderValidationCallback;
             validationErrorOccured = false;
             enginesLoaded = false;
@@ -208,9 +211,9 @@ namespace RssBandit.WebSearch
 		/// <summary>
 		/// Loads the search engines list from the given URL. 
 		/// </summary>
-		/// <param name="configUrl">The Stream of the engines config</param>
+		/// <param name="configStream">The Stream of the engines config</param>
 		/// <exception cref="Exception">Exception thrown on file access errors</exception>
-		public void SaveEngines(Stream configUrl)
+		public void SaveEngines(Stream configStream)
 		{
 			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SearchEngines));
 
@@ -229,7 +232,7 @@ namespace RssBandit.WebSearch
 				_engines = new SearchEngines(); 
 			}
 
-			TextWriter writer = new StreamWriter(configUrl);
+			TextWriter writer = new StreamWriter(configStream);
 			serializer.Serialize(writer, _engines);
 			writer.Close();
 
@@ -238,39 +241,33 @@ namespace RssBandit.WebSearch
 		/// <summary>
 		/// Generates a config file with default search engine(s).
 		/// </summary>
-		public void GenerateDefaultEngines()
+		public void GenerateDefaultEngines([NotNull]string configUrl)
 		{
+			configUrl.ExceptionIfNullOrEmpty("configUrl");
+
 			this.Clear();
 
-			SearchEngine s1 = new SearchEngine();
-			s1.Title = "Google";
-			s1.SearchLink = @"http://www.google.com/search?sourceid=navclient&ie=UTF-8&oe=UTF-8&q={0}";
-			s1.Description = "Search the web with Google...";			
-			s1.ImageName = "google.bmp";
-			s1.IsActive = true;
-			
-			_engines.Engines.Add(s1);
+			var searchesPath = Path.GetDirectoryName(configUrl);
+			using (var stream = FileHelper.OpenForWrite(configUrl))
+			{
+				TextWriter writer = new StreamWriter(stream);
+				writer.Write(Properties.Resources.web_searches_config);
+			}
 
-			s1 = new SearchEngine();
-			s1.Title = "MSN Search";
-			s1.SearchLink = @"http://search.msn.com/results.aspx?q={0}&FORM=SMCRT&x=32&y=15";
-			s1.Description = "Search the web with MSN Search...";			
-			s1.ImageName = "msn.ico";
-			s1.IsActive = true;
-			
-			
-			_engines.Engines.Add(s1);
+			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "google.ico")))
+			{
+				Properties.Resources.google.Save(stream);
+			}
+			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "bing.ico")))
+			{
+				Properties.Resources.bing.Save(stream);
+			}
+			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "yahoo.ico")))
+			{
+				Properties.Resources.yahoo.Save(stream);
+			}
 
-			s1 = new SearchEngine();
-			s1.Title = "Yahoo! News";
-			s1.SearchLink = @"http://news.search.yahoo.com/news/rss?p={0}&ie=UTF-8";
-			s1.Description = "Search news with Yahoo! News...";			
-			s1.ImageName = "yahoo.ico";
-			s1.IsActive = true;
-			s1.ReturnRssResult = true; 			
-			
-			_engines.Engines.Add(s1);
-
+			this.LoadEngines(configUrl, null);
 		}
 
 		/// <summary>

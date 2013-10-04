@@ -294,7 +294,7 @@ namespace RssBandit.WinGui.Forms
 
     	public FeedSourceEntry FeedSourceEntryOf(string feedUrl)
         {
-            if (StringHelper.EmptyTrimOrNull(feedUrl))
+            if (String.IsNullOrWhiteSpace(feedUrl))
                 return null;
 
             return owner.FeedSources.Sources.FirstOrDefault(fse => fse.Source.IsSubscribed(feedUrl)); 

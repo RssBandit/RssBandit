@@ -1,28 +1,20 @@
 <feeds refresh-rate='3600000' xmlns='http://www.25hoursaday.com/2004/RSSBandit/feeds/'>
    <feed category='RSS Bandit'>
- 	<title>RSS Bandit News</title>
-	<link>http://sourceforge.net/export/rss2_projnews.php?group_id=96589</link>
+ 	<title>RSS Bandit SF News</title>
+	<link>https://sourceforge.net/p/rssbandit/news/feed</link>
    </feed>  
    <feed category='RSS Bandit'>
- 	<title>Torsten's RSS Bandit Blog</title>
-	<link>http://www.rendelmann.info/blog/SyndicationService.asmx/GetRssCategory?categoryName=RSS%20Bandit</link>
+ 	<title>RSS Bandit Site</title>
+	<link>http://feeds.feedburner.com/rssbandit/feed</link>
     <refresh-rate>86400000</refresh-rate>
    </feed>
-   <feed category='RSS Bandit'>
- 	<title>Dare's RSS Bandit Blog</title>
-	<link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRssCategory?categoryName=RSS%20Bandit</link>
-  </feed>
-   <feed category='News'>
- 	<title>BBC News</title>
-	<link>http://news.bbc.co.uk/rss/newsonline_world_edition/front_page/rss091.xml</link>
+  <feed category='News'>
+  	<title>BBC International News</title>
+	  <link>http://feeds.bbci.co.uk/news/rss.xml?edition=int</link>
    </feed>
    <feed category='News'>
  	<title>Yahoo News</title>
 	<link>http://rss.news.yahoo.com/rss/topstories</link>
-   </feed>
-   <feed category='Entertainment'>
- 	<title>TMZ</title>
-	<link>http://www.tmz.com/rss.xml</link>
    </feed>
    <feed category='Entertainment'>
  	<title>Yahoo News [Entertainment]</title>
@@ -46,25 +38,21 @@
     <title>Engadget</title>
     <link>http://www.engadget.com/rss.xml</link>
   </feed>
-    <feed category='Blogs'>
-     <title>Robert Scoble</title>
-     <link>http://scobleizer.wordpress.com/feed/</link>
-   </feed>
+  <feed category='News\Technology'>
+    <title>Golem (de)</title>
+    <link>http://rss.golem.de/rss.php?feed=ATOM1.0</link>
+  </feed>
+  <feed category='News\Technology'>
+    <title>Heise (de)</title>
+    <link>http://www.heise.de/newsticker/heise-atom.xml</link>
+  </feed>
   <feed category='Blogs'>
     <title>Dave Winer</title>
     <link>http://www.scripting.com/rss.xml</link>
   </feed>
   <feed category='Blogs'>
-    <title>Violent Acres</title>
-    <link>http://feeds.feedburner.com/ViolentAcres</link>
-  </feed>
-  <feed category='Blogs'>
-    <title>Dooce</title>
-    <link>http://www.dooce.com/feed_main/feed?q=rss.xml</link>
-  </feed>
-  <feed category='Blogs'>
      <title>Dare Obasanjo</title>
-     <link>http://www.25hoursaday.com/weblog/SyndicationService.asmx/GetRss</link>
+     <link>http://feeds.feedburner.com/Carnage4Life</link>
    </feed>
   <feed category='Comics'>
     <title>XKCD</title>
@@ -74,18 +62,6 @@
      <title>Dilbert</title>
      <link>http://feeds.feedburner.com/DilbertDailyStrip</link>
    </feed>
-    <feed category='Comics'>
-     <title>Peanuts</title>
-     <link>http://www.tapestrycomics.com/peanuts.xml</link>
-   </feed>
-    <feed category="Podcasts">
-	 <title>Onion News Network (Video)</title>
-     <link>http://feeds.theonion.com/OnionNewsNetwork/</link>
-    </feed>
-    <feed category="Podcasts">
-     <title>This week in Tech</title>
-     <link>http://leoville.tv/podcasts/twit.xml</link>
-    </feed>
    <categories>    
     <category>Entertainment</category>
     <category>Politics</category>
@@ -94,7 +70,6 @@
     <category>RSS Bandit</category>
 	  <category>Blogs</category>
     <category>Comics</category>
-    <category>Podcasts</category>
    </categories>
    <listview-layouts>
     <listview-layout ID='54b7a2c3d0b74fcea19e84e0cae0e745'>

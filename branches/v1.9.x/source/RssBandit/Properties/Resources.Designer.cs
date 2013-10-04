@@ -141,6 +141,16 @@ namespace RssBandit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon bing {
+            get {
+                object obj = ResourceManager.GetObject("bing", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Comment_16 {
@@ -336,6 +346,16 @@ namespace RssBandit.Properties {
             get {
                 object obj = ResourceManager.GetObject("feedsource_winRss_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon google {
+            get {
+                object obj = ResourceManager.GetObject("google", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -575,6 +595,34 @@ namespace RssBandit.Properties {
             get {
                 object obj = ResourceManager.GetObject("View_Certificate_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;searchConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; open-newtab=&quot;true&quot; xmlns=&quot;http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/&quot;&gt;
+        ///  &lt;engine active=&quot;true&quot;&gt;
+        ///    &lt;title&gt;Google&lt;/title&gt;
+        ///    &lt;search-link&gt;https://www.google.com/?#q={0}&lt;/search-link&gt;
+        ///    &lt;description&gt;Search the web with Google...&lt;/description&gt;
+        ///    &lt;image-name&gt;google.ico&lt;/image-name&gt;
+        ///  &lt;/engine&gt;
+        ///  &lt;engine active=&quot;true&quot;&gt;
+        ///   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string web_searches_config {
+            get {
+                return ResourceManager.GetString("web_searches_config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon yahoo {
+            get {
+                object obj = ResourceManager.GetObject("yahoo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

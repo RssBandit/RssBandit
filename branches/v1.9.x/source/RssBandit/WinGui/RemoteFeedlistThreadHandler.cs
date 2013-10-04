@@ -216,10 +216,8 @@ namespace RssBandit.WinGui
 							using (FileStream fs = FileHelper.OpenForWrite(
 								     Path.Combine(Environment.ExpandEnvironmentVariables(remoteLocation), remoteFileName)))
 							{
-								using (var zos = new ZipOutputStream(fs))
-								{
-									FileHelper.ZipFiles(files, zos);
-								}
+								var zos = new ZipOutputStream(fs);
+								FileHelper.ZipFiles(files, zos);
 							}
 
 							break;
@@ -348,7 +346,6 @@ namespace RssBandit.WinGui
 								requestStream.Write(bytes, 0, bytes.Length);
 								requestStream.Close();
 
-								request.GetResponse().Close();
 							}
 
 							break;

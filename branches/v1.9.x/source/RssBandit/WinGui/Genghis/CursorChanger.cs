@@ -36,7 +36,7 @@ namespace Genghis.Windows.Forms
     /// }
     /// </code>
     /// </example>
-    public class CursorChanger : IDisposable
+    public sealed class CursorChanger : IDisposable
     {
         /// <summary>
         /// Constructs a new CursorChanger object specifying the new Cursor to show.
@@ -66,8 +66,9 @@ namespace Genghis.Windows.Forms
         public void Dispose()
         {
             Cursor.Current = _originalCursor;
+			GC.SuppressFinalize(this);
         }
 
-        Cursor _originalCursor;
+	    readonly Cursor _originalCursor;
     }
 }
