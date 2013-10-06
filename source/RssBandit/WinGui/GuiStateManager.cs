@@ -10,6 +10,7 @@
 
 using System;
 using System.ComponentModel;
+using RssBandit.AppServices;
 
 namespace RssBandit.WinGui
 {
@@ -91,8 +92,7 @@ namespace RssBandit.WinGui
 		#endregion
 
 		#region internet connection state handling
-		public delegate void InternetConnectionStateMovedHandler(INetState oldState, INetState newState);
-		public event InternetConnectionStateMovedHandler InternetConnectionStateMoved;
+		public event EventHandler<InternetConnectionStateChangeEventArgs> InternetConnectionStateMoved;
 
 		/// <summary>
 		/// Moves the internet connection state to the specified new state.
@@ -103,7 +103,7 @@ namespace RssBandit.WinGui
 			internetConnectionState = newState;
 			if (InternetConnectionStateMoved != null) {
 				try {
-					InternetConnectionStateMoved(oldState, newState);
+					InternetConnectionStateMoved(this, new InternetConnectionStateChangeEventArgs(oldState, newState));
 				} catch {}
 			}
 		}

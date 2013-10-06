@@ -672,31 +672,28 @@ namespace RssBandit.WinGui.Controls
 		/// <summary>
 		/// Called by child nodes to filter the items by source entry ID.
 		/// </summary>
-		/// <param name="entryID">The entry ID.</param>
+		/// <param name="entryId">The entry ID.</param>
 		/// <returns></returns>
-		protected internal IList<INewsItem> FilteredItems(int entryID)
+		protected internal IList<INewsItem> FilteredItems(int entryId)
 		{
 			return itemsFeed.Items.FindAll(
-				item =>
-				{
-                    return (app.FeedSources.SourceOf(item.Feed) != null) && (app.FeedSources.SourceOf(item.Feed).ID == entryID);
-				});
+				item => (app.FeedSources.SourceOf(item.Feed) != null) && (app.FeedSources.SourceOf(item.Feed).ID == entryId));
 		}
     }
 	
 	internal class UnreadItemsNodePerSource : UnreadItemsNode
 	{
-		private readonly int entryID;
+		private readonly int _entryId;
 		public UnreadItemsNodePerSource(FeedSourceEntry entry, LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
 			base(itemStore, entry.Name, imageIndex, selectedImageIndex, menu)
 		{
             base.ColumnLayout = entry.UnreadItemsColumnLayoutId; 
 			Text = entry.Name;
-			entryID = entry.ID;
-			DataKey = itemStore.link + "#" + entryID;
+			_entryId = entry.ID;
+			DataKey = itemStore.link + "#" + _entryId;
 		}
 
-		public int SourceID { get { return entryID; } }
+		public int SourceId { get { return _entryId; } }
 			
 		protected override void MarkItemRead(INewsItem item)
 		{
@@ -731,7 +728,7 @@ namespace RssBandit.WinGui.Controls
 			get
 			{
 				UnreadItemsNode parent = (UnreadItemsNode)this.Parent;
-				return parent.FilteredItems(entryID);
+				return parent.FilteredItems(_entryId);
 			}
 		}
 
@@ -908,6 +905,7 @@ namespace RssBandit.WinGui.Controls
     /// <summary>
     /// Represents a search folder in the tree.
     /// </summary>
+    [Serializable]
     public class FinderNode : TreeFeedsNodeBase, ISmartFolder
     {
         private readonly ContextMenu _popup; // context menu
@@ -1116,7 +1114,8 @@ namespace RssBandit.WinGui.Controls
     /// Represents a search folder in the tree for temporary
     /// search results (not persisted as a search folder)
     /// </summary>
-    public class TempFinderNode : FinderNode
+    [Serializable]
+	public class TempFinderNode : FinderNode
     {
         public TempFinderNode()
         {

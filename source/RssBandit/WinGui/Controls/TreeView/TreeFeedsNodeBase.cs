@@ -13,7 +13,6 @@ using System.Drawing;
 using Infragistics.Win.UltraWinTree;
 using log4net;
 using NewsComponents;
-using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.WinGui.Interfaces;
@@ -24,7 +23,8 @@ namespace RssBandit.WinGui.Controls
 	/// <summary>
 	/// Base class of the tree view nodes
 	/// </summary>
-	public abstract class TreeFeedsNodeBase: UltraTreeNode 
+	[Serializable]
+	public abstract class TreeFeedsNodeBase : UltraTreeNode 
 	{
 		/// <summary>
 		/// Gets raised, if the node's read counter reach zero
@@ -70,7 +70,7 @@ namespace RssBandit.WinGui.Controls
 
 		protected TreeFeedsNodeBase(string text, FeedNodeType nodeType, bool editable, int imageIndex, int expandedNodeImageIndex, Image image)
 		{
-			this.RightImages.Add(_clickableAreaExtenderImage);
+			base.RightImages.Add(_clickableAreaExtenderImage);
 
 			FontColorHelper.CopyFromFont( this.Override.NodeAppearance.FontData, FontColorHelper.NormalFont);
 			this.ForeColor = FontColorHelper.NormalColor;
@@ -107,7 +107,7 @@ namespace RssBandit.WinGui.Controls
 		/// <value>The data key (string).</value>
 		/// <remarks>Used to store feedUrls for Feed node types, etc.
 		/// </remarks>
-		public new virtual string DataKey {
+		public new string DataKey {
 			get { return base.DataKey as string; }
 			set { base.DataKey = value; }
 		}
@@ -173,7 +173,7 @@ namespace RssBandit.WinGui.Controls
 		public virtual FeedNodeType Type { get { return _type; } set { _type = value; } }
 		public virtual bool Editable { get { return _editable; } set { _editable = value; } }
 
-		public virtual Color ForeColor { 
+		public Color ForeColor { 
 			get { return Override.NodeAppearance.ForeColor; } 
 			set { 
 				if (Override.NodeAppearance.ForeColor != value)
@@ -218,7 +218,7 @@ namespace RssBandit.WinGui.Controls
 		/// <value>Returns the Text (caption) of the node. 
 		/// Sets the new displayed text and font of a node according to the
 		/// unread items counter info.</value>
-		public virtual new string Text {
+		public new string Text {
 			get { return base.Text; }
 			set { 
 				if (String.IsNullOrWhiteSpace(value))

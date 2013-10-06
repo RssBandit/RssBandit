@@ -29,7 +29,7 @@ namespace RssBandit
 	/// <summary>
 	/// ApplicationUpdateManager.
 	/// </summary>
-	public class RssBanditUpdateManager
+	public sealed class RssBanditUpdateManager: IDisposable
 	{
 		public delegate void UpdateAvailableEventHandler(object sender, UpdateAvailableEventArgs e);
 		public static event UpdateAvailableEventHandler OnUpdateAvailable;
@@ -38,8 +38,8 @@ namespace RssBandit
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(RssBanditUpdateManager));
 		private static readonly TimeSpan timeout = new TimeSpan(0,0,30);
 
-		private readonly ClrMappedWebReference.UpdateService appUpdateService;
-		private readonly AutoResetEvent workDone;
+		private ClrMappedWebReference.UpdateService appUpdateService;
+		private AutoResetEvent workDone;
 		private bool cancelled;
         private readonly SynchronizationContext _currentContext = AsyncOperationManager.SynchronizationContext;
 		
@@ -130,6 +130,42 @@ namespace RssBandit
                                          }
                                      }, null);
 		}
+
+		#region IDisposable
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing) 
+		{
+			if (disposing)
+			{
+				if (workDone != null)
+				{
+					workDone.Set();
+					workDone.Dispose();
+				}
+
+				workDone = null;
+
+				if (appUpdateService != null)
+				{
+					appUpdateService.Dispose();
+				}
+
+				appUpdateService = null;
+			}
+		}
+
+		~RssBanditUpdateManager()
+		{
+			Dispose(false);
+		}
+
+		#endregion
 	}
 
 	public class UpdateAvailableEventArgs:EventArgs{

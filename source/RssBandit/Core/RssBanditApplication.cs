@@ -2842,9 +2842,9 @@ namespace RssBandit
             {
                 folder.ColumnLayout = null;
                 UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
-                if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceId))
                 {
-                    FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                    FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceId];
                     entry.UnreadItemsColumnLayoutId = null;
                     feedlistModified = true;
                 }
@@ -2890,9 +2890,9 @@ namespace RssBandit
                     
                     //set column layout on associated FeedSource 
                     UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
-                    if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                    if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceId))
                     {
-                        FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                        FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceId];
                         entry.UnreadItemsColumnLayoutId = folder.ColumnLayout;                       
                     }
                     feedlistModified = true;
@@ -2933,9 +2933,9 @@ namespace RssBandit
                             }
                             //set column layout on associated FeedSource 
                             UnreadItemsNodePerSource unreadFolder = folder as UnreadItemsNodePerSource;
-                            if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceID))
+                            if (unreadFolder != null && this.FeedSources.ContainsKey(unreadFolder.SourceId))
                             {
-                                FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceID];
+                                FeedSourceEntry entry = this.FeedSources[unreadFolder.SourceId];
                                 entry.UnreadItemsColumnLayoutId = folder.ColumnLayout;
                             }
                             feedlistModified = true;
@@ -4778,15 +4778,15 @@ namespace RssBandit
         }
 
 
-        private void OnInternetConnectionStateChanged(INetState oldState, INetState newState)
+		private void OnInternetConnectionStateChanged(object sender, InternetConnectionStateChangeEventArgs args)
         {
-            bool offline = ((newState & INetState.Offline) > 0);
-            bool connected = ((newState & INetState.Connected) > 0);
-            bool internet_allowed = connected && (newState & INetState.Online) > 0;
+			bool offline = ((args.NewState & INetState.Offline) > 0);
+			bool connected = ((args.NewState & INetState.Connected) > 0);
+			bool internet_allowed = connected && (args.NewState & INetState.Online) > 0;
 
             FeedSource.Offline = !internet_allowed;
 
-            if (oldState != newState)
+			if (args.CurrentState != args.NewState)
             {
                 InvokeOnGui(delegate
                                 {
@@ -4803,7 +4803,7 @@ namespace RssBandit
 
                 // notify service consumers:
                 EventsHelper.Fire(InternetConnectionStateChange,
-                                  this, new InternetConnectionStateChangeEventArgs(oldState, newState));
+                                  this, args);
             }
         }
 
@@ -5502,7 +5502,6 @@ namespace RssBandit
                         using (var sr = new StreamReader(filename, true))
                         {
                             t = sr.ReadToEnd();
-                            sr.Close();
                         }
                     }
                     catch (Exception)

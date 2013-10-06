@@ -16,7 +16,7 @@ namespace RssBandit.WinGui.Controls
 	/// <summary>
 	/// Helps to draw the small chevron.
 	/// </summary>
-	public class NavigatorHeaderDrawFilter: IUIElementDrawFilter
+	public sealed class NavigatorHeaderDrawFilter: IUIElementDrawFilter
 	{
 		private Image image;
 

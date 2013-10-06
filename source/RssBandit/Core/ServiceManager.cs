@@ -395,21 +395,19 @@ namespace AppInteropServices
             List<IAddIn> list = new List<IAddIn>();
             if (File.Exists(cfgFile))
             {
-                using (Stream s = FileHelper.OpenForRead(cfgFile))
-                {
-                    using (StreamReader r = new StreamReader(s, Encoding.UTF8))
-                    {
-                        string addInPath = r.ReadLine();
-                        if (File.Exists(addInPath))
-                        {
-                            list.Add(new AddIn(addInPath));
-                        }
-                        else
-                        {
-                            _log.Error("Unable to locate configured AddIn at '" + addInPath + "'");
-                        }
-                    }
-                }
+				using (Stream s = FileHelper.OpenForRead(cfgFile))
+				{
+					StreamReader r = new StreamReader(s, Encoding.UTF8);
+					string addInPath = r.ReadLine();
+					if (File.Exists(addInPath))
+					{
+						list.Add(new AddIn(addInPath));
+					}
+					else
+					{
+						_log.Error("Unable to locate configured AddIn at '" + addInPath + "'");
+					}
+				}
             }
             return list;
         }
@@ -424,12 +422,11 @@ namespace AppInteropServices
             }
             using (Stream s = FileHelper.OpenForWrite(cfgFile))
             {
-                using (StreamWriter w = new StreamWriter(s, Encoding.UTF8))
+	            StreamWriter w = new StreamWriter(s, Encoding.UTF8);
+                
+                foreach (IAddIn addIn in addIns)
                 {
-                    foreach (IAddIn addIn in addIns)
-                    {
-                        w.WriteLine(addIn.Location);
-                    }
+                    w.WriteLine(addIn.Location);
                 }
             }
         }

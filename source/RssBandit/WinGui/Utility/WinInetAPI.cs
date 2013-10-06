@@ -20,7 +20,7 @@ namespace RssBandit
 	/// <summary>
 	/// Interop functions we need (i.e. those dealing with the url cache) from wininet.dll.
 	/// </summary>
-	internal sealed class WinInetAPI
+	internal static class WinInetAPI
 	{
 		/// <summary>
 		/// Structure used in various caching APIs.
@@ -46,29 +46,38 @@ namespace RssBandit
 			public UInt32 dwExemptDelta;
 		};
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern long FindCloseUrlCache( IntPtr hEnumHandle );
+		private class NativeMethods
+		{
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern long FindCloseUrlCache(IntPtr hEnumHandle);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern IntPtr FindFirstUrlCacheEntry( string lpszUrlSearchPattern, IntPtr lpFirstCacheEntryInfo, out UInt32 lpdwFirstCacheEntryInfoBufferSize );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern IntPtr FindFirstUrlCacheEntry(string lpszUrlSearchPattern, IntPtr lpFirstCacheEntryInfo,
+				out UInt32 lpdwFirstCacheEntryInfoBufferSize);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern long FindNextUrlCacheEntry( IntPtr hEnumHandle, IntPtr lpNextCacheEntryInfo, out UInt32 lpdwNextCacheEntryInfoBufferSize );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern long FindNextUrlCacheEntry(IntPtr hEnumHandle, IntPtr lpNextCacheEntryInfo,
+				out UInt32 lpdwNextCacheEntryInfoBufferSize);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern bool GetUrlCacheEntryInfo( string lpszUrlName, IntPtr lpCacheEntryInfo, out UInt32 lpdwCacheEntryInfoBufferSize );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern bool GetUrlCacheEntryInfo(string lpszUrlName, IntPtr lpCacheEntryInfo,
+				out UInt32 lpdwCacheEntryInfoBufferSize);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern long DeleteUrlCacheEntry( string lpszUrlName );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern long DeleteUrlCacheEntry(string lpszUrlName);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern IntPtr RetrieveUrlCacheEntryStream( string lpszUrlName, IntPtr lpCacheEntryInfo, out UInt32 lpdwCacheEntryInfoBufferSize, long fRandomRead, UInt32 dwReserved );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern IntPtr RetrieveUrlCacheEntryStream(string lpszUrlName, IntPtr lpCacheEntryInfo,
+				out UInt32 lpdwCacheEntryInfoBufferSize, long fRandomRead, UInt32 dwReserved);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern IntPtr ReadUrlCacheEntryStream( IntPtr hUrlCacheStream, UInt32 dwLocation, IntPtr lpBuffer, out UInt32 lpdwLen, UInt32 dwReserved );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern IntPtr ReadUrlCacheEntryStream(IntPtr hUrlCacheStream, UInt32 dwLocation, IntPtr lpBuffer,
+				out UInt32 lpdwLen, UInt32 dwReserved);
 
-		[DllImport("wininet.dll", SetLastError=true)]
-		private static extern long UnlockUrlCacheEntryStream( IntPtr hUrlCacheStream, UInt32 dwReserved );
+			[DllImport("wininet.dll", SetLastError = true)]
+			internal static extern bool UnlockUrlCacheEntryStream(IntPtr hUrlCacheStream, UInt32 dwReserved);
+		}
+
 
 		/// <summary>
 		/// Remove an entry from the url cache.
@@ -76,7 +85,7 @@ namespace RssBandit
 		/// <param name="url"></param>
 		public static void DeleteFromUrlCache( string url )
 		{
-			long apiResult = DeleteUrlCacheEntry( url );
+			long apiResult = NativeMethods.DeleteUrlCacheEntry( url );
 			if( apiResult != 0 )
 			{
 				return;
@@ -154,13 +163,13 @@ namespace RssBandit
 		{
 			IntPtr buffer = IntPtr.Zero;
 			UInt32 structSize;
-			bool apiResult = GetUrlCacheEntryInfo( url, buffer, out structSize );
+			bool apiResult = NativeMethods.GetUrlCacheEntryInfo(url, buffer, out structSize);
 			CheckLastError( url, true );
 
 			try
 			{
 				buffer = Marshal.AllocHGlobal( (int) structSize );
-				apiResult = GetUrlCacheEntryInfo( url, buffer, out structSize );
+				apiResult = NativeMethods.GetUrlCacheEntryInfo(url, buffer, out structSize);
 				if( apiResult == true )
 				{
 					return (INTERNET_CACHE_ENTRY_INFO) Marshal.PtrToStructure( buffer, typeof( INTERNET_CACHE_ENTRY_INFO ) );
@@ -193,12 +202,12 @@ namespace RssBandit
 			UInt32 structSize;
 			IntPtr hStream = IntPtr.Zero;
 
-			RetrieveUrlCacheEntryStream( url, buffer, out structSize, 0, 0 );
+			NativeMethods.RetrieveUrlCacheEntryStream(url, buffer, out structSize, 0, 0);
 			CheckLastError( url, true );
 			try
 			{
 				buffer = Marshal.AllocHGlobal( (int) structSize );
-				hStream = RetrieveUrlCacheEntryStream( url, buffer, out structSize, 0, 0 );
+				hStream = NativeMethods.RetrieveUrlCacheEntryStream(url, buffer, out structSize, 0, 0);
 				CheckLastError( url, true );
 
 				info = (INTERNET_CACHE_ENTRY_INFO) Marshal.PtrToStructure( buffer, typeof( INTERNET_CACHE_ENTRY_INFO ) );
@@ -206,7 +215,7 @@ namespace RssBandit
 				IntPtr outBuffer = Marshal.AllocHGlobal( (int) streamSize );
 				try
 				{
-					IntPtr result = ReadUrlCacheEntryStream( hStream, 0, outBuffer, out streamSize, 0 );
+					IntPtr result = NativeMethods.ReadUrlCacheEntryStream(hStream, 0, outBuffer, out streamSize, 0);
 					CheckLastError( url, false );
 					return Marshal.PtrToStringAnsi( outBuffer );
 				}
@@ -229,7 +238,7 @@ namespace RssBandit
 				if( hStream != IntPtr.Zero )
 				{
 					UInt32 dwReserved = 0;
-					UnlockUrlCacheEntryStream( hStream, dwReserved );
+					NativeMethods.UnlockUrlCacheEntryStream(hStream, dwReserved);
 				}
 			}
 		}
@@ -247,7 +256,7 @@ namespace RssBandit
 
 			IntPtr buffer = IntPtr.Zero;
 			UInt32 structSize;
-			IntPtr hEnum = FindFirstUrlCacheEntry( null, buffer, out structSize );
+			IntPtr hEnum = NativeMethods.FindFirstUrlCacheEntry(null, buffer, out structSize);
 			try
 			{
 				if( hEnum == IntPtr.Zero )
@@ -256,7 +265,7 @@ namespace RssBandit
 					if( lastError == Win32.NativeMethods.ERROR_INSUFFICIENT_BUFFER )
 					{
 						buffer = Marshal.AllocHGlobal( (int) structSize );
-						hEnum = FindFirstUrlCacheEntry( urlPattern, buffer, out structSize );
+						hEnum = NativeMethods.FindFirstUrlCacheEntry(urlPattern, buffer, out structSize);
 					}
 					else if( lastError == Win32.NativeMethods.ERROR_NO_MORE_ITEMS )
 					{
@@ -287,14 +296,14 @@ namespace RssBandit
 
 				while( true )
 				{
-					long nextResult = FindNextUrlCacheEntry( hEnum, buffer, out structSize );
+					long nextResult = NativeMethods.FindNextUrlCacheEntry(hEnum, buffer, out structSize);
 					if( nextResult != 1 )
 					{
 						int lastError = Marshal.GetLastWin32Error();
 						if( lastError == Win32.NativeMethods.ERROR_INSUFFICIENT_BUFFER )
 						{
 							buffer = Marshal.AllocHGlobal( (int) structSize );
-							nextResult = FindNextUrlCacheEntry( hEnum, buffer, out structSize );
+							nextResult = NativeMethods.FindNextUrlCacheEntry(hEnum, buffer, out structSize);
 						}
 						else if( lastError == Win32.NativeMethods.ERROR_NO_MORE_ITEMS )
 						{
@@ -321,7 +330,7 @@ namespace RssBandit
 			{
 				if( hEnum != IntPtr.Zero )
 				{
-					FindCloseUrlCache( hEnum );
+					NativeMethods.FindCloseUrlCache(hEnum);
 				}
 				if( buffer != IntPtr.Zero )
 				{
@@ -331,13 +340,6 @@ namespace RssBandit
 			}
 
 			return results;
-		}
-
-		/// <summary>
-		/// Static class -- can't create.
-		/// </summary>
-		private WinInetAPI()
-		{
 		}
 	}
 }

@@ -538,6 +538,7 @@ namespace RssBandit.WinGui.Tools
 		
 		#region ICommandComponent implementation: abstract from the concrete Base class
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
 		public bool Checked {
 			get { throw new NotImplementedException();  }
 			set	{ throw new NotImplementedException(); }
@@ -567,7 +568,7 @@ namespace RssBandit.WinGui.Tools
 		/// <summary> 
 		/// Clean up any resources being used.
 		/// </summary>
-		protected void Dispose( bool disposing ) {
+		protected virtual void Dispose( bool disposing ) {
 			if( disposing ) {
 				if(components != null) {
 					components.Dispose();

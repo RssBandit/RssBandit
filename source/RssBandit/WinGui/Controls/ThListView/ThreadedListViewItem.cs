@@ -12,6 +12,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Controls.ThListView
@@ -20,7 +21,8 @@ namespace RssBandit.WinGui.Controls.ThListView
 	/// <summary>
 	/// Summary description for ThreadedListViewItem.
 	/// </summary>
-	public class ThreadedListViewItem:ListViewItem
+	[Serializable]
+	public class ThreadedListViewItem : ListViewItem
 	{
 
 		private int _indentLevel;
@@ -81,6 +83,8 @@ namespace RssBandit.WinGui.Controls.ThListView
 			_key = key;
 			this.GroupIndex = groupIndex; 
 		} 
+		public ThreadedListViewItem(SerializationInfo info, StreamingContext context) : base(info, context){}
+
 
 		[Browsable(true), Category("Info")] 
 		public int GroupIndex { 
@@ -333,6 +337,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 	/// <see cref="InsertionPointTicket">InsertionPointTicket</see> returns
 	/// a unique indentifier for this item.
 	/// </summary>
+	[Serializable]
 	public class ThreadedListViewItemPlaceHolder: ThreadedListViewItem {
 		
 		private string _insertionPointTicket;
@@ -347,6 +352,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 		public ThreadedListViewItemPlaceHolder(string[] items):base(null, items)	{
 			CreateInsertionPointTicket();
 		}
+		public ThreadedListViewItemPlaceHolder(SerializationInfo info, StreamingContext context) : base(info, context){}
 
 		/// <summary>
 		/// Gets the unique insertion point ticket.

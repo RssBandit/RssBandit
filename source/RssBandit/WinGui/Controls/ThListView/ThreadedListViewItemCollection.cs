@@ -61,7 +61,8 @@ namespace RssBandit.WinGui.Controls.ThListView
             Add(null, text);
         }
 
-        public void Add(object key, string text)
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1061:DoNotHideBaseClassMethods")]
+		public void Add(object key, string text)
         {
             var itm = new ThreadedListViewItem(key, text);
             Add(itm);

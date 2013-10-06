@@ -89,7 +89,7 @@ namespace RssBandit.WinGui.Controls
 		private class MessageHandler:NativeWindow, IDisposable	{
 			#region Interop Declarations
 			[DllImport("User32.dll", SetLastError=true)]
-			protected static extern Int32 RegisterWindowMessage(string lpString);
+			private static extern Int32 RegisterWindowMessage(string lpString);
 
 			private const int MF_POPUP = 0x10;
 			

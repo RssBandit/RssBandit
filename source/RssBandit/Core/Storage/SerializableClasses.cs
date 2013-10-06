@@ -48,6 +48,11 @@ namespace RssBandit.Core.Storage.Serialization
 			
 		}
 
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+		}
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="StatefullKeyItemCollection&lt;TK, TI&gt;"/> is modified.
 		/// </summary>

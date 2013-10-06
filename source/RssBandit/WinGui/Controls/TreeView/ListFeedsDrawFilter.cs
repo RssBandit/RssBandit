@@ -12,12 +12,10 @@ using System.Drawing;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
-using NewsComponents.Utils;
-using RssBandit.WinGui.Controls;
 
-namespace RssBandit.WinGui
+namespace RssBandit.WinGui.Controls.TreeView
 {
-	public class ListFeedsDrawFilter : IUIElementDrawFilter
+	public sealed class ListFeedsDrawFilter : IUIElementDrawFilter
 	{
 		DrawPhase IUIElementDrawFilter.GetPhasesToFilter( ref UIElementDrawParams drawParams )
 		{
