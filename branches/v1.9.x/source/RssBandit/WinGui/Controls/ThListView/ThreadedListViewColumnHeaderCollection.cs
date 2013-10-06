@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Controls.ThListView
@@ -142,10 +143,13 @@ namespace RssBandit.WinGui.Controls.ThListView
 	/// Helper class for faster column key to index lookup.
 	/// Can be used to create new items/subitems according to the current column keys.
 	/// </summary>
+	[Serializable]
 	public class ColumnKeyIndexMap: Hashtable {
 		public ColumnKeyIndexMap(): base() {}
 		public ColumnKeyIndexMap(int capacity): base(capacity) {}
 		public ColumnKeyIndexMap(IDictionary d): base(d) {}
+
+		public ColumnKeyIndexMap(SerializationInfo info, StreamingContext context) : base(info, context){}
 
 		/// <summary>
 		/// Set/Get the index of a column key

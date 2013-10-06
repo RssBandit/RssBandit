@@ -739,7 +739,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             public int iSubItem;
         }
 
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential,CharSet = CharSet.Unicode)]
         public struct LVSETINFOTIP
         {
             public int cbSize;

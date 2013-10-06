@@ -15,6 +15,7 @@ using RssBandit.Filter;
 using RssBandit.Resources;
 using RssBandit.Utility.Keyboard;
 using RssBandit.WinGui.Controls;
+using RssBandit.WinGui.Controls.TreeView;
 using RssBandit.WinGui.Forms.ControlHelpers;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;

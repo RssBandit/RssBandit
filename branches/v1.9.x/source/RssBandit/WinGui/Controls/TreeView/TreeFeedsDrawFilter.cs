@@ -14,15 +14,14 @@ using System;
 using System.Drawing;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinTree;
-using RssBandit.WinGui.Controls;
 using RssBandit.WinGui.Utility;
 
-namespace RssBandit.WinGui
+namespace RssBandit.WinGui.Controls.TreeView
 {
 	/// <summary>
 	/// Used to impl. custom UltraTreeNode drawing additions
 	/// </summary>
-	public class TreeFeedsDrawFilter : IUIElementDrawFilter
+	public sealed class TreeFeedsDrawFilter : IUIElementDrawFilter
 	{
 		#region IUIElementDrawFilter
 

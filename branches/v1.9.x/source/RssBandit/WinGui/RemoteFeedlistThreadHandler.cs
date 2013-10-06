@@ -248,115 +248,111 @@ namespace RssBandit.WinGui
                             break;
 
 
-                        case RemoteStorageProtocolType.FTP: // Send to FTP server
-                             
-							using (var zos = new ZipOutputStream(tempStream))
+						case RemoteStorageProtocolType.FTP: // Send to FTP server
+
+							var zosFtp = new ZipOutputStream(tempStream);
+
+							FileHelper.ZipFiles(files, zosFtp);
+
+							tempStream.Position = 0;
+
+							var ftpUri = new Uri(remoteLocation);
+							UriBuilder builder = new UriBuilder(ftpUri);
+							builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
+
+
+							/* set up the FTP connection */
+							FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(builder.Uri);
+							ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
+							ftpRequest.KeepAlive = false;
+							ftpRequest.UseBinary = true;
+							ftpRequest.UsePassive = settings.GetProperty(Ps.FtpConnectionModePassive, true);
+							ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
+							ftpRequest.ContentLength = tempStream.Length;
+
+							/* perform upload */
+							try
 							{
-								FileHelper.ZipFiles(files, zos);
+								// The buffer size is set to 2kb
+								const int buffLength = 2048;
+								byte[] buff = new byte[buffLength];
 
-								tempStream.Position = 0;
-
-								Uri remoteUri = new Uri(remoteLocation);
-								UriBuilder builder = new UriBuilder(remoteUri);
-								builder.Path += builder.Path.EndsWith("/") ? remoteFileName : "/" + remoteFileName;
-
-
-								/* set up the FTP connection */
-								FtpWebRequest ftpRequest = (FtpWebRequest) WebRequest.Create(builder.Uri);
-								ftpRequest.Method = WebRequestMethods.Ftp.UploadFile;
-								ftpRequest.KeepAlive = false;
-								ftpRequest.UseBinary = true;
-								ftpRequest.UsePassive = settings.GetProperty(Ps.FtpConnectionModePassive, true);
-								ftpRequest.Credentials = new NetworkCredential(credentialUser, credentialPassword);
-								ftpRequest.ContentLength = tempStream.Length;
-
-								/* perform upload */
-								try
+								// Stream to which the file to be upload is written
+								using (Stream strm = ftpRequest.GetRequestStream())
 								{
-									// The buffer size is set to 2kb
-									const int buffLength = 2048;
-									byte[] buff = new byte[buffLength];
 
-									// Stream to which the file to be upload is written
-									using (Stream strm = ftpRequest.GetRequestStream())
+									// Read from the file stream 2kb at a time
+									int contentLen = tempStream.Read(buff, 0, buffLength);
+
+									// Till Stream content ends
+									while (contentLen != 0)
 									{
-
-										// Read from the file stream 2kb at a time
-										int contentLen = tempStream.Read(buff, 0, buffLength);
-
-										// Till Stream content ends
-										while (contentLen != 0)
-										{
-											// Write Content from the file stream to the 
-											// FTP Upload Stream
-											strm.Write(buff, 0, contentLen);
-											contentLen = tempStream.Read(buff, 0, buffLength);
-										}
+										// Write Content from the file stream to the 
+										// FTP Upload Stream
+										strm.Write(buff, 0, contentLen);
+										contentLen = tempStream.Read(buff, 0, buffLength);
 									}
 								}
-								catch (Exception ex)
-								{
-									//ToDO: Add support for switching between active and passive mode
-									p_operationException = ex;
-									_log.Error("FTP Upload Error", ex);
-								}
 							}
-
-							break;
-
-
-                        case RemoteStorageProtocolType.WebDAV:
-
-							using (var zos = new ZipOutputStream(tempStream))
+							catch (Exception ex)
 							{
-								FileHelper.ZipFiles(files, zos);
-
-								var remoteUri = new Uri(remoteLocation.EndsWith("/")
-									? remoteLocation + remoteFileName
-									: remoteLocation + "/" + remoteFileName);
-
-								tempStream.Position = 0;
-
-								HttpWebRequest request = (HttpWebRequest) WebRequest.Create(remoteUri);
-								request.Method = "PUT";
-								request.ContentType = "application/zip";
-								request.AllowAutoRedirect = true;
-								request.UserAgent = RssBanditApplication.UserAgent;
-								request.Proxy = rssBanditApp.Proxy;
-
-								if (!string.IsNullOrEmpty(credentialUser))
-								{
-									NetworkCredential nc =
-										FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
-
-									CredentialCache cc = new CredentialCache();
-									cc.Add(remoteUri, "Basic", nc);
-									cc.Add(remoteUri, "Digest", nc);
-									cc.Add(remoteUri, "NTLM", nc);
-
-									request.Credentials = cc;
-								}
-
-								byte[] bytes = new byte[tempStream.Length];
-								tempStream.Read(bytes, 0, bytes.Length);
-								
-								request.ContentLength = bytes.Length;
-
-								Stream requestStream = request.GetRequestStream();
-								requestStream.Write(bytes, 0, bytes.Length);
-								requestStream.Close();
-
+								//ToDO: Add support for switching between active and passive mode
+								p_operationException = ex;
+								_log.Error("FTP Upload Error", ex);
 							}
 
 							break;
 
-                        default:
+						case RemoteStorageProtocolType.WebDAV:
 
-                            Debug.Assert(false,
-                                         "unknown remote protocol: '" + remoteProtocol +
-                                         "' in RemoteFeedlistThreadHandler");
-                            break;
-                    }
+							var zosDav = new ZipOutputStream(tempStream);
+
+							FileHelper.ZipFiles(files, zosDav);
+
+							var remoteUri = new Uri(remoteLocation.EndsWith("/")
+								? remoteLocation + remoteFileName
+								: remoteLocation + "/" + remoteFileName);
+
+							tempStream.Position = 0;
+
+							HttpWebRequest request = (HttpWebRequest)WebRequest.Create(remoteUri);
+							request.Method = "PUT";
+							request.ContentType = "application/zip";
+							request.AllowAutoRedirect = true;
+							request.UserAgent = RssBanditApplication.UserAgent;
+							request.Proxy = rssBanditApp.Proxy;
+
+							if (!string.IsNullOrEmpty(credentialUser))
+							{
+								NetworkCredential nc =
+									FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
+
+								CredentialCache cc = new CredentialCache();
+								cc.Add(remoteUri, "Basic", nc);
+								cc.Add(remoteUri, "Digest", nc);
+								cc.Add(remoteUri, "NTLM", nc);
+
+								request.Credentials = cc;
+							}
+
+							byte[] bytes = new byte[tempStream.Length];
+							tempStream.Read(bytes, 0, bytes.Length);
+
+							request.ContentLength = bytes.Length;
+
+							Stream requestStream = request.GetRequestStream();
+							requestStream.Write(bytes, 0, bytes.Length);
+							requestStream.Close();
+
+							break;
+
+						default:
+
+							Debug.Assert(false,
+										 "unknown remote protocol: '" + remoteProtocol +
+										 "' in RemoteFeedlistThreadHandler");
+							break;
+					}
                 }
 
 	            // Cool, we made it

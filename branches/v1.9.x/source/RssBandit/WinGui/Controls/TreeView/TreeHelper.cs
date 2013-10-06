@@ -394,7 +394,7 @@ namespace RssBandit.WinGui.Controls
         /// <param name="nodes">The nodes.</param>
         /// <param name="destinationTree">The destination tree.</param>
         /// <param name="isChecked">if set to <c>true</c> [is checked].</param>
-        public static void CopyNodes(TreeFeedsNodeBase[] nodes, TreeView destinationTree, bool isChecked)
+        public static void CopyNodes(TreeFeedsNodeBase[] nodes, System.Windows.Forms.TreeView destinationTree, bool isChecked)
         {
             if (nodes == null) return;
             if (destinationTree == null) return;
@@ -435,7 +435,7 @@ namespace RssBandit.WinGui.Controls
         /// <param name="node">The node.</param>
         /// <param name="destinationTree">The destination tree.</param>
         /// <param name="isChecked">if set to <c>true</c> [is checked].</param>
-        public static void CopyNodes(TreeFeedsNodeBase node, TreeView destinationTree, bool isChecked)
+		public static void CopyNodes(TreeFeedsNodeBase node, System.Windows.Forms.TreeView destinationTree, bool isChecked)
         {
             if (node == null) return;
             if (destinationTree == null) return;
@@ -469,7 +469,7 @@ namespace RssBandit.WinGui.Controls
 
         private static void CopyNodes(TreeNodesCollection nodes, TreeNode parent, bool isChecked)
         {
-            TreeView destinationTree = parent.TreeView;
+            var destinationTree = parent.TreeView;
 
             foreach (TreeFeedsNodeBase n in nodes)
             {

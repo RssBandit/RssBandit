@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Drawing;
 using System.Globalization;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
 using Infragistics.Win.UltraWinTree;
@@ -20,6 +21,7 @@ using RssBandit.Resources;
 
 namespace RssBandit.WinGui.Controls
 {
+	[Serializable]
 	public class UltraTreeNodeExtended : UltraTreeNode
 	{
 		private INewsItem _newsItem;
@@ -31,6 +33,17 @@ namespace RssBandit.WinGui.Controls
 		private Rectangle _commentsRectangle = Rectangle.Empty;
 		private Rectangle _enclosureRectangle = Rectangle.Empty;
 		private Rectangle _collapseRectangle   = Rectangle.Empty;
+
+		public UltraTreeNodeExtended()
+		{
+		}
+
+		public UltraTreeNodeExtended(SerializationInfo info, StreamingContext context) :
+			base(info, context)
+		{
+			
+		}
+
 
 		public Rectangle EnclosureRectangle
 		{

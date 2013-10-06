@@ -24,6 +24,9 @@ namespace RssBandit
     {
         #region static class routines
 
+		private static readonly object SharedCultureLock = new object();
+		private static readonly object SharedUiCultureLock = new object();
+
         /// <summary>
         /// Gets or sets the shared UI culture.
         /// </summary>
@@ -36,7 +39,7 @@ namespace RssBandit
             }
             set
             {
-                lock (typeof (RssBanditApplication))
+				lock (SharedUiCultureLock)
                 {
                     sharedUICulture = value;
                 }
@@ -55,7 +58,7 @@ namespace RssBandit
             }
             set
             {
-                lock (typeof (RssBanditApplication))
+                lock (SharedCultureLock)
                 {
                     sharedCulture = value;
                 }
