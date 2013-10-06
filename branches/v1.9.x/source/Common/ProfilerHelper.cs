@@ -25,29 +25,33 @@ namespace RssBandit.Common.Logging {
 	/// </remarks>
 	internal static class ProfilerHelper {
 		
-		private static long seqFreq = 0;
-		
-		[System.Runtime.InteropServices.DllImport("KERNEL32")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool QueryPerformanceCounter(
-			ref long lpPerformanceCount);
+		private static readonly long seqFreq = 0;
 
-		[System.Runtime.InteropServices.DllImport("KERNEL32")]
-		[return:MarshalAs(UnmanagedType.Bool)]
-		private static extern bool QueryPerformanceFrequency(
-			ref long lpFrequency);
+		private class NativeMethods
+		{
+			[DllImport("KERNEL32")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			internal static extern bool QueryPerformanceCounter(
+				ref long lpPerformanceCount);
+
+			[DllImport("KERNEL32")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			internal static extern bool QueryPerformanceFrequency(
+				ref long lpFrequency);
+		}
+
 
 		static ProfilerHelper() {
-			QueryPerformanceFrequency(ref seqFreq);
+			NativeMethods.QueryPerformanceFrequency(ref seqFreq);
 		}
 
 		public static void StartMeasure(ref long secStart) {
-			QueryPerformanceCounter(ref secStart);
+			NativeMethods.QueryPerformanceCounter(ref secStart);
 		}
 
 		public static double StopMeasure(long secStart) {
 			long secTiming = 0;
-			QueryPerformanceCounter(ref secTiming);
+			NativeMethods.QueryPerformanceCounter(ref secTiming);
 			if (seqFreq == 0) return 0.0;	// Handle no high-resolution timer
 			return (double)(secTiming - secStart) / (double)seqFreq;
 		}
