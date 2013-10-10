@@ -1134,8 +1134,10 @@ namespace RssBandit.WinGui.Controls
 
 
         // used in/with IDisposable - to restore
-        private UltraTree tree;
-        private UltraTreeNode node;
+		[NonSerialized]
+        private UltraTree _tree;
+		[NonSerialized]
+		private UltraTreeNode _node;
 
         #endregion
 
@@ -1155,7 +1157,7 @@ namespace RssBandit.WinGui.Controls
         /// <param name="tree">The tree.</param>
         protected UltraTreeNodeExpansionMemento(UltraTree tree)
         {
-            this.tree = tree;
+            this._tree = tree;
             expandedNodes = new ArrayList();
             selectedNodes = new ArrayList(1);
             if (tree != null)
@@ -1185,7 +1187,7 @@ namespace RssBandit.WinGui.Controls
         /// <param name="node">The node.</param>
         protected UltraTreeNodeExpansionMemento(TreeFeedsNodeBase node)
         {
-            this.node = node;
+            this._node = node;
             expandedNodes = new ArrayList();
             selectedNodes = new ArrayList(1);
 

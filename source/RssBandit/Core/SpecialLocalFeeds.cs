@@ -854,6 +854,7 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="feedDescription">The feed description.</param>
 		/// <param name="loadItems">bool</param>
 		/// <exception cref="UriFormatException">If <paramref name="feedUrl"/> could not be formatted as a Uri</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public LocalFeedsFeed(FeedSourceEntry migratedItemsOwner, string feedUrl, string feedTitle, string feedDescription, bool loadItems):this() {
 			filePath = feedUrl;
 			try {
@@ -880,6 +881,7 @@ namespace RssBandit.SpecialFeeds
 		/// <param name="feedDescription">The feed description.</param>
 		/// <param name="reader">The reader.</param>
 		/// <exception cref="UriFormatException">If <paramref name="feedUrl"/> could not be formatted as a Uri</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public LocalFeedsFeed(FeedSourceEntry migratedItemsOwner, string feedUrl, string feedTitle, string feedDescription, XmlReader reader) :
 			this(migratedItemsOwner, feedUrl, feedTitle, feedDescription, false)
 		{

@@ -92,12 +92,12 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         internal void SetColumnOrderArray(int[] orderArray)
         {
-            Win32.API.SetColumnOrderArray(Handle, orderArray);
+            NativeMethods.API.SetColumnOrderArray(Handle, orderArray);
         }
 
         internal int[] GetColumnOrderArray()
         {
-            return Win32.API.GetColumnOrderArray(Handle, Columns.Count);
+            return NativeMethods.API.GetColumnOrderArray(Handle, Columns.Count);
         }
 
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -387,10 +387,10 @@ namespace RssBandit.WinGui.Controls.ThListView
 
                 _autoGroupList.Sort();
 
-                Win32.API.ClearListViewGroup(Handle);
+                NativeMethods.API.ClearListViewGroup(Handle);
                 foreach (var text in _autoGroupList)
                 {
-                    Win32.API.AddListViewGroup(Handle, text, _autoGroupList.IndexOf(text));
+                    NativeMethods.API.AddListViewGroup(Handle, text, _autoGroupList.IndexOf(text));
                 }
 
                 foreach (var itm in Items)
@@ -399,7 +399,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                         _autoGroupList.IndexOf(itm.SubItems[columnID].Text == ""
                                                    ? _emptyAutoGroupText
                                                    : itm.SubItems[columnID].Text);
-                    Win32.API.AddItemToGroup(Handle, itm.Index, index);
+                    NativeMethods.API.AddItemToGroup(Handle, itm.Index, index);
                 }
 
                 APIEnableGrouping(true);
@@ -427,15 +427,15 @@ namespace RssBandit.WinGui.Controls.ThListView
         {
             try
             {
-                Win32.API.ClearListViewGroup(Handle);
+                NativeMethods.API.ClearListViewGroup(Handle);
                 foreach (ThreadedListViewGroup grp in Groups)
                 {
-                    Win32.API.AddListViewGroup(Handle, grp.GroupText, grp.GroupIndex);
+                    NativeMethods.API.AddListViewGroup(Handle, grp.GroupText, grp.GroupIndex);
                 }
 
                 foreach (var itm in Items)
                 {
-                    Win32.API.AddItemToGroup(Handle, itm.Index, itm.GroupIndex);
+                    NativeMethods.API.AddItemToGroup(Handle, itm.Index, itm.GroupIndex);
                 }
 
                 APIEnableGrouping(true);
@@ -511,14 +511,14 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         internal void RedrawItems()
         {
-            Win32.API.RedrawItems(this, true);
+            NativeMethods.API.RedrawItems(this, true);
             ArrangeIcons();
         }
 
 
         internal void UpdateItems()
         {
-            Win32.API.UpdateItems(this);
+            NativeMethods.API.UpdateItems(this);
         }
 
 
@@ -570,7 +570,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         public void SetBackgroundImage(string imagePath, ImagePosition position)
         {
-            Win32.API.SetListViewImage(Handle, imagePath, position);
+            NativeMethods.API.SetListViewImage(Handle, imagePath, position);
         }
 
         #endregion
@@ -965,9 +965,9 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         private void SetExtendedStyles()
         {
-            var ex_styles = (Win32.LVS_EX) Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, 0, IntPtr.Zero);
-            ex_styles |= Win32.LVS_EX.LVS_EX_SUBITEMIMAGES;
-            Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, 0, new IntPtr((int) ex_styles));
+			var ex_styles = (NativeMethods.LVS_EX)NativeMethods.API.SendMessage(Handle, NativeMethods.W32_LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, IntPtr.Zero, IntPtr.Zero);
+            ex_styles |= NativeMethods.LVS_EX.LVS_EX_SUBITEMIMAGES;
+			NativeMethods.API.SendMessage(Handle, NativeMethods.W32_LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, IntPtr.Zero, new IntPtr((int)ex_styles));
         }
 
         /// <summary>
@@ -1078,7 +1078,7 @@ namespace RssBandit.WinGui.Controls.ThListView
         {
             IntPtr param = IntPtr.Zero;
             int onOff = (value ? 1 : 0);
-            Win32.API.SendMessage(Handle, Win32.W32_LVM.LVM_ENABLEGROUPVIEW, onOff, ref param);
+			NativeMethods.API.SendMessage(Handle, NativeMethods.W32_LVM.LVM_ENABLEGROUPVIEW, new IntPtr(onOff), ref param);
         }
 
         #region Header Sort and Graphics
@@ -1097,8 +1097,8 @@ namespace RssBandit.WinGui.Controls.ThListView
             }
 
             // get the pointer to the header:
-            IntPtr hHeader = Win32.API.SendMessage(Handle,
-                                                   Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            IntPtr hHeader = NativeMethods.API.SendMessage(Handle,
+                                                   NativeMethods.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
 
             if (!hHeader.Equals(IntPtr.Zero))
             {
@@ -1113,16 +1113,16 @@ namespace RssBandit.WinGui.Controls.ThListView
                     {
                         for (int i = 0; i < Columns.Count; i++)
                         {
-                            var item = new Win32.HDITEM
+                            var item = new NativeMethods.HDITEM
                                            {
                                                cchTextMax = 255,
                                                mask = ((int)
-                                                       (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT |
-                                                        Win32.HeaderItemMask.HDI_BITMAP))
+                                                       (NativeMethods.HeaderItemMask.HDI_FORMAT | NativeMethods.HeaderItemMask.HDI_TEXT |
+                                                        NativeMethods.HeaderItemMask.HDI_BITMAP))
                                            };
 
                             IntPtr result =
-                                Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_GETITEM, new IntPtr(i),
+                                NativeMethods.API.SendMessage(hHeader, NativeMethods.HeaderControlMessages.HDM_GETITEM, new IntPtr(i),
                                                       item);
                             if (result.ToInt32() > 0)
                             {
@@ -1130,8 +1130,8 @@ namespace RssBandit.WinGui.Controls.ThListView
                                 HorizontalAlignment align = colHdr.TextAlign;
                                 string txt = (colHdr.Text ?? String.Empty);
                                 item.pszText = Marshal.StringToHGlobalAuto(txt);
-                                item.mask = (int) (Win32.HeaderItemMask.HDI_FORMAT | Win32.HeaderItemMask.HDI_TEXT);
-                                item.fmt = (int) (Win32.HeaderItemFlags.HDF_STRING);
+                                item.mask = (int) (NativeMethods.HeaderItemMask.HDI_FORMAT | NativeMethods.HeaderItemMask.HDI_TEXT);
+                                item.fmt = (int) (NativeMethods.HeaderItemFlags.HDF_STRING);
 
 #if !NON_TRANSPARENT_SORTMARKERS
 								item.mask |= (int)(Win32.HeaderItemMask.HDI_IMAGE);
@@ -1144,20 +1144,20 @@ namespace RssBandit.WinGui.Controls.ThListView
 									item.iImage = (int) sortOrder - 1;
 								}
 #else
-                                item.mask |= (int) (Win32.HeaderItemMask.HDI_BITMAP);
+                                item.mask |= (int) (NativeMethods.HeaderItemMask.HDI_BITMAP);
                                 item.hbm = IntPtr.Zero;
                                 if (i == sortedColumnIndex && sortOrder != SortOrder.None)
                                 {
-                                    item.fmt |= (int) (Win32.HeaderItemFlags.HDF_BITMAP);
+                                    item.fmt |= (int) (NativeMethods.HeaderItemFlags.HDF_BITMAP);
                                     if (align != HorizontalAlignment.Right)
-                                        item.fmt |= (int) (Win32.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
+                                        item.fmt |= (int) (NativeMethods.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
 
                                     item.hbm = sortOrder == SortOrder.Ascending
                                                    ? upBM.GetHbitmap()
                                                    : downBM.GetHbitmap();
                                 }
 #endif
-                                Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETITEM, new IntPtr(i),
+                                NativeMethods.API.SendMessage(hHeader, NativeMethods.HeaderControlMessages.HDM_SETITEM, new IntPtr(i),
                                                       item);
                                 Marshal.FreeHGlobal(item.pszText);
                             }
@@ -1182,9 +1182,9 @@ namespace RssBandit.WinGui.Controls.ThListView
                 _headerImageList.Images.Add(GetBitmap(true)); // Add ascending arrow
                 _headerImageList.Images.Add(GetBitmap(false)); // Add descending arrow
 
-                IntPtr hHeader = Win32.API.SendMessage(Handle,
-                                                       Win32.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
-                Win32.API.SendMessage(hHeader, Win32.HeaderControlMessages.HDM_SETIMAGELIST, IntPtr.Zero,
+                IntPtr hHeader = NativeMethods.API.SendMessage(Handle,
+                                                       NativeMethods.W32_LVM.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+                NativeMethods.API.SendMessage(hHeader, NativeMethods.HeaderControlMessages.HDM_SETIMAGELIST, IntPtr.Zero,
                                       _headerImageList.Handle);
 
                 _headerImageListLoaded = true;

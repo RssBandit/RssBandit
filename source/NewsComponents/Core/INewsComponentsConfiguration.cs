@@ -155,7 +155,7 @@ namespace NewsComponents
 		
 		const string defaultApplicationID = "NewsComponents";
 		/// <summary/>
-		protected string appID;
+		protected string appID = defaultApplicationID;
 		/// <summary/>
 		protected Version appVersion = new Version(1, 0);
 		/// <summary/>
@@ -225,7 +225,8 @@ namespace NewsComponents
 		public virtual string UserLocalApplicationDataPath {
 			get {
 				if (applicationLocalDataPath == null)
-					applicationLocalDataPath= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), this.ApplicationID);
+					applicationLocalDataPath= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+						, this.ApplicationID);
 				return applicationLocalDataPath;
 			}
 			set {

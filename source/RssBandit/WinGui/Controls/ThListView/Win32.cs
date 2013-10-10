@@ -19,7 +19,7 @@ namespace RssBandit.WinGui.Controls.ThListView
     /// <summary>
     /// Win32.
     /// </summary>
-    internal static class Win32
+    internal static class NativeMethods
     {
         #region ComInterop stuff
 
@@ -818,33 +818,25 @@ namespace RssBandit.WinGui.Controls.ThListView
             #region Post/SendMessage overloads
 
             [DllImport("user32.dll")]
-            public static extern bool
-                PostMessage(IntPtr hWnd, int wMsg, int wParam, IntPtr lParam);
-
-            [DllImport("user32.dll")]
             public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, IntPtr lParam);
-
-            [DllImport("user32.dll")]
-            public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref IntPtr lParam);
+				IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, ref IntPtr lParam);
 
             // Int[] is okay as the lparam here since pointers are marshalled platform specific sizes anyway
             [DllImport("user32.dll")]
             public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, int[] lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, int[] lParam);
 
             [DllImport("user32.dll")]
             public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVITEM lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, ref LVITEM lParam);
 
             [DllImport("user32.dll")]
             public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, ref LVHITTESTINFO lParam);
+                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, ref LVHITTESTINFO lParam);
 
-            [DllImport("user32.dll")]
-            public static extern
-                IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, LVSETINFOTIP lParam);
+			//[DllImport("user32.dll")]
+			//public static extern
+			//	IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, int wParam, LVSETINFOTIP lParam);
 
             [DllImport("user32.dll")]
             public static extern
@@ -858,17 +850,17 @@ namespace RssBandit.WinGui.Controls.ThListView
             public static extern
                 IntPtr SendMessage(IntPtr hWnd, W32_LVM wMsg, IntPtr wParam, IntPtr lParam);
 
-            [DllImport("User32.dll")]
-            public static extern
-                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, LVCOLUMN lParam);
+			//[DllImport("User32.dll")]
+			//public static extern
+			//	IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, LVCOLUMN lParam);
 
-            [DllImport("User32.dll")]
-            public static extern
-                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEINFO lParam);
+			//[DllImport("User32.dll")]
+			//public static extern
+			//	IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEINFO lParam);
 
-            [DllImport("User32.dll")]
-            public static extern
-                IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEVIEWINFO lParam);
+			//[DllImport("User32.dll")]
+			//public static extern
+			//	IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVTILEVIEWINFO lParam);
 
             [DllImport("User32.dll")]
             public static extern
@@ -899,7 +891,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     apiItem.iItem = index;
                     apiItem.iGroupId = groupID;
 
-                    ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_SETITEMA, 0, ref apiItem);
+                    ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_SETITEMA, IntPtr.Zero, ref apiItem);
 
                     return ptrRetVal.ToInt32();
                 }
@@ -952,7 +944,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     }
 
                     IntPtr param = IntPtr.Zero;
-                    IntPtr ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP, index, ref param);
+                    IntPtr ptrRetVal = SendMessage(listHandle, W32_LVM.LVM_REMOVEGROUP,new IntPtr(index), ref param);
 
                     return ptrRetVal.ToInt32();
                 }
@@ -973,7 +965,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     }
 
                     IntPtr param = IntPtr.Zero;
-                    SendMessage(listHandle, W32_LVM.LVM_REMOVEALLGROUPS, 0, ref param);
+                    SendMessage(listHandle, W32_LVM.LVM_REMOVEALLGROUPS, IntPtr.Zero, ref param);
                 }
                 catch (Exception ex)
                 {
@@ -992,7 +984,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     }
 
                     var param = new IntPtr(lst.Items.Count - 1);
-                    SendMessage(lst.Handle, W32_LVM.LVM_REDRAWITEMS, 0, ref param);
+                    SendMessage(lst.Handle, W32_LVM.LVM_REDRAWITEMS, IntPtr.Zero, ref param);
 
                     if (update)
                     {
@@ -1020,7 +1012,7 @@ namespace RssBandit.WinGui.Controls.ThListView
                     for (int i = 0; i < lst.Items.Count - 1; i++)
                     {
                         IntPtr param = IntPtr.Zero;
-                        SendMessage(lst.Handle, W32_LVM.LVM_UPDATE, i, ref param);
+                        SendMessage(lst.Handle, W32_LVM.LVM_UPDATE, new IntPtr(i), ref param);
                     }
                 }
                 catch (Exception ex)
@@ -1051,7 +1043,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
                     // Set the background color of the ListView to 0XFFFFFFFF (-1) so it will be transparent
                     var clear = new IntPtr(-1);
-                    SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, 0, ref clear);
+                    SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, IntPtr.Zero, ref clear);
 
                     SendMessage(listHandle, W32_LVM.LVM_SETBKIMAGEW, 0, ref apiItem);
                 }
@@ -1080,7 +1072,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
                     // Set the background color of the ListView to 0XFFFFFFFF (-1) so it will be transparent
                     var clear = new IntPtr(-1);
-                    SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, 0, ref clear);
+                    SendMessage(listHandle, W32_LVM.LVM_SETTEXTBKCOLOR, IntPtr.Zero, ref clear);
 
                     SendMessage(listHandle, W32_LVM.LVM_SETBKIMAGEW, 0, ref apiItem);
                 }
@@ -1135,7 +1127,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             public static int[] GetColumnOrderArray(IntPtr listHandle, int columnCount)
             {
                 var lParam = new int[columnCount];
-                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_GETCOLUMNORDERARRAY, columnCount, lParam);
+                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_GETCOLUMNORDERARRAY, new IntPtr(columnCount), lParam);
                 if (result == IntPtr.Zero)
                 {
                     // something wrong
@@ -1146,7 +1138,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             public static void SetColumnOrderArray(IntPtr listHandle, int[] columnArray)
             {
                 int columnCount = columnArray.GetLength(0);
-                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_SETCOLUMNORDERARRAY, columnCount, columnArray);
+                IntPtr result = SendMessage(listHandle, W32_LVM.LVM_SETCOLUMNORDERARRAY, new IntPtr(columnCount), columnArray);
                 if (result == IntPtr.Zero)
                 {
                     // something wrong

@@ -1,0 +1,8 @@
+﻿<item>
+  <title>TestTitle</title>
+  <link>TestLink</link>
+  <pubDate>Friday, 04 April 2003 12:41:37</pubDate>
+  <category>TestSubject</category>
+  <description><![CDATA[TestDescription]]></description>
+  <fd:state read="0" flagged="0" xmlns:fd="http://www.bradsoft.com/feeddemon/xmlns/1.0/" />
+</item>

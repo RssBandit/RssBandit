@@ -422,16 +422,17 @@ namespace RssBandit.WinGui.Utility {
 	#endregion
 
 	#region Utils
-	internal class Utils {
+	internal class Utils 
+	{
 
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(Utils));
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(Utils));
 
 		// some probe Urls, used by CurrentINetState() (no, that is NOT my favourites list... ;-)
 		// They have better ping timings than all the other....
-		private static string[] probeUrls = new string[]{
+		private static readonly string[] probeUrls =
+		{
 			"http://www.w3c.org/",	"http://www.google.com/",
-			"http://www.heise.de/", "http://www.nyse.com/",
-			"http://www.olm.net"
+			"http://www.heise.de/"
 		};
 
 		static Random probeUrlRandomizer = new Random();

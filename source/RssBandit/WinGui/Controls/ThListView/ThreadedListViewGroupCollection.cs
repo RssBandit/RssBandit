@@ -37,7 +37,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 		} 
 
 		public int Add(ThreadedListViewGroup value) { 
-			Win32.API.AddListViewGroup(_owner.Handle, value.GroupText, value.GroupIndex); 
+			NativeMethods.API.AddListViewGroup(_owner.Handle, value.GroupText, value.GroupIndex); 
 			if (GroupAdded != null) { 
 				GroupAdded(this, new ListViewGroupEventArgs(value)); 
 			} 
@@ -46,7 +46,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
 		public int Add(string text, int index) { 
 			ThreadedListViewGroup itm = new ThreadedListViewGroup(text, index); 
-			Win32.API.AddListViewGroup(_owner.Handle, text, index); 
+			NativeMethods.API.AddListViewGroup(_owner.Handle, text, index); 
 			if (GroupAdded != null) { 
 				GroupAdded(this, new ListViewGroupEventArgs(itm)); 
 			} 
@@ -62,7 +62,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 		} 
 
 		public void Remove(ThreadedListViewGroup value) { 
-			Win32.API.RemoveListViewGroup(_owner.Handle, value.GroupIndex); 
+			NativeMethods.API.RemoveListViewGroup(_owner.Handle, value.GroupIndex); 
 			if (GroupRemoved != null) { 
 				GroupRemoved(this, new ListViewGroupEventArgs(value)); 
 			} 
@@ -74,7 +74,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 		} 
 
 		public new void Clear() { 
-			Win32.API.ClearListViewGroup(_owner.Handle); 
+			NativeMethods.API.ClearListViewGroup(_owner.Handle); 
 			List.Clear(); 
 		} 
 

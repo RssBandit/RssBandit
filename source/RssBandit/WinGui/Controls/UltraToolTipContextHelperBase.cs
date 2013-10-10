@@ -123,9 +123,10 @@ namespace RssBandit.WinGui.Controls
 		/// <summary>
 		/// Hooks into the neccessary events in order to show tooltips. 
 		/// </summary>
-		protected virtual void HookControlEvents() {
-			this.control.MouseMove += new MouseEventHandler(this.control_MouseMove);
-			this.control.MouseLeave += new EventHandler(this.control_MouseLeave);
+		protected void HookControlEvents() 
+		{
+			this.control.MouseMove += this.control_MouseMove;
+			this.control.MouseLeave += this.control_MouseLeave;
 		}
 		#endregion HookControlEvents
 
@@ -133,9 +134,10 @@ namespace RssBandit.WinGui.Controls
 		/// <summary>
 		/// Unhooks from events that were hooked in HookControlEvents
 		/// </summary>
-		protected virtual void UnHookControlEvents() {
-			this.control.MouseMove -= new MouseEventHandler(this.control_MouseMove);
-			this.control.MouseLeave -= new EventHandler(this.control_MouseLeave);
+		protected void UnHookControlEvents() 
+		{
+			this.control.MouseMove -= this.control_MouseMove;
+			this.control.MouseLeave -= this.control_MouseLeave;
 		}
 		#endregion UnHookControlEvents
 

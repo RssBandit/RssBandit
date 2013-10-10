@@ -144,12 +144,13 @@ namespace RssBandit.WinGui.Controls.ThListView
 	/// Can be used to create new items/subitems according to the current column keys.
 	/// </summary>
 	[Serializable]
-	public class ColumnKeyIndexMap: Hashtable {
+	public sealed class ColumnKeyIndexMap: Hashtable
+	{
 		public ColumnKeyIndexMap(): base() {}
 		public ColumnKeyIndexMap(int capacity): base(capacity) {}
 		public ColumnKeyIndexMap(IDictionary d): base(d) {}
 
-		public ColumnKeyIndexMap(SerializationInfo info, StreamingContext context) : base(info, context){}
+		private ColumnKeyIndexMap(SerializationInfo info, StreamingContext context) : base(info, context){}
 
 		/// <summary>
 		/// Set/Get the index of a column key

@@ -75,9 +75,19 @@ namespace Genghis
             this.path = ValidatePath(path, "path");
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
+			Dispose(true);
+			GC.SuppressFinalize(this);
         }
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected virtual void Dispose(bool disposing)
+		{
+			
+		}
 
         /// <summary>
         /// Disposes of any resources.</summary>

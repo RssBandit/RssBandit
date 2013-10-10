@@ -2273,7 +2273,7 @@ namespace RssBandit
 				}
 			}
 
-			public enum ShowWindowStyles : short
+			public enum ShowWindowStyles 
 			{
 				SW_HIDE = 0,
 				SW_SHOWNORMAL = 1,
@@ -3208,17 +3208,13 @@ namespace RssBandit
 			public static extern
 			bool IsIconic(IntPtr hWnd);
 
-			[DllImport("user32.dll", SetLastError = true)]
-			public static extern
-			IntPtr FindWindow(string lpClassName, string lpWindowName);
+			//[DllImport("user32.dll")]
+			//public static extern
+			//IntPtr GetWindowThreadProcessId(IntPtr hWnd, ref IntPtr ProcessId);
 
-			[DllImport("user32.dll")]
-			public static extern
-			IntPtr GetWindowThreadProcessId(IntPtr hWnd, ref IntPtr ProcessId);
-
-			[DllImport("user32.dll", SetLastError = true)]
-			public static extern
-			int GetWindowText(IntPtr hWnd, StringBuilder title, int size);
+			//[DllImport("user32.dll", SetLastError = true)]
+			//public static extern
+			//int GetWindowText(IntPtr hWnd, StringBuilder title, int size);
 
 			[DllImport("user32.dll")]
 			public static extern
@@ -3312,7 +3308,7 @@ namespace RssBandit
 			[DllImport("kernel32.dll", SetLastError = true)]
 			internal static extern bool GetVersionEx(ref OSVERSIONINFOEX osvi);
 
-			[DllImport("shell32.dll")]
+			[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
 			internal static extern IntPtr SHGetFileInfo(string pszPath,
 				uint dwFileAttributes,
 				ref SHFILEINFO psfi,
@@ -3353,7 +3349,7 @@ namespace RssBandit
 			/// the resource to be loaded. This parameter must be IntPtr.Zero unless SND_RESOURCE is specified in fdwSound.</param>
 			/// <param name="fdwSound">SoundFlags.SND_* combinations</param>
 			/// <returns></returns>
-			[DllImport("Winmm.dll", CharSet = CharSet.Auto, SetLastError = true)]
+			[DllImport("Winmm.dll", CharSet = CharSet.Unicode, SetLastError = true)]
 			internal static extern bool PlaySound(string sound, IntPtr hModule, SoundFlags fdwSound);
 
 			/// <summary>

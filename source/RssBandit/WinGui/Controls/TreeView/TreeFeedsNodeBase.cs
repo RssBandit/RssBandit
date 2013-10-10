@@ -10,6 +10,7 @@
 
 using System;
 using System.Drawing;
+using System.Runtime.Serialization;
 using Infragistics.Win.UltraWinTree;
 using log4net;
 using NewsComponents;
@@ -50,6 +51,7 @@ namespace RssBandit.WinGui.Controls
 		private static readonly ILog _log = Log.GetLogger(typeof(TreeFeedsNodeBase));
 
 		private static Image	_clickableAreaExtenderImage;
+		
 		#region ctor's
 
 		static TreeFeedsNodeBase()
@@ -96,6 +98,12 @@ namespace RssBandit.WinGui.Controls
 			_anyUnread = false;
 			this.Text = text;	// uses some of the above variables, so keep it at last...
 		}
+
+		protected TreeFeedsNodeBase(SerializationInfo info, StreamingContext context) : 
+			base(info, context)
+	    {
+		    
+	    }
 
 		#endregion
 
@@ -627,6 +635,12 @@ namespace RssBandit.WinGui.Controls
 		public abstract bool AllowedChild(FeedNodeType nsType);
 		public abstract void PopupMenu(Point screenPos);
 		public abstract void UpdateContextMenu();
+
+		protected override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			// not really needed currently..., just for CA
+		}
 	}
 
 }
