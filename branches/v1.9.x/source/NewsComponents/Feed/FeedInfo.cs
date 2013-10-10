@@ -140,11 +140,11 @@ namespace NewsComponents.Feed
         {
             this.id = id;
             this.feedLocation = feedLocation;
-            this.itemsList = new List<INewsItem>(itemsList);
+            this.itemsList = itemsList != null ? new List<INewsItem>(itemsList ) : new List<INewsItem>();
             this.title = title;
             this.link = link;
             this.description = description;
-            this.optionalElements = new Dictionary<XmlQualifiedName, string>(optionalElements);
+            this.optionalElements = optionalElements != null ? new Dictionary<XmlQualifiedName, string>(optionalElements) : new Dictionary<XmlQualifiedName, string>();
             this.language = language;
 
             if (RssHelper.IsNntpUrl(link))

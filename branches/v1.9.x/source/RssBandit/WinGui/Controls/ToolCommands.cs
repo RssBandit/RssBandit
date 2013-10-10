@@ -377,9 +377,12 @@ namespace RssBandit.WinGui.Tools
 		/// <summary> 
 		/// Clean up any resources being used.
 		/// </summary>
-		protected void Dispose( bool disposing ) {
-			if( disposing ) {
-				if(components != null) {
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (components != null)
+				{
 					components.Dispose();
 				}
 				this.Mediator = null;
@@ -769,7 +772,7 @@ namespace RssBandit.WinGui.Tools
 		/// <summary> 
 		/// Clean up any resources being used.
 		/// </summary>
-		protected void Dispose( bool disposing ) {
+		protected virtual void Dispose( bool disposing ) {
 			if( disposing ) {
 				if(components != null) {
 					components.Dispose();

@@ -35,7 +35,7 @@ namespace RssBandit.WinGui.Utility
 		/// like document manager or toolbars</remarks>
 		public event OnGetChildControlHandler OnGetChildControl;
 
-		private readonly Form parent;
+		private readonly Form _parent;
 
 		/// <summary>
 		/// Add support for wheel scrolling on non-focused UI widgets 
@@ -43,9 +43,9 @@ namespace RssBandit.WinGui.Utility
 		/// </summary>
 		/// <param name="f"></param>
 		public WheelSupport(Form f) {
-			this.parent = f;
-			this.parent.Activated += this.OnParentActivated;
-			this.parent.Deactivate += this.OnParentDeactivate;
+			this._parent = f;
+			this._parent.Activated += this.OnParentActivated;
+			this._parent.Deactivate += this.OnParentDeactivate;
 		}
 
 		private void OnParentActivated(object sender, EventArgs e) {
@@ -61,7 +61,7 @@ namespace RssBandit.WinGui.Utility
 			
 			// Listen for operating system messages
 			switch (m.Msg){
-				case WM_MOUSEWHEEL:
+				case NativeMethods.WM_MOUSEWHEEL:
 					
 					// don't handle all (e.g. Ctrl-MouseWheel: zoom feature in IE)
 					if (Control.ModifierKeys != Keys.None)
@@ -70,7 +70,7 @@ namespace RssBandit.WinGui.Utility
 					// get position (better debug support than calling Control.MousePosition in GetTopmostVisibleChild):
 					Point screenPoint = new Point(m.LParam.ToInt32());
 					// redirect the wheel message to the topmost child control
-					Control child = GetTopmostVisibleChild(parent, screenPoint);
+					Control child = GetTopmostVisibleChild(_parent, screenPoint);
 					
 					if (child != null) {
 						
@@ -91,7 +91,7 @@ namespace RssBandit.WinGui.Utility
 						}
 
 						if (m.HWnd != child.Handle) {	// no recursion, please. Redirect message...
-							PostMessage(child.Handle, WM_MOUSEWHEEL, m.WParam, m.LParam);
+							NativeMethods.PostMessage(child.Handle, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
 							return true;
 						}
 
@@ -151,8 +151,8 @@ namespace RssBandit.WinGui.Utility
 			 	// avoid recursion
 				return false;
 			}
-	
-			PostMessage(hwnd, WM_MOUSEWHEEL, m.WParam, m.LParam);
+
+			NativeMethods.PostMessage(hwnd, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
 
 			return true;	
 		}
@@ -166,10 +166,15 @@ namespace RssBandit.WinGui.Utility
 			return SignedHIWORD((int) ((long) n));
 		}
 
-		[DllImport("user32.dll")] private static extern
-			bool PostMessage( IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam );
+		private static class NativeMethods
+		{
+			[DllImport("user32.dll")]
+			static extern
+			internal bool PostMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
 
-		private const int WM_MOUSEWHEEL = 0x20A;
+			internal const int WM_MOUSEWHEEL = 0x20A;
+		}
+
 
 		#endregion
 

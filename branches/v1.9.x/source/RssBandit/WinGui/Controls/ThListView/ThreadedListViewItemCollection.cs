@@ -48,7 +48,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             var itm = ((ThreadedListViewItem) base.Add(item));
             if (ListView.ShowInGroups)
             {
-                Win32.API.AddItemToGroup(itm.ListView.Handle, itm.Index, itm.GroupIndex);
+                NativeMethods.API.AddItemToGroup(itm.ListView.Handle, itm.Index, itm.GroupIndex);
                 if (ItemAdded != null)
                 {
                     ItemAdded(this, new ListViewItemEventArgs(itm));
@@ -83,7 +83,7 @@ namespace RssBandit.WinGui.Controls.ThListView
             {
                 foreach (var itm in values)
                 {
-                    Win32.API.AddItemToGroup(itm.ListView.Handle, itm.Index, itm.GroupIndex);
+                    NativeMethods.API.AddItemToGroup(itm.ListView.Handle, itm.Index, itm.GroupIndex);
                     if (ItemAdded != null)
                     {
                         ItemAdded(this, new ListViewItemEventArgs(itm));

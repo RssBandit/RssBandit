@@ -38,10 +38,15 @@ namespace RssBandit.WinGui.Controls
 		{
 		}
 
-		public UltraTreeNodeExtended(SerializationInfo info, StreamingContext context) :
+		protected UltraTreeNodeExtended(SerializationInfo info, StreamingContext context) :
 			base(info, context)
 		{
 			
+		}
+		protected override void GetObjectData(SerializationInfo info, StreamingContext context) 
+		{
+			base.GetObjectData(info, context);
+			// just for CA
 		}
 
 

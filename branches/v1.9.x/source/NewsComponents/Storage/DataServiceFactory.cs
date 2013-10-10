@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -37,6 +38,8 @@ namespace NewsComponents.Storage
 		/// <returns></returns>
 		public static object GetService(StorageDomain domain, INewsComponentsConfiguration configuration)
 		{
+			configuration.ExceptionIfNull("configuration");
+
 			IInitDataService service = new FileStorageDataService();
 			if (domain == StorageDomain.UserCacheData)
 			{

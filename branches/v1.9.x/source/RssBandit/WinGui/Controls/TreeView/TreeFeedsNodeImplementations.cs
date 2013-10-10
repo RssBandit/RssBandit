@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 using Infragistics.Win.UltraWinTree;
@@ -926,6 +927,17 @@ namespace RssBandit.WinGui.Controls
             _popup = menu;
         }
 
+	    protected FinderNode(SerializationInfo info, StreamingContext context): 
+			base(info, context)
+	    {
+		    
+	    }
+		protected override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			// not really needed currently..., just for CA
+		}
+
         public virtual bool IsTempFinderNode
         {
             get { return false; }
@@ -1125,6 +1137,19 @@ namespace RssBandit.WinGui.Controls
             base(text, imageIndex, selectedImageIndex, menu)
         {
         }
+
+		protected TempFinderNode(SerializationInfo info, StreamingContext context) : 
+			base(info, context)
+	    {
+		    
+	    }
+		protected override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			// not really needed currently..., just for CA
+		}
+
+
 
         public override bool IsTempFinderNode
         {

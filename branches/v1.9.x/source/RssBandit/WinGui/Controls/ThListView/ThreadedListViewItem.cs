@@ -83,7 +83,8 @@ namespace RssBandit.WinGui.Controls.ThListView
 			_key = key;
 			this.GroupIndex = groupIndex; 
 		} 
-		public ThreadedListViewItem(SerializationInfo info, StreamingContext context) : base(info, context){}
+		
+		protected ThreadedListViewItem(SerializationInfo info, StreamingContext context) : base(info, context){}
 
 
 		[Browsable(true), Category("Info")] 
@@ -93,7 +94,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 			} 
 			set { 
 				_groupIndex = value; 
-				Win32.API.AddItemToGroup(base.ListView.Handle, Index, _groupIndex); 
+				NativeMethods.API.AddItemToGroup(base.ListView.Handle, Index, _groupIndex); 
 			} 
 		} 
 
@@ -273,7 +274,7 @@ namespace RssBandit.WinGui.Controls.ThListView
 
 		public bool StateImageHitTest(Point p)
 		{
-			Win32.LVHITTESTINFO htInfo;
+			NativeMethods.LVHITTESTINFO htInfo;
             IntPtr ret;
 
 			htInfo.pt.x = p.X;
@@ -281,41 +282,41 @@ namespace RssBandit.WinGui.Controls.ThListView
 			htInfo.flags = 0;
 			htInfo.iItem = 0;
 			htInfo.iSubItem = 0;
-			ret = Win32.API.SendMessage((IntPtr)base.ListView.Handle,Win32.W32_LVM.LVM_SUBITEMHITTEST /* 4153 */, 0, ref htInfo);
+			ret = NativeMethods.API.SendMessage(base.ListView.Handle,NativeMethods.W32_LVM.LVM_SUBITEMHITTEST /* 4153 */, IntPtr.Zero, ref htInfo);
 			//if (((ListViewHitTestFlags)htInfo.flags & ListViewHitTestFlags.LVHT_ONITEMSTATEICON) == ListViewHitTestFlags.LVHT_ONITEMSTATEICON)
-			if ((Win32.ListViewHitTestFlags)htInfo.flags == Win32.ListViewHitTestFlags.LVHT_ONITEMSTATEICON)
+			if ((NativeMethods.ListViewHitTestFlags)htInfo.flags == NativeMethods.ListViewHitTestFlags.LVHT_ONITEMSTATEICON)
 				return true;
 			return false;
 		}
 
 		private void SetListViewSubItemImage(int subItem, int imageIndex) {
-			Win32.LVITEM lvi = new Win32.LVITEM();
+			NativeMethods.LVITEM lvi = new NativeMethods.LVITEM();
 
 			lvi.iItem = Index;
 			lvi.iSubItem = subItem;
 			lvi.iImage = imageIndex;
-			lvi.mask = Win32.ListViewItemFlags.LVIF_IMAGE;
-			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
+			lvi.mask = NativeMethods.ListViewItemFlags.LVIF_IMAGE;
+			NativeMethods.API.SendMessage(base.ListView.Handle, NativeMethods.W32_LVM.LVM_SETITEMA /* 4102 */, IntPtr.Zero, ref lvi);
 		}
 
 		private void SetListViewItemIndent(int level) 
 		{
-			Win32.LVITEM lvi = new Win32.LVITEM();
+			NativeMethods.LVITEM lvi = new NativeMethods.LVITEM();
 
 			lvi.iItem = Index;
 			lvi.iIndent = level;
-			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_SETITEMA /* 4102 */, 0, ref lvi);
+			lvi.mask = NativeMethods.ListViewItemFlags.LVIF_INDENT;
+			NativeMethods.API.SendMessage(base.ListView.Handle, NativeMethods.W32_LVM.LVM_SETITEMA /* 4102 */, IntPtr.Zero, ref lvi);
 		}
 
 		private int GetListViewItemIndent() 
 		{
-			Win32.LVITEM lvi = new Win32.LVITEM();
+			NativeMethods.LVITEM lvi = new NativeMethods.LVITEM();
 			int ret;
 
 			lvi.iItem = Index;
-			lvi.mask = Win32.ListViewItemFlags.LVIF_INDENT;
-			Win32.API.SendMessage(base.ListView.Handle, Win32.W32_LVM.LVM_GETITEMA /* 4101 */, 0, ref lvi);
+			lvi.mask = NativeMethods.ListViewItemFlags.LVIF_INDENT;
+			NativeMethods.API.SendMessage(base.ListView.Handle, NativeMethods.W32_LVM.LVM_GETITEMA /* 4101 */, IntPtr.Zero, ref lvi);
 			ret = lvi.iIndent;
 			return ret;
 
@@ -352,7 +353,8 @@ namespace RssBandit.WinGui.Controls.ThListView
 		public ThreadedListViewItemPlaceHolder(string[] items):base(null, items)	{
 			CreateInsertionPointTicket();
 		}
-		public ThreadedListViewItemPlaceHolder(SerializationInfo info, StreamingContext context) : base(info, context){}
+		
+		protected ThreadedListViewItemPlaceHolder(SerializationInfo info, StreamingContext context) : base(info, context){}
 
 		/// <summary>
 		/// Gets the unique insertion point ticket.

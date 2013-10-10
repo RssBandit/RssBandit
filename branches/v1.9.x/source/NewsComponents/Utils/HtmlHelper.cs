@@ -242,9 +242,16 @@ namespace NewsComponents.Utils
 								if (sgmlReader.Name == "a")
 								{
 									href = sgmlReader.GetAttribute("href");
-									linkTitle = sgmlReader.GetAttribute("title");
-									linkText = sgmlReader.ReadInnerXml();
-									//var linkText = StripAnyTags(sgmlReader.ReadString());
+									if (!String.IsNullOrWhiteSpace(href))
+									{
+										href = href.ToLower();
+										// filter non-real relation urls:
+										if (href.StartsWith("mailto:") || href.StartsWith("javascript:"))
+											continue;
+
+										linkTitle = sgmlReader.GetAttribute("title");
+										linkText = sgmlReader.ReadInnerXml();
+									}
 								}
 							}
 						} 
