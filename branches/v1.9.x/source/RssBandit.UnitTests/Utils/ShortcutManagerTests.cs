@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using NUnit.Framework;
 
-namespace RssBandit.UnitTests
+namespace RssBandit.UnitTests.Utils
 {
 	/// <summary>
 	/// Series of unit tests of the ShortcutHandler class.
