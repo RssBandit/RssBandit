@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace RssBandit.UnitTests
+namespace RssBandit.UnitTests.Utils
 {
 	/// <summary>
 	/// Class used to manage Menu shortcuts and Keyboard Combination shortcuts 
