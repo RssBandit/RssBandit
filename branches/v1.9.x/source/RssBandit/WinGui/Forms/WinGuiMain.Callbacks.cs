@@ -2170,7 +2170,7 @@ namespace RssBandit.WinGui.Forms
             }
             else
             {
-                _trayAni.Visible = false;
+                _trayManager.IconVisible = false;
                 _uiTasksTimer.Stop();
 				owner.SaveFeedSources();
                 SaveConfiguration(true);
@@ -3926,7 +3926,7 @@ namespace RssBandit.WinGui.Forms
         }
 
         //called, if the user explicitly closed the balloon
-        private void OnTrayAniBalloonTimeoutClose(object sender, EventArgs e)
+        private void OnTrayBalloonTimeoutClose(object sender, EventArgs e)
         {
             //user isn't interested about the message this time
             _beSilentOnBalloonPopupCounter = 12; // 12 * 5 minutes (refresh timer) == 1 hour (minimum)

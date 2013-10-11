@@ -194,12 +194,12 @@ namespace RssBandit.WinGui.Forms
                 //remove an item from the jump list if we're at the max 
                 while (jlcRecentContents.Count >= jumpList.MaxSlotsInList)
                 {
-                    JumpListLink toRemove = new JumpListLink(Application.ExecutablePath, "Not Used")
-                    {
-                        Arguments = String.Concat("-n:", jlcRecentContents[0]) 
-                    };
+					//JumpListLink toRemove = new JumpListLink(Application.ExecutablePath, "Not Used")
+					//{
+					//	Arguments = String.Concat("-n:", jlcRecentContents[0]) 
+					//};
 
-                    jlcRecent.RemoveJumpListLink(toRemove);
+                    //jlcRecent.RemoveJumpListLink(toRemove);
                     jlcRecentContents.RemoveAt(0); 
                 }
 
@@ -1660,11 +1660,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeeds);
                     }
-                    else
-                    {
-                        // if invisible (tray only): animate
-                        SetGuiStateFeedback(message, ApplicationTrayState.NewUnreadFeedsReceived);
-                    }
+                    
                     if (owner.Preferences.ShowNewItemsReceivedBalloon &&
                         (SystemTrayOnlyVisible || WindowState == FormWindowState.Minimized))
                     {
@@ -1672,7 +1668,7 @@ namespace RssBandit.WinGui.Forms
                         {
                             message = String.Format(SR.GUIStatusNewFeedItemsReceivedMessage,
                                                     unreadFeeds, unreadMessages);
-                            _trayAni.ShowBalloon(NotifyIconAnimation.EBalloonIcon.Info, message,
+                            _trayManager.ShowBalloon(BalloonIcon.Info, message,
                                                  RssBanditApplication.CaptionOnly + " - " +
                                                  SR.GUIStatusNewFeedItemsReceived);
                         }

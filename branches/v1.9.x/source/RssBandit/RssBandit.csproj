@@ -500,7 +500,6 @@
     <Content Include="Media\webpage.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Resources\AniImages.png" />
     <None Include="Resources\download.enclosure.32.png" />
     <None Include="Resources\2003Right.png" />
     <None Include="Resources\feedsource_bandit_16.png" />
