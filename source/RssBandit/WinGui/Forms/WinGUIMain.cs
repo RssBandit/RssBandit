@@ -211,7 +211,6 @@ namespace RssBandit.WinGui.Forms
         private MenuItem _listContextMenuDownloadAttachmentsSeparator;
 
         private TrayStateManager _trayManager;
-        private NotifyIconAnimation _trayAni;
 
         // the GUI owner and Form controller
         private RssBanditApplication owner;
@@ -267,8 +266,8 @@ namespace RssBandit.WinGui.Forms
 		private UltraTree treeFeeds;
         private UltraDesktopAlert ultraDesktopAlert;
         private PictureBox pictureBox;
-        private ThumbnailToolbarButton buttonAdd;
-        private ThumbnailToolbarButton buttonRefresh;
+        private ThumbnailToolBarButton buttonAdd;
+        private ThumbnailToolBarButton buttonRefresh;
         private JumpList jumpList;
         private JumpListCustomCategory jlcRecent;
         private List<string> jlcRecentContents = new List<string>(); 
@@ -902,8 +901,25 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                if (disposing)
-                {
+	            if (disposing)
+	            {
+		            
+					if (_trayManager != null)
+						_trayManager.Dispose();
+		            _trayManager = null;
+
+		            if (buttonAdd != null)
+						buttonAdd.Dispose();
+		            buttonAdd = null;
+
+					if (buttonRefresh != null)
+						buttonRefresh.Dispose();
+		            buttonRefresh = null;
+
+					if (treeNodesTooltipHelper != null)
+						treeNodesTooltipHelper.Dispose();
+		            treeNodesTooltipHelper = null;
+
                     if (components != null)
                     {
                         components.Dispose();

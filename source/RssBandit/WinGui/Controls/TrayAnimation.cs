@@ -12,9 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Collections;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 using System.Runtime.InteropServices;
 
 namespace RssBandit.WinGui.Controls
@@ -45,33 +43,6 @@ namespace RssBandit.WinGui.Controls
 			_icon = icon;
 			_aniLoops = 0;
 			_aniList = null;
-		}
-
-		/// <summary>
-		/// Animation state initializer.
-		/// </summary>
-		/// <param name="stateId"></param>
-		/// <param name="stateTip"></param>
-		/// <param name="aniImages"></param>
-		/// <param name="aniLoops"></param>
-		public NotifyIconState(string stateId, string stateTip, ImageList aniImages, int aniLoops)
-		{
-			_stateId = stateId;
-			_stateTip = stateTip;
-			_icon = null;
-			_aniLoops = aniLoops;
-			_aniList = new Icon[aniImages.Images.Count];
-			for (int i = 0; i < aniImages.Images.Count; i++)
-				_aniList[i] = Icon.FromHandle(((Bitmap)aniImages.Images[i]).GetHicon());
-		}
-
-		public NotifyIconState(string stateId, string stateTip, Icon[] aniImages, int aniLoops)
-		{
-			_stateId = stateId;
-			_stateTip = stateTip;
-			_icon = null;
-			_aniLoops = aniLoops;
-			_aniList = aniImages;
 		}
 
 		internal bool IsAnimation { get { return (_aniList != null && _aniList.GetLength(0) > 0); } }
@@ -256,7 +227,7 @@ namespace RssBandit.WinGui.Controls
 
 		#endregion
 
-		public enum EBalloonIcon
+		internal enum EBalloonIcon
 		{
 			None = 0x0,			// NIIF_NONE
 			Error = 0x3,		// NIIF_ERROR
@@ -491,13 +462,6 @@ namespace RssBandit.WinGui.Controls
 		private Hashtable _iconStates;
 		private NotifyIconState _currentState;
 
-		// animation timer
-		private System.Timers.Timer _aniStepTimer;
-		// animation step counter (single icon)
-		private int _aniStep;
-		// animation loop counter (ani loops)
-		private int _aniLoopStep;
-
 		// Track whether Dispose has been called.
 		private bool _disposed;
 
@@ -551,7 +515,6 @@ namespace RssBandit.WinGui.Controls
 			_NID.uID = 1;
 
 			_iconStates = new Hashtable();
-			InitAniTimer();
 			InitEventHandler();
 		}
 
@@ -564,15 +527,6 @@ namespace RssBandit.WinGui.Controls
 		private bool CallShellNotify(int dwMessage)
 		{
 			return NativeMethods.Shell_NotifyIcon(dwMessage, ref _NID);
-		}
-
-		private void InitAniTimer()
-		{
-			_aniStepTimer = new System.Timers.Timer();
-			_aniStepTimer.BeginInit();
-			_aniStepTimer.Interval = 100;	// for smooth animations, play here
-			_aniStepTimer.Elapsed += this.AnimationElapsed;
-			_aniStepTimer.EndInit();
 		}
 
 		private void InitEventHandler()
@@ -602,8 +556,6 @@ namespace RssBandit.WinGui.Controls
 				{
 
 					// Dispose managed resources.
-					_aniStepTimer.Stop();
-					_aniStepTimer.Dispose();
 					Visible = false;
 					_iconStates.Clear();
 
@@ -708,7 +660,7 @@ namespace RssBandit.WinGui.Controls
 		/// <param name="icon">Balloon window icon</param>
 		/// <param name="text">Text to display</param>
 		/// <param name="title">Title to display</param>
-		public void ShowBalloon(EBalloonIcon icon, string text, string title)
+		internal void ShowBalloon(EBalloonIcon icon, string text, string title)
 		{
 			this.ShowBalloon(icon, text, title, 15000);
 		}
@@ -719,7 +671,7 @@ namespace RssBandit.WinGui.Controls
 		/// <param name="text">Text to display</param>
 		/// <param name="title">Title to display</param>
 		/// <param name="timeout">Time in msecs that the balloon window should be displayed</param>
-		public void ShowBalloon(EBalloonIcon icon, string text, string title, int timeout)
+		internal void ShowBalloon(EBalloonIcon icon, string text, string title, int timeout)
 		{
 			int _old = _NID.uFlags;
 
@@ -766,13 +718,6 @@ namespace RssBandit.WinGui.Controls
 		/// <returns></returns>
 		public NotifyIconState SetState(string stateKey)
 		{
-			if (_currentState.IsAnimation)
-			{
-				_aniStepTimer.Stop();
-				_aniStep = 0;
-				_aniLoopStep = 0;
-			}
-
 			// set the new state
 			if (_iconStates.ContainsKey(stateKey))
 				_currentState = (NotifyIconState)_iconStates[stateKey];
@@ -783,53 +728,8 @@ namespace RssBandit.WinGui.Controls
 			if (_currentState.IsIcon) SetIcon();
 
 			SetText();
-
-			// if it is a animation, start it
-			if (_currentState.IsAnimation)
-			{	// do not make the UI unresponding anymore:
-				Task.Factory.StartNew(this.AnimationThreadRun, null);
-				//ThreadPool.QueueUserWorkItem(this.AnimationThreadRun);
-			}
+			
 			return _currentState;
-		}
-
-		private void AnimationThreadRun(object state)
-		{
-			_aniStepTimer.Start();
-			if (!_aniStepTimer.Enabled) _aniStepTimer.Enabled = true;
-			while (_aniStepTimer.Enabled)
-			{
-				Application.DoEvents();
-				Thread.Sleep(15);
-			}
-		}
-
-		private void AnimationElapsed(object sender, System.Timers.ElapsedEventArgs e)
-		{
-			Application.DoEvents();
-
-			if (_currentState.AniLoops != -1)
-			{	// not endless
-				if (_aniLoopStep >= _currentState.AniLoops)
-				{
-					_aniStepTimer.Enabled = false;
-					Application.DoEvents();
-					OnAnimationFinished(_currentState);
-				}
-			}
-
-			if (!_currentState.IsAnimation)
-				return;
-
-			if (_aniStep >= _currentState.IconCount())
-			{	// one round trip
-				_aniStep = 0;
-				_aniLoopStep++;
-			}
-			SetIcon(_currentState.IconAt(_aniStep));
-			_aniStep++;
-
-			Application.DoEvents();
 		}
 
 		protected virtual void OnClickDownCast(object o, MouseEventArgs e) { if (Click != null) Click(this, e); }

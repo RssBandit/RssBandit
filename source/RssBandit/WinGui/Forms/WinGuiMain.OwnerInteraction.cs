@@ -1188,7 +1188,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     TaskbarManager.Instance.SetProgressState(ConvertAppTrayStateToTaskBarState(state));
 
-                    if (state == ApplicationTrayState.NewUnreadFeeds || state == ApplicationTrayState.NewUnreadFeedsReceived)
+                    if (state == ApplicationTrayState.NewUnreadFeeds)
                     {
                         TaskbarManager.Instance.SetOverlayIcon(this.Handle, Properties.Resources.envelope_icon, String.Empty);
                     }

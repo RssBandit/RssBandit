@@ -10,6 +10,7 @@ using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
+using NewsComponents.Resources;
 using NewsComponents.Utils;
 using RssBandit.Filter;
 using RssBandit.Resources;
@@ -108,15 +109,15 @@ namespace RssBandit.WinGui.Forms
             //
             //thumbnail toolbar button setup
             //
-            buttonAdd = new ThumbnailToolbarButton(Properties.Resources.Add, SR.ThumbnailButtonAdd);
+            buttonAdd = new ThumbnailToolBarButton(Properties.Resources.Add, SR.ThumbnailButtonAdd);
             buttonAdd.Enabled = true;
             buttonAdd.Click += OnTaskBarButtonAddClicked;
 
-            buttonRefresh = new ThumbnailToolbarButton(Properties.Resources.RssFeedRefresh, SR.ThumbnailButtonRefresh);
+            buttonRefresh = new ThumbnailToolBarButton(Properties.Resources.RssFeedRefresh, SR.ThumbnailButtonRefresh);
             buttonRefresh.Enabled = true;
             buttonRefresh.Click += OnTaskBarButtonRefreshClick;
 
-            TaskbarManager.Instance.ThumbnailToolbars.AddButtons(this.Handle, buttonAdd, buttonRefresh);            
+            TaskbarManager.Instance.ThumbnailToolBars.AddButtons(this.Handle, buttonAdd, buttonRefresh);            
         }
 
         #endregion 
@@ -1566,17 +1567,11 @@ namespace RssBandit.WinGui.Forms
 
         private void InitTrayIcon()
         {
-            if (components == null)
-                components = new Container();
-            _trayAni = new NotifyIconAnimation(components);
-            _trayAni.Click += OnTrayIconClick;
-            _trayAni.BalloonClick += OnTrayIconClick;
-            _trayAni.BalloonTimeout += OnTrayAniBalloonTimeoutClose;
-            _trayAni.ContextMenu = _notifyContextMenu;
-
-            //_trayManager = new TrayStateManager(_trayAni, imageTrayAnimation);
-            _trayManager = new TrayStateManager(_trayAni);
-            _trayManager.SetState(ApplicationTrayState.NormalIdle);
+            _trayManager = new TrayStateManager(components);
+			_trayManager.TrayIconClicked += OnTrayIconClick;
+			_trayManager.TrayBalloonClickClicked += OnTrayIconClick;
+			_trayManager.TrayBalloonTimeout += OnTrayBalloonTimeoutClose;
+			_trayManager.IconContextMenu = _notifyContextMenu;
         }
 
         #endregion

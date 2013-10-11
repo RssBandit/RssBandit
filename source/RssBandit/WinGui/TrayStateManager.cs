@@ -7,8 +7,11 @@
  */
 #endregion
 
+using System;
+using System.ComponentModel;
 using System.Drawing;
-
+using System.Windows.Forms;
+using JetBrains.Annotations;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 
@@ -24,18 +27,44 @@ namespace RssBandit.WinGui
 		NewUnreadFeedsReceived,
 		NewUnreadFeeds
 	}
+
+	public enum BalloonIcon
+	{
+		None = 0x0,			// NIIF_NONE
+		Error = 0x3,		// NIIF_ERROR
+		Info = 0x1,			// NIIF_INFO
+		Warning = 0x2		// NIIF_WARNING
+	}
+
 	/// <summary>
 	/// TrayStateManager class manages the application
 	/// states to be visualized within the system tray icon.
 	/// </summary>
-	public class TrayStateManager
+	public sealed class TrayStateManager: IDisposable
 	{
+
+		public event EventHandler<EventArgs> TrayIconClicked;
+		public event EventHandler<EventArgs> TrayBalloonClickClicked;
+		public event EventHandler<EventArgs> TrayBalloonTimeout;
+
 		private ApplicationTrayState _currentState;
-		private readonly NotifyIconAnimation _notifyIcon;
+		private NotifyIconAnimation _notifyIcon;
 
 		private TrayStateManager()
 		{
 			_currentState = ApplicationTrayState.NormalIdle;
+		}
+
+		public TrayStateManager([NotNull] IContainer components) :
+			this()
+		{
+			components.ExceptionIfNull("components");
+
+			_notifyIcon = new NotifyIconAnimation(components);
+
+			_notifyIcon.Click += OnTrayIconClick;
+			_notifyIcon.BalloonClick += OnTrayBalloonClick;
+			_notifyIcon.BalloonTimeout += OnTrayBalloonTimeoutClose;
 		}
 
 		public TrayStateManager(NotifyIconAnimation notifyIconAnimation) :
@@ -46,13 +75,6 @@ namespace RssBandit.WinGui
 			_notifyIcon.AddState(
 				new NotifyIconState(ApplicationTrayState.NormalIdle.ToString(),
 					SR.GUIStatusIdle, Properties.Resources.AppTray)
-			);
-
-
-			_notifyIcon.AddState(
-				new NotifyIconState(ApplicationTrayState.NewUnreadFeedsReceived.ToString(),
-					SR.GUIStatusNewFeedItemsReceived,
-					Resource.LoadBitmapStrip("Resources.AniImages.png", new Size(16, 16) /*, new Point(0,0) */), 2)
 				);
 
 			_notifyIcon.AddState(
@@ -65,7 +87,6 @@ namespace RssBandit.WinGui
 					SR.GUIStatusUnreadFeedItemsAvailable, Properties.Resources.UnreadFeedItems)
 				);
 
-			_notifyIcon.AnimationFinished += this.OnAnimationFinished;
 			_notifyIcon.Visible = true;
 
 		}
@@ -85,16 +106,87 @@ namespace RssBandit.WinGui
 		}
 
 		/// <summary>
-		/// Called from the NotifyIconAnimation if a animation is done (non-endless).
-		/// This we use to switch to the next visual app state.
+		/// Overloaded. Display a balloon window on top of the tray icon.
 		/// </summary>
-		/// <param name="sender">My NotifyIconAnimation</param>
-		/// <param name="animation">The current NotifyIconState of type Animation.</param>
-		private void OnAnimationFinished(object sender, NotifyIconState animation)
+		/// <param name="icon">Balloon window icon</param>
+		/// <param name="text">Text to display</param>
+		/// <param name="title">Title to display</param>
+		public void ShowBalloon(BalloonIcon icon, string text, string title)
 		{
-			if (animation.Key.Equals(ApplicationTrayState.NewUnreadFeedsReceived.ToString()))
-				this.SetState(ApplicationTrayState.NewUnreadFeeds);
+			ShowBalloon(icon, text, title, 15000);
 		}
 
+		/// <summary>
+		/// Overloaded. Display a balloon window on top of the tray icon.
+		/// </summary>
+		/// <param name="icon">Balloon window icon</param>
+		/// <param name="text">Text to display</param>
+		/// <param name="title">Title to display</param>
+		/// <param name="timeout">Time in msecs that the balloon window should be displayed</param>
+		public void ShowBalloon(BalloonIcon icon, string text, string title, int timeout)
+		{
+			_notifyIcon.ShowBalloon((NotifyIconAnimation.EBalloonIcon)icon, text, title, timeout);
+		}
+
+	public ContextMenu IconContextMenu
+		{
+			get { return _notifyIcon.ContextMenu; }
+			set { _notifyIcon.ContextMenu = value; }
+		}
+
+		public bool IconVisible
+		{
+			get { return _notifyIcon.Visible; }
+			set { _notifyIcon.Visible = value; }
+		}
+
+
+		#region private 
+		
+		private void OnTrayIconClick(object sender, EventArgs e)
+		{
+			var handler = TrayIconClicked;
+			if (handler != null)
+			{
+				handler(this, EventArgs.Empty);
+			}
+		}
+
+		private void OnTrayBalloonClick(object sender, EventArgs e)
+		{
+			var handler = TrayBalloonClickClicked;
+			if (handler != null)
+			{
+				handler(this, EventArgs.Empty);
+			}
+		}
+
+		private void OnTrayBalloonTimeoutClose(object sender, EventArgs e)
+		{
+			var handler = TrayBalloonTimeout;
+			if (handler != null)
+			{
+				handler(this, EventArgs.Empty);
+			}
+		}
+
+		#endregion
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (_notifyIcon != null)
+					_notifyIcon.Dispose();
+
+				_notifyIcon = null;
+			}
+		}
 	}
 }
