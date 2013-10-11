@@ -685,7 +685,7 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlAnyElement]
-        public virtual XmlElement[] Any { get; set; }
+        public XmlElement[] Any { get; set; }
 
 
         /// <remarks/>
@@ -750,7 +750,7 @@ namespace NewsComponents.Feed
 
         /// <remarks/>
         [XmlAnyAttribute]
-        public virtual XmlAttribute[] AnyAttr { get; set; }
+        public XmlAttribute[] AnyAttr { get; set; }
 
         /// <remarks>True, if the feed caused an exception on request to prevent sequenced
         /// error reports on every automatic download</remarks>

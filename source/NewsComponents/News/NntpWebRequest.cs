@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
 using NewsComponents.Resources;
 using Org.Mime4Net.Mime.Message;
@@ -24,8 +25,9 @@ namespace NewsComponents.News {
 	/// Provides an NNTP-specific implementation of the WebRequest class. This class is 
 	/// NOT thread safe. 
 	/// </summary>
-	[ComVisible(false)]
-	public class NntpWebRequest: WebRequest, IWebRequestCreate, IDisposable{
+	[Serializable, ComVisible(false)]
+	public class NntpWebRequest: WebRequest, IWebRequestCreate, IDisposable
+	{
 
 		#region public consts
 		
@@ -112,14 +114,20 @@ namespace NewsComponents.News {
 		private NntpWebRequest(){;}
 
 
-	/// <summary>
-	/// Creates an NntpWebRequest with the specified request URI
-	/// </summary>
-	/// <param name="requestUri">The request URI</param>
-		public NntpWebRequest(Uri requestUri){
-			this.requestUri = requestUri; 
+		/// <summary>
+		/// Creates an NntpWebRequest with the specified request URI
+		/// </summary>
+		/// <param name="requestUri">The request URI</param>
+		public NntpWebRequest(Uri requestUri)
+		{
+			this.requestUri = requestUri;
 		}
 
+		protected NntpWebRequest(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			
+		}
+		
 		#endregion		
 
 		#region delegates 
@@ -289,12 +297,18 @@ namespace NewsComponents.News {
 
 		#region private methods 
 
+		protected override void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext)
+		{
+			base.GetObjectData(serializationInfo, streamingContext);
+			// just for CA
+		}
+
 		/// <summary>
 		/// Connects to the server and returns the connected NntpClient
 		/// </summary>
 		/// <returns>the connected NntpClient</returns>
-		private NntpClient Connect(){
-		
+		private NntpClient Connect()
+		{
 			NntpClient client = new NntpClient(requestUri.Host, requestUri.Port);		
 			
 			
@@ -331,16 +345,27 @@ namespace NewsComponents.News {
 
 		#region public methods 
 
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				try
+				{
+					if (requestStream != null)
+						requestStream.Dispose();
+				}
+				catch (Exception) { }
 
+				requestStream = null; 
+			}
+		}
 		/// <summary>
 		/// Close memory stream and open connections
 		/// </summary>
-		public void Dispose(){
-			try{
-				requestStream.Close(); 
-			}catch(Exception){}
-			
-			requestStream = null; 
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>
@@ -505,47 +530,41 @@ namespace NewsComponents.News {
 			//The stream is not closed on purpose in this method
 			StreamWriter sw; 
 
-			using(NntpClient client = this.Connect()){
-
-				if(!asyncRequest){
+			using(NntpClient client = this.Connect())
+			{
+				if(!asyncRequest)
+				{
 					client.Timeout = this.Timeout; 
 				}
 
-				try{ 
+				switch (this.method)
+				{
 
-					switch(this.method){
-					
-						case "POST":
-							requestStream.Position = 0; 						
-							client.Post(new UTF8Encoding().GetString(this.requestStream.ToArray())); 						
-							response = new NntpWebResponse(NntpStatusCode.OK, RequestUri);
-							break;
-					
-						case "LIST":
-							newsgroupListStream = new MemoryStream();
-							sw  = new StreamWriter(newsgroupListStream); 
-							client.Groups(sw); 
-							sw.Flush();
-							newsgroupListStream.Position = 0;
-                            response = new NntpWebResponse(NntpStatusCode.OK, newsgroupListStream, RequestUri);
-							break;
-					
-						case "NEWNEWS":
-							client.SelectGroup(requestUri.PathAndQuery.Substring(1)); 
-							IList<MimeMessage> msgs = client.GetNntpMessages(ifModifiedSince, downloadCount);
-                            response = new NntpWebResponse(NntpStatusCode.OK, Stream.Null, RequestUri);
-					        response.Articles = msgs;
-							break;
+					case "POST":
+						requestStream.Position = 0;
+						client.Post(new UTF8Encoding().GetString(this.requestStream.ToArray()));
+						response = new NntpWebResponse(NntpStatusCode.OK, RequestUri);
+						break;
 
-						default: 
-							throw new NotSupportedException(method); 
-					}
-				
-				}catch(Exception){
-					client.Dispose(); 
-					throw;
+					case "LIST":
+						newsgroupListStream = new MemoryStream();
+						sw = new StreamWriter(newsgroupListStream);
+						client.Groups(sw);
+						sw.Flush();
+						newsgroupListStream.Position = 0;
+						response = new NntpWebResponse(NntpStatusCode.OK, newsgroupListStream, RequestUri);
+						break;
+
+					case "NEWNEWS":
+						client.SelectGroup(requestUri.PathAndQuery.Substring(1));
+						IList<MimeMessage> msgs = client.GetNntpMessages(ifModifiedSince, downloadCount);
+						response = new NntpWebResponse(NntpStatusCode.OK, Stream.Null, RequestUri);
+						response.Articles = msgs;
+						break;
+
+					default:
+						throw new NotSupportedException(method);
 				}
-			
 			}
 			
 			return response;

@@ -15,7 +15,7 @@ namespace NewsComponents.Utils
     /// <summary>
     /// Wraps the API functions, structures and constants.
     /// </summary>
-    internal static class Kernel32
+    internal static class NativeMethods
     {
         public const char STREAM_SEP = ':';
         public const int INVALID_HANDLE_VALUE = -1;
@@ -78,9 +78,9 @@ namespace NewsComponents.Utils
             public int dwStreamNameSize;
         }
 
-		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern SafeFileHandle CreateFile(
-			[MarshalAs(UnmanagedType.LPTStr)] string filename, 
+			string filename, 
 			[MarshalAs(UnmanagedType.U4)] FileAccessAPI access, 
 			[MarshalAs(UnmanagedType.U4)] FileShare share,
 			IntPtr securityAttributes,						// optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
@@ -89,7 +89,7 @@ namespace NewsComponents.Utils
 			IntPtr templateFile);
 
 		[DllImport("kernel32", CharSet = CharSet.Unicode)]
-        public static extern bool DeleteFile(string Name);
+        public static extern bool DeleteFile(string name);
 
 
         [DllImport("kernel32")]
@@ -151,7 +151,7 @@ namespace NewsComponents.Utils
 		/// </returns>
         public override string ToString()
         {
-            return String.Format("{1}{0}{2}{0}$DATA", Kernel32.STREAM_SEP, _parent.FileName, _name);
+            return String.Format("{1}{0}{2}{0}$DATA", NativeMethods.STREAM_SEP, _parent.FileName, _name);
         }
 
 		/// <summary>
@@ -223,7 +223,7 @@ namespace NewsComponents.Utils
         {
             try
             {
-				SafeFileHandle hFile = Kernel32.CreateFile(ToString(), Kernel32.Access2API(Access), Share, IntPtr.Zero, Mode, 0, IntPtr.Zero);
+				SafeFileHandle hFile = NativeMethods.CreateFile(ToString(), NativeMethods.Access2API(Access), Share, IntPtr.Zero, Mode, 0, IntPtr.Zero);
                 return new FileStream(hFile, Access);
             }
             catch
@@ -242,7 +242,7 @@ namespace NewsComponents.Utils
         /// <returns>A <see cref="System.Boolean"/> value: true if the stream was deleted, false if there was an error.</returns>
         public bool Delete()
         {
-            return Kernel32.DeleteFile(ToString());
+            return NativeMethods.DeleteFile(ToString());
         }
 
         #endregion
@@ -308,12 +308,12 @@ namespace NewsComponents.Utils
         {
             //Open the file with backup semantics
             using (SafeFileHandle hFile =
-                Kernel32.CreateFile(_file.FullName, Kernel32.FileAccessAPI.GENERIC_READ, FileShare.Read, IntPtr.Zero,
-									FileMode.Open, Kernel32.FileFlags.BackupSemantics, IntPtr.Zero))
+                NativeMethods.CreateFile(_file.FullName, NativeMethods.FileAccessAPI.GENERIC_READ, FileShare.Read, IntPtr.Zero,
+									FileMode.Open, NativeMethods.FileFlags.BackupSemantics, IntPtr.Zero))
             {
                 if (hFile.IsInvalid) return;
 
-                Kernel32.WIN32_STREAM_ID sid = new Kernel32.WIN32_STREAM_ID();
+                NativeMethods.WIN32_STREAM_ID sid = new NativeMethods.WIN32_STREAM_ID();
                 uint dwStreamHeaderSize = (uint)Marshal.SizeOf(sid);
                 IntPtr Context = IntPtr.Zero;
                 bool Continue = true;
@@ -322,7 +322,7 @@ namespace NewsComponents.Utils
                     //Read the next stream header
                     uint lRead = 0;
                     Continue =
-                        Kernel32.BackupRead(hFile, ref sid, dwStreamHeaderSize, ref lRead, false, false, ref Context);
+                        NativeMethods.BackupRead(hFile, ref sid, dwStreamHeaderSize, ref lRead, false, false, ref Context);
                     if (Continue && lRead == dwStreamHeaderSize)
                     {
                         if (sid.dwStreamNameSize > 0)
@@ -332,14 +332,14 @@ namespace NewsComponents.Utils
                             IntPtr pName = Marshal.AllocHGlobal(sid.dwStreamNameSize);
                             try
                             {
-                                Kernel32.BackupRead(hFile, pName, (uint)sid.dwStreamNameSize, ref lRead, false, false,
+                                NativeMethods.BackupRead(hFile, pName, (uint)sid.dwStreamNameSize, ref lRead, false, false,
                                                     ref Context);
                                 char[] bName = new char[sid.dwStreamNameSize];
                                 Marshal.Copy(pName, bName, 0, sid.dwStreamNameSize);
 
                                 //Name is of the format ":NAME:$DATA\0"
                                 string sName = new string(bName);
-                                int i = sName.IndexOf(Kernel32.STREAM_SEP, 1);
+                                int i = sName.IndexOf(NativeMethods.STREAM_SEP, 1);
                                 if (i > -1) sName = sName.Substring(1, i - 1);
                                 else
                                 {
@@ -362,7 +362,7 @@ namespace NewsComponents.Utils
                         uint l = 0;
                         uint h = 0;
                         Continue =
-							Kernel32.BackupSeek(hFile, GetLowWord(sid.Size), GetHighWord(sid.Size), ref l, ref h, ref Context);
+							NativeMethods.BackupSeek(hFile, GetLowWord(sid.Size), GetHighWord(sid.Size), ref l, ref h, ref Context);
                     }
                     else break;
                 }
