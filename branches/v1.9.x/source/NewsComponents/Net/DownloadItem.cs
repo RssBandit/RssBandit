@@ -22,7 +22,7 @@ namespace NewsComponents.Net
     /// a downloadable item.
     /// </summary>
     [Serializable]
-    public class DownloadItem : ISerializable
+    public sealed class DownloadItem : ISerializable
     {
         #region Private fields
 
@@ -177,7 +177,7 @@ namespace NewsComponents.Net
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        protected DownloadItem(SerializationInfo info, StreamingContext context)
+        private DownloadItem(SerializationInfo info, StreamingContext context)
         {
             downloadItemId = (Guid) info.GetValue("_id", typeof (Guid));
             ownerItemId = info.GetString("_itemId");
@@ -194,7 +194,7 @@ namespace NewsComponents.Net
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_id", downloadItemId);
             info.AddValue("_itemId", OwnerItemId);

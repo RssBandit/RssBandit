@@ -29,7 +29,6 @@ namespace NewsComponents.Net
     /// are submitted to download, to their final state when they are successfully downloaded
     /// or cancelled.
     /// </summary>
-    [Serializable]
     public sealed class DownloadRegistryManager
     {
         #region Private fields
@@ -299,7 +298,7 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="taskFilePath">The base path for the registry storage.</param>
         /// <returns>An DownloadTask instance.</returns>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times"), SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         private DownloadTask LoadTask(string taskFilePath)
         {
             DownloadTask task = null;
@@ -326,8 +325,10 @@ namespace NewsComponents.Net
                         }
                         else
                         {
-                            stream.Close();
-                            string fileName = Path.Combine(RootDir.FullName, task.TaskId + ".task");
+							string fileName = Path.Combine(RootDir.FullName, task.TaskId + ".task");
+							// it might be currrently opened:
+							if (String.Equals(taskFilePath, fileName,StringComparison.OrdinalIgnoreCase))
+								stream.Close();
                             FileHelper.DestroyFile(fileName);
                         }
                     }

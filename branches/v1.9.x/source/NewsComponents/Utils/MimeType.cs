@@ -155,7 +155,7 @@ namespace NewsComponents.Utils
                 // see also: http://msdn.microsoft.com/library/default.asp?url=/workshop/networking/moniker/reference/functions/findmimefromdata.asp
                 // and: http://msdn.microsoft.com/library/default.asp?url=/workshop/networking/moniker/overview/appendix_a.asp
                 IntPtr filePtr = Marshal.StringToCoTaskMemUni(fileUri);
-                ret = FindMimeFromData(IntPtr.Zero, filePtr, null, 0, suggestPtr, 0, out outPtr, 0);
+                ret = NativeMethods.FindMimeFromData(IntPtr.Zero, filePtr, null, 0, suggestPtr, 0, out outPtr, 0);
             }
             catch
             {
@@ -286,7 +286,7 @@ namespace NewsComponents.Utils
             IntPtr suggestPtr = IntPtr.Zero, outPtr;
 
             int ret =
-                FindMimeFromData(IntPtr.Zero, IntPtr.Zero, dataBytes, dataBytes.Length, suggestPtr, 0, out outPtr, 0);
+				NativeMethods.FindMimeFromData(IntPtr.Zero, IntPtr.Zero, dataBytes, dataBytes.Length, suggestPtr, 0, out outPtr, 0);
 
             if (ret == 0 && outPtr != IntPtr.Zero)
             {
@@ -751,40 +751,43 @@ namespace NewsComponents.Utils
 
         #region Interop
 
-        /// <summary>
-        /// Determines the Multipurpose Internet Mail Extensions (MIME) type 
-        /// from the data provided.
-        /// </summary>
-        /// <param name="pBC">Pointer to the bind context. This can be set to NULL. </param>
-        /// <param name="pwzUrl">Pointer to a string value that contains the URL of the data. 
-        /// This can be set to NULL if pBuffer contains the data to be sniffed.</param>
-        /// <param name="pBuffer">Pointer to the buffer containing the data to be sniffed. 
-        /// This can be set to NULL if pwzUrl contains a valid URL. </param>
-        /// <param name="cbSize">Unsigned long integer value that contains the size of the buffer</param>
-        /// <param name="pwzMimeProposed">Pointer to a string value containing the proposed MIME type. 
-        /// This can be set to NULL.</param>
-        /// <param name="dwMimeFlags">Reserved. Must be set to 0.</param>
-        /// <param name="ppwzMimeOut">Address of a string value containing the suggested MIME type.</param>
-        /// <param name="dwReserved">Reserved. Must be set to 0.</param>
-        /// <returns>
-        /// Returns one of the following values.
-        ///   * E_INVALIDARG One or more of the arguments passed to the function were invalid. 
-        ///   * E_OUTOFMEMORY The function could not allocate enough memory to complete 
-        ///   the call. 
-        ///   * NOERROR The call was completed successfully. 
-        /// </returns>
-        [DllImport("urlmon.dll", CharSet=CharSet.Auto)]
-        private static extern int FindMimeFromData(
-            IntPtr pBC,
-            IntPtr pwzUrl,
-            byte[] pBuffer,
-            int cbSize,
-            IntPtr pwzMimeProposed,
-            int dwMimeFlags,
-            out IntPtr ppwzMimeOut,
-            int dwReserved);
+	    private static class NativeMethods
+	    {
+		    /// <summary>
+		    /// Determines the Multipurpose Internet Mail Extensions (MIME) type 
+		    /// from the data provided.
+		    /// </summary>
+		    /// <param name="pBC">Pointer to the bind context. This can be set to NULL. </param>
+		    /// <param name="pwzUrl">Pointer to a string value that contains the URL of the data. 
+		    /// This can be set to NULL if pBuffer contains the data to be sniffed.</param>
+		    /// <param name="pBuffer">Pointer to the buffer containing the data to be sniffed. 
+		    /// This can be set to NULL if pwzUrl contains a valid URL. </param>
+		    /// <param name="cbSize">Unsigned long integer value that contains the size of the buffer</param>
+		    /// <param name="pwzMimeProposed">Pointer to a string value containing the proposed MIME type. 
+		    /// This can be set to NULL.</param>
+		    /// <param name="dwMimeFlags">Reserved. Must be set to 0.</param>
+		    /// <param name="ppwzMimeOut">Address of a string value containing the suggested MIME type.</param>
+		    /// <param name="dwReserved">Reserved. Must be set to 0.</param>
+		    /// <returns>
+		    /// Returns one of the following values.
+		    ///   * E_INVALIDARG One or more of the arguments passed to the function were invalid. 
+		    ///   * E_OUTOFMEMORY The function could not allocate enough memory to complete 
+		    ///   the call. 
+		    ///   * NOERROR The call was completed successfully. 
+		    /// </returns>
+		    [DllImport("urlmon.dll", CharSet = CharSet.Auto)]
+		    internal static extern int FindMimeFromData(
+			    IntPtr pBC,
+			    IntPtr pwzUrl,
+			    byte[] pBuffer,
+			    int cbSize,
+			    IntPtr pwzMimeProposed,
+			    int dwMimeFlags,
+			    out IntPtr ppwzMimeOut,
+			    int dwReserved);
+	    }
 
-        #endregion
+	    #endregion
 
         #endregion
 

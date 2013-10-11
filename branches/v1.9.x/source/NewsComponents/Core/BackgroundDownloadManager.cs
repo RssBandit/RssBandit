@@ -746,12 +746,13 @@ namespace NewsComponents
 		            }
 
 		            FS.Add("Zone.Identifier");
-		            FileStream fs = FS["Zone.Identifier"].Open(FileMode.OpenOrCreate, FileAccess.Write);
-		            var writer = new StreamWriter(fs);
-		            writer.WriteLine("[ZoneTransfer]");
-		            writer.WriteLine("ZoneId=3");
-		            writer.Close();
-		            fs.Close();
+		            using (FileStream fs = FS["Zone.Identifier"].Open(FileMode.OpenOrCreate, FileAccess.Write))
+		            {
+			            var writer = new StreamWriter(fs);
+			            writer.WriteLine("[ZoneTransfer]");
+			            writer.WriteLine("ZoneId=3");
+			            writer.Flush();
+		            }
 	            }
 	            catch (Exception ex)
 	            {

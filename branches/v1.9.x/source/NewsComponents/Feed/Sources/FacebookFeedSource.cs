@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using NewsComponents;
+using System.Xml.Xsl;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -19,10 +18,7 @@ using log4net;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 
-using NewsComponents.Collections;
 using NewsComponents.Net;
-using NewsComponents.Threading;
-using NewsComponents.Utils;
 using NewsComponents.Resources;
 
 namespace NewsComponents.Feed
@@ -133,6 +129,21 @@ namespace NewsComponents.Feed
         /// </summary>
         private static DateTime unixEpoch = new DateTime(1970, 1, 1);
 
+		/// <summary>
+		/// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
+		/// </summary>
+		private static readonly XsltArgumentList fbTransformArgs = new XsltArgumentList();
+
+		/// <summary>
+		/// Used for transforming Facebook's news feed to an Atom feed
+		/// </summary>
+		private static XslCompiledTransform fbTransform;
+
+		/// <summary>
+		/// Used a synchronization point when initializing variables related to transforming Facebook news feed XML to Atom
+		/// </summary>
+		private static Object FbTransformSyncRoot = new Object(); 
+		
         // logging/tracing:
         private static readonly ILog _log = Log.GetLogger(typeof(GoogleReaderFeedSource));
 
@@ -373,8 +384,7 @@ namespace NewsComponents.Feed
 
         #endregion 
 
-
-        #region public methods
+		#region public methods
 
         /// <summary>
         /// Loads the feedlist from the FeedLocation. 
@@ -424,12 +434,12 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Sets the current application auth token to be used for Facebook API requests. 
         /// </summary>
-        ///<param name="item">The Facebook API auth token</param>   
-        public void SetAuthToken(string authToken)
+		///<param name="token">The Facebook API auth token</param>   
+        public void SetAuthToken(string token)
         {
-            if (!string.IsNullOrEmpty(authToken))
+			if (!string.IsNullOrEmpty(token))
             {
-                this.authToken = authToken;
+				this.authToken = token;
             }
         }
 
@@ -714,7 +724,50 @@ namespace NewsComponents.Feed
 
         #endregion 
 
-    }
+		#region protected overrides
+
+	    protected override Stream BeforeParseResponseStream(Uri requestedUri, Stream responseStream)
+	    {
+			if (requestedUri.AbsoluteUri.StartsWith(FacebookApiUrl))
+		    {
+			    lock (FbTransformSyncRoot)
+			    {
+				    if (fbTransform == null)
+				    {
+					    string facebookTmpl = null;
+
+					    using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
+					    {
+						    facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
+					    }
+
+					    fbTransform = new XslCompiledTransform();
+					    XsltSettings settings = new XsltSettings();
+					    settings.EnableScript = true;
+					    fbTransform.Load(XmlReader.Create(new StringReader(facebookTmpl)), settings, null);
+
+					    fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookApiUrl);
+					    fbTransformArgs.AddParam("FeedTitle", String.Empty, ComponentsText.FacebookNewsFeedTitle);
+					    fbTransformArgs.AddParam("UserID", String.Empty, this.location.Credentials.UserName);
+				    }
+			    }
+
+			    //convert from Facebook's XML format to Atom
+
+			    MemoryStream stream = new MemoryStream();
+			    XmlWriter writer = XmlWriter.Create(stream, fbTransform.OutputSettings);
+
+			    fbTransform.Transform(XmlReader.Create(responseStream), writer);
+			    responseStream.Close();
+			    stream.Seek(0, SeekOrigin.Begin);
+			    return stream;
+		    }
+		    
+			return base.BeforeParseResponseStream(requestedUri, responseStream);
+	    }
+
+	    #endregion
+	}
 
     #endregion
 

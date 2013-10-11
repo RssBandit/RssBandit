@@ -35,7 +35,7 @@ namespace NewsComponents.News {
 	/// <summary>
 	/// Provides an NNTP-specific implementation of the WebRequest class.
 	/// </summary>
-	[ComVisible(false)]
+	[Serializable, ComVisible(false)]
     public class NntpWebResponse : WebResponse, IDisposable
     {
 
@@ -176,24 +176,36 @@ namespace NewsComponents.News {
 
 		#region public methods 
 
-		///<summary>
-		/// Close memory stream and open connections
-		/// </summary>
-		public void Dispose(){
-			try{
-                if (responseStream != null)
-				    responseStream.Close(); 
-			}catch(Exception){}
-			
-			responseStream = null; 
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				try
+				{
+					if (responseStream != null)
+						responseStream.Dispose();
+				}
+				catch (Exception) { }
+
+				responseStream = null;
+			}
 		}
 
+		/// <summary>
+		/// Close memory stream and open connections
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
 		/// <summary>
 		/// Returns the response stream sent back by the server
 		/// </summary>
 		/// <returns>The response stream</returns>
-		public override Stream GetResponseStream() {
+		public override Stream GetResponseStream()
+		{
 			return this.responseStream;
 		}
 

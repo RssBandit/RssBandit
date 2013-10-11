@@ -10,7 +10,7 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// ClientCertificateRequiredException is raised if a HTTPS request results in a statuscode 403.
 	/// </summary>
-	[ComVisible(false)]
+	[Serializable, ComVisible(false)]
 	public class ClientCertificateRequiredException : WebException
 	{
 		/// <summary></summary>
@@ -24,7 +24,7 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// ResourceAuthorizationException is raised if a HTTP request results in a statuscode 401.
 	/// </summary>
-	[ComVisible(false)]
+	[Serializable, ComVisible(false)]
 	public class ResourceAuthorizationException: WebException {
 		/// <summary></summary>
 		public ResourceAuthorizationException():base(ComponentsText.ExceptionResourceAuthorization){	}
@@ -37,7 +37,7 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// ResourceGoneException is raised if a HTTP request results in a statuscode 410.
 	/// </summary>
-	[ComVisible(false)]
+	[Serializable, ComVisible(false)]
 	public class ResourceGoneException: WebException
 	{
 		/// <summary></summary>
@@ -51,7 +51,7 @@ namespace NewsComponents.Net
 	/// <summary>
 	/// FeedRequestException is raised if a feed request fails.
 	/// </summary>
-	[ComVisible(false)]
+	[Serializable, ComVisible(false)]
 	public class FeedRequestException: WebException {
 		/// <summary></summary>
 		public FeedRequestException():base(){	}

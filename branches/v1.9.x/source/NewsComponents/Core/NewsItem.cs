@@ -1469,7 +1469,7 @@ namespace NewsComponents
                     {
                         var xtw = new XmlTextWriter(sw);
                         xtw.WriteElementString(qname.Name, qname.Namespace, value);
-                        xtw.Close();
+                        xtw.Flush();
 
                         OptionalElements.Remove(qname);
                         OptionalElements.Add(qname, sw.ToString());

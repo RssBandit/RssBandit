@@ -85,69 +85,65 @@ namespace NewsComponents.Storage {
 		/// <param name="feed">The feed to save. This is an identifier
 		/// and not used to actually fetch the feed from the WWW.</param>
 		/// <returns>An identifier for the saved feed. </returns>		
-		public override string SaveFeed(IInternalFeedDetails feed){
-			
+		public override string SaveFeed(IInternalFeedDetails feed)
+		{
+
 			string feedLocation = feed.FeedLocation;
-			
-//			if (feed.Type == FeedType.Rss) {
 
-				lock(this){
-
-					if(string.IsNullOrEmpty(feed.FeedLocation)){
-						feed.FeedLocation = feedLocation = GetCacheUrlName(feed.Id, new Uri(feed.Link)); 
-					}					
-				}				
-		
-				//get location of binary file containing RSS item contents 
-				string feedContentLocation = feedLocation.Substring(0, feedLocation.Length - 4) + ".bin";								
-
-				//write main RSS feed
-				//using (MemoryStream stream = new MemoryStream()) {
-                using(FileStream stream = FileHelper.OpenForWrite(Path.GetTempFileName())){
-					XmlTextWriter writer = new XmlTextWriter(new StreamWriter(stream )); 
-					feed.WriteTo(writer,true); 
-					writer.Flush();                   
-                    writer.Close(); 
-					//FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedLocation), stream);
-					FileHelper.MoveFile(stream.Name, Path.Combine(CacheLocation, feedLocation), MoveFileFlag.ReplaceExisting);                                      
+			lock (this)
+			{
+				if (string.IsNullOrEmpty(feed.FeedLocation))
+				{
+					feed.FeedLocation = feedLocation = GetCacheUrlName(feed.Id, new Uri(feed.Link));
 				}
+			}
+
+			//get location of binary file containing RSS item contents 
+			string feedContentLocation = feedLocation.Substring(0, feedLocation.Length - 4) + ".bin";
+
+			//write main RSS feed
+			var tempFile = Path.GetTempFileName();
+			using (FileStream stream = FileHelper.OpenForWrite(tempFile))
+			{
+				XmlTextWriter writer = new XmlTextWriter(new StreamWriter(stream));
+				feed.WriteTo(writer, true);
+				writer.Flush();
+			}
+			FileHelper.MoveFile(tempFile, Path.Combine(CacheLocation, feedLocation), MoveFileFlag.ReplaceExisting);
+
+			//write binary file containing RSS item contents 
+			tempFile = Path.GetTempFileName();
+			using (FileStream stream = FileHelper.OpenForWrite(tempFile))
+			{
+				var writer = new BinaryWriter(stream);
+				
+				FileStream fs = null;
+				BinaryReader reader = null;
+				
+				try
+				{
+					if (File.Exists(Path.Combine(CacheLocation, feedContentLocation)))
+					{
+						fs = new FileStream(Path.Combine(CacheLocation, feedContentLocation), FileMode.OpenOrCreate);
+						reader = new BinaryReader(fs);
+					}
+
+					feed.WriteItemContents(reader, writer);
+					writer.Write(FileHelper.EndOfBinaryFileMarker);
+					writer.Flush();
+				}
+				finally
+				{
+					if (fs != null)
+					{
+						fs.Close();
+					}
+				}
+				
+			}//using(...) 
+
+			FileHelper.MoveFile(tempFile, Path.Combine(CacheLocation, feedContentLocation), MoveFileFlag.ReplaceExisting);
 			
-				//write binary file containing RSS item contents 
-				//using (MemoryStream stream = new MemoryStream()) {
-                using (FileStream stream = FileHelper.OpenForWrite(Path.GetTempFileName())){				
-					FileStream fs = null; 
-					BinaryReader reader = null; 
-					BinaryWriter writer = new BinaryWriter(stream);
-					
-					try{
-						if (File.Exists(Path.Combine(CacheLocation, feedContentLocation)))
-						{
-							fs = new FileStream(Path.Combine(CacheLocation, feedContentLocation), FileMode.OpenOrCreate);
-							reader = new BinaryReader(fs);
-						}					 
-						feed.WriteItemContents(reader, writer); 												
-						writer.Write(FileHelper.EndOfBinaryFileMarker); 
-						writer.Flush(); 						
-					}finally{
-						if(reader != null){
-							reader.Close(); 
-							fs.Close(); 
-						}
-					}              
-                    writer.Close(); 
-				 //	FileHelper.WriteStreamWithRename(Path.Combine(this.cacheDirectory,feedContentLocation), stream);									
-					FileHelper.MoveFile(stream.Name, Path.Combine(CacheLocation, feedContentLocation), MoveFileFlag.ReplaceExisting);                    
-				}//using(MemoryStream...) {
-
-//			} else if (feed.Type == FeedType.Nntp) {
-//
-//				throw new NotImplementedException("NntpInfo class impl. missing");
-//				
-//
-//			} else {
-//				throw new InvalidOperationException("Unknown/unhandled FeedDetails impl.");
-//			}								
-
 			return feedLocation;
 		} 
 		
@@ -156,7 +152,8 @@ namespace NewsComponents.Storage {
 		/// Removes a feed from the cache
 		/// </summary>
 		/// <param name="feed">The feed to remove</param>
-		public override void RemoveFeed(INewsFeed feed){
+		public override void RemoveFeed(INewsFeed feed)
+		{
 
 			if (feed == null || feed.cacheurl == null)
 				return;
@@ -224,11 +221,10 @@ namespace NewsComponents.Storage {
 		/// non-null value for its Id property.
 		/// </summary>
 		/// <param name="target">The target.</param>
-		public override void LoadItemContent(INewsItem target){
-
-            NewsItem item = target as NewsItem; 
-			FileStream fs = null; 
-			BinaryReader reader = null;
+		public override void LoadItemContent(INewsItem target)
+		{
+			NewsItem item = target as NewsItem; 
+			FileStream fs = null;
 
 			// item.Feed.cacheurl == null could happen on a search result item,
 			// e.g. returned by a websearch rss:
@@ -237,40 +233,39 @@ namespace NewsComponents.Storage {
                 return;
             }
 
-			try{ 
-
+			try
+			{ 
 				string feedContentLocation = item.Feed.cacheurl.Substring(0, item.Feed.cacheurl.Length - 4) + ".bin";
 				string fileName = Path.Combine(CacheLocation, feedContentLocation);
 				
-				if(File.Exists(fileName)){
-
+				if(File.Exists(fileName))
+				{
 					fs = FileHelper.OpenForRead(fileName);					
-					reader = new BinaryReader(fs); 
+					var reader = new BinaryReader(fs); 
 
 					string id = reader.ReadString(); 
 				
-					while(!id.Equals(FileHelper.EndOfBinaryFileMarker)){
+					while(!id.Equals(FileHelper.EndOfBinaryFileMarker))
+					{
 						int count = reader.ReadInt32();
 						byte[] content = reader.ReadBytes(count);
 				
-						if(item.Id.Equals(id)){							
+						if(item.Id.Equals(id))
+						{							
 							item.SetContent(content, ContentType.Html); 							
 							break; 
 						}
 						id = reader.ReadString(); 
 					}//while(!id.Equals(...))
 				}
-			
-			}finally{
-				if(reader != null) {
-					reader.Close(); 
-				}
-
-				if(fs != null){
+			}
+			finally
+			{
+				if(fs != null)
+				{
 					fs.Close(); 
 				}			
-			}//finally 
-
+			}
 		}
 
 
@@ -280,8 +275,8 @@ namespace NewsComponents.Storage {
 		/// optimization so we only have the content of items that are unread on load.  
 		/// </summary>
 		/// <param name="fi"></param>
-		private void LoadItemContent(IInternalFeedDetails fi){
-
+		private void LoadItemContent(IInternalFeedDetails fi)
+		{
             if (fi == null)
             {
                 return;
@@ -293,49 +288,53 @@ namespace NewsComponents.Storage {
 
 
 			//get list of unread items 
-			foreach(NewsItem item in fi.ItemsList){
-				if(!item.BeenRead){
-					try{
+			foreach(NewsItem item in fi.ItemsList)
+			{
+				if(!item.BeenRead)
+				{
+					try
+					{
 						unreadItems.Add(item.Id, item); 
-					}catch(ArgumentException){
+					}
+					catch(ArgumentException) 
+					{
 						/* we don't test using ContainsKey() before Add() for performance reasons */
 					}
 				}
 			}
 
-			try{ 
-
+			try
+			{ 
 				string feedContentLocation = fi.FeedLocation.Substring(0, fi.FeedLocation.Length - 4) + ".bin";
 				string fileName = Path.Combine(CacheLocation, feedContentLocation);
-				if(File.Exists(fileName)){
-
+				if(File.Exists(fileName))
+				{
 					fs = FileHelper.OpenForRead(fileName);
 					reader = new BinaryReader(fs); 
 
 					string id = reader.ReadString(); 
 				
-					while(!string.IsNullOrEmpty(id) && !id.Equals(FileHelper.EndOfBinaryFileMarker)){
+					while(!string.IsNullOrEmpty(id) && !id.Equals(FileHelper.EndOfBinaryFileMarker))
+					{
 						int count = reader.ReadInt32();
 						byte[] content = reader.ReadBytes(count);
 				
-						if(unreadItems.Contains(id)){
+						if(unreadItems.Contains(id))
+						{
 							NewsItem ni = (NewsItem) unreadItems[id];  
 							ni.SetContent(content, ContentType.Html); 
 						}
 						id = reader.ReadString(); 
 					}//while(!id.Equals(...))
 				}
-			
-			}finally{
-				if(reader != null) {
-					reader.Close(); 
-				}
-
-				if(fs != null){
+			}
+			finally
+			{
+				if(fs != null)
+				{
 					fs.Close(); 
 				}			
-			}//finally 
-			 		
+			}
 		}
 
         /// <summary>

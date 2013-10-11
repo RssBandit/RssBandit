@@ -549,8 +549,7 @@ namespace NewsComponents.Utils
                     if ((reader.NodeType == XmlNodeType.Element) && (reader.Name.ToLower().Equals("title")))
                     {
                         title = reader.ReadElementContentAsString();
-                        reader.Close();
-                        stream.Close();
+                        stream.Flush();
                         break;
                     }
                 } //while

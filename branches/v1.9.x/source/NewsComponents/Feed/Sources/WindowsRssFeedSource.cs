@@ -58,6 +58,7 @@ namespace NewsComponents.Feed
     /// <summary>
     /// Indicates that an exception occurred in the Windows RSS platform and the feed list must be reloaded. 
     /// </summary>
+	[Serializable]
     public class WindowsRssPlatformException : Exception {
 
 		/// <summary>
@@ -1577,7 +1578,7 @@ namespace NewsComponents.Feed
         /// Disposes of the class
         /// </summary>
         /// <param name="disposing"></param>
-		public void Dispose(bool disposing)
+		protected virtual void Dispose(bool disposing)
 		{
 			if (!disposed)
 				lock (this)

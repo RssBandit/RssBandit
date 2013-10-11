@@ -540,7 +540,7 @@ namespace NewsComponents.Utils
 
 			while ( retries > 0 ) {
 				try {
-					return MoveFileEx( existingFileName, newFileName, flags );
+					return NativeMethods.MoveFileEx( existingFileName, newFileName, flags );
 				}
 				catch (Exception) {
 					retries--;
@@ -689,18 +689,22 @@ namespace NewsComponents.Utils
 		
 		#endregion
 
-		/// <summary>
-		/// API declaration of the Win32 function.
-		/// </summary>
-		/// <param name="lpExistingFileName">Existing file path.</param>
-		/// <param name="lpNewFileName">The file path.</param>
-		/// <param name="dwFlags">Move file flags.</param>
-		/// <returns>Whether the file was moved or not.</returns>
-		[DllImport("KERNEL32.DLL", CharSet = CharSet.Unicode) ]
-		private static extern bool MoveFileEx( 
-			string lpExistingFileName, 
-			string lpNewFileName,
-            MoveFileFlag dwFlags);
+		private class NativeMethods
+		{
+			/// <summary>
+			/// API declaration of the Win32 function.
+			/// </summary>
+			/// <param name="lpExistingFileName">Existing file path.</param>
+			/// <param name="lpNewFileName">The file path.</param>
+			/// <param name="dwFlags">Move file flags.</param>
+			/// <returns>Whether the file was moved or not.</returns>
+			[DllImport("KERNEL32.DLL", CharSet = CharSet.Unicode)]
+			internal static extern bool MoveFileEx(
+				string lpExistingFileName,
+				string lpNewFileName,
+				MoveFileFlag dwFlags);
+
+		}
 
 
 		/// <summary>

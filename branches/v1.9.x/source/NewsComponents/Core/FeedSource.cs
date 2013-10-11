@@ -173,10 +173,6 @@ namespace NewsComponents
     /// <summary>
     /// Class for managing News feeds. This class is NOT thread-safe.
     /// </summary>
-    //TODO: just there to make it compile while refactoring. MUST BE REMOVED ON RELEASE
-//#if DEBUG
-//    [CLSCompliant(false)]
-//#endif
     public abstract class FeedSource : ISharedProperty, IDisposable 
     {
         #region ctor's
@@ -325,8 +321,6 @@ namespace NewsComponents
         /// Currently this is Int32.MaxValue.
         /// </summary>
         public const int DefaultNumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
-
-        private const int maxItemsPerSearchResult = 10;
 
         /// <summary>
         /// Defines all subscription relevant NewsFeed properties, 
@@ -1249,21 +1243,7 @@ namespace NewsComponents
 		private DisposableItemCollection<StorageDomain, IDisposable> _domainStores = new DisposableItemCollection<StorageDomain, IDisposable>(3);
 		private object _domainStoresLock = new Object();
 
-        /// <summary>
-        /// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
-        /// </summary>
-        private static XsltArgumentList fbTransformArgs = new XsltArgumentList(); 
-
-        /// <summary>
-        /// Used for transforming Facebook's news feed to an Atom feed
-        /// </summary>
-        private static XslCompiledTransform fbTransform = null;
-
-        /// <summary>
-        /// Used a synchronization point when initializing variables related to transforming Facebook news feed XML to Atom
-        /// </summary>
-        private static Object FbTransformSyncRoot = new Object(); 
-		
+        
         /// <summary>
 		/// Gets the user cache data service instance.
 		/// </summary>
@@ -4659,6 +4639,9 @@ namespace NewsComponents
 
                 if (result == RequestResult.OK)
                 {
+	                // allow stream interception:
+					responseStream = BeforeParseResponseStream(requestUri, responseStream);
+
                     //Update our recently read stories. This is very necessary for 
                     //dynamically generated feeds which always return 200(OK) even if unchanged							
 
@@ -4669,43 +4652,7 @@ namespace NewsComponents
                     {
                         fi = NntpParser.GetItemsForNewsGroup(theFeed, responseStream, response, UserCacheDataService, false);
                     }
-                    else if (requestUri.AbsoluteUri.StartsWith(FacebookFeedSource.FacebookApiUrl))
-                    {
-                        lock (FbTransformSyncRoot)
-                        {
-                            if (fbTransform == null)
-                            {
-                                string facebookTmpl = null; 
-
-                                using (Stream xsltStream = Resource.Manager.GetStream("Resources.facebook-newsfeed-2-atom.xslt"))
-                                {
-                                    facebookTmpl = new StreamReader(xsltStream).ReadToEnd();
-                                }
-
-                                fbTransform = new XslCompiledTransform();
-                                XsltSettings settings = new XsltSettings();
-                                settings.EnableScript = true;
-                                fbTransform.Load(XmlReader.Create(new StringReader(facebookTmpl)), settings, null);
-
-                                fbTransformArgs.AddParam("CommentUrlPlaceholder", String.Empty, FacebookFeedSource.FacebookApiUrl);
-                                fbTransformArgs.AddParam("FeedTitle", String.Empty, ComponentsText.FacebookNewsFeedTitle);
-                                fbTransformArgs.AddParam("UserID", String.Empty, this.location.Credentials.UserName); 
-                            }
-                        }
-
-                        //convert from Facebook's XML format to Atom
-                       
-                        MemoryStream stream = new MemoryStream();                          
-                        XmlWriter writer = XmlWriter.Create(stream, fbTransform.OutputSettings);
-
-                        fbTransform.Transform(XmlReader.Create(responseStream), writer);
-                        responseStream.Close();
-                        stream.Seek(0, SeekOrigin.Begin);
-                        responseStream = stream;
-
-                        fi = RssParser.GetItemsForFeed(theFeed, responseStream, false); 
-                    }
-                    else
+					else
                     {
                         fi = RssParser.GetItemsForFeed(theFeed, responseStream, false);
                     }
@@ -4925,6 +4872,21 @@ namespace NewsComponents
             }
         }
 
+
+		/// <summary>
+		/// Called within OnRequestComplete() befores the response stream get parsed/further processed.
+		/// This interception point can be used to transform the <paramref name="responseStream"/> before
+		/// it get parsed by the engine. 
+		/// The default implementation just return <paramref name="responseStream"/> as the result.
+		/// </summary>
+		/// <param name="requestedUri">The requested URI.</param>
+		/// <param name="responseStream">The response stream.</param>
+		/// <returns></returns>
+	    protected virtual Stream BeforeParseResponseStream(Uri requestedUri, Stream responseStream)
+	    {
+		    return responseStream;
+	    }
+		
         protected void OnAllRequestsComplete()
         {
 			// get the indexSearcher aware of modifications:

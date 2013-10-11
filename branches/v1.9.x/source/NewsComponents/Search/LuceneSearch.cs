@@ -69,7 +69,7 @@ namespace NewsComponents.Search
 	/// Downloads:
 	/// http://incubator.apache.org/lucene.net/download/
 	/// </remarks>
-	public class LuceneSearch
+	public sealed class LuceneSearch: IDisposable
 	{
 		/// <summary>
 		/// Used in exceptions as the help link
@@ -107,9 +107,9 @@ namespace NewsComponents.Search
 			NewsFeedProperty.FeedAdded |
 			NewsFeedProperty.FeedRemoved;
 		
-		private readonly LuceneIndexModifier indexModifier;
-		private readonly LuceneSettings settings;
-        private readonly List<FeedSource> newsHandlers = new List<FeedSource>(); 
+		private LuceneIndexModifier _indexModifier;
+		private readonly LuceneSettings _settings;
+        private readonly List<FeedSource> _feedSources = new List<FeedSource>(); 
 
 		/// <summary>
 		/// Is true, if we have to initially index all feeds
@@ -133,13 +133,13 @@ namespace NewsComponents.Search
 			
 			if (configuration.SearchIndexBehavior != SearchIndexBehavior.NoIndexing)
 			{
-				this.settings = new LuceneSettings(configuration);
+				this._settings = new LuceneSettings(configuration);
 				
-				startIndexAll = (this.settings.IsRAMBasedSearch ||
-					IsIndexCorrupted(this.settings.GetIndexDirectory()) ||
-					!IndexReader.IndexExists(this.settings.GetIndexDirectory()));
+				startIndexAll = (this._settings.IsRAMBasedSearch ||
+					IsIndexCorrupted(this._settings.GetIndexDirectory()) ||
+					!IndexReader.IndexExists(this._settings.GetIndexDirectory()));
 				
-				this.indexModifier = new LuceneIndexModifier(this.settings);
+				this._indexModifier = new LuceneIndexModifier(this._settings);
 			}
 			
 		}
@@ -153,14 +153,14 @@ namespace NewsComponents.Search
 		/// </summary>
 		/// <value>The settings.</value>
 		internal LuceneSettings Settings {
-			get { return this.settings; }
+			get { return this._settings; }
 		}
 
         /// <summary>
         /// The list of NewsHandlers being handled by this SearchHandler
         /// </summary>
-        internal IList<FeedSource> NewsHandlers {
-            get { return this.newsHandlers; }
+        internal IList<FeedSource> FeedSources {
+            get { return this._feedSources; }
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace NewsComponents.Search
         public void AddNewsHandler(FeedSource handler) {
             if (handler != null)
             {
-                newsHandlers.Add(handler);
+                _feedSources.Add(handler);
             }
         }
 
@@ -194,7 +194,7 @@ namespace NewsComponents.Search
 
 			//TODO: to be fixed -
 			// next line causes issues with concurrent thread access to the search index:
-			IndexSearcher searcher = new IndexSearcher(this.settings.GetIndexDirectory());
+			IndexSearcher searcher = new IndexSearcher(this._settings.GetIndexDirectory());
 			Hits hits = null;
 			
 			while (hits == null)
@@ -503,15 +503,15 @@ namespace NewsComponents.Search
 			if (!UseIndex) return;
 			
 			bool restartIndexing = false;
-			bool fileBasedIndex = this.settings.IndexPath != null &&
-			                      Directory.Exists(this.settings.IndexPath);
+			bool fileBasedIndex = this._settings.IndexPath != null &&
+			                      Directory.Exists(this._settings.IndexPath);
 			string indexingStateFile = this.RestartIndexingStateFile;
 			DateTime indexModifiedAt = DateTime.MinValue;
 
 			if (fileBasedIndex)
 			{
 				
-				indexModifiedAt = Directory.GetLastWriteTimeUtc(this.settings.IndexPath);
+				indexModifiedAt = Directory.GetLastWriteTimeUtc(this._settings.IndexPath);
 				bool indexStateFileExists = (indexingStateFile != null && File.Exists(indexingStateFile));
 				
 				// if the index have to be (re-)created, we don't want to rely on old restart infos:
@@ -535,7 +535,7 @@ namespace NewsComponents.Search
 					restartInfo = new HybridDictionary();
 				
 				if (startIndexAll) 
-					this.indexModifier.CreateIndex();
+					this._indexModifier.CreateIndex();
 				
 				LuceneIndexer indexer = GetIndexer();
 				indexer.IndexingFinished += OnIndexingFinished;
@@ -545,16 +545,16 @@ namespace NewsComponents.Search
 			else if (fileBasedIndex)
 			{
 				// check, if we have to call OptimizeIndex():
-				DateTime lastIndexModification = this.settings.LastIndexOptimization;
+				DateTime lastIndexModification = this._settings.LastIndexOptimization;
 				int compareResult = indexModifiedAt.CompareTo(lastIndexModification);
 				// indexModifiedAt is greater than lastIndexModification, hence index was modified:
 				if (compareResult > 0) {
 					// attach event to get optimize index finished notification:
-					this.indexModifier.FinishedIndexOperation += OnIndexModifierFinishedIndexOperation;
+					this._indexModifier.FinishedIndexOperation += OnIndexModifierFinishedIndexOperation;
 					this.IndexOptimize();
 				} else if (compareResult != 0) {
 					// correct the bad persisted entry:
-					this.settings.LastIndexOptimization = Directory.GetLastWriteTimeUtc(this.settings.IndexPath);
+					this._settings.LastIndexOptimization = Directory.GetLastWriteTimeUtc(this._settings.IndexPath);
 				}
 			}
 			
@@ -562,8 +562,8 @@ namespace NewsComponents.Search
 		
 		private void OnIndexModifierFinishedIndexOperation(object sender, FinishedIndexOperationEventArgs e) {
 			if (e.Operation.Action == IndexOperation.OptimizeIndex) {
-				this.indexModifier.FinishedIndexOperation -= OnIndexModifierFinishedIndexOperation;
-				this.settings.LastIndexOptimization = Directory.GetLastWriteTimeUtc(this.settings.IndexPath);
+				this._indexModifier.FinishedIndexOperation -= OnIndexModifierFinishedIndexOperation;
+				this._settings.LastIndexOptimization = Directory.GetLastWriteTimeUtc(this._settings.IndexPath);
 			}
 		}
 		
@@ -642,7 +642,7 @@ namespace NewsComponents.Search
 		public void IndexRemoveAll() {
 			if (!UseIndex) return;
 			try {
-				this.indexModifier.ResetIndex();
+				this._indexModifier.ResetIndex();
 			} catch (Exception ex) {
 				Log.Error("Failure while reset the whole index.", ex);
 			}
@@ -695,7 +695,7 @@ namespace NewsComponents.Search
 		public void IndexOptimize() {
 			if (!UseIndex) return;
 			try {
-				this.indexModifier.Optimize();
+				this._indexModifier.Optimize();
 			} catch (Exception ex) {
 				Log.Error("Failure while optimizing search index.", ex);
 			}
@@ -710,7 +710,7 @@ namespace NewsComponents.Search
 		/// </summary>
 		public void StopIndexer() {
 			if (!UseIndex) return;
-			this.indexModifier.StopIndexer();
+			this._indexModifier.StopIndexer();
 		}
 
 		/// <summary> 
@@ -720,7 +720,7 @@ namespace NewsComponents.Search
 		public void Flush()
 		{
 			if (!UseIndex) return;
-			this.indexModifier.Flush(false);
+			this._indexModifier.Flush(false);
 		}
 
 		#endregion
@@ -827,8 +827,8 @@ namespace NewsComponents.Search
 				if (unexpectedProcessTermination) try
 					{
 						_log.Error("Try to cleanup index after unexpected Process Termination...");
-						Directory.Delete(settings.IndexPath, true);
-						Directory.CreateDirectory(settings.IndexPath);
+						Directory.Delete(_settings.IndexPath, true);
+						Directory.CreateDirectory(_settings.IndexPath);
 						return true;
 					}
 					catch (Exception accessEx)
@@ -856,15 +856,15 @@ namespace NewsComponents.Search
 		private LuceneIndexer GetIndexer() 
 		{
 			if (_indexer == null)
-				_indexer = new LuceneIndexer(this.indexModifier, newsHandlers);
+				_indexer = new LuceneIndexer(this._indexModifier, _feedSources);
 			return _indexer;
 		}
 
 		private bool UseIndex {
 			get { 
-				return this.settings != null && (
-				       this.settings.SearchIndexBehavior != SearchIndexBehavior.NoIndexing ||
-					this.indexModifier != null); 
+				return this._settings != null && (
+				       this._settings.SearchIndexBehavior != SearchIndexBehavior.NoIndexing ||
+					this._indexModifier != null); 
 			}
 		}
 
@@ -936,8 +936,8 @@ namespace NewsComponents.Search
 		/// <value>The index state file.</value>
 		private string RestartIndexingStateFile {
 			get {
-				if (this.settings.IndexPath != null)
-					return Path.Combine(this.settings.IndexPath, "index.state");
+				if (this._settings.IndexPath != null)
+					return Path.Combine(this._settings.IndexPath, "index.state");
 				return null;
 			}
 		}
@@ -950,7 +950,7 @@ namespace NewsComponents.Search
 				Log.Error("Cannot delete '" + this.RestartIndexingStateFile + "': " + ex.Message, ex);
 			}
 			
-			indexModifier.Flush(false);
+			_indexModifier.Flush(false);
 			RaiseIndexingFinished();
 		}
 
@@ -1060,6 +1060,22 @@ namespace NewsComponents.Search
 			public SearchException(string message, Exception innerException) : 
 				base(message, innerException) {
 				base.HelpLink = LuceneSearch.HelpLink;
+			}
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (_indexModifier!= null)
+					_indexModifier.Dispose();
+				_indexModifier = null;
 			}
 		}
 	}
