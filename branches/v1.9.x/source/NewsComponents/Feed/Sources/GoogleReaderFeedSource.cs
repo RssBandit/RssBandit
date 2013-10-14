@@ -107,11 +107,6 @@ namespace NewsComponents.Feed
         /// </summary>
         private string AuthToken = String.Empty;
 
-        /// <summary>
-        /// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
-        /// </summary>
-        private static DateTime unixEpoch = new DateTime(1970, 1, 1); 
-      
         private string googleUserId = String.Empty;
 
         /// <summary>
@@ -599,7 +594,7 @@ namespace NewsComponents.Feed
         private static string CreateDownloadUrl(GoogleReaderNewsFeed feed, bool fetchAll)
         {
             //either download all items since last retrieved or last 1 month of stuff (default if value to low) if never fetched items from feed
-            TimeSpan maxItemAge = (feed.lastretrievedSpecified && !fetchAll ? feed.lastretrieved - unixEpoch : new TimeSpan(0,0,1));
+            TimeSpan maxItemAge = (feed.lastretrievedSpecified && !fetchAll ? feed.lastretrieved - UnixEpoch : new TimeSpan(0,0,1));
             string feedUrl = feedUrlPrefix + Uri.EscapeDataString(feed.GoogleReaderFeedId) + "?n=50&r=o&ot=" + Convert.ToInt64(maxItemAge.TotalSeconds);          
 
             return feedUrl; 
@@ -1630,7 +1625,7 @@ namespace NewsComponents.Feed
         {           
             //we need to use the time stamp from the newest news item (in microseconds) to indicate which items should be marked read
             DateTime newestItemAge = DateTime.MinValue;
-            string newestItemTimeStamp = ( (DateTime.Now.Ticks - unixEpoch.Ticks) / 10).ToString();  //default value is right now
+            string newestItemTimeStamp = ( (DateTime.Now.Ticks - UnixEpoch.Ticks) / 10).ToString();  //default value is right now
 
             if (feed != null && feed.containsNewMessages && !string.IsNullOrEmpty(feed.link) && itemsTable.ContainsKey(feed.link))
             {

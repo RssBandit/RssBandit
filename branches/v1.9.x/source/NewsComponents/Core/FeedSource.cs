@@ -322,6 +322,11 @@ namespace NewsComponents
         /// </summary>
         public const int DefaultNumEnclosuresToDownloadOnNewFeed = Int32.MaxValue;
 
+		/// <summary>
+		/// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
+		/// </summary>
+		public static DateTime UnixEpoch = new DateTime(1970, 1, 1);
+
         /// <summary>
         /// Defines all subscription relevant NewsFeed properties, 
         /// that requires we have to (re-)write the subscription file. 
