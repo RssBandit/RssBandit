@@ -1,0 +1,474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CustomizeDlgAddCommand_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeImg_Category_File" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="CustomizeLoadSaveFormatLiteral" xml:space="preserve">
+    <value>Form,at</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="TaskPaneForwardButtonToolTip" xml:space="preserve">
+    <value>En avant</value>
+  </data>
+  <data name="OptionSetTypeEditFrmNameColHeader" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="CustomizeImg_Tool_Cut" xml:space="preserve">
+    <value>Couper</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Key_Text" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="CustomizeDialog_New" xml:space="preserve">
+    <value>&amp;Neuf...</value>
+  </data>
+  <data name="TextBoxToolActionList_P_Text_Text" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove" xml:space="preserve">
+    <value>Efface&amp;r</value>
+  </data>
+  <data name="CustomizeImg_Tool_Paste" xml:space="preserve">
+    <value>Insertion</value>
+  </data>
+  <data name="ImportToolsWizard_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawTextTool" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="CustomDlgNewToolBarCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="ImportDlgImport" xml:space="preserve">
+    <value>Ouvr&amp;ir</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete" xml:space="preserve">
+    <value>&amp;Eliminer</value>
+  </data>
+  <data name="CustomizeDialog_RenameAmp" xml:space="preserve">
+    <value>R&amp;enommer...</value>
+  </data>
+  <data name="CustomizeDlgNewToolKey" xml:space="preserve">
+    <value>&amp;Clé</value>
+  </data>
+  <data name="CustomizeImg_Tool_New" xml:space="preserve">
+    <value>&amp;Neuf...</value>
+  </data>
+  <data name="ToolbarCloseButtonToolTip" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeImg_Tool_Copy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="OptionSetTypeEditFrmClose" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteralNone" xml:space="preserve">
+    <value>aucun??</value>
+  </data>
+  <data name="ExistingToolDlg_Category" xml:space="preserve">
+    <value>&amp;Catégorie:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp" xml:space="preserve">
+    <value>Déplace vers ha&amp;ute</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawLineTool" xml:space="preserve">
+    <value>Ligne</value>
+  </data>
+  <data name="CustomizeToolTypeList" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="CustomizeDlgNewToolCategory" xml:space="preserve">
+    <value>&amp;Catégorie</value>
+  </data>
+  <data name="DefaultAction_Popup_Closed" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="Customize" xml:space="preserve">
+    <value>&amp;Adapter...</value>
+  </data>
+  <data name="OptionSetTypeEditFrmName" xml:space="preserve">
+    <value>&amp;Nom</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRectangleOutlineTool" xml:space="preserve">
+    <value>Rectangulaire</value>
+  </data>
+  <data name="PopupMenuDesigner_NewMenu" xml:space="preserve">
+    <value>Neuf...</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools" xml:space="preserve">
+    <value>Ou&amp;tils</value>
+  </data>
+  <data name="ToolBaseActionList_P_Key_Text" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="ConvertToolDlg_ToolKey" xml:space="preserve">
+    <value>Clé:</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Name" xml:space="preserve">
+    <value>&amp;Nom</value>
+  </data>
+  <data name="ConvertToolDlg_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CustomizeDialog_Other" xml:space="preserve">
+    <value>Autres</value>
+  </data>
+  <data name="ImportDlgOptions" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="CustomizeImg_Category_Tools" xml:space="preserve">
+    <value>Outils</value>
+  </data>
+  <data name="MoreWindowsDlgClose" xml:space="preserve">
+    <value>&amp;Fermer</value>
+  </data>
+  <data name="CustomizeDialog_Rename" xml:space="preserve">
+    <value>&amp;Renommer...</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeDialog_Import" xml:space="preserve">
+    <value>Ouvrir..</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain" xml:space="preserve">
+    <value>Adapter</value>
+  </data>
+  <data name="CustomizeMenuAnimationNone" xml:space="preserve">
+    <value>aucun??</value>
+  </data>
+  <data name="CustomizeDialog_Toolbars" xml:space="preserve">
+    <value>OutilsBars</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDialog_ToolbarsList" xml:space="preserve">
+    <value>OutilsB&amp;ars:</value>
+  </data>
+  <data name="CustomizeDialog_Options" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="CustomizeImg_Tool_File" xml:space="preserve">
+    <value>&amp;Fichier</value>
+  </data>
+  <data name="ImportToolsWizard_Category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Left" xml:space="preserve">
+    <value>Déplace vers gauche</value>
+  </data>
+  <data name="CustomizeImg_Tool_Open" xml:space="preserve">
+    <value>&amp;Ouvrir...</value>
+  </data>
+  <data name="CustomizeDialog_Delete" xml:space="preserve">
+    <value>&amp;Eliminer...</value>
+  </data>
+  <data name="OptionSetsToStringLiteral" xml:space="preserve">
+    <value>Compte </value>
+  </data>
+  <data name="CustomizeImg_Category_Format" xml:space="preserve">
+    <value>Form,at</value>
+  </data>
+  <data name="CustomizeDlgName" xml:space="preserve">
+    <value>&amp;Nom:</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgClose" xml:space="preserve">
+    <value>&amp;Fermer</value>
+  </data>
+  <data name="ResolveDockWithinContainer_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MoreItemsDlgClose" xml:space="preserve">
+    <value>&amp;Fermer</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add" xml:space="preserve">
+    <value>&amp;Ajouter...</value>
+  </data>
+  <data name="MoreItemsDlgTitleOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="ConvertToolDlg_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="ImportDlgCancel" xml:space="preserve">
+    <value>&amp;Annuler</value>
+  </data>
+  <data name="TaskPaneBackButtonToolTip" xml:space="preserve">
+    <value>Retours</value>
+  </data>
+  <data name="CustomizeDialog_Caption" xml:space="preserve">
+    <value>Légende</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Up" xml:space="preserve">
+    <value>Déplace vers haute</value>
+  </data>
+  <data name="DefaultAction_Popup_Opened" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomIn" xml:space="preserve">
+    <value>Agrandir</value>
+  </data>
+  <data name="CustomizeImg_ToolBar_Main_Menu" xml:space="preserve">
+    <value>Menu principal</value>
+  </data>
+  <data name="CustomizeDlgDelete" xml:space="preserve">
+    <value>&amp;Eliminer</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgRemove" xml:space="preserve">
+    <value>Efface&amp;r...</value>
+  </data>
+  <data name="CustomizeLoadSaveCloseButton" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeDialog_Tools" xml:space="preserve">
+    <value>Outils</value>
+  </data>
+  <data name="ExistingToolDlg_Close" xml:space="preserve">
+    <value>&amp;Fermer</value>
+  </data>
+  <data name="CustomizeShortcutNoneLiteral" xml:space="preserve">
+    <value>aucun??</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Text_Text" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="ImageEditor_LoadFileTitle" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="CustomizeDlgNewToolAdd" xml:space="preserve">
+    <value>ajouter</value>
+  </data>
+  <data name="CustomizeDialog_CloseNoAmp" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CustomizeDialog_Category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="ToolBaseActionList_P_DisplayStyle_Text" xml:space="preserve">
+    <value>Mode d'affichage</value>
+  </data>
+  <data name="CustomizeDialog_NewBeginAmp" xml:space="preserve">
+    <value>&amp;Neuf</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomOut" xml:space="preserve">
+    <value>Diminuer</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Down" xml:space="preserve">
+    <value>Déplace vers bas</value>
+  </data>
+  <data name="CustomizeDialog_Key" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown" xml:space="preserve">
+    <value>&amp;Déplace vers bas</value>
+  </data>
+  <data name="CustomizeDlgNewToolCaption" xml:space="preserve">
+    <value>&amp;Légende</value>
+  </data>
+  <data name="LockToolbars" xml:space="preserve">
+    <value>&amp;Bloquer toolbar</value>
+  </data>
+  <data name="ImportToolsWizard_Key" xml:space="preserve">
+    <value>Clé</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Default" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="CustomDlgNewToolBarLocation" xml:space="preserve">
+    <value>Lieu:</value>
+  </data>
+  <data name="CustomizeImg_Tool_Undo" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Right" xml:space="preserve">
+    <value>Déplace vers droite</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonClose" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonClose" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonOpen" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="GalleryFilterListClosedDefaultAction" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="GalleryFilterListOpenedDefaultAction" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="ToolsEditorControl_Remove" xml:space="preserve">
+    <value>Efface&amp;r</value>
+  </data>
+  <data name="QatContextMenuTools_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="QatContextMenuTools_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="MiniToolbarDesignerOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeImg_Tool_Edit_AccessibleDescription" xml:space="preserve">
+    <value>Editer menue</value>
+  </data>
+  <data name="CustomizeImg_Tool_File_AccessibleDescription" xml:space="preserve">
+    <value>Menue fichier.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools_AccessibleDescription" xml:space="preserve">
+    <value>Menue outils.</value>
+  </data>
+  <data name="CustomizeImg_Tool_View_AccessibleDescription" xml:space="preserve">
+    <value>Menue affichage.</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarBackButton" xml:space="preserve">
+    <value>Retours</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarForwardButton" xml:space="preserve">
+    <value>En avant</value>
+  </data>
+  <data name="DefaultCaptionForFileMenuButton" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+</root>

@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessibleDesc_PreviewPage" xml:space="preserve">
+    <value>Preview Page #{0}</value>
+  </data>
+  <data name="AccessibleName_PreviewPage" xml:space="preserve">
+    <value>Page #{0}</value>
+  </data>
+  <data name="UltraButtonActionList_P_ButtonStyle_Desc" xml:space="preserve">
+    <value>If SupportThemes is false, this will alter the look of the button.</value>
+  </data>
+  <data name="UltraButtonActionList_P_Name_Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="UltraExpandableGroupBox_DefaultAction_Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="DefaultAction_PreviewPage" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="DefaultAction_Press" xml:space="preserve">
+    <value>Press</value>
+  </data>
+  <data name="UltraButtonActionList_P_Text_Desc" xml:space="preserve">
+    <value>Specifies the caption shown on the button.</value>
+  </data>
+  <data name="UltraStatusPrintDialog_Label" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+  </data>
+  <data name="PrintPreview_Page_Number_ScrollTip" xml:space="preserve">
+    <value>Page: {0} of {1}</value>
+  </data>
+  <data name="UltraButtonActionList_P_SupportThemes_Desc" xml:space="preserve">
+    <value>Determines whether the control should be drawn with system themes.</value>
+  </data>
+  <data name="PrintPreview_PreviewControl_NotSet" xml:space="preserve">
+    <value>The 'PreviewControl' property has not been set.</value>
+  </data>
+  <data name="UltraStatusPrintDialog_Title" xml:space="preserve">
+    <value>Generating Previews</value>
+  </data>
+  <data name="UltraExpandableGroupBox_DefaultAction_Collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="UltraStatusPrintDialog_Cancel" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="UltraButtonActionList_P_Name_Desc" xml:space="preserve">
+    <value>Specifies the name of the button.</value>
+  </data>
+  <data name="PrintPreview_Document_NotSet" xml:space="preserve">
+    <value>The 'Document' property has not been set.</value>
+  </data>
+  <data name="UltraButtonActionList_Appearance_Header" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="PrintPreview_Snapshot_Text" xml:space="preserve">
+    <value>Copying image to clipboard</value>
+  </data>
+  <data name="UltraStatusPrintDialog_PrintingTitle" xml:space="preserve">
+    <value>Printing</value>
+  </data>
+  <data name="PrintErrorCaption" xml:space="preserve">
+    <value>Print Error</value>
+  </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>An error occurred while attempting to print the associated document:
+{0}</value>
+  </data>
+  <data name="UltraDesktopAlertWindowInfo_Exception_NoDesktopAlert" xml:space="preserve">
+    <value>The specified UltraDesktopAlertShowWindowInfo instance is not associated with an UltraDesktopAlert component.</value>
+  </data>
+  <data name="DesktopAlertButtonsCollectionBase_Exception_CannotAddButtonToSameCollection" xml:space="preserve">
+    <value>This UltraDesktopAlertButton instance already belongs to this collection.</value>
+  </data>
+  <data name="DesktopAlertVisibleButtonsCollection_Exception_CannotModifyCollection" xml:space="preserve">
+    <value>The VisibleAlertButtons collection cannot be modified after the desktop alert window has been shown.</value>
+  </data>
+  <data name="DesktopAlertVisibleButtonsCollection_Exception_ButtonDoesNotBelongToCollection" xml:space="preserve">
+    <value>The specified instance cannot be added to the VisibleAlertButtons collection because it is not associated with an UltraDesktopAlert.</value>
+  </data>
+  <data name="DesktopAlertButtonsCollectionBase_Exception_CannotAddButtonToDifferentCollection" xml:space="preserve">
+    <value>An UltraDesktopAlertButton instance cannot belong to more than one collection.</value>
+  </data>
+  <data name="UltraDesktopAlert_Exception_WindowNotOpen" xml:space="preserve">
+    <value>The specified UltraDesktopAlertWindowInfo instance is not currently open.</value>
+  </data>
+  <data name="UltraDesktopAlertWindowInfo_Exception_DuplicateKey" xml:space="preserve">
+    <value>An UltraDesktopAlertWindowInfo instance with the key '{0}' is already open; the value specified for the 'Key' property must be unique across all currently open desktop alert windows.</value>
+  </data>
+  <data name="DesktopAlertDropDownButtonUIElement_ToolTipText" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="DesktopAlertCloseButtonUIElement_ToolTipText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="DesktopAlertPinButtonUIElement_ToolTipText_Unpinned" xml:space="preserve">
+    <value>Click to pin this desktop alert</value>
+  </data>
+  <data name="DesktopAlertPinButtonUIElement_ToolTipText_Pinned" xml:space="preserve">
+    <value>Click to unpin this desktop alert</value>
+  </data>
+  <data name="DesktopAlertLinkUIElement_Caption_ToolTipText_Office2007" xml:space="preserve">
+    <value>Open this item</value>
+  </data>
+  <data name="DesktopAlertLinkUIElement_Text_ToolTipText_Office2007" xml:space="preserve">
+    <value>Open this item</value>
+  </data>
+  <data name="UltraDesktopAlert_Class_Description" xml:space="preserve">
+    <value>Windows Forms Component which handles the display of desktop alert/notification windows.</value>
+  </data>
+  <data name="UltraDesktopAlertShowWindowInfo_Exception_SoundPropertyInvalidType" xml:space="preserve">
+    <value>The 'Sound' property only accepts values of type string, System.Media.SystemSound, Infragistics.Win.SoundEvents, or a System.IO.Stream which contains .WAV data.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AlertButtons" xml:space="preserve">
+    <value>Returns a collection of UltraDesktopAlertButton objects, which are displayed alongside the bottom edge of the desktop alert window.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AllowMove" xml:space="preserve">
+    <value>Gets/sets whether the end user can move the desktop alert window by dragging it to a different location.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_MultipleWindowDisplayStyle" xml:space="preserve">
+    <value>Gets/sets whether multiple instances of the desktop alert window can appear, and whether their screen locations will be automatically negotiated to prevent overlapping.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AnimationSpeed" xml:space="preserve">
+    <value>Gets/sets the relative speed of the animation effect used when the desktop alert window is shown or automatically closed.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AnimationScrollDirectionShow" xml:space="preserve">
+    <value>Gets/sets the direction for the scrolling effect when the desktop alert window is displayed. Applicable only when the AnimationStyleShow property is set to enable scrolling effects.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AnimationScrollDirectionAutoClose" xml:space="preserve">
+    <value>Gets/sets the direction for the scrolling effect when the desktop alert window is automatically closed. Applicable only when the AnimationStyleShow property is set to enable scrolling effects.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AnimationStyleShow" xml:space="preserve">
+    <value>Gets/sets how the desktop alert window is animated when it is displayed.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AnimationStyleAutoClose" xml:space="preserve">
+    <value>Gets/sets how the desktop alert window is animated when it automatically closes.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AutoClose" xml:space="preserve">
+    <value>Gets/sets whether the desktop alert window automatically closes itself after the amount of time specified by the AutoCloseDelay property has elapsed.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_AutoCloseDelay" xml:space="preserve">
+    <value>Gets/sets the amount of time that is allowed to elapse before the desktop alert window automatically closes when the AutoClose property is set to true, expressed in milliseconds.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ButtonImageSize" xml:space="preserve">
+    <value>Gets/sets the size of the images that are displayed by the buttons which belong to the AlertButtons collection, as well as the close button, dropdown button, and pin indicator.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ButtonStyle" xml:space="preserve">
+    <value>Gets/sets the style for the buttons displayed in the desktop alert window.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_CloseButtonVisible" xml:space="preserve">
+    <value>Gets/sets whether the close button is displayed in the desktop alert window.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_DropDownButtonVisible" xml:space="preserve">
+    <value>Gets/sets whether the dropdown button is displayed in the desktop alert window.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_FixedSize" xml:space="preserve">
+    <value>Gets/sets the size of the desktop alert windows displayed by this UltraDesktopAlert instance.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ImageSize" xml:space="preserve">
+    <value>Gets/sets the size of the image that is displayed in the client area of the desktop alert window.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_MainImageAreaBorderColor" xml:space="preserve">
+    <value>Gets/sets the border color for the main image area.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_Style" xml:space="preserve">
+    <value>Gets/sets the style of the desktop alert windows displayed by this UltraDesktopAlert instance.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_Opacity" xml:space="preserve">
+    <value>Gets/sets the alpha level (opacity) of the desktop alert window when the cursor is not positioned over it.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_Appearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the desktop alert windows displayed by this UltraDesktopAlert instance.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ButtonAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the buttons which appear in the desktop alert windows displayed by this UltraDesktopAlert instance.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ButtonHotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the buttons which appear in the desktop alert windows displayed by this UltraDesktopAlert instance when the cursor is positioned over the button.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_ButtonPressedAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the buttons which appear in the desktop alert windows displayed by this UltraDesktopAlert instance when the button is in the pressed state.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_CaptionAreaAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the area in which the caption is displayed. Applicable only when the Style property is set to 'WindowsLiveMessenger'.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_CaptionAreaImageSize" xml:space="preserve">
+    <value>Gets/sets the size of the image that is displayed in the caption area. Applicable only when the Style property is set to 'WindowsLiveMessenger'.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_GripAreaAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the area in which the grip indicator is displayed. Applicable only when the Style property is set to 'Office2007'.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_CaptionAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.Caption property appears in the user interface.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_CaptionHotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.Caption property appears in the user interface when the cursor is positioned over it.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_TextAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.Text property appears in the user interface.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_TextHotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.Text property appears in the user interface when the cursor is positioned over it.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_FooterTextAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.FooterText property appears in the user interface.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_FooterTextHotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which determines how the value of the UltraDesktopAlertShowWindowInfo.FooterText property appears in the user interface when the cursor is positioned over it.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_Appearances" xml:space="preserve">
+    <value>Returns a repository in which Infragistics.Win.AppearanceBase objects can be stored.</value>
+  </data>
+  <data name="UltraDesktopAlert_E_AlertButtonClicked" xml:space="preserve">
+    <value>Occurs when a member of the UltraDesktopAlert.AlertButtons collection is clicked.</value>
+  </data>
+  <data name="UltraDesktopAlert_E_DesktopAlertClosing" xml:space="preserve">
+    <value>Occurs when a desktop alert window is about to close.</value>
+  </data>
+  <data name="UltraDesktopAlert_E_DesktopAlertClosed" xml:space="preserve">
+    <value>Occurs immediately after a desktop alert window has been closed.</value>
+  </data>
+  <data name="UltraDesktopAlert_E_DropDownButtonClicked" xml:space="preserve">
+    <value>Occurs when the dropdown button has been clicked by the end user.</value>
+  </data>
+  <data name="UltraDesktopAlert_E_DesktopAlertLinkClicked" xml:space="preserve">
+    <value>Occurs when the caption, text or footer text link has been clicked by the end user.</value>
+  </data>
+  <data name="UltraDesktopAlert_Exception_CannotShowWindowWhenInitializing" xml:space="preserve">
+    <value>A desktop alert window cannot be shown when the associated UltraDesktopAlert component is initializing.</value>
+  </data>
+  <data name="UltraDesktopAlert_Exception_AutoCloseDelay" xml:space="preserve">
+    <value>The valid range of values for the AutoCloseDelay property is between zero and the number of milliseconds in one hour, inclusive.</value>
+  </data>
+  <data name="UltraDesktopAlert_Exception_NegativeSize" xml:space="preserve">
+    <value>The {0} property cannot be set to a value which contains a negative width or height.</value>
+  </data>
+  <data name="UltraDesktopAlert_Exception_Opacity" xml:space="preserve">
+    <value>The valid range of values for the Opacity property is between zero and one, inclusive.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_TreatCaptionAsLink" xml:space="preserve">
+    <value>Gets/sets whether the desktop alert window's caption will look and behave like a hyperlink when the required formatting characters are not present.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_TreatTextAsLink" xml:space="preserve">
+    <value>Gets/sets whether the desktop alert window's text will look and behave like a hyperlink when the required formatting characters are not present.</value>
+  </data>
+  <data name="UltraDesktopAlert_P_TreatFooterTextAsLink" xml:space="preserve">
+    <value>Gets/sets whether the desktop alert window's footer text will look and behave like a hyperlink when the required formatting characters are not present.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_DropDownButtonVisible" xml:space="preserve">
+    <value>Gets/sets whether a dropdown button is displayed for the UltraNavigationBarLocation, and if so, under which circumstances.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_Text" xml:space="preserve">
+    <value>Gets/sets the string that is used to construct the location’s full path, which is displayed in the edit portion of the control when the control is in edit mode, and also in the previous locations dropdown list.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_IncludeTextInFullPath" xml:space="preserve">
+    <value>Gets/sets whether the value returned from the TextResolved property is used for this instance when determining the value returned from the GetFullPath method for descendant locations.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_Locations" xml:space="preserve">
+    <value>Returns a collection of UltraNavigationBarLocation instances which represent the direct children of this instance.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_Settings" xml:space="preserve">
+    <value>Returns an UltraNavigationBarLocationSettings instance which exposes properties for this UltraNavigationBarLocation.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_DisplayText" xml:space="preserve">
+    <value>Gets/sets the string that is displayed on the text button which represents this UltraNavigationBarLocation in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_TextButtonDisplayStyle" xml:space="preserve">
+    <value>Gets/sets whether the button in which the text for the UltraNavigationBarLocation is displayed is visible in the user interface, and also whether the button displays an image, the resolved text, or both.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_ToolTipText" xml:space="preserve">
+    <value>Gets/sets the string that is displayed in a tooltip when the cursor is hovered over the element which represents this instance in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_P_Visible" xml:space="preserve">
+    <value>Gets/sets whether this instance is visible in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_Exception_CannotActivate" xml:space="preserve">
+    <value>An UltraNavigationBarLocation instance cannot be activated when it is not associated with an UltraNavigationBar control.</value>
+  </data>
+  <data name="NavigationBarLocationsCollection_Exception_CannotAddToDifferentCollection" xml:space="preserve">
+    <value>An UltraNavigationBarLocation instance can only belong to one Locations collection.</value>
+  </data>
+  <data name="NavigationBarLocationsCollection_Exception_CannotAddToSameCollection" xml:space="preserve">
+    <value>The specified UltraNavigationBarLocation instance already belongs to this Locations collection.</value>
+  </data>
+  <data name="NavigationBarLocationsCollection_Exception_CannotAddRootLocationToCollection" xml:space="preserve">
+    <value>The RootLocation cannot be added to a Locations collection.</value>
+  </data>
+  <data name="NavigationBarActionButtonsCollection_Exception_CannotAddToDifferentCollection" xml:space="preserve">
+    <value>An UltraNavigationBarActionButton instance can only belong to one ActionButtons collection.</value>
+  </data>
+  <data name="NavigationBarActionButtonsCollection_Exception_CannotAddToSameCollection" xml:space="preserve">
+    <value>The specified UltraNavigationBarActionButton instance already belongs to this ActionButtons collection.</value>
+  </data>
+  <data name="NavigationBarPreviousLocationsCollection_Exception_MustBeAssociatedWithSameControl" xml:space="preserve">
+    <value>The specified UltraNavigationBarLocation instance cannot be added to the PreviousLocations collection because it is not associated with this control.</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_MustBeAssociatedWithThisControl" xml:space="preserve">
+    <value>The specified UltraNavigationBarLocation instance is not associated with this UltraNavigationBar control.</value>
+  </data>
+  <data name="NavigationPathParseErrorEventArgs_DefaultErrorMessage" xml:space="preserve">
+    <value>The path '{0}' could not be successfully parsed.</value>
+  </data>
+  <data name="NavigationPathParseErrorEventArgs_DefaultErrorMessageCaption" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="UltraNavigationBarLocation_Exception_CannotDeselectRootLocation" xml:space="preserve">
+    <value>The RootLocation must always be present in the navigation path; the IsSelected property cannot be set to false for the RootLocation.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_Exception_CannotExpand" xml:space="preserve">
+    <value>This UltraNavigationBarLocation instance cannot be expanded because it is not associated with an UltraNavigationBar control.</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_ExpandedLocation" xml:space="preserve">
+    <value>The specified UltraNavigationBarLocation instance cannot be expanded because it is not associated with this UltraNavigationBar instance.</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_CannotPerformOperationOnHiddenLocation" xml:space="preserve">
+    <value>The specified UltraNavigationBarLocation instance cannot be activated, selected, or expanded because is not visible in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBar_PreviousLocationsDropDownButtonToolTipText" xml:space="preserve">
+    <value>Previous Locations</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_LocationTextCannotContainSeparator" xml:space="preserve">
+    <value>An UltraNavigationBarLocation cannot contain the PathSeparator in any part of the text which is used to identify it when parsing a navigation path.</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_PathSeparator" xml:space="preserve">
+    <value>The value of the PathSeparator property cannot be changed to '{0}' because one or more of the existing locations associated with the control contain that string in the Key, Text or DisplayText properties.</value>
+  </data>
+  <data name="UltraNavigationBarRootLocation_Exception_CannotSetDropDownButtonVisible" xml:space="preserve">
+    <value>The DropDownButtonVisible property is not supported for the UltraNavigationBarRootLocation class; the dropdown button must always be displayed for the root location.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_ActiveAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the associated UltraNavigationBarLocation that is used when its user interface element is in the active state.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_SelectedAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the associated UltraNavigationBarLocation that is used when its user interface element is in the selected state.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_LocationsDropDownListAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance which defines the visual attributes for the dropdown list which is displayed when an UltraNavigationBarLocation is in the expanded state.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_MaximumTextButtonWidth" xml:space="preserve">
+    <value>Gets/sets the maximum width for the user interface element which represents the associated UltraNavigationBarLocation on the navigation path.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_P_MaximumDropDownItems" xml:space="preserve">
+    <value>Gets/sets the maximum number of items that are visible in the dropdown list which appears when the associated UltraNavigationBarLocation is expanded.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_ClassDescription" xml:space="preserve">
+    <value>Exposes properties that control the appearance and behavior of UltraNavigationBarLocation instances.</value>
+  </data>
+  <data name="UltraNavigationBarActionButtonSettings_ClassDescription" xml:space="preserve">
+    <value>Exposes properties that control the appearance of UltraNavigationBarActionButton instances.</value>
+  </data>
+  <data name="UltraNavigationBarButtonAppearances_P_Appearance" xml:space="preserve">
+    <value>Gets/sets the general (i.e., stateless) appearance for the object associated with this instance.</value>
+  </data>
+  <data name="UltraNavigationBarButtonAppearances_P_HotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the object associated with this instance which is applied when the cursor passes within the bounds of the associated user interface element.</value>
+  </data>
+  <data name="UltraNavigationBarButtonAppearances_P_PressedAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the object associated with this instance which is applied when the associated user interface element is in the pressed state.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_ClassDescription" xml:space="preserve">
+    <value>Exposes properties related to the previous locations list functionality for the UltraNavigationBar control.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownButtonVisible" xml:space="preserve">
+    <value>Gets/sets whether the button which displays the previous locations dropdown list is displayed in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_MaximumDropDownItems" xml:space="preserve">
+    <value>Gets/sets the maximum number of items that are visible in the previous locations dropdown list.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_MaximumItems" xml:space="preserve">
+    <value>Gets/sets the maximum number of items that can exist in the PreviousLocations collection.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownButtonAppearance" xml:space="preserve">
+    <value>Gets/sets the general (i.e., stateless) appearance for the previous locations dropdown button.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownButtonHotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the previous locations dropdown button which is applied when the cursor passes within the bounds of its user interface element.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownButtonPressedAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the previous locations dropdown button which is applied when the button is in the pressed state.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownListAppearance" xml:space="preserve">
+    <value>Gets/sets the appearance for the dropdown list which displays previously visited locations.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsSettings_P_DropDownButtonToolTipText" xml:space="preserve">
+    <value>Gets/sets the string that is displayed in a tooltip when the cursor is hovered over the dropdown button.</value>
+  </data>
+  <data name="NavigationBarPreviousLocationsCollection_ClassDescription" xml:space="preserve">
+    <value>Encapsulates the UltraNavigationBar control's PreviousLocations collection.</value>
+  </data>
+  <data name="UltraNavigationBarLocation_ClassDescription" xml:space="preserve">
+    <value>Encapsulates a location in the navigation path for the UltraNavigationBar control.</value>
+  </data>
+  <data name="UltraNavigationBarActionButton_ClassDescription" xml:space="preserve">
+    <value>Encapsulates an action button for the UltraNavigationBar control.</value>
+  </data>
+  <data name="UltraNavigationBarActionButton_P_Settings" xml:space="preserve">
+    <value>Returns an UltraNavigationBarActionButtonSettings instance which exposes appearance-related properties for this UltraNavigationBarActionButton.</value>
+  </data>
+  <data name="UltraNavigationBarActionButton_P_ToolTipText" xml:space="preserve">
+    <value>Gets/sets the string that is displayed in a tooltip when the cursor is hovered over the element which represents this UltraNavigationBarActionButton in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBarActionButton_P_Visible" xml:space="preserve">
+    <value>Gets/sets whether this instance is visible in the user interface.</value>
+  </data>
+  <data name="UltraNavigationBar_ClassDescription" xml:space="preserve">
+    <value>Infragistics Windows Forms Control which provides hierarchical navigation capabilities.</value>
+  </data>
+  <data name="UltraNavigationBar_P_ActionButtons" xml:space="preserve">
+    <value>Returns a collection of UltraNavigationBarActionButton instances which can be used to execute application-specific actions.</value>
+  </data>
+  <data name="UltraNavigationBar_P_ActionButtonSettings" xml:space="preserve">
+    <value>Returns an UltraNavigationBarActionButtonSettings instance which exposes appearance-related properties for the UltraNavigationBarActionButton instances associated with this UltraNavigationBar.</value>
+  </data>
+  <data name="UltraNavigationBar_P_Appearances" xml:space="preserve">
+    <value>Returns a repository in which AppearanceBase objects can be stored.</value>
+  </data>
+  <data name="UltraNavigationBar_P_Appearance" xml:space="preserve">
+    <value>Gets/sets the Appearance object which defines the visual attributes for this UltraNavigationBar.</value>
+  </data>
+  <data name="UltraNavigationBar_P_AutoSize" xml:space="preserve">
+    <value>Gets/sets a value indicating whether the height of the control automatically adjusts when the value of properties which affect its ideal height change.</value>
+  </data>
+  <data name="UltraNavigationBar_P_EditModeAppearance" xml:space="preserve">
+    <value>Gets/sets the Appearance object which defines the visual attributes for the control when it is in edit mode.</value>
+  </data>
+  <data name="UltraNavigationBar_P_HotTrackAppearance" xml:space="preserve">
+    <value>Gets/sets the Appearance object which defines the visual attributes for the control when the cursor is positioned within its bounds.</value>
+  </data>
+  <data name="UltraNavigationBar_P_DrawsFocusRect" xml:space="preserve">
+    <value>Gets/sets whether the ActiveLocation displays a focus rectangle when the control has the input focus.</value>
+  </data>
+  <data name="UltraNavigationBar_P_ImageSize" xml:space="preserve">
+    <value>Gets/sets the size at which all images are displayed.</value>
+  </data>
+  <data name="UltraNavigationBar_P_PathSeparator" xml:space="preserve">
+    <value>Gets/sets the character(s) which are used to separate the text for each UltraNavigationBarLocation in the navigation path.</value>
+  </data>
+  <data name="UltraNavigationBar_P_LocationSettings" xml:space="preserve">
+    <value>Returns an UltraNavigationBarLocationSettings instance which exposes properties that control the appearance and behavior of the UltraNavigationBarLocation instances associated with this UltraNavigationBar.</value>
+  </data>
+  <data name="UltraNavigationBar_P_PreviousLocationsSettings" xml:space="preserve">
+    <value>Returns an UltraNavigationBarPreviousLocationsSettings instance which exposes properties that control the appearance and behavior of the previous locations list.</value>
+  </data>
+  <data name="UltraNavigationBar_P_SelectedLocationImageVisible" xml:space="preserve">
+    <value>Gets/sets whether the resolved image for the SelectedLocation is displayed by the control.</value>
+  </data>
+  <data name="UltraNavigationBar_P_RootLocation" xml:space="preserve">
+    <value>Returns an UltraNavigationBarLocation-derived instance which represents the origin of the navigation path, i.e., the location that is the highest-level ancestor of all locations associated with this UltraNavigationBar.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ActionButtonClicked" xml:space="preserve">
+    <value>Occurs after an UltraNavigationBarActionButton is clicked by the end user.</value>
+  </data>
+  <data name="UltraNavigationBar_E_EnteringEditMode" xml:space="preserve">
+    <value>Occurs before an edit mode session begins.</value>
+  </data>
+  <data name="UltraNavigationBar_E_EnteredEditMode" xml:space="preserve">
+    <value>Occurs before an edit mode session begins.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ExitingEditMode" xml:space="preserve">
+    <value>Occurs before an edit mode session ends.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ExitedEditMode" xml:space="preserve">
+    <value>Occurs after an edit mode session ends.</value>
+  </data>
+  <data name="UltraNavigationBar_E_InitializeLocations" xml:space="preserve">
+    <value>Occurs when a Locations collection is accessed for the first time.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ActiveLocationChanging" xml:space="preserve">
+    <value>Occurs before the value of the ActiveLocation property is changed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ActiveLocationChanged" xml:space="preserve">
+    <value>Occurs after the value of the ActiveLocation property has changed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_LocationExpanding" xml:space="preserve">
+    <value>Occurs before the dropdown list which displays the visible members of a Locations collection is displayed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_LocationExpanded" xml:space="preserve">
+    <value>Occurs after the dropdown list which displays the visible members of a Locations collection is displayed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_SelectedLocationChanging" xml:space="preserve">
+    <value>Occurs before the value of the SelectedLocation property is changed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_SelectedLocationChanged" xml:space="preserve">
+    <value>Occurs after the value of the SelectedLocation property has changed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_NavigationPathParseError" xml:space="preserve">
+    <value>Occurs when a string could not be successfully parsed into a navigation path.</value>
+  </data>
+  <data name="UltraNavigationBar_E_LocationCollapsed" xml:space="preserve">
+    <value>Occurs after the dropdown list which displays the visible members of a Locations collection is closed.</value>
+  </data>
+  <data name="UltraNavigationBar_E_LocationToolTipDisplaying" xml:space="preserve">
+    <value>Occurs when a tooltip is about to be displayed for an UltraNavigationBarLocation.</value>
+  </data>
+  <data name="UltraNavigationBar_E_ActionButtonToolTipDisplaying" xml:space="preserve">
+    <value>Occurs when a tooltip is about to be displayed for an UltraNavigationBarActionButton.</value>
+  </data>
+  <data name="UltraNavigationBar_E_PreviousLocationsDropDownButtonToolTipDisplaying" xml:space="preserve">
+    <value>Occurs when a tooltip is about to be displayed for the dropdown button which provides access to the previous locations dropdown list.</value>
+  </data>
+  <data name="UltraNavigationBarPreviousLocationsCollection_Exception_CannotParsePathIntoLocation" xml:space="preserve">
+    <value>No UltraNavigationBarLocation could be added to the collection because the specified 'fullPath' could not be successfully parsed.</value>
+  </data>
+  <data name="UltraNavigationBar_Exception_PathSeparatorCannotBeEmpty" xml:space="preserve">
+    <value>The PathSeparator property cannot be set to null or an empty string.</value>
+  </data>
+  <data name="UltraNavigationBarLocationSettings_Exception_MaximumDropDownItems" xml:space="preserve">
+    <value>The 'MaximumDropDownItems' property cannot be set to a value that is less than -1.</value>
+  </data>
+  <data name="NavigationBarButtonElementAccessibleObject_DefaultAction" xml:space="preserve">
+    <value>Click</value>
+  </data>
+  <data name="LocationDropDownButtonElementAccessibleObject_DefaultAction" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="LocationTextButtonUIElementAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Location Text Button</value>
+  </data>
+  <data name="LocationListItemUIElementAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Location List Item</value>
+  </data>
+  <data name="LocationDropDownButtonUIElementAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Location DropDown Button</value>
+  </data>
+  <data name="ActionButtonUIElementAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Action Button</value>
+  </data>
+  <data name="ActionButtonUIElementAccessibleObject_Description" xml:space="preserve">
+    <value>A button that can be clicked to perform some application-specific action.</value>
+  </data>
+  <data name="PreviousLocationsDropDownButtonUIElementAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Previous Locations DropDown Button</value>
+  </data>
+  <data name="PreviousLocationsDropDownButtonUIElementAccessibleObject_Description" xml:space="preserve">
+    <value>A DropDown button which when clicked displays a list of previously visited locations.</value>
+  </data>
+  <data name="NavigationBarAccessibleObject_DisplayName" xml:space="preserve">
+    <value>Infragistics UltraNavigationBar control</value>
+  </data>
+  <data name="NotificationSettings_DefaultCaption" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="NotificationSettings_DefaultText" xml:space="preserve">
+    <value>The value '{0}' is invalid.</value>
+  </data>
+  <data name="NotificationSettings_DefaultText_RequiredValueMissing" xml:space="preserve">
+    <value>The value cannot be empty.</value>
+  </data>
+  <data name="NotificationSettings_DefaultText_ConversionFailure" xml:space="preserve">
+    <value>The value '{0}' could not be converted to type '{1}'.</value>
+  </data>
+  <data name="NotificationSettings_Exception_SoundNotValid" xml:space="preserve">
+    <value>The Sound property does not support values of the specified type.</value>
+  </data>
+  <data name="NotificationSettings_ToString_Action" xml:space="preserve">
+    <value>Action = {0}</value>
+  </data>
+  <data name="SystemSound_DisplayName_Asterisk" xml:space="preserve">
+    <value>Asterisk</value>
+  </data>
+  <data name="SystemSound_DisplayName_Beep" xml:space="preserve">
+    <value>Beep</value>
+  </data>
+  <data name="SystemSound_DisplayName_Exclamation" xml:space="preserve">
+    <value>Exclamation</value>
+  </data>
+  <data name="SystemSound_DisplayName_Hand" xml:space="preserve">
+    <value>Hand</value>
+  </data>
+  <data name="SystemSound_DisplayName_Question" xml:space="preserve">
+    <value>Question</value>
+  </data>
+  <data name="SoundEditor_Title" xml:space="preserve">
+    <value>Sound Property Editor</value>
+  </data>
+  <data name="SoundEditor_cmdOk_Text" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SoundEditor_cmdCancel_Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SoundEditor_cmdRemoveSound_Text" xml:space="preserve">
+    <value>Remove Sound</value>
+  </data>
+  <data name="SoundEditor_cmdPlay_Text" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="SoundEditor_cmdBrowse_Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="SoundEditor_grpSystemSounds_Text" xml:space="preserve">
+    <value>System Sounds</value>
+  </data>
+  <data name="SoundEditor_grpFileOrURL_Text" xml:space="preserve">
+    <value>File or URL</value>
+  </data>
+  <data name="SoundEditor_chkUseSystemSound_Text" xml:space="preserve">
+    <value>Use System Sound</value>
+  </data>
+  <data name="SoundEditor_chkUseFileOrURL_Text" xml:space="preserve">
+    <value>Use File or URL</value>
+  </data>
+  <data name="SoundEditor_OpenFileDialog_Filter" xml:space="preserve">
+    <value>Waveform Audio (*.WAV)</value>
+  </data>
+  <data name="SoundEditor_OpenFileDialog_Text" xml:space="preserve">
+    <value>Open Sound File</value>
+  </data>
+  <data name="SoundEditor_None" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="NotificationSettings_Exception_ReadOnly" xml:space="preserve">
+    <value>This NotificationSettings instance is read-only; property values cannot be modified.</value>
+  </data>
+  <data name="NotificationSettings_P_Action" xml:space="preserve">
+    <value>Gets/sets the kind of action that is taken to notify the end user when a validation session fails.</value>
+  </data>
+  <data name="NotificationSettings_P_Caption" xml:space="preserve">
+    <value>Gets/sets the string that is displayed as a caption or title when a validation session fails.</value>
+  </data>
+  <data name="NotificationSettings_P_Image" xml:space="preserve">
+    <value>Gets/sets the image that is displayed when a validation session fails.</value>
+  </data>
+  <data name="NotificationSettings_P_Sound" xml:space="preserve">
+    <value>Gets/sets the full path to a sound file, URL, System.Media.SystemSound, or the value of a constant from the Infragistics.Win.SoundEvents enumeration, which is played when the end user is notified of a failed validation.</value>
+  </data>
+  <data name="NotificationSettings_P_Text" xml:space="preserve">
+    <value>Gets/sets the string that is displayed as a message when a validation session fails.</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_ScrollHere" xml:space="preserve">
+    <value>Scroll Here</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_Bottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_PageUp" xml:space="preserve">
+    <value>Page Up</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_PageDown" xml:space="preserve">
+    <value>Page Down</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_ScrollUp" xml:space="preserve">
+    <value>Scroll Up</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_V_ScrollDown" xml:space="preserve">
+    <value>Scroll Down</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_ScrollHere" xml:space="preserve">
+    <value>Scroll Here</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_LeftEdge" xml:space="preserve">
+    <value>Left Edge</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_RightEdge" xml:space="preserve">
+    <value>Right Edge</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_PageLeft" xml:space="preserve">
+    <value>Page Left</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_PageRight" xml:space="preserve">
+    <value>Page Right</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_ScrollLeft" xml:space="preserve">
+    <value>Scroll Left</value>
+  </data>
+  <data name="UltraPanel_ContextMenuItem_H_ScrollRight" xml:space="preserve">
+    <value>Scroll Right</value>
+  </data>
+  <data name="UltraPanel_InvalidOperationException_CannotModifyControls" xml:space="preserve">
+    <value>The Controls collection of the UltraPanel is read-only. Modify the UltraPanel.ClientArea.Controls collection instead.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAllowDrop" xml:space="preserve">
+    <value>The AllowDrop of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAutoScroll" xml:space="preserve">
+    <value>The AutoScroll of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAutoSize" xml:space="preserve">
+    <value>The AutoSize of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAutoSizeMode" xml:space="preserve">
+    <value>The AutoSizeMode of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyBackColor" xml:space="preserve">
+    <value>The BackColor of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyMaximumSize" xml:space="preserve">
+    <value>The MaximumSize of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyMinimumSize" xml:space="preserve">
+    <value>The MinimumSize of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyClientSize" xml:space="preserve">
+    <value>The ClientSize of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAnchor" xml:space="preserve">
+    <value>The Anchor of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAutoScrollMargin" xml:space="preserve">
+    <value>The AutoScrollMargin of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyAutoScrollMinSize" xml:space="preserve">
+    <value>The AutoScrollMinSize of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyBorderStyle" xml:space="preserve">
+    <value>The BorderStyle of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyBounds" xml:space="preserve">
+    <value>The Bounds of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyDock" xml:space="preserve">
+    <value>The Dock of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyImeMode" xml:space="preserve">
+    <value>The ImeMode of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyLocation" xml:space="preserve">
+    <value>The Location of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyMargin" xml:space="preserve">
+    <value>The Margin of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyName" xml:space="preserve">
+    <value>The Name of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyRightToLeft" xml:space="preserve">
+    <value>The RightToLeft of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifySize" xml:space="preserve">
+    <value>The Size of the {0} cannot be set.</value>
+  </data>
+  <data name="AutoScrollContainerPanel_InvalidOperationException_CannotModifyTabIndex" xml:space="preserve">
+    <value>The TabIndex of the {0} cannot be set.</value>
+  </data>
+  <data name="SerializationError" xml:space="preserve">
+    <value>Error encountered while serializing data into stream.</value>
+  </data>
+  <data name="DeserializationError" xml:space="preserve">
+    <value>Error encountered while deserializing stream.</value>
+  </data>
+  <data name="TileCollection_ArgumentException_OnlyContainsUltraTiles" xml:space="preserve">
+    <value>A TileCollection can only contain UltraTile instances.</value>
+  </data>
+  <data name="TileCollection_InvalidOperationException_CannotSetTilesWithIndexer" xml:space="preserve">
+    <value>The UltraTiles cannot be set with the indexer.</value>
+  </data>
+  <data name="TileCollection_ArgumentOutOfRangeException_InsertOutOfRange" xml:space="preserve">
+    <value>The index value must be between 0 and the number of UltraTiles currently in the collection.</value>
+  </data>
+  <data name="TileCollectionBase_ArgumentException_TileAlreadyExists" xml:space="preserve">
+    <value>The specified tile already exists in the collection.</value>
+  </data>
+  <data name="TileCollectionBase_InvalidOperationException_TileAlreadyOwned" xml:space="preserve">
+    <value>The tile is owned by a different UltraTilePanel.</value>
+  </data>
+  <data name="TileCollectionBase_ArgumentOutOfRangeException_InvalidIndex" xml:space="preserve">
+    <value>The index must valid in the collection.</value>
+  </data>
+  <data name="TileDragOverPositionEventArgs_InvalidOperationException_CannotSetAllowDrop" xml:space="preserve">
+    <value>AllowDrop cannot be set to True when the target UltraTile has AllowMoving set to False.</value>
+  </data>
+  <data name="UltraTile_Large_DefaultAction" xml:space="preserve">
+    <value>Switch to normal mode</value>
+  </data>
+  <data name="UltraTile_Normal_DefaultAction" xml:space="preserve">
+    <value>Enlarge</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_ScrollHere" xml:space="preserve">
+    <value>Scroll Here</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_Bottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_PageUp" xml:space="preserve">
+    <value>Page Up</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_PageDown" xml:space="preserve">
+    <value>Page Down</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_ScrollUp" xml:space="preserve">
+    <value>Scroll Up</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_V_ScrollDown" xml:space="preserve">
+    <value>Scroll Down</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_ScrollHere" xml:space="preserve">
+    <value>Scroll Here</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_LeftEdge" xml:space="preserve">
+    <value>Left Edge</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_RightEdge" xml:space="preserve">
+    <value>Right Edge</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_PageLeft" xml:space="preserve">
+    <value>Page Left</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_PageRight" xml:space="preserve">
+    <value>Page Right</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_ScrollLeft" xml:space="preserve">
+    <value>Scroll Left</value>
+  </data>
+  <data name="UltraTilePanel_ContextMenuItem_H_ScrollRight" xml:space="preserve">
+    <value>Scroll Right</value>
+  </data>
+  <data name="UltraTileButtonToolTipClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="UltraTileButtonToolTipStateChangeLarge" xml:space="preserve">
+    <value>Switch to normal mode</value>
+  </data>
+  <data name="UltraTileButtonToolTipStateChangeNormal" xml:space="preserve">
+    <value>Enlarge</value>
+  </data>
+  <data name="UltraSplitter_P_ButtonStyle" xml:space="preserve">
+    <value>Gets/sets the style for any buttons displayed in the splitter.</value>
+  </data>
+</root>

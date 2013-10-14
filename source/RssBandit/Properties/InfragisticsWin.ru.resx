@@ -1,0 +1,954 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MaskValidationErrorInvalidDayOfMonth" xml:space="preserve">
+    <value>Недействительный день для указанного месяца года.</value>
+  </data>
+  <data name="ScrollContextMenuBottom" xml:space="preserve">
+    <value>Нижняя часть</value>
+  </data>
+  <data name="CustomColorEditToolTip38" xml:space="preserve">
+    <value>Лавандовый</value>
+  </data>
+  <data name="CustomColorEditToolTip39" xml:space="preserve">
+    <value>Белый</value>
+  </data>
+  <data name="CustomColorEditToolTip36" xml:space="preserve">
+    <value>Светло-бирюзовый</value>
+  </data>
+  <data name="CustomColorEditToolTip34" xml:space="preserve">
+    <value>Светло-жёлтый</value>
+  </data>
+  <data name="CustomColorEditToolTip35" xml:space="preserve">
+    <value>Светло-зелёный</value>
+  </data>
+  <data name="CustomColorEditToolTip32" xml:space="preserve">
+    <value>Алый</value>
+  </data>
+  <data name="CustomColorEditToolTip7" xml:space="preserve">
+    <value>Серый 80%</value>
+  </data>
+  <data name="CustomColorEditToolTip30" xml:space="preserve">
+    <value>Сливовый</value>
+  </data>
+  <data name="CustomColorEditToolTip0" xml:space="preserve">
+    <value>Чёрный</value>
+  </data>
+  <data name="CustomColorEditToolTip3" xml:space="preserve">
+    <value>Тёмно-зелёный</value>
+  </data>
+  <data name="CustomColorEditToolTip2" xml:space="preserve">
+    <value>Оливковый</value>
+  </data>
+  <data name="MaskValidationErrorNoInput" xml:space="preserve">
+    <value>Значение не nullable. Вы должны ввести действительное значение.</value>
+  </data>
+  <data name="AccessibleDescScrollbarNextPage_Vert" xml:space="preserve">
+    <value>Перемещает вертикально вниз на две строки</value>
+  </data>
+  <data name="UltraCalc_StatusCode_Calculating" xml:space="preserve">
+    <value>#Расчет</value>
+  </data>
+  <data name="AccessibleDescScrollbarThumb_Vert" xml:space="preserve">
+    <value>Указывает на текущую позицию по вертикали и может быть перемещено для непосредственного изменения</value>
+  </data>
+  <data name="IllegalOperationMessageNoNextEditSection" xml:space="preserve">
+    <value>Нет больше доступных для редактирования секций.</value>
+  </data>
+  <data name="AccessibleActionCloseUp" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="frmImageEditor_Gradient_VerticalBump" xml:space="preserve">
+    <value>Вертикальный Изгиб</value>
+  </data>
+  <data name="AccessibleActionSpinLast" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevEditSection" xml:space="preserve">
+    <value>Нет изменяемых секций для перехода назад.</value>
+  </data>
+  <data name="CustomColorEditToolTip8" xml:space="preserve">
+    <value>Тёмно-красный</value>
+  </data>
+  <data name="CustomColorEditToolTip22" xml:space="preserve">
+    <value>Фиолетовый</value>
+  </data>
+  <data name="EditContextMenuSelectAll" xml:space="preserve">
+    <value>Выбрать Всё</value>
+  </data>
+  <data name="FmtPrvdrTitle" xml:space="preserve">
+    <value>Редактор свойств</value>
+  </data>
+  <data name="UltraImageEditor_ResizeLossOfDataPrompt_Message" xml:space="preserve">
+    <value>Изменение размера изображения для такого размера будет причиной потери данных</value>
+  </data>
+  <data name="CustomColorEditToolTip37" xml:space="preserve">
+    <value>Бледно-голубой</value>
+  </data>
+  <data name="CustomColorEditToolTip33" xml:space="preserve">
+    <value>Коричневый</value>
+  </data>
+  <data name="CustomColorEditToolTip31" xml:space="preserve">
+    <value>Серый 25%</value>
+  </data>
+  <data name="ScrollContextMenuPageRight" xml:space="preserve">
+    <value>Страница вправо</value>
+  </data>
+  <data name="CustomColorEditToolTip19" xml:space="preserve">
+    <value>Изумрудный</value>
+  </data>
+  <data name="CustomColorEditToolTip15" xml:space="preserve">
+    <value>Серый 50%</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Rectangular" xml:space="preserve">
+    <value>Прямоугольный</value>
+  </data>
+  <data name="UltraCalc_Status_Calculating" xml:space="preserve">
+    <value>Приложение находится в процессе вычисления этой ячейки.</value>
+  </data>
+  <data name="AccessibleNameScrollbar_Horz" xml:space="preserve">
+    <value>Горизонтальная полоса прокрутки</value>
+  </data>
+  <data name="AccessibleNameValueList" xml:space="preserve">
+    <value>Список</value>
+  </data>
+  <data name="frmImageEditor_UndoTool_ToolTipText" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="MaskValidationErrorInputExceedsMax" xml:space="preserve">
+    <value>Входной поток не удовлетворяет ограничению максимального значения.</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectFromImagelist" xml:space="preserve">
+    <value>&amp;Выберите из списка изображений</value>
+  </data>
+  <data name="frmImageEditor_PasteTool_ToolTipText" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="AccessibleActionSpinFirst" xml:space="preserve">
+    <value>Первый</value>
+  </data>
+  <data name="CustomColorEditToolTip23" xml:space="preserve">
+    <value>Серый 40%</value>
+  </data>
+  <data name="ValueListNull" xml:space="preserve">
+    <value>(нет)</value>
+  </data>
+  <data name="CustomColorToolTipAutomaticColor" xml:space="preserve">
+    <value>Авто</value>
+  </data>
+  <data name="TypeDesc_U16" xml:space="preserve">
+    <value>16 бит беззнаковое целое</value>
+  </data>
+  <data name="FmtPrvdrCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="TypeDesc_Byte" xml:space="preserve">
+    <value>Байт</value>
+  </data>
+  <data name="CustomColorToolTipMoreColors" xml:space="preserve">
+    <value>Ещё Цвета</value>
+  </data>
+  <data name="SelectColor_DragLabel" xml:space="preserve">
+    <value>[Нажать сюда и перетащить в любое место для захвата цвета с экрана]</value>
+  </data>
+  <data name="IllegalOperationMessageAtLastCharacter" xml:space="preserve">
+    <value>После последнего символа нет более символов для перехода.</value>
+  </data>
+  <data name="TabManagerScrollPreviousPage" xml:space="preserve">
+    <value>Предыдущая Страница</value>
+  </data>
+  <data name="AccessibleNameMaskedEditSelectedText" xml:space="preserve">
+    <value>Выбранный текст</value>
+  </data>
+  <data name="AppearanceImageEditor_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CustomColorEditToolTip18" xml:space="preserve">
+    <value>Лайм</value>
+  </data>
+  <data name="AccessibleActionShowColorDialog" xml:space="preserve">
+    <value>Показать диалог выбора цвета</value>
+  </data>
+  <data name="ScrollContextMenuPageDown" xml:space="preserve">
+    <value>Страница вниз</value>
+  </data>
+  <data name="TypeDesc_I32" xml:space="preserve">
+    <value>32-разрядные знаковое целое (Int)</value>
+  </data>
+  <data name="TypeDesc_U32" xml:space="preserve">
+    <value>32-разрядные беззнаковое целое</value>
+  </data>
+  <data name="SelectColor_Saturation" xml:space="preserve">
+    <value>Насыщенность</value>
+  </data>
+  <data name="DialogOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="AccessibleNameScrollbarNextPage_Horz" xml:space="preserve">
+    <value>Страница вправо</value>
+  </data>
+  <data name="EditContextMenuPaste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="TypeDesc_Null" xml:space="preserve">
+    <value>(пусто)</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_Automatic" xml:space="preserve">
+    <value>Автоматический</value>
+  </data>
+  <data name="TabManagerScrollLast" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="frmImageEditor_GradientStyleTool_ToolTipText" xml:space="preserve">
+    <value>Стиль Градиента</value>
+  </data>
+  <data name="AccessibleActionSpinIncrement" xml:space="preserve">
+    <value>Больше</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Circular" xml:space="preserve">
+    <value>Циркуляр</value>
+  </data>
+  <data name="TypeDesc_Char" xml:space="preserve">
+    <value>Символ</value>
+  </data>
+  <data name="FromAppearancesCollection" xml:space="preserve">
+    <value>Из коллекции видов (Указатель: {0}, Ключ: "{1}")</value>
+  </data>
+  <data name="EditContextMenuCut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectImageFileDialogTitle" xml:space="preserve">
+    <value>Выберите Изображение из файла</value>
+  </data>
+  <data name="AccessibleNameScrollbarThumb_Vert" xml:space="preserve">
+    <value>Положение</value>
+  </data>
+  <data name="AccessibleActionSpinPreviousPage" xml:space="preserve">
+    <value>Предыдущая Страница</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrev_Vert" xml:space="preserve">
+    <value>Перемещает вертикально вверх на одну строку</value>
+  </data>
+  <data name="SelectColor_Red" xml:space="preserve">
+    <value>Красный</value>
+  </data>
+  <data name="TypeDesc_I16" xml:space="preserve">
+    <value>16 бит знаковое целое</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrevPage_Horz" xml:space="preserve">
+    <value>Страница влево</value>
+  </data>
+  <data name="TypeDesc_String" xml:space="preserve">
+    <value>Строка</value>
+  </data>
+  <data name="TypeDesc_I64" xml:space="preserve">
+    <value>64 знаковое целое (Long)</value>
+  </data>
+  <data name="MaskValidationErrorInputDoesNotMatchMask" xml:space="preserve">
+    <value>Входные данные не совпадают с маской.</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectFromFile" xml:space="preserve">
+    <value>&amp;Выберите Файл...</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsWidth" xml:space="preserve">
+    <value>Ширина:</value>
+  </data>
+  <data name="SelectColor_Title" xml:space="preserve">
+    <value>Выбрать Цвет</value>
+  </data>
+  <data name="TabManagerScrollNextPage" xml:space="preserve">
+    <value>Следующая Страница</value>
+  </data>
+  <data name="ImageCaptureDialogDirections" xml:space="preserve">
+    <value>Нажмите и перетащите, чтобы выбрать изображение</value>
+  </data>
+  <data name="frmTextToolbar_cmdUnderline_ToolTipText" xml:space="preserve">
+    <value>Подчёркнутый</value>
+  </data>
+  <data name="frmTextToolbar_cmdItalic_ToolTipText" xml:space="preserve">
+    <value>Курсив</value>
+  </data>
+  <data name="AccessibleActionSpinPreviousItem" xml:space="preserve">
+    <value>Предыдущий Элемент</value>
+  </data>
+  <data name="TypeDesc_U64" xml:space="preserve">
+    <value>64 беззнаковое целое</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Vertical" xml:space="preserve">
+    <value>Вертикальный</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsHeight" xml:space="preserve">
+    <value>Высота:</value>
+  </data>
+  <data name="TabManagerScrollPrevious" xml:space="preserve">
+    <value>Предыдущий</value>
+  </data>
+  <data name="frmImageEditor_CopyTool_ToolTipText" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="AccessibleActionSelectColorItem" xml:space="preserve">
+    <value>Выбор</value>
+  </data>
+  <data name="AccessibleActionCheck" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="TypeDesc_Boolean" xml:space="preserve">
+    <value>Логические</value>
+  </data>
+  <data name="IllegalOperationMessageCannotDelete" xml:space="preserve">
+    <value>Не удаётся удалить выбранное.</value>
+  </data>
+  <data name="AccessibleActionInkCloseUp" xml:space="preserve">
+    <value>Закрыть панель ручного ввода</value>
+  </data>
+  <data name="AccessibleDescScrollbarNextPage_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения правее на два столбца</value>
+  </data>
+  <data name="AccessibleDescScrollbar_Horz" xml:space="preserve">
+    <value>Используется для того чтобы изменить горизонтальную область просмотра</value>
+  </data>
+  <data name="frmImageEditor_DrawText_ToolTipText" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="ScrollContextMenuPageLeft" xml:space="preserve">
+    <value>Страница влево</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_Transparent" xml:space="preserve">
+    <value>Прозрачный</value>
+  </data>
+  <data name="FmtPrvdrOK" xml:space="preserve">
+    <value>Ок</value>
+  </data>
+  <data name="frmImageEditor_ZoomInTool_ToolTipText" xml:space="preserve">
+    <value>Увеличить</value>
+  </data>
+  <data name="IllegalOperationMessageCannotMoveToPrevCharacter" xml:space="preserve">
+    <value>Не удается перейти на предыдущий символ.</value>
+  </data>
+  <data name="AccessibleActionSetIndeterminate" xml:space="preserve">
+    <value>Установить неопределенный</value>
+  </data>
+  <data name="frmImageEditor_RotateLeftTool_ToolTipText" xml:space="preserve">
+    <value>Повернуть влево</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Elliptical" xml:space="preserve">
+    <value>Эллиптический</value>
+  </data>
+  <data name="frmImageEditor_Gradient_ForwardDiagonal" xml:space="preserve">
+    <value>Переслать по диагонали</value>
+  </data>
+  <data name="TypeDesc_Double" xml:space="preserve">
+    <value>Двойной (с плавающей точкой)</value>
+  </data>
+  <data name="AccessibleActionUncheck" xml:space="preserve">
+    <value>Снять</value>
+  </data>
+  <data name="ColorEditorTabCustom" xml:space="preserve">
+    <value>Текущий</value>
+  </data>
+  <data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_LocaleID" xml:space="preserve">
+    <value>ID Места</value>
+  </data>
+  <data name="MaskValidationErrorInputSmallerThanMin" xml:space="preserve">
+    <value>Входное значение не удовлетворяет ограничению минимального значения.</value>
+  </data>
+  <data name="AccessibleNameScrollbarMin_Horz" xml:space="preserve">
+    <value>Левый</value>
+  </data>
+  <data name="ScrollButtonTypesEditorDefault" xml:space="preserve">
+    <value>&amp;По умолчанию</value>
+  </data>
+  <data name="TypeDesc_SByte" xml:space="preserve">
+    <value>Байт (знаковый)</value>
+  </data>
+  <data name="UltraCalc_ErrorCode_Syntax" xml:space="preserve">
+    <value>#Синтаксис</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrev_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения левее на один столбец</value>
+  </data>
+  <data name="AccessibleDescScrollbarMax_Vert" xml:space="preserve">
+    <value>Перемещения в вертикальном положении на дно</value>
+  </data>
+  <data name="AccessibleNameScrollbarMin_Vert" xml:space="preserve">
+    <value>Верх</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrevPage_Vert" xml:space="preserve">
+    <value>Страница вверх</value>
+  </data>
+  <data name="ColorEditorTabSystem" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="AccessibleNameScrollbarNext_Vert" xml:space="preserve">
+    <value>Линия вниз</value>
+  </data>
+  <data name="AccessibleActionSpinDecrement" xml:space="preserve">
+    <value>Меньше</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrevPage_Vert" xml:space="preserve">
+    <value>Перемещает вертикально вверх пару строк</value>
+  </data>
+  <data name="AccessibleNameScrollbarMax_Horz" xml:space="preserve">
+    <value>Правый</value>
+  </data>
+  <data name="AccessibleNameMaskedEditTextArea" xml:space="preserve">
+    <value>Область текста</value>
+  </data>
+  <data name="UltraImageEditor_ResizeLossOfDataPrompt_Caption" xml:space="preserve">
+    <value>Возможные потери данных</value>
+  </data>
+  <data name="AccessibleDescScrollbarNext_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения правее на один столбец</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrev_Horz" xml:space="preserve">
+    <value>Колонка слева</value>
+  </data>
+  <data name="frmImageEditor_CutTool_ToolTipText" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrevPage_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения левее на два столбца</value>
+  </data>
+  <data name="TabManagerScrollFirst" xml:space="preserve">
+    <value>Первый</value>
+  </data>
+  <data name="AccessibleActionSpinNextItem" xml:space="preserve">
+    <value>Следующий Элемент</value>
+  </data>
+  <data name="AccessibleNameScrollbarThumb_Horz" xml:space="preserve">
+    <value>Положение</value>
+  </data>
+  <data name="AccessibleActionSpinNextPage" xml:space="preserve">
+    <value>Следующая Страница</value>
+  </data>
+  <data name="MaskValidationErrorInvalidDate" xml:space="preserve">
+    <value>Была введена Неверная дата.</value>
+  </data>
+  <data name="IllegalOperationMessageGeneral" xml:space="preserve">
+    <value>Неправильная операция</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_MoreColors" xml:space="preserve">
+    <value>Ещё цвета...</value>
+  </data>
+  <data name="AccessibleDescScrollbar_Vert" xml:space="preserve">
+    <value>Используется для того чтобы изменить вертикальную область просмотра</value>
+  </data>
+  <data name="CustomColorEditToolTip9" xml:space="preserve">
+    <value>Оранжевый</value>
+  </data>
+  <data name="TrackBarUITypeEditor_ValueLabel" xml:space="preserve">
+    <value>Значение:</value>
+  </data>
+  <data name="ImageEditor_InvalidSize" xml:space="preserve">
+    <value>Введите значение от 1 до {0}.</value>
+  </data>
+  <data name="CustomColorEditToolTip5" xml:space="preserve">
+    <value>Тёмно-синий</value>
+  </data>
+  <data name="CustomColorEditToolTip4" xml:space="preserve">
+    <value>Тёмный изумруд</value>
+  </data>
+  <data name="PropertiesModifiedLiteral" xml:space="preserve">
+    <value>{0} свойства изменены.</value>
+  </data>
+  <data name="CustomColorEditToolTip1" xml:space="preserve">
+    <value>Коричневый</value>
+  </data>
+  <data name="AccessibleDescScrollbarMin_Vert" xml:space="preserve">
+    <value>Перемещения в вертикальном положении к началу</value>
+  </data>
+  <data name="AccessibleNameScrollbarNextPage_Vert" xml:space="preserve">
+    <value>Страница вниз</value>
+  </data>
+  <data name="AccessibleNameScrollbar_Vert" xml:space="preserve">
+    <value>Вертикальная полоса прокрутки</value>
+  </data>
+  <data name="SelectColor_Brightness" xml:space="preserve">
+    <value>Яркость</value>
+  </data>
+  <data name="frmImageEditor_RotateRightTool_ToolTipText" xml:space="preserve">
+    <value>Повернуть вправо</value>
+  </data>
+  <data name="SelectColor_Green" xml:space="preserve">
+    <value>Зелёный</value>
+  </data>
+  <data name="AccessibleActionSelectValueListItem" xml:space="preserve">
+    <value>Выбор</value>
+  </data>
+  <data name="AccessibleActionInkDropDown" xml:space="preserve">
+    <value>Открыть панель ручного ввода</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Horizontal" xml:space="preserve">
+    <value>Горизонтальный</value>
+  </data>
+  <data name="SelectColor_Hue" xml:space="preserve">
+    <value>Оттенок</value>
+  </data>
+  <data name="CustomColorEditToolTip6" xml:space="preserve">
+    <value>Индиго</value>
+  </data>
+  <data name="AppearanceImageEditor_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrev_Vert" xml:space="preserve">
+    <value>Линия вверх</value>
+  </data>
+  <data name="TabManagerTabListButton" xml:space="preserve">
+    <value>Открыть Файлы</value>
+  </data>
+  <data name="TypeDesc_Decimal" xml:space="preserve">
+    <value>Десятичный</value>
+  </data>
+  <data name="frmTextToolbar_cmdBold_ToolTipText" xml:space="preserve">
+    <value>Полужирный</value>
+  </data>
+  <data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_DisplayName" xml:space="preserve">
+    <value>Название Дисплея</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevEditableCharacter" xml:space="preserve">
+    <value>Нет доступных для редактирования символов.</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsTitle" xml:space="preserve">
+    <value>Установить размеры изображения</value>
+  </data>
+  <data name="ScrollContextMenuPageUp" xml:space="preserve">
+    <value>Страница вверх</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevCharacter" xml:space="preserve">
+    <value>Нет предыдущих символов.</value>
+  </data>
+  <data name="AccessibleDescScrollbarThumb_Horz" xml:space="preserve">
+    <value>Указывает на текущую позицию по горизонтали и может быть перемещено для непосредственного изменения</value>
+  </data>
+  <data name="AccessibleNameScrollbarNext_Horz" xml:space="preserve">
+    <value>Колонка справа</value>
+  </data>
+  <data name="DialogCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="frmImageEditor_Gradient_HorizontalBump" xml:space="preserve">
+    <value>Горизонтальный Изгиб</value>
+  </data>
+  <data name="frmImageEditor_ZoomOutTool_ToolTipText" xml:space="preserve">
+    <value>Уменьшить</value>
+  </data>
+  <data name="EditContextMenuCopy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="TypeDesc_Single" xml:space="preserve">
+    <value>Одиночный (с плавающей точкой)</value>
+  </data>
+  <data name="TabManagerScrollNext" xml:space="preserve">
+    <value>Дальше</value>
+  </data>
+  <data name="AccessibleNameMaskedEditCharacter" xml:space="preserve">
+    <value>Единичный текстовый символ</value>
+  </data>
+  <data name="frmImageEditor_DrawLine_ToolTipText" xml:space="preserve">
+    <value>Линия</value>
+  </data>
+  <data name="AccessibleNameScrollbarMax_Vert" xml:space="preserve">
+    <value>Нижняя часть</value>
+  </data>
+  <data name="SelectColor_Blue" xml:space="preserve">
+    <value>Голубой</value>
+  </data>
+  <data name="TabManagerCloseButton" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="AccessibleDescScrollbarMin_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения до конца влево</value>
+  </data>
+  <data name="frmImageEditor_Gradient_None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="AccessibleActionDropDown" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="AccessibleActionPush" xml:space="preserve">
+    <value>Нажать</value>
+  </data>
+  <data name="IllegalOperationMessageNoMaskSpecified" xml:space="preserve">
+    <value>Не указана маска или текст.</value>
+  </data>
+  <data name="AccessibleDescScrollbarNext_Vert" xml:space="preserve">
+    <value>Перемещает вертикально вниз на одну строку</value>
+  </data>
+  <data name="ScrollContextMenuTop" xml:space="preserve">
+    <value>Верх</value>
+  </data>
+  <data name="AccessibleDescScrollbarMax_Horz" xml:space="preserve">
+    <value>Перемещение горизонтального положения до конца вправо</value>
+  </data>
+  <data name="CustomColorEditToolTip14" xml:space="preserve">
+    <value>Серо-голубой</value>
+  </data>
+  <data name="CustomColorEditToolTip16" xml:space="preserve">
+    <value>Красный</value>
+  </data>
+  <data name="CustomColorEditToolTip17" xml:space="preserve">
+    <value>Светло-оранжевый</value>
+  </data>
+  <data name="CustomColorEditToolTip10" xml:space="preserve">
+    <value>Тёмно Жёлтый</value>
+  </data>
+  <data name="CustomColorEditToolTip11" xml:space="preserve">
+    <value>Зелёный</value>
+  </data>
+  <data name="CustomColorEditToolTip12" xml:space="preserve">
+    <value>Сине-зелёный</value>
+  </data>
+  <data name="CustomColorEditToolTip13" xml:space="preserve">
+    <value>Голубой</value>
+  </data>
+  <data name="frmImageEditor_Gradient_BackwardDiagonal" xml:space="preserve">
+    <value>Диагональ в обратном направлении</value>
+  </data>
+  <data name="frmImageEditor_RedoTool_ToolTipText" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="frmTextToolbar_cmdStrikeout_ToolTipText" xml:space="preserve">
+    <value>Зачеркнутый</value>
+  </data>
+  <data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_NativeName" xml:space="preserve">
+    <value>Родное Имя</value>
+  </data>
+  <data name="NoneLiteral" xml:space="preserve">
+    <value>(нет)</value>
+  </data>
+  <data name="CustomColorEditToolTip29" xml:space="preserve">
+    <value>Небесно-голубой</value>
+  </data>
+  <data name="CustomColorEditToolTip28" xml:space="preserve">
+    <value>Бирюзовый</value>
+  </data>
+  <data name="CustomColorEditToolTip27" xml:space="preserve">
+    <value>Ярко-зелёный</value>
+  </data>
+  <data name="CustomColorEditToolTip26" xml:space="preserve">
+    <value>Жёлтый</value>
+  </data>
+  <data name="CustomColorEditToolTip25" xml:space="preserve">
+    <value>Золотой</value>
+  </data>
+  <data name="CustomColorEditToolTip24" xml:space="preserve">
+    <value>Розовый</value>
+  </data>
+  <data name="CustomColorEditToolTip21" xml:space="preserve">
+    <value>Светло-голубой</value>
+  </data>
+  <data name="CustomColorEditToolTip20" xml:space="preserve">
+    <value>Морская волна</value>
+  </data>
+  <data name="LMSG_ValueConstraint_CannotConvert" xml:space="preserve">
+    <value>Значение не может быть преобразовано в {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_OutOfRange" xml:space="preserve">
+    <value>Значение должно быть в диапазоне от {0} и {1}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_Enumeration" xml:space="preserve">
+    <value>Значение не найдено в списке возможных вариантов.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_FixedValue" xml:space="preserve">
+    <value>Значение не равное {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxExclusive" xml:space="preserve">
+    <value>Значение должно быть меньше {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxInclusive" xml:space="preserve">
+    <value>Значение должно быть меньше или равно {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxLength" xml:space="preserve">
+    <value>Значение должно содержать не более {0} символов.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinExclusive" xml:space="preserve">
+    <value>Значение должно быть больше {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinInclusive" xml:space="preserve">
+    <value>Значение должно быть больше или равно {0}.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinLength" xml:space="preserve">
+    <value>Значение должно содержать по крайней мере, {0} символов.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_Nullable" xml:space="preserve">
+    <value>Значение не может быть нулевым.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_RegexPattern" xml:space="preserve">
+    <value>Значение не соответствует необходимому шаблону.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnOK" xml:space="preserve">
+    <value>&amp;ОК</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblRegex" xml:space="preserve">
+    <value>Шаг 1: Введите регулярное выражение здесь.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblTest" xml:space="preserve">
+    <value>Шаг 2: Введите данные проверки здесь.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblMatches" xml:space="preserve">
+    <value>Шаг 3: Нажмите кнопку "Поиск совпадений", чтобы проверить слова и заполнить список совпадений.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnFindMatches" xml:space="preserve">
+    <value>Найти совпадения</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblNote" xml:space="preserve">
+    <value>Примечание: Выберите пункт в списке для выделения его в тестовых данных.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_FormText" xml:space="preserve">
+    <value>Редактор регулярных выражений</value>
+  </data>
+  <data name="DesignTime_SampleData_String" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Left" xml:space="preserve">
+    <value>Левый</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Top" xml:space="preserve">
+    <value>Верх</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Right" xml:space="preserve">
+    <value>Правый</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Bottom" xml:space="preserve">
+    <value>Нижняя часть</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Preview" xml:space="preserve">
+    <value>Просмотреть</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_DialogTitle" xml:space="preserve">
+    <value>Редактор полей фона документа</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsPreview_DialogTitle" xml:space="preserve">
+    <value>Изменить размер этого диалога, чтобы просмотреть свое изображение.</value>
+  </data>
+  <data name="DuplicateNameTemplate" xml:space="preserve">
+    <value>Копия {0}</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Cut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_SelectAll" xml:space="preserve">
+    <value>Выбрать Всё</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Undo" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Redo" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Bold" xml:space="preserve">
+    <value>Полужирный</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Underline" xml:space="preserve">
+    <value>Подчёркнутый</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_ChangeFont" xml:space="preserve">
+    <value>Шрифт...</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Left" xml:space="preserve">
+    <value>Левый</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Center" xml:space="preserve">
+    <value>Центр</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Right" xml:space="preserve">
+    <value>Правый</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_ParagraphSettings" xml:space="preserve">
+    <value>Параграф...</value>
+  </data>
+  <data name="AccessibleNameFormattedLinkEditorTextArea" xml:space="preserve">
+    <value>Область текста</value>
+  </data>
+  <data name="AccessibleNameFormattedLinkEditorSelectedText" xml:space="preserve">
+    <value>Выбранный текст</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Vert" xml:space="preserve">
+    <value>Верх</value>
+  </data>
+  <data name="AccessibleNameTrackBarMin_Vert" xml:space="preserve">
+    <value>Нижняя часть</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Horz" xml:space="preserve">
+    <value>Правый</value>
+  </data>
+  <data name="AccessibleNameTrackBarMin_Horz" xml:space="preserve">
+    <value>Левый</value>
+  </data>
+  <data name="AccessibleNameTrackBarThumb_Horz" xml:space="preserve">
+    <value>Положение</value>
+  </data>
+  <data name="AccessibleNameTrackBarThumb_Vert" xml:space="preserve">
+    <value>Положение</value>
+  </data>
+  <data name="LS_ConditionEditor_No_Condition_String" xml:space="preserve">
+    <value>(нет)</value>
+  </data>
+  <data name="LS_ConditionEditor_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="LS_ConditionEditor_Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="LS_ValueListEditor_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="LS_ValueListEditor_Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="TextOrientationDescription_Vertical" xml:space="preserve">
+    <value>Вертикальный</value>
+  </data>
+  <data name="EditorWithMask_InputMask_Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="EditorWithMask_InputMask_Byte" xml:space="preserve">
+    <value>Байт</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Strikeout" xml:space="preserve">
+    <value>Зачеркнутый</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringSingular" xml:space="preserve">
+    <value>день</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringPlural" xml:space="preserve">
+    <value>дни</value>
+  </data>
+  <data name="TimeSpanEditor_MinuteDisplayStringSingular" xml:space="preserve">
+    <value>мин</value>
+  </data>
+</root>

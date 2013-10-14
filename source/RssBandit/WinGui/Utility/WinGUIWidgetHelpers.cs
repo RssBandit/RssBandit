@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -29,7 +30,10 @@ using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinStatusBar;
 using Infragistics.Win.UltraWinToolbars;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
+using Microsoft.WindowsAPICodePack.Net;
 using NewsComponents;
+using NewsComponents.Net;
+using RssBandit.AppServices;
 using RssBandit.Common.Logging;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
@@ -424,84 +428,105 @@ namespace RssBandit.WinGui.Utility {
 
 	#region Utils
 
-	// see http://stackoverflow.com/questions/520347/how-do-i-check-for-a-network-connection
-	// see http://blog.superuser.com/2011/05/16/windows-7-network-awareness/
-	// see http://www.codeproject.com/Articles/34650/How-to-use-the-Windows-NLM-API-to-get-notified-of
-	// see http://archive.msdn.microsoft.com/WindowsAPICodePack
-	internal class Internet
+	public class Network
 	{
-		/// <summary>
-		/// Indicates whether any network connection is available
-		/// Filter connections below a specified speed, as well as virtual network cards.
-		/// </summary>
-		/// <returns>
-		///     <c>true</c> if a network connection is available; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsNetworkAvailable()
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(NcsiCompatibleService));
+
+		private static INetworkService _instance;
+		private static readonly object _instanceLock = new object();
+
+		public static INetworkService Current
 		{
-			return IsNetworkAvailable(0);
+			get
+			{
+				if (_instance == null)
+				{
+					lock (_instanceLock)
+					{
+						if (_instance == null)
+						{
+							if (Win32.IsOSAtLeastWindowsVista)
+							{
+								_instance = new NcsiService();
+							}
+							else
+							{
+								_instance = new NcsiCompatibleService();
+							}
+						}
+					}
+				}
+				return _instance;
+			}
 		}
 
-		/// <summary>
-		/// Indicates whether any network connection is available.
-		/// Filter connections below a specified speed, as well as virtual network cards.
-		/// </summary>
-		/// <param name="minimumSpeed">The minimum speed required in bits per second. Passing 0 will not filter connection using speed.</param>
-		/// <returns>
-		///     <c>true</c> if a network connection is available; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsNetworkAvailable(long minimumSpeed)
+		public static InternetState GetInternetState(IWebProxy currentProxy, bool forceFullTest)
 		{
-			if (!NetworkInterface.GetIsNetworkAvailable())
-				return false;
-
-			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+			InternetState state = InternetState.DisConnected;
+			
+			if (Current.IsConnected)
 			{
-				// discard because of standard reasons
-				if ((ni.OperationalStatus != OperationalStatus.Up) ||
-					(ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) ||
-					(ni.NetworkInterfaceType == NetworkInterfaceType.Tunnel))
-					continue;
+				if (Current.IsConnectedToInternet(currentProxy, forceFullTest))
+				{
+					state = InternetState.Connected;
 
-				// this allow to filter modems, serial, etc.
-				// I use 10000000 as a minimum speed for most cases
-				if (ni.Speed < minimumSpeed)
-					continue;
+					// also consider on-/offline state
+					state |= IsOnline() ? InternetState.Online : InternetState.Offline;
+				}
+			}
+			
+			return state;
+		}
 
-				// discard virtual cards (virtual box, virtual pc, etc.)
-				if ((ni.Description.IndexOf("virtual", StringComparison.OrdinalIgnoreCase) >= 0) ||
-					(ni.Name.IndexOf("virtual", StringComparison.OrdinalIgnoreCase) >= 0))
-					continue;
+		public static void SetIEOffline(bool modeOffline)
+		{
+			var ci = new NativeMethods.INTERNET_CONNECTED_INFO();
 
-				// discard "Microsoft Loopback Adapter", it will not show as NetworkInterfaceType.Loopback but as Ethernet Card.
-				if (ni.Description.Equals("Microsoft Loopback Adapter", StringComparison.OrdinalIgnoreCase))
-					continue;
-
-				return true;
+			if (modeOffline)
+			{
+				ci.dwConnectedState = NativeMethods.INTERNET_STATE_DISCONNECTED_BY_USER;
+				ci.dwFlags = NativeMethods.ISO_FORCE_DISCONNECTED;
+			}
+			else
+			{
+				ci.dwConnectedState = NativeMethods.INTERNET_STATE_CONNECTED;
 			}
 
-			return false;
+			NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_CONNECTED_STATE, ref
+				ci, Marshal.SizeOf(typeof(NativeMethods.INTERNET_CONNECTED_INFO)));
+
+			RefreshIESettings();
 		}
-	}
 
-	#endregion
+		#region private
 
-
-	#region Utils
-	internal class Utils 
-	{
-
-		private static readonly log4net.ILog _log = Log.GetLogger(typeof(Utils));
-
-		// some probe Urls, used by CurrentINetState() (no, that is NOT my favourites list... ;-)
-		// They have better ping timings than all the other....
-		private static readonly string[] probeUrls =
+		private static void RefreshIESettings()
 		{
-			"http://www.w3c.org/",	"http://www.google.com/",
-			"http://www.heise.de/"
-		};
 
-		static Random probeUrlRandomizer = new Random();
+			NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_SETTINGS_CHANGED,
+				IntPtr.Zero, 0);
+		}
+
+		private static bool IsOnline()
+		{
+
+			int f = 0;
+
+			try
+			{
+				if (!NativeMethods.InternetGetConnectedState(out f, 0))
+					_log.Error("InternetGetConnectedState() API call return false. Error code: " + Marshal.GetLastWin32Error());
+			}
+			catch (Exception ex)
+			{
+				_log.Error("InternetGetConnectedState() API call failed with error code: " + Marshal.GetLastWin32Error(), ex);
+			}
+
+			var flags = (NativeMethods.InternetStates) f;
+			return !flags.HasFlag(NativeMethods.InternetStates.INTERNET_CONNECTION_OFFLINE);
+		}
+
+		#endregion
 
 		#region Interop
 
@@ -509,12 +534,6 @@ namespace RssBandit.WinGui.Utility {
 		{
 			[DllImport("wininet.dll", SetLastError = true)]
 			internal static extern bool InternetGetConnectedState(out int flags, int reserved);
-
-			[DllImport("wininet.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-			internal static extern bool InternetCheckConnection(string url, int flags, int reserved);
-
-			// the only possible flag for InternetCheckConnection()
-			internal const int FLAG_ICC_FORCE_CONNECTION = 0x01;
 
 			[DllImport("wininet.dll", SetLastError = true)]
 			internal static extern bool InternetSetOption(IntPtr hInternet, uint option, IntPtr buffer, int bufferLength);
@@ -549,222 +568,483 @@ namespace RssBandit.WinGui.Utility {
 				INTERNET_CONNECTION_OFFLINE = 0x20,
 				INTERNET_CONNECTION_CONFIGURED = 0x40
 			}
-
-			[Flags]
-			internal enum NetworkAliveFlags
-			{
-				NETWORK_ALIVE_LAN = 0x1, // net card connection
-				NETWORK_ALIVE_WAN = 0x2, // RAS connection
-				NETWORK_ALIVE_AOL = 0x4 // AOL
-			}
-
-			[DllImport("sensapi.dll", SetLastError = true)]
-			internal static extern bool IsNetworkAlive(ref int flags);
+			
 		}
 
 		#endregion
 
+	}
+
+	public interface INetworkService
+	{
 		/// <summary>
-		/// Used to count internally to decide when we should make a forced INetState test
+		/// Indicates whether any network connection is available
+		/// Filter connections like virtual network cards.
 		/// </summary>
-		private static int fullInternetStateTestCounter;
+		/// <returns>
+		///     <c>true</c> if a network connection is available; otherwise, <c>false</c>.
+		/// </returns>
+		bool IsConnected { get; }
 
 		/// <summary>
-		/// Figures out, if we are connected to the Internet.
-		/// First it try to use the SENSAPI to do the work (see also 
-		/// http://msdn.microsoft.com/msdnmag/issues/02/08/SENS/default.aspx).
-		/// As this article describes, it does not make sense to use the SENS TCP/IP 
-		/// notifications. So we test by a timer calling this function again and again.
-		/// If SENSAPI fails, we fall back to the impl. based on a KB article: Q242558
-		/// http://support.microsoft.com/default.aspx?scid=kb;en-us;242558
+		/// Indicates whether any internet network connection is available.
+		/// Filter connections like virtual network cards.
+		/// <c>true</c> if a internet network connection is available; otherwise, <c>false</c>.
 		/// </summary>
-		/// <param name="currentProxy">The current proxy to be used.</param>
-		/// <param name="forceFullTest">true to enforce a full connection state test</param>
-		/// <returns>INetState</returns>
-		public static INetState CurrentINetState(IWebProxy currentProxy, bool forceFullTest)
+		/// <param name="currentProxy">The current proxy.</param>
+		/// <param name="forceFullTest">if set to <c>true</c> [force full test].</param>
+		/// <returns></returns>
+		bool IsConnectedToInternet(IWebProxy currentProxy, bool forceFullTest);
+	}
+
+	// see http://stackoverflow.com/questions/520347/how-do-i-check-for-a-network-connection
+	// see http://blog.superuser.com/2011/05/16/windows-7-network-awareness/
+	// see http://www.codeproject.com/Articles/34650/How-to-use-the-Windows-NLM-API-to-get-notified-of
+	// see http://archive.msdn.microsoft.com/WindowsAPICodePack
+	
+	internal class NcsiService : INetworkService
+	{
+		public bool IsConnected
 		{
-
-			int f = 0;
-			INetState state = INetState.Invalid;
-
-			bool connected = false;
-
-			try
+			get
 			{
-				connected = NativeMethods.InternetGetConnectedState(out f, 0);
+				return NetworkListManager.IsConnected;
 			}
-			catch (Exception ex)
-			{
-				_log.Error("InternetGetConnectedState() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
-			}
-
-			var flags = (NativeMethods.InternetStates)f;
-
-			//_log.Info("InternetGetConnectedState() returned " + connected.ToString());
-
-			//InternetCheckConnection(url, FLAG_ICC_FORCE_CONNECTION, 0) solves the wakness with Vista/Win7:
-			////Some people have reported problems with return value of InternetGetConnectedState 
-			////on Windows Vista
-			//if (!connected && Win32.IsOSWindowsVista){
-			//	connected = true;
-			//}
-
-			// not sure here, if we are really connected. 
-			// So we test it explicitly.
-			if (connected)
-			{
-				// first try throw "SENS" API. If it fails, we use the conservative Url test method :)
-				bool sensApiSucceeds = true;
-				try
-				{
-					int tmp = 0;	// NetworkAliveFlags
-					if (!NativeMethods.IsNetworkAlive(ref tmp))
-					{
-						connected = false;
-					}
-				}
-				catch (Exception ex)
-				{	// catch all
-					_log.Error("IsNetworkAlive() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
-					sensApiSucceeds = false;
-				}
-
-				// above tests are not always returning the correct results (e.g. on W2K I tested)
-				// so we enforce periodically a request of a web page
-				fullInternetStateTestCounter++;
-				if (fullInternetStateTestCounter >= 2)
-				{
-					forceFullTest = true;
-					fullInternetStateTestCounter = 0;
-				}
-
-				if (!sensApiSucceeds || forceFullTest)
-				{
-					connected = ApiCheckConnection(currentProxy);
-					if (!connected)
-					{
-						connected = FrameworkCheckConnection(currentProxy);
-					}
-				}
-
-			}
-			else
-			{	// not connected
-
-				if ((flags & NativeMethods.InternetStates.INTERNET_CONNECTION_MODEM) != NativeMethods.InternetStates.INTERNET_CONNECTION_MODEM)
-				{
-					connected = ApiCheckConnection(currentProxy);
-					if (!connected)
-					{
-						connected = FrameworkCheckConnection(currentProxy);
-					}
-				}
-				else
-				{
-					_log.Info("InternetGetConnectedState() flag INTERNET_CONNECTION_MODEM is set. Give up further tests...");
-				}
-
-			}
-
-			state |= connected ? INetState.Connected : INetState.DisConnected;
-
-			if (connected)
-			{
-				// also consider on-/offline state
-				bool offline = ((flags & NativeMethods.InternetStates.INTERNET_CONNECTION_OFFLINE) == NativeMethods.InternetStates.INTERNET_CONNECTION_OFFLINE);
-				state |= offline ? INetState.Offline : INetState.Online;
-			}
-
-			return state;
 		}
 
-		private static string GetProbeUrl()
+		public bool IsConnectedToInternet(IWebProxy currentProxy, bool forceFullTest)
 		{
-			return probeUrls[probeUrlRandomizer.Next(0, probeUrls.GetUpperBound(0))];
+			return NetworkListManager.IsConnectedToInternet;
+		}
+	}
+
+	internal class NcsiCompatibleService : INetworkService
+	{
+		private const string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT; NCSI compatible)";
+
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(NcsiCompatibleService));
+
+		public bool IsConnected
+		{
+			get
+			{
+				return NetworkInterface.GetIsNetworkAvailable();
+			}
 		}
 
-		public static bool ApiCheckConnection(IWebProxy proxy)
+		public bool IsConnectedToInternet(IWebProxy currentProxy, bool forceFullTest)
 		{
-			//TODO: how about the proxy if we call the API function?
-			string url = GetProbeUrl();
-			try
+
+			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
 			{
-				//_log.Info("ApiCheckConnection('"+url+"') ");
-				if (NativeMethods.InternetCheckConnection(url, NativeMethods.FLAG_ICC_FORCE_CONNECTION, 0))
+				// discard because of standard reasons
+				if ((ni.OperationalStatus != OperationalStatus.Up) ||
+					(ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) ||
+					(ni.NetworkInterfaceType == NetworkInterfaceType.Tunnel))
+					continue;
+
+				// discard virtual cards (virtual box, virtual pc, etc.)
+				if ((ni.Description.IndexOf("virtual", StringComparison.OrdinalIgnoreCase) >= 0) ||
+					(ni.Name.IndexOf("virtual", StringComparison.OrdinalIgnoreCase) >= 0))
+					continue;
+
+				// discard "Microsoft Loopback Adapter", it will not show as NetworkInterfaceType.Loopback but as Ethernet Card.
+				if (ni.Description.Equals("Microsoft Loopback Adapter", StringComparison.OrdinalIgnoreCase))
+					continue;
+
+				if (!ni.Supports(NetworkInterfaceComponent.IPv4) &&
+					!ni.Supports(NetworkInterfaceComponent.IPv6))
+					continue;
+
+				// IP seems to be up here, now we do NCSI
+
+				var parameters = Win32.Registry.GetNcsiParameters();
+				if (!forceFullTest && !parameters.EnableActiveProbing)
 					return true;
+
+				if (ni.Supports(NetworkInterfaceComponent.IPv6))
+				{
+					var cnnOk = CheckConnection(NetworkInterfaceComponent.IPv6, parameters, currentProxy);
+					var dnsOk = CheckDns(NetworkInterfaceComponent.IPv6, parameters, currentProxy);
+
+					if (cnnOk && dnsOk)
+						return true;
+				}
+
+				if (ni.Supports(NetworkInterfaceComponent.IPv4))
+				{
+					var cnnOk = CheckConnection(NetworkInterfaceComponent.IPv4, parameters, currentProxy);
+					var dnsOk = CheckDns(NetworkInterfaceComponent.IPv4, parameters, currentProxy);
+
+					if (cnnOk && dnsOk)
+						return true;
+				}
 			}
-			catch (Exception ex)
-			{
-				_log.Error("ApiCheckConnection('" + url + "') failed with error: " + Marshal.GetLastWin32Error(), ex);
-			}
-			//_log.Info("ApiCheckConnection() returns false");
+
 			return false;
+
 		}
 
-		public static bool FrameworkCheckConnection(IWebProxy proxy)
+		static bool CheckConnection(NetworkInterfaceComponent nic, Win32.NcsiParameters parameters, IWebProxy proxy = null)
 		{
-			string url = GetProbeUrl();
+			string url = String.Format("http://{0}/{1}"
+				, (nic == NetworkInterfaceComponent.IPv4 ? parameters.ActiveWebProbeHost : parameters.ActiveWebProbeHostV6)
+				, (nic == NetworkInterfaceComponent.IPv4 ? parameters.ActiveWebProbePath : parameters.ActiveWebProbePathV6));
+
+			var expectedContent = (nic == NetworkInterfaceComponent.IPv4 
+				? parameters.ActiveWebProbeContent 
+				: parameters.ActiveWebProbeContentV6);
 
 			if (proxy == null)
 				proxy = WebRequest.DefaultWebProxy;
 
+			var credentials = CredentialCache.DefaultNetworkCredentials; //???
+			
 			try
 			{
 				//_log.Info("FrameworkCheckConnection('"+url+"') ");
-				using (var response = (HttpWebResponse)NewsComponents.Net.SyncWebRequest.GetResponseHeadersOnly(url, proxy, 3 * 60 * 1000))
+				using (var response = (HttpWebResponse)SyncWebRequest.GetResponse(HttpMethod.Get, url, 
+					credentials, UserAgent, proxy, FeedSource.UnixEpoch, null, 
+					parameters.WebTimeout * 1000, null, null, null))
 				{
-					if (response != null && String.Compare(response.Method, "HEAD") == 0)
-					{	// success
-						return true;
+					if (WebRequestBase.IsRedirect(response.StatusCode))
+						return false;
+					
+					if (response.StatusCode == HttpStatusCode.OK)
+					{	
+						// success?
+						var rs = response.GetResponseStream();
+						if (rs != null)
+						{
+							var reader = new StreamReader(rs);
+							string responseContent = reader.ReadToEnd();
+							reader.Close();
+							
+							if (String.Equals(expectedContent, responseContent, StringComparison.Ordinal))
+								return true;
+						}
 					}
+
+					return false;
 				}
-			}
-			catch (WebException ex)
-			{
-				_log.Error("FrameworkCheckConnection('" + url + "') ", ex);
-				if (ex.Status == WebExceptionStatus.Timeout)
-					return true;	// try again later on another probeUrl maybe
 			}
 			catch (Exception ex)
 			{
-				_log.Error("FrameworkCheckConnection('" + url + "') ", ex);
+				_log.Error("CheckConnection('" + url + "') ", ex);
+				return false;	// try again later on 
+			}
+		}
+
+		static bool CheckDns(NetworkInterfaceComponent nic, Win32.NcsiParameters parameters, IWebProxy proxy = null)
+		{
+			string address = (nic == NetworkInterfaceComponent.IPv4
+				? parameters.ActiveDnsProbeHost
+				: parameters.ActiveDnsProbeHostV6);
+			try
+			{
+				IPAddress expectedAddress = IPAddress.Parse((nic == NetworkInterfaceComponent.IPv4
+					? parameters.ActiveDnsProbeContent
+					: parameters.ActiveDnsProbeContentV6));
+
+				var addresses = Dns.GetHostAddresses(address);
+				if (addresses == null)
+					return false;
+				
+				if (addresses.Contains(expectedAddress))
+				{
+					return true;
+				}
+			}
+			catch (Exception ex)
+			{
+				_log.Error("CheckDns('" + address + "') ", ex);
 			}
 
-			//_log.Info("FrameworkCheckConnection() returns false");
 			return false;
 		}
+	}
+	#endregion
 
-		public static void SetIEOffline(bool modeOffline)
-		{
+	#region Utils
+	
+	internal class Utils 
+	{
+		private static readonly log4net.ILog _log = Log.GetLogger(typeof(Utils));
 
-			var ci = new NativeMethods.INTERNET_CONNECTED_INFO();
+		#region Old
+		//// some probe Urls, used by CurrentINetState() (no, that is NOT my favourites list... ;-)
+		//// They have better ping timings than all the other....
+		//private static readonly string[] probeUrls =
+		//{
+		//	"http://www.w3c.org/",	"http://www.google.com/",
+		//	"http://www.heise.de/"
+		//};
 
-			if (modeOffline)
-			{
-				ci.dwConnectedState = NativeMethods.INTERNET_STATE_DISCONNECTED_BY_USER;
-				ci.dwFlags = NativeMethods.ISO_FORCE_DISCONNECTED;
-			}
-			else
-			{
-				ci.dwConnectedState = NativeMethods.INTERNET_STATE_CONNECTED;
-			}
+		//static Random probeUrlRandomizer = new Random();
 
-			NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_CONNECTED_STATE, ref
-				ci, Marshal.SizeOf(typeof(NativeMethods.INTERNET_CONNECTED_INFO)));
+		//#region Interop
 
-			RefreshIESettings();
+		//private static class NativeMethods
+		//{
+		//	[DllImport("wininet.dll", SetLastError = true)]
+		//	internal static extern bool InternetGetConnectedState(out int flags, int reserved);
 
-		}
+		//	[DllImport("wininet.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		//	internal static extern bool InternetCheckConnection(string url, int flags, int reserved);
 
-		private static void RefreshIESettings()
-		{
+		//	// the only possible flag for InternetCheckConnection()
+		//	internal const int FLAG_ICC_FORCE_CONNECTION = 0x01;
 
-			NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_SETTINGS_CHANGED,
-				IntPtr.Zero, 0);
-		}
+		//	[DllImport("wininet.dll", SetLastError = true)]
+		//	internal static extern bool InternetSetOption(IntPtr hInternet, uint option, IntPtr buffer, int bufferLength);
 
-		#region RefreshRateStrings 
-		
+		//	[DllImport("wininet.dll", SetLastError = true)]
+		//	internal static extern bool InternetSetOption(IntPtr hInternet, uint option, ref INTERNET_CONNECTED_INFO buffer,
+		//		int bufferLength);
+
+		//	[StructLayout(LayoutKind.Sequential)]
+		//	internal struct INTERNET_CONNECTED_INFO
+		//	{
+		//		public uint dwConnectedState,
+		//			dwFlags;
+		//	}
+
+		//	// Internet options
+		//	internal const uint INTERNET_OPTION_SETTINGS_CHANGED = 39;
+		//	internal const uint INTERNET_STATE_CONNECTED = 0x00000001;
+		//	internal const uint INTERNET_STATE_DISCONNECTED_BY_USER = 0x00000010;
+		//	internal const uint ISO_FORCE_DISCONNECTED = 0x00000001;
+		//	internal const uint INTERNET_OPTION_CONNECTED_STATE = 50;
+
+		//	// Flags for InternetGetConnectedState and Ex
+		//	[Flags]
+		//	internal enum InternetStates
+		//	{
+		//		INTERNET_CONNECTION_MODEM = 0x01,
+		//		INTERNET_CONNECTION_LAN = 0x02,
+		//		INTERNET_CONNECTION_PROXY = 0x04,
+		//		INTERNET_CONNECTION_MODEM_BUSY = 0x08, /* no longer used */
+		//		INTERNET_RAS_INSTALLED = 0x10,
+		//		INTERNET_CONNECTION_OFFLINE = 0x20,
+		//		INTERNET_CONNECTION_CONFIGURED = 0x40
+		//	}
+
+		//	[Flags]
+		//	internal enum NetworkAliveFlags
+		//	{
+		//		NETWORK_ALIVE_LAN = 0x1, // net card connection
+		//		NETWORK_ALIVE_WAN = 0x2, // RAS connection
+		//		NETWORK_ALIVE_AOL = 0x4 // AOL
+		//	}
+
+		//	[DllImport("sensapi.dll", SetLastError = true)]
+		//	internal static extern bool IsNetworkAlive(ref int flags);
+		//}
+
+		//#endregion
+
+		///// <summary>
+		///// Used to count internally to decide when we should make a forced INetState test
+		///// </summary>
+		//private static int fullInternetStateTestCounter;
+
+		///// <summary>
+		///// Figures out, if we are connected to the Internet.
+		///// First it try to use the SENSAPI to do the work (see also 
+		///// http://msdn.microsoft.com/msdnmag/issues/02/08/SENS/default.aspx).
+		///// As this article describes, it does not make sense to use the SENS TCP/IP 
+		///// notifications. So we test by a timer calling this function again and again.
+		///// If SENSAPI fails, we fall back to the impl. based on a KB article: Q242558
+		///// http://support.microsoft.com/default.aspx?scid=kb;en-us;242558
+		///// </summary>
+		///// <param name="currentProxy">The current proxy to be used.</param>
+		///// <param name="forceFullTest">true to enforce a full connection state test</param>
+		///// <returns>INetState</returns>
+		//public static InternetState CurrentINetState(IWebProxy currentProxy, bool forceFullTest)
+		//{
+
+		//	int f = 0;
+		//	InternetState state = InternetState.Unknown;
+
+		//	bool connected = false;
+
+		//	try
+		//	{
+		//		connected = NativeMethods.InternetGetConnectedState(out f, 0);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_log.Error("InternetGetConnectedState() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
+		//	}
+
+		//	var flags = (NativeMethods.InternetStates)f;
+
+		//	//_log.Info("InternetGetConnectedState() returned " + connected.ToString());
+
+		//	//InternetCheckConnection(url, FLAG_ICC_FORCE_CONNECTION, 0) solves the wakness with Vista/Win7:
+		//	////Some people have reported problems with return value of InternetGetConnectedState 
+		//	////on Windows Vista
+		//	//if (!connected && Win32.IsOSWindowsVista){
+		//	//	connected = true;
+		//	//}
+
+		//	// not sure here, if we are really connected. 
+		//	// So we test it explicitly.
+		//	if (connected)
+		//	{
+		//		// first try throw "SENS" API. If it fails, we use the conservative Url test method :)
+		//		bool sensApiSucceeds = true;
+		//		try
+		//		{
+		//			int tmp = 0;	// NetworkAliveFlags
+		//			if (!NativeMethods.IsNetworkAlive(ref tmp))
+		//			{
+		//				connected = false;
+		//			}
+		//		}
+		//		catch (Exception ex)
+		//		{	// catch all
+		//			_log.Error("IsNetworkAlive() API call failed with error: " + Marshal.GetLastWin32Error(), ex);
+		//			sensApiSucceeds = false;
+		//		}
+
+		//		// above tests are not always returning the correct results (e.g. on W2K I tested)
+		//		// so we enforce periodically a request of a web page
+		//		fullInternetStateTestCounter++;
+		//		if (fullInternetStateTestCounter >= 2)
+		//		{
+		//			forceFullTest = true;
+		//			fullInternetStateTestCounter = 0;
+		//		}
+
+		//		if (!sensApiSucceeds || forceFullTest)
+		//		{
+		//			connected = ApiCheckConnection(currentProxy);
+		//			if (!connected)
+		//			{
+		//				connected = FrameworkCheckConnection(currentProxy);
+		//			}
+		//		}
+
+		//	}
+		//	else
+		//	{	// not connected
+
+		//		if ((flags & NativeMethods.InternetStates.INTERNET_CONNECTION_MODEM) != NativeMethods.InternetStates.INTERNET_CONNECTION_MODEM)
+		//		{
+		//			connected = ApiCheckConnection(currentProxy);
+		//			if (!connected)
+		//			{
+		//				connected = FrameworkCheckConnection(currentProxy);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			_log.Info("InternetGetConnectedState() flag INTERNET_CONNECTION_MODEM is set. Give up further tests...");
+		//		}
+
+		//	}
+
+		//	state |= connected ? InternetState.Connected : InternetState.DisConnected;
+
+		//	if (connected)
+		//	{
+		//		// also consider on-/offline state
+		//		bool offline = ((flags & NativeMethods.InternetStates.INTERNET_CONNECTION_OFFLINE) == NativeMethods.InternetStates.INTERNET_CONNECTION_OFFLINE);
+		//		state |= offline ? InternetState.Offline : InternetState.Online;
+		//	}
+
+		//	return state;
+		//}
+
+		//private static string GetProbeUrl()
+		//{
+		//	return probeUrls[probeUrlRandomizer.Next(0, probeUrls.GetUpperBound(0))];
+		//}
+
+		//public static bool ApiCheckConnection(IWebProxy proxy)
+		//{
+		//	//TODO: how about the proxy if we call the API function?
+		//	string url = GetProbeUrl();
+		//	try
+		//	{
+		//		//_log.Info("ApiCheckConnection('"+url+"') ");
+		//		if (NativeMethods.InternetCheckConnection(url, NativeMethods.FLAG_ICC_FORCE_CONNECTION, 0))
+		//			return true;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_log.Error("ApiCheckConnection('" + url + "') failed with error: " + Marshal.GetLastWin32Error(), ex);
+		//	}
+		//	//_log.Info("ApiCheckConnection() returns false");
+		//	return false;
+		//}
+
+		//public static bool FrameworkCheckConnection(IWebProxy proxy)
+		//{
+		//	string url = GetProbeUrl();
+
+		//	if (proxy == null)
+		//		proxy = WebRequest.DefaultWebProxy;
+
+		//	try
+		//	{
+		//		//_log.Info("FrameworkCheckConnection('"+url+"') ");
+		//		using (var response = (HttpWebResponse)NewsComponents.Net.SyncWebRequest.GetResponseHeadersOnly(url, proxy, 3 * 60 * 1000))
+		//		{
+		//			if (response != null && String.Compare(response.Method, "HEAD") == 0)
+		//			{	// success
+		//				return true;
+		//			}
+		//		}
+		//	}
+		//	catch (WebException ex)
+		//	{
+		//		_log.Error("FrameworkCheckConnection('" + url + "') ", ex);
+		//		if (ex.Status == WebExceptionStatus.Timeout)
+		//			return true;	// try again later on another probeUrl maybe
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_log.Error("FrameworkCheckConnection('" + url + "') ", ex);
+		//	}
+
+		//	//_log.Info("FrameworkCheckConnection() returns false");
+		//	return false;
+		//}
+
+		//public static void SetIEOffline(bool modeOffline)
+		//{
+
+		//	var ci = new NativeMethods.INTERNET_CONNECTED_INFO();
+
+		//	if (modeOffline)
+		//	{
+		//		ci.dwConnectedState = NativeMethods.INTERNET_STATE_DISCONNECTED_BY_USER;
+		//		ci.dwFlags = NativeMethods.ISO_FORCE_DISCONNECTED;
+		//	}
+		//	else
+		//	{
+		//		ci.dwConnectedState = NativeMethods.INTERNET_STATE_CONNECTED;
+		//	}
+
+		//	NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_CONNECTED_STATE, ref
+		//		ci, Marshal.SizeOf(typeof(NativeMethods.INTERNET_CONNECTED_INFO)));
+
+		//	RefreshIESettings();
+
+		//}
+
+		//private static void RefreshIESettings()
+		//{
+
+		//	NativeMethods.InternetSetOption(IntPtr.Zero, NativeMethods.INTERNET_OPTION_SETTINGS_CHANGED,
+		//		IntPtr.Zero, 0);
+		//}
+		#endregion
+
+		#region RefreshRateStrings
+
 		private static List<string> _refreshRateStrings;
 		/// <summary>
 		/// Gets the refresh rate string captions as a list.

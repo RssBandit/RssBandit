@@ -298,7 +298,7 @@ namespace RssBandit
             else
                 currentChecked = Mediator.IsChecked("cmdToggleOfflineMode");
 
-            Utils.SetIEOffline(currentChecked); // update IE
+            Network.SetIEOffline(currentChecked); // update IE
             UpdateInternetConnectionState(true); // get new network state, takes a few msecs
         }
 

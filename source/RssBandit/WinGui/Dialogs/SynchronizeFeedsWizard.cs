@@ -422,7 +422,7 @@ namespace RssBandit.WinGui.Forms
 
         private void OnInternetServiceInternetConnectionStateChange(object sender, InternetConnectionStateChangeEventArgs e)
         {
-            radioFacebookReview.Enabled = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
+            radioFacebookReview.Enabled = (e.NewState & InternetState.Connected) > 0 && (e.NewState & InternetState.Online) > 0;
         }
 
         private void OnImmediateFinish_Click(object sender, EventArgs e)

@@ -678,7 +678,7 @@ namespace RssBandit.WinGui.Forms
                 return;
 
             if (string.IsNullOrEmpty(tab))
-                tab = "Web Link";
+                tab = url;
 
             HtmlControl hc = null;
 

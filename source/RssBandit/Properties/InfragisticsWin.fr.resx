@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessibleActionCloseUp" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="AccessibleActionSpinLast" xml:space="preserve">
+    <value>Dernière période</value>
+  </data>
+  <data name="EditContextMenuSelectAll" xml:space="preserve">
+    <value>Tous les sélectionner</value>
+  </data>
+  <data name="AccessibleNameValueList" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="frmImageEditor_PasteTool_ToolTipText" xml:space="preserve">
+    <value>Insertion</value>
+  </data>
+  <data name="AccessibleActionSpinFirst" xml:space="preserve">
+    <value>premier??</value>
+  </data>
+  <data name="FmtPrvdrCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="AppearanceImageEditor_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="DialogOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="EditContextMenuPaste" xml:space="preserve">
+    <value>Insertion</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_Automatic" xml:space="preserve">
+    <value>Automatique</value>
+  </data>
+  <data name="TabManagerScrollLast" xml:space="preserve">
+    <value>Dernière période</value>
+  </data>
+  <data name="EditContextMenuCut" xml:space="preserve">
+    <value>Couper</value>
+  </data>
+  <data name="SelectColor_Red" xml:space="preserve">
+    <value>Rouge</value>
+  </data>
+  <data name="frmImageEditor_CopyTool_ToolTipText" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="AccessibleActionSelectColorItem" xml:space="preserve">
+    <value>Selectionner</value>
+  </data>
+  <data name="frmImageEditor_DrawText_ToolTipText" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="FmtPrvdrOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="frmImageEditor_ZoomInTool_ToolTipText" xml:space="preserve">
+    <value>Agrandir</value>
+  </data>
+  <data name="ColorEditorTabCustom" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="ScrollButtonTypesEditorDefault" xml:space="preserve">
+    <value>Stan&amp;dard</value>
+  </data>
+  <data name="AccessibleNameScrollbarMin_Vert" xml:space="preserve">
+    <value>En haut</value>
+  </data>
+  <data name="ColorEditorTabSystem" xml:space="preserve">
+    <value>Système</value>
+  </data>
+  <data name="AccessibleActionSpinDecrement" xml:space="preserve">
+    <value>Inférieur (&lt;)</value>
+  </data>
+  <data name="AccessibleNameScrollbarMax_Horz" xml:space="preserve">
+    <value>Autorisation</value>
+  </data>
+  <data name="frmImageEditor_CutTool_ToolTipText" xml:space="preserve">
+    <value>Couper</value>
+  </data>
+  <data name="TabManagerScrollFirst" xml:space="preserve">
+    <value>premier??</value>
+  </data>
+  <data name="TrackBarUITypeEditor_ValueLabel" xml:space="preserve">
+    <value>Valeur:</value>
+  </data>
+  <data name="SelectColor_Green" xml:space="preserve">
+    <value>Vert</value>
+  </data>
+  <data name="AccessibleActionSelectValueListItem" xml:space="preserve">
+    <value>Selectionner</value>
+  </data>
+  <data name="AppearanceImageEditor_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="TypeDesc_Decimal" xml:space="preserve">
+    <value>Décimal</value>
+  </data>
+  <data name="DialogCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="frmImageEditor_ZoomOutTool_ToolTipText" xml:space="preserve">
+    <value>Diminuer</value>
+  </data>
+  <data name="EditContextMenuCopy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="frmImageEditor_DrawLine_ToolTipText" xml:space="preserve">
+    <value>Ligne</value>
+  </data>
+  <data name="TabManagerCloseButton" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="frmImageEditor_Gradient_None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="AccessibleActionDropDown" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="ScrollContextMenuTop" xml:space="preserve">
+    <value>En haut</value>
+  </data>
+  <data name="CustomColorEditToolTip16" xml:space="preserve">
+    <value>Rouge</value>
+  </data>
+  <data name="CustomColorEditToolTip11" xml:space="preserve">
+    <value>Vert</value>
+  </data>
+  <data name="CustomColorEditToolTip26" xml:space="preserve">
+    <value>Jaune</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnCancel" xml:space="preserve">
+    <value>&amp;Annuler</value>
+  </data>
+  <data name="DesignTime_SampleData_String" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Top" xml:space="preserve">
+    <value>En haut</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Right" xml:space="preserve">
+    <value>Autorisation</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Cut" xml:space="preserve">
+    <value>Couper</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Copy" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Paste" xml:space="preserve">
+    <value>Insertion</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Delete" xml:space="preserve">
+    <value>Eliminer</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_SelectAll" xml:space="preserve">
+    <value>Sélectionnez tous</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Undo" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_ChangeFont" xml:space="preserve">
+    <value>Type d'écriture...</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Right" xml:space="preserve">
+    <value>Autorisation</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Vert" xml:space="preserve">
+    <value>En haut</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Horz" xml:space="preserve">
+    <value>Autorisation</value>
+  </data>
+  <data name="LS_ConditionEditor_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="LS_ConditionEditor_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LS_ValueListEditor_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="LS_ValueListEditor_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="EditorWithMask_InputMask_Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringSingular" xml:space="preserve">
+    <value>jour</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringPlural" xml:space="preserve">
+    <value>jours</value>
+  </data>
+</root>

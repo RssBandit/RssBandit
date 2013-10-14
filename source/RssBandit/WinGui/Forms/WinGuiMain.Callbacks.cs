@@ -1214,7 +1214,7 @@ namespace RssBandit.WinGui.Forms
 
             // refresh the internal browser component, that does not know immediatly
             // about a still existing Offline Mode...
-            Utils.SetIEOffline(owner.InternetConnectionOffline);
+            Network.SetIEOffline(owner.InternetConnectionOffline);
 
 			RssBanditApplication.CheckAndInitIEBrowserEmulation();
 			RssBanditApplication.CheckAndInitSoundEvents();

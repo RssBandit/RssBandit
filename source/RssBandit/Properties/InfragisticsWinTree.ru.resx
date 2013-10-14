@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllNodesDelete" xml:space="preserve">
+    <value>Все узлы в УльтраДереве будут удалены. Вы хотите продолжить?</value>
+  </data>
+  <data name="NodePropAddSibling" xml:space="preserve">
+    <value>Добавить сестру</value>
+  </data>
+  <data name="NodePropAddChild" xml:space="preserve">
+    <value>Добавить потомка</value>
+  </data>
+  <data name="NodePropertyOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="NodePropEdit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="NodeEditClear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="BeforeNodesDeletedTitle" xml:space="preserve">
+    <value>Удалить ДеревоУзлов</value>
+  </data>
+  <data name="NodePropertyCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="NodeEditDelete" xml:space="preserve">
+    <value>&amp;Удалить</value>
+  </data>
+  <data name="BeforeNodesDeletedMessage" xml:space="preserve">
+    <value>Вы выбрали {0} узел(ы) для удаления. 
+Выберите Да, чтобы удалить УзелДерева или нет чтобы выйте.</value>
+  </data>
+  <data name="SelNodeEdit" xml:space="preserve">
+    <value>Выберите узел для изменения:</value>
+  </data>
+  <data name="NodeEditorTitle" xml:space="preserve">
+    <value>Редактор Узла UltraWinTree</value>
+  </data>
+  <data name="NodePropAddRoot" xml:space="preserve">
+    <value>Добавить корневое месторасположение</value>
+  </data>
+  <data name="NodePropertyEditorLabelEditMessage" xml:space="preserve">
+    <value>Подпись узла изменена.</value>
+  </data>
+  <data name="SelNodeLabel" xml:space="preserve">
+    <value>Выбранная подпись узла:</value>
+  </data>
+  <data name="NodeProperty" xml:space="preserve">
+    <value>Свойства Узла</value>
+  </data>
+  <data name="PasteErrorMessage" xml:space="preserve">
+    <value>Следующая ошибка при попытке вставить узлы из буфера обмена:
+
+{0}</value>
+  </data>
+  <data name="PasteErrorMessageCaption" xml:space="preserve">
+    <value>Вставить ошибку</value>
+  </data>
+  <data name="DefaultAction_Collapse" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="DefaultAction_Expand" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="DefaultAction_EnterEditMode" xml:space="preserve">
+    <value>Запустить режим редактора</value>
+  </data>
+  <data name="DefaultAction_Sort" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="NodesCollectionEditor_CannotModifyNodes" xml:space="preserve">
+    <value>Коллекция узлов не может быть отредактирована, когда есть связанные узлы в дереве.</value>
+  </data>
+  <data name="UltraTreeNodeLayoutInfo_Exception_InvalidSize" xml:space="preserve">
+    <value>Указанный размер не правильный, поскольку ширина или высота, меньше нуля.</value>
+  </data>
+  <data name="UltraTreeNode_Exception_BringCellIntoView" xml:space="preserve">
+    <value>Указанный столбец не связан с данным узлом.</value>
+  </data>
+  <data name="UltraTree_Exception_ActiveCellColumnHasNoDisplayColumn" xml:space="preserve">
+    <value>АктивнаяЯчейка не может быть установлена для СтолбцеУзлаУльтраДерева, у которого нет никакого соответствующего отображения столбца.</value>
+  </data>
+  <data name="DataError_MessageBox_Title" xml:space="preserve">
+    <value>Ошибка Данных</value>
+  </data>
+  <data name="UltraTreeNodeColumn_EditorValueInvalid" xml:space="preserve">
+    <value>"Значение в редакторе не верное"</value>
+  </data>
+  <data name="DataErrorUnableToConvert" xml:space="preserve">
+    <value>Не удалось преобразовать: {0} в {1}</value>
+  </data>
+  <data name="UltraTree_Exception_CannotSetTopNodeToHiddenNode" xml:space="preserve">
+    <value>Свойства ВерхнегоУзла не могут быть установлены в УзелУльтраДерева, который не видим в пользовательском интерфейсе.</value>
+  </data>
+  <data name="UltraTreeNodeColumn_Exception_MaxLength" xml:space="preserve">
+    <value>'Максимальная Длина' настройки не может быть установлена в значение, которое является меньше чем нуль.</value>
+  </data>
+  <data name="InvalidEditorValue_Error_Message_Prefix" xml:space="preserve">
+    <value>Не удается обновить значение данных: </value>
+  </data>
+  <data name="InvalidEditorValue_Error_Message" xml:space="preserve">
+    <value>Редактор текущего значения не является действительным.</value>
+  </data>
+  <data name="ViolatesNullable_Error_Message" xml:space="preserve">
+    <value>Пустые значения ячеек не допускаются в колонке '{0}'.</value>
+  </data>
+  <data name="Exception_CannotEditDataBoundNode" xml:space="preserve">
+    <value>Метод 'НачалоКонец' не может быть привлечен с узла, который привязан к источнику данных, кроме свойств 'UseEditor'.</value>
+  </data>
+</root>

@@ -1,0 +1,1210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DefaultAction_Item_On_Menu" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnMenus" xml:space="preserve">
+    <value>Большие значки в меню</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Categories" xml:space="preserve">
+    <value>Категории:</value>
+  </data>
+  <data name="CustomizeDialog_ResetAmp" xml:space="preserve">
+    <value>Сбросить...</value>
+  </data>
+  <data name="CustomizeLocationDockedLeft" xml:space="preserve">
+    <value>Пристыкован слева</value>
+  </data>
+  <data name="CustomizeToolbarTypeStandard" xml:space="preserve">
+    <value>Стандартный</value>
+  </data>
+  <data name="CustomizeImg_Category_File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="CustomizeLoadSaveFormatLiteral" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBType" xml:space="preserve">
+    <value>Тип Панели инструментов:</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarTitle" xml:space="preserve">
+    <value>Дублировать Имя Панели Инструментов</value>
+  </data>
+  <data name="CustomizeDialog_Shortcut" xml:space="preserve">
+    <value>Ярлык</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeDlgImageAndText" xml:space="preserve">
+    <value>Изображение и текст</value>
+  </data>
+  <data name="CustomizeNewToolbarTitle" xml:space="preserve">
+    <value>Новая Панель Управления</value>
+  </data>
+  <data name="TaskPaneForwardButtonToolTip" xml:space="preserve">
+    <value>Вперёд</value>
+  </data>
+  <data name="OptionSetTypeEditFrmNameColHeader" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="CustomizeDialog_Enabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="CustomizeConfirmToolDeleteTitle" xml:space="preserve">
+    <value>Подтвердите удаление инструмента</value>
+  </data>
+  <data name="CustomizeDlgCopyOf" xml:space="preserve">
+    <value>Копия </value>
+  </data>
+  <data name="ImportToolsWizard_Shortcut" xml:space="preserve">
+    <value>Ярлык</value>
+  </data>
+  <data name="CustomizeImg_Tool_Cut" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Key_Text" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="CustomizeDlgTooltipDeleteTool" xml:space="preserve">
+    <value>Удалить выбранный инструмент</value>
+  </data>
+  <data name="ImgSelectionCtrlRemoveImage" xml:space="preserve">
+    <value>Удалить картинку</value>
+  </data>
+  <data name="CustomizeDialog_DeleteTool" xml:space="preserve">
+    <value>Удалить Инструмент...</value>
+  </data>
+  <data name="CustomizeDialog_SortCommands" xml:space="preserve">
+    <value>Сортировать Команды в алфавитном порядке</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarTitle" xml:space="preserve">
+    <value>Сбросить Панель Инструментов</value>
+  </data>
+  <data name="CustomizeDlgBeginGrp" xml:space="preserve">
+    <value>Начало группы</value>
+  </data>
+  <data name="CustomizeImg_Category_Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="CustomizeCreateToolError" xml:space="preserve">
+    <value>Ошибка при создании нового инструмента.</value>
+  </data>
+  <data name="CustomizeDialog_New" xml:space="preserve">
+    <value>Новый...</value>
+  </data>
+  <data name="CustomizeDialog_ModifySelection" xml:space="preserve">
+    <value>Изменить выбор</value>
+  </data>
+  <data name="TextBoxToolActionList_P_Text_Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="CustomizeNewToolTitle" xml:space="preserve">
+    <value>Новый Инструмент</value>
+  </data>
+  <data name="CustomizeDialog_PersonalizedMenusAndToolbars" xml:space="preserve">
+    <value>Персонализированные меню и панели инструментов</value>
+  </data>
+  <data name="MoreWindowsDlgTileHorz" xml:space="preserve">
+    <value>Горизонтально</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="AddRemoveButtons" xml:space="preserve">
+    <value>Добавить или удалить кнопки</value>
+  </data>
+  <data name="CustomizeMenuAnimationFade" xml:space="preserve">
+    <value>Исчезать</value>
+  </data>
+  <data name="CustomizeImg_Tool_Paste" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Toolbar" xml:space="preserve">
+    <value>Панель инструментов:</value>
+  </data>
+  <data name="ImportToolsWizard_Caption" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemovalTitle" xml:space="preserve">
+    <value>Сброс настроек ярлыка</value>
+  </data>
+  <data name="ImportToolsWizard_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CustomizeRenameToolbarErrorTitle" xml:space="preserve">
+    <value>Ошибка при Переименовании панели инструментов</value>
+  </data>
+  <data name="CustomizeDialog_Image" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecCmd" xml:space="preserve">
+    <value>Определить Команду</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectAllTools" xml:space="preserve">
+    <value>Выбрать Всё</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawTextTool" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="CustomDlgNewToolBarCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_Control_Text" xml:space="preserve">
+    <value>Элемент управления</value>
+  </data>
+  <data name="CustomizeImg_Tool_Redo" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Title" xml:space="preserve">
+    <value>Упорядочить команды</value>
+  </data>
+  <data name="ConvertToolDlg_OwnerColumn" xml:space="preserve">
+    <value>Владелец</value>
+  </data>
+  <data name="ImportDlgImport" xml:space="preserve">
+    <value>&amp;Импорт</value>
+  </data>
+  <data name="CustomizeMenuAnimationRandom" xml:space="preserve">
+    <value>Случайный</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete" xml:space="preserve">
+    <value>&amp;Удалить</value>
+  </data>
+  <data name="CustomizeDialog_RenameAmp" xml:space="preserve">
+    <value>Переименовать...</value>
+  </data>
+  <data name="CustomizeLocationFloating" xml:space="preserve">
+    <value>Плавающий</value>
+  </data>
+  <data name="CustomizeDlgKbdAssign" xml:space="preserve">
+    <value>Назначить</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_Title" xml:space="preserve">
+    <value>Создать инструмент Код нажатия</value>
+  </data>
+  <data name="CustomizeDlgNewToolKey" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="CustomizeImg_Tool_Image" xml:space="preserve">
+    <value>&amp;Изображение</value>
+  </data>
+  <data name="PopupMenuDesigner_AvailableTools" xml:space="preserve">
+    <value>Доступные средства:</value>
+  </data>
+  <data name="DeserializationError" xml:space="preserve">
+    <value>Ошибки возникают при десереализировании (преобразование из последовательной формы в параллельную) потока.</value>
+  </data>
+  <data name="CustomizeDialog_AlwaysShowFullMenus" xml:space="preserve">
+    <value>Всегда показывать полные меню</value>
+  </data>
+  <data name="CustomizeDlgConvertToolType" xml:space="preserve">
+    <value>Изменить тип инструмента...</value>
+  </data>
+  <data name="MdiCommandTileHorizontal" xml:space="preserve">
+    <value>Горизонтально</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Title" xml:space="preserve">
+    <value>Добавить Команду</value>
+  </data>
+  <data name="CustomizeImg_Tool_New" xml:space="preserve">
+    <value>&amp;Новый...</value>
+  </data>
+  <data name="ToolbarCloseButtonToolTip" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить изменения, внесенные в меню '{0}'?</value>
+  </data>
+  <data name="CustomizeDialog_AllProps" xml:space="preserve">
+    <value>Все свойства</value>
+  </data>
+  <data name="MoreWindowsDlgTileVert" xml:space="preserve">
+    <value>Вертикально</value>
+  </data>
+  <data name="CustomizeImg_Tool_Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="OptionSetTypeEditFrmClose" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="MdiCommandArrangeIcons" xml:space="preserve">
+    <value>Упорядочить значки</value>
+  </data>
+  <data name="CustomizeDialog_Commands" xml:space="preserve">
+    <value>Команды</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteralNone" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="CustomizeDlgPasteButtonImage" xml:space="preserve">
+    <value>Вставить изображение Кнопки</value>
+  </data>
+  <data name="CustomizeDialog_CreateCopyOfTool" xml:space="preserve">
+    <value>Создайте копию Инструмента</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutAssignedLiteral" xml:space="preserve">
+    <value>В настоящее время назначен к: {0}</value>
+  </data>
+  <data name="CustomizeDialog_LoadSave" xml:space="preserve">
+    <value>Загрузить/Сохранить...</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MenuBar" xml:space="preserve">
+    <value>Строка меню:</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientCircular" xml:space="preserve">
+    <value>Циркуляр</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_ViewGeneratedCode" xml:space="preserve">
+    <value>3. Посмотреть Сгенерированый код</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBName" xml:space="preserve">
+    <value>Название инструментов:</value>
+  </data>
+  <data name="ExistingToolDlg_Category" xml:space="preserve">
+    <value>Категория:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp" xml:space="preserve">
+    <value>Вверх</value>
+  </data>
+  <data name="TaskPanePreviousButtonToolTip" xml:space="preserve">
+    <value>Предыдущий</value>
+  </data>
+  <data name="CustomizeDialog_RearrangeCommands" xml:space="preserve">
+    <value>Упорядочить команды...</value>
+  </data>
+  <data name="CustomizeImg_Category_Menus" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawLineTool" xml:space="preserve">
+    <value>Линия</value>
+  </data>
+  <data name="MoreItemsDlgTitle" xml:space="preserve">
+    <value>Больше элементов...</value>
+  </data>
+  <data name="CustomizeDlgCopyButtonImage" xml:space="preserve">
+    <value>Копировать изображение Кнопки</value>
+  </data>
+  <data name="CustomizeMenuAnimationUnfold" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="CustomizeToolTypeList" xml:space="preserve">
+    <value>Список</value>
+  </data>
+  <data name="CustomizeDialog_Milliseconds" xml:space="preserve">
+    <value>миллисекунд</value>
+  </data>
+  <data name="CustomizeDlgKbdDesc" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="CustomizeDlgNewToolCategory" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="DefaultAction_Popup_Closed" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="ToolEditErrorInvalidValue" xml:space="preserve">
+    <value>Не удалось обновить инструмент значения: 
+{0}</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_CopyToClipboard" xml:space="preserve">
+    <value>&amp;Скопировать в буфер обмена</value>
+  </data>
+  <data name="TaskPaneHomeButtonToolTip" xml:space="preserve">
+    <value>Домашний</value>
+  </data>
+  <data name="CustomizeDialogGenerateToolClickCodeTitle" xml:space="preserve">
+    <value>Создать инструмент Код нажатия</value>
+  </data>
+  <data name="Customize" xml:space="preserve">
+    <value>Настроить...</value>
+  </data>
+  <data name="ImportToolsWizard_ToolbarType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="ExistingToolDlg_Insert" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="OptionSetTypeEditFrmName" xml:space="preserve">
+    <value>&amp;Имя</value>
+  </data>
+  <data name="CustomizeDlgInsertExistingItem" xml:space="preserve">
+    <value>Включить Существующий инструмент...</value>
+  </data>
+  <data name="CustomizeAddToolError" xml:space="preserve">
+    <value>Ошибки возникают при добавлении инструмента '{0}'.</value>
+  </data>
+  <data name="CustomizeDialog_BasicProps" xml:space="preserve">
+    <value>Основные свойства</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRectangleOutlineTool" xml:space="preserve">
+    <value>Прямоугольник</value>
+  </data>
+  <data name="PopupMenuDesigner_NewMenu" xml:space="preserve">
+    <value>Новый...</value>
+  </data>
+  <data name="CustomizeDialog_CaptionCategoryKey" xml:space="preserve">
+    <value>Заголовок, категория, ключ</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromImgList" xml:space="preserve">
+    <value>Выберите из списка изображений</value>
+  </data>
+  <data name="CustomizeConfirmToolbarResetTitle" xml:space="preserve">
+    <value>Подтвердите сброс инструмента</value>
+  </data>
+  <data name="CustomizeAddToolbarErrorTitle" xml:space="preserve">
+    <value>Ошибка Добавления панели инструментов</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientRectangular" xml:space="preserve">
+    <value>Прямоугольный</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuTitle" xml:space="preserve">
+    <value>Сбросить Меню</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Choose" xml:space="preserve">
+    <value>Выберите меню или панель для изменения</value>
+  </data>
+  <data name="CustomizeDlgResetButtonImage" xml:space="preserve">
+    <value>Сброс изображения кнопки</value>
+  </data>
+  <data name="CustomizeImg_Tool_Bold" xml:space="preserve">
+    <value>Полужирный</value>
+  </data>
+  <data name="MoreWindowsDlgActivate" xml:space="preserve">
+    <value>Активировать</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools" xml:space="preserve">
+    <value>&amp;Инструменты</value>
+  </data>
+  <data name="ToolBaseActionList_P_Key_Text" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="DescToolTipDlgNoHelp" xml:space="preserve">
+    <value>Нет справки темы, связанной с этим пунктом.</value>
+  </data>
+  <data name="ConvertToolDlg_ToolKey" xml:space="preserve">
+    <value>Ключ:</value>
+  </data>
+  <data name="CustomDlgRenameToolBarTBName" xml:space="preserve">
+    <value>Название инструментов:</value>
+  </data>
+  <data name="MoreWindowsDlgMoreWindows" xml:space="preserve">
+    <value>Больше окон...</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteral" xml:space="preserve">
+    <value>&lt;Выбранный тип инструмента: {0}&gt;</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Name" xml:space="preserve">
+    <value>&amp;Имя</value>
+  </data>
+  <data name="CustomizeSelectImageTitle" xml:space="preserve">
+    <value>Выбор Изображения</value>
+  </data>
+  <data name="PopupMenuDesigner_Instructions" xml:space="preserve">
+    <value>Ниже приведен список текщих инструментов, которые могут быть включены в меню. Чтобы обновить меню, в выпадающем списке выберите Изменить, а затем претащите инструмент из списка в список слева.</value>
+  </data>
+  <data name="CustomizeDialog_CategoriesMidAmp" xml:space="preserve">
+    <value>Категории:</value>
+  </data>
+  <data name="ConvertToolDlg_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CustomizeDialog_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="CustomizeAddToolErrorTitle" xml:space="preserve">
+    <value>Ошибка Добавления Инструмента</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipVertical" xml:space="preserve">
+    <value>Отразить вертикально</value>
+  </data>
+  <data name="PopupControlContainerToolActionList_P_Control_Text" xml:space="preserve">
+    <value>Элемент управления</value>
+  </data>
+  <data name="DragToolErrorTitle" xml:space="preserve">
+    <value>Ошибка Перетаскивания Инструмента</value>
+  </data>
+  <data name="DescToolTipDlgNewWebPage" xml:space="preserve">
+    <value>Новая Web-страница</value>
+  </data>
+  <data name="CustomizeCategoryUnassigned" xml:space="preserve">
+    <value>Неназначенный</value>
+  </data>
+  <data name="CustomizeSelectImageFileErrorTitle" xml:space="preserve">
+    <value>Ошибка загрузки изображения</value>
+  </data>
+  <data name="CustomizeDlgInsertNewItem" xml:space="preserve">
+    <value>Включить Новый инструмент...</value>
+  </data>
+  <data name="CustomizeDlgSelectObjectPropertyTab" xml:space="preserve">
+    <value>Выбранный Объект</value>
+  </data>
+  <data name="ResetToolbar" xml:space="preserve">
+    <value>Сброс панели инструментов</value>
+  </data>
+  <data name="CustomizeDlgNewToolType" xml:space="preserve">
+    <value>Тип Инструмента</value>
+  </data>
+  <data name="MoreWindowsDlgMinWindows" xml:space="preserve">
+    <value>Свернуть окно(0)</value>
+  </data>
+  <data name="CustomizeDialog_ImportMenusFromForm" xml:space="preserve">
+    <value>Импорт меню, с помощью формы...</value>
+  </data>
+  <data name="CustomizeRenameToolbarError" xml:space="preserve">
+    <value>Ошибка при переименовании панели для {0}.</value>
+  </data>
+  <data name="CustomizeImg_Category_Tools" xml:space="preserve">
+    <value>Инструменты</value>
+  </data>
+  <data name="ImportToolsWizard_Finish" xml:space="preserve">
+    <value>Конец</value>
+  </data>
+  <data name="CustomizeDuplicateToolTitle" xml:space="preserve">
+    <value>Название дублируимого инструмента</value>
+  </data>
+  <data name="MoreWindowsDlgClose" xml:space="preserve">
+    <value>&amp;Закрыть</value>
+  </data>
+  <data name="CustomizeDlgNewToolTitle" xml:space="preserve">
+    <value>Новый Инструмент</value>
+  </data>
+  <data name="CustomizeDialog_Rename" xml:space="preserve">
+    <value>Переименовать...</value>
+  </data>
+  <data name="CustomizeDlgNewToolCustomizerCaption" xml:space="preserve">
+    <value>Пользовательский заголовок</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Normal" xml:space="preserve">
+    <value>Нормальный</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ModifySelection" xml:space="preserve">
+    <value>Изменить Выбор</value>
+  </data>
+  <data name="CustomizeDialog_Import" xml:space="preserve">
+    <value>Импорт.</value>
+  </data>
+  <data name="PopupMenuDesigner_CurrentMenu" xml:space="preserve">
+    <value>Текущее Меню:</value>
+  </data>
+  <data name="RemoveOptionSetContextMenuItem" xml:space="preserve">
+    <value>Удалить опции...</value>
+  </data>
+  <data name="CustomizeDialog_NewToolbar" xml:space="preserve">
+    <value>Новая Панель Управления</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutUnassignedLiteral" xml:space="preserve">
+    <value>[неназначенный]</value>
+  </data>
+  <data name="CustomizeDialog_KeyboardBeginAmp" xml:space="preserve">
+    <value>Клавиатура...</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipHorizontal" xml:space="preserve">
+    <value>Отразить горизонтально</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientHorizontal" xml:space="preserve">
+    <value>Горизонтальный</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolbarProperties" xml:space="preserve">
+    <value>Примечание: Не удается изменить свойства выбранного инструмента, поскольку они унаследованы</value>
+  </data>
+  <data name="CustomizeDlgInsertNewToolsMenu" xml:space="preserve">
+    <value>Включить Инструменты</value>
+  </data>
+  <data name="CustomizeSelectImageFileError" xml:space="preserve">
+    <value>Ошибки возникли при загрузке изображения из файла {0}</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain" xml:space="preserve">
+    <value>Настроить</value>
+  </data>
+  <data name="CustomizeAddToolbarError" xml:space="preserve">
+    <value>Ошибки возникают при добавлении панели '{0}'.</value>
+  </data>
+  <data name="CustomizeDlgTextOnlyInMenus" xml:space="preserve">
+    <value>Только текст (в меню)</value>
+  </data>
+  <data name="CustomizeDlgKbdResetAll" xml:space="preserve">
+    <value>Сбросить все...</value>
+  </data>
+  <data name="CustomizeMenuAnimationNone" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="CustomizeEmptyCategoryLiteral" xml:space="preserve">
+    <value>&lt;Нет назначенной категории&gt;</value>
+  </data>
+  <data name="DefaultAction_ButtonTool_On_Toolbar" xml:space="preserve">
+    <value>Нажать</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientVertical" xml:space="preserve">
+    <value>Вертикальный</value>
+  </data>
+  <data name="CustomizeDlgEditButtonImage" xml:space="preserve">
+    <value>Изменить изображение кнопки...</value>
+  </data>
+  <data name="CustomizeDialog_Toolbars" xml:space="preserve">
+    <value>Панели инструментов</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDeleteTitle" xml:space="preserve">
+    <value>Подтвердите удаление панели инструментов</value>
+  </data>
+  <data name="MdiCommandCloseWindows" xml:space="preserve">
+    <value>Закройте все окна</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDelete" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить панель {0}?</value>
+  </data>
+  <data name="CustomizeDialog_PopupMenuDesigner" xml:space="preserve">
+    <value>Дизайнер всплывающего меню</value>
+  </data>
+  <data name="CustomizeDialog_ToolbarsList" xml:space="preserve">
+    <value>Панели Управления</value>
+  </data>
+  <data name="FontListTool_Exception_CannotSetValueList" xml:space="preserve">
+    <value>Свойства СпискаЗначений не могут быть установлены для ИнструментаСпискаШрифтов.</value>
+  </data>
+  <data name="CustomizeDialog_Visible" xml:space="preserve">
+    <value>Видимый</value>
+  </data>
+  <data name="TaskPaneNextButtonToolTip" xml:space="preserve">
+    <value>Дальше</value>
+  </data>
+  <data name="CustomizeLocationDockedBottom" xml:space="preserve">
+    <value>Пристыкован вниз</value>
+  </data>
+  <data name="NewToolPlaceHolderCaption" xml:space="preserve">
+    <value>[Включить Новый инструмент]</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolProperties" xml:space="preserve">
+    <value>Примечание: Не удается изменить свойства выбранного инструмента, поскольку они унаследованы</value>
+  </data>
+  <data name="CustomizeDialog_ImportToolbarsFromForm" xml:space="preserve">
+    <value>Импорт панели, с помощью формы...</value>
+  </data>
+  <data name="CustomizeDlgDefStyle" xml:space="preserve">
+    <value>Стандартный стиль</value>
+  </data>
+  <data name="CustomizeImg_Tool_Exit" xml:space="preserve">
+    <value>&amp;Выход</value>
+  </data>
+  <data name="TaskPaneNavigationMenuToolTip" xml:space="preserve">
+    <value>Другие области заданий</value>
+  </data>
+  <data name="CustomizeDialog_Options" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="CustomizeDlgKbdTitle" xml:space="preserve">
+    <value>Настройка клавиатуры</value>
+  </data>
+  <data name="CustomizeImg_Tool_File" xml:space="preserve">
+    <value>&amp;Файл</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Choose" xml:space="preserve">
+    <value>Выберите команду, чтобы добавить и нажмите кнопку ОК</value>
+  </data>
+  <data name="CustomizeDialog_MenuAnimations" xml:space="preserve">
+    <value>Меню Анимации:</value>
+  </data>
+  <data name="ImportToolsWizard_Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectAllCode" xml:space="preserve">
+    <value>&amp;Выбрать Всё</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateRight" xml:space="preserve">
+    <value>Повернуть вправо</value>
+  </data>
+  <data name="QuickCustomizeToolTip2000" xml:space="preserve">
+    <value>Больше Кнопок</value>
+  </data>
+  <data name="CustomizeDialog_FloatingToolbarFadeDelay" xml:space="preserve">
+    <value>Задержка скрытия плавающей панели инструментов</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Left" xml:space="preserve">
+    <value>Налево</value>
+  </data>
+  <data name="CustomizeImg_Tool_Open" xml:space="preserve">
+    <value>&amp;Открыть...</value>
+  </data>
+  <data name="CustomizeDialog_Delete" xml:space="preserve">
+    <value>Удалить...</value>
+  </data>
+  <data name="OptionSetsToStringLiteral" xml:space="preserve">
+    <value>Граф </value>
+  </data>
+  <data name="CustomizeDialog_ShowScreenTipsOnToolbars" xml:space="preserve">
+    <value>Показывать Подсказки на Панелях Инструментов</value>
+  </data>
+  <data name="CustomizeDlgTextOnAlways" xml:space="preserve">
+    <value>Только текст (всегда)</value>
+  </data>
+  <data name="QuickCustomizeToolTipXP" xml:space="preserve">
+    <value>Параметры панели инструментов</value>
+  </data>
+  <data name="CustomizeDialog_QuestionProperties" xml:space="preserve">
+    <value>\'?????\" Свойства</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Commands" xml:space="preserve">
+    <value>Команды:</value>
+  </data>
+  <data name="CustomizeImg_Category_Format" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnToolbars" xml:space="preserve">
+    <value>Большие иконки на панели инструментов</value>
+  </data>
+  <data name="CustomizeDlgName" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgClose" xml:space="preserve">
+    <value>&amp;Закрыть</value>
+  </data>
+  <data name="CustomizeDlgReset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Reset" xml:space="preserve">
+    <value>Сбросить...</value>
+  </data>
+  <data name="ResolveDockWithinContainer_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeDialog_CommandsEndAmp" xml:space="preserve">
+    <value>Команды</value>
+  </data>
+  <data name="CustomizeDialog_Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="CustomizeDialog_LargeImage" xml:space="preserve">
+    <value>Крупное Изображение</value>
+  </data>
+  <data name="MdiCommandCascade" xml:space="preserve">
+    <value>Каскад</value>
+  </data>
+  <data name="ToolEditErrorMessageTitle" xml:space="preserve">
+    <value>Ошибка Данных</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortToolsLiteral" xml:space="preserve">
+    <value>Средство Сортировки по алфавиту</value>
+  </data>
+  <data name="MoreItemsDlgClose" xml:space="preserve">
+    <value>&amp;Закрыть</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add" xml:space="preserve">
+    <value>Добавить...</value>
+  </data>
+  <data name="MoreItemsDlgTitleOK" xml:space="preserve">
+    <value>&amp;Ок</value>
+  </data>
+  <data name="CustomizeDlgRecentlyUsed" xml:space="preserve">
+    <value>Недавно использованные</value>
+  </data>
+  <data name="MdiCommandTileVertical" xml:space="preserve">
+    <value>Вертикально</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarMessage" xml:space="preserve">
+    <value>Такое имя '{0}'уже существует. Пожалуйста, выберите другое имя.</value>
+  </data>
+  <data name="ToolBaseActionList_SharedProperties_Header" xml:space="preserve">
+    <value>Доступные свойства</value>
+  </data>
+  <data name="ConvertToolDlg_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ImportDlgCancel" xml:space="preserve">
+    <value>&amp;Отмена</value>
+  </data>
+  <data name="TaskPaneBackButtonToolTip" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="CustomizeDialog_EnabledVisible" xml:space="preserve">
+    <value>Включено, видимый</value>
+  </data>
+  <data name="CustomizeDlgKbdCmd" xml:space="preserve">
+    <value>Команды:</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromFile" xml:space="preserve">
+    <value>Выберите Файл...</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemoval" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить все настройки быстрого доступа?</value>
+  </data>
+  <data name="CustomizeKeyboardTitle" xml:space="preserve">
+    <value>Настройка клавиатуры</value>
+  </data>
+  <data name="ToolBaseActionList_P_Shortcut_Text" xml:space="preserve">
+    <value>Ярлык</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortCommandsLiteral" xml:space="preserve">
+    <value>Сортировать Команды в алфавитном порядке</value>
+  </data>
+  <data name="CustomizeDialog_SortToolsAlphabetically" xml:space="preserve">
+    <value>Средства Сортировки по алфавиту</value>
+  </data>
+  <data name="CustomizeDialog_Caption" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Up" xml:space="preserve">
+    <value>Вверх</value>
+  </data>
+  <data name="ToolBaseActionList_P_Caption_Text" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageDataTitle" xml:space="preserve">
+    <value>Сброс истории использования данных</value>
+  </data>
+  <data name="CustomizeDialog_ResetMyUsageData" xml:space="preserve">
+    <value>Сброс моих рабочих данных</value>
+  </data>
+  <data name="CustomizeLocationDockedTop" xml:space="preserve">
+    <value>Пристыкован вверх</value>
+  </data>
+  <data name="DefaultAction_Popup_Opened" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeConfirmToolDelete" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить инструмент {0}?</value>
+  </data>
+  <data name="MoreWindowsDlgCascade" xml:space="preserve">
+    <value>Каскадом</value>
+  </data>
+  <data name="DescToolTipDlgNewBlankWeb" xml:space="preserve">
+    <value>Создает новую пустую веб-страницу в окне документа.</value>
+  </data>
+  <data name="CustomizeRenameToolbarTitle" xml:space="preserve">
+    <value>ПереименоватьПанельУправления</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomIn" xml:space="preserve">
+    <value>Увеличить</value>
+  </data>
+  <data name="CustomizeImg_ToolBar_Main_Menu" xml:space="preserve">
+    <value>Главное Меню</value>
+  </data>
+  <data name="CustomizeDlgDelete" xml:space="preserve">
+    <value>&amp;Удалить</value>
+  </data>
+  <data name="CustomizeDialog_NewTool" xml:space="preserve">
+    <value>Новый инструмент...</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgRemove" xml:space="preserve">
+    <value>&amp;Удалить...</value>
+  </data>
+  <data name="MoreWindowsPrompt" xml:space="preserve">
+    <value>Больше окон...</value>
+  </data>
+  <data name="CustomizeLoadSaveCloseButton" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeDialog_ShowShortcutKeysInScreenTips" xml:space="preserve">
+    <value>Показывать клавиши быстрого доступа в подсказках</value>
+  </data>
+  <data name="CustomizeDialog_SmallImage" xml:space="preserve">
+    <value>Маленькое изображение</value>
+  </data>
+  <data name="CustomizeDialog_Tools" xml:space="preserve">
+    <value>Инструменты</value>
+  </data>
+  <data name="ExistingToolDlg_Close" xml:space="preserve">
+    <value>&amp;Закрыть</value>
+  </data>
+  <data name="TearawayToolTip" xml:space="preserve">
+    <value>Перетащите, чтобы сделать это меню плавающим</value>
+  </data>
+  <data name="NewToolbarButtonCaption" xml:space="preserve">
+    <value>Новая Панель Управления...</value>
+  </data>
+  <data name="CustomizeSelectImageFile" xml:space="preserve">
+    <value>Выберите Изображение из файла</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageData" xml:space="preserve">
+    <value>Позволит удалить отчет о командах, которые Вы использовали в этом приложении и восстанавливить заданный по умолчанию набор видимых команд к меню и панелям инструментов, при этом пользовательские настройки останутся в силе. Вы уверены, что хотите сделать это?</value>
+  </data>
+  <data name="CustomizeShortcutNoneLiteral" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientElliptical" xml:space="preserve">
+    <value>Эллиптический</value>
+  </data>
+  <data name="CustomizeDialog_ResetMidAmp" xml:space="preserve">
+    <value>Сбросить...</value>
+  </data>
+  <data name="CustomizeCategoryAllCommands" xml:space="preserve">
+    <value>Все Команды</value>
+  </data>
+  <data name="CustomizeDialog_ToolsByCategory" xml:space="preserve">
+    <value>Инструменты по категориям</value>
+  </data>
+  <data name="ImportToolsWizard_ToolType" xml:space="preserve">
+    <value>Тип Инструмента</value>
+  </data>
+  <data name="ImportToolsWizard_ToolbarTypeToolbar" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="MoreItemsPrompt" xml:space="preserve">
+    <value>Больше элементов...</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить изменения, внесенные в панель инструментов {0}?</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Text_Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="ExistingToolDlg_ToolType" xml:space="preserve">
+    <value>Тип Инструмента:</value>
+  </data>
+  <data name="CustomizeDialog_SelectedCommand" xml:space="preserve">
+    <value>Выбранная команда:</value>
+  </data>
+  <data name="CustomizeDlgSelectControlMenu" xml:space="preserve">
+    <value>Элемент управления</value>
+  </data>
+  <data name="CustomizeDlgKbdCat" xml:space="preserve">
+    <value>Категории:</value>
+  </data>
+  <data name="ImageEditor_LoadFileTitle" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="CustomizeDlgNewToolAdd" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="CustomizeCreateToolErrorTitle" xml:space="preserve">
+    <value>Ошибка Создания Инструмента</value>
+  </data>
+  <data name="NoneLiteral" xml:space="preserve">
+    <value>(нет)</value>
+  </data>
+  <data name="CustomizeDialog_CloseNoAmp" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateLeft" xml:space="preserve">
+    <value>Повернуть влево</value>
+  </data>
+  <data name="CustomizeDialog_Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="ToolBaseActionList_P_DisplayStyle_Text" xml:space="preserve">
+    <value>Отображать Стиль</value>
+  </data>
+  <data name="CustomDlgRenameToolBarTitle" xml:space="preserve">
+    <value>Переименовать Панель управления</value>
+  </data>
+  <data name="CustomizeMenuAnimationSlide" xml:space="preserve">
+    <value>Сдвинуть</value>
+  </data>
+  <data name="CustomizeDialog_NewBeginAmp" xml:space="preserve">
+    <value>Новый</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientForwardDiagonal" xml:space="preserve">
+    <value>ПередняяДиагональ</value>
+  </data>
+  <data name="MoreWindowsDlgCloseWindows" xml:space="preserve">
+    <value>Зак&amp;рыть Окно(а)</value>
+  </data>
+  <data name="CustomizeImg_Tool_FontName" xml:space="preserve">
+    <value>Шрифт:</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomOut" xml:space="preserve">
+    <value>Уменьшить</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Down" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
+  <data name="CustomizeDialog_Key" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="CustomizeConfirmToolbarReset" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить все настройки панели {0}?</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
+  <data name="CustomizeDlgNewToolCaption" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="CustomizeDlgTooltipCreateNewTool" xml:space="preserve">
+    <value>Создать новый инструмент</value>
+  </data>
+  <data name="CustomizeImg_Tool_Standard" xml:space="preserve">
+    <value>&amp;Стандартный</value>
+  </data>
+  <data name="ExistingToolDlg_Title" xml:space="preserve">
+    <value>Включить Существующий инструмент</value>
+  </data>
+  <data name="CustomizeDialog_ListFontNamesInTheirFont" xml:space="preserve">
+    <value>Список имен шрифтов</value>
+  </data>
+  <data name="CustomizeImg_Tool_Italic" xml:space="preserve">
+    <value>Курсив</value>
+  </data>
+  <data name="LockToolbars" xml:space="preserve">
+    <value>Закрепить панель инструментов</value>
+  </data>
+  <data name="CustomizeLocationDockedRight" xml:space="preserve">
+    <value>Пристыкован справа</value>
+  </data>
+  <data name="CustomizeDuplicateToolMessage" xml:space="preserve">
+    <value>Инструмент с названием {0} уже существует. Пожалуйста, выберите другое имя.</value>
+  </data>
+  <data name="AccessibleName_Toolbar" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="ToolBaseActionList_ToolSpecificProperties_Header" xml:space="preserve">
+    <value>Определенные Свойства Инструмента</value>
+  </data>
+  <data name="ImportToolsWizard_Key" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Default" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="CustomDlgNewToolBarLocation" xml:space="preserve">
+    <value>Размещение:</value>
+  </data>
+  <data name="CustomizeImg_Tool_Undo" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Right" xml:space="preserve">
+    <value>Направо</value>
+  </data>
+  <data name="MdiCommandMinimizeWindows" xml:space="preserve">
+    <value>Свернуть все окна</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecShrtcut" xml:space="preserve">
+    <value>Определить ссылку</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Commands" xml:space="preserve">
+    <value>Команды:</value>
+  </data>
+  <data name="CustomizeDialog_ShowFullMenusAfterAShortDelay" xml:space="preserve">
+    <value>Показать полные меню после короткой задержки</value>
+  </data>
+  <data name="MoreWindowsDlgArrangeIcons" xml:space="preserve">
+    <value>Упорядочить значки</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="GalleryPreviewDropDown_ToolTipTitle" xml:space="preserve">
+    <value>Больше</value>
+  </data>
+  <data name="PopupGalleryTool_ItemReferenceConverter_None" xml:space="preserve">
+    <value>(нет)</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonMinimize" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonClose" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="DefaultAction_RibbonCaptionButton" xml:space="preserve">
+    <value>Нажать</value>
+  </data>
+  <data name="DefaultAction_RibbonPagerButton" xml:space="preserve">
+    <value>Нажать</value>
+  </data>
+  <data name="AccessibleName_RibbonPagerButtonLeft" xml:space="preserve">
+    <value>Колонка слева</value>
+  </data>
+  <data name="AccessibleName_RibbonPagerButtonRight" xml:space="preserve">
+    <value>Колонка справа</value>
+  </data>
+  <data name="AccessibleDescription_RibbonPagerButtonLeft" xml:space="preserve">
+    <value>Перемещение горизонтального положения левее на один столбец</value>
+  </data>
+  <data name="AccessibleDescription_RibbonPagerButtonRight" xml:space="preserve">
+    <value>Перемещение горизонтального положения правее на один столбец</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonClose" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonOpen" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="GalleryItemButtonDefaultAction" xml:space="preserve">
+    <value>Нажать</value>
+  </data>
+  <data name="GalleryFilterListClosedDefaultAction" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="GalleryFilterListOpenedDefaultAction" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="ToolsEditorControl_Remove" xml:space="preserve">
+    <value>&amp;Удалить</value>
+  </data>
+  <data name="ToolsEditorControl_Reset" xml:space="preserve">
+    <value>&amp;Сбросить</value>
+  </data>
+  <data name="QatContextMenuTools_OK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="QatContextMenuTools_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="MiniToolbarDesignerOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="CustomizeDialog_Delete_Tool_AccessibleDescription" xml:space="preserve">
+    <value>Удалить выбранный инструмент.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Edit_AccessibleDescription" xml:space="preserve">
+    <value>Меню редактора</value>
+  </data>
+  <data name="CustomizeImg_Tool_File_AccessibleDescription" xml:space="preserve">
+    <value>Меню Файл.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools_AccessibleDescription" xml:space="preserve">
+    <value>Меню Инструментов.</value>
+  </data>
+  <data name="CustomizeImg_Tool_View_AccessibleDescription" xml:space="preserve">
+    <value>Меню Инструментов.</value>
+  </data>
+  <data name="MoreWindowsDlgMinWindows_AccessibleDescription" xml:space="preserve">
+    <value>Свернуть все окна.</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarBackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarForwardButton" xml:space="preserve">
+    <value>Вперёд</value>
+  </data>
+  <data name="DefaultCaptionForFileMenuButton" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+</root>
