@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using NewsComponents.Collections;
+using RssBandit.AppServices;
 using RssBandit.WinGui.Controls.ThListView;
 using RssBandit.WinGui.Controls.ThListView.Sorting;
 using AppInteropServices;
@@ -30,6 +31,7 @@ using SortOrder=System.Windows.Forms.SortOrder;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.Net;
+using ExecuteCommandHandler = RssBandit.WinGui.Interfaces.ExecuteCommandHandler;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -115,7 +117,7 @@ namespace RssBandit.WinGui.Forms
             else
                 Text = RssBanditApplication.CaptionOnly;
 
-            if (0 != (owner.InternetConnectionState & INetState.Offline))
+            if (owner.InternetConnectionState.HasFlag(InternetState.Offline))
                 Text += " " + SR.MenuAppInternetConnectionModeOffline;
         }
 
@@ -172,7 +174,7 @@ namespace RssBandit.WinGui.Forms
         {                  
             //Since we can't remove items from the jump list we should ensure 
             //not to add an item twice. 
-            if (!jlcRecentContents.Contains(url))
+            if (!jlcRecentContents.ContainsKey(url))
             {
                 try
                 {
@@ -194,32 +196,46 @@ namespace RssBandit.WinGui.Forms
                 //remove an item from the jump list if we're at the max 
                 while (jlcRecentContents.Count >= jumpList.MaxSlotsInList)
                 {
-					//JumpListLink toRemove = new JumpListLink(Application.ExecutablePath, "Not Used")
-					//{
-					//	Arguments = String.Concat("-n:", jlcRecentContents[0]) 
-					//};
-
-                    //jlcRecent.RemoveJumpListLink(toRemove);
-                    jlcRecentContents.RemoveAt(0); 
+					jlcRecentContents.RemoveAt(0); 
                 }
 
                 if (!String.IsNullOrEmpty(title))
                 {
-                    string iconPath = (url.StartsWith("feed://")
-                                           ? RssBanditApplication.GetFeedIconPath()
-                                           : RssBanditApplication.GetWebPageIconPath());
-
-                    jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
-                                                   {
-                                                       IconReference = new IconReference(iconPath, 0),
-                                                       Arguments = String.Concat("-n:", url)
-                                                   });
-
-                    jlcRecentContents.Add(url);
-                    jumpList.Refresh();
+                    jlcRecentContents.Add(url,title);
                 }
             }
         }
+
+	    internal void UpdateRecentlyUsedJumpList()
+	    {
+		    if (!TaskbarManager.IsPlatformSupported)
+			    return;
+
+			var max = Math.Min(jlcRecentContents.Count, jumpList.MaxSlotsInList);
+
+			foreach (var url in jlcRecentContents.Keys)
+			{
+				var title = jlcRecentContents[url];
+				if (string.IsNullOrEmpty(title))
+					continue;
+
+				string iconPath = (url.StartsWith("feed://")
+										   ? RssBanditApplication.GetFeedIconPath()
+										   : RssBanditApplication.GetWebPageIconPath());
+
+				jlcRecent.AddJumpListItems(new JumpListLink(Application.ExecutablePath, title)
+				{
+					IconReference = new IconReference(iconPath, 0),
+					Arguments = String.Concat("-n:", url)
+				});	
+
+				max--;
+				if (max < 0)
+					break;
+			}
+
+			jumpList.Refresh();
+	    }
 
 		internal TreeFeedsNodeBase GetRoot(RootFolderType rootFolderType)
         {

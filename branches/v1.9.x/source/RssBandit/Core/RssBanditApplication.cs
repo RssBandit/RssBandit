@@ -81,6 +81,7 @@ using System.Windows.Threading;
 using System.Configuration;
 using RssBandit.Core.Storage;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
+using RssBandit.Properties;
 
 #if DEBUG && TEST_I18N_THISCULTURE			
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
@@ -1291,7 +1292,7 @@ namespace RssBandit
             get { return stateManager.InternetConnectionOffline; }
         }
 
-        public INetState InternetConnectionState
+        public InternetState InternetConnectionState
         {
             get { return stateManager.InternetConnectionState; }
         }
@@ -4722,10 +4723,10 @@ namespace RssBandit
         {
             if (guiMain != null)
             {
-                autoSaveTimer.Dispose();
-
-
-                _dispatcher.InvokeShutdown();
+	            guiMain.UpdateRecentlyUsedJumpList();
+                
+				autoSaveTimer.Dispose();
+				_dispatcher.InvokeShutdown();
 
                 InvokeOnGuiSync(() =>
                                     {
@@ -4780,9 +4781,9 @@ namespace RssBandit
 
 		private void OnInternetConnectionStateChanged(object sender, InternetConnectionStateChangeEventArgs args)
         {
-			bool offline = ((args.NewState & INetState.Offline) > 0);
-			bool connected = ((args.NewState & INetState.Connected) > 0);
-			bool internet_allowed = connected && (args.NewState & INetState.Online) > 0;
+			bool offline = ((args.NewState & InternetState.Offline) > 0);
+			bool connected = ((args.NewState & InternetState.Connected) > 0);
+			bool internet_allowed = connected && (args.NewState & InternetState.Online) > 0;
 
             FeedSource.Offline = !internet_allowed;
 
@@ -4902,7 +4903,7 @@ namespace RssBandit
 
         public void UpdateInternetConnectionState(bool forceFullTest)
         {
-            INetState state = Utils.CurrentINetState(Proxy, forceFullTest);
+            InternetState state = Network.GetInternetState(Proxy, forceFullTest);
             stateManager.MoveInternetConnectionStateTo(state); // raises OnInternetConnectionStateChanged() event
             //this.feedHandler.Offline = !stateManager.InternetAccessAllowed;		// reset feedHandler
         }

@@ -94,6 +94,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -371,120 +372,176 @@
     <Content Include="Media\New Feed Items Received.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Resources\InfragisticsShared.de.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.de.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.es.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.es.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.fr.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.fr.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.it.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.it.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsShared.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.nl.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.de.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.ru.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsShared.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWin.de.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.es.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.es.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.fr.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.fr.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.it.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.it.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWin.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.nl.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.de.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWin.ru.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.de.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.es.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.fr.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.it.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.nl.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinEditors.ru.resx">
+      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.de.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.es.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.es.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.fr.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.fr.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.it.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.it.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinExplorerBar.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.nl.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.de.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.ru.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.de.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.es.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.fr.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.it.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.nl.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinMisc.ru.resx">
+      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.de.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.es.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.fr.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.it.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.nl.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.ru.resx">
+      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.de.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.es.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.fr.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.it.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.nl.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.ru.resx">
+      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.de.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.es.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.es.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.fr.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.fr.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.it.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.it.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinToolbars.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.nl.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.de.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.ru.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.de.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.es.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.es.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.fr.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.fr.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.it.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.it.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InfragisticsWinTree.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.nl.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.ru.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\TreeImages.png" />
     <EmbeddedResource Include="Resources\AllToolImages.png" />
@@ -495,6 +552,9 @@
     <None Include="Resources\envelope_icon.ICO" />
     <None Include="Resources\Add.ico" />
     <Content Include="Media\addrssfeed.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Media\rssfeed.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Media\webpage.ico">
@@ -1918,12 +1978,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ResourceInfragistics.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ResourceInfragistics.cs" />
     <Compile Include="Resources\SR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

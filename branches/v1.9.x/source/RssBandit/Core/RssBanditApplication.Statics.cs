@@ -741,33 +741,32 @@ namespace RssBandit
             return Path.Combine(GetUserPath(), ".preferences.xml");
         }
 
-		///// <summary>
-		///// Gets the path to the Google Reader icon used in the Windows 7 jump list
-		///// </summary>
-		///// <returns></returns>
-		//public static string GetGoogleIconPath()
-		//{
-		//	return Path.Combine(Application.StartupPath, "Resources\\google.ico");
-		//}
-
-        /// <summary>
-        /// Gets the path to the Facebook icon used in the Windows 7 jump list
+		/// <summary>
+        /// Gets the path to the (add) Facebook icon used in the Windows 7 jump list
         /// </summary>
         /// <returns></returns>
-        public static string GetFacebookIconPath()
+        public static string GetAddFacebookIconPath()
         {
             return Path.Combine(Application.StartupPath, "Media\\addfacebook.ico");
         }
 
         /// <summary>
-        /// Gets the path to the RSS icon used in the Windows 7 jump list
+        /// Gets the path to the (add) RSS icon used in the Windows 7 jump list
         /// </summary>
         /// <returns></returns>
-        public static string GetFeedIconPath()
+        public static string GetAddFeedIconPath()
         {
             return Path.Combine(Application.StartupPath, "Media\\addrssfeed.ico");
         }
 
+		/// <summary>
+		/// Gets the path to the RSS icon used in the Windows 7 jump list / recent 
+		/// </summary>
+		/// <returns></returns>
+		public static string GetFeedIconPath()
+		{
+			return Path.Combine(Application.StartupPath, "Media\\rssfeed.ico");
+		}
 
 
         /// <summary>

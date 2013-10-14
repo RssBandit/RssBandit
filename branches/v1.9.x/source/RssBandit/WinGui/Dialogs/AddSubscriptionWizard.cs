@@ -1118,7 +1118,7 @@ namespace RssBandit.WinGui.Dialogs
 		}
 
 		private void OnInternetServiceInternetConnectionStateChange(object sender, InternetConnectionStateChangeEventArgs e) {
-			bool internetConnected = (e.NewState & INetState.Connected) > 0 && (e.NewState & INetState.Online) > 0;
+			bool internetConnected = (e.NewState & InternetState.Connected) > 0 && (e.NewState & InternetState.Online) > 0;
 			checkNewByURLValidate.Enabled = radioNewByTopicSearch.Enabled = internetConnected;
 		}
 

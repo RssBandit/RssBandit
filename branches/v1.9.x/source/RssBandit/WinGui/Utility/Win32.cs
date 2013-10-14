@@ -520,6 +520,44 @@ namespace RssBandit
 			/// <param name="appExeName">Name of the application exe (without path, but with extension).</param>
 			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
 			void CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion);
+
+			NcsiParameters GetNcsiParameters();
+		}
+
+		public struct NcsiParameters
+		{
+			public static NcsiParameters Default = new NcsiParameters
+			{
+				PassivePollPeriod = 5,
+				StaleThreshold = 30,
+				WebTimeout = 35,
+				EnableActiveProbing = true,
+				ActiveWebProbeHost = "www.msftncsi.com",
+				ActiveWebProbeHostV6 = "www.msftncsi.com",
+				ActiveWebProbePath = "ncsi.txt",
+				ActiveWebProbePathV6 = "ncsi.txt",
+				ActiveWebProbeContent = "Microsoft NCSI",
+				ActiveWebProbeContentV6 = "Microsoft NCSI",
+				ActiveDnsProbeHost = "dns.msftncsi.com",
+				ActiveDnsProbeHostV6 = "dns.msftncsi.com",
+				ActiveDnsProbeContent = "131.107.255.255",
+				ActiveDnsProbeContentV6 = "131.107.255.255"
+			};
+
+			public int PassivePollPeriod;
+			public int StaleThreshold;
+			public int WebTimeout;
+			public bool EnableActiveProbing;
+			public string ActiveWebProbeHost;
+			public string ActiveWebProbePath;
+			public string ActiveWebProbeContent;
+			public string ActiveDnsProbeHost;
+			public string ActiveDnsProbeContent;
+			public string ActiveWebProbeHostV6;
+			public string ActiveWebProbePathV6;
+			public string ActiveWebProbeContentV6;
+			public string ActiveDnsProbeHostV6;
+			public string ActiveDnsProbeContentV6;
 		}
 
 		#endregion
@@ -597,6 +635,83 @@ namespace RssBandit
 				// only IE >= 4 write the Version key:
 				return new Version(3, 0);
 			}
+
+			protected NcsiParameters GetNcsiParameters()
+			{
+				NcsiParameters toReturn = NcsiParameters.Default;
+
+				try
+				{
+					RegistryKey key =
+						Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+							@"SYSTEM\\CurrentControlSet\\services\\NlaSvc\\Parameters\Internet", false);
+
+					if (key != null)
+					{
+						var s = key.GetValue("ActiveDnsProbeContent", NcsiParameters.Default.ActiveDnsProbeContent) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveDnsProbeContent = s;
+
+						s = key.GetValue("ActiveDnsProbeContentV6", NcsiParameters.Default.ActiveDnsProbeContentV6) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveDnsProbeContentV6 = s;
+
+						s = key.GetValue("ActiveDnsProbeHost", NcsiParameters.Default.ActiveDnsProbeHost) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveDnsProbeHost = s;
+
+						s = key.GetValue("ActiveDnsProbeHostV6", NcsiParameters.Default.ActiveDnsProbeHostV6) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveDnsProbeHostV6 = s;
+
+						s = key.GetValue("ActiveWebProbeContent", NcsiParameters.Default.ActiveWebProbeContent) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbeContent = s;
+
+						s = key.GetValue("ActiveWebProbeContentV6", NcsiParameters.Default.ActiveWebProbeContentV6) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbeContentV6 = s;
+
+						s = key.GetValue("ActiveWebProbeHost", NcsiParameters.Default.ActiveWebProbeHost) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbeHost = s;
+
+						s = key.GetValue("ActiveWebProbeHostV6", NcsiParameters.Default.ActiveWebProbeHostV6) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbeHostV6 = s;
+
+						s = key.GetValue("ActiveWebProbePath", NcsiParameters.Default.ActiveWebProbePath) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbePath = s;
+
+						s = key.GetValue("ActiveWebProbePathV6", NcsiParameters.Default.ActiveWebProbePathV6) as string;
+						if (!String.IsNullOrEmpty(s))
+							toReturn.ActiveWebProbePathV6 = s;
+
+						int i ;
+						if (Int32.TryParse(key.GetValue("EnableActiveProbing", NcsiParameters.Default.EnableActiveProbing) as string, out i))
+							toReturn.EnableActiveProbing = (i!=0);
+
+						if (Int32.TryParse(key.GetValue("PassivePollPeriod", NcsiParameters.Default.PassivePollPeriod) as string, out i))
+							toReturn.PassivePollPeriod = i;
+
+						if (Int32.TryParse(key.GetValue("StaleThreshold", NcsiParameters.Default.StaleThreshold) as string, out i))
+							toReturn.StaleThreshold = i;
+
+						if (Int32.TryParse(key.GetValue("WebTimeout", NcsiParameters.Default.WebTimeout) as string, out i))
+							toReturn.WebTimeout = i;
+
+						key.Close();
+					}
+				}
+				catch
+				{
+					// ignore
+				}
+			
+				return toReturn;
+			}
+
 		}
 
 
@@ -1117,6 +1232,12 @@ namespace RssBandit
 				}
 
 			}
+
+			NcsiParameters IRegistry.GetNcsiParameters()
+			{
+				return this.GetNcsiParameters();
+			}
+
 			#endregion
 
 			#region Internet Explorer Menu Extension handling
@@ -1459,6 +1580,11 @@ namespace RssBandit
 			Version IRegistry.GetInternetExplorerVersion()
 			{
 				return GetRegistryInternetExplorerVersion();
+			}
+
+			NcsiParameters IRegistry.GetNcsiParameters()
+			{
+				return this.GetNcsiParameters();
 			}
 
 			private bool? firstTimeExecution;

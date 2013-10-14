@@ -35,6 +35,7 @@ using Infragistics.Win.UltraWinToolTip;
 using Infragistics.Win.UltraWinTree;
 using log4net;
 using NewsComponents;
+using NewsComponents.Collections;
 using NewsComponents.Feed;
 using NewsComponents.Search;
 using NewsComponents.Utils;
@@ -270,7 +271,7 @@ namespace RssBandit.WinGui.Forms
         private ThumbnailToolBarButton buttonRefresh;
         private JumpList jumpList;
         private JumpListCustomCategory jlcRecent;
-        private List<string> jlcRecentContents = new List<string>(); 
+		private KeyItemCollection<string, string> jlcRecentContents = new KeyItemCollection<string, string>(); 
 
         private IContainer components;
 

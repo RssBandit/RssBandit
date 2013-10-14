@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllNodesDelete" xml:space="preserve">
+    <value>Alle Knoten im UltraTree werden gelöscht. Möchten Sie fortfahren?</value>
+  </data>
+  <data name="NodePropAddSibling" xml:space="preserve">
+    <value>&amp;Sibling hinzufügen</value>
+  </data>
+  <data name="NodePropAddChild" xml:space="preserve">
+    <value>Unterknoten hinzufügen</value>
+  </data>
+  <data name="NodePropertyOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="NodePropEdit" xml:space="preserve">
+    <value>&amp;Bearbeiten</value>
+  </data>
+  <data name="NodeEditClear" xml:space="preserve">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="BeforeNodesDeletedTitle" xml:space="preserve">
+    <value>UltraTree-Knoten löschen</value>
+  </data>
+  <data name="NodePropertyCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="NodeEditDelete" xml:space="preserve">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="BeforeNodesDeletedMessage" xml:space="preserve">
+    <value>Sie haben {0} Knoten zum löschen ausgewählt .
+
+Wählen Sie Ja um den Knoten zu löschen oder Nein um abzubrechen.</value>
+  </data>
+  <data name="SelNodeEdit" xml:space="preserve">
+    <value>Wählen Sie den zu bearbeitenden Knoten aus:</value>
+  </data>
+  <data name="NodePropAddRoot" xml:space="preserve">
+    <value>&amp;Root hinzufügen</value>
+  </data>
+  <data name="NodePropertyEditorLabelEditMessage" xml:space="preserve">
+    <value>Knoten Label geändert.</value>
+  </data>
+  <data name="SelNodeLabel" xml:space="preserve">
+    <value>Ausgewähltes Knoten Label</value>
+  </data>
+  <data name="NodeProperty" xml:space="preserve">
+    <value>Knoten Eigenschaften</value>
+  </data>
+  <data name="PasteErrorMessage" xml:space="preserve">
+    <value>Während die Knoten vom Clipboard kopiert wurden, ist folgender Fehler aufgetreten:
+{0}</value>
+  </data>
+  <data name="PasteErrorMessageCaption" xml:space="preserve">
+    <value>Einfügefehler</value>
+  </data>
+  <data name="DefaultAction_Collapse" xml:space="preserve">
+    <value>Zusammenklappen</value>
+  </data>
+  <data name="DefaultAction_Expand" xml:space="preserve">
+    <value>Aufklappen</value>
+  </data>
+  <data name="DefaultAction_EnterEditMode" xml:space="preserve">
+    <value>Geben Sie bitte den Editiermodus ein</value>
+  </data>
+  <data name="DefaultAction_Sort" xml:space="preserve">
+    <value>Sortieren</value>
+  </data>
+  <data name="NodesCollectionEditor_CannotModifyNodes" xml:space="preserve">
+    <value>Wenn gebundene Knoten im Baum vorhanden sind, kann die Knoten-Sammlung nicht editiert werden.</value>
+  </data>
+  <data name="UltraTreeNodeLayoutInfo_Exception_InvalidSize" xml:space="preserve">
+    <value>Die spezifizierte Grösse war ungültig weil sie eine Breite oder eine Höhe die kleiner als Null ist beinhaltete.</value>
+  </data>
+  <data name="UltraTreeNode_Exception_BringCellIntoView" xml:space="preserve">
+    <value>Die spezifizierte Spalte gehört nicht zu diesem Knoten.</value>
+  </data>
+  <data name="UltraTree_Exception_ActiveCellColumnHasNoDisplayColumn" xml:space="preserve">
+    <value>Die AktivZelle kann nicht in eine UltraTree-Knoten-Spalte gesetzt werden die keine dazugehörige Anzeige Spalte hat.</value>
+  </data>
+  <data name="DataError_MessageBox_Title" xml:space="preserve">
+    <value>Datenfehler</value>
+  </data>
+  <data name="UltraTreeNodeColumn_EditorValueInvalid" xml:space="preserve">
+    <value>"Wert im Editor ist nicht gültig."</value>
+  </data>
+  <data name="DataErrorUnableToConvert" xml:space="preserve">
+    <value>Nicht imstande von {0} in {1} umzuwandeln</value>
+  </data>
+  <data name="UltraTree_Exception_CannotSetTopNodeToHiddenNode" xml:space="preserve">
+    <value>Die Top-Knoten Eigenschaft kann nicht auf einen UltraTree-Knoten gesetzt werden der in der Benutzeroberfläche nicht sichtbar ist.</value>
+  </data>
+  <data name="UltraTreeNodeColumn_Exception_MaxLength" xml:space="preserve">
+    <value>Die "max. Länge" Einstellung kann nicht kleiner als Nuss sein.</value>
+  </data>
+  <data name="InvalidEditorValue_Error_Message_Prefix" xml:space="preserve">
+    <value>Nicht imstande den Datenwert zu aktualisieren:</value>
+  </data>
+  <data name="InvalidEditorValue_Error_Message" xml:space="preserve">
+    <value>Der gegenwärtige Wert des Herausgebers ist nicht gültig.</value>
+  </data>
+  <data name="ViolatesNullable_Error_Message" xml:space="preserve">
+    <value>In dieser Spalte sind keine leeren Zellen erlaubt '{0}'.</value>
+  </data>
+  <data name="Exception_CannotEditDataBoundNode" xml:space="preserve">
+    <value>Die 'BeginEdit'-Methode kann nicht auf einem Knoten, der an eine Datenquelle gebunden ist, aufgerufen werden, es sei denn die 'UseEditor'-Eigenschaft der betreffenden Übersteuerung ist auf DefaulttableBoolean gesetzt. Richtig.</value>
+  </data>
+</root>

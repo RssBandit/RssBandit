@@ -98,8 +98,8 @@ namespace RssBandit.WinGui
 		/// Moves the internet connection state to the specified new state.
 		/// </summary>
 		/// <param name="newState">State of the new.</param>
-		public void MoveInternetConnectionStateTo(INetState newState) {
-			INetState oldState = internetConnectionState;
+		public void MoveInternetConnectionStateTo(InternetState newState) {
+			InternetState oldState = internetConnectionState;
 			internetConnectionState = newState;
 			if (InternetConnectionStateMoved != null) {
 				try {
@@ -117,7 +117,7 @@ namespace RssBandit.WinGui
 		/// </value>
 		public bool InternetAccessAllowed {
 			get { 
-				if ((internetConnectionState & INetState.Connected) > 0 && (internetConnectionState & INetState.Online) > 0) 
+				if ((internetConnectionState & InternetState.Connected) > 0 && (internetConnectionState & InternetState.Online) > 0) 
 					return true; 
 				return false;
 			}
@@ -131,7 +131,7 @@ namespace RssBandit.WinGui
 		/// </value>
 		public bool InternetConnectionOffline {
 			get { 
-				if ((internetConnectionState & INetState.Offline) > 0) 
+				if ((internetConnectionState & InternetState.Offline) > 0) 
 					return true; 
 				return false;
 			}
@@ -141,10 +141,10 @@ namespace RssBandit.WinGui
 		/// Gets the state of the internet connection.
 		/// </summary>
 		/// <value></value>
-		public INetState InternetConnectionState {
+		public InternetState InternetConnectionState {
 			get { return internetConnectionState; 	}
 		}
-		private INetState internetConnectionState = INetState.Invalid;
+		private InternetState internetConnectionState = InternetState.Unknown;
 		#endregion
 
 	}

@@ -1,0 +1,2957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DefaultAction_Item_On_Menu" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnMenus" xml:space="preserve">
+    <value>&amp;Large Icons on Menus</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Categories" xml:space="preserve">
+    <value>Categories:</value>
+  </data>
+  <data name="CustomizeLoadSave_SelectLoadFileDialogTitle" xml:space="preserve">
+    <value>Select File To Load</value>
+  </data>
+  <data name="CustomizeDialog_ResetAmp" xml:space="preserve">
+    <value>&amp;Reset...</value>
+  </data>
+  <data name="CustomizeToolTypeMDIWindowListInstanceName" xml:space="preserve">
+    <value>MDIWindowListTool</value>
+  </data>
+  <data name="CustomizeLocationDockedLeft" xml:space="preserve">
+    <value>Docked Left</value>
+  </data>
+  <data name="CustomizeToolbarTypeStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="CustomizeImg_Category_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_AutoComplete_Text" xml:space="preserve">
+    <value>Auto Complete</value>
+  </data>
+  <data name="CustomizeLoadSaveFormatLiteral" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBType" xml:space="preserve">
+    <value>Toolbar Type:</value>
+  </data>
+  <data name="CustomizeImg_Tool_SelectIrregularSectionTool" xml:space="preserve">
+    <value>Irregular Selection</value>
+  </data>
+  <data name="CustomizeLoadSaveTitle" xml:space="preserve">
+    <value>Load/Save Configuration</value>
+  </data>
+  <data name="CustomizeImg_Category_Text_Tools" xml:space="preserve">
+    <value>Text Tools</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarTitle" xml:space="preserve">
+    <value>Duplicate Toolbar Name</value>
+  </data>
+  <data name="CustomizeDlgImagesMenu" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="ImportToolbarControlsDlg_ImportErrorTitle" xml:space="preserve">
+    <value>Import Error</value>
+  </data>
+  <data name="CustomizeImg_Category_Brush_Sizes" xml:space="preserve">
+    <value>Brush Sizes</value>
+  </data>
+  <data name="CustomizeDialog_Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="AccessibleName_DockBottom" xml:space="preserve">
+    <value>DockBottom</value>
+  </data>
+  <data name="OptionSetTypeEditFrmAllowAllUp" xml:space="preserve">
+    <value>Allow All &amp;Up</value>
+  </data>
+  <data name="ToolBaseActionList_P_ToolTipText_Text" xml:space="preserve">
+    <value>Tool Tip Text</value>
+  </data>
+  <data name="ImportDlgImportToolbarControls" xml:space="preserve">
+    <value>Import Toolbar Controls</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeDlgImageAndText" xml:space="preserve">
+    <value>Image &amp;and Text</value>
+  </data>
+  <data name="ImportToolsWizard_SelectMenusTitle" xml:space="preserve">
+    <value>Select PopupMenuTools</value>
+  </data>
+  <data name="CustomizeImg_Tool_HSL_Colors" xml:space="preserve">
+    <value>HSL Colors</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_CanSetWidth_Text" xml:space="preserve">
+    <value>Can Set Width</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgManage" xml:space="preserve">
+    <value>Manage OptionSets</value>
+  </data>
+  <data name="CustomizeLoadSave_LoadError" xml:space="preserve">
+    <value>Error encountered while loading from stream.</value>
+  </data>
+  <data name="CustomizeNewToolbarTitle" xml:space="preserve">
+    <value>New Toolbar</value>
+  </data>
+  <data name="TaskPaneForwardButtonToolTip" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="OptionSetTypeEditFrmNameColHeader" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomFit" xml:space="preserve">
+    <value>Zoom Fit</value>
+  </data>
+  <data name="CustomizeDialog_Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="CustomizeImg_Tool_View" xml:space="preserve">
+    <value>&amp;View</value>
+  </data>
+  <data name="CustomizeConfirmToolDeleteTitle" xml:space="preserve">
+    <value>Confirm Tool Delete</value>
+  </data>
+  <data name="CustomizeDlgCopyOf" xml:space="preserve">
+    <value>Copy of </value>
+  </data>
+  <data name="ControlContainerToolActionList_P_VerticalDisplayStyle_Text" xml:space="preserve">
+    <value>Vertical Display Style</value>
+  </data>
+  <data name="ImportToolsWizard_Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="CustomizeImg_Tool_Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Key_Text" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="CustomizeDlgTooltipDeleteTool" xml:space="preserve">
+    <value>Delete the selected tool</value>
+  </data>
+  <data name="ToolBaseActionList_P_DisplayStyle_Desc" xml:space="preserve">
+    <value>Specifies the display style for this tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRectangleTool" xml:space="preserve">
+    <value>Filled Rectangle</value>
+  </data>
+  <data name="ImgSelectionCtrlRemoveImage" xml:space="preserve">
+    <value>&amp;Remove Image</value>
+  </data>
+  <data name="CustomizeDialog_DeleteTool" xml:space="preserve">
+    <value>&amp;Delete Tool...</value>
+  </data>
+  <data name="CustomizeImg_Tool_XLargeCircleBrush" xml:space="preserve">
+    <value>Extra Large Circle</value>
+  </data>
+  <data name="CustomizeDialog_SortCommands" xml:space="preserve">
+    <value>Sort Commands Alphabetically</value>
+  </data>
+  <data name="StateButtonToolActionList_P_OptionSet_Desc" xml:space="preserve">
+    <value>Specifies the option set this state button belongs to.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Font_Size" xml:space="preserve">
+    <value>Font Size:</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarTitle" xml:space="preserve">
+    <value>Reset Toolbar</value>
+  </data>
+  <data name="CustomizeDlgBeginGrp" xml:space="preserve">
+    <value>Begin a &amp;Group</value>
+  </data>
+  <data name="CustomizeImg_Category_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="CustomizeImg_Tool_Save_Copy_As" xml:space="preserve">
+    <value>&amp;Save Copy As...</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_VerticalDisplayStyle_Desc" xml:space="preserve">
+    <value>Specifies how the control displays when its toolbar is docked vertically.</value>
+  </data>
+  <data name="CustomizeCreateToolError" xml:space="preserve">
+    <value>Error while creating new tool.</value>
+  </data>
+  <data name="CustomizeDialog_New" xml:space="preserve">
+    <value>&amp;New...</value>
+  </data>
+  <data name="CustomizeDialog_ModifySelection" xml:space="preserve">
+    <value>Modify Selection</value>
+  </data>
+  <data name="TextBoxToolActionList_P_Text_Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="CustomizeNewToolTitle" xml:space="preserve">
+    <value>New Tool</value>
+  </data>
+  <data name="CustomizeImg_Tool_Eraser" xml:space="preserve">
+    <value>&amp;Eraser</value>
+  </data>
+  <data name="CustomizeDialog_PersonalizedMenusAndToolbars" xml:space="preserve">
+    <value>Personalized Menus and Toolbars</value>
+  </data>
+  <data name="MoreWindowsDlgTileHorz" xml:space="preserve">
+    <value>Tile &amp;Horizontally</value>
+  </data>
+  <data name="ImportToolsWizard_ImportTaskRootTools" xml:space="preserve">
+    <value>Creating root tools...</value>
+  </data>
+  <data name="AddGalleryToQuickAccessToolbar" xml:space="preserve">
+    <value>Add Gallery to Quick Access Toolbar</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="CustomizeDlgClearLargeImage" xml:space="preserve">
+    <value>Clear Large Image</value>
+  </data>
+  <data name="AddRemoveButtons" xml:space="preserve">
+    <value>&amp;Add or Remove Buttons</value>
+  </data>
+  <data name="StateButtonToolActionList_P_OptionSet_Text" xml:space="preserve">
+    <value>Option Set</value>
+  </data>
+  <data name="CustomizeMenuAnimationFade" xml:space="preserve">
+    <value>Fade</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolsSubtitle" xml:space="preserve">
+    <value>Identify which root tools will be imported.</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Key_Desc" xml:space="preserve">
+    <value>A string that uniquely identifies this toolbar.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="ToolBaseActionList_P_ToolTipText_Desc" xml:space="preserve">
+    <value>Specifies the text displayed when the mouse hovers over this tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRectangleWithOutlineTool" xml:space="preserve">
+    <value>Outlined Rectangle</value>
+  </data>
+  <data name="ConvertToolDlg_NotVisibleOnToolbars" xml:space="preserve">
+    <value>The selected tool type does not support being displayed on a toolbar.
+Any existing tool instances that are on an 'UltraToolbar' will be hidden when the conversion occurs.</value>
+  </data>
+  <data name="CustomizeDlgMinRibbonSizeMenu" xml:space="preserve">
+    <value>Minimum Size</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Toolbar" xml:space="preserve">
+    <value>&amp;Toolbar:</value>
+  </data>
+  <data name="ImportToolsWizard_Caption" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="ImportDlgAddToLargeImageList" xml:space="preserve">
+    <value>Add to ImageListLar&amp;ge</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemovalTitle" xml:space="preserve">
+    <value>Reset Shortcut Customizations</value>
+  </data>
+  <data name="ImportToolsWizard_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AccessibleName_DockTop" xml:space="preserve">
+    <value>DockTop</value>
+  </data>
+  <data name="CustomizeRenameToolbarErrorTitle" xml:space="preserve">
+    <value>Error Renaming Toolbar</value>
+  </data>
+  <data name="OptionSetEditorAddError" xml:space="preserve">
+    <value>Error encountered while adding new OptionSet.</value>
+  </data>
+  <data name="CustomizeToolTypePopupControlContainer" xml:space="preserve">
+    <value>Popup Control Container</value>
+  </data>
+  <data name="MinimizeRibbon" xml:space="preserve">
+    <value>Mi&amp;nimize the Ribbon</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_AutoComplete_Desc" xml:space="preserve">
+    <value>Specifies whether the combo box uses auto complete.</value>
+  </data>
+  <data name="CustomizeDialog_Image" xml:space="preserve">
+    <value>&amp;Image</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_PopupStyle_Desc" xml:space="preserve">
+    <value>Specifies the popup style of the menu.  This sets the Settings.PopupStyle property.</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecCmd" xml:space="preserve">
+    <value>Specify a Command</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectAllTools" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_PlaceCodeHereComment_VB" xml:space="preserve">
+    <value>' Place code here</value>
+  </data>
+  <data name="OptionSetTypeEditFrmAddNew" xml:space="preserve">
+    <value>&amp;Add New Option Set</value>
+  </data>
+  <data name="CustomizeToolKeyExistsError" xml:space="preserve">
+    <value>Key '{0}' already exists or is invalid.</value>
+  </data>
+  <data name="CustomizeImg_Tool_SmallCircleBrush" xml:space="preserve">
+    <value>Small Circle</value>
+  </data>
+  <data name="CustomizeImg_Tool_Clear_Image" xml:space="preserve">
+    <value>&amp;Clear Image</value>
+  </data>
+  <data name="ImageEditor_SaveImageError" xml:space="preserve">
+    <value>Unable to save the file to the specified location - '{0}'.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawTextTool" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolbarsTitle" xml:space="preserve">
+    <value>Select Toolbars</value>
+  </data>
+  <data name="AddToQuickAccessToolbar" xml:space="preserve">
+    <value>Add to Quick Access Toolbar</value>
+  </data>
+  <data name="CustomDlgNewToolBarCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_Control_Text" xml:space="preserve">
+    <value>Control</value>
+  </data>
+  <data name="CustomizeImg_Tool_Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="ImportToolsWizard_Back" xml:space="preserve">
+    <value>&lt; &amp;Back</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Title" xml:space="preserve">
+    <value>Rearrange Commands</value>
+  </data>
+  <data name="CustomizeToolTypeButton" xml:space="preserve">
+    <value>Button</value>
+  </data>
+  <data name="ConvertToolDlg_OwnerColumn" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="ImportMainMenuDlg_ImportErrorTitle" xml:space="preserve">
+    <value>Import Error</value>
+  </data>
+  <data name="ConvertToolDlg_ToolInstances" xml:space="preserve">
+    <value>Tool Instances:</value>
+  </data>
+  <data name="CustomizeImg_Tool_Edit" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="ImportDlgImport" xml:space="preserve">
+    <value>&amp;Import</value>
+  </data>
+  <data name="CustomizeMenuAnimationRandom" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="CustomizeImg_PositionFormat" xml:space="preserve">
+    <value>X: {0} Y: {1}</value>
+  </data>
+  <data name="CustomizeDialog_RenameAmp" xml:space="preserve">
+    <value>R&amp;ename...</value>
+  </data>
+  <data name="StateButtonToolActionList_P_Checked_Desc" xml:space="preserve">
+    <value>Determines whether this state button is checked or not.</value>
+  </data>
+  <data name="CustomDlgNewToolBarUTB" xml:space="preserve">
+    <value>UltraToolbar</value>
+  </data>
+  <data name="ConvertToolDlg_NotVisibleOnRibbonGroup" xml:space="preserve">
+    <value>
+      The selected tool type does not support being displayed in a ribbon group.
+      Any existing tool instances that are on a 'RibbonGroup' will be hidden when the conversion occurs.
+    </value>
+  </data>
+  <data name="CustomizeToolTypeProgressBarInstanceName" xml:space="preserve">
+    <value>ProgressBarTool</value>
+  </data>
+  <data name="QatQuickCustomizeToolTipBumped" xml:space="preserve">
+    <value>More controls</value>
+  </data>
+  <data name="QatQuickCustomizeToolTip" xml:space="preserve">
+    <value>Customize Quick Access Toolbar</value>
+  </data>
+  <data name="CustomizeLocationFloating" xml:space="preserve">
+    <value>Floating</value>
+  </data>
+  <data name="CustomizeDlgKbdAssign" xml:space="preserve">
+    <value>&amp;Assign</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_Title" xml:space="preserve">
+    <value>Generate Tool Click Code</value>
+  </data>
+  <data name="CustomizeLoadSave_XMLFilter" xml:space="preserve">
+    <value>XML files(*.XML)|*.XML</value>
+  </data>
+  <data name="AccessibleName_DockLeft" xml:space="preserve">
+    <value>DockLeft</value>
+  </data>
+  <data name="CustomizeDlgNewToolKey" xml:space="preserve">
+    <value>&amp;Key</value>
+  </data>
+  <data name="CustomizeImg_Tool_Image" xml:space="preserve">
+    <value>&amp;Image</value>
+  </data>
+  <data name="QuickAccessToolbarAboveRibbon" xml:space="preserve">
+    <value>&amp;Show Quick Access Toolbar Above the Ribbon</value>
+  </data>
+  <data name="PopupMenuDesigner_AvailableTools" xml:space="preserve">
+    <value>Available Tools:</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectTools" xml:space="preserve">
+    <value>2. Select &amp;Tools</value>
+  </data>
+  <data name="DeserializationError" xml:space="preserve">
+    <value>Error encountered while deserializing stream.</value>
+  </data>
+  <data name="CustomizeImg_SaveChanges" xml:space="preserve">
+    <value>The image has been modified. Save changes?</value>
+  </data>
+  <data name="CustomizeDialog_AlwaysShowFullMenus" xml:space="preserve">
+    <value>Always show full me&amp;nus</value>
+  </data>
+  <data name="CustomizeDlgConvertToolType" xml:space="preserve">
+    <value>Change Tool Type...</value>
+  </data>
+  <data name="MdiCommandTileHorizontal" xml:space="preserve">
+    <value>Tile Hori&amp;zontally</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_SortStyle_Text" xml:space="preserve">
+    <value>Sort Style</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Title" xml:space="preserve">
+    <value>Add Command</value>
+  </data>
+  <data name="CustomizeToolTypeTaskPane" xml:space="preserve">
+    <value>TaskPane Item</value>
+  </data>
+  <data name="CustomizeImg_Tool_New" xml:space="preserve">
+    <value>&amp;New...</value>
+  </data>
+  <data name="ToolbarCloseButtonToolTip" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuMessage" xml:space="preserve">
+    <value>Are you sure you want to reset changes made to menu '{0}'?</value>
+  </data>
+  <data name="TearawayToolBaseActionList_P_AllowTearaway_Desc" xml:space="preserve">
+    <value>Specifies whether the popup tool should allow tearaway.</value>
+  </data>
+  <data name="CustomizeDialog_AllProps" xml:space="preserve">
+    <value>All Props</value>
+  </data>
+  <data name="MoreWindowsDlgTileVert" xml:space="preserve">
+    <value>Tile &amp;Vertically</value>
+  </data>
+  <data name="CustomizeImg_Tool_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CustomizeLoadSaveOption_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ImportToolsWizard_OverallProgressLabel" xml:space="preserve">
+    <value>Importing Tools and Toolbars...</value>
+  </data>
+  <data name="CustomizeLoadSave_SaveSuccessful" xml:space="preserve">
+    <value>Configuration successfully saved.</value>
+  </data>
+  <data name="CustomizeToolTypePopupColorList" xml:space="preserve">
+    <value>Popup Color Picker</value>
+  </data>
+  <data name="ImportDlgImporting" xml:space="preserve">
+    <value>Importing...</value>
+  </data>
+  <data name="OptionSetTypeEditFrmClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ImportDlgSelectToolbarControls" xml:space="preserve">
+    <value>S&amp;elect the toolbar controls  you would like to import</value>
+  </data>
+  <data name="MdiCommandArrangeIcons" xml:space="preserve">
+    <value>&amp;Arrange Icons</value>
+  </data>
+  <data name="ImportToolsWizard_ToolbarTypeMenubar" xml:space="preserve">
+    <value>MainMenuBar</value>
+  </data>
+  <data name="CustomizeDialog_Commands" xml:space="preserve">
+    <value>Commands</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteralNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="CustomizeImg_Category_Palette" xml:space="preserve">
+    <value>Palette</value>
+  </data>
+  <data name="CustomizeDlgPasteButtonImage" xml:space="preserve">
+    <value>&amp;Paste Button Image</value>
+  </data>
+  <data name="CustomizeDialog_CreateCopyOfTool" xml:space="preserve">
+    <value>&amp;Create Copy of Tool</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutAssignedLiteral" xml:space="preserve">
+    <value>Currently assigned to: {0}</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_IsSideStripVisible_Text" xml:space="preserve">
+    <value>Is Side Strip Visible</value>
+  </data>
+  <data name="CustomizeDialog_LoadSave" xml:space="preserve">
+    <value>Load/Save...</value>
+  </data>
+  <data name="CustomizeImg_Tool_ColorSelectTool" xml:space="preserve">
+    <value>Pick Color</value>
+  </data>
+  <data name="CustomizeLoadSave_SaveErrorTitle" xml:space="preserve">
+    <value>Save Error</value>
+  </data>
+  <data name="ImportToolsWizard_FileNameTitle" xml:space="preserve">
+    <value>Layout File:</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledEllipseTool" xml:space="preserve">
+    <value>Filled Ellipse</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MenuBar" xml:space="preserve">
+    <value>Menu &amp;Bar:</value>
+  </data>
+  <data name="ImportToolsWizard_ChooseLayoutOverview" xml:space="preserve">
+    <value>Choose the layout file from which the Tools and/or Toolbars will be loaded.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientCircular" xml:space="preserve">
+    <value>Circular</value>
+  </data>
+  <data name="CustomizeImg_Tool_XLargeSquareBrush" xml:space="preserve">
+    <value>Extra Large Square</value>
+  </data>
+  <data name="CustomizeImg_Category_Move_Image" xml:space="preserve">
+    <value>Move Image</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientBackwardDiagonal" xml:space="preserve">
+    <value>BackwardDiagonal</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_ViewGeneratedCode" xml:space="preserve">
+    <value>3. &amp;View Generated Code</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBName" xml:space="preserve">
+    <value>&amp;Toolbar name:</value>
+  </data>
+  <data name="CustomizeToolTypeMDIWindowList" xml:space="preserve">
+    <value>MDI Window List</value>
+  </data>
+  <data name="ToolBaseActionList_P_Key_Desc" xml:space="preserve">
+    <value>A string that uniquely identifies this tool.</value>
+  </data>
+  <data name="ImportDlgAssignImagesToImageProp" xml:space="preserve">
+    <value>Assign imported images &amp;directly to imported tool's image property</value>
+  </data>
+  <data name="ExistingToolDlg_Category" xml:space="preserve">
+    <value>&amp;Category:</value>
+  </data>
+  <data name="ConvertToolDlg_NotVisibleOnMenus" xml:space="preserve">
+    <value>The selected tool type does not support being displayed on a menu.
+Any existing tool instances that are on a 'PopupMenuTool' will be hidden when the conversion occurs.</value>
+  </data>
+  <data name="CustomizeLoadSaveFormat_Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp" xml:space="preserve">
+    <value>Move &amp;Up</value>
+  </data>
+  <data name="CustomizeToolTypeProgressBar" xml:space="preserve">
+    <value>ProgressBar</value>
+  </data>
+  <data name="TaskPanePreviousButtonToolTip" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="ShowRibbonButtonCaption" xml:space="preserve">
+    <value>Show Ribbon</value>
+  </data>
+  <data name="CustomizeDialog_RearrangeCommands" xml:space="preserve">
+    <value>&amp;Rearrange Commands...</value>
+  </data>
+  <data name="ResolveDockWithinContainer_DialogTitle" xml:space="preserve">
+    <value>Resolve DockWithinContainer Property Setting</value>
+  </data>
+  <data name="CustomizeDlgClearSmallImage" xml:space="preserve">
+    <value>Clear Small Image</value>
+  </data>
+  <data name="AccessibleName_DockRight" xml:space="preserve">
+    <value>DockRight</value>
+  </data>
+  <data name="CustomizeImg_Category_Menus" xml:space="preserve">
+    <value>Menus</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawLineTool" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawBrushTool" xml:space="preserve">
+    <value>Brush</value>
+  </data>
+  <data name="MoreItemsDlgTitle" xml:space="preserve">
+    <value>More Items...</value>
+  </data>
+  <data name="ImportDlgAssign" xml:space="preserve">
+    <value>&amp;Assign the following Category to all imported tools</value>
+  </data>
+  <data name="CustomizeDlgCopyButtonImage" xml:space="preserve">
+    <value>&amp;Copy Button Image</value>
+  </data>
+  <data name="CustomizeMenuAnimationUnfold" xml:space="preserve">
+    <value>Unfold</value>
+  </data>
+  <data name="ImportToolsWizard_Next" xml:space="preserve">
+    <value>&amp;Next &gt;</value>
+  </data>
+  <data name="UltraToolbarActionList_P_IsMainMenuBar_Desc" xml:space="preserve">
+    <value>Specifies whether this toolbar is a main menu bar.</value>
+  </data>
+  <data name="CustomizeToolTypeList" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="CustomizeDialog_Milliseconds" xml:space="preserve">
+    <value>milliseconds</value>
+  </data>
+  <data name="CustomizeLoadSaveOption_Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="CustomizeDlgKbdDesc" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CustomizeDlgNewToolCategory" xml:space="preserve">
+    <value>&amp;Category</value>
+  </data>
+  <data name="DefaultAction_Popup_Closed" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="CustomizeImg_Tool_Underlined" xml:space="preserve">
+    <value>Underlined</value>
+  </data>
+  <data name="ToolEditErrorInvalidValue" xml:space="preserve">
+    <value>Unable to update the tool value: 
+{0}</value>
+  </data>
+  <data name="CustomizeToolTypeTextbox" xml:space="preserve">
+    <value>TextBox</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_CopyToClipboard" xml:space="preserve">
+    <value>&amp;Copy To Clipboard</value>
+  </data>
+  <data name="TaskPaneHomeButtonToolTip" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="ImportToolbarControlsDlg_ImportSuccessfulTitle" xml:space="preserve">
+    <value>Import Complete</value>
+  </data>
+  <data name="CustomizeDialogGenerateToolClickCodeTitle" xml:space="preserve">
+    <value>Generate Tool Click Code</value>
+  </data>
+  <data name="CustomizeImg_ToolTip_RotateRight" xml:space="preserve">
+    <value>Rotate Right 90°</value>
+  </data>
+  <data name="Customize" xml:space="preserve">
+    <value>&amp;Customize...</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_ImageOnly" xml:space="preserve">
+    <value>Image Only</value>
+  </data>
+  <data name="ImportToolsWizard_ToolbarType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ExistingToolDlg_Insert" xml:space="preserve">
+    <value>&amp;Insert</value>
+  </data>
+  <data name="OptionSetTypeEditFrmName" xml:space="preserve">
+    <value>&amp;Name</value>
+  </data>
+  <data name="CustomizeDlgInsertExistingItem" xml:space="preserve">
+    <value>Insert Existing Tool...</value>
+  </data>
+  <data name="CustomizeAddToolError" xml:space="preserve">
+    <value>Error encountered while adding tool '{0}'.</value>
+  </data>
+  <data name="CustomizeDialog_BasicProps" xml:space="preserve">
+    <value>Basic Props</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRectangleOutlineTool" xml:space="preserve">
+    <value>Rectangle</value>
+  </data>
+  <data name="PopupMenuDesigner_NewMenu" xml:space="preserve">
+    <value>New...</value>
+  </data>
+  <data name="CustomizeDialog_CaptionCategoryKey" xml:space="preserve">
+    <value>&amp;Caption, Category, Key</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_Control_Desc" xml:space="preserve">
+    <value>Specifies the control for this control container.</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromImgList" xml:space="preserve">
+    <value>S&amp;elect From ImageList</value>
+  </data>
+  <data name="CustomizeConfirmToolbarResetTitle" xml:space="preserve">
+    <value>Confirm Toolbar Reset</value>
+  </data>
+  <data name="CustomizeImg_Category_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="CustomizeAddToolbarErrorTitle" xml:space="preserve">
+    <value>Error Adding Toolbar</value>
+  </data>
+  <data name="CustomizeToolTypeButtonInstanceName" xml:space="preserve">
+    <value>ButtonTool</value>
+  </data>
+  <data name="CustomizeDialog_PgTools" xml:space="preserve">
+    <value>pgTools</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientRectangular" xml:space="preserve">
+    <value>Rectangular</value>
+  </data>
+  <data name="CustomizeToolTypeAllTypes" xml:space="preserve">
+    <value>{All Tool Types}</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetMenuTitle" xml:space="preserve">
+    <value>Reset Menu</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Choose" xml:space="preserve">
+    <value>Choose a menu or toolbar to rearrange</value>
+  </data>
+  <data name="ResolveDockWithinContainer_Choose" xml:space="preserve">
+    <value>Choose an option for setting the DockWithinContainer property:</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraserSize" xml:space="preserve">
+    <value>Eraser Size</value>
+  </data>
+  <data name="TextBoxToolActionList_P_MaxLength_Desc" xml:space="preserve">
+    <value>Specifies the maximum text length allowed in the text box.</value>
+  </data>
+  <data name="CustomizeDlgResetButtonImage" xml:space="preserve">
+    <value>Re&amp;set Button Image</value>
+  </data>
+  <data name="CustomizeImg_Tool_Bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="MoreWindowsDlgActivate" xml:space="preserve">
+    <value>&amp;Activate</value>
+  </data>
+  <data name="CustomizeImg_Tool_Invert_Colors" xml:space="preserve">
+    <value>Invert Colors</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="CustomizeToolTypeLabel" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="ToolBaseActionList_P_Key_Text" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="DescToolTipDlgNoHelp" xml:space="preserve">
+    <value>No Help topic is associated with this item.</value>
+  </data>
+  <data name="ResolveDockWithinContainer_DontSetProperty" xml:space="preserve">
+    <value>&amp;Continue without setting the DockWithinContainer property</value>
+  </data>
+  <data name="ConvertToolDlg_ToolKey" xml:space="preserve">
+    <value>Key:</value>
+  </data>
+  <data name="CustomDlgRenameToolBarTBName" xml:space="preserve">
+    <value>&amp;Toolbar name:</value>
+  </data>
+  <data name="MoreWindowsDlgMoreWindows" xml:space="preserve">
+    <value>More Windows...</value>
+  </data>
+  <data name="CustomizeDlgPreferredRibbonSizeMenu" xml:space="preserve">
+    <value>Preferred Size</value>
+  </data>
+  <data name="StateButtonToolActionList_P_Checked_Text" xml:space="preserve">
+    <value>Checked</value>
+  </data>
+  <data name="CustomizeDlgSelectedToolTypeLiteral" xml:space="preserve">
+    <value>&lt;Selected tool type: {0}&gt;</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Name" xml:space="preserve">
+    <value>&amp;Name</value>
+  </data>
+  <data name="CustomizeSelectImageTitle" xml:space="preserve">
+    <value>Select Image</value>
+  </data>
+  <data name="PopupMenuDesigner_Instructions" xml:space="preserve">
+    <value>The following is a list of the current tools that can be placed on the menu. To update the menu, select the menu to edit in the combo box and then drag tools from the list below into the list on the left.</value>
+  </data>
+  <data name="PopupToolBaseActionList_P_DropDownArrowStyle_Text" xml:space="preserve">
+    <value>Drop Down Arrow Style</value>
+  </data>
+  <data name="CustomizeDialog_CategoriesMidAmp" xml:space="preserve">
+    <value>Cate&amp;gories:</value>
+  </data>
+  <data name="ConvertToolDlg_OwnerDescriptionOther" xml:space="preserve">
+    <value>[{0}]</value>
+  </data>
+  <data name="CustomizeToolTypeMaskedEditInstanceName" xml:space="preserve">
+    <value>MaskedEditTool</value>
+  </data>
+  <data name="CustomizeToolTypeListInstanceName" xml:space="preserve">
+    <value>ListTool</value>
+  </data>
+  <data name="ImageEditor_LoadImageError" xml:space="preserve">
+    <value>Invalid image file selected.</value>
+  </data>
+  <data name="ConvertToolDlg_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CustomizeDialog_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_SortStyle_Desc" xml:space="preserve">
+    <value>Specifies the sort style of the combo box.</value>
+  </data>
+  <data name="TextBoxToolActionList_P_MaxLength_Text" xml:space="preserve">
+    <value>MaxLength</value>
+  </data>
+  <data name="ImageEditor_LoadFileFilter" xml:space="preserve">
+    <value>All image files (*.bmp, *.gif, *.jpg, *.jpeg, *.png, *.ico)|*.bmp;*.gif;*.jpg;*.jpeg;*.png;*.ico</value>
+  </data>
+  <data name="CustomizeImg_Category_Eraser_Brush_Size" xml:space="preserve">
+    <value>Eraser Brush Size</value>
+  </data>
+  <data name="CustomizeAddToolErrorTitle" xml:space="preserve">
+    <value>Error Adding Tool</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipVertical" xml:space="preserve">
+    <value>Flip Vertical</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRoundRectangleTool" xml:space="preserve">
+    <value>Filled Rounded Rectangle</value>
+  </data>
+  <data name="ImportDlgAssignToSmallImage" xml:space="preserve">
+    <value>Assign To &amp;Small Image</value>
+  </data>
+  <data name="PopupToolBaseActionList_P_DropDownArrowStyle_Desc" xml:space="preserve">
+    <value>Specifies the drop down arrow style of this popup tool.</value>
+  </data>
+  <data name="ImportDlgOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="PopupControlContainerToolActionList_P_Control_Text" xml:space="preserve">
+    <value>Control</value>
+  </data>
+  <data name="DragToolErrorTitle" xml:space="preserve">
+    <value>Error Dragging Tool</value>
+  </data>
+  <data name="ImportToolsWizard_SelectMenusOverview" xml:space="preserve">
+    <value>Select the PopupMenuTools that should be imported. By default, all tools within the PopupMenuTool's Tools collection will be imported as well.</value>
+  </data>
+  <data name="DescToolTipDlgNewWebPage" xml:space="preserve">
+    <value>New Web Page</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeMedium" xml:space="preserve">
+    <value>Medium Eraser</value>
+  </data>
+  <data name="CustomizeCategoryUnassigned" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+  <data name="CustomizeSelectImageFileErrorTitle" xml:space="preserve">
+    <value>Image Load Error</value>
+  </data>
+  <data name="ConvertToolDlg_CurrentToolType" xml:space="preserve">
+    <value>Current Tool Type:</value>
+  </data>
+  <data name="ResolveDockWithinContainer_Heading" xml:space="preserve">
+    <value>The DockWithinContainer property of the UltraToolbarsManager component cannot be set to the form because another UltraToolbarsManager component (or UltraFormManager component) has already placed its docking areas on the form.</value>
+  </data>
+  <data name="RemoveFromQuickAccessToolbar" xml:space="preserve">
+    <value>Remove from Quick Access Toolbar</value>
+  </data>
+  <data name="CustomizeDlgInsertNewItem" xml:space="preserve">
+    <value>Insert New Tool...</value>
+  </data>
+  <data name="CustomizeDlgSelectObjectPropertyTab" xml:space="preserve">
+    <value>Selected Object</value>
+  </data>
+  <data name="ResetToolbar" xml:space="preserve">
+    <value>&amp;Reset Toolbar</value>
+  </data>
+  <data name="CustomizeDlgNewToolType" xml:space="preserve">
+    <value>Tool &amp;Type</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_SideStripText_Desc" xml:space="preserve">
+    <value>Specifies the text displayed in the side strip of the menu.  This sets the Settings.SideStripText property.</value>
+  </data>
+  <data name="MoreWindowsDlgMinWindows" xml:space="preserve">
+    <value>Minimize Window(s)</value>
+  </data>
+  <data name="CustomizeToolTypePopupMenuInstanceName" xml:space="preserve">
+    <value>PopupMenuTool</value>
+  </data>
+  <data name="CustomizeToolKeyExistsErrorTitle" xml:space="preserve">
+    <value>Invalid Key</value>
+  </data>
+  <data name="CustomizeDialog_ImportMenusFromForm" xml:space="preserve">
+    <value>Import Menus From Form...</value>
+  </data>
+  <data name="CustomizeRenameToolbarError" xml:space="preserve">
+    <value>Error while renaming toolbar to '{0}'.</value>
+  </data>
+  <data name="CustomizeImg_Category_Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="CustomizeImg_Tool_Ellipse_Types" xml:space="preserve">
+    <value>Ellipse Types</value>
+  </data>
+  <data name="ImportToolsWizard_Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="CustomizeDuplicateToolTitle" xml:space="preserve">
+    <value>Duplicate Tool Name</value>
+  </data>
+  <data name="OptionSetEditorConfirmDeleteTitle" xml:space="preserve">
+    <value>Confirm OptionSet Remove</value>
+  </data>
+  <data name="MoreWindowsDlgClose" xml:space="preserve">
+    <value>C&amp;lose</value>
+  </data>
+  <data name="ImportDlgAssignToLargeImage" xml:space="preserve">
+    <value>Assign To &amp;Large Image</value>
+  </data>
+  <data name="CustomizeImg_Tool_SmallSquareBrush" xml:space="preserve">
+    <value>Small Square</value>
+  </data>
+  <data name="CustomizeDlgNewToolTitle" xml:space="preserve">
+    <value>New Tool</value>
+  </data>
+  <data name="CustomizeDialog_Rename" xml:space="preserve">
+    <value>&amp;Rename...</value>
+  </data>
+  <data name="ImgSelectionCtrlImageListSmallNotSet" xml:space="preserve">
+    <value>&lt;ImageListSmall  property not set on Toolbars Manager.&gt;</value>
+  </data>
+  <data name="OptionSetTypeEditFrmEnter" xml:space="preserve">
+    <value>Enter</value>
+  </data>
+  <data name="CustomizeDlgNewToolCustomizerCaption" xml:space="preserve">
+    <value>C&amp;ustomizer Caption</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CustomizeLoadSave_LoadSuccessfulTitle" xml:space="preserve">
+    <value>Configuration Load Status</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeImg_HslFormat" xml:space="preserve">
+    <value>H: {0:f0}° S: {1:p0} L: {2:p0}</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ModifySelection" xml:space="preserve">
+    <value>&amp;Modify Selection</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseColor" xml:space="preserve">
+    <value>Erase Color</value>
+  </data>
+  <data name="CustomizeDialog_Import" xml:space="preserve">
+    <value>Import..</value>
+  </data>
+  <data name="PopupMenuDesigner_CurrentMenu" xml:space="preserve">
+    <value>Current Menu:</value>
+  </data>
+  <data name="CustomizeImg_Tool_Capture_Image" xml:space="preserve">
+    <value>Capture Image</value>
+  </data>
+  <data name="RemoveOptionSetContextMenuItem" xml:space="preserve">
+    <value>Remove Option Set...</value>
+  </data>
+  <data name="CustomizeDialog_NewToolbar" xml:space="preserve">
+    <value>&amp;New Toolbar...</value>
+  </data>
+  <data name="CustomizeKeyboardShortcutUnassignedLiteral" xml:space="preserve">
+    <value>[unassigned]</value>
+  </data>
+  <data name="CustomizeDialog_KeyboardBeginAmp" xml:space="preserve">
+    <value>&amp;Keyboard...</value>
+  </data>
+  <data name="CustomizeImg_Tool_FillTool" xml:space="preserve">
+    <value>Fill Area</value>
+  </data>
+  <data name="CustomizeImg_RgbFormat" xml:space="preserve">
+    <value>R: {0} G: {1} B: {2}</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawAirbrushTool" xml:space="preserve">
+    <value>Airbrush</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolsTitle" xml:space="preserve">
+    <value>Select Tools</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipHorizontal" xml:space="preserve">
+    <value>Flip Horizontal</value>
+  </data>
+  <data name="ResolveDockWithinContainer_DontShowDialogAgain" xml:space="preserve">
+    <value>&amp;Don't show me this dialog again</value>
+  </data>
+  <data name="CustomizeImg_SizeFormat" xml:space="preserve">
+    <value>W: {0} H: {1}</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientHorizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="CustomizeImg_Tool_Rectangle_Types" xml:space="preserve">
+    <value>Rectangle Types</value>
+  </data>
+  <data name="CustomizeLoadSave_SaveSuccessfulTitle" xml:space="preserve">
+    <value>Configuration Save Status</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolbarProperties" xml:space="preserve">
+    <value>Note: Can't modify properties of selected toolbar since it is inherited</value>
+  </data>
+  <data name="CustomizeDlgInsertNewToolsMenu" xml:space="preserve">
+    <value>Insert Tools</value>
+  </data>
+  <data name="CustomizeLoadSave_BinaryFilter" xml:space="preserve">
+    <value>Binary Files(*.DAT)|*.DAT</value>
+  </data>
+  <data name="CustomizeSelectImageFileError" xml:space="preserve">
+    <value>Error encountered while loading image from file {0}</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolbarsOverview" xml:space="preserve">
+    <value>Select the toolbars that should be imported. By default all of the tools on each selected toolbar will be imported as well. This includes the tools within PopupMenuTools that are located on the checked toolbars.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ForeColor" xml:space="preserve">
+    <value>ForeColor</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_SelectedColor_Desc" xml:space="preserve">
+    <value>Specifies the selected color of this popup color tool.</value>
+  </data>
+  <data name="CustomizeToolTypePopupMenu" xml:space="preserve">
+    <value>Popup Menu</value>
+  </data>
+  <data name="CustomizeAddToolbarError" xml:space="preserve">
+    <value>Error encountered while adding toolbar '{0}'.</value>
+  </data>
+  <data name="CustomizeDlgTextOnlyInMenus" xml:space="preserve">
+    <value>Text &amp;Only (in Menus)</value>
+  </data>
+  <data name="CustomizeDlgDescOnMenu" xml:space="preserve">
+    <value>Set Description On Menu...</value>
+  </data>
+  <data name="CustomizeDlgKbdResetAll" xml:space="preserve">
+    <value>Re&amp;set All...</value>
+  </data>
+  <data name="CustomizeMenuAnimationNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="CustomizeImg_Tool_StatusBar" xml:space="preserve">
+    <value>StatusBar</value>
+  </data>
+  <data name="CustomizeEmptyCategoryLiteral" xml:space="preserve">
+    <value>&lt;No Category Assigned&gt;</value>
+  </data>
+  <data name="ResolveDockWithinContainer_SetProperty" xml:space="preserve">
+    <value>&amp;Set the DockWithinContainer property to the following control:</value>
+  </data>
+  <data name="DefaultAction_ButtonTool_On_Toolbar" xml:space="preserve">
+    <value>Press</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientVertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="CustomizeDlgEditButtonImage" xml:space="preserve">
+    <value>&amp;Edit Button Image...</value>
+  </data>
+  <data name="CustomizeDialog_Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="CustomDlgNewToolBarTBOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDeleteTitle" xml:space="preserve">
+    <value>Confirm Toolbar Delete</value>
+  </data>
+  <data name="CustomizeImg_Tool_Image_Size" xml:space="preserve">
+    <value>&amp;Image Size...</value>
+  </data>
+  <data name="CustomizeImg_ToolBar_TextTools" xml:space="preserve">
+    <value>TextTools</value>
+  </data>
+  <data name="ImportToolsWizard_OpenLayoutFilter" xml:space="preserve">
+    <value>Binary Files (*.dat)|*.dat|XML files (*.xml)|*.xml|All Files (*.*)|*.*</value>
+  </data>
+  <data name="MdiCommandCloseWindows" xml:space="preserve">
+    <value>C&amp;lose All Windows</value>
+  </data>
+  <data name="CustomizeConfirmToolbarDelete" xml:space="preserve">
+    <value>Are you sure you want to delete the '{0}' toolbar?</value>
+  </data>
+  <data name="CustomizeDialog_PopupMenuDesigner" xml:space="preserve">
+    <value>PopupMenuTool Designer</value>
+  </data>
+  <data name="CustomizeDialog_ToolbarsList" xml:space="preserve">
+    <value>Toolb&amp;ars:</value>
+  </data>
+  <data name="CustomizeToolTypePopupGallery" xml:space="preserve">
+    <value>Popup Gallery</value>
+  </data>
+  <data name="FontListTool_Exception_CannotSetValueList" xml:space="preserve">
+    <value>The ValueList property cannot be set for the FontListTool.</value>
+  </data>
+  <data name="CustomizeDialog_Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="TaskPaneNextButtonToolTip" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CustomizeLocationDockedBottom" xml:space="preserve">
+    <value>Docked Bottom</value>
+  </data>
+  <data name="NewToolPlaceHolderCaption" xml:space="preserve">
+    <value>[Insert New Tool]</value>
+  </data>
+  <data name="ImportDlgImported" xml:space="preserve">
+    <value>Imported</value>
+  </data>
+  <data name="ImportToolsWizard_ImportTaskMenuTools" xml:space="preserve">
+    <value>Updating PopupMenuTool tools collection...</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseTool" xml:space="preserve">
+    <value>Eraser</value>
+  </data>
+  <data name="CustomizeLoadSave_LoadErrorTitle" xml:space="preserve">
+    <value>Load Error</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_DropDownStyle_Desc" xml:space="preserve">
+    <value>Specifies the drop down style of the combo box.</value>
+  </data>
+  <data name="CustomizeDialog_CantModifyInheritedToolProperties" xml:space="preserve">
+    <value>Note: Can't modify properties of selected tool since it is inherited</value>
+  </data>
+  <data name="CustomizeDialog_ImportToolbarsFromForm" xml:space="preserve">
+    <value>Import Toolbars From Form...</value>
+  </data>
+  <data name="CustomizeDlgDefStyle" xml:space="preserve">
+    <value>Defa&amp;ult Style</value>
+  </data>
+  <data name="TearawayToolBaseActionList_P_AllowTearaway_Text" xml:space="preserve">
+    <value>Allow Tearaway</value>
+  </data>
+  <data name="CustomizeImg_Tool_Exit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_GenerateComments" xml:space="preserve">
+    <value>&amp;Generate comments</value>
+  </data>
+  <data name="TaskPaneNavigationMenuToolTip" xml:space="preserve">
+    <value>Other Task Panes</value>
+  </data>
+  <data name="CustomizeLoadSave_SelectSaveFileDialogTitle" xml:space="preserve">
+    <value>Select Filename To Save</value>
+  </data>
+  <data name="CustomizeDialog_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientStyle" xml:space="preserve">
+    <value>GradientStyle</value>
+  </data>
+  <data name="CustomizeDlgKbdTitle" xml:space="preserve">
+    <value>Customize Keyboard</value>
+  </data>
+  <data name="TextBoxToolActionList_P_Text_Desc" xml:space="preserve">
+    <value>Specifies the text to be displayed in the text box.</value>
+  </data>
+  <data name="ImportMainMenuDlg_ImportError" xml:space="preserve">
+    <value>Error encountered while importing menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_File" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="CustomizeLoadSaveOptionLiteral" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Choose" xml:space="preserve">
+    <value>Choose the command to add and click OK</value>
+  </data>
+  <data name="CustomizeLoadSaveFilenameLiteral" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="CustomizeImg_ToolTip_RotateLeft" xml:space="preserve">
+    <value>Rotate Left 90°</value>
+  </data>
+  <data name="CustomizeToolTypeComboboxInstanceName" xml:space="preserve">
+    <value>ComboBoxTool</value>
+  </data>
+  <data name="UltraToolbarActionList_P_IsMainMenuBar_Text" xml:space="preserve">
+    <value>Is Main Menu Bar</value>
+  </data>
+  <data name="CustomizeDialog_MenuAnimations" xml:space="preserve">
+    <value>&amp;Menu Animations:</value>
+  </data>
+  <data name="ImportToolsWizard_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectAllCode" xml:space="preserve">
+    <value>&amp;Select All</value>
+  </data>
+  <data name="CustomizeToolTypePopupControlContainerInstanceName" xml:space="preserve">
+    <value>PopupControlContainerTool</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateRight" xml:space="preserve">
+    <value>Rotate Right</value>
+  </data>
+  <data name="QuickCustomizeToolTip2000" xml:space="preserve">
+    <value>More Buttons</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2New" xml:space="preserve">
+    <value>New OptionSet</value>
+  </data>
+  <data name="CustomizeDialog_FloatingToolbarFadeDelay" xml:space="preserve">
+    <value>Floating Toolbar Fade Delay</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolsOverview" xml:space="preserve">
+    <value>Select the tools that should be imported. By default, tools on the checked Toolbars and PopupMenuTools from the previous steps will be checked.</value>
+  </data>
+  <data name="CustomizeDlgSetSmallImage" xml:space="preserve">
+    <value>Set Small Image...</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Left" xml:space="preserve">
+    <value>Move Left</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRoundRectangleOutlineTool" xml:space="preserve">
+    <value>Rounded Rectangle</value>
+  </data>
+  <data name="CustomizeImg_Tool_Open" xml:space="preserve">
+    <value>&amp;Open...</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientHorizontalBump" xml:space="preserve">
+    <value>HorizontalBump</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawEllipseOutlineTool" xml:space="preserve">
+    <value>Ellipse</value>
+  </data>
+  <data name="CustomizeDialog_Delete" xml:space="preserve">
+    <value>&amp;Delete...</value>
+  </data>
+  <data name="CustomizeImg_Tool_SelectRectangleTool" xml:space="preserve">
+    <value>Rectangle Selection</value>
+  </data>
+  <data name="OptionSetsToStringLiteral" xml:space="preserve">
+    <value>Count: </value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_SelectedColor_Text" xml:space="preserve">
+    <value>Selected Color</value>
+  </data>
+  <data name="TextBoxToolActionList_P_VerticalDisplayStyle_Text" xml:space="preserve">
+    <value>Vertical Display Style</value>
+  </data>
+  <data name="ImportToolsWizard_ChooseLayoutSubtitle" xml:space="preserve">
+    <value>Identify the layout file that contains the tools/toolbars to import.</value>
+  </data>
+  <data name="ImageEditor_SaveFileFilter" xml:space="preserve">
+    <value>Bitmap (*.bmp)|*.bmp</value>
+  </data>
+  <data name="ToolBaseActionList_P_Shortcut_Desc" xml:space="preserve">
+    <value>Specifies the shortcut key combination that selects this tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Palette" xml:space="preserve">
+    <value>&amp;Palette</value>
+  </data>
+  <data name="TaskPane_ControlWillDisplayAtRuntime" xml:space="preserve">
+    <value>[Control ('{0} [{1}]') will be displayed at runtime]</value>
+  </data>
+  <data name="CustomizeToolTypeFontList" xml:space="preserve">
+    <value>Font List</value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_ShowTransparentColor_Text" xml:space="preserve">
+    <value>Show Transparent Color</value>
+  </data>
+  <data name="OptionSetTypeEditFrmAllowAllUpNoSpace" xml:space="preserve">
+    <value>AllowAllUp</value>
+  </data>
+  <data name="CustomizeDialog_ShowScreenTipsOnToolbars" xml:space="preserve">
+    <value>Show Screen&amp;Tips on toolbars</value>
+  </data>
+  <data name="CustomizeToolbarTypeMenuBar" xml:space="preserve">
+    <value>Main Menu Bar</value>
+  </data>
+  <data name="CustomizeToolTypeStateButtonInstanceName" xml:space="preserve">
+    <value>StateButtonTool</value>
+  </data>
+  <data name="CustomizeDlgTextOnAlways" xml:space="preserve">
+    <value>&amp;Text Only (Always)</value>
+  </data>
+  <data name="QuickCustomizeToolTipXP" xml:space="preserve">
+    <value>Toolbar Options</value>
+  </data>
+  <data name="CustomizeDialog_QuestionProperties" xml:space="preserve">
+    <value>\'?????\" Properties</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Commands" xml:space="preserve">
+    <value>&amp;Commands:</value>
+  </data>
+  <data name="SerializationError" xml:space="preserve">
+    <value>Error encountered while serializing data into stream.</value>
+  </data>
+  <data name="CustomizeImg_Category_Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Image" xml:space="preserve">
+    <value>Move Image</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnToolbars" xml:space="preserve">
+    <value>L&amp;arge Icons on Toolbars</value>
+  </data>
+  <data name="CustomizeDlgName" xml:space="preserve">
+    <value>&amp;Name:</value>
+  </data>
+  <data name="PopupControlContainerToolActionList_P_Control_Desc" xml:space="preserve">
+    <value>Specifies the control of this popup control container.</value>
+  </data>
+  <data name="CustomizeImg_Tool_MediumCircleBrush" xml:space="preserve">
+    <value>Medium Circle</value>
+  </data>
+  <data name="CustomizeImg_Tool_BackColor" xml:space="preserve">
+    <value>BackColor</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgClose" xml:space="preserve">
+    <value>&amp;Close</value>
+  </data>
+  <data name="CustomizeDlgReset" xml:space="preserve">
+    <value>&amp;Reset</value>
+  </data>
+  <data name="ImportToolbarControlsDlg_ImportError" xml:space="preserve">
+    <value>Error encountered while importing toolbar controls.</value>
+  </data>
+  <data name="CustomizeToolTypeMaskedEdit" xml:space="preserve">
+    <value>Masked Edit</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Reset" xml:space="preserve">
+    <value>&amp;Reset...</value>
+  </data>
+  <data name="ResolveDockWithinContainer_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDialog_CommandsEndAmp" xml:space="preserve">
+    <value>Comman&amp;ds</value>
+  </data>
+  <data name="InvalidArgumentType" xml:space="preserve">
+    <value>'{0}' must be of type '{1}'.</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2AllowAllUp" xml:space="preserve">
+    <value>&amp;Allow all buttons in the set to be in the up position</value>
+  </data>
+  <data name="CustomizeDialog_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CustomizeDialog_LargeImage" xml:space="preserve">
+    <value>&amp;Large Image</value>
+  </data>
+  <data name="MdiCommandCascade" xml:space="preserve">
+    <value>&amp;Cascade</value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_ShowAutomaticColor_Desc" xml:space="preserve">
+    <value>Specifies whether the popup color tool should show the automatic color.</value>
+  </data>
+  <data name="ToolEditErrorMessageTitle" xml:space="preserve">
+    <value>Data Error</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortToolsLiteral" xml:space="preserve">
+    <value>Sort Tools Alphabetically</value>
+  </data>
+  <data name="ConvertToolDlg_Title" xml:space="preserve">
+    <value>Tool Type Conversion</value>
+  </data>
+  <data name="CustomizeToolTypeTextboxInstanceName" xml:space="preserve">
+    <value>TextBoxTool</value>
+  </data>
+  <data name="ImportToolsWizard_Title" xml:space="preserve">
+    <value>Import Tools And Toolbars Wizard</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRoundRectangleWithOutlineTool" xml:space="preserve">
+    <value>Outlined Rounded Rectangle</value>
+  </data>
+  <data name="CustomizeImg_Tool_Gray_Scale" xml:space="preserve">
+    <value>&amp;Gray Scale</value>
+  </data>
+  <data name="MoreItemsDlgClose" xml:space="preserve">
+    <value>&amp;Close</value>
+  </data>
+  <data name="OptionSetTypeEditorDlg2Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add" xml:space="preserve">
+    <value>&amp;Add...</value>
+  </data>
+  <data name="ConvertToolDlg_IndexColumn" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="MoreItemsDlgTitleOK" xml:space="preserve">
+    <value>&amp;Ok</value>
+  </data>
+  <data name="DockAreaNameSuffix" xml:space="preserve">
+    <value>_Toolbars_Dock_Area_</value>
+  </data>
+  <data name="CustomizeDlgRecentlyUsed" xml:space="preserve">
+    <value>R&amp;ecently Used</value>
+  </data>
+  <data name="ImgSelectionCtrlImageListLargeNotSet" xml:space="preserve">
+    <value>&lt;ImageListLarge  property not set on Toolbars Manager.&gt;</value>
+  </data>
+  <data name="CustomizeImg_Tool_BrushSize" xml:space="preserve">
+    <value>Brush Size</value>
+  </data>
+  <data name="TaskPane_SelectedTaskPaneNotSet" xml:space="preserve">
+    <value>[SelectedTaskPaneTool Not Set]</value>
+  </data>
+  <data name="MdiCommandTileVertical" xml:space="preserve">
+    <value>Tile &amp;Vertically</value>
+  </data>
+  <data name="CustomizeDuplicateToolbarMessage" xml:space="preserve">
+    <value>The toolbar name '{0}' already exists.  Please choose another name.</value>
+  </data>
+  <data name="ToolBaseActionList_SharedProperties_Header" xml:space="preserve">
+    <value>Shared Properties</value>
+  </data>
+  <data name="ConvertToolDlg_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomizeImg_Tool_Web_Safe_Colors" xml:space="preserve">
+    <value>&amp;Web Safe Colors</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_DropDownStyle_Text" xml:space="preserve">
+    <value>Drop Down Style</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Large" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="StateButtonToolActionList_P_MenuDisplayStyle_Text" xml:space="preserve">
+    <value>Menu Display Style</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ImportDlgCancel" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_SideStripText_Text" xml:space="preserve">
+    <value>Side Strip Text</value>
+  </data>
+  <data name="ImportToolbarControlsDlg_ImportSuccessful" xml:space="preserve">
+    <value>The selected toolbar controls have been successfully imported.</value>
+  </data>
+  <data name="TaskPaneBackButtonToolTip" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="CustomizeDialog_EnabledVisible" xml:space="preserve">
+    <value>Enabled, Visible</value>
+  </data>
+  <data name="ImportMainMenuDlg_ImportSuccessfulTitle" xml:space="preserve">
+    <value>Import Complete</value>
+  </data>
+  <data name="CustomizeDlgKbdCmd" xml:space="preserve">
+    <value>C&amp;ommands:</value>
+  </data>
+  <data name="ImgSelectionCtrlSelFromFile" xml:space="preserve">
+    <value>Select From &amp;File...</value>
+  </data>
+  <data name="CustomizeToolTypeLabelInstanceName" xml:space="preserve">
+    <value>LabelTool</value>
+  </data>
+  <data name="CustomizeConfirmShortcutRemoval" xml:space="preserve">
+    <value>Are you sure you want to reset all shortcut customizations?</value>
+  </data>
+  <data name="CustomizeKeyboardTitle" xml:space="preserve">
+    <value>Customize Keyboard</value>
+  </data>
+  <data name="CustomizeImg_Category_Gradient_Styles" xml:space="preserve">
+    <value>Gradient Styles</value>
+  </data>
+  <data name="ToolBaseActionList_P_Shortcut_Text" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="CustomizeDialogContextMenuSortCommandsLiteral" xml:space="preserve">
+    <value>Sort Commands Alphabetically</value>
+  </data>
+  <data name="CustomizeDialog_SortToolsAlphabetically" xml:space="preserve">
+    <value>&amp;Sort Tools Alphabetically</value>
+  </data>
+  <data name="CustomizeDialog_Caption" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="StateButtonToolActionList_P_MenuDisplayStyle_Desc" xml:space="preserve">
+    <value>Specifies how the state button is displayed on menus.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Up" xml:space="preserve">
+    <value>Move Up</value>
+  </data>
+  <data name="ToolBaseActionList_P_Caption_Text" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="OptionSetEditorNameError" xml:space="preserve">
+    <value>Please enter a name for the OptionSet.</value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_ShowTransparentColor_Desc" xml:space="preserve">
+    <value>Specifies whether the popup color tool should show the transparent color.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawPointTool" xml:space="preserve">
+    <value>Pencil</value>
+  </data>
+  <data name="ImportMainMenuDlg_ImportSuccessful" xml:space="preserve">
+    <value>The form's main menu has been successfully imported.</value>
+  </data>
+  <data name="CustomizeImg_Tool_MediumSquareBrush" xml:space="preserve">
+    <value>Medium Square</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageDataTitle" xml:space="preserve">
+    <value>Reset Usage Data</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_PopupStyle_Text" xml:space="preserve">
+    <value>Popup Style</value>
+  </data>
+  <data name="ConvertToolDlg_OwnerDescriptionToolbar" xml:space="preserve">
+    <value>{0} [Toolbar]</value>
+  </data>
+  <data name="CustomizeDialog_ResetMyUsageData" xml:space="preserve">
+    <value>&amp;Reset my usage data</value>
+  </data>
+  <data name="CustomizeLocationDockedTop" xml:space="preserve">
+    <value>Docked Top</value>
+  </data>
+  <data name="CustomizeToolTypePopupGalleryInstanceName" xml:space="preserve">
+    <value>PopupGalleryTool</value>
+  </data>
+  <data name="TextBoxToolActionList_P_VerticalDisplayStyle_Desc" xml:space="preserve">
+    <value>Specifies how the text box will display when the toolbar is docked vertically.</value>
+  </data>
+  <data name="ResolveDockWithinContainer_CancelCreation" xml:space="preserve">
+    <value>C&amp;ancel the creation of '{0}'</value>
+  </data>
+  <data name="ToolBaseActionList_P_Caption_Desc" xml:space="preserve">
+    <value>Specifies the caption of this tool.</value>
+  </data>
+  <data name="CustomizeImg_ToolBar_Drawing_Tools" xml:space="preserve">
+    <value>Drawing Tools</value>
+  </data>
+  <data name="DefaultAction_Popup_Opened" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeConfirmToolDelete" xml:space="preserve">
+    <value>Are you sure you want to delete the tool '{0}' ?</value>
+  </data>
+  <data name="MoreWindowsDlgCascade" xml:space="preserve">
+    <value>Casca&amp;de</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_DropDownListAlignment_Desc" xml:space="preserve">
+    <value>Specifies alignment of the drop down list.</value>
+  </data>
+  <data name="CustomizeLoadSave_LoadSuccessful" xml:space="preserve">
+    <value>Configuration successfully loaded.</value>
+  </data>
+  <data name="CustomizeToolTypeFontListInstanceName" xml:space="preserve">
+    <value>FontListTool</value>
+  </data>
+  <data name="DescToolTipDlgNewBlankWeb" xml:space="preserve">
+    <value>Creates a new, blank Web page in the document window.</value>
+  </data>
+  <data name="ControlNotSet" xml:space="preserve">
+    <value>[control not set]</value>
+  </data>
+  <data name="CustomizeRenameToolbarTitle" xml:space="preserve">
+    <value>RenameToolbar</value>
+  </data>
+  <data name="ImportDlgAddImagesToImageList" xml:space="preserve">
+    <value>A&amp;dd imported images to image list and assign image index to the imported tool's image property </value>
+  </data>
+  <data name="ImportToolsWizard_OpenLayoutTitle" xml:space="preserve">
+    <value>Select Layout File</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomIn" xml:space="preserve">
+    <value>Zoom In</value>
+  </data>
+  <data name="CustomizeImg_ToolBar_Main_Menu" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="CustomizeDlgDelete" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="OptionSetEditorConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to remove OptionSet '{0}'?</value>
+  </data>
+  <data name="CustomizeDialog_NewTool" xml:space="preserve">
+    <value>&amp;New Tool...</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgRemove" xml:space="preserve">
+    <value>&amp;Remove...</value>
+  </data>
+  <data name="ImageEditor_SaveFileTitle" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="OptionSetEditorNameErrorTitle" xml:space="preserve">
+    <value>OptionSet Name Empty</value>
+  </data>
+  <data name="OptionSetEditorNameExistsErrorTitle" xml:space="preserve">
+    <value>Duplicate OptionSet Name</value>
+  </data>
+  <data name="CustomizeImg_Title" xml:space="preserve">
+    <value>Image Editor</value>
+  </data>
+  <data name="CustomizeToolTypeControlContainerInstanceName" xml:space="preserve">
+    <value>ControlContainerTool</value>
+  </data>
+  <data name="ImportDlgImportMainMenu" xml:space="preserve">
+    <value>Import Main Menu</value>
+  </data>
+  <data name="MoreWindowsPrompt" xml:space="preserve">
+    <value>&amp;More Windows...</value>
+  </data>
+  <data name="CustomizeLoadSaveCloseButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeDialog_ShowShortcutKeysInScreenTips" xml:space="preserve">
+    <value>Show s&amp;hortcut keys in ScreenTips</value>
+  </data>
+  <data name="ImportDlgAddToSmallImageList" xml:space="preserve">
+    <value>Add to ImageListS&amp;mall</value>
+  </data>
+  <data name="CustomizeImg_Tool_ChooseHotSpotTool" xml:space="preserve">
+    <value>Choose Hot Spot</value>
+  </data>
+  <data name="TaskPane_SelectedTaskPaneControlNotSet" xml:space="preserve">
+    <value>[Control Not Set]</value>
+  </data>
+  <data name="PopupToolBaseActionList_P_Checked_Desc" xml:space="preserve">
+    <value>Specifies whether the popup tool should display checked.</value>
+  </data>
+  <data name="CustomizeToolTypeTaskPaneInstanceName" xml:space="preserve">
+    <value>TaskPaneTool</value>
+  </data>
+  <data name="CustomizeLoadSaveFormat_Xml" xml:space="preserve">
+    <value>XML</value>
+  </data>
+  <data name="CustomizeDialog_SmallImage" xml:space="preserve">
+    <value>Sm&amp;all Image</value>
+  </data>
+  <data name="CustomizeDialog_Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="ExistingToolDlg_Close" xml:space="preserve">
+    <value>&amp;Close</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_SelectLanguageOptions" xml:space="preserve">
+    <value>1. S&amp;elect language options</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientVerticalBump" xml:space="preserve">
+    <value>VerticalBump</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_VB" xml:space="preserve">
+    <value>&amp;VB .NET</value>
+  </data>
+  <data name="TearawayToolTip" xml:space="preserve">
+    <value>Drag to make this menu float</value>
+  </data>
+  <data name="NewToolbarButtonCaption" xml:space="preserve">
+    <value>New Toolbar...</value>
+  </data>
+  <data name="CustomizeToolbarTypeTaskPane" xml:space="preserve">
+    <value>TaskPane Toolbar</value>
+  </data>
+  <data name="CustomizeSelectImageFile" xml:space="preserve">
+    <value>Select Image From File</value>
+  </data>
+  <data name="CustomizeConfirmResetUsageData" xml:space="preserve">
+    <value>This will delete the record of the commands you've used in this application and restore the default set of visible commands to the menus and toolbars.  It will not undo any explicit customizations.  Are you sure you want to do this?</value>
+  </data>
+  <data name="CustomizeShortcutNoneLiteral" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ImportToolsWizard_ImportingTitle" xml:space="preserve">
+    <value>Importing</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientElliptical" xml:space="preserve">
+    <value>Elliptical</value>
+  </data>
+  <data name="PopupMenuToolActionList_P_IsSideStripVisible_Desc" xml:space="preserve">
+    <value>Specifies whether the side strip of the menu is visible.  This sets the Settings.IsSideStripVisible property.</value>
+  </data>
+  <data name="CustomizeDialog_ResetMidAmp" xml:space="preserve">
+    <value>R&amp;eset...</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeXLarge" xml:space="preserve">
+    <value>Extra Large Eraser</value>
+  </data>
+  <data name="CustomizeCategoryAllCommands" xml:space="preserve">
+    <value>All Commands</value>
+  </data>
+  <data name="ImportToolsWizard_SelectToolbarsSubtitle" xml:space="preserve">
+    <value>Check each toolbar that should be imported.</value>
+  </data>
+  <data name="OptionSetTypeEditorDlgNew" xml:space="preserve">
+    <value>&amp;New OptionSet...</value>
+  </data>
+  <data name="CustomizeDialog_ToolsByCategory" xml:space="preserve">
+    <value>Tools by category</value>
+  </data>
+  <data name="ImportToolsWizard_ToolType" xml:space="preserve">
+    <value>Tool Type</value>
+  </data>
+  <data name="ImportToolsWizard_ToolbarTypeToolbar" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
+  <data name="MoreItemsPrompt" xml:space="preserve">
+    <value>&amp;More Items...</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ResetToolbarMessage" xml:space="preserve">
+    <value>Are you sure you want to reset changes made to toolbar '{0}'?</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Text_Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="ExistingToolDlg_ToolType" xml:space="preserve">
+    <value>&amp;Tool Type:</value>
+  </data>
+  <data name="CustomizeDialog_SelectedCommand" xml:space="preserve">
+    <value>Selected command:</value>
+  </data>
+  <data name="CustomizeDlgSelectControlMenu" xml:space="preserve">
+    <value>Control</value>
+  </data>
+  <data name="ConvertToolDlg_NotVisibleOnVertToolbars" xml:space="preserve">
+    <value>The selected tool type does not support being displayed on a vertical toolbar.
+Any existing tool instances that are on an 'UltraToolbar' that is docked on the left or right will be hidden when the conversion occurs.</value>
+  </data>
+  <data name="CustomizeDlgKbdCat" xml:space="preserve">
+    <value>&amp;Categories:</value>
+  </data>
+  <data name="ImageEditor_LoadFileTitle" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="CustomizeDlgNewToolAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CustomizeCreateToolErrorTitle" xml:space="preserve">
+    <value>Error Creating Tool</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawArcTool" xml:space="preserve">
+    <value>Arc</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_DropDownListAlignment_Text" xml:space="preserve">
+    <value>Drop Down List Alignment</value>
+  </data>
+  <data name="CustomizeToolPropertiesLiteral" xml:space="preserve">
+    <value>Tool-Specific Properties</value>
+  </data>
+  <data name="NoneLiteral" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="ImportDlgMenuImport" xml:space="preserve">
+    <value>&amp;The following menu structure will be imported:</value>
+  </data>
+  <data name="ImportToolsWizard_ImportTaskToolbars" xml:space="preserve">
+    <value>Updating toolbars...</value>
+  </data>
+  <data name="CustomizeDialog_CloseNoAmp" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateLeft" xml:space="preserve">
+    <value>Rotate Left</value>
+  </data>
+  <data name="CustomizeDialog_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CustomizeLoadSave_SaveError" xml:space="preserve">
+    <value>Error encountered while saving to stream.</value>
+  </data>
+  <data name="CustomizeToolTypeControlContainer" xml:space="preserve">
+    <value>Control Container</value>
+  </data>
+  <data name="ToolBaseActionList_P_DisplayStyle_Text" xml:space="preserve">
+    <value>Display Style</value>
+  </data>
+  <data name="QuickAccessToolbarBelowRibbon" xml:space="preserve">
+    <value>&amp;Show Quick Access Toolbar Below the Ribbon</value>
+  </data>
+  <data name="CustomDlgRenameToolBarTitle" xml:space="preserve">
+    <value>Rename Toolbar</value>
+  </data>
+  <data name="CustomizeMenuAnimationSlide" xml:space="preserve">
+    <value>Slide</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_CSharp" xml:space="preserve">
+    <value>C&amp;#</value>
+  </data>
+  <data name="CustomizeToolTypeCombobox" xml:space="preserve">
+    <value>ComboBox</value>
+  </data>
+  <data name="CustomizeDialog_NewBeginAmp" xml:space="preserve">
+    <value>&amp;New</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_PlaceCodeHereComment_CSharp" xml:space="preserve">
+    <value>// Place code here</value>
+  </data>
+  <data name="CustomizeImg_Tool_ShowGrid" xml:space="preserve">
+    <value>Show Grid</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientForwardDiagonal" xml:space="preserve">
+    <value>ForwardDiagonal</value>
+  </data>
+  <data name="ConvertToolDlg_OwnerDescriptionMenu" xml:space="preserve">
+    <value>{0} [Menu]</value>
+  </data>
+  <data name="ConvertToolDlg_NewToolType" xml:space="preserve">
+    <value>New Tool Type:</value>
+  </data>
+  <data name="ImportToolsWizard_SelectMenusSubtitle" xml:space="preserve">
+    <value>Check each popup menu tool that should be imported.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledEllipseWithOutlineTool" xml:space="preserve">
+    <value>Outlined Ellipse</value>
+  </data>
+  <data name="MoreWindowsDlgCloseWindows" xml:space="preserve">
+    <value>&amp;Close Window(s)</value>
+  </data>
+  <data name="CustomizeImg_Tool_FontName" xml:space="preserve">
+    <value>Font:</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomOut" xml:space="preserve">
+    <value>Zoom Out</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Down" xml:space="preserve">
+    <value>Move Down</value>
+  </data>
+  <data name="CustomizeDialog_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="CustomizeConfirmToolbarReset" xml:space="preserve">
+    <value>Are you sure you want to reset all customizations performed on toolbar '{0}'?</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown" xml:space="preserve">
+    <value>Move Dow&amp;n</value>
+  </data>
+  <data name="CustomizeDlgNewToolCaption" xml:space="preserve">
+    <value>Ca&amp;ption</value>
+  </data>
+  <data name="ComboBoxToolActionList_ValueList_Header" xml:space="preserve">
+    <value>Value List</value>
+  </data>
+  <data name="OptionSetEditorAddErrorTitle" xml:space="preserve">
+    <value>Error Adding OptionSet</value>
+  </data>
+  <data name="CustomizeDlgGenerateCode_ClearAllTools" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="CustomizeDlgTooltipCreateNewTool" xml:space="preserve">
+    <value>Create a new tool</value>
+  </data>
+  <data name="OptionSetEditorNameExistsError" xml:space="preserve">
+    <value>An OptionSet with the name '{0}' already exists.  Please enter a new name.</value>
+  </data>
+  <data name="CustomizeToolTypeStateButton" xml:space="preserve">
+    <value>State Button</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeLarge" xml:space="preserve">
+    <value>Large Eraser</value>
+  </data>
+  <data name="UltraToolbarActionList_P_Text_Desc" xml:space="preserve">
+    <value>Specifies the text to be displayed when this toolbar is floating.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Standard" xml:space="preserve">
+    <value>&amp;Standard</value>
+  </data>
+  <data name="ExistingToolDlg_Title" xml:space="preserve">
+    <value>Insert Existing Tool</value>
+  </data>
+  <data name="CustomizeDialog_ListFontNamesInTheirFont" xml:space="preserve">
+    <value>List &amp;font names in their font</value>
+  </data>
+  <data name="CustomizeImg_Tool_LargeCircleBrush" xml:space="preserve">
+    <value>Large Circle</value>
+  </data>
+  <data name="CustomizeImg_Tool_Italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="CustomizeDlgButtonGroup" xml:space="preserve">
+    <value>Button Group:</value>
+  </data>
+  <data name="AddRibbonGroupButtonCaption" xml:space="preserve">
+    <value>New
+ Group</value>
+  </data>
+  <data name="LockToolbars" xml:space="preserve">
+    <value>&amp;Lock the Toolbars</value>
+  </data>
+  <data name="CustomizeLocationDockedRight" xml:space="preserve">
+    <value>Docked Right</value>
+  </data>
+  <data name="CustomizeDuplicateToolMessage" xml:space="preserve">
+    <value>The tool name '{0}' already exists.  Please choose another name.</value>
+  </data>
+  <data name="AccessibleName_Toolbar" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_ValueListItems_Desc" xml:space="preserve">
+    <value>Specifies the items in the value list for the combo box.</value>
+  </data>
+  <data name="ToolBaseActionList_ToolSpecificProperties_Header" xml:space="preserve">
+    <value>Tool Specific Properties</value>
+  </data>
+  <data name="ImportToolsWizard_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="CustomizeDlgSetLargeImage" xml:space="preserve">
+    <value>Set Large Image...</value>
+  </data>
+  <data name="PopupColorPickerToolActionList_P_ShowAutomaticColor_Text" xml:space="preserve">
+    <value>Show Automatic Color</value>
+  </data>
+  <data name="ImportToolsWizard_ChooseLayoutTitle" xml:space="preserve">
+    <value>Choose Layout File</value>
+  </data>
+  <data name="CustomizeImg_Tool_16_Colors" xml:space="preserve">
+    <value>16 Colors</value>
+  </data>
+  <data name="ComboBoxToolActionList_P_ValueListItems_Text" xml:space="preserve">
+    <value>Value List Items</value>
+  </data>
+  <data name="CustomizeDlgRibbonSize_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="CustomDlgNewToolBarLocation" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="CustomizeImg_Tool_Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Right" xml:space="preserve">
+    <value>Move Right</value>
+  </data>
+  <data name="MdiCommandMinimizeWindows" xml:space="preserve">
+    <value>Minimize All Windows</value>
+  </data>
+  <data name="CustomizeDlgKbdSpecShrtcut" xml:space="preserve">
+    <value>Speci&amp;fy a Shortcut</value>
+  </data>
+  <data name="CustomizeToolTypePopupColorListInstanceName" xml:space="preserve">
+    <value>PopupColorPickerTool</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Commands" xml:space="preserve">
+    <value>Commands:</value>
+  </data>
+  <data name="ControlContainerToolActionList_P_CanSetWidth_Desc" xml:space="preserve">
+    <value>Specifies whether the tool can be resized.</value>
+  </data>
+  <data name="CustomizeDialog_ShowFullMenusAfterAShortDelay" xml:space="preserve">
+    <value>Show f&amp;ull menus after a short delay</value>
+  </data>
+  <data name="PopupToolBaseActionList_P_Checked_Text" xml:space="preserve">
+    <value>Checked</value>
+  </data>
+  <data name="CustomizeImg_Tool_LargeSquareBrush" xml:space="preserve">
+    <value>Large Square</value>
+  </data>
+  <data name="MoreWindowsDlgArrangeIcons" xml:space="preserve">
+    <value>Arrange Icons</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeSmall" xml:space="preserve">
+    <value>Small Eraser</value>
+  </data>
+  <data name="AddGroupDlg_SelectItemsCaption" xml:space="preserve">
+    <value>Please select which items you would like to add to the new group:</value>
+  </data>
+  <data name="AddGroupDlg_AllUnassignedItems" xml:space="preserve">
+    <value>All items which do not yet belong to a group</value>
+  </data>
+  <data name="AddGroupDlg_AllItems" xml:space="preserve">
+    <value>All items</value>
+  </data>
+  <data name="AddGroupDlg_NoItems" xml:space="preserve">
+    <value>No items</value>
+  </data>
+  <data name="AddGroupDlg_Note" xml:space="preserve">
+    <value>Note: You can edit the items in the new group later by opening the collection editor for the Items collection on the group.</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_AvailableGroupsCaption" xml:space="preserve">
+    <value>Available Groups</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_GroupsInFilterCaption" xml:space="preserve">
+    <value>Groups in the Filter</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_Add" xml:space="preserve">
+    <value>Add &gt;&gt;</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_Remove" xml:space="preserve">
+    <value>&lt;&lt; Remove</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_AllGroupsNotInAnyFilter" xml:space="preserve">
+    <value>All groups not in any filter</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_AllGroupsNotInThisFilter" xml:space="preserve">
+    <value>All groups not in this filter</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="GroupsCollectionEditorDlg_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ItemsCollectionEditorDlg_AvailableItems" xml:space="preserve">
+    <value>Available Items</value>
+  </data>
+  <data name="ItemsCollectionEditorDlg_ItemsInGroup" xml:space="preserve">
+    <value>Items in the group</value>
+  </data>
+  <data name="ItemsCollectionEditorDlg_AllItemsNotInAnyGroup" xml:space="preserve">
+    <value>All items not in any group</value>
+  </data>
+  <data name="ItemsCollectionEditorDlg_AllItemsNotInThisGroup" xml:space="preserve">
+    <value>All items not in this group</value>
+  </data>
+  <data name="GalleryPreviewButton_RowRange" xml:space="preserve">
+    <value>Row {0}-{1} of {2}</value>
+  </data>
+  <data name="GalleryPreviewButton_Row" xml:space="preserve">
+    <value>Row {0} of {1}</value>
+  </data>
+  <data name="GalleryPreviewDropDown_ToolTipTitle" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="PopupGalleryFilterBar_Error" xml:space="preserve">
+    <value>[Error]</value>
+  </data>
+  <data name="PopupGalleryTool_FilterKeyNotFound" xml:space="preserve">
+    <value>A filter with the key of '{0}' was not found</value>
+  </data>
+  <data name="PopupGalleryTool_ItemKeyNotFound" xml:space="preserve">
+    <value>An item with the key of '{0}' was not found</value>
+  </data>
+  <data name="PopupGalleryTool_ItemReferenceConverter_None" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="PopupToolBase_InvalidDropOntoHiddenGroup" xml:space="preserve">
+    <value>Can't drop down a tool on a group that is not visible.</value>
+  </data>
+  <data name="Ribbon_MinimumThreshold_Exception" xml:space="preserve">
+    <value>The minimum value for the threshold is -1.</value>
+  </data>
+  <data name="Ribbon_SpecifiedItemDoesNotBelongToRibbon" xml:space="preserve">
+    <value>The specified item does not belong to the ribbon.</value>
+  </data>
+  <data name="Ribbon_SpecifiedGroupIsHidden" xml:space="preserve">
+    <value>The specified group is currently hidden.</value>
+  </data>
+  <data name="Ribbon_MustBeVisible" xml:space="preserve">
+    <value>The ribbon must be visible.</value>
+  </data>
+  <data name="Ribbon_TabIsHidden" xml:space="preserve">
+    <value>The containing RibbonTab is currently hidden.</value>
+  </data>
+  <data name="Ribbon_ToolIsHidden" xml:space="preserve">
+    <value>The specified tool is currently hidden.</value>
+  </data>
+  <data name="Ribbon_ContainingGroupIsHidden" xml:space="preserve">
+    <value>The containing RibbonGroup is currently hidden.</value>
+  </data>
+  <data name="Ribbon_SpecifiedTabIsHidden" xml:space="preserve">
+    <value>The specified tab is currently hidden.</value>
+  </data>
+  <data name="ApplicationMenuArea_MaxWidthCannotBeNegative" xml:space="preserve">
+    <value>The maximum width cannot be negative</value>
+  </data>
+  <data name="ApplicationMenuArea_MinWidthCannotBeNegative" xml:space="preserve">
+    <value>The minimum width cannot be negative</value>
+  </data>
+  <data name="InvalidDefaultableBooleanValue" xml:space="preserve">
+    <value>Invalid value for DefaultableBoolean</value>
+  </data>
+  <data name="RibbonGroup_NotAddedToRibbon" xml:space="preserve">
+    <value>The group has not been added to a Ribbon.</value>
+  </data>
+  <data name="RibbonTab_TabAndGroupMustBelongToSameInstance" xml:space="preserve">
+    <value>The tab and contextual tab group must belong to the same ribbon instance.</value>
+  </data>
+  <data name="RibbonTab_TabHasNotBeenAddedToRibbon" xml:space="preserve">
+    <value>The tab has not been added to a Ribbon.</value>
+  </data>
+  <data name="RibbonTab_TabMemberOfDifferentRibbon" xml:space="preserve">
+    <value>The specified tab belongs to a different Ribbon.</value>
+  </data>
+  <data name="QuickAccessToolbarAboveRibbonCustomize" xml:space="preserve">
+    <value>&amp;Show Above the Ribbon</value>
+  </data>
+  <data name="QuickAccessToolbarBelowRibbonCustomize" xml:space="preserve">
+    <value>&amp;Show Below the Ribbon</value>
+  </data>
+  <data name="QatQuickCustomizeHeader" xml:space="preserve">
+    <value>Customize Quick Access Toolbar</value>
+  </data>
+  <data name="ToolCount" xml:space="preserve">
+    <value>{0} Tools</value>
+  </data>
+  <data name="RibbonMergingNotSupported" xml:space="preserve">
+    <value>ActiveMdiChildManager and MdiParentManager properties are read-only if the Ribbon is used by either manager.</value>
+  </data>
+  <data name="RibbonNotSupportedWhenMerging" xml:space="preserve">
+    <value>The Ribbon cannot be made visible once the toolbars manager has been merged.</value>
+  </data>
+  <data name="AccessibleName_Ribbon" xml:space="preserve">
+    <value>Ribbon</value>
+  </data>
+  <data name="AccessibleName_QuickAccessToolbar" xml:space="preserve">
+    <value>Quick Access Toolbar</value>
+  </data>
+  <data name="AccessibleName_RibbonCaption" xml:space="preserve">
+    <value>Ribbon</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonMinimize" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonRestoreUp" xml:space="preserve">
+    <value>Restore Up</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonMaximize" xml:space="preserve">
+    <value>Maximize</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonRestoreDown" xml:space="preserve">
+    <value>Restore Down</value>
+  </data>
+  <data name="AccessibleName_RibbonCaptionButtonContextHelp" xml:space="preserve">
+    <value>Context help</value>
+  </data>
+  <data name="AccessibleName_RibbonTabs" xml:space="preserve">
+    <value>Ribbon Tabs</value>
+  </data>
+  <data name="AccessibleName_RibbonGroupArea" xml:space="preserve">
+    <value>Lower Ribbon</value>
+  </data>
+  <data name="AccessibleName_QatQuickCustomizeTool" xml:space="preserve">
+    <value>More controls</value>
+  </data>
+  <data name="AccessibleName_RibbonTabItemToolbar" xml:space="preserve">
+    <value>Maximized Mdi Child Form Buttons</value>
+  </data>
+  <data name="AccessibleName_ApplicationMenuButton" xml:space="preserve">
+    <value>ApplicationMenu Button</value>
+  </data>
+  <data name="AccessibleName_ApplicationMenu" xml:space="preserve">
+    <value>Application Menu</value>
+  </data>
+  <data name="ItemBelongsToDifferentToolbarsManager" xml:space="preserve">
+    <value>The '{0}' is associated with another UltraToolbarsManager instance.</value>
+  </data>
+  <data name="InvalidPopupStyleForMenu" xml:space="preserve">
+    <value>The specified popup style is not valid for this type of menu.</value>
+  </data>
+  <data name="InvalidRibbonDropdownState" xml:space="preserve">
+    <value>The dropdown method can only be used when the ribbon is minimized and visible.</value>
+  </data>
+  <data name="CannotAddPopupRibbonGroupToQat" xml:space="preserve">
+    <value>A RibbonGroup owned by a PopupRibbonGroupTool cannot be added to the QuickAccessToolbar.</value>
+  </data>
+  <data name="RibbonGroupAlreadyInQat" xml:space="preserve">
+    <value>A PopupRibbonGroupTool has already been added to the QuickAccessToolbar for this group.</value>
+  </data>
+  <data name="RibbonGroupNotInRibbon" xml:space="preserve">
+    <value>The group must be part of a tabs collection of the Ribbon in order to add the object to the QuickAccessToolbar.</value>
+  </data>
+  <data name="RibbonGroupBelongsToDifferentTab" xml:space="preserve">
+    <value>The specified group already belongs to a different RibbonTab.</value>
+  </data>
+  <data name="KeyTipTooLong" xml:space="preserve">
+    <value>The key tip can only be up to three characters.</value>
+  </data>
+  <data name="DefaultAction_RibbonCaptionButton" xml:space="preserve">
+    <value>Press</value>
+  </data>
+  <data name="DefaultAction_RibbonPagerButton" xml:space="preserve">
+    <value>Press</value>
+  </data>
+  <data name="AccessibleName_RibbonPagerButtonLeft" xml:space="preserve">
+    <value>Column Left</value>
+  </data>
+  <data name="AccessibleName_RibbonPagerButtonRight" xml:space="preserve">
+    <value>Column Right</value>
+  </data>
+  <data name="AccessibleDescription_RibbonPagerButtonLeft" xml:space="preserve">
+    <value>Moves the horizontal position left one column</value>
+  </data>
+  <data name="AccessibleDescription_RibbonPagerButtonRight" xml:space="preserve">
+    <value>Moves the horizontal position right one column</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonClose" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="DefaultAction_RibbonGroupButtonOpen" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="AccessibleName_DialogBoxLauncher" xml:space="preserve">
+    <value>Dialog box launcher</value>
+  </data>
+  <data name="HideRibbonButtonCaption" xml:space="preserve">
+    <value>Hide Ribbon</value>
+  </data>
+  <data name="EnableOffice2007UICompatibility" xml:space="preserve">
+    <value>Enable Office 2007 UI Compatibility</value>
+  </data>
+  <data name="DisableOffice2007UICompatibility" xml:space="preserve">
+    <value>Disable Office 2007 UI Compatibility</value>
+  </data>
+  <data name="ErrorMessageCaption" xml:space="preserve">
+    <value>UltraToolbarsManager</value>
+  </data>
+  <data name="CustomizeStandardToolbarNotAllowedMessage" xml:space="preserve">
+    <value>Only TaskPane toolbars can be created when the Ribbon is visible and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="CannotChangeAutoThresholdWhenCompatibilityIsEnabled" xml:space="preserve">
+    <value>The AutoCollapseThreshold properties cannot be changed when the Ribbon is visible and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="RibbonCannotBeShownInContainer" xml:space="preserve">
+    <value>The Ribbon cannot be made visible while Office2007UICompatibility is enabled and the DockWithinContainer of the UltraToolbarsManager is not a top level form.</value>
+  </data>
+  <data name="DockWithinContainerNotTopLevelForm" xml:space="preserve">
+    <value>The DockWithinContainer can only be set to a top level form when the Ribbon is visible and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="CannotEnableCompatibilityWhenNotOnTopLevelForm" xml:space="preserve">
+    <value>Office2007UICompatibility cannot be enabled unless the DockWithinContainer is set to a top level form.</value>
+  </data>
+  <data name="ChangeChangeStyleWhenCompatibilityIsEnabled" xml:space="preserve">
+    <value>The 'Style' property cannot be changed while using the Ribbon and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="ChangeUseCustomizeWhenCompatibilityIsEnabled" xml:space="preserve">
+    <value>The CustomizeDialog cannot be used when the Ribbon is being used and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="AccessibleName_ApplicationMenuFooterToolbar" xml:space="preserve">
+    <value>Application Menu Footer Toolbar</value>
+  </data>
+  <data name="AccessibleName_ApplicationMenuLeftArea" xml:space="preserve">
+    <value>Left Application Menu Area</value>
+  </data>
+  <data name="AccessibleName_ApplicationMenuRightArea" xml:space="preserve">
+    <value>Right Application Menu Area</value>
+  </data>
+  <data name="ChangeHideQatWhenCompatibilityIsEnabled" xml:space="preserve">
+    <value>The QuickAccessToolbar cannot be hidden when the Ribbon is being used and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="ChangeHideAppMenuWhenCompatibilityIsEnabled" xml:space="preserve">
+    <value>The ApplicationMenu cannot be hidden when the Ribbon is being used and Office2007UICompatibility is enabled.</value>
+  </data>
+  <data name="ApplicationMenuDefaultKeyTip" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="BringIntoViewItemNotInPreview" xml:space="preserve">
+    <value>The item to bring into view does not exist in the gallery preview.</value>
+  </data>
+  <data name="RootGalleryDoesNotDisplayItems" xml:space="preserve">
+    <value>A root gallery does not display items.</value>
+  </data>
+  <data name="InvalidGalleryArea" xml:space="preserve">
+    <value>The specified gallery area is invalid.</value>
+  </data>
+  <data name="CantBringIntoViewIfPreviewHidden" xml:space="preserve">
+    <value>The item cannot be brought into view if the gallery preview is not showing.</value>
+  </data>
+  <data name="CantBringIntoViewIfDropDownClosed" xml:space="preserve">
+    <value>Cannot bring an item into view in the gallery drop down when it is closed.</value>
+  </data>
+  <data name="OwningGroupNeededWhenGalleryHasGroups" xml:space="preserve">
+    <value>The owning group cannot be null when the gallery contains groups.</value>
+  </data>
+  <data name="ColumnSpanMustBePositive" xml:space="preserve">
+    <value>The column span must be greater than 0.</value>
+  </data>
+  <data name="GalleryItemButtonDefaultAction" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GalleryItemStateButtonDefaultAction" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="GalleryFilterListClosedDefaultAction" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="GalleryFilterListOpenedDefaultAction" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="QuickCustomizeToolKeyTip" xml:space="preserve">
+    <value>YY</value>
+  </data>
+  <data name="RibbonGroupAutoGeneratePrefix" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="ToolsEditorControl_Remove" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="ToolsEditorControl_Add" xml:space="preserve">
+    <value>&amp;Add &gt;&gt;</value>
+  </data>
+  <data name="ToolsEditorControl_Reset" xml:space="preserve">
+    <value>Re&amp;set</value>
+  </data>
+  <data name="ToolsEditorControl_Modify" xml:space="preserve">
+    <value>&amp;Modify...</value>
+  </data>
+  <data name="QatContextMenuTools_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="QatContextMenuTools_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="QatContextMenuTools_Caption" xml:space="preserve">
+    <value>QuickAccessToolbar ContextMenu Tools</value>
+  </data>
+  <data name="InvalidActivationActionDelay" xml:space="preserve">
+    <value>The activation action delay cannot be negative.</value>
+  </data>
+  <data name="InvalidActivationInitialActionDelay" xml:space="preserve">
+    <value>The activation action initial delay cannot be less than -1.</value>
+  </data>
+  <data name="InvalidMaxDropDownColumns" xml:space="preserve">
+    <value>The maximum drop down columns cannot be negative.</value>
+  </data>
+  <data name="InvalidMaxPreviewColumnsMustBePositive" xml:space="preserve">
+    <value>There can not be less than one preview column.</value>
+  </data>
+  <data name="InvalidMaxPreviewColumnsMustBeUnder256" xml:space="preserve">
+    <value>The maximum drop down columns cannot be greater than 255.</value>
+  </data>
+  <data name="InvalidMinDropDownColumns" xml:space="preserve">
+    <value>There can not be less than one drop down column.</value>
+  </data>
+  <data name="InvalidMinPreviewColumns" xml:space="preserve">
+    <value>There can not be less than one preview column.</value>
+  </data>
+  <data name="NewSelectedGroupFilterNotInCollection" xml:space="preserve">
+    <value>The new filter is not in the GroupFilters collection.</value>
+  </data>
+  <data name="SelectedGroupFilterMustBeNonNull" xml:space="preserve">
+    <value>The new filter cannot be null if the GroupFilters collection contains filters.</value>
+  </data>
+  <data name="NewSelectedItemNotInCollection" xml:space="preserve">
+    <value>The new item is not in the Items collection.</value>
+  </data>
+  <data name="NoSelectedItemWhenItemStyleIsButton" xml:space="preserve">
+    <value>There can be no selected item when the ItemStyle is Button.</value>
+  </data>
+  <data name="InvalidPreferredDropDownColumns" xml:space="preserve">
+    <value>The preferred drop down columns should be between the minimum and the maximum drop down columns.</value>
+  </data>
+  <data name="InvalidToolRowCount" xml:space="preserve">
+    <value>The number of rows in the mini-toolbar must be positive.</value>
+  </data>
+  <data name="DesignMiniToolbar" xml:space="preserve">
+    <value>Design MiniToolbar</value>
+  </data>
+  <data name="MiniToolbarDesignerText" xml:space="preserve">
+    <value>MiniToolbar Designer</value>
+  </data>
+  <data name="MiniToolbarDesignerToolRowCount" xml:space="preserve">
+    <value>Tool Row Count:</value>
+  </data>
+  <data name="MiniToolbarDesignerDescription" xml:space="preserve">
+    <value>Edit the contents of the MiniToolbar below:</value>
+  </data>
+  <data name="MiniToolbarDesignerOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RibbonTabKeyReserved" xml:space="preserve">
+    <value>Can't add tab since it is using a reserved key name.</value>
+  </data>
+  <data name="ContextualTabGroupKeyReserved" xml:space="preserve">
+    <value>Can't add group since it is using a reserved key name.</value>
+  </data>
+  <data name="CustomizeDialog_New_Toolbar_AccessibleDescription" xml:space="preserve">
+    <value>Add a new toolbar.</value>
+  </data>
+  <data name="CustomizeDialog_Reset_Toolbar_AccessibleDescription" xml:space="preserve">
+    <value>Reset the selected toolbar.</value>
+  </data>
+  <data name="CustomizeDialog_Rename_Toolbar_AccessibleDescription" xml:space="preserve">
+    <value>Rename the selected toolbar.</value>
+  </data>
+  <data name="CustomizeDialog_Delete_Toolbar_AccessibleDescription" xml:space="preserve">
+    <value>Delete the selected toolbar.</value>
+  </data>
+  <data name="CustomizeDialog_Delete_Tool_AccessibleDescription" xml:space="preserve">
+    <value>Delete the selected tool.</value>
+  </data>
+  <data name="CustomizeDialog_ModifySelection_AccessibleDescription" xml:space="preserve">
+    <value>Modify the selected command.</value>
+  </data>
+  <data name="CustomizeDialog_RearrangeCommands_AccessibleDescription" xml:space="preserve">
+    <value>Rearrange commands in the menus and toolbars.</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnMenus_AccessibleDescription" xml:space="preserve">
+    <value>Show large icons for commands in menus.</value>
+  </data>
+  <data name="CustomizeDialog_ResetMyUsageData_AccessibleDescription" xml:space="preserve">
+    <value>Reset the stored information about my command usage.</value>
+  </data>
+  <data name="CustomizeDialog_AlwaysShowFullMenus_AccessibleDescription" xml:space="preserve">
+    <value>Always show all commands, including commands which have not been used recently.</value>
+  </data>
+  <data name="CustomizeDialog_ShowFullMenusAfterAShortDelay_AccessibleDescription" xml:space="preserve">
+    <value>After a short delay, show commands which have not been used recently.</value>
+  </data>
+  <data name="CustomizeDialog_ListFontNamesInTheirFont_AccessibleDescription" xml:space="preserve">
+    <value>In font lists, display the name of each font in that font.</value>
+  </data>
+  <data name="CustomizeDialog_ShowScreenTipsOnToolbars_AccessibleDescription" xml:space="preserve">
+    <value>Show screentips for tools and toolbars with extra information about what the mouse is over.</value>
+  </data>
+  <data name="CustomizeDialog_ShowShortcutKeysInScreenTips_AccessibleDescription" xml:space="preserve">
+    <value>Show the shortcut used to activate a command in its screentip.</value>
+  </data>
+  <data name="CustomizeDialog_LargeIconsOnToolbars_AccessibleDescription" xml:space="preserve">
+    <value>Show large icons for commands in toolbars.</value>
+  </data>
+  <data name="CustomizeDialog_FloatingToolbarFadeDelay_AccessibleDescription" xml:space="preserve">
+    <value>The delay after the mouse leaves a floating toolbar before it will fade away.</value>
+  </data>
+  <data name="CustomizeDialog_MenuAnimations_AccessibleDescription" xml:space="preserve">
+    <value>The type of animation to use when opening a menu.</value>
+  </data>
+  <data name="CustomizeDialog_KeyboardBeginAmp_AccessibleDescription" xml:space="preserve">
+    <value>Customize the keyboard shortcuts of commands.</value>
+  </data>
+  <data name="CustomizeDialog_CustomizeMain_AccessibleDescription" xml:space="preserve">
+    <value>Customize the tools and toolbars in the application.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Title_AccessibleDescription" xml:space="preserve">
+    <value>Rearrange the commands in a menu or toolbar.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MenuBar_AccessibleDescription" xml:space="preserve">
+    <value>Rearrange the commands in a menu.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Toolbar_AccessibleDescription" xml:space="preserve">
+    <value>Rearrange the commands in a toolbar.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Add_AccessibleDescription" xml:space="preserve">
+    <value>Add a command to the selected menu or toolbar.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Delete_AccessibleDescription" xml:space="preserve">
+    <value>Delete the selected command.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveUp_AccessibleDescription" xml:space="preserve">
+    <value>Move the selected tool up in the menu or toolbar.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_MoveDown_AccessibleDescription" xml:space="preserve">
+    <value>Move the selected tool down in the menu or toolbar.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_ModifySelection_AccessibleDescription" xml:space="preserve">
+    <value>Modify properties of the selected tool.</value>
+  </data>
+  <data name="CustomizeDlgRearrangeCommands_Reset_AccessibleDescription" xml:space="preserve">
+    <value>Reset the selected menu or toolbar to its original configuration.</value>
+  </data>
+  <data name="CustomizeDlgAddCommand_Title_AccessibleDescription" xml:space="preserve">
+    <value>Add a command to a toolbar or menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_16_Colors_AccessibleDescription" xml:space="preserve">
+    <value>Use a 16 color palette.</value>
+  </data>
+  <data name="CustomizeImg_Tool_BackColor_AccessibleDescription" xml:space="preserve">
+    <value>Change the back color.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Bold_AccessibleDescription" xml:space="preserve">
+    <value>Make the text bold.</value>
+  </data>
+  <data name="CustomizeImg_Tool_BrushSize_AccessibleDescription" xml:space="preserve">
+    <value>Change the brush size.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Capture_Image_AccessibleDescription" xml:space="preserve">
+    <value>Capture an image from the screen.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ChooseHotSpotTool_AccessibleDescription" xml:space="preserve">
+    <value>Choose the hot spot for cursors.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Clear_Image_AccessibleDescription" xml:space="preserve">
+    <value>Erase the entire image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ColorSelectTool_AccessibleDescription" xml:space="preserve">
+    <value>Select a color from the image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Copy_AccessibleDescription" xml:space="preserve">
+    <value>Copy the selection and put it on the Clipboard.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Cut_AccessibleDescription" xml:space="preserve">
+    <value>Cut the selection from the image and put it on the Clipboard.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawAirbrushTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw with the airbrush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawArcTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw an arc.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawBrushTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw with a brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawEllipseOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw an ellipse.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledEllipseTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a filled ellipse.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledEllipseWithOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw an outlined ellipse.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRectangleTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a filled rectangle.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRectangleWithOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw an outlined rectangle</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRoundRectangleTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a filled rounded rectangle</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawFilledRoundRectangleWithOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw an outlined rounded rectangle.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawLineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a line.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawPointTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a point.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRectangleOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a rectangle.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawRoundRectangleOutlineTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw a rounded rectangle.</value>
+  </data>
+  <data name="CustomizeImg_Tool_DrawTextTool_AccessibleDescription" xml:space="preserve">
+    <value>Draw text.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Edit_AccessibleDescription" xml:space="preserve">
+    <value>Edit Menu</value>
+  </data>
+  <data name="CustomizeImg_Tool_Ellipse_Types_AccessibleDescription" xml:space="preserve">
+    <value>Draw different ellipse types.</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeLarge_AccessibleDescription" xml:space="preserve">
+    <value>Use a large eraser.</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeMedium_AccessibleDescription" xml:space="preserve">
+    <value>Use a medium eraser</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeSmall_AccessibleDescription" xml:space="preserve">
+    <value>Use a small eraser</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseBrushSizeXLarge_AccessibleDescription" xml:space="preserve">
+    <value>Use an extra large eraser</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseColor_AccessibleDescription" xml:space="preserve">
+    <value>Erase only a specific color.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Eraser_AccessibleDescription" xml:space="preserve">
+    <value>Erasers.</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraserSize_AccessibleDescription" xml:space="preserve">
+    <value>Change the eraser size.</value>
+  </data>
+  <data name="CustomizeImg_Tool_EraseTool_AccessibleDescription" xml:space="preserve">
+    <value>Eraser Tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Exit_AccessibleDescription" xml:space="preserve">
+    <value>Exit the image editor.</value>
+  </data>
+  <data name="CustomizeImg_Tool_File_AccessibleDescription" xml:space="preserve">
+    <value>File menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_FillTool_AccessibleDescription" xml:space="preserve">
+    <value>Fill an area with a color.</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipHorizontal_AccessibleDescription" xml:space="preserve">
+    <value>Flip the selection horizontally.</value>
+  </data>
+  <data name="CustomizeImg_Tool_FlipVertical_AccessibleDescription" xml:space="preserve">
+    <value>Flip the selection vertically.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Font_Size_AccessibleDescription" xml:space="preserve">
+    <value>Change the font size.</value>
+  </data>
+  <data name="CustomizeImg_Tool_FontName_AccessibleDescription" xml:space="preserve">
+    <value>Change the font name.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ForeColor_AccessibleDescription" xml:space="preserve">
+    <value>Change the fore color.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientBackwardDiagonal_AccessibleDescription" xml:space="preserve">
+    <value>BackwardDiagonal</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientCircular_AccessibleDescription" xml:space="preserve">
+    <value>Use a circular gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientElliptical_AccessibleDescription" xml:space="preserve">
+    <value>Use a elliptical gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientForwardDiagonal_AccessibleDescription" xml:space="preserve">
+    <value>Use a forward diagonal gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientHorizontal_AccessibleDescription" xml:space="preserve">
+    <value>Use a horizontal gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientHorizontalBump_AccessibleDescription" xml:space="preserve">
+    <value>Use a horizontal bump gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientRectangular_AccessibleDescription" xml:space="preserve">
+    <value>Use a rectangular gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientStyle_AccessibleDescription" xml:space="preserve">
+    <value>Change the gradient style used when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientVertical_AccessibleDescription" xml:space="preserve">
+    <value>Use a vertical gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_GradientVerticalBump_AccessibleDescription" xml:space="preserve">
+    <value>Use a vertical bump gradient when drawing.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Gray_Scale_AccessibleDescription" xml:space="preserve">
+    <value>Use a gray scale palette.</value>
+  </data>
+  <data name="CustomizeImg_Tool_HSL_Colors_AccessibleDescription" xml:space="preserve">
+    <value>Use a palette based on hue, saturation, and luminosity.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Image_Size_AccessibleDescription" xml:space="preserve">
+    <value>Change the size of the image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Image_AccessibleDescription" xml:space="preserve">
+    <value>Image menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Invert_Colors_AccessibleDescription" xml:space="preserve">
+    <value>Invert the colors in the selection.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Italic_AccessibleDescription" xml:space="preserve">
+    <value>Italicize the text.</value>
+  </data>
+  <data name="CustomizeImg_Tool_LargeCircleBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a large circle brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_LargeSquareBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a large square brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_MediumCircleBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a medium circle brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_MediumSquareBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a medium square brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Down_AccessibleDescription" xml:space="preserve">
+    <value>Move the selection down one pixel.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Image_AccessibleDescription" xml:space="preserve">
+    <value>Move the selection in different directions.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Left_AccessibleDescription" xml:space="preserve">
+    <value>Move the selection left one pixel.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Right_AccessibleDescription" xml:space="preserve">
+    <value>Move the selection right one pixel.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Move_Up_AccessibleDescription" xml:space="preserve">
+    <value>Move the selection up one pixel.</value>
+  </data>
+  <data name="CustomizeImg_Tool_New_AccessibleDescription" xml:space="preserve">
+    <value>Create a new image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Open_AccessibleDescription" xml:space="preserve">
+    <value>Open an existing image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Palette_AccessibleDescription" xml:space="preserve">
+    <value>Change the color palette.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Paste_AccessibleDescription" xml:space="preserve">
+    <value>Paste the contents of the Clipboard.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Rectangle_Types_AccessibleDescription" xml:space="preserve">
+    <value>Change the rectangle type top draw.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Redo_AccessibleDescription" xml:space="preserve">
+    <value>Redo the last undone operation.</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateLeft_AccessibleDescription" xml:space="preserve">
+    <value>Rotate the selection to the left.</value>
+  </data>
+  <data name="CustomizeImg_Tool_RotateRight_AccessibleDescription" xml:space="preserve">
+    <value>Rotate the selection to the right.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Save_Copy_As_AccessibleDescription" xml:space="preserve">
+    <value>Save a copy of the image in a new file.</value>
+  </data>
+  <data name="CustomizeImg_Tool_SelectIrregularSectionTool_AccessibleDescription" xml:space="preserve">
+    <value>Use the irregular selection tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_SelectRectangleTool_AccessibleDescription" xml:space="preserve">
+    <value>Use the rectangle selection tool.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ShowGrid_AccessibleDescription" xml:space="preserve">
+    <value>Draw a grid which separates each pixel in the image.</value>
+  </data>
+  <data name="CustomizeImg_Tool_SmallCircleBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a small circle brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_SmallSquareBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use a small square brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Standard_AccessibleDescription" xml:space="preserve">
+    <value>Use the standard color palette.</value>
+  </data>
+  <data name="CustomizeImg_Tool_StatusBar_AccessibleDescription" xml:space="preserve">
+    <value>Show the status bar at the bottom of the image editor.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Tools_AccessibleDescription" xml:space="preserve">
+    <value>Tools menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Underlined_AccessibleDescription" xml:space="preserve">
+    <value>Underline the text.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Undo_AccessibleDescription" xml:space="preserve">
+    <value>Undo the last operation.</value>
+  </data>
+  <data name="CustomizeImg_Tool_View_AccessibleDescription" xml:space="preserve">
+    <value>View menu.</value>
+  </data>
+  <data name="CustomizeImg_Tool_Web_Safe_Colors_AccessibleDescription" xml:space="preserve">
+    <value>Use the web safe colors palette.</value>
+  </data>
+  <data name="CustomizeImg_Tool_XLargeCircleBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use an extra large circle brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_XLargeSquareBrush_AccessibleDescription" xml:space="preserve">
+    <value>Use an extra large square brush.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomFit_AccessibleDescription" xml:space="preserve">
+    <value>Zoom the image to fit the editor area.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomIn_AccessibleDescription" xml:space="preserve">
+    <value>Zoom in to the image one level.</value>
+  </data>
+  <data name="CustomizeImg_Tool_ZoomOut_AccessibleDescription" xml:space="preserve">
+    <value>Zoom out from the image one level.</value>
+  </data>
+  <data name="CustomizeImg_Title_AccessibleDescription" xml:space="preserve">
+    <value>Edit the contents of an image.</value>
+  </data>
+  <data name="CustomizeDlgKbdResetAll_AccessibleDescription" xml:space="preserve">
+    <value>Reset all shortcut customizations.</value>
+  </data>
+  <data name="CustomizeDlgKbdAssign_AccessibleDescription" xml:space="preserve">
+    <value>Assign the shortcut to the command.</value>
+  </data>
+  <data name="CustomizeDlgKbdRemove&amp;Remove_AccessibleDescription" xml:space="preserve">
+    <value>Remove the assigned shortcut from the command.</value>
+  </data>
+  <data name="CustomizeDlgKbd_AccessibleDescription" xml:space="preserve">
+    <value>Customize shortcuts for commands.</value>
+  </data>
+  <data name="CustomDlgRenameToolBar_AccessibleDescription" xml:space="preserve">
+    <value>Change the name of the toolbar.</value>
+  </data>
+  <data name="MoreWindowsDlgCloseWindows_AccessibleDescription" xml:space="preserve">
+    <value>Close all selected windows.</value>
+  </data>
+  <data name="MoreWindowsDlgTileHorz_AccessibleDescription" xml:space="preserve">
+    <value>Tile all windows horizontally</value>
+  </data>
+  <data name="MoreWindowsDlgTileVert_AccessibleDescription" xml:space="preserve">
+    <value>Tile all windows vertically</value>
+  </data>
+  <data name="MoreWindowsDlgActivate_AccessibleDescription" xml:space="preserve">
+    <value>Activate the selected window.</value>
+  </data>
+  <data name="MoreWindowsDlgCascade_AccessibleDescription" xml:space="preserve">
+    <value>Cascade all windows.</value>
+  </data>
+  <data name="MoreWindowsDlgArrangeIcons_AccessibleDescription" xml:space="preserve">
+    <value>Arranges all window icons.</value>
+  </data>
+  <data name="MoreWindowsDlgMinWindows_AccessibleDescription" xml:space="preserve">
+    <value>Minimize all windows.</value>
+  </data>
+  <data name="DefaultApplicationName" xml:space="preserve">
+    <value>Legacy</value>
+  </data>
+  <data name="DefaultReservedKeyTipToolTipText" xml:space="preserve">
+    <value>&lt;P style="margin-left:16px;margin-right:15px;margin-top:5px"&gt;Continue typing the {0} menu&lt;BR/&gt;key sequence, or press Escape to cancel.&lt;/P&gt;</value>
+  </data>
+  <data name="DefaultReservedKeyTipToolTipTitle" xml:space="preserve">
+    <value>{0} access key</value>
+  </data>
+  <data name="ReservedKeyTipSequenceSeparator" xml:space="preserve">
+    <value>,</value>
+  </data>
+  <data name="ReservedKeyTipSequencePrefix" xml:space="preserve">
+    <value>: ALT</value>
+  </data>
+  <data name="RibbonTabItemToolbarCantBeCloned" xml:space="preserve">
+    <value>The RibbonTabItemToolbar can not be cloned.</value>
+  </data>
+  <data name="KeyAlreadyExists" xml:space="preserve">
+    <value>Key already exists</value>
+  </data>
+  <data name="CantAddExternalToolbar" xml:space="preserve">
+    <value>Can't add a toolbar that exists on another toolbars manager.</value>
+  </data>
+  <data name="NavigationToolbarCantBeCloned" xml:space="preserve">
+    <value>The NavigationToolbar cannot be cloned.</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarBackButton" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarForwardButton" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="AccessibleName_NavigationToolbarRecentHistoryButton" xml:space="preserve">
+    <value>Recent History</value>
+  </data>
+  <data name="AccessibleName_MiniToolbar" xml:space="preserve">
+    <value>Mini-Toolbar</value>
+  </data>
+  <data name="CustomizeDialog_LoadSave_ToolTip" xml:space="preserve">
+    <value>Load/Save UltraToolbarsManager Configuration</value>
+  </data>
+  <data name="DefaultCaptionForFileMenuButton" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ContentArea_MinimumSpaceBetweenColumns_Exception" xml:space="preserve">
+    <value>The minimum value for the SpaceBetweenColumns is 0.</value>
+  </data>
+  <data name="ContentArea_MinimumDistanceFromTop_Exception" xml:space="preserve">
+    <value>The minimum value for the DistanceFromTop is 0.</value>
+  </data>
+  <data name="RibbonPinButton_Expand_TooltipText" xml:space="preserve">
+    <value>Expand the Ribbon</value>
+  </data>
+  <data name="RibbonPinButton_Minimize_TooltipText" xml:space="preserve">
+    <value>Minimize the Ribbon</value>
+  </data>
+  <data name="NavigationMenu_ToolDoesNotExist_Exception" xml:space="preserve">
+    <value>Tool does not exist on the Navigation Menu.</value>
+  </data>
+  <data name="NavigationMenu_ToolNotVisibleEnabled_Exception" xml:space="preserve">
+    <value>Tool must be visible and enabled.</value>
+  </data>
+</root>

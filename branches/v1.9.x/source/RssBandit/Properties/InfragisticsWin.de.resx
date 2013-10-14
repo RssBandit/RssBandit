@@ -1,0 +1,864 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MaskValidationErrorInvalidDayOfMonth" xml:space="preserve">
+    <value>Ungültiger Tag für den spezifizierten Monat des Jahres.</value>
+  </data>
+  <data name="ScrollContextMenuBottom" xml:space="preserve">
+    <value>Unten</value>
+  </data>
+  <data name="CustomColorEditToolTip38" xml:space="preserve">
+    <value>Lavendelfarben</value>
+  </data>
+  <data name="CustomColorEditToolTip39" xml:space="preserve">
+    <value>Weiss</value>
+  </data>
+  <data name="CustomColorEditToolTip36" xml:space="preserve">
+    <value>Helltürkise</value>
+  </data>
+  <data name="CustomColorEditToolTip34" xml:space="preserve">
+    <value>Hellgelb</value>
+  </data>
+  <data name="CustomColorEditToolTip35" xml:space="preserve">
+    <value>Hellgrün</value>
+  </data>
+  <data name="CustomColorEditToolTip32" xml:space="preserve">
+    <value>Rosa</value>
+  </data>
+  <data name="CustomColorEditToolTip7" xml:space="preserve">
+    <value>80% Grau</value>
+  </data>
+  <data name="CustomColorEditToolTip0" xml:space="preserve">
+    <value>Schwarz</value>
+  </data>
+  <data name="CustomColorEditToolTip3" xml:space="preserve">
+    <value>Dunkelgrün</value>
+  </data>
+  <data name="CustomColorEditToolTip2" xml:space="preserve">
+    <value>Olivgrün</value>
+  </data>
+  <data name="MaskValidationErrorNoInput" xml:space="preserve">
+    <value>Dieser Wert ist nicht gültig. Sie müssen einen gültigen Wert eingeben.</value>
+  </data>
+  <data name="AccessibleDescScrollbarNextPage_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position um einige Zeilen nach unten</value>
+  </data>
+  <data name="UltraCalc_StatusCode_Calculating" xml:space="preserve">
+    <value>#Berechnung</value>
+  </data>
+  <data name="AccessibleDescScrollbarThumb_Vert" xml:space="preserve">
+    <value>Zeigt die gegenwärtige vertikale Position an und kann mit ziehen direkt verändert werden.</value>
+  </data>
+  <data name="IllegalOperationMessageNoNextEditSection" xml:space="preserve">
+    <value>Keine weiteren Editierbereiche vorhanden.</value>
+  </data>
+  <data name="AccessibleActionCloseUp" xml:space="preserve">
+    <value>Schliessen</value>
+  </data>
+  <data name="frmImageEditor_Gradient_VerticalBump" xml:space="preserve">
+    <value>Vertikale Beule</value>
+  </data>
+  <data name="AccessibleActionSpinLast" xml:space="preserve">
+    <value>Letzte Periode</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevEditSection" xml:space="preserve">
+    <value>Es sind keine vorherigen Editierbereiche vorhanden.</value>
+  </data>
+  <data name="CustomColorEditToolTip8" xml:space="preserve">
+    <value>Dunkelrot</value>
+  </data>
+  <data name="CustomColorEditToolTip22" xml:space="preserve">
+    <value>Violett</value>
+  </data>
+  <data name="EditContextMenuSelectAll" xml:space="preserve">
+    <value>Alle auswählen</value>
+  </data>
+  <data name="FmtPrvdrTitle" xml:space="preserve">
+    <value>FormatProvider Eigenschaften Editor</value>
+  </data>
+  <data name="UltraImageEditor_ResizeLossOfDataPrompt_Message" xml:space="preserve">
+    <value>Eine Grössenanpassung des Bildes kann einen Datenverlust zur Folge haben.</value>
+  </data>
+  <data name="CustomColorEditToolTip37" xml:space="preserve">
+    <value>Hellblau</value>
+  </data>
+  <data name="CustomColorEditToolTip31" xml:space="preserve">
+    <value>25% Grau</value>
+  </data>
+  <data name="ScrollContextMenuPageRight" xml:space="preserve">
+    <value>Seite rechts</value>
+  </data>
+  <data name="CustomColorEditToolTip19" xml:space="preserve">
+    <value>Meergrün</value>
+  </data>
+  <data name="CustomColorEditToolTip15" xml:space="preserve">
+    <value>50% Grau</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Rectangular" xml:space="preserve">
+    <value>Rechteckig</value>
+  </data>
+  <data name="UltraCalc_Status_Calculating" xml:space="preserve">
+    <value>Die Applikation ist bei der Berechnung dieser Zelle.</value>
+  </data>
+  <data name="AccessibleNameScrollbar_Horz" xml:space="preserve">
+    <value>Horizontal Scrollbar</value>
+  </data>
+  <data name="AccessibleNameValueList" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="frmImageEditor_UndoTool_ToolTipText" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="MaskValidationErrorInputExceedsMax" xml:space="preserve">
+    <value>Der Input-Wert erfüllt die Maximalwertbegrenzung nicht.</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectFromImagelist" xml:space="preserve">
+    <value>Wählen S&amp;ie aus der Bild-Liste aus</value>
+  </data>
+  <data name="frmImageEditor_PasteTool_ToolTipText" xml:space="preserve">
+    <value>Einfügen</value>
+  </data>
+  <data name="AccessibleActionSpinFirst" xml:space="preserve">
+    <value>Erster</value>
+  </data>
+  <data name="CustomColorEditToolTip23" xml:space="preserve">
+    <value>40% Grau</value>
+  </data>
+  <data name="ValueListNull" xml:space="preserve">
+    <value>(Keine)</value>
+  </data>
+  <data name="CustomColorToolTipAutomaticColor" xml:space="preserve">
+    <value>Automatische Farbe</value>
+  </data>
+  <data name="FmtPrvdrCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CustomColorToolTipMoreColors" xml:space="preserve">
+    <value>Mehr Farben</value>
+  </data>
+  <data name="SelectColor_DragLabel" xml:space="preserve">
+    <value>[Klicken Sie eine Farbe auf dem Bildschirm an die Sie übernehmen möchten]</value>
+  </data>
+  <data name="IllegalOperationMessageAtLastCharacter" xml:space="preserve">
+    <value>Unmittelbar nach dem letzten Zeich - es sind keine weiteren Zeichen vorhanden.</value>
+  </data>
+  <data name="TabManagerScrollPreviousPage" xml:space="preserve">
+    <value>Vorherige Seite</value>
+  </data>
+  <data name="AccessibleNameMaskedEditSelectedText" xml:space="preserve">
+    <value>Ausgewählter Text</value>
+  </data>
+  <data name="AppearanceImageEditor_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="AccessibleActionShowColorDialog" xml:space="preserve">
+    <value>Farbdialog anzeigen</value>
+  </data>
+  <data name="ScrollContextMenuPageDown" xml:space="preserve">
+    <value>Seite unten</value>
+  </data>
+  <data name="SelectColor_Saturation" xml:space="preserve">
+    <value>Sättigung</value>
+  </data>
+  <data name="DialogOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AccessibleNameScrollbarNextPage_Horz" xml:space="preserve">
+    <value>Seite rechts</value>
+  </data>
+  <data name="EditContextMenuPaste" xml:space="preserve">
+    <value>Einfügen</value>
+  </data>
+  <data name="TypeDesc_Null" xml:space="preserve">
+    <value>(NULL)</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_Automatic" xml:space="preserve">
+    <value>Automatisch</value>
+  </data>
+  <data name="TabManagerScrollLast" xml:space="preserve">
+    <value>Letzte Periode</value>
+  </data>
+  <data name="AccessibleActionSpinIncrement" xml:space="preserve">
+    <value>Mehr</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Circular" xml:space="preserve">
+    <value>Kreisförmig</value>
+  </data>
+  <data name="TypeDesc_Char" xml:space="preserve">
+    <value>Zeichen</value>
+  </data>
+  <data name="FromAppearancesCollection" xml:space="preserve">
+    <value>Von der Erscheinungsbild-Sammlung (Index: {0}, Schlüssel: "{1}")</value>
+  </data>
+  <data name="EditContextMenuCut" xml:space="preserve">
+    <value>Ausschneiden</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectImageFileDialogTitle" xml:space="preserve">
+    <value>Wählen Sie das Bild aus einer Datei</value>
+  </data>
+  <data name="AccessibleNameScrollbarThumb_Vert" xml:space="preserve">
+    <value>Postition</value>
+  </data>
+  <data name="AccessibleActionSpinPreviousPage" xml:space="preserve">
+    <value>Vorherige Seite</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrev_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position um eine Linie nach oben</value>
+  </data>
+  <data name="SelectColor_Red" xml:space="preserve">
+    <value>Rot</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrevPage_Horz" xml:space="preserve">
+    <value>Seite links</value>
+  </data>
+  <data name="MaskValidationErrorInputDoesNotMatchMask" xml:space="preserve">
+    <value>Input stimmt nicht mit der Maske überein.</value>
+  </data>
+  <data name="AppearanceImageEditor_SelectFromFile" xml:space="preserve">
+    <value>Von Datei au&amp;swählen...</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsWidth" xml:space="preserve">
+    <value>&amp;Breite:</value>
+  </data>
+  <data name="SelectColor_Title" xml:space="preserve">
+    <value>Farbe auswählen</value>
+  </data>
+  <data name="TabManagerScrollNextPage" xml:space="preserve">
+    <value>Nächste Seite</value>
+  </data>
+  <data name="ImageCaptureDialogDirections" xml:space="preserve">
+    <value>Klicken und ziehen Sie das Bild um es auszuwählen</value>
+  </data>
+  <data name="frmTextToolbar_cmdUnderline_ToolTipText" xml:space="preserve">
+    <value>Unterstrich</value>
+  </data>
+  <data name="frmTextToolbar_cmdItalic_ToolTipText" xml:space="preserve">
+    <value>Kursiv</value>
+  </data>
+  <data name="AccessibleActionSpinPreviousItem" xml:space="preserve">
+    <value>Vorheriges Element</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Vertical" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="frmImageEditor_SelectRectangle_ToolTipText" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsHeight" xml:space="preserve">
+    <value>&amp;Höhe:</value>
+  </data>
+  <data name="TabManagerScrollPrevious" xml:space="preserve">
+    <value>Vorherige</value>
+  </data>
+  <data name="frmImageEditor_CopyTool_ToolTipText" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="AccessibleActionSelectColorItem" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="AccessibleActionCheck" xml:space="preserve">
+    <value>Überprüfen</value>
+  </data>
+  <data name="IllegalOperationMessageCannotDelete" xml:space="preserve">
+    <value>Die Selektion kann nicht gelöscht werden.</value>
+  </data>
+  <data name="AccessibleActionInkCloseUp" xml:space="preserve">
+    <value>Tinten-Input-Panel schliessen</value>
+  </data>
+  <data name="AccessibleDescScrollbarNextPage_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position um einige Spalten nach rechts</value>
+  </data>
+  <data name="AccessibleDescScrollbar_Horz" xml:space="preserve">
+    <value>Wird benutzt um den horizontalen Anzeigebereich zu ändern.</value>
+  </data>
+  <data name="ScrollContextMenuPageLeft" xml:space="preserve">
+    <value>Seite links</value>
+  </data>
+  <data name="FmtPrvdrOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="frmImageEditor_ZoomInTool_ToolTipText" xml:space="preserve">
+    <value>Vergrössern</value>
+  </data>
+  <data name="IllegalOperationMessageCannotMoveToPrevCharacter" xml:space="preserve">
+    <value>Kann nicht auf vorhergehendes Zeichen zurückgehen.</value>
+  </data>
+  <data name="AccessibleActionSetIndeterminate" xml:space="preserve">
+    <value>Auf unbestimmt setzen</value>
+  </data>
+  <data name="frmImageEditor_RotateLeftTool_ToolTipText" xml:space="preserve">
+    <value>Nach links drehen</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Elliptical" xml:space="preserve">
+    <value>Elliptisch</value>
+  </data>
+  <data name="frmImageEditor_Gradient_ForwardDiagonal" xml:space="preserve">
+    <value>Vorwärts Diagonal</value>
+  </data>
+  <data name="AccessibleActionUncheck" xml:space="preserve">
+    <value>Abwählen</value>
+  </data>
+  <data name="ColorEditorTabCustom" xml:space="preserve">
+    <value>Benutzer-angepasst</value>
+  </data>
+  <data name="MaskValidationErrorInputSmallerThanMin" xml:space="preserve">
+    <value>Der Input-Wert erfüllt die Mindestwertbegrenzung nicht.</value>
+  </data>
+  <data name="AccessibleNameScrollbarMin_Horz" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="ScrollButtonTypesEditorDefault" xml:space="preserve">
+    <value>Stan&amp;dard</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrev_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position um eine Spalte nach links</value>
+  </data>
+  <data name="AccessibleDescScrollbarMax_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position zur unterst-möglichsten Stelle</value>
+  </data>
+  <data name="AccessibleNameScrollbarMin_Vert" xml:space="preserve">
+    <value>Oben</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrevPage_Vert" xml:space="preserve">
+    <value>Seite oben</value>
+  </data>
+  <data name="ColorEditorTabSystem" xml:space="preserve">
+    <value>Systeminformationen</value>
+  </data>
+  <data name="AccessibleNameScrollbarNext_Vert" xml:space="preserve">
+    <value>Linie untern</value>
+  </data>
+  <data name="AccessibleActionSpinDecrement" xml:space="preserve">
+    <value>Kleiner (&lt;)</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrevPage_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position um einige Zeilen nach oben</value>
+  </data>
+  <data name="AccessibleNameScrollbarMax_Horz" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="AccessibleNameMaskedEditTextArea" xml:space="preserve">
+    <value>Textbereich</value>
+  </data>
+  <data name="UltraImageEditor_ResizeLossOfDataPrompt_Caption" xml:space="preserve">
+    <value>Daten gehen eventuell verloren</value>
+  </data>
+  <data name="AccessibleDescScrollbarNext_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position zur rechten Spalte</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrev_Horz" xml:space="preserve">
+    <value>Spalte Links</value>
+  </data>
+  <data name="frmImageEditor_CutTool_ToolTipText" xml:space="preserve">
+    <value>Ausschneiden</value>
+  </data>
+  <data name="AccessibleDescScrollbarPrevPage_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position um einige Spalten nach links</value>
+  </data>
+  <data name="TabManagerScrollFirst" xml:space="preserve">
+    <value>Erster</value>
+  </data>
+  <data name="AccessibleActionSpinNextItem" xml:space="preserve">
+    <value>Nächstes Element</value>
+  </data>
+  <data name="AccessibleNameScrollbarThumb_Horz" xml:space="preserve">
+    <value>Postition</value>
+  </data>
+  <data name="AccessibleActionSpinNextPage" xml:space="preserve">
+    <value>Nächste Seite</value>
+  </data>
+  <data name="MaskValidationErrorInvalidDate" xml:space="preserve">
+    <value>Ein ungültiges Datum wurde eingegeben.</value>
+  </data>
+  <data name="IllegalOperationMessageGeneral" xml:space="preserve">
+    <value>Ungültige Operation</value>
+  </data>
+  <data name="LDR_CustomColorBoxUIElement_MoreColors" xml:space="preserve">
+    <value>Mehr Farben...</value>
+  </data>
+  <data name="AccessibleDescScrollbar_Vert" xml:space="preserve">
+    <value>Wird benutzt um den vertikalen Anzeigebereich zu ändern.</value>
+  </data>
+  <data name="TrackBarUITypeEditor_ValueLabel" xml:space="preserve">
+    <value>Wert:</value>
+  </data>
+  <data name="ImageEditor_InvalidSize" xml:space="preserve">
+    <value>Geben Sie bitte einen Wert zwischen 1 und {0} ein.</value>
+  </data>
+  <data name="CustomColorEditToolTip5" xml:space="preserve">
+    <value>Dunkelblau</value>
+  </data>
+  <data name="CustomColorEditToolTip4" xml:space="preserve">
+    <value>Dunkelblaugrün</value>
+  </data>
+  <data name="PropertiesModifiedLiteral" xml:space="preserve">
+    <value>{0} Eigenschaften modifiziert.</value>
+  </data>
+  <data name="CustomColorEditToolTip1" xml:space="preserve">
+    <value>Braun</value>
+  </data>
+  <data name="AccessibleDescScrollbarMin_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position zur oberst-möglichsten Stelle</value>
+  </data>
+  <data name="AccessibleNameScrollbarNextPage_Vert" xml:space="preserve">
+    <value>Seite unten</value>
+  </data>
+  <data name="AccessibleNameScrollbar_Vert" xml:space="preserve">
+    <value>Vertikale Scrollbar</value>
+  </data>
+  <data name="SelectColor_Brightness" xml:space="preserve">
+    <value>Helligkeit</value>
+  </data>
+  <data name="frmImageEditor_RotateRightTool_ToolTipText" xml:space="preserve">
+    <value>Nach rechts drehen</value>
+  </data>
+  <data name="SelectColor_Green" xml:space="preserve">
+    <value>Grün</value>
+  </data>
+  <data name="AccessibleActionSelectValueListItem" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="AccessibleActionInkDropDown" xml:space="preserve">
+    <value>Tinten-Input-Panel öffnen</value>
+  </data>
+  <data name="frmImageEditor_Gradient_Horizontal" xml:space="preserve">
+    <value>Horizonal</value>
+  </data>
+  <data name="SelectColor_Hue" xml:space="preserve">
+    <value>Farbton</value>
+  </data>
+  <data name="AppearanceImageEditor_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AccessibleNameScrollbarPrev_Vert" xml:space="preserve">
+    <value>Linie oben</value>
+  </data>
+  <data name="TabManagerTabListButton" xml:space="preserve">
+    <value>Datei öffnen</value>
+  </data>
+  <data name="TypeDesc_Decimal" xml:space="preserve">
+    <value>Dezimal</value>
+  </data>
+  <data name="frmTextToolbar_cmdBold_ToolTipText" xml:space="preserve">
+    <value>Fett</value>
+  </data>
+  <data name="LDR_FormatProviderPropertyEditor_ListViewColumnText_DisplayName" xml:space="preserve">
+    <value>Namen anzeigen</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevEditableCharacter" xml:space="preserve">
+    <value>Keine vorhergehenden editierbare Zeichen vorhanden.</value>
+  </data>
+  <data name="ImageEditor_ImgDimensionsTitle" xml:space="preserve">
+    <value>Bilddimension bestimmen</value>
+  </data>
+  <data name="ScrollContextMenuPageUp" xml:space="preserve">
+    <value>Seite oben</value>
+  </data>
+  <data name="IllegalOperationMessageNoPrevCharacter" xml:space="preserve">
+    <value>Keine früheren Zeichen vorhanden.</value>
+  </data>
+  <data name="AccessibleDescScrollbarThumb_Horz" xml:space="preserve">
+    <value>Zeigt die gegenwärtige horizontale Position und kann durch ziehen direkt verändert werden</value>
+  </data>
+  <data name="AccessibleNameScrollbarNext_Horz" xml:space="preserve">
+    <value>Spalte Rechts</value>
+  </data>
+  <data name="DialogCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="frmImageEditor_Gradient_HorizontalBump" xml:space="preserve">
+    <value>Horizontale Beule</value>
+  </data>
+  <data name="frmImageEditor_ZoomOutTool_ToolTipText" xml:space="preserve">
+    <value>Verkleinern</value>
+  </data>
+  <data name="EditContextMenuCopy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="TabManagerScrollNext" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="AccessibleNameMaskedEditCharacter" xml:space="preserve">
+    <value>Ein Single Textzeichen</value>
+  </data>
+  <data name="frmImageEditor_DrawLine_ToolTipText" xml:space="preserve">
+    <value>Linie</value>
+  </data>
+  <data name="AccessibleNameScrollbarMax_Vert" xml:space="preserve">
+    <value>Unten</value>
+  </data>
+  <data name="SelectColor_Blue" xml:space="preserve">
+    <value>Blau</value>
+  </data>
+  <data name="TabManagerCloseButton" xml:space="preserve">
+    <value>Schliessen</value>
+  </data>
+  <data name="AccessibleDescScrollbarMin_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position zur links-möglisten Stelle</value>
+  </data>
+  <data name="frmImageEditor_Gradient_None" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="AccessibleActionDropDown" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
+  <data name="AccessibleActionPush" xml:space="preserve">
+    <value>Drücken</value>
+  </data>
+  <data name="IllegalOperationMessageNoMaskSpecified" xml:space="preserve">
+    <value>Keine Maske oder Text definiert.</value>
+  </data>
+  <data name="AccessibleDescScrollbarNext_Vert" xml:space="preserve">
+    <value>Verschiebt die vertikale Position in die untere Linie</value>
+  </data>
+  <data name="ScrollContextMenuTop" xml:space="preserve">
+    <value>Oben</value>
+  </data>
+  <data name="AccessibleDescScrollbarMax_Horz" xml:space="preserve">
+    <value>Verschiebt die horizontale Position zur rechts-möglichsten Stelle</value>
+  </data>
+  <data name="CustomColorEditToolTip14" xml:space="preserve">
+    <value>Blaugrau</value>
+  </data>
+  <data name="CustomColorEditToolTip16" xml:space="preserve">
+    <value>Rot</value>
+  </data>
+  <data name="CustomColorEditToolTip17" xml:space="preserve">
+    <value>Hellorange</value>
+  </data>
+  <data name="CustomColorEditToolTip10" xml:space="preserve">
+    <value>Dunkelgelb</value>
+  </data>
+  <data name="CustomColorEditToolTip11" xml:space="preserve">
+    <value>Grün</value>
+  </data>
+  <data name="CustomColorEditToolTip12" xml:space="preserve">
+    <value>Aquamarin</value>
+  </data>
+  <data name="CustomColorEditToolTip13" xml:space="preserve">
+    <value>Blau</value>
+  </data>
+  <data name="frmImageEditor_Gradient_BackwardDiagonal" xml:space="preserve">
+    <value>Rückwärts schräg</value>
+  </data>
+  <data name="frmImageEditor_RedoTool_ToolTipText" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="frmTextToolbar_cmdStrikeout_ToolTipText" xml:space="preserve">
+    <value>Fehlgeschlagen</value>
+  </data>
+  <data name="NoneLiteral" xml:space="preserve">
+    <value>(Keine)</value>
+  </data>
+  <data name="CustomColorEditToolTip29" xml:space="preserve">
+    <value>Himmelblau</value>
+  </data>
+  <data name="CustomColorEditToolTip28" xml:space="preserve">
+    <value>Türkis</value>
+  </data>
+  <data name="CustomColorEditToolTip27" xml:space="preserve">
+    <value>Hellgrün</value>
+  </data>
+  <data name="CustomColorEditToolTip26" xml:space="preserve">
+    <value>Gelb</value>
+  </data>
+  <data name="CustomColorEditToolTip21" xml:space="preserve">
+    <value>Hellblau</value>
+  </data>
+  <data name="LMSG_ValueConstraint_CannotConvert" xml:space="preserve">
+    <value>Wert konnte nicht zu {0} konvertiert werden.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_OutOfRange" xml:space="preserve">
+    <value>Wert muss zwischen {0} und {1} sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_Enumeration" xml:space="preserve">
+    <value>Wert in der Liste der möglichen Auswahlen nicht gefunden.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_FixedValue" xml:space="preserve">
+    <value>Wert ist nicht gleich '{0}'</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxExclusive" xml:space="preserve">
+    <value>Wert muss kleiner als {0} sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxInclusive" xml:space="preserve">
+    <value>Wert muss kleiner oder gleich {0} sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MaxLength" xml:space="preserve">
+    <value>Wert darf nicht mehr als {0} Zeichen enthalten.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinExclusive" xml:space="preserve">
+    <value>Wert muss grösser als {0} sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinInclusive" xml:space="preserve">
+    <value>Wert muss grösser oder gleich {0} sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_MinLength" xml:space="preserve">
+    <value>Wert muss mindestens {0} Zeichen enthalten.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_Nullable" xml:space="preserve">
+    <value>Wert kann nicht NULL sein.</value>
+  </data>
+  <data name="LMSG_ValueConstraint_RegexPattern" xml:space="preserve">
+    <value>Wert stimmt nicht mit dem Muster überein.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnCancel" xml:space="preserve">
+    <value>&amp;Abbrechen</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblRegex" xml:space="preserve">
+    <value>Schritt 1: Geben Sie eine regulären Ausdruck ein.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblTest" xml:space="preserve">
+    <value>Schritt 2: Geben Sie die Testdaten ein.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblMatches" xml:space="preserve">
+    <value>Schritt 3: Klicken Sie auf 'SucheÜbereinstimmung' um den Ausdruck zu testen.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_btnFindMatches" xml:space="preserve">
+    <value>&amp;Finde Übereinstimmung</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_lblNote" xml:space="preserve">
+    <value>Notiz: Wählen Sie ein Element aus der Liste aus, damit diese in den Testdaten markiert wird.</value>
+  </data>
+  <data name="LS_RegexUITypeEditorForm_FormText" xml:space="preserve">
+    <value>Editor Reguläre Ausdrücke</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Left" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Top" xml:space="preserve">
+    <value>Oben</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Right" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Bottom" xml:space="preserve">
+    <value>Unten</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Preview" xml:space="preserve">
+    <value>Vorschau</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsEditor_DialogTitle" xml:space="preserve">
+    <value>Bilderhintergrund Ränderdehnungs Editor</value>
+  </data>
+  <data name="ImageBackgroundStretchMarginsPreview_DialogTitle" xml:space="preserve">
+    <value>Bestimmt die Grösse dieses Dialogs neu um eine Vorschau Ihres vergrösserten Bildes zu zeigen.</value>
+  </data>
+  <data name="DuplicateNameTemplate" xml:space="preserve">
+    <value>Kopie von {0}</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Cut" xml:space="preserve">
+    <value>Ausschneiden</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Paste" xml:space="preserve">
+    <value>Einfügen</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_SelectAll" xml:space="preserve">
+    <value>Alle auswählen</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Undo" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Redo" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Bold" xml:space="preserve">
+    <value>Fett</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Underline" xml:space="preserve">
+    <value>Unterstrich</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_ChangeFont" xml:space="preserve">
+    <value>Schriftart...</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Left" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Center" xml:space="preserve">
+    <value>Zentriert</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_LineAlignment_Right" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="AccessibleNameFormattedLinkEditorTextArea" xml:space="preserve">
+    <value>Textbereich</value>
+  </data>
+  <data name="AccessibleNameFormattedLinkEditorSelectedText" xml:space="preserve">
+    <value>Ausgewählter Text</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Vert" xml:space="preserve">
+    <value>Oben</value>
+  </data>
+  <data name="AccessibleNameTrackBarMin_Vert" xml:space="preserve">
+    <value>Unten</value>
+  </data>
+  <data name="AccessibleNameTrackBarMax_Horz" xml:space="preserve">
+    <value>Rechts</value>
+  </data>
+  <data name="AccessibleNameTrackBarMin_Horz" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="AccessibleNameTrackBarThumb_Horz" xml:space="preserve">
+    <value>Postition</value>
+  </data>
+  <data name="AccessibleNameTrackBarThumb_Vert" xml:space="preserve">
+    <value>Postition</value>
+  </data>
+  <data name="LS_ConditionEditor_No_Condition_String" xml:space="preserve">
+    <value>(Keine)</value>
+  </data>
+  <data name="LS_ConditionEditor_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="LS_ConditionEditor_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LS_ValueListEditor_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="LS_ValueListEditor_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="TextOrientationDescription_Vertical" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="FormattedTextEditor_EditContextMenu_Strikeout" xml:space="preserve">
+    <value>Fehlgeschlagen</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringSingular" xml:space="preserve">
+    <value>tag</value>
+  </data>
+  <data name="TimeSpanEditor_DayDisplayStringPlural" xml:space="preserve">
+    <value>tage</value>
+  </data>
+</root>
