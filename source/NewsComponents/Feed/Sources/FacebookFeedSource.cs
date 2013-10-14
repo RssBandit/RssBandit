@@ -125,11 +125,6 @@ namespace NewsComponents.Feed
         private static string ApplicationKey ="2d8ab36a639b61dd7a1a9dab4f7a0a5a";
         
         /// <summary>
-        /// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
-        /// </summary>
-        private static DateTime unixEpoch = new DateTime(1970, 1, 1);
-
-		/// <summary>
 		/// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
 		/// </summary>
 		private static readonly XsltArgumentList fbTransformArgs = new XsltArgumentList();
@@ -364,7 +359,7 @@ namespace NewsComponents.Feed
         /// <returns></returns>
         private static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
-            return unixEpoch.AddSeconds(timestamp);
+            return UnixEpoch.AddSeconds(timestamp);
         }
 
 
