@@ -163,7 +163,7 @@
 		<row><td>InstallFinalize</td><td/><td>6600</td><td>InstallFinalize</td><td/></row>
 		<row><td>InstallInitialize</td><td/><td>1500</td><td>InstallInitialize</td><td/></row>
 		<row><td>InstallValidate</td><td/><td>1400</td><td>InstallValidate</td><td/></row>
-		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>1200</td><td/><td/></row>
+		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>750</td><td/><td/></row>
 		<row><td>ScheduleReboot</td><td>ISSCHEDULEREBOOT</td><td>4010</td><td>ScheduleReboot</td><td/></row>
 	</table>
 
@@ -180,7 +180,7 @@
 		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td/><td>43</td><td/><td/></row>
 		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td/><td>37</td><td/><td/></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
-		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>1005</td><td/><td/></row>
+		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>46</td><td/><td/></row>
 		<row><td>SetupCompleteError</td><td/><td>-3</td><td>SetupCompleteError</td><td/></row>
 		<row><td>SetupCompleteSuccess</td><td/><td>-1</td><td>SetupCompleteSuccess</td><td/></row>
 		<row><td>SetupInitialization</td><td/><td>50</td><td>SetupInitialization</td><td/></row>
@@ -211,7 +211,7 @@
 		<row><td>RegisterMIMEInfo</td><td/><td>4900</td><td>RegisterMIMEInfo</td><td/></row>
 		<row><td>RegisterProgIdInfo</td><td/><td>4800</td><td>RegisterProgIdInfo</td><td/></row>
 		<row><td>RegisterTypeLibraries</td><td/><td>4910</td><td>RegisterTypeLibraries</td><td/></row>
-		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>1200</td><td/><td/></row>
+		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>750</td><td/><td/></row>
 		<row><td>ScheduleReboot</td><td>ISSCHEDULEREBOOT</td><td>6410</td><td>ScheduleReboot</td><td/></row>
 	</table>
 
@@ -265,6 +265,7 @@
 		<col key="yes" def="s72">Name</col>
 		<col def="V0">Data</col>
 		<col def="S255">ISBuildSourcePath</col>
+		<row><td>ISSetupFilesHelper</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\SFHelper.dll</td></row>
 		<row><td>NewBinary1</td><td/><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources\welcome.bmp</td></row>
 		<row><td>NewBinary10</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CompleteSetupIco.ibd</td></row>
 		<row><td>NewBinary11</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
@@ -282,7 +283,7 @@
 		<row><td>NewBinary22</td><td/><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources\welcome.bmp</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
-		<row><td>NewBinary5</td><td/><td>&lt;ISProductFolder&gt;\Support\Themes\InstallShield Blue Theme\welcome.jpg</td></row>
+		<row><td>NewBinary5</td><td/><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources\welcome.bmp</td></row>
 		<row><td>NewBinary6</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary7</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\ReinstIco.ibd</td></row>
 		<row><td>NewBinary8</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\RemoveIco.ibd</td></row>
@@ -359,10 +360,26 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>C__AdsBlocker_addin</td><td>{2238EE49-B4FF-4945-9E57-1620E9393E6B}</td><td>_FOLDER_ADDINS</td><td>0</td><td/><td>adsblocker.addin2.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__AppServices_dll</td><td>{765FB8FC-4E35-4112-BEF3-5F7A9FB7B1D4}</td><td>INSTALLDIR</td><td>0</td><td/><td>rssbandit.appservices.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>C__BanditApp_res_de</td><td>{D8EBCB29-4ABF-485F-9957-02726EAD75A1}</td><td>_FOLDER_DE</td><td>0</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>rssbandit.resources.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>C__Bandit_chm</td><td>{02860E90-85E0-4143-9526-EEB15C7C676E}</td><td>INSTALLDIR</td><td>4</td><td/><td>Registry4</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>C__Bandit_exe_x64</td><td>{E2F2B969-7333-46E9-9D82-71186352749A}</td><td>INSTALLDIR</td><td>260</td><td/><td>Registry1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>C__Bandit_exe_x86</td><td>{DF2B7EFF-817F-4541-B396-695153199F6F}</td><td>INSTALLDIR</td><td>4</td><td/><td>Registry2</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_bg</td><td>{4B5621B0-36CC-4660-B53B-3A08B3FCCC9F}</td><td>_FOLDER_BG</td><td>64</td><td>INSTALL_DESK_LOCALE_BG = 1</td><td>rssbandit.resources.dll3</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_de</td><td>{D8EBCB29-4ABF-485F-9957-02726EAD75A1}</td><td>_FOLDER_DE</td><td>64</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>rssbandit.resources.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_es</td><td>{103DB879-D058-4E94-A346-2AF3E98858B5}</td><td>_FOLDER_ES</td><td>64</td><td>INSTALL_DESK_LOCALE_ES = 1</td><td>rssbandit.resources.dll4</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_fr</td><td>{C1067885-C9CF-4B01-9C76-8947B38DA8AC}</td><td>_FOLDER_FR</td><td>64</td><td>INSTALL_DESK_LOCALE_FR = 1</td><td>rssbandit.resources.dll2</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_hi</td><td>{1EA2075E-27BB-4885-B0D7-BE517707986F}</td><td>_FOLDER_HI</td><td>64</td><td>INSTALL_DESK_LOCALE_HI = 1</td><td>rssbandit.resources.dll5</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_it</td><td>{12DD1CED-0D35-4C0C-8650-C1A6A1A15421}</td><td>_FOLDER_IT</td><td>64</td><td>INSTALL_DESK_LOCALE_IT = 1</td><td>rssbandit.resources.dll1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_ja</td><td>{06C17C40-1CDF-4A1C-8C1D-B5694493206D}</td><td>_FOLDER_JA</td><td>64</td><td>INSTALL_DESK_LOCALE_JA = 1</td><td>rssbandit.resources.dll6</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_ko</td><td>{10A4320D-B8F3-44F3-99EB-DE5D13B6FBB2}</td><td>_FOLDER_KO</td><td>64</td><td>INSTALL_DESK_LOCALE_KO = 1</td><td>rssbandit.resources.dll7</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_nl_nl</td><td>{3D2E3453-CC21-41F6-BED6-A1FAFF77EF62}</td><td>_FOLDER_NL_NL</td><td>64</td><td>INSTALL_DESK_LOCALE_NL_NL = 1</td><td>rssbandit.resources.dll8</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_pl</td><td>{B9627B4A-FE38-407E-8112-4ECD9FD1796C}</td><td>_FOLDER_PL</td><td>64</td><td>INSTALL_DESK_LOCALE_PL = 1</td><td>rssbandit.resources.dll9</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_pt_br</td><td>{9DCD5ED5-3892-458E-9C7F-3FE19BA3FF19}</td><td>_FOLDER_PT_BR</td><td>64</td><td>INSTALL_DESK_LOCALE_PT_BR = 1</td><td>rssbandit.resources.dll10</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_ru</td><td>{CFD9206C-BA60-4690-A37E-C363CD703C1F}</td><td>_FOLDER_RU</td><td>64</td><td>INSTALL_DESK_LOCALE_RU = 1</td><td>rssbandit.resources.dll11</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_sr_cyrl_cs</td><td>{CFDA45DE-087A-4CFA-8A26-A197778566DF}</td><td>_FOLDER_SR_CYRL_CS</td><td>64</td><td>INSTALL_DESK_LOCALE_SR_CYRL_CS = 1</td><td>rssbandit.resources.dll12</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_sr_latn_cs</td><td>{83332577-DAB8-4270-A0E3-3936E4B67D23}</td><td>_FOLDER_SR_LATN_CS</td><td>64</td><td>INSTALL_DESK_LOCALE_SR_LATN_CS = 1</td><td>rssbandit.resources.dll13</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_tr</td><td>{E6F2AACC-B016-4C00-BA39-3EC9D0C9C60F}</td><td>_FOLDER_TR</td><td>64</td><td>INSTALL_DESK_LOCALE_TR = 1</td><td>rssbandit.resources.dll14</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_zh_chs</td><td>{D04DD151-3904-4DEE-BE96-E4F1387EE603}</td><td>_FOLDER_ZH_CHS</td><td>64</td><td>INSTALL_DESK_LOCALE_ZH_CHS = 1</td><td>rssbandit.resources.dll15</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__BanditApp_res_zh_cht</td><td>{29FD4DD1-30F0-47BA-A556-245E8EB4AB88}</td><td>_FOLDER_ZH_CHT</td><td>64</td><td>INSTALL_DESK_LOCALE_ZH_CHT = 1</td><td>rssbandit.resources.dll16</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__Bandit_chm</td><td>{02860E90-85E0-4143-9526-EEB15C7C676E}</td><td>INSTALLDIR</td><td>0</td><td/><td>bandithelp.chm</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__Bandit_exe_x64</td><td>{E2F2B969-7333-46E9-9D82-71186352749A}</td><td>INSTALLDIR</td><td>256</td><td/><td>rssbandit.exe1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__Bandit_exe_x86</td><td>{DF2B7EFF-817F-4541-B396-695153199F6F}</td><td>INSTALLDIR</td><td>0</td><td/><td>rssbandit.exe</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__Bandit_xml_ser</td><td>{C98837D0-0D42-440C-8C92-0DC3A5B24CC9}</td><td>INSTALLDIR</td><td>0</td><td/><td>rssbandit.xmlserializers.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__CoreIBlogExtension_dll</td><td>{C9339B16-E6CD-420C-8AFC-6614B1D77EDD}</td><td>INSTALLDIR</td><td>0</td><td/><td>blogextension.dll1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__Delicious_plugin</td><td>{58FCCB01-9413-4489-ACE5-B59F39CCF0F6}</td><td>_FOLDER_PLUGINS</td><td>0</td><td/><td>blogextension.delicious.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -399,8 +416,24 @@
 		<row><td>C__MailThis_plugin_res_de</td><td>{B361B5A8-E30E-4392-AB94-5A2163C67854}</td><td>_FOLDER_PLUGINS</td><td>0</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>blogextension.mailthis.resou</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MediaImages</td><td>{540B9377-1588-4FF7-BD77-C7446A3A6D2F}</td><td>_FOLDER_MEDIA</td><td>0</td><td/><td>webpage.ico</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MediaSounds</td><td>{A4D5DF9B-0007-4AE3-83D8-78DD5D0CEBAC}</td><td>_FOLDER_MEDIA</td><td>0</td><td/><td>new_feed_items_received.wav</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>C__NewsComponent_res_de</td><td>{A37E6411-BE11-4DC4-BD0D-1F8C5B65F50F}</td><td>_FOLDER_DE</td><td>0</td><td/><td>newscomponents.resources.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponent_res_de</td><td>{A37E6411-BE11-4DC4-BD0D-1F8C5B65F50F}</td><td>_FOLDER_DE</td><td>64</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>newscomponents.resources.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__NewsComponents_dll</td><td>{118FE016-6C37-44DE-B029-A91817CFE899}</td><td>INSTALLDIR</td><td>0</td><td/><td>newscomponents.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_bg</td><td>{D3D7CA53-DB1C-4CEA-81F3-98D4CFAB87C1}</td><td>_FOLDER_BG</td><td>64</td><td>INSTALL_DESK_LOCALE_BG = 1</td><td>newscomponents.resources.dll3</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_es</td><td>{4BFC2FE2-9E70-4671-967F-31552A1BD34A}</td><td>_FOLDER_ES</td><td>64</td><td>INSTALL_DESK_LOCALE_ES = 1</td><td>newscomponents.resources.dll4</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_fr</td><td>{4386918D-6D97-46F1-AAA5-EBD2C4FEBD4C}</td><td>_FOLDER_FR</td><td>64</td><td>INSTALL_DESK_LOCALE_FR = 1</td><td>newscomponents.resources.dll2</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_hi</td><td>{3E116D5F-0225-4402-8CF7-3F3A5006DC4E}</td><td>_FOLDER_HI</td><td>64</td><td>INSTALL_DESK_LOCALE_HI = 1</td><td>newscomponents.resources.dll5</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_it</td><td>{3B44C3D2-5110-4F92-896F-F601F0BE5E3B}</td><td>_FOLDER_IT</td><td>64</td><td>INSTALL_DESK_LOCALE_IT = 1</td><td>newscomponents.resources.dll1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_ja</td><td>{7EF22362-3CAC-4D81-BDC2-4FAB41BC70A5}</td><td>_FOLDER_JA</td><td>64</td><td>INSTALL_DESK_LOCALE_JA = 1</td><td>newscomponents.resources.dll6</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_ko</td><td>{E674E9BC-8E68-4742-9884-BA79FF2A874C}</td><td>_FOLDER_KO</td><td>64</td><td>INSTALL_DESK_LOCALE_KO = 1</td><td>newscomponents.resources.dll7</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_nl_nl</td><td>{AE861ED4-C2C6-4BCB-B736-8FF8906E6826}</td><td>_FOLDER_NL_NL</td><td>64</td><td>INSTALL_DESK_LOCALE_NL_NL = 1</td><td>newscomponents.resources.dll8</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_pl</td><td>{9FDAD4C1-BCAF-401F-997F-24D44C556C3F}</td><td>_FOLDER_PL</td><td>64</td><td>INSTALL_DESK_LOCALE_PL = 1</td><td>newscomponents.resources.dll9</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_pt_br</td><td>{8EAE8313-8A7C-4FF2-9C8D-99DFAAA92C96}</td><td>_FOLDER_PT_BR</td><td>64</td><td>INSTALL_DESK_LOCALE_PT_BR = 1</td><td>newscomponents.resources.dll10</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_ru</td><td>{88430752-4884-4DD7-9905-A8504CF5BBA5}</td><td>_FOLDER_RU</td><td>64</td><td>INSTALL_DESK_LOCALE_RU = 1</td><td>newscomponents.resources.dll11</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_sr_cyrl_cs</td><td>{49DBF845-E10A-4061-8612-83D50AA77C8A}</td><td>_FOLDER_SR_CYRL_CS</td><td>64</td><td>INSTALL_DESK_LOCALE_SR_CYRL_CS = 1</td><td>newscomponents.resources.dll12</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_sr_latn_cs</td><td>{6E549206-E0F8-40AF-BCD7-2A5A2CAABE3B}</td><td>_FOLDER_SR_LATN_CS</td><td>64</td><td>INSTALL_DESK_LOCALE_SR_LATN_CS = 1</td><td>newscomponents.resources.dll13</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_tr</td><td>{22FB477B-B64E-4E09-BAA9-2F12637CCF0D}</td><td>_FOLDER_TR</td><td>64</td><td>INSTALL_DESK_LOCALE_TR = 1</td><td>newscomponents.resources.dll14</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_zh_chs</td><td>{E5499F0C-6CCA-4BE1-B48E-2D9F2EC4B4B3}</td><td>_FOLDER_ZH_CHS</td><td>64</td><td>INSTALL_DESK_LOCALE_ZH_CHS = 1</td><td>newscomponents.resources.dll16</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__NewsComponents_res_zh_cht</td><td>{F886F842-DAB7-4466-B8AE-F3A8D175E13D}</td><td>_FOLDER_ZH_CHT</td><td>64</td><td>INSTALL_DESK_LOCALE_ZH_CHT = 1</td><td>newscomponents.resources.dll15</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__OneNote_2003_importer</td><td>{9BCE27DF-E50B-4DA6-8003-A7E3C1E4FD48}</td><td>INSTALLDIR</td><td>0</td><td/><td>onenoteimporter.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__OneNote_2003_plugin</td><td>{F19F7443-C49E-4CDE-8E41-7442BC26CFBC}</td><td>_FOLDER_PLUGINS</td><td>0</td><td/><td>blogextension.onenote.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__OneNote_plugin_res_de</td><td>{3C0EBDDA-1423-4C52-8EC7-C1781D654E85}</td><td>_FOLDER_PLUGINS_DE</td><td>0</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>blogextension.onenote.resour</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -441,7 +474,7 @@
 		<col def="I4">ISControlId</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="S72">Binary_</col>
-		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>AdminChangeFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -458,7 +491,7 @@
 		<row><td>AdminChangeFolder</td><td>TailText</td><td>Text</td><td>21</td><td>193</td><td>99</td><td>13</td><td>3</td><td/><td>##IDS__IsAdminInstallBrowse_FolderName##</td><td>Tail</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsAdminInstallBrowse_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
 		<row><td>AdminNetworkLocation</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>InstallNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>AdminNetworkLocation</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -502,7 +535,7 @@
 		<row><td>CustomSetup</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Size</td><td>Text</td><td>241</td><td>133</td><td>120</td><td>50</td><td>3</td><td/><td>##IDS__IsCustomSelectionDlg_FeatureSize##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Tree</td><td>SelectionTree</td><td>8</td><td>70</td><td>220</td><td>118</td><td>7</td><td>_BrowseProperty</td><td/><td>ChangeFolder</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>CustomSetupTips</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>CustomSetupTips</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>CustomSetupTips</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>CustomSetupTips</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetupTips</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -556,7 +589,7 @@
 		<row><td>DatabaseFolder</td><td>Location</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>40</td><td>3</td><td>_BrowseProperty</td><td>##IDS__DatabaseFolder_DatabaseDir##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DatabaseFolder</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>DestinationFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>DestinationFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>DestinationFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -569,7 +602,7 @@
 		<row><td>DestinationFolder</td><td>LocLabel</td><td>Text</td><td>57</td><td>52</td><td>290</td><td>10</td><td>131075</td><td/><td>##IDS__DestinationFolder_InstallTo##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Location</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>40</td><td>3</td><td>_BrowseProperty</td><td>##IDS_INSTALLDIR##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>DiskSpaceRequirements</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -579,7 +612,7 @@
 		<row><td>DiskSpaceRequirements</td><td>DlgTitle</td><td>Text</td><td>9</td><td>6</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsFeatureDetailsDlg_DiskSpaceRequirements##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>List</td><td>VolumeCostList</td><td>8</td><td>55</td><td>358</td><td>125</td><td>393223</td><td/><td>##IDS__IsFeatureDetailsDlg_Numbers##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>OK</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFeatureDetailsDlg_OK##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>FilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>FilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>FilesInUse</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -617,7 +650,7 @@
 		<row><td>InstallWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>196611</td><td/><td>##IDS__IsWelcomeDlg_InstallProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Agree</td><td>RadioButtonGroup</td><td>8</td><td>190</td><td>291</td><td>40</td><td>3</td><td>AgreeToLicense</td><td/><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>LicenseAgreement</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>LicenseAgreement</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>LicenseAgreement</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -652,7 +685,7 @@
 		<row><td>MaintenanceWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsMaintenanceWelcome_WizardWelcome##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>50</td><td>196611</td><td/><td>##IDS__IsMaintenanceWelcome_MaintenanceOptionsDescription##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>MsiRMFilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
+		<row><td>MsiRMFilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary20</td></row>
 		<row><td>MsiRMFilesInUse</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -942,6 +975,7 @@
 		<row><td>AdminWelcome</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
 		<row><td>AdminWelcome</td><td>Next</td><td>NewDialog</td><td>AdminNetworkLocation</td><td>1</td><td>0</td></row>
 		<row><td>CancelSetup</td><td>No</td><td>EndDialog</td><td>Return</td><td>1</td><td>0</td></row>
+		<row><td>CancelSetup</td><td>Yes</td><td>DoAction</td><td>ISSetupFilesCleanup</td><td>1</td><td>200</td></row>
 		<row><td>CancelSetup</td><td>Yes</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
 		<row><td>CustomSetup</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>Installed</td><td>0</td></row>
 		<row><td>CustomSetup</td><td>Back</td><td>NewDialog</td><td>SetupType</td><td>NOT Installed</td><td>0</td></row>
@@ -1048,8 +1082,10 @@
 		<row><td>SetupCompleteError</td><td>Back</td><td>[Suspend]</td><td>{}</td><td>1</td><td>1</td></row>
 		<row><td>SetupCompleteError</td><td>Cancel</td><td>EndDialog</td><td>Return</td><td>1</td><td>2</td></row>
 		<row><td>SetupCompleteError</td><td>Cancel</td><td>[Suspend]</td><td>1</td><td>1</td><td>1</td></row>
+		<row><td>SetupCompleteError</td><td>Finish</td><td>DoAction</td><td>ISSetupFilesCleanup</td><td>1</td><td>200</td></row>
 		<row><td>SetupCompleteError</td><td>Finish</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1")</td><td>3</td></row>
 		<row><td>SetupCompleteError</td><td>Finish</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
+		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>ISSetupFilesCleanup</td><td>1</td><td>200</td></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1") And NOT ISENABLEDWUSFINISHDIALOG</td><td>6</td></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
 		<row><td>SetupError</td><td>A</td><td>EndDialog</td><td>ErrorAbort</td><td>1</td><td>0</td></row>
@@ -1064,6 +1100,7 @@
 		<row><td>SetupInterrupted</td><td>Back</td><td>[Suspend]</td><td>{}</td><td>1</td><td>1</td></row>
 		<row><td>SetupInterrupted</td><td>Cancel</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
 		<row><td>SetupInterrupted</td><td>Cancel</td><td>[Suspend]</td><td>1</td><td>1</td><td>1</td></row>
+		<row><td>SetupInterrupted</td><td>Finish</td><td>DoAction</td><td>ISSetupFilesCleanup</td><td>1</td><td>200</td></row>
 		<row><td>SetupInterrupted</td><td>Finish</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1")</td><td>3</td></row>
 		<row><td>SetupInterrupted</td><td>Finish</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
 		<row><td>SetupProgress</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>0</td></row>
@@ -1098,6 +1135,8 @@
 		<row><td>ISPreventDowngrade</td><td>19</td><td/><td>[IS_PREVENT_DOWNGRADE_EXIT]</td><td/><td>Exits install when a newer version of this product is found</td></row>
 		<row><td>ISPrint</td><td>1</td><td>SetAllUsers.dll</td><td>PrintScrollableText</td><td/><td>Prints the contents of a ScrollableText control on a dialog.</td></row>
 		<row><td>ISSetAllUsers</td><td>257</td><td>SetAllUsers.dll</td><td>SetAllUsers</td><td/><td/></row>
+		<row><td>ISSetupFilesCleanup</td><td>257</td><td>ISSetupFilesHelper</td><td>SFCleanupEx</td><td/><td/></row>
+		<row><td>ISSetupFilesExtract</td><td>257</td><td>ISSetupFilesHelper</td><td>SFStartupEx</td><td/><td/></row>
 		<row><td>SETX64INSTALLDIR</td><td>51</td><td>INSTALLDIR</td><td>[ProgramFiles64Folder]RssBandit</td><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
 		<row><td>SetAllUsersProfileNT</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%SystemRoot]\Profiles\All Users</td><td/><td/></row>
@@ -1198,12 +1237,28 @@
 		<row><td>_APPDATAFOLDER_RSSBANDIT_SEARCHES</td><td>_APPDATAFOLDER_RSSBANDIT</td><td>searches</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_ADDINS</td><td>INSTALLDIR</td><td>addins</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_ADDINS_DE</td><td>_FOLDER_ADDINS</td><td>de</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_BG</td><td>INSTALLDIR</td><td>bg</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_DE</td><td>INSTALLDIR</td><td>de</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_ES</td><td>INSTALLDIR</td><td>es</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_FR</td><td>INSTALLDIR</td><td>fr</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_HI</td><td>INSTALLDIR</td><td>hi</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_IT</td><td>INSTALLDIR</td><td>it</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_JA</td><td>INSTALLDIR</td><td>ja</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_KO</td><td>INSTALLDIR</td><td>ko</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_MEDIA</td><td>INSTALLDIR</td><td>Media</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_NL_NL</td><td>INSTALLDIR</td><td>nl-NL</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_PL</td><td>INSTALLDIR</td><td>pl</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_PLUGINS</td><td>INSTALLDIR</td><td>plugins</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_PLUGINS_DE</td><td>_FOLDER_PLUGINS</td><td>de</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_PT_BR</td><td>INSTALLDIR</td><td>pt-BR</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_RU</td><td>INSTALLDIR</td><td>ru</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_SR_CYRL_CS</td><td>INSTALLDIR</td><td>SR-CYR~1|sr-Cyrl-CS</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_SR_LATN_CS</td><td>INSTALLDIR</td><td>SR-LAT~1|sr-Latn-CS</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_TEMPLATES</td><td>INSTALLDIR</td><td>TEMPLA~1|templates</td><td/><td>0</td><td/></row>
 		<row><td>_FOLDER_TEMPLATES_IMAGES</td><td>_FOLDER_TEMPLATES</td><td>Images</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_TR</td><td>INSTALLDIR</td><td>tr</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_ZH_CHS</td><td>INSTALLDIR</td><td>zh-CHS</td><td/><td>0</td><td/></row>
+		<row><td>_FOLDER_ZH_CHT</td><td>INSTALLDIR</td><td>zh-CHT</td><td/><td>0</td><td/></row>
 		<row><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>ProgramMenuFolder</td><td>##COMP_APPMENU_FOLDER_NAME##</td><td/><td>3</td><td/></row>
 	</table>
 
@@ -1923,6 +1978,22 @@
 		<row><td>Core</td><td>C__AppServices_dll</td></row>
 		<row><td>Core</td><td>C__NewsComponent_res_de</td></row>
 		<row><td>Core</td><td>C__NewsComponents_dll</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_bg</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_es</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_fr</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_hi</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_it</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_ja</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_ko</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_nl_nl</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_pl</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_pt_br</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_ru</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_sr_cyrl_cs</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_sr_latn_cs</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_tr</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_zh_chs</td></row>
+		<row><td>Core</td><td>C__NewsComponents_res_zh_cht</td></row>
 		<row><td>Core</td><td>C__TorSteroids_Common_dll</td></row>
 		<row><td>Delicious</td><td>C__Delicious_plugin</td></row>
 		<row><td>Delicious</td><td>C__Delicious_plugin_res_de</td></row>
@@ -1947,7 +2018,23 @@
 		<row><td>OneNote.2003</td><td>C__OneNote_2003_plugin</td></row>
 		<row><td>OneNote.2003</td><td>C__OneNote_plugin_res_de</td></row>
 		<row><td>Plugins</td><td>C__IBlogExtension_dll</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_bg</td></row>
 		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_de</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_es</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_fr</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_hi</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_it</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_ja</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_ko</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_nl_nl</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_pl</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_pt_br</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_ru</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_sr_cyrl_cs</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_sr_latn_cs</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_tr</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_zh_chs</td></row>
+		<row><td>RssBandit.Desktop</td><td>C__BanditApp_res_zh_cht</td></row>
 		<row><td>RssBandit.Desktop</td><td>C__Bandit_chm</td></row>
 		<row><td>RssBandit.Desktop</td><td>C__Bandit_xml_ser</td></row>
 		<row><td>RssBandit.Desktop</td><td>C__License_txt</td></row>
@@ -2061,6 +2148,22 @@
 		<row><td>newsbin.gif</td><td>C__Template_Images</td><td>newsbin.gif</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\newsbin.gif</td><td>1</td><td/></row>
 		<row><td>newscomponents.dll</td><td>C__NewsComponents_dll</td><td>NEWSCO~1.DLL|NewsComponents.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\NewsComponents.dll</td><td>1</td><td/></row>
 		<row><td>newscomponents.resources.dll</td><td>C__NewsComponent_res_de</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\de\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll1</td><td>C__NewsComponents_res_it</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\it\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll10</td><td>C__NewsComponents_res_pt_br</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\pt-BR\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll11</td><td>C__NewsComponents_res_ru</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ru\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll12</td><td>C__NewsComponents_res_sr_cyrl_cs</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sr-Cyrl-CS\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll13</td><td>C__NewsComponents_res_sr_latn_cs</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sr-Latn-CS\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll14</td><td>C__NewsComponents_res_tr</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\tr\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll15</td><td>C__NewsComponents_res_zh_cht</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zh-CHT\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll16</td><td>C__NewsComponents_res_zh_chs</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zh-CHS\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll2</td><td>C__NewsComponents_res_fr</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\fr\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll3</td><td>C__NewsComponents_res_bg</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\bg\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll4</td><td>C__NewsComponents_res_es</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\es\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll5</td><td>C__NewsComponents_res_hi</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\hi\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll6</td><td>C__NewsComponents_res_ja</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\hi\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll7</td><td>C__NewsComponents_res_ko</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ko\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll8</td><td>C__NewsComponents_res_nl_nl</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\nl-NL\NewsComponents.resources.dll</td><td>1</td><td/></row>
+		<row><td>newscomponents.resources.dll9</td><td>C__NewsComponents_res_pl</td><td>NEWSCO~1.DLL|NewsComponents.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\pl\NewsComponents.resources.dll</td><td>1</td><td/></row>
 		<row><td>nextpage16.gif</td><td>C__Template_Images</td><td>NEXTPA~1.GIF|NextPage16.gif</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\NextPage16.gif</td><td>1</td><td/></row>
 		<row><td>not.watched.gif</td><td>C__Template_Images</td><td>NOTWAT~1.GIF|not.watched.gif</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\not.watched.gif</td><td>1</td><td/></row>
 		<row><td>onenoteimporter.dll</td><td>C__OneNote_2003_importer</td><td>ONENOT~1.DLL|OneNoteImporter.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\plugin\OneNoteImporter.dll</td><td>1</td><td/></row>
@@ -2077,7 +2180,24 @@
 		<row><td>rssbandit.exe.log4net.config</td><td>C__Logging_cfg</td><td>RSSBAN~1.CON|RssBandit.exe.log4net.config</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\RssBandit.exe.log4net.config</td><td>1</td><td/></row>
 		<row><td>rssbandit.exe1</td><td>C__Bandit_exe_x64</td><td>RSSBAN~1.EXE|RSSBandit.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\RSSBandit.exe</td><td>1</td><td/></row>
 		<row><td>rssbandit.resources.dll</td><td>C__BanditApp_res_de</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\de\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll1</td><td>C__BanditApp_res_it</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\it\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll10</td><td>C__BanditApp_res_pt_br</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\pt-BR\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll11</td><td>C__BanditApp_res_ru</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ru\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll12</td><td>C__BanditApp_res_sr_cyrl_cs</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sr-Cyrl-CS\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll13</td><td>C__BanditApp_res_sr_latn_cs</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sr-Latn-CS\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll14</td><td>C__BanditApp_res_tr</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\tr\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll15</td><td>C__BanditApp_res_zh_chs</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zh-CHS\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll16</td><td>C__BanditApp_res_zh_cht</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zh-CHT\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll2</td><td>C__BanditApp_res_fr</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\fr\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll3</td><td>C__BanditApp_res_bg</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\bg\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll4</td><td>C__BanditApp_res_es</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\es\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll5</td><td>C__BanditApp_res_hi</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\hi\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll6</td><td>C__BanditApp_res_ja</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\hi\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll7</td><td>C__BanditApp_res_ko</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ko\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll8</td><td>C__BanditApp_res_nl_nl</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\nl-NL\RSSBandit.resources.dll</td><td>1</td><td/></row>
+		<row><td>rssbandit.resources.dll9</td><td>C__BanditApp_res_pl</td><td>RSSBAN~1.DLL|RSSBandit.resources.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\pl\RSSBandit.resources.dll</td><td>1</td><td/></row>
 		<row><td>rssbandit.xmlserializers.dll</td><td>C__Bandit_xml_ser</td><td>RSSBAN~1.DLL|RSSBandit.XmlSerializers.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\RSSBandit.XmlSerializers.dll</td><td>1</td><td/></row>
+		<row><td>rssfeed.ico</td><td>C__MediaImages</td><td>rssfeed.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Media\rssfeed.ico</td><td>1</td><td/></row>
 		<row><td>sanddock.dll</td><td>C__SandDock_dll</td><td>SandDock.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\SandDock.dll</td><td>1</td><td/></row>
 		<row><td>shared.png</td><td>C__Template_Images</td><td>shared.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\shared.png</td><td>1</td><td/></row>
 		<row><td>snowball.net.dll</td><td>C__SnowBall_dll</td><td>SNOWBA~1.DLL|Snowball.Net.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Snowball.Net.dll</td><td>1</td><td/></row>
@@ -2231,7 +2351,23 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>C__AdsBlocker_addin</td><td/><td/><td>_CE47A014_83AD_4D4A_93AA_3A7C95FBEF94_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__AppServices_dll</td><td/><td/><td>_43327285_BCDB_4F5E_9A2C_59D65A526A60_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_bg</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__BanditApp_res_de</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_es</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_fr</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_hi</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_it</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_ja</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_ko</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_nl_nl</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_pl</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_pt_br</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_ru</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_sr_cyrl_cs</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_sr_latn_cs</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_tr</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_zh_chs</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__BanditApp_res_zh_cht</td><td/><td/><td>_27154853_75D7_420E_AB5F_E6E74924ADB3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__Bandit_chm</td><td/><td/><td>_6F761D24_F087_415F_9D59_0FCC94340AF1_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__Bandit_exe_x64</td><td/><td/><td>_F4C49E3F_7405_4500_9C04_F46493C13967_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__Bandit_exe_x86</td><td/><td/><td>_6769D9E8_EE92_4C86_BD58_2EA9B7F35163_FILTER</td><td/><td/><td/><td/></row>
@@ -2273,6 +2409,22 @@
 		<row><td>C__MediaSounds</td><td/><td/><td>_C9FE3C21_6E20_4504_A60A_7368D708F292_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__NewsComponent_res_de</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__NewsComponents_dll</td><td/><td/><td>_FD0AAAC1_84E7_49B1_9287_4EA344DB00E4_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_bg</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_es</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_fr</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_hi</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_it</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_ja</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_ko</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_nl_nl</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_pl</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_pt_br</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_ru</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_sr_cyrl_cs</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_sr_latn_cs</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_tr</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_zh_chs</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__NewsComponents_res_zh_cht</td><td/><td/><td>_1BA19408_555A_4744_98C4_345220386FCC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__OneNote_2003_importer</td><td/><td/><td>_C91417AA_CDF6_4FCB_B907_2D975A3C5A51_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__OneNote_2003_plugin</td><td/><td/><td>_F6E8F553_EC4B_4DA2_BC5E_5B96C1CAB89A_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__OneNote_plugin_res_de</td><td/><td/><td>_9613A63D_551F_44BD_86B0_034D76196929_FILTER</td><td/><td/><td/><td/></row>
@@ -2619,6 +2771,7 @@
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
 		<row><td>PATH_TO_RELEASE_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit\bin\Release</td><td/><td>2</td></row>
 		<row><td>PATH_TO_RESOURCES_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources</td><td/><td>2</td></row>
+		<row><td>PATH_TO_RSSBANDIT_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
 		<row><td>WindowsFolder</td><td/><td/><td>1</td></row>
@@ -2653,7 +2806,7 @@
 		<row><td>Release 1.9.x (x64)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3272_x64</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductCode</td><td>{62586B9B-B8F2-411E-87A3-8D6E14CBED2A}</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x64)</td></row>
-		<row><td>Release 1.9.x (x64)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1133_x64</td></row>
+		<row><td>Release 1.9.x (x64)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1178_x64</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>Subject</td><td>##SIS_TITLE_X64##</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>TemplateSummary</td><td>x64;0</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>Title</td><td>##SIS_TITLE_X64##</td></row>
@@ -2661,7 +2814,7 @@
 		<row><td>Release 1.9.x (x86)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3272_x86</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductCode</td><td>{3CBE6C15-21D4-4F88-AB52-72446A6C6429}</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x86)</td></row>
-		<row><td>Release 1.9.x (x86)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1133_x86</td></row>
+		<row><td>Release 1.9.x (x86)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1178_x86</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Subject</td><td>##SIS_TITLE##</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Title</td><td>##SIS_TITLE##</td></row>
 	</table>
@@ -2697,8 +2850,8 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>0</td><td>0</td><td>X64</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>(C)2003-2013 rssbandit.org</td><td>8498189</td><td/><td/><td/><td/></row>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>1</td><td>0</td><td>X86</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>(C)2003-2013 rssbandit.org</td><td>9020429</td><td/><td/><td/><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>0</td><td>0</td><td>X64</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>(C)2003-2013 rssbandit.org</td><td>42052621</td><td/><td/><td/><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>1</td><td>0</td><td>X86</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td>&lt;PATH_TO_RSSBANDIT_FILES&gt;\bandit.code.pfx</td><td/><td>(C)2003-2013 rssbandit.org</td><td>579445775</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -2740,7 +2893,7 @@
 		<col def="S255">WinMsi30Url</col>
 		<col def="S255">CertPassword</col>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>0</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td/></row>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>2</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>2</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td>1CBAB0EF9C98660CAF1C938E7EF8349CCE6D0FE7</td></row>
 	</table>
 
 	<table name="ISReleaseProperty">
@@ -2751,6 +2904,8 @@
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>CabCompressionType</td><td>3</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>SetupIcon</td><td>&lt;PATH_TO_RESOURCES_FILES&gt;\_ARPPRODUCTICON.ico,0</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>CabCompressionType</td><td>3</td></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>CertificateSignFiles</td><td>1</td></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>CertificateSignInPlace</td><td>1</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>SetupIcon</td><td>&lt;PATH_TO_RESOURCES_FILES&gt;\_ARPPRODUCTICON.ico,0</td></row>
 	</table>
 
@@ -2938,6 +3093,7 @@
 		<col def="S50">Language</col>
 		<col def="I2">Splash</col>
 		<col def="S0">Path</col>
+		<row><td>SetupFile2</td><td>splash.en.bmp</td><td/><td>1033</td><td>1</td><td>&lt;PATH_TO_RESOURCES_FILES&gt;\splash.en.bmp</td></row>
 	</table>
 
 	<table name="ISSetupPrerequisites">
@@ -3766,7 +3922,7 @@
 		<row><td>IDS_PREREQUISITE_SETUP_SEARCH</td><td>1033</td><td>This installation may require additional dependencies. Without its dependencies, [ProductName] may not work correctly. Would you like to find the original [SETUPEXENAME]?</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>IDS_PREVENT_DOWNGRADE_EXIT</td><td>1033</td><td>A newer version of this application is already installed on this computer. If you wish to install this version, please uninstall the newer version first. Click OK to exit the wizard.</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>IDS_PRINT_BUTTON</td><td>1033</td><td>&amp;Print</td><td>0</td><td/><td>-224316768</td></row>
-		<row><td>IDS_PRODUCTNAME_INSTALLSHIELD</td><td>1033</td><td>[ProductName] - InstallShield Wizard</td><td>0</td><td/><td>-224316768</td></row>
+		<row><td>IDS_PRODUCTNAME_INSTALLSHIELD</td><td>1033</td><td>[ProductName] - Installation Wizard</td><td>0</td><td/><td>1965143217</td></row>
 		<row><td>IDS_PROGMSG_IIS_CREATEAPPPOOL</td><td>1033</td><td>Creating application pool %s</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>IDS_PROGMSG_IIS_CREATEAPPPOOLS</td><td>1033</td><td>Creating application Pools...</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>IDS_PROGMSG_IIS_CREATEVROOT</td><td>1033</td><td>Creating IIS virtual directory %s</td><td>0</td><td/><td>-224316768</td></row>
@@ -4205,7 +4361,7 @@
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;PATH_TO_RESOURCES_FILES&gt;\_ARPPRODUCTICON.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_979F152E38D64318AB73E70546EAB905.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\RSSBandit.exe</td><td>0</td></row>
 		<row><td>_SHORTCUT_BANDIT_X_651B4BD9CF18445F923F7C93D814B912.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\RSSBandit.exe</td><td>0</td></row>
-		<row><td>_Shortcut_Bandit_H_3EF1F495C2344DE3AF308868F0808ABB.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\Media\help2.ico</td><td>0</td></row>
+		<row><td>_Shortcut_Bandit_H_31D77D36E7E94CB8A268C275B32C1DE8.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\Media\help2.ico</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -4250,6 +4406,8 @@
 		<row><td>FindRelatedProducts</td><td>NOT ISSETUPDRIVEN</td><td>420</td><td>FindRelatedProducts</td><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
 		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
+		<row><td>ISSetupFilesCleanup</td><td/><td>6601</td><td/><td/></row>
+		<row><td>ISSetupFilesExtract</td><td/><td>3</td><td/><td/></row>
 		<row><td>InstallFiles</td><td/><td>4000</td><td>InstallFiles</td><td/></row>
 		<row><td>InstallFinalize</td><td/><td>6600</td><td>InstallFinalize</td><td/></row>
 		<row><td>InstallInitialize</td><td/><td>1501</td><td>InstallInitialize</td><td/></row>
@@ -4288,7 +4446,7 @@
 		<row><td>RemoveRegistryValues</td><td/><td>2600</td><td>RemoveRegistryValues</td><td/></row>
 		<row><td>RemoveShortcuts</td><td/><td>3200</td><td>RemoveShortcuts</td><td/></row>
 		<row><td>ResolveSource</td><td>Not Installed</td><td>850</td><td>ResolveSource</td><td/></row>
-		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>1005</td><td>Only if we build a x64 package!</td><td/></row>
+		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND NOT INSTALLDIR</td><td>415</td><td>Only if we build a x64 package!</td><td/></row>
 		<row><td>ScheduleReboot</td><td>ISSCHEDULEREBOOT</td><td>6410</td><td>ScheduleReboot</td><td/></row>
 		<row><td>SelfRegModules</td><td/><td>5600</td><td>SelfRegModules</td><td/></row>
 		<row><td>SelfUnregModules</td><td/><td>2200</td><td>SelfUnregModules</td><td/></row>
@@ -4338,8 +4496,8 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>ISUSLock</td><td>{5813DFE9-E959-4E27-805B-FC6A93E5BAF5}</td></row>
 		<row><td>ISUSSignature</td><td>{3C7BCB85-0472-4536-AC4B-602F90480EBF}</td></row>
 		<row><td>LockPermissionMode</td><td>0</td></row>
-		<row><td>MsiExecCmdLineOptions</td><td/></row>
-		<row><td>MsiLogFile</td><td/></row>
+		<row><td>MsiExecCmdLineOptions</td><td>/Liwrveacu rssbandit.1.9.x.install.log</td></row>
+		<row><td>MsiLogFile</td><td>rssbandit.1.9.x.install.log</td></row>
 		<row><td>OnUpgrade</td><td>1</td></row>
 		<row><td>Owner</td><td/></row>
 		<row><td>PatchFamily</td><td>MyPatchFamily1</td></row>
@@ -4370,6 +4528,8 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>FindRelatedProducts</td><td/><td>430</td><td>FindRelatedProducts</td><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
 		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
+		<row><td>ISSetupFilesCleanup</td><td/><td>1301</td><td/><td/></row>
+		<row><td>ISSetupFilesExtract</td><td/><td>3</td><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Not Installed</td><td>1210</td><td>InstallWelcome</td><td/></row>
 		<row><td>IsolateComponents</td><td/><td>950</td><td>IsolateComponents</td><td/></row>
 		<row><td>LaunchConditions</td><td>Not Installed</td><td>410</td><td>LaunchConditions</td><td/></row>
@@ -4379,7 +4539,7 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>RMCCPSearch</td><td>Not CCP_SUCCESS And CCP_TEST</td><td>600</td><td>RMCCPSearch</td><td/></row>
 		<row><td>ReadyToInstall</td><td>Not Installed And IS_PREREQ="Reboot"</td><td>1235</td><td/><td/></row>
 		<row><td>ResolveSource</td><td>Not Installed</td><td>990</td><td>ResolveSource</td><td/></row>
-		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>1100</td><td/><td/></row>
+		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>415</td><td/><td/></row>
 		<row><td>SetAllUsersProfileNT</td><td>VersionNT = 400</td><td>970</td><td/><td/></row>
 		<row><td>SetupCompleteError</td><td/><td>-3</td><td>SetupCompleteError</td><td/></row>
 		<row><td>SetupCompleteSuccess</td><td/><td>-1</td><td>SetupCompleteSuccess</td><td/></row>
@@ -4667,7 +4827,23 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>Display_IsBitmapDlg</td><td>1</td><td/></row>
 		<row><td>ErrorDialog</td><td>SetupError</td><td/></row>
 		<row><td>INSTALLLEVEL</td><td>100</td><td/></row>
+		<row><td>INSTALL_DESK_LOCALE_BG</td><td>1</td><td>Used in component conditions that are language resources</td></row>
 		<row><td>INSTALL_DESK_LOCALE_DE</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_ES</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_FR</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_HI</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_IT</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_JA</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_KO</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_NL_NL</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_PL</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_PT_BR</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_RU</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_SR_CYRL_CS</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_TR</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_ZH_CHS</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESK_LOCALE_ZH_CHT</td><td>1</td><td>Used in component conditions that are language resources</td></row>
+		<row><td>INSTALL_DESL_LOCALE_SR_LATN_CS</td><td>1</td><td>Used in component conditions that are language resources</td></row>
 		<row><td>ISCHECKFORPRODUCTUPDATES</td><td>1</td><td/></row>
 		<row><td>ISENABLEDWUSFINISHDIALOG</td><td/><td/></row>
 		<row><td>ISSHOWMSILOG</td><td/><td/></row>
@@ -4788,9 +4964,6 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<col def="S0">Value</col>
 		<col def="s72">Component_</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Registry1</td><td>1</td><td>bandit_exe_x64</td><td/><td/><td>C__Bandit_exe_x64</td><td>0</td></row>
-		<row><td>Registry2</td><td>1</td><td>bandit_exe_x86</td><td/><td/><td>C__Bandit_exe_x86</td><td>0</td></row>
-		<row><td>Registry4</td><td>1</td><td>bandit_chm</td><td/><td/><td>C__Bandit_chm</td><td>0</td></row>
 		<row><td>_4A4463EC88B8460385BD963DBACE22B1</td><td>2</td><td>Software\[Manufacturer]\[ProductName]</td><td>InstallPath</td><td>[INSTALLDIR]</td><td>C__MediaImages</td><td/></row>
 	</table>
 
@@ -4888,9 +5061,9 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Shortcut_Bandit_HelpChm</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>Documentation</td><td>C__Bandit_chm</td><td>[INSTALLDIR]RssBandit.chm</td><td/><td/><td/><td>_Shortcut_Bandit_H_3EF1F495C2344DE3AF308868F0808ABB.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Shortcut_Bandit_X64_Desk_exe</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>##COMP_APP_SHORTCUT_NAME##</td><td>C__Bandit_exe_x64</td><td>[INSTALLDIR]RSSBandit.exe</td><td/><td/><td/><td>NewShortcut1_979F152E38D64318AB73E70546EAB905.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Shortcut_Bandit_X86_Desk_exe</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>##COMP_APP_SHORTCUT_NAME##</td><td>C__Bandit_exe_x86</td><td>[INSTALLDIR]RssBandit.exe</td><td/><td/><td/><td>_SHORTCUT_BANDIT_X_651B4BD9CF18445F923F7C93D814B912.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Shortcut_Bandit_HelpChm</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>Documentation</td><td>C__Bandit_chm</td><td>RssBandit.Desktop</td><td/><td/><td/><td>_Shortcut_Bandit_H_31D77D36E7E94CB8A268C275B32C1DE8.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Shortcut_Bandit_X64_Desk_exe</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>##COMP_APP_SHORTCUT_NAME##</td><td>C__Bandit_exe_x64</td><td>Application.x64</td><td/><td/><td/><td>NewShortcut1_979F152E38D64318AB73E70546EAB905.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>_Shortcut_Bandit_X86_Desk_exe</td><td>_ProgramsMenu_Folder_Desk_Bandit</td><td>##COMP_APP_SHORTCUT_NAME##</td><td>C__Bandit_exe_x86</td><td>Application.x86</td><td/><td/><td/><td>_SHORTCUT_BANDIT_X_651B4BD9CF18445F923F7C93D814B912.exe</td><td>1</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

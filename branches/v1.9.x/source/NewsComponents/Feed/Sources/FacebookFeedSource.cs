@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Xsl;
@@ -11,8 +12,7 @@ using System.Runtime.Serialization.Json;
 using System.Net;
 using System.Globalization;
 using System.Security.Cryptography;
-using System.Runtime.Serialization; 
-
+using System.Runtime.Serialization;
 using log4net; 
 
 using RssBandit.Common;
@@ -33,7 +33,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// Sets the current auth token to be used for Facebook API requests. 
         /// </summary>
-        ///<param name="item">The Facebook API application auth token</param>   
+		///<param name="authToken">The Facebook API application auth token</param>   
         void SetAuthToken(string authToken);   
 
          /// <summary>
@@ -63,13 +63,265 @@ namespace NewsComponents.Feed
 
     #endregion
 
-    #region FacebookFeedSource
+	/// <summary>
+	/// External API to use common Facebook features
+	/// </summary>
+	public static class FacebookApp
+	{
+		//public static class Authorization
+		//{
+		//	private const string FbPermissionsUrlTemplate =
+		//		"http://www.facebook.com/authorize.php?api_key={0}&v=1.0&ext_perm={1}&popup";
+
+		//	private const string FbLoginUrlTemplate = 
+		//		"http://www.facebook.com/login.php?api_key={0}&&v=1.0&auth_token={1}&popup";
+
+		//	//???
+		//	private static readonly string TokenUrl = "http://www.25hoursaday.com/weblog/CreateFBtoken.aspx";
+
+		//	//TODO: use new FB oauth API to login/auth
+		//	// see https://developers.facebook.com/docs/facebook-login/login-flow-for-web-no-jssdk/
+
+		//	// 0 - ApplicationId
+		//	private const string NewLoginUrlTemplate = 
+		//		@"https://www.facebook.com/dialog/oauth?client_id={0}&state=12345&response_type=token&scope=read_stream&redirect_uri=https%3A%2F%2Fwww.facebook.com/connect/login_success.html";
+
+		//	/*
+		//	 * we get this in a response header (location Uri):
+		//	 * Location: https://www.facebook.com/connect/login_success.html?#access_token=CAAAAA3ZCJcj8BAGgkda9RtOsdOZCPYqfNIeJ7ygZA9hgZCDzuF2rKkThU46ZCNBrRT9LFZAV0ZAVULRaLfN13MQrVMn1Galqhy9oOToG4NN53HLcS21UApjm3GxtZCrJwLgrobE12WTVPAuXANc32ygdyB6LuwpRlBMcHl5kBmzOpfkEOefSfDAe9luSio2qq7gZD&expires_in=5181841&state=12345
+		//	 * consider the "access_token"...
+		//	 */
+		//	public static string GetPermissionUrl(string extPermission)
+		//	{
+		//		extPermission.ExceptionIfNullOrEmpty("extPermission");
+		//		return FbPermissionsUrlTemplate.FormatWith(ApplicationKey, extPermission);
+		//	}
+
+		//	public static string GetLoginUrl(string authToken)
+		//	{
+		//		authToken.ExceptionIfNullOrEmpty("authToken");
+		//		return FbLoginUrlTemplate.FormatWith(ApplicationKey, authToken);
+		//	}
+
+		//	public static Uri PrepareOAuthLoginUri(string state, string permissions)
+		//	{
+		//		dynamic parameters = new ExpandoObject();
+		//		parameters.client_id = ApplicationId;
+		//		parameters.redirect_uri = "https://www.facebook.com/connect/login_success.html";
+		//		// The requested response: an access token (token), an authorization code (code), or both (code token).
+		//		parameters.response_type = "token";
+		//		parameters.state = state;
+
+		//		// list of additional display modes can be found at http://developers.facebook.com/docs/reference/dialogs/#display
+		//		parameters.display = "popup"; // or "page"
+
+		//		// add the 'scope' parameter only if we have extendedPermissions.
+		//		if (!string.IsNullOrWhiteSpace(permissions))
+		//			parameters.scope = permissions;
+
+		//		// generate the login url
+		//		var fb = new FacebookClient();
+		//		return fb.GetLoginUrl(parameters);
+		//	}
+
+		//	public static AccessToken ParseOAuthLoginCallbackUri(Uri callbackUri, string state = null)
+		//	{
+		//		if (callbackUri == null)
+		//			return null;
+
+		//		if (callbackUri.AbsolutePath.Contains("login_success.html"))
+		//		{
+		//			try
+		//			{
+		//				var fb = new FacebookClient();
+		//				var result = fb.ParseOAuthCallbackUrl(callbackUri);
+		//				if (result.IsSuccess)
+		//				{
+		//					if (state != null && String.Equals(result.State, state, StringComparison.Ordinal))
+		//					{
+		//						var at = new AccessToken(result.AccessToken, result.Expires);
+		//						return at;
+		//					}
+		//				}
+
+		//				throw new WebException("Facebook login error: {0}; Reason: {1}; Description: {2}"
+		//					.FormatWith(result.Error, result.ErrorReason, result.ErrorDescription));
+		//			}
+		//			catch (WebException)
+		//			{
+		//				throw;
+		//			}
+		//			catch (Exception ex)
+		//			{
+		//				throw new WebException("Facebook login error: {0}".FormatWith(ex.Message), ex);
+		//			}
+		//		}
+
+		//		return null;
+		//	}
+
+		//	// see: https://developers.facebook.com/docs/facebook-login/access-tokens/#apptokens
+		//	public static string GetAppAccessSessionToken(string token)
+		//	{
+		//		if (token == null)
+		//			return null;
+
+		//		FacebookClient client = new FacebookClient(token);
+		//		try
+		//		{
+		//			dynamic result = client.Get("/oauth/access_token", new
+		//			{
+		//				grant_type = "client_credentials",
+		//				client_id = ApplicationId,
+		//				client_secret = token//secret
+		//			});
+		//			var appAccessToken = result.access_token;
+		//			return appAccessToken;
+		//		}
+		//		catch (Exception ex)
+		//		{
+		//			Debug.WriteLine("GetAppAccessSessionToken() error: " + ex.Message);
+		//		}
+
+		//		return null;
+		//	}
+
+		//	// see: https://developers.facebook.com/docs/facebook-login/login-flow-for-web-no-jssdk/#checktoken
+		//	public static bool AccessTokenInspectionSucceeds(AccessToken token)
+		//	{
+		//		if (token == null)
+		//			return false;
+
+		//		FacebookClient client = new FacebookClient(token.Value);
+		//		try
+		//		{
+		//			dynamic result = client.Get("debug_token", new
+		//			{
+		//				input_token = token.Value,
+		//				access_token = "" //???
+		//			});
+					
+		//		}
+		//		catch (Exception ex)
+		//		{
+		//			Debug.WriteLine("AccessTokenInspectionSucceeds() error: " + ex.Message);
+		//		}
+
+		//		return true;
+		//	}
+
+		//	private static string ExtendAccessTokenExpiration(string shortLivedToken)
+		//	{
+		//		FacebookClient client = new FacebookClient(shortLivedToken);
+		//		string extendedToken = "";
+		//		try
+		//		{
+		//			dynamic me = client.Get("me");
+
+		//			dynamic result = client.Get("/oauth/access_token", new
+		//			{
+		//				grant_type = "fb_exchange_token",
+		//				client_id = ApplicationId,
+		//				client_secret = ApplicationKey,
+		//				fb_exchange_token = shortLivedToken
+		//			});
+		//			extendedToken = result.access_token;
+		//		}
+		//		catch
+		//		{
+		//			extendedToken = shortLivedToken;
+		//		}
+		//		return extendedToken;
+		//	}
+
+
+		//	public static dynamic GetAuthenticatedUserInfo(AccessToken accessToken)
+		//	{
+		//		accessToken.ExceptionIfNull("accessToken");
+				
+		//		var fb = new FacebookClient(accessToken.Value);
+		//		try { return fb.Get("me"); } 
+		//		catch { }
+				
+		//		return null;
+		//	}
+			
+		//	internal static class PageContent
+		//	{
+		//		public static string Get(string url)
+		//		{
+		//			WebRequest request = WebRequest.Create(url);
+		//			var reader = new StreamReader(request.GetResponse().GetResponseStream());
+		//			return reader.ReadToEnd();
+		//		}
+
+
+		//		public static IDictionary<string, string> ParseQueryString(string query)
+		//		{
+		//			var result = new Dictionary<string, string>();
+
+
+		//			if (String.IsNullOrEmpty(query) || query.Trim().Length == 0)
+		//				return result;
+
+
+		//			var pairs = from pair in query.Split('&')
+		//						where !String.IsNullOrEmpty(pair)
+		//						let parts = pair.Split('=')
+		//						select new { Key = parts[0], Value = parts[1] };
+
+
+		//			foreach (var pair in pairs)
+		//				result.Add(pair.Key, pair.Value);
+
+
+		//			return result;
+		//		}
+		//	}
+
+		//	public class AccessToken
+		//	{
+		//		public readonly DateTime Expires;
+		//		public readonly string Value;
+
+
+		//		public AccessToken(string value, DateTime expires)
+		//		{
+		//			Value = value;
+		//			Expires = expires;
+		//		}
+
+		//		public bool IsEmpty
+		//		{
+		//			get { return string.IsNullOrEmpty(Value); }
+		//		}
+				
+		//	}
+
+
+		//}
+
+		/// <summary>
+		/// The Facebook application ID for RSS Bandit
+		/// </summary>
+		internal static string ApplicationId = "15028810303";
+
+		/// <summary>
+		/// The Facebook application key/secret for RSS Bandit
+		/// </summary>
+		internal static string ApplicationKey = "2d8ab36a639b61dd7a1a9dab4f7a0a5a";
+        
+	}
+
+	#region FacebookFeedSource
 
     /// <summary>
     /// A FeedSource that retrieves user's stream and associated comments from Facebook. 
+    /// Deactivated with version 1.9.3x
     /// </summary>
     internal class FacebookFeedSource : FeedSource, IFacebookFeedSource
     {
+	    
 
         #region private fields 
 
@@ -114,15 +366,6 @@ namespace NewsComponents.Feed
         /// </summary>
         private bool canPublishToStream = false; 
 
-        /// <summary>
-        /// The Facebook application ID for RSS Bandit
-        /// </summary>
-        private static string ApplicationId = "15028810303";
-
-        /// <summary>
-        /// The Facebook application key for RSS Bandit
-        /// </summary>
-        private static string ApplicationKey ="2d8ab36a639b61dd7a1a9dab4f7a0a5a";
         
         /// <summary>
 		/// Arguments to XSLT transform used for transforming Facebook's news feed to an Atom feed
@@ -213,9 +456,9 @@ namespace NewsComponents.Feed
         /// </summary>
         public void GetSessionKey()
         {
-            if (!Offline && !String.IsNullOrEmpty(authToken))
-            { //http://www.facebook.com/login.php?api_key=2d8ab36a639b61dd7a1a9dab4f7a0a5a&&v=1.0&auth_token={1}&popup
-                string SessionKeyUrl = String.Format("http://www.25hoursaday.com/weblog/CreateFBtoken.aspx?getsessionfor={0}", authToken);
+	        if (!Offline && !String.IsNullOrEmpty(authToken))
+            { 
+				string SessionKeyUrl = String.Format("http://www.25hoursaday.com/weblog/CreateFBtoken.aspx?getsessionfor={0}", authToken);
 
                 HttpWebRequest request = WebRequest.Create(SessionKeyUrl) as HttpWebRequest;
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
@@ -256,7 +499,7 @@ namespace NewsComponents.Feed
         private string CreateHTTPParameterList(IDictionary<string, string> parameterList, bool useJson)
         {
             StringBuilder builder = new StringBuilder();
-            parameterList.Add("api_key", ApplicationKey);
+            parameterList.Add("api_key", FacebookApp.ApplicationKey);
             parameterList.Add("v", "1.0");
             parameterList.Add("format", useJson ? "JSON" : "XML");
             parameterList.Add("call_id", DateTime.Now.Ticks.ToString("x", CultureInfo.InvariantCulture));
@@ -357,7 +600,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="timestamp"></param>
         /// <returns></returns>
-        private static DateTime ConvertFromUnixTimestamp(double timestamp)
+        internal static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
             return UnixEpoch.AddSeconds(timestamp);
         }

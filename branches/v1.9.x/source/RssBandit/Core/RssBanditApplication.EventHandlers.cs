@@ -340,7 +340,7 @@ namespace RssBandit
 										SubscriptionModified(entry, NewsFeedProperty.FeedCredentials);
 									}
                                 }
-
+/*
                                 if (e.ExceptionThrown.InnerException is FacebookException)
                                 {
                                     FacebookException fe = e.ExceptionThrown.InnerException as FacebookException;
@@ -357,13 +357,18 @@ namespace RssBandit
 
                                             try
                                             {
+												//TODO review: how do we get this token now?
                                                 HttpWebRequest request = WebRequest.Create(FacebookConnectDialog.TokenUrl) as HttpWebRequest;
                                                 FacebookAuthToken = new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
 
-                                                string fbUrl = String.Format(FacebookConnectDialog.FbLoginUrlTemplate, FacebookConnectDialog.ApiKey, FacebookAuthToken);
+                                                //string fbUrl = String.Format(FacebookConnectDialog.FbLoginUrlTemplate, FacebookConnectDialog.ApiKey, FacebookAuthToken);
+												string fbUrl = FacebookApp.Authorization.GetLoginUrl(FacebookAuthToken);
 
-                                                /* login user */
-                                                using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbUrl)))
+                                                // login user 
+                                                using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbUrl), uri =>
+													{
+														return true;
+													}))
                                                 {
                                                     result = fcd.ShowDialog();
                                                 }                                             
@@ -383,16 +388,16 @@ namespace RssBandit
 
                                                 fbSource.SetAuthToken(FacebookAuthToken);
                                                 fbSource.GetSessionKey();
-                                                fse.Source.RefreshFeeds(true /* force_download */);
+                                                fse.Source.RefreshFeeds(true );// force_download 
                                             }
                                         }
                                         catch (Exception)
                                         {
-                                            /* SingleOrDefault throws exception if more than one Facebook feed source is found */
+                                            // SingleOrDefault throws exception if more than one Facebook feed source is found 
                                         }
                                     }
                                 }
-
+*/
 								WebException webex = e.ExceptionThrown as WebException;
                                 if (webex != null)
                                 {

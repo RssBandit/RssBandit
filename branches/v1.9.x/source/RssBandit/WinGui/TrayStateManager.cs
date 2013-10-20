@@ -9,7 +9,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using RssBandit.Resources;
@@ -42,13 +41,14 @@ namespace RssBandit.WinGui
 	/// </summary>
 	public sealed class TrayStateManager: IDisposable
 	{
-
 		public event EventHandler<EventArgs> TrayIconClicked;
 		public event EventHandler<EventArgs> TrayBalloonClickClicked;
 		public event EventHandler<EventArgs> TrayBalloonTimeout;
 
 		private ApplicationTrayState _currentState;
 		private NotifyIconAnimation _notifyIcon;
+
+		#region ctor's
 
 		private TrayStateManager()
 		{
@@ -65,12 +65,6 @@ namespace RssBandit.WinGui
 			_notifyIcon.Click += OnTrayIconClick;
 			_notifyIcon.BalloonClick += OnTrayBalloonClick;
 			_notifyIcon.BalloonTimeout += OnTrayBalloonTimeoutClose;
-		}
-
-		public TrayStateManager(NotifyIconAnimation notifyIconAnimation) :
-			this()
-		{
-			_notifyIcon = notifyIconAnimation;
 
 			_notifyIcon.AddState(
 				new NotifyIconState(ApplicationTrayState.NormalIdle.ToString(),
@@ -88,8 +82,9 @@ namespace RssBandit.WinGui
 				);
 
 			_notifyIcon.Visible = true;
-
 		}
+
+		#endregion
 
 		/// <summary>
 		/// Use it to set/switch the 
@@ -128,7 +123,7 @@ namespace RssBandit.WinGui
 			_notifyIcon.ShowBalloon((NotifyIconAnimation.EBalloonIcon)icon, text, title, timeout);
 		}
 
-	public ContextMenu IconContextMenu
+		public ContextMenu IconContextMenu
 		{
 			get { return _notifyIcon.ContextMenu; }
 			set { _notifyIcon.ContextMenu = value; }

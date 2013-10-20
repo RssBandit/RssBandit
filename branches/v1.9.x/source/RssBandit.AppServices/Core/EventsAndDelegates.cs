@@ -1,7 +1,5 @@
 using System;
 
-using RssBandit;
-
 namespace RssBandit.AppServices
 {
 
@@ -78,6 +76,21 @@ namespace RssBandit.AppServices
 	#endregion
 
 	#region InternetConnectionState
+
+	/// <summary>
+	/// Internet connection states
+	/// </summary>
+	[Flags]
+	public enum InternetState
+	{
+		Unknown = 0,
+		DisConnected = 1,
+		Connected = 2,
+		Offline = 4,
+		Online = 0x10,
+		ConnectedMoreInfosRequired = 0x20,
+	}
+
 	/// <summary>
 	/// Signature to receive InternetConnectionStateChange Events.
 	/// </summary>
@@ -90,7 +103,7 @@ namespace RssBandit.AppServices
 		/// <summary>Initializer.</summary>
 		/// <param name="currentState">INetState</param>
 		/// <param name="newState">INetState</param>
-		public InternetConnectionStateChangeEventArgs(INetState currentState, INetState newState) {
+		public InternetConnectionStateChangeEventArgs(InternetState currentState, InternetState newState) {
 			this._currentState = currentState;
 			this._newState = newState;
 		}
@@ -98,18 +111,18 @@ namespace RssBandit.AppServices
 		/// <summary>
 		/// Gets the current internet connection state (flags).
 		/// </summary>
-		public INetState CurrentState {
+		public InternetState CurrentState {
 			get { return _currentState; }
 		}
-		private readonly INetState _currentState;
+		private readonly InternetState _currentState;
 
 		/// <summary>
 		/// Gets the new internet connection state (flags).
 		/// </summary>
-		public INetState NewState {
+		public InternetState NewState {
 			get { return _newState; }
 		}
-		private readonly INetState _newState;
+		private readonly InternetState _newState;
 	}
 	#endregion
 }

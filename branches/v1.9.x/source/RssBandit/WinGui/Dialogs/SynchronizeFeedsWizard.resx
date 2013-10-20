@@ -375,36 +375,6 @@
   <data name="&gt;&gt;pageSourceName.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="radioFacebookReview.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioFacebookReview.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="radioFacebookReview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 80</value>
-  </data>
-  <data name="radioFacebookReview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 21</value>
-  </data>
-  <data name="radioFacebookReview.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="radioFacebookReview.Text" xml:space="preserve">
-    <value>Facebook (API changed, under review)</value>
-  </data>
-  <data name="&gt;&gt;radioFacebookReview.Name" xml:space="preserve">
-    <value>radioFacebookReview</value>
-  </data>
-  <data name="&gt;&gt;radioFacebookReview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioFacebookReview.Parent" xml:space="preserve">
-    <value>pageStartImport</value>
-  </data>
-  <data name="&gt;&gt;radioFacebookReview.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="fbrssLinkHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -412,19 +382,19 @@
     <value>True</value>
   </data>
   <data name="fbrssLinkHelp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>21, 37</value>
+    <value>33, 16</value>
   </data>
   <data name="fbrssLinkHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 106</value>
+    <value>110, 86</value>
   </data>
   <data name="fbrssLinkHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 22</value>
+    <value>323, 22</value>
   </data>
   <data name="fbrssLinkHelp.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="fbrssLinkHelp.Text" xml:space="preserve">
-    <value>For now you can use: http://fbrss.com</value>
+    <value>For Facebook Support please use: http://fbrss.com</value>
   </data>
   <data name="&gt;&gt;fbrssLinkHelp.Name" xml:space="preserve">
     <value>fbrssLinkHelp</value>
@@ -436,7 +406,7 @@
     <value>pageStartImport</value>
   </data>
   <data name="&gt;&gt;fbrssLinkHelp.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -463,7 +433,7 @@
     <value>pageStartImport</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="radioFeedlyCloud.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -478,16 +448,16 @@
     <value>NoControl</value>
   </data>
   <data name="radioFeedlyCloud.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 133</value>
+    <value>111, 123</value>
   </data>
   <data name="radioFeedlyCloud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>253, 22</value>
   </data>
   <data name="radioFeedlyCloud.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="radioFeedlyCloud.Text" xml:space="preserve">
-    <value>Feedly Cloud (planned)</value>
+    <value>Feedly Cloud (planned, please vote!)</value>
   </data>
   <data name="&gt;&gt;radioFeedlyCloud.Name" xml:space="preserve">
     <value>radioFeedlyCloud</value>
@@ -499,7 +469,7 @@
     <value>pageStartImport</value>
   </data>
   <data name="&gt;&gt;radioFeedlyCloud.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="radioCommonFeedlist.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -511,7 +481,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioCommonFeedlist.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 166</value>
+    <value>111, 161</value>
   </data>
   <data name="radioCommonFeedlist.Size" type="System.Drawing.Size, System.Drawing">
     <value>394, 22</value>
@@ -532,7 +502,7 @@
     <value>pageStartImport</value>
   </data>
   <data name="&gt;&gt;radioCommonFeedlist.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="pageStartImport.Description" xml:space="preserve">
     <value>Use the same feeds across RSS Bandit and Internet Explorer/Outlook on your desktop or with an online feed reader</value>

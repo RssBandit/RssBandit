@@ -94,7 +94,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,7 +110,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>
@@ -251,6 +251,7 @@
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces</Name>
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -384,13 +385,13 @@
     <EmbeddedResource Include="Properties\InfragisticsShared.it.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsShared.nl.resx">
-      <DependentUpon>InfragisticsShared.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsShared.ru.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsShared.resx" />
+    <EmbeddedResource Include="Properties\InfragisticsShared.zh-CHS.resx">
+      <DependentUpon>InfragisticsShared.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWin.de.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
     </EmbeddedResource>
@@ -403,11 +404,11 @@
     <EmbeddedResource Include="Properties\InfragisticsWin.it.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWin.nl.resx">
-      <DependentUpon>InfragisticsWin.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWin.resx" />
     <EmbeddedResource Include="Properties\InfragisticsWin.ru.resx">
+      <DependentUpon>InfragisticsWin.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWin.zh-CHS.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinEditors.de.resx">
@@ -420,9 +421,6 @@
       <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinEditors.it.resx">
-      <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinEditors.nl.resx">
       <DependentUpon>InfragisticsWinEditors.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinEditors.resx" />
@@ -441,11 +439,11 @@
     <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.it.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.nl.resx">
-      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.resx" />
     <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.ru.resx">
+      <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.zh-CHS.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinMisc.de.resx">
@@ -458,9 +456,6 @@
       <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinMisc.it.resx">
-      <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinMisc.nl.resx">
       <DependentUpon>InfragisticsWinMisc.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinMisc.resx" />
@@ -479,9 +474,6 @@
     <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.it.resx">
       <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.nl.resx">
-      <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.resx" />
     <EmbeddedResource Include="Properties\InfragisticsWinStatusBar.ru.resx">
       <DependentUpon>InfragisticsWinStatusBar.resx</DependentUpon>
@@ -496,9 +488,6 @@
       <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinTabControl.it.resx">
-      <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinTabControl.nl.resx">
       <DependentUpon>InfragisticsWinTabControl.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinTabControl.resx" />
@@ -517,11 +506,11 @@
     <EmbeddedResource Include="Properties\InfragisticsWinToolbars.it.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.nl.resx">
-      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinToolbars.resx" />
     <EmbeddedResource Include="Properties\InfragisticsWinToolbars.ru.resx">
+      <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.zh-CHS.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinTree.de.resx">
@@ -536,11 +525,11 @@
     <EmbeddedResource Include="Properties\InfragisticsWinTree.it.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinTree.nl.resx">
-      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinTree.resx" />
     <EmbeddedResource Include="Properties\InfragisticsWinTree.ru.resx">
+      <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.zh-CHS.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\TreeImages.png" />
@@ -583,6 +572,7 @@
     <None Include="Resources\searches\config.xml" />
     <None Include="Resources\searches\google.ico" />
     <None Include="Resources\searches\yahoo.ico" />
+    <None Include="Resources\splash2.png" />
     <Content Include="templates\aura-8.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1151,9 +1141,6 @@
     <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.ko.resx">
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\FacebookConnectDialog.resx">
-      <DependentUpon>FacebookConnectDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinGui\Dialogs\FeedSourceProperties.resx">
       <DependentUpon>FeedSourceProperties.cs</DependentUpon>
@@ -2144,12 +2131,6 @@
     </Compile>
     <Compile Include="WinGui\Dialogs\ExportFeedsDialog.Designer.cs">
       <DependentUpon>ExportFeedsDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinGui\Dialogs\FacebookConnectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WinGui\Dialogs\FacebookConnectDialog.Designer.cs">
-      <DependentUpon>FacebookConnectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="WinGui\Dialogs\FeedProperties.Designer.cs">
       <DependentUpon>FeedProperties.cs</DependentUpon>

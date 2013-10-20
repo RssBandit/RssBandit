@@ -29,8 +29,8 @@ namespace RssBandit.WinGui.Dialogs
 		public FeedSourceProperties(FeedSourceEntry entry) : this()
 		{
 			txtFeedSourceName.Text = entry.Name;
-			grpCredentials.Enabled = entry.Source.SubscriptionLocation.CredentialsSupported 
-                                       && entry.SourceType != FeedSourceType.Facebook;
+			grpCredentials.Enabled = entry.Source.SubscriptionLocation.CredentialsSupported ;
+                                       //&& entry.SourceType != FeedSourceType.Facebook;
 			if (grpCredentials.Enabled)
 			{
 				if (String.IsNullOrEmpty(entry.Source.SubscriptionLocation.Credentials.Domain))
