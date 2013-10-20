@@ -2803,18 +2803,18 @@
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
 		<row><td>Release 1.9.x (x64)</td><td>IncludeActionHelp</td><td>1</td></row>
-		<row><td>Release 1.9.x (x64)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3272_x64</td></row>
+		<row><td>Release 1.9.x (x64)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3293_x64</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductCode</td><td>{62586B9B-B8F2-411E-87A3-8D6E14CBED2A}</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x64)</td></row>
-		<row><td>Release 1.9.x (x64)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1178_x64</td></row>
+		<row><td>Release 1.9.x (x64)</td><td>SetupFileName</td><td>RssBandit_1.9.3293.1180_x64 (RC)</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>Subject</td><td>##SIS_TITLE_X64##</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>TemplateSummary</td><td>x64;0</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>Title</td><td>##SIS_TITLE_X64##</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>IncludeActionHelp</td><td>1</td></row>
-		<row><td>Release 1.9.x (x86)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3272_x86</td></row>
+		<row><td>Release 1.9.x (x86)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3293_x86</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductCode</td><td>{3CBE6C15-21D4-4F88-AB52-72446A6C6429}</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x86)</td></row>
-		<row><td>Release 1.9.x (x86)</td><td>SetupFileName</td><td>RssBandit_1.9.3272.1178_x86</td></row>
+		<row><td>Release 1.9.x (x86)</td><td>SetupFileName</td><td>RssBandit_1.9.3293.1180_x86 (RC)</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Subject</td><td>##SIS_TITLE##</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Title</td><td>##SIS_TITLE##</td></row>
 	</table>
