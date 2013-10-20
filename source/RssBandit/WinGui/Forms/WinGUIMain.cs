@@ -1927,21 +1927,40 @@ namespace RssBandit.WinGui.Forms
 
         #endregion
 
-        //toastNotify callbacks
-        private void OnExternalDisplayFeedProperties(INewsFeed f)
-        {
-            DelayTask(DelayedTasks.ShowFeedPropertiesDialog, f);
-        }
+        //toastNotify callback (not called on main window thread!)
+		void OnToastNotificationAction(object sender, NotifierActionEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifierAction.ActivateItem:
+					if (e.DownloadItem != null)
+						PlayEnclosure(e.DownloadItem);
+					else
+						DelayTask(DelayedTasks.NavigateToFeedNewsItem, e.NewsItem);
+					break;
+				case NotifierAction.ActivateFeed:
+					DelayTask(DelayedTasks.NavigateToFeed, e.NewsFeed);
+					break;
+				case NotifierAction.ShowFeedProperties:
+					DelayTask(DelayedTasks.ShowFeedPropertiesDialog, e.NewsFeed);
+					break;
+			}
+		}
 
-        private void OnExternalActivateFeedItem(INewsItem item)
-        {
-            DelayTask(DelayedTasks.NavigateToFeedNewsItem, item);
-        }
+		//private void OnExternalDisplayFeedProperties(INewsFeed f)
+		//{
+		//	DelayTask(DelayedTasks.ShowFeedPropertiesDialog, f);
+		//}
 
-        private void OnExternalActivateFeed(INewsFeed f)
-        {
-            DelayTask(DelayedTasks.NavigateToFeed, f);
-        }
+		//private void OnExternalActivateFeedItem(INewsItem item)
+		//{
+		//	DelayTask(DelayedTasks.NavigateToFeedNewsItem, item);
+		//}
+
+		//private void OnExternalActivateFeed(INewsFeed f)
+		//{
+		//	DelayTask(DelayedTasks.NavigateToFeed, f);
+		//}
 
         private void DisplayFeedProperties(INewsFeed f)
         {
@@ -2024,11 +2043,20 @@ namespace RssBandit.WinGui.Forms
 					return (TreeFeedsNodeBase)n;
 				}), f));
 		}
-
-        private void NavigateToFeedNewsItem(INewsItem item)
-        {
-            NavigateToFeed(item.Feed);
-        }
+		
+	    private void NavigateToFeedNewsItem(INewsItem item)
+	    {
+		    if (item != null)
+		    {
+				NavigateToFeed(item.Feed);
+			    var listItemToSelect = listFeedItems.Items.FirstOrDefault(lvi => item.Equals(lvi.Key));
+			    if (listItemToSelect != null)
+			    {
+				    listItemToSelect.Selected = true;
+					OnFeedListItemActivateManually(listItemToSelect);
+			    }
+		    }
+	    }
 
         private void NavigateToHistoryEntry(HistoryEntry historyEntry)
         {

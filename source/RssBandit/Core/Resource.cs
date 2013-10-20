@@ -12,6 +12,9 @@ using System.Reflection;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using log4net;
+using NewsComponents.Utils;
+using RssBandit.Common.Logging;
 
 
 namespace RssBandit
@@ -264,11 +267,67 @@ namespace RssBandit
 		
 		#region Application Sounds
 		
-		public class ApplicationSound {
+		public class ApplicationSound 
+		{
 			private const string appSndPrefix = "RSSBANDIT_";
+			private static readonly ILog _log = Log.GetLogger(typeof(ApplicationSound));
+		
 			public const string FeedDiscovered = appSndPrefix + "FeedDiscovered";
 			public const string NewItemsReceived = appSndPrefix + "ItemsReceived";
 			public const string NewAttachmentDownloaded = appSndPrefix + "AttachmentDownloaded";
+
+			public static string GetSoundFilePath(string applicationSound)
+			{
+				try
+				{
+					string soundFile = null;
+					// just to ensure only the predefined sounds are played:
+					switch (applicationSound)
+					{
+						case FeedDiscovered:
+							soundFile = Path.Combine(Application.StartupPath, @"Media\Feed Discovered.wav");
+							break;
+						case NewItemsReceived:
+							soundFile = Path.Combine(Application.StartupPath, @"Media\New Feed Items Received.wav");
+							break;
+						case NewAttachmentDownloaded:
+							soundFile = Path.Combine(Application.StartupPath, @"Media\New Attachment Downloaded.wav");
+							break;
+					}
+
+					if (File.Exists(soundFile))
+					{
+						return soundFile;
+					}
+
+				}
+				catch (Exception ex)
+				{
+					_log.Error("Error in GetSoundFilePath('" + applicationSound + "'): " +ex.Message, ex);
+				}
+
+				return null;
+			}
+
+			public static Stream GetSoundStream(string applicationSound)
+			{
+				try
+				{
+					string soundFile = GetSoundFilePath(applicationSound);
+					
+					if (!String.IsNullOrEmpty(soundFile) && File.Exists(soundFile))
+					{
+						return FileHelper.OpenForRead(soundFile);
+					}
+
+				}
+				catch (Exception ex)
+				{
+					_log.Error("Error in GetSoundStream('" + applicationSound + "'): " + ex.Message, ex);
+				}
+
+				return null;
+			}
 		}
 		
 		#endregion

@@ -41,7 +41,7 @@ namespace RssBandit.AppServices
 		/// <summary>
 		/// Gets the current INetState.
 		/// </summary>
-		INetState InternetConnectionState { get; }
+		InternetState InternetConnectionState { get; }
 	}
 	#endregion
 }

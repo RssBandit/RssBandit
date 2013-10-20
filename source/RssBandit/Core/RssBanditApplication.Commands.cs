@@ -5,22 +5,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Genghis.Windows.Forms;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
 using RssBandit.Resources;
 using RssBandit.WinGui;
 using RssBandit.WinGui.Controls;
-using RssBandit.WinGui.Controls.ThListView;
 using RssBandit.WinGui.Dialogs;
 using RssBandit.WinGui.Forms;
 using RssBandit.WinGui.Interfaces;
 using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
-
 using RssBandit.Common;
-using System.Net;
 
 namespace RssBandit
 {
@@ -1633,6 +1629,8 @@ namespace RssBandit
         /// <returns>true if all the requirements for posting to Facebook have been met</returns>
         private bool CanPostToFacebook(IFacebookFeedSource fbSource)
         {
+	        return false;
+	        /*
             //Ensure user's Facebook identity is known
             var identity = IdentityManager.Identities.Values.FirstOrDefault(id => id.ReferrerUrl.Contains("facebook.com"));
             if (identity == null)
@@ -1656,10 +1654,14 @@ namespace RssBandit
             {
                 try
                 {
-                    /* get extended permission to publish to the news feed */
-                    string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey, "publish_stream");
+                    // get extended permission to publish to the news feed 
+                    //string fbPermissionUrl = String.Format(FacebookConnectDialog.FbPermissionsUrlTemplate, FacebookConnectDialog.ApiKey, "publish_stream");
+                    string fbPermissionUrl = FacebookApp.Authorization.GetPermissionUrl("publish_stream");
 
-                    using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbPermissionUrl)))
+                    using (FacebookConnectDialog fcd = new FacebookConnectDialog(new Uri(fbPermissionUrl), uri =>
+                    {
+	                    return true;
+                    }))
                     {
                         result = fcd.ShowDialog();
                     }
@@ -1670,7 +1672,8 @@ namespace RssBandit
                 }
             }
 
-            return result == DialogResult.OK; //user didn't grant permission to publish to the news feed if not OK             
+            return result == DialogResult.OK; //user didn't grant permission to publish to the news feed if not OK   
+          	*/
         }
              
         /// <summary>
@@ -1681,15 +1684,16 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdPostReplyToItem(ICommand sender)
         {
-            INewsItem item2reply = guiMain.CurrentSelectedFeedItem;
+            INewsItem item2Reply = guiMain.CurrentSelectedFeedItem;
 
-            if (item2reply == null)
+            if (item2Reply == null)
             {
                 MessageInfo(SR.GuiStateNoFeedItemSelectedMessage);
                 return;
             }
 
-            string defaultIdentity = Preferences.UserIdentityForComments;              
+            string defaultIdentity = Preferences.UserIdentityForComments;       
+/*       
             IFacebookFeedSource fbSource = item2reply.Feed.owner as IFacebookFeedSource;
 
             if (fbSource != null)
@@ -1704,14 +1708,14 @@ namespace RssBandit
                     return; //user didn't grant permission
                 }
             }
-
+*/
             if ((postReplyForm == null) || (postReplyForm.IsDisposed))
             {
                 postReplyForm = new PostReplyForm(defaultIdentity, IdentityManager);
                 postReplyForm.PostReply += OnPostReplyFormPostReply;
             }
 
-            postReplyForm.ReplyToItem  = item2reply;
+            postReplyForm.ReplyToItem  = item2Reply;
 
             postReplyForm.Show(); // open non-modal
             Win32.NativeMethods.SetForegroundWindow(postReplyForm.Handle);

@@ -4,18 +4,6 @@ namespace RssBandit
 {
 
 	/// <summary>
-	/// Internet connection states
-	/// </summary>
- 	[Flags]
-	public enum INetState {
-		Invalid = 0,
-		DisConnected = 1,
-		Connected = 2,
-		Offline = 4, 
-		Online = 8
-	}
-
-	/// <summary>
 	/// Option Dialog detail sections
 	/// </summary>
 	public enum OptionDialogSection

@@ -3205,45 +3205,8 @@ namespace RssBandit.WinGui.Forms
                 Debug.Assert(false, "MoveNode(): unhandled NodeType:'" + theNode.Type);
             }
         }
-
-
-		///// <summary>
-		///// Adds an autodiscovered URL to the auto discovered feeds drop down
-		///// </summary>
-		///// <param name="info"></param>
-		//public void AddAutoDiscoveredUrl(DiscoveredFeedsInfo info)
-		//{
-		//    var duplicateItem =
-		//        new AppButtonToolCommand(
-		//            String.Concat("cmdDiscoveredFeed_", ++(AutoDiscoveredFeedsMenuHandler.cmdKeyPostfix)),
-		//            owner.BackgroundDiscoverFeedsHandler.mediator,
-		//            owner.BackgroundDiscoverFeedsHandler.OnDiscoveredItemClick,
-		//            AutoDiscoveredFeedsMenuHandler.StripAndShorten(info.Title), (string) info.FeedLinks[0]);
-
-		//    if (owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Exists(duplicateItem.Key))
-		//        owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Remove(duplicateItem);
-
-		//    owner.BackgroundDiscoverFeedsHandler.itemDropdown.ToolbarsManager.Tools.Add(duplicateItem);
-		//    duplicateItem.SharedProps.StatusText = info.SiteBaseUrl;
-		//    duplicateItem.SharedProps.ShowInCustomizer = false;
-
-		//    Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
-
-		//    lock (owner.BackgroundDiscoverFeedsHandler.discoveredFeeds)
-		//    {
-		//        // add a fresh version of info
-		//        owner.BackgroundDiscoverFeedsHandler.discoveredFeeds.Add(duplicateItem, info);
-		//    }
-
-		//    lock (owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds)
-		//    {
-		//        // re-order to top of list, in RefreshItemContainer()
-		//        owner.BackgroundDiscoverFeedsHandler.newDiscoveredFeeds.Enqueue(duplicateItem);
-		//    }
-		//}
-
-
-        /// <summary>
+		
+		/// <summary>
         /// Navigates to the specified URL or local feed item on the GUI thread, if required
         /// </summary>
         /// <param name="url">The webpage or feed item to navigate to</param>

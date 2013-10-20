@@ -101,7 +101,7 @@ namespace RssBandit
         /// </summary>
         /// <remarks>Next Final Release: remove the temp. preferences file 
         /// reading/writing before publishing!</remarks>
-        public static readonly string versionPostfix = "(SVN)";//String.Empty; // e.g. 'beta 1' or '(SVN)'
+        public static readonly string versionPostfix = "(RC)";//String.Empty; // e.g. 'beta 1' or '(SVN)'
 
         private static bool validationErrorOccured;
         private static readonly RssBanditPreferences defaultPrefs = new RssBanditPreferences();
@@ -349,9 +349,24 @@ namespace RssBandit
 					"we disabled this synchronizable feed source.{0}{0}",
 					"Good news: there is a alternative service available: feedly.com{0}{0}" ,
 					"Feel free to import your google reader feeds there and use their online services ",
-					"for now until we integrated cloud.feedly.com as a new synchronizable feed source...")
+					"for now until we integrated cloud.feedly.com as a new synchronizable feed source.{0}",
+					"Please vote to get this feature built in!")
 					.FormatWith(Environment.NewLine));
 	        }
+
+			// Facebook is a very inactive source at Bandit:
+			var fbReaderFeedSource = sourceManager.Sources.FirstOrDefault(
+					entry => (entry.SourceType == FeedSourceType.Facebook));
+			if (googlReaderFeedSource != null)
+			{
+				sourceManager.Remove(fbReaderFeedSource);
+				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
+
+				MessageInfo(String.Concat("Bad news: the Facebook synchronization feature was rarly used in the past, so ",
+					"we disabled this synchronizable feed source.{0}{0}",
+					"Good news: you can use the FBRSS service at fbrss.com instead.")
+					.FormatWith(Environment.NewLine));
+			}
 
             //make sure we have a direct access feed source
 			//DISCUSS: should we do so in the final release?
@@ -1315,7 +1330,8 @@ namespace RssBandit
 			// currently we just play a sound.
 			// But we could also display a tooltip at the command button
 			// to indicate new feeds detected here
-			Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
+			if (Preferences.AllowAppEventSounds)
+				Win32.PlaySound(Resource.ApplicationSound.FeedDiscovered);
 		}
 
     	private void OnBackgroundDiscoveredFeedsSubscribe(object sender, DiscoveredFeedsInfoCancelEventArgs e)
@@ -2182,8 +2198,6 @@ namespace RssBandit
             FeedSource.NumEnclosuresToDownloadOnNewFeed = Preferences.NumEnclosuresToDownloadOnNewFeed;
             FeedSource.EnclosureCacheSize = Preferences.EnclosureCacheSize;
             FeedSource.MarkItemsReadOnExit = Preferences.MarkItemsReadOnExit;
-
-            Win32.ApplicationSoundsAllowed = Preferences.AllowAppEventSounds;
         }
 
         /// <summary>
@@ -3505,9 +3519,9 @@ namespace RssBandit
 		
 		public void SynchronizeFeeds(FeedSourceType sourceType)
         {
-        
+
 			using (var wiz = new SynchronizeFeedsWizard(sourceType))
-			{             
+			{
 				try
 				{
 					if (MainForm.IsHandleCreated)
@@ -3520,50 +3534,55 @@ namespace RssBandit
 					wiz.DialogResult = DialogResult.Cancel;
 				}
 
-				if (wiz.DialogResult == DialogResult.OK)
+				try
 				{
-					var id = sourceManager.UniqueKey;
-					var locName = FeedSourceManager.BuildSubscriptionName(id, wiz.SelectedFeedSource);
-					SubscriptionLocation loc = null;
-
-					switch (wiz.SelectedFeedSource)
+					if (wiz.DialogResult == DialogResult.OK)
 					{
-						case FeedSourceType.WindowsRSS:
-							loc = new SubscriptionLocation(locName);
-							break;
-						//case FeedSourceType.Google:
-						//	loc = new SubscriptionLocation(locName,
-						//		new NetworkCredential(wiz.UserName, wiz.Password));
-						//	break;
-						//case FeedSourceType.NewsGator:
-						//	loc = new SubscriptionLocation(locName,
-						//		new NetworkCredential(wiz.UserName, wiz.Password));
-						//	break;
-						case FeedSourceType.Facebook:
-							loc = new SubscriptionLocation(locName,
-								new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
-							break;
+						var id = sourceManager.UniqueKey;
+						var locName = FeedSourceManager.BuildSubscriptionName(id, wiz.SelectedFeedSource);
+						SubscriptionLocation loc;
+
+						switch (wiz.SelectedFeedSource)
+						{
+							case FeedSourceType.WindowsRSS:
+								loc = new SubscriptionLocation(locName);
+								break;
+								//case FeedSourceType.Google:
+								//	loc = new SubscriptionLocation(locName,
+								//		new NetworkCredential(wiz.UserName, wiz.Password));
+								//	break;
+								//case FeedSourceType.NewsGator:
+								//	loc = new SubscriptionLocation(locName,
+								//		new NetworkCredential(wiz.UserName, wiz.Password));
+								//	break;
+							//case FeedSourceType.Facebook:
+							//	loc = new SubscriptionLocation(locName,
+							//		new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
+								break;
 #if FEEDLY_FEATURE
-						case FeedSourceType.FeedlyCloud:
-							loc = new SubscriptionLocation(locName,
-								new NetworkCredential(wiz.UserName, wiz.Password));
-							break;
+							case FeedSourceType.FeedlyCloud:
+								loc = new SubscriptionLocation(locName,
+									new NetworkCredential(wiz.UserName, wiz.Password));
+								break;
 #endif
-						default:
-							throw new NotImplementedException("FEEDLY_FEATURE is under construction...");
-					}
+							default:
+								throw new NotImplementedException("FEEDLY_FEATURE is under construction...");
+						}
 
-					if (loc != null)
-					{
 						var fs = FeedSource.CreateFeedSource(id, wiz.SelectedFeedSource, loc);
 						var entry = sourceManager.Add(fs, wiz.FeedSourceName);
-						
+
 						AddFeedSourceToUserInterface(entry);
-						
+
 						if (FeedSourceAdded != null)
 							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
+
 					}
-					
+				}
+				catch (Exception ex)
+				{
+					_log.Error("SynchronizeFeeds {0} caused exception.".FormatWith(wiz.SelectedFeedSource), ex);
+					MessageError("Feed source {0} could not be created: {1}".FormatWith(wiz.SelectedFeedSource, ex.Message));
 				}
 			}
         }

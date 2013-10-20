@@ -273,5 +273,14 @@ namespace RssBandit.AppServices
 		/// Sets/Get if we build the relation cosmos (interlinkage of news items).
 		/// </summary>
 		bool BuildRelationCosmos { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether to allow application
+		/// event sounds.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [allow app event sounds]; otherwise, <c>false</c>.
+		/// </value>
+		bool AllowAppEventSounds { get; }
 	}
 }

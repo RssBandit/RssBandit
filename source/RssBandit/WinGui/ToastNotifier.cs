@@ -11,78 +11,74 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infragistics.Win;
 using Infragistics.Win.Misc;
+using JetBrains.Annotations;
 using NewsComponents;
 using NewsComponents.Net;
 using NewsComponents.Feed;
 using NewsComponents.Utils;
+using RssBandit.AppServices;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 using Logger = RssBandit.Common.Logging;
 
 namespace RssBandit.WinGui
 {
-	#region public delegates
-	/// <summary>
-	/// Delegate called on a NewsItem link click.
-	/// </summary>
-	public delegate void ItemActivateCallback(INewsItem item);
-	/// <summary>
-	/// Delegate called on a Feed Properties link click.
-	/// </summary>
-	public delegate void DisplayFeedPropertiesCallback(INewsFeed f);
-	/// <summary>
-	/// Delegate called on a Feed link click.
-	/// </summary>
-	public delegate void FeedActivateCallback(INewsFeed f);
-	/// <summary>
-	/// dDelegate called on downloaded enclosure link click
-	/// </summary>
-	public delegate void EnclosureActivateCallback(DownloadItem enclosure);
-	#endregion
+	public enum NotifierAction
+	{
+		ActivateItem,
+		ActivateFeed,
+		ShowFeedProperties,
+	}
+
+	public class NotifierActionEventArgs : EventArgs
+	{
+		public NotifierAction Action;
+		public INewsItem NewsItem;
+		public INewsFeed NewsFeed;
+		public DownloadItem DownloadItem;
+
+		public NotifierActionEventArgs(NotifierAction action)
+		{
+			this.Action = action;
+		}
+	}
 
 	/// <summary>
 	/// Manages Toast Notification Windows.
 	/// </summary>
 	public class ToastNotifier
 	{
+		public event EventHandler<NotifierActionEventArgs> NotificationAction;
+
 		#region private variables
 
 		private const int maxItemTextWith = 45;
-		
+		private const string NewsItemAlertWindowKey = "#NIAWK";
+		private const string DownloadItemAlertWindowKey = "#DIAWK";
+
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(ToastNotifier));
 
 	    private readonly UltraDesktopAlert _alertWindow;
-		private readonly ItemActivateCallback _itemActivateCallback;
-        private readonly DisplayFeedPropertiesCallback _displayFeedPropertiesCallback;
-        private readonly FeedActivateCallback _feedActivateCallback;
-        private readonly EnclosureActivateCallback _enclosureActivateCallback;
-
-		private readonly Random _keyGen = new Random();
+		private readonly IUserPreferences _preferences;
 		
 		#endregion
 
 		#region ctor()'s
 		
         public ToastNotifier(
-			UltraDesktopAlert desktopAlert,
-            ItemActivateCallback onItemActivateCallback, 
-			DisplayFeedPropertiesCallback onFeedPropertiesDialog,
-			FeedActivateCallback onFeedActivateCallback, 
-			EnclosureActivateCallback onEnclosureActivateCallback) 
+			[NotNull]IUserPreferences preferences,
+			[NotNull]UltraDesktopAlert desktopAlert) 
         {
+			if (preferences == null)
+				throw new ArgumentNullException("preferences");
 			if (desktopAlert == null)
 				throw new ArgumentNullException("desktopAlert");
-		    
+
+			_preferences = preferences;
 			_alertWindow = desktopAlert;
 			_alertWindow.Style = DesktopAlertStyle.Office2007;
 			_alertWindow.DesktopAlertLinkClicked += OnDesktopAlertLinkClicked;
-			
-			this._itemActivateCallback = onItemActivateCallback;
-			this._displayFeedPropertiesCallback = onFeedPropertiesDialog;
-			this._feedActivateCallback = onFeedActivateCallback;
-			this._enclosureActivateCallback = onEnclosureActivateCallback;
 		}
 
 		#endregion
@@ -118,25 +114,23 @@ namespace RssBandit.WinGui
 
 	        var firstItem = items[0];
 
-			if (_alertWindow != null && unreadCount > dispItemCount)
+			if (_alertWindow != null && unreadCount > dispItemCount && !_alertWindow.IsOpen(NewsItemAlertWindowKey))
 			{
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
+				windowInfo.Key = NewsItemAlertWindowKey;
+				windowInfo.PinButtonVisible = true;
 				windowInfo.Image = node.ImageResolved;
 				windowInfo.Data = firstItem;	
 				
-				_alertWindow.TreatCaptionAsLink = DefaultableBoolean.False;
-				_alertWindow.TreatTextAsLink = DefaultableBoolean.False;
-				_alertWindow.TreatFooterTextAsLink = DefaultableBoolean.False;
-				
-				var link = windowInfo.Key = "#F{0}".FormatWith(_keyGen.Next());
-				
-				windowInfo.Caption = "<a href=\"{2}\"><font face=\"Tahoma\" size=\"+1\"><b>{0} ({1})</b></font></a>"
-					.FormatWith(node.Text, unreadCount, link);
-				windowInfo.Text = String.Format("<a href=\"{2}\"><font face=\"Tahoma\">{0}<br/><span style=\"font-style:italic_x003B_\">{1}</span></font></a>", 
-					SR.GUIStatusFeedJustReceivedItemsMessage.FormatWith( unreadCount - dispItemCount),
-					StringHelper.ShortenByEllipsis(firstItem.Title, maxItemTextWith), link);
-				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
-					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
+				windowInfo.Caption = "<font face=\"Tahoma\">{0} ({1})</font>"
+					.FormatWith(node.Text, unreadCount - dispItemCount);
+				windowInfo.Text = String.Format("<hr NoShade=\"true\" size=\"1px\"/><font face=\"Tahoma\"><span style=\"font-style:italic_x003B_\">{0}</span></font>", 
+					StringHelper.ShortenByEllipsis(firstItem.Title, maxItemTextWith));
+				windowInfo.FooterText = "<font face=\"Tahoma\">{0}</font>"
+					.FormatWith(SR.MenuShowFeedPropertiesCaption);
+
+				if (_preferences.AllowAppEventSounds)
+					windowInfo.Sound = Resource.ApplicationSound.GetSoundStream(Resource.ApplicationSound.NewItemsReceived);
 				
 				_alertWindow.Show(windowInfo);
 			}
@@ -166,27 +160,26 @@ namespace RssBandit.WinGui
 
 			var firstItem = items[0];
 
-			if (_alertWindow != null && unreadCount > dispItemCount)
+			if (_alertWindow != null && unreadCount > dispItemCount && !_alertWindow.IsOpen(DownloadItemAlertWindowKey))
 			{
 				UltraDesktopAlertShowWindowInfo windowInfo = new UltraDesktopAlertShowWindowInfo();
+				windowInfo.Key = DownloadItemAlertWindowKey;
 				windowInfo.Image = Properties.Resources.download_enclosure_32;
-				windowInfo.Data = firstItem;	
+				windowInfo.Data = firstItem;
+				windowInfo.PinButtonVisible = true;
 
-				_alertWindow.TreatCaptionAsLink = DefaultableBoolean.False;
-				_alertWindow.TreatTextAsLink = DefaultableBoolean.False;
-				_alertWindow.TreatFooterTextAsLink = DefaultableBoolean.False;
-				
-				var link = windowInfo.Key = "#D{0}".FormatWith(_keyGen.Next());
-
-				windowInfo.Caption = "<a href=\"{1}\"><font face=\"Tahoma\" size=\"+1\"><b>{0}</b></font></a><br/>&nbsp;"
-					.FormatWith(feed.title, link);
-				windowInfo.Text = String.Format("<a href=\"{2}\" title=\"{3}\"><font face=\"Tahoma\">{0}<br/>{1}</font></a>",
+				windowInfo.Caption = "<font face=\"Tahoma\" size=\"+2\"><b>{0}</b></font><br/>&nbsp;"
+					.FormatWith(feed.title);
+				windowInfo.Text = String.Format("<font face=\"Tahoma\">{0}<br/>{1}<br/>{2}</font>",
 					SR.GUIStatusEnclosureJustReceivedItemsMessage,
-					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, maxItemTextWith), link, 
-					String.IsNullOrEmpty(firstItem.Enclosure.Description) ? firstItem.File.LocalName : firstItem.Enclosure.Description);
-				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\"><a href=\"{2}\" title=\"{1}\">{0}</a></font>"
-					.FormatWith(SR.MenuShowFeedPropertiesCaption, SR.MenuShowFeedPropertiesDesc, link);
+					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, maxItemTextWith),  
+					String.IsNullOrEmpty(firstItem.Enclosure.Description) ? "" : firstItem.Enclosure.Description);
+				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\">{0}</font>"
+					.FormatWith(SR.MenuShowFeedPropertiesCaption);
 
+				if (_preferences.AllowAppEventSounds)
+					windowInfo.Sound = Resource.ApplicationSound.GetSoundStream(Resource.ApplicationSound.NewAttachmentDownloaded);
+				
 				_alertWindow.Show(windowInfo);
 			}
         }
@@ -204,9 +197,6 @@ namespace RssBandit.WinGui
 			if (e.WindowInfo != null)
 				alertItem = e.WindowInfo.Data;
 
-			//var key = e.LinkClickedArgs.LinkRef;
-			//object alertItem = _alertWindow.GetWindowInfo(key).Data;
-
 			var newsItem = alertItem as INewsItem;
 			var dwldItem = alertItem as DownloadItem;
 
@@ -214,39 +204,64 @@ namespace RssBandit.WinGui
 			{
 				case DesktopAlertLinkType.Footer:
 					// navigate to feed options dialog
-					if (_displayFeedPropertiesCallback != null && (newsItem != null || dwldItem != null))
+					if (newsItem != null || dwldItem != null)
 					{
-						try { _displayFeedPropertiesCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
+						try
+						{
+							RaiseNotificationAction(new NotifierActionEventArgs(NotifierAction.ShowFeedProperties) 
+								{ NewsFeed = newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed });
+						}
 						catch { }
 					}
 					break;
 
 				case DesktopAlertLinkType.Caption:
 					// navigate to feed
-					if (_feedActivateCallback != null && (newsItem != null || dwldItem != null))
+					if (newsItem != null || dwldItem != null)
 					{
-						try { _feedActivateCallback(newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed); }
+						try
+						{
+							RaiseNotificationAction(new NotifierActionEventArgs(NotifierAction.ActivateFeed) 
+								{ NewsFeed = newsItem != null ? newsItem.Feed : dwldItem.OwnerFeed });
+						}
 						catch { }
 					}
 					break;
 
 				case DesktopAlertLinkType.Text:
 					// navigate to feed item
-					if (_itemActivateCallback != null && newsItem != null)
+					if (newsItem != null)
 					{
-						try { _itemActivateCallback(newsItem); }
+						try
+						{
+							RaiseNotificationAction(new NotifierActionEventArgs(NotifierAction.ActivateItem) 
+								{ NewsItem = newsItem });
+						}
 						catch { }
 					}
-					else if (_enclosureActivateCallback != null && dwldItem != null)
+					else if (dwldItem != null)
 					{
-						try { _enclosureActivateCallback(dwldItem); }
+						try
+						{
+							RaiseNotificationAction(new NotifierActionEventArgs(NotifierAction.ActivateItem) 
+								{ DownloadItem = dwldItem });
+						}
 						catch { }
 					}
 					break;
 			}
 
 		}
-		
+
+		private void RaiseNotificationAction(NotifierActionEventArgs e)
+		{
+			var handler = NotificationAction;
+			if (handler != null)
+			{
+				handler(this, e);
+			}
+		}
+
 		#endregion
 	}
 }

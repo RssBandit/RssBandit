@@ -269,19 +269,11 @@ namespace RssBandit
 		#region MultiMedia
 
 		/// <summary>
-		/// Sets/Gets if application sounds are anabled.
-		/// </summary>
-		public static bool ApplicationSoundsAllowed = false;
-
-		/// <summary>
 		/// Plays a application sound.
 		/// </summary>
 		/// <param name="applicationSound">The application sound.</param>
 		public static void PlaySound(string applicationSound)
 		{
-			if (!ApplicationSoundsAllowed)
-				return;
-
 			if (RssBanditApplication.PortableApplicationMode)
 			{
 				PlaySoundFromFile(applicationSound);
@@ -332,22 +324,9 @@ namespace RssBandit
 		{
 			try
 			{
-				string soundFile = null;
-				// just to ensure only the predefined sounds are played:
-				switch (applicationSound)
-				{
-					case Resource.ApplicationSound.FeedDiscovered:
-						soundFile = Path.Combine(Application.StartupPath, @"Media\Feed Discovered.wav");
-						break;
-					case Resource.ApplicationSound.NewItemsReceived:
-						soundFile = Path.Combine(Application.StartupPath, @"Media\New Feed Items Received.wav");
-						break;
-					case Resource.ApplicationSound.NewAttachmentDownloaded:
-						soundFile = Path.Combine(Application.StartupPath, @"Media\New Attachment Downloaded.wav");
-						break;
-				}
-
-				if (File.Exists(soundFile))
+				string soundFile = Resource.ApplicationSound.GetSoundFilePath(applicationSound);
+				
+				if (!String.IsNullOrEmpty(soundFile) && File.Exists(soundFile))
 				{
 					NativeMethods.PlaySound(soundFile, IntPtr.Zero, NativeMethods.SoundFlags.SND_FILENAME |
 						NativeMethods.SoundFlags.SND_NOWAIT | NativeMethods.SoundFlags.SND_ASYNC);

@@ -93,11 +93,7 @@ namespace RssBandit.WinGui.Forms
                 IconReference = new IconReference(RssBanditApplication.GetAddFacebookIconPath(), 0),
                 Arguments = "-f"
             });
-			//jumpList.AddUserTasks(new JumpListLink(Application.ExecutablePath, SR.JumpListAddGoogleCaption)
-			//{
-			//	IconReference = new IconReference(RssBanditApplication.GetGoogleIconPath(), 0),
-			//	Arguments = "-g"
-			//});
+			
             jumpList.AddUserTasks(new JumpListSeparator());
             jumpList.AddUserTasks(new JumpListLink(Resource.OutgoingLinks.ProjectNewsUrl, SR.JumpListGoToWebsiteCaption)
             {
@@ -279,13 +275,17 @@ namespace RssBandit.WinGui.Forms
 
         private void InitToaster()
         {
-            toastNotifier = new ToastNotifier(this.ultraDesktopAlert,
+            toastNotifier = new ToastNotifier(
+				owner.Preferences,
+				this.ultraDesktopAlert/*,
                 OnExternalActivateFeedItem,
                 OnExternalDisplayFeedProperties,
                 OnExternalActivateFeed,
-                PlayEnclosure);
+                PlayEnclosure*/);
+			toastNotifier.NotificationAction += OnToastNotificationAction;
         }
 
+		
         private void InitListView()
         {
             colTopic.Text = SR.ListviewColumnCaptionTopic;

@@ -247,6 +247,9 @@ namespace NewsComponents
                 case FeedSourceType.WindowsRSS:
                     handler = new WindowsRssFeedSource(configuration, location);
                     break;
+/*
+ * Deactivated because of lack of user usages (see stats at FB for our application)
+ * https://developers.facebook.com/apps/15028810303/insights?dates=1%2F1%2F2012_10%2F18%2F2013
                 case FeedSourceType.Google:
                     handler = new GoogleReaderFeedSource(configuration, location);
                     break;
@@ -256,6 +259,7 @@ namespace NewsComponents
                 case FeedSourceType.Facebook:
                     handler = new FacebookFeedSource(configuration, location); 
                     break;
+ */ 
 				case FeedSourceType.FeedlyCloud:
 					handler = new FeedlyCloudFeedSource(configuration, location);
 					break;
@@ -325,7 +329,7 @@ namespace NewsComponents
 		/// <summary>
 		/// The start of the Unix epoch. Used to calculate If-Modified-Since semantics when fetching feeds. 
 		/// </summary>
-		public static DateTime UnixEpoch = new DateTime(1970, 1, 1);
+		public static DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Defines all subscription relevant NewsFeed properties, 
