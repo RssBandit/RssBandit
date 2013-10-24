@@ -8,10 +8,10 @@
  */
 #endregion
 
-
 #region usings
 using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.Serialization;
@@ -21,20 +21,21 @@ using System.Text;
 using System.Collections.Generic;
 using NewsComponents;
 using NewsComponents.Utils;
+using RssBandit.ViewModel;
 using Logger = RssBandit.Common.Logging;
 using RssBandit.WinGui.Utility;
 using RssBandit.AppServices;
 #endregion
 
-namespace RssBandit {
-	
+namespace RssBandit 
+{
 	/// <summary>
 	/// RssBanditPreferences manages 
 	/// all the Bandit specific user preferences.
 	/// </summary>
 	[Serializable]
-	public class RssBanditPreferences: ISerializable, IUserPreferences {
-		
+	public class RssBanditPreferences : BindableBase, ISerializable, IUserPreferences
+	{
 		#region bool instance variables
 		/// <summary>
 		/// To get rid of all the bool variables,
@@ -87,7 +88,7 @@ namespace RssBandit {
         private TextSize readingPaneTextSize = TextSize.Medium;
 
 		//new 1.5.x
-		private decimal numNewsItemsPerPage = 10;
+		private int numNewsItemsPerPage = 10;
 
 		// new: 1.3.x
 		private string userIdentityForComments = String.Empty;
@@ -126,13 +127,13 @@ namespace RssBandit {
 		private Font unreadFont;
 		private Font flagFont;
 		private Font errorFont;
-		private Font refererFont;
+		private Font referrerFont;
 		private Font newCommentsFont;
 		private Color normalFontColor = FontColorHelper.DefaultNormalColor;
 		private Color unreadFontColor = FontColorHelper.DefaultUnreadColor;
 		private Color flagFontColor = FontColorHelper.DefaultHighlightColor;
 		private Color errorFontColor = FontColorHelper.DefaultFailureColor;
-		private Color refererFontColor = FontColorHelper.DefaultReferenceColor;
+		private Color referrerFontColor = FontColorHelper.DefaultReferenceColor;
 		private Color newCommentsColor = FontColorHelper.DefaultNewCommentsColor;
 
 		// general max item age: 90 days:
@@ -150,13 +151,13 @@ namespace RssBandit {
 		/// Gets or sets the refresh rate in millisecs.
 		/// </summary>
 		/// <value>The refresh rate.</value>
-		internal int RefreshRate {
+		internal int RefreshRate
+		{
 			[DebuggerStepThrough]
 			get { return refreshRate; }
 			set
 			{
-				refreshRate = value;
-				RaisePropertyChanged("RefreshRate");
+				SetProperty(ref refreshRate, value);
 			}
 		}
 
@@ -169,20 +170,19 @@ namespace RssBandit {
             get { return readingPaneTextSize; }
             set
             {
-                readingPaneTextSize = value;
-                RaisePropertyChanged("ReadingPaneTextSize");
+	            SetProperty(ref readingPaneTextSize, value);
             }	
         }
 
 		/// <summary>
 		/// Gets/Sets the number of news items to display per page in the newspaper view
 		/// </summary>
-		public decimal NumNewsItemsPerPage{
+		public int NumNewsItemsPerPage{
 			[DebuggerStepThrough]
 			get { return numNewsItemsPerPage; }
-			set { 
-				numNewsItemsPerPage = value; 
-				RaisePropertyChanged("NumNewsItemsPerPage");
+			set 
+			{
+				SetProperty(ref numNewsItemsPerPage, value);
 			}		
 		}
 
@@ -193,9 +193,9 @@ namespace RssBandit {
 		public string NgosSyncToken {
 			[DebuggerStepThrough]
 			get { return ngosSyncToken; }
-			set { 
-				ngosSyncToken = value; 
-				RaisePropertyChanged("NgosSyncToken");
+			set 
+			{ 
+				SetProperty(ref ngosSyncToken, value);
 			}
 		}
 
@@ -205,9 +205,9 @@ namespace RssBandit {
 		public string UserIdentityForComments {
 			[DebuggerStepThrough]
 			get { return userIdentityForComments; }
-			set { 
-				userIdentityForComments = value; 
-				RaisePropertyChanged("UserIdentityForComments");
+			set 
+			{
+				SetProperty(ref userIdentityForComments, value);
 			}
 		}
 
@@ -254,7 +254,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.RefreshFeedsOnStartup); }
 			set {	
 				SetOption(OptionalFlags.RefreshFeedsOnStartup, value);		
-				RaisePropertyChanged("FeedRefreshOnStartup");
+				OnPropertyChanged();
 			}
 		}
 
@@ -266,8 +266,8 @@ namespace RssBandit {
 			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.CustomProxy);		}
 			set {	
-				SetOption(OptionalFlags.CustomProxy, value);		
-				RaisePropertyChanged("UseProxy");
+				SetOption(OptionalFlags.CustomProxy, value);
+				OnPropertyChanged();
 			}
 		}
 
@@ -280,8 +280,8 @@ namespace RssBandit {
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.TakeIEProxySettings);	}
 			set { 
-				SetOption(OptionalFlags.TakeIEProxySettings, value);	
-				RaisePropertyChanged("UseIEProxySettings");
+				SetOption(OptionalFlags.TakeIEProxySettings, value);
+				OnPropertyChanged();
 			}
 		}
 
@@ -293,8 +293,8 @@ namespace RssBandit {
 			[DebuggerStepThrough]
 			get {	return GetOption(OptionalFlags.ByPassProxyOnLocal);		}
 			set {	
-				SetOption(OptionalFlags.ByPassProxyOnLocal, value);		
-				RaisePropertyChanged("BypassProxyOnLocal");
+				SetOption(OptionalFlags.ByPassProxyOnLocal, value);
+				OnPropertyChanged();
 			}
 		}
 
@@ -307,8 +307,8 @@ namespace RssBandit {
 			[DebuggerStepThrough]
 			get {	return !GetOption(OptionalFlags.DisableAutoMarkItemsRead);		}
 			set {	
-				SetOption(OptionalFlags.DisableAutoMarkItemsRead, !value);		
-				RaisePropertyChanged("MarkItemsAsReadWhenViewed");
+				SetOption(OptionalFlags.DisableAutoMarkItemsRead, !value);
+				OnPropertyChanged();
 			}
 		}
 
@@ -320,8 +320,8 @@ namespace RssBandit {
 			[DebuggerStepThrough]
 			get {	return !GetOption(OptionalFlags.ShowAllNewsItemsPerPage);		}
 			set {	
-				SetOption(OptionalFlags.ShowAllNewsItemsPerPage, !value);		
-				RaisePropertyChanged("LimitNewsItemsPerPage");
+				SetOption(OptionalFlags.ShowAllNewsItemsPerPage, !value);
+				OnPropertyChanged();
 			}
 		}
 
@@ -332,9 +332,9 @@ namespace RssBandit {
 		{
 			[DebuggerStepThrough]
 			get {	return proxyBypassList;			}
-			set {	
-				proxyBypassList = value;		
-				RaisePropertyChanged("ProxyBypassList");
+			set 
+			{	
+				SetProperty(ref proxyBypassList, value);
 			}
 		}
 
@@ -344,9 +344,9 @@ namespace RssBandit {
 		public string ProxyAddress {
 			[DebuggerStepThrough]
 			get {	return proxyAddress;	}
-			set {	
-				proxyAddress = value;	
-				RaisePropertyChanged("ProxyAddress");
+			set 
+			{
+				SetProperty(ref proxyAddress, value);
 			}
 		}
 
@@ -356,9 +356,9 @@ namespace RssBandit {
 		public int ProxyPort {
 			[DebuggerStepThrough]
 			get {	return proxyPort;		}
-			set {	
-				proxyPort = value;	
-				RaisePropertyChanged("ProxyPort");
+			set 
+			{
+				SetProperty(ref proxyPort, value);
 			}
 		}
 
@@ -371,7 +371,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.ProxyCustomCredentials);		}
 			set {	
 				SetOption(OptionalFlags.ProxyCustomCredentials, value);		
-				RaisePropertyChanged("ProxyCustomCredentials");
+				OnPropertyChanged();
 			}
 		}
 
@@ -381,9 +381,9 @@ namespace RssBandit {
 		public string ProxyUser {
 			[DebuggerStepThrough]
 			get {	return proxyUser;		}
-			set {	
-				proxyUser = value;	
-				RaisePropertyChanged("ProxyUser");
+			set 
+			{
+				SetProperty(ref proxyUser, value);
 			}
 		}
 
@@ -393,22 +393,22 @@ namespace RssBandit {
 		public string ProxyPassword {
 			[DebuggerStepThrough]
 			get {	return proxyPassword;		}
-			set {	
-				proxyPassword = value;	
-				RaisePropertyChanged("ProxyPassword");
+			set 
+			{
+				SetProperty(ref proxyPassword, value);
 			}
 		}
 		
 		/// <summary>
 		/// Sets/Get the global news item formatter stylesheet 
-		/// (filename exluding path name)
+		/// (filename excluding path name)
 		/// </summary>
 		public string NewsItemStylesheetFile {
 			[DebuggerStepThrough]
 			get {	return newsItemStylesheetFile;		}
-			set {	
-				newsItemStylesheetFile = value;	
-				RaisePropertyChanged("NewsItemStylesheetFile");
+			set 
+			{
+				SetProperty(ref newsItemStylesheetFile, value);
 			}
 		}
 
@@ -420,9 +420,9 @@ namespace RssBandit {
 		public string SinglePlaylistName {
 			[DebuggerStepThrough]
 			get {	return singlePlaylistName;		}
-			set {	
-				singlePlaylistName = value;	
-				RaisePropertyChanged("SinglePlaylistName");
+			set 
+			{
+				SetProperty(ref singlePlaylistName, value);
 			}
 		}
 		
@@ -436,7 +436,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.ReUseFirstBrowserTab);		}
 			set {	
 				SetOption(OptionalFlags.ReUseFirstBrowserTab, value);	
-				RaisePropertyChanged("ReuseFirstBrowserTab");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -449,7 +449,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.OpenNewTabsInBackground);		}
 			set {	
 				SetOption(OptionalFlags.OpenNewTabsInBackground, value);	
-				RaisePropertyChanged("OpenNewTabsInBackground");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -465,7 +465,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AllowAppEventSounds);		}
 			set {	
 				SetOption(OptionalFlags.AllowAppEventSounds, value);	
-				RaisePropertyChanged("AllowAppEventSounds");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -483,14 +483,14 @@ namespace RssBandit {
 				if (Win32.Registry.RunAtStartup != value)
 				{
 					Win32.Registry.RunAtStartup = value;
-					RaisePropertyChanged("RunBanditAsWindowsUserLogon");
+					OnPropertyChanged();
 				}
 			}
 		}
 		
 		/// <summary>
 		/// Sets/Get a value to control whether there should be a single playlist 
-		/// for podcast files. If this value is false, then podcasts are added to 
+		/// for podcasts files. If this value is false, then podcasts are added to 
 		/// a playlist with the same name as the feed. 
 		/// </summary>
 		public bool SinglePodcastPlaylist {
@@ -498,7 +498,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.SinglePodcastPlaylist);		}
 			set {	
 				SetOption(OptionalFlags.SinglePodcastPlaylist, value);	
-				RaisePropertyChanged("SinglePodcastPlaylist");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -511,7 +511,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2Folder);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2Folder, value);	
-				RaisePropertyChanged("AddPodcasts2Folder");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -524,7 +524,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2WMP);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2WMP, value);	
-				RaisePropertyChanged("AddPodcasts2WMP");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -537,7 +537,7 @@ namespace RssBandit {
 			get {	return GetOption(OptionalFlags.AddPodcasts2ITunes);		}
 			set {	
 				SetOption(OptionalFlags.AddPodcasts2ITunes, value);	
-				RaisePropertyChanged("AddPodcasts2ITunes");
+				OnPropertyChanged();
 			}
 		}	
 
@@ -550,7 +550,7 @@ namespace RssBandit {
 			get {	return !GetOption(OptionalFlags.DisableFavicons);		}
 			set {	
 				SetOption(OptionalFlags.DisableFavicons, !value);	
-				RaisePropertyChanged("UseFavicons");
+				OnPropertyChanged();
 			}
 		}	
 		/// <summary>
@@ -562,7 +562,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.MarkFeedItemsReadOnExit);	}
 			set { 
 				SetOption(OptionalFlags.MarkFeedItemsReadOnExit, value);	
-				RaisePropertyChanged("MarkItemsReadOnExit");
+				OnPropertyChanged();
 			}
 		}
 
@@ -575,7 +575,7 @@ namespace RssBandit {
 			get { return GetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow);	}
 			set { 
 				SetOption(OptionalFlags.NewsItemOpenLinkInDetailWindow, value);	
-				RaisePropertyChanged("NewsItemOpenLinkInDetailWindow");
+				OnPropertyChanged();
 			}
 		}
 
@@ -587,9 +587,9 @@ namespace RssBandit {
 		public HideToTray HideToTrayAction {
 			[DebuggerStepThrough]
 			get {	return hideToTrayAction;		}
-			set {	
-				hideToTrayAction = value;		
-				RaisePropertyChanged("HideToTrayAction");
+			set 
+			{	
+				SetProperty(ref hideToTrayAction, value);
 			}
 		}
 
@@ -600,9 +600,9 @@ namespace RssBandit {
 		public AutoUpdateMode AutoUpdateFrequency {
 			[DebuggerStepThrough]
 			get {	return autoUpdateFrequency;		}
-			set {	
-				autoUpdateFrequency = value;	
-				RaisePropertyChanged("AutoUpdateFrequency");
+			set 
+			{
+				SetProperty(ref autoUpdateFrequency, value);
 			}
 		}
 
@@ -611,75 +611,69 @@ namespace RssBandit {
 		/// Deprecated (cause NotSupportedException).
 		/// Only kept for AppServices compatibility in version 1.5.0x,
 		/// will be removed in Phoenix release!
-		/// Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead! 
+		/// Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead! 
 		/// </summary>
 		[Obsolete("Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!")]
 		public DateTime LastAutoUpdateCheck {
 			get {
 				throw new NotSupportedException(
-					"Obsolete: Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!");
+					"Obsolete: Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!");
 			} 
 			set {
 				throw new NotSupportedException(
-					"Obsolete: Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!");
+					"Obsolete: Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!");
 			}
-//			[DebuggerStepThrough()]
-//			get {	return lastAutoUpdateCheck;		}
-//			set {	
-//				lastAutoUpdateCheck = value;	
-//				RaisePropertyChanged("LastAutoUpdateCheck");
-//			}
 		} 
 
 		/// <summary>
 		/// Normal font used to render items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		public Font NormalFont {
 			[DebuggerStepThrough]
 			get {	return normalFont;		}
-			set {	
-				normalFont = value;		
-				RaisePropertyChanged("NormalFont");
+			set 
+			{
+				SetProperty(ref normalFont, value);
 			}
 		}
 
 		/// <summary>
 		/// Normal font color used to render items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		public Color NormalFontColor {
 			[DebuggerStepThrough]
 			get {	return normalFontColor;		}
-			set {
-				normalFontColor = value;
-				RaisePropertyChanged("NormalFontColor");
+			set 
+			{
+				SetProperty(ref normalFontColor, value);
 			}
 		}
 
 		/// <summary>
 		/// Font used to highlight unread items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		public Font UnreadFont {
 			[DebuggerStepThrough]
 			get {	return unreadFont;		}
-			set {
-				unreadFont = value;
-				RaisePropertyChanged("UnreadFont");
+			set 
+			{
+				SetProperty(ref unreadFont, value);
 			}
 		}
 
 		/// <summary>
 		/// Color used to highlight unread items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		public Color UnreadFontColor {
 			[DebuggerStepThrough]
 			get {	return unreadFontColor;		}
-			set {
-				unreadFontColor = value;
-				RaisePropertyChanged("UnreadFontColor");
+			set 
+			{
+				SetProperty(ref unreadFontColor, value);
 			}
 		}
 
@@ -689,9 +683,9 @@ namespace RssBandit {
 		public Font FlagFont {
 			[DebuggerStepThrough]
 			get {	return flagFont;		}
-			set {
-				flagFont = value;
-				RaisePropertyChanged("FlagFont");
+			set 
+			{
+				SetProperty(ref flagFont, value);
 			}
 		}
 		
@@ -701,9 +695,9 @@ namespace RssBandit {
 		public Color FlagFontColor {
 			[DebuggerStepThrough]
 			get {	return flagFontColor;		}
-			set {
-				flagFontColor = value;
-				RaisePropertyChanged("FlagFontColor");
+			set 
+			{
+				SetProperty(ref flagFontColor, value);
 			}
 		}
 
@@ -711,12 +705,12 @@ namespace RssBandit {
 		/// Font used to render items that refer back to the users 
 		/// default identity (listview) 
 		/// </summary>
-		public Font RefererFont {
+		public Font ReferrerFont {
 			[DebuggerStepThrough]
-			get {	return refererFont;		}
-			set {
-				refererFont = value;
-				RaisePropertyChanged("RefererFont");
+			get {	return referrerFont;		}
+			set 
+			{
+				SetProperty(ref referrerFont, value);
 			}
 		}
 
@@ -724,12 +718,12 @@ namespace RssBandit {
 		/// Color used to render items that refer back to the users 
 		/// default identity (listview) 
 		/// </summary>
-		public Color RefererFontColor {
+		public Color ReferrerFontColor {
 			[DebuggerStepThrough]
-			get {	return refererFontColor;	}
-			set {
-				refererFontColor = value;
-				RaisePropertyChanged("RefererFontColor");
+			get {	return referrerFontColor;	}
+			set 
+			{
+				SetProperty(ref referrerFontColor, value);
 			}
 		}
 
@@ -739,9 +733,9 @@ namespace RssBandit {
 		public Font ErrorFont {
 			[DebuggerStepThrough]
 			get {	return errorFont;		}
-			set {
-				errorFont = value;
-				RaisePropertyChanged("ErrorFont");
+			set 
+			{
+				SetProperty(ref errorFont, value);
 			}
 		}
 
@@ -751,9 +745,9 @@ namespace RssBandit {
 		public Color ErrorFontColor {
 			[DebuggerStepThrough]
 			get {	return errorFontColor;		}
-			set {
-				errorFontColor = value;
-				RaisePropertyChanged("ErrorFontColor");
+			set 
+			{
+				SetProperty(ref errorFontColor, value);
 			}
 		}
 
@@ -763,9 +757,9 @@ namespace RssBandit {
 		public Font NewCommentsFont {
 			[DebuggerStepThrough]
 			get {	return newCommentsFont;		}
-			set {
-				newCommentsFont = value;
-				RaisePropertyChanged("NewCommentsFont");
+			set 
+			{
+				SetProperty(ref newCommentsFont, value);
 			}
 		}
 
@@ -775,9 +769,9 @@ namespace RssBandit {
 		public Color NewCommentsFontColor {
 			[DebuggerStepThrough]
 			get {	return newCommentsColor;		}
-			set {
-				newCommentsColor = value;
-				RaisePropertyChanged("NewCommentsFontColor");
+			set 
+			{
+				SetProperty(ref newCommentsColor, value);
 			}
 		}
 		
@@ -788,9 +782,9 @@ namespace RssBandit {
 		public TimeSpan MaxItemAge {
 			[DebuggerStepThrough]
 			get {	return maxItemAge;	}
-			set {	
-				maxItemAge = value;	
-				RaisePropertyChanged("MaxItemAge");
+			set 
+			{
+				SetProperty(ref maxItemAge, value);
 			}
 		}
 
@@ -801,10 +795,10 @@ namespace RssBandit {
 		public bool UseRemoteStorage {
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.UseRemoteStorage); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.UseRemoteStorage, value);
-				RaisePropertyChanged("UseRemoteStorage");
-
+				OnPropertyChanged();
 			}
 		}
 
@@ -815,9 +809,9 @@ namespace RssBandit {
 		public string RemoteStorageUserName {
 			[DebuggerStepThrough]
 			get { return remoteStorageUserName; }
-			set {
-				remoteStorageUserName = value;
-				RaisePropertyChanged("RemoteStorageUserName");
+			set
+			{
+				SetProperty(ref remoteStorageUserName, value);
 			}
 		}
 
@@ -828,9 +822,9 @@ namespace RssBandit {
 		public string RemoteStoragePassword {
 			[DebuggerStepThrough]
 			get { return remoteStoragePassword; }
-			set {
-				remoteStoragePassword = value;
-				RaisePropertyChanged("RemoteStoragePassword");
+			set
+			{
+				SetProperty(ref remoteStoragePassword, value);
 			}
 		}
 
@@ -840,9 +834,9 @@ namespace RssBandit {
 		public RemoteStorageProtocolType RemoteStorageProtocol {
 			[DebuggerStepThrough]
 			get { return remoteStorageProtocol; }
-			set {
-				remoteStorageProtocol = value;
-				RaisePropertyChanged("RemoteStorageProtocol");
+			set
+			{
+				SetProperty(ref remoteStorageProtocol, value);
 			}
 		}
 
@@ -853,9 +847,9 @@ namespace RssBandit {
 		public string RemoteStorageLocation {
 			[DebuggerStepThrough]
 			get { return remoteStorageLocation; }
-			set {
-				remoteStorageLocation = value;
-				RaisePropertyChanged("RemoteStorageLocation");
+			set 
+			{
+				SetProperty(ref remoteStorageLocation, value);
 			}
 		}
 
@@ -869,8 +863,7 @@ namespace RssBandit {
 			get { return enclosureFolder; }
 			set
 			{
-				enclosureFolder = value;
-				RaisePropertyChanged("EnclosureFolder");
+				SetProperty(ref enclosureFolder, value);
 			}
 		}
 		/// <summary>
@@ -879,15 +872,11 @@ namespace RssBandit {
 		/// </summary>
 		public int NumEnclosuresToDownloadOnNewFeed
 		{
-			get
-			{
-				return this.numEnclosuresToDownloadOnNewFeed;
-			}
-
+			[DebuggerStepThrough]
+			get { return numEnclosuresToDownloadOnNewFeed; }
 			set
 			{
-				this.numEnclosuresToDownloadOnNewFeed = value;
-				RaisePropertyChanged("NumEnclosuresToDownloadOnNewFeed");
+				SetProperty(ref numEnclosuresToDownloadOnNewFeed, value);
 			}
 		}
 		/// <summary>
@@ -896,16 +885,11 @@ namespace RssBandit {
 		/// </summary>
 		public int EnclosureCacheSize
 		{
-			get
-			{
-				return this.enclosureCacheSize;
-			}
-
+			[DebuggerStepThrough]
+			get { return enclosureCacheSize; }
 			set
 			{
-				this.enclosureCacheSize = value;
-				RaisePropertyChanged("EnclosureCacheSize");
-			
+				SetProperty(ref enclosureCacheSize, value);
 			}
 		}
 
@@ -920,7 +904,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.DownloadEnclosures, value);
-				RaisePropertyChanged("DownloadEnclosures");
+				OnPropertyChanged();
 			}
 		}
 		/// <summary>
@@ -933,7 +917,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.EnclosureAlert, value);
-				RaisePropertyChanged("EnclosureAlert");
+				OnPropertyChanged();
 			}
 		}
 
@@ -951,7 +935,7 @@ namespace RssBandit {
 			set
 			{
 				SetOption(OptionalFlags.CreateSubfoldersForEnclosures, value);
-				RaisePropertyChanged("CreateSubfoldersForEnclosures");
+				OnPropertyChanged();
 			}
 		}
 
@@ -965,8 +949,7 @@ namespace RssBandit {
 			get { return podcastFolder; }
 			set
 			{
-				podcastFolder = value;
-				RaisePropertyChanged("PodcastFolder");
+				SetProperty(ref podcastFolder, value);
 			}
 		}
 
@@ -980,8 +963,7 @@ namespace RssBandit {
 			get { return podcastFileExtensions; }
 			set
 			{
-				podcastFileExtensions = value;
-				RaisePropertyChanged("PodcastFileExtensions");
+				SetProperty(ref podcastFileExtensions, value);
 			}
 		}
 		
@@ -992,9 +974,9 @@ namespace RssBandit {
 		public BrowserBehaviorOnNewWindow BrowserOnNewWindow {
 			[DebuggerStepThrough]
 			get { return browserBehaviorOnNewWindow; }
-			set {
-				browserBehaviorOnNewWindow = value;
-				RaisePropertyChanged("BrowserOnNewWindow");
+			set 
+			{
+				SetProperty(ref browserBehaviorOnNewWindow, value);
 			}
 		}
 
@@ -1005,12 +987,9 @@ namespace RssBandit {
 		public string BrowserCustomExecOnNewWindow  {
 			[DebuggerStepThrough]
 			get { return browserCustomExecOnNewWindow; }
-			set { 
-				if (value == null) 
-					browserCustomExecOnNewWindow = String.Empty;
-				 else	  
-					browserCustomExecOnNewWindow = value; 
-				RaisePropertyChanged("BrowserCustomExecOnNewWindow");
+			set 
+			{
+				SetProperty(ref browserCustomExecOnNewWindow, value);
 			}
 		}
 
@@ -1020,9 +999,10 @@ namespace RssBandit {
 		public bool BrowserJavascriptAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowJavascriptInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowJavascriptInBrowser, value);
-				RaisePropertyChanged("BrowserJavascriptAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1032,9 +1012,10 @@ namespace RssBandit {
 		public bool BrowserJavaAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowJavaInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowJavaInBrowser, value);
-				RaisePropertyChanged("BrowserJavaAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1044,9 +1025,10 @@ namespace RssBandit {
 		public bool BrowserActiveXAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowActiveXInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowActiveXInBrowser, value);
-				RaisePropertyChanged("BrowserActiveXAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1056,9 +1038,10 @@ namespace RssBandit {
 		public bool BrowserBGSoundAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowBGSoundInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowBGSoundInBrowser, value);
-				RaisePropertyChanged("BrowserBGSoundAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1068,9 +1051,10 @@ namespace RssBandit {
 		public bool BrowserVideoAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowVideoInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowVideoInBrowser, value);
-				RaisePropertyChanged("BrowserVideoAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1080,9 +1064,10 @@ namespace RssBandit {
 		public bool BrowserImagesAllowed { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.AllowImagesInBrowser); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.AllowImagesInBrowser, value);
-				RaisePropertyChanged("BrowserImagesAllowed");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1092,9 +1077,10 @@ namespace RssBandit {
 		public DisplayFeedAlertWindow ShowAlertWindow { 
 			[DebuggerStepThrough]
 			get { return feedAlertWindow; }
-			set {
+			set 
+			{
 				feedAlertWindow = value;
-				RaisePropertyChanged("ShowAlertWindow");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1105,9 +1091,10 @@ namespace RssBandit {
 		public bool ShowNewItemsReceivedBalloon { 
 			[DebuggerStepThrough]
 			get { return GetOption(OptionalFlags.ShowNewItemsReceivedBalloon); }
-			set {
+			set 
+			{
 				SetOption(OptionalFlags.ShowNewItemsReceivedBalloon, value);
-				RaisePropertyChanged("ShowNewItemsReceivedBalloon");
+				OnPropertyChanged();
 			}
 		}
 
@@ -1124,11 +1111,13 @@ namespace RssBandit {
 		#endregion
 
 		#region private OptionalFlags handling
-		private bool GetOption(OptionalFlags flag) {
-			return ( (this.allOptionalFlags & flag) == flag );	
+		private bool GetOption(OptionalFlags flag)
+		{
+			return ((this.allOptionalFlags & flag) == flag);
 		}
 
-		private void SetOption(OptionalFlags flag, bool value) {
+		private void SetOption(OptionalFlags flag, bool value)
+		{
 			if (value)
 				this.allOptionalFlags |= flag;
 			else
@@ -1148,7 +1137,7 @@ namespace RssBandit {
 			unreadFont = FontColorHelper.DefaultUnreadFont;
 			flagFont = FontColorHelper.DefaultHighlightFont;
 			errorFont = FontColorHelper.DefaultFailureFont;
-			refererFont = FontColorHelper.DefaultReferenceFont;
+			referrerFont = FontColorHelper.DefaultReferenceFont;
 			newCommentsFont = FontColorHelper.DefaultNewCommentsFont;
 
 			numEnclosuresToDownloadOnNewFeed = FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed;
@@ -1189,42 +1178,42 @@ namespace RssBandit {
 			
 			SerializationInfoReader reader = new SerializationInfoReader(info, context);
 
-			int version = reader.GetInt("_PrefsVersion", 0);
+			int version = reader.Get("_PrefsVersion", 0);
 			// new encryption key with version 21 and higher:
 			EncryptionHelper.CompatibilityMode = (version <= 20);
 			//bool xmlFormat = (version >= 20);
 
-			this.allOptionalFlags = (OptionalFlags)reader.GetValue("AllOptionalFlags", typeof(OptionalFlags), DefaultOptionalFlags);
+			this.allOptionalFlags = reader.Get("AllOptionalFlags", DefaultOptionalFlags);
 			
 			// all the following if (reader.Contains() calls are for migration from binary format
 			// and because booleans are stored now in a flagged enum (OptionalFlags), that gets read once above.
-			if (reader.Contains("UseProxy"))
-				UseProxy = reader.GetBoolean("UseProxy", false);
+			if (reader.Contains(StringHelper.GetPropertyName(()=>UseProxy)))
+				UseProxy = reader.Get(StringHelper.GetPropertyName(() => UseProxy), false);
 
-			ProxyAddress = reader.GetString("ProxyAddress", String.Empty);
-			ProxyPort = reader.GetInt("ProxyPort", 8080);
-			ProxyUser = EncryptionHelper.Decrypt(reader.GetString("ProxyUser", String.Empty));
-			ProxyPassword = EncryptionHelper.Decrypt(reader.GetString("ProxyPassword", String.Empty));
+			ProxyAddress = reader.Get(StringHelper.GetPropertyName(() => ProxyAddress), String.Empty);
+			ProxyPort = reader.Get(StringHelper.GetPropertyName(() => ProxyPort), 8080);
+			ProxyUser = EncryptionHelper.Decrypt(reader.Get(StringHelper.GetPropertyName(() => ProxyUser), String.Empty));
+			ProxyPassword = EncryptionHelper.Decrypt(reader.Get(StringHelper.GetPropertyName(() => ProxyPassword), String.Empty));
 			
-			if (reader.Contains("BypassProxyOnLocal"))
-				BypassProxyOnLocal = reader.GetBoolean("BypassProxyOnLocal", true);
-			if (reader.Contains("ProxyCustomCredentials"))
-				ProxyCustomCredentials = reader.GetBoolean("ProxyCustomCredentials", false);
-			
-			NewsItemStylesheetFile = reader.GetString("NewsItemStylesheetFile", String.Empty);
+			if (reader.Contains(StringHelper.GetPropertyName(()=>BypassProxyOnLocal)))
+				BypassProxyOnLocal = reader.Get(StringHelper.GetPropertyName(() => BypassProxyOnLocal), true);
+			if (reader.Contains(StringHelper.GetPropertyName(()=>ProxyCustomCredentials)))
+				ProxyCustomCredentials = reader.Get(StringHelper.GetPropertyName(() => ProxyCustomCredentials), false);
+
+			NewsItemStylesheetFile = reader.Get(StringHelper.GetPropertyName(() => NewsItemStylesheetFile), String.Empty);
 
 			// see also version >= 16 below...
 			// we still read them to enable migration
 			// but newer formats do not store that anymore
 			if (version < 18) {
-				UserName = reader.GetString("UserName", String.Empty);
-				UserMailAddress = reader.GetString("UserMailAddress", String.Empty);
-				Referer = reader.GetString("Referer", String.Empty);
-			}  
+				UserName = reader.Get(StringHelper.GetPropertyName(() => UserName), String.Empty);
+				UserMailAddress = reader.Get(StringHelper.GetPropertyName(() => UserMailAddress), String.Empty);
+				Referer = reader.Get(StringHelper.GetPropertyName(() => Referer), String.Empty);
+			}
 
-			HideToTrayAction = (HideToTray)reader.GetValue("HideToTrayAction",typeof(HideToTray), HideToTray.OnMinimize);
+			HideToTrayAction = reader.Get(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTray.OnMinimize);
 
-			AutoUpdateFrequency = (AutoUpdateMode)reader.GetValue("AutoUpdateFrequency",typeof(AutoUpdateMode), AutoUpdateMode.OnceIn14Days);
+			AutoUpdateFrequency = reader.Get(StringHelper.GetPropertyName(() => AutoUpdateFrequency), AutoUpdateMode.OnceIn14Days);
 			//LastAutoUpdateCheck = reader.GetDateTime("LastAutoUpdateCheck", DateTime.Now);
 
 			#region read Fonts
@@ -1232,29 +1221,31 @@ namespace RssBandit {
 			if (reader.Contains("NormalFontString"))	// current
 				NormalFont = reader.GetFont("NormalFontString", FontColorHelper.DefaultNormalFont);
 			else	// older versions may contain:
-				NormalFont = (Font)reader.GetValue("NormalFont",typeof(Font),FontColorHelper.DefaultNormalFont);
+				NormalFont = reader.Get("NormalFont",FontColorHelper.DefaultNormalFont);
 			
 			if (reader.Contains("UnreadFontString"))	// current
 				UnreadFont = reader.GetFont("UnreadFontString", FontColorHelper.DefaultUnreadFont);
 			else if (reader.Contains("HighlightFontString"))	// older than v1.5.0.8
 				UnreadFont = reader.GetFont("HighlightFontString", FontColorHelper.DefaultUnreadFont);
 			else	// older then v1.4.x:
-				UnreadFont = (Font)reader.GetValue("HighlightFont", typeof(Font), FontColorHelper.DefaultUnreadFont);
+				UnreadFont = reader.Get("HighlightFont", FontColorHelper.DefaultUnreadFont);
 
 			if (reader.Contains("FlagFontString"))	// current
 				FlagFont = reader.GetFont("FlagFontString", FontColorHelper.DefaultHighlightFont);
 			else	// older versions may contain:
-				FlagFont = (Font)reader.GetValue("FlagFont",typeof(Font), FontColorHelper.DefaultHighlightFont);
+				FlagFont = reader.Get("FlagFont", FontColorHelper.DefaultHighlightFont);
 			
 			if (reader.Contains("ErrorFontString"))	// current
 				ErrorFont = reader.GetFont("ErrorFontString", FontColorHelper.DefaultFailureFont);
 			else	// older versions may contain:
-				ErrorFont = (Font)reader.GetValue("ErrorFont",typeof(Font), FontColorHelper.DefaultFailureFont);
+				ErrorFont = reader.Get("ErrorFont", FontColorHelper.DefaultFailureFont);
 			
-			if (reader.Contains("RefererFontString"))	// current
-				RefererFont = reader.GetFont("RefererFontString", FontColorHelper.DefaultReferenceFont);
+			if (reader.Contains("ReferrerFontString"))	// current
+				ReferrerFont = reader.GetFont("ReferrerFontString", FontColorHelper.DefaultReferenceFont);
+			else if (reader.Contains("RefererFontString"))	
+				ReferrerFont = reader.GetFont("RefererFontString", FontColorHelper.DefaultReferenceFont);
 			else	// older versions may contain:
-				RefererFont = (Font)reader.GetValue("RefererFont",typeof(Font), FontColorHelper.DefaultReferenceFont);
+				ReferrerFont = reader.Get("RefererFont", FontColorHelper.DefaultReferenceFont);
 			
 			// new with 1.5.0.x:
 			NewCommentsFont = reader.GetFont("NewCommentsFontString", FontColorHelper.DefaultNewCommentsFont);
@@ -1262,77 +1253,81 @@ namespace RssBandit {
 
 			#region read colors
 
-			NormalFontColor = (Color)reader.GetValue("NormalFontColor",typeof(Color), FontColorHelper.DefaultNormalColor);
-			if (reader.Contains("UnreadFontColor"))	// current
-				UnreadFontColor = (Color)reader.GetValue("UnreadFontColor",typeof(Color), FontColorHelper.DefaultUnreadColor);
+			NormalFontColor = reader.Get(StringHelper.GetPropertyName(() => NormalFontColor), FontColorHelper.DefaultNormalColor);
+			if (reader.Contains(StringHelper.GetPropertyName(()=>UnreadFontColor)))	// current
+				UnreadFontColor = reader.Get(StringHelper.GetPropertyName(() => UnreadFontColor), FontColorHelper.DefaultUnreadColor);
 			else	// older versions may contain the old key:
-				UnreadFontColor = (Color)reader.GetValue("HighlightFontColor",typeof(Color), FontColorHelper.DefaultUnreadColor);
-			
-			FlagFontColor = (Color)reader.GetValue("FlagFontColor",typeof(Color), FontColorHelper.DefaultHighlightColor);
-			ErrorFontColor = (Color)reader.GetValue("ErrorFontColor",typeof(Color), FontColorHelper.DefaultFailureColor);
-			RefererFontColor = (Color)reader.GetValue("RefererFontColor",typeof(Color), FontColorHelper.DefaultReferenceColor);
+				UnreadFontColor = reader.Get("HighlightFontColor", FontColorHelper.DefaultUnreadColor);
+
+			FlagFontColor = reader.Get(StringHelper.GetPropertyName(() => FlagFontColor), FontColorHelper.DefaultHighlightColor);
+			ErrorFontColor = reader.Get(StringHelper.GetPropertyName(() => ErrorFontColor), FontColorHelper.DefaultFailureColor);
+
+			if (reader.Contains(StringHelper.GetPropertyName(() => ReferrerFontColor)))	// current
+				ReferrerFontColor = reader.Get(StringHelper.GetPropertyName(() => ReferrerFontColor), FontColorHelper.DefaultReferenceColor);
+			else
+				ReferrerFontColor = reader.Get("RefererFontColor", FontColorHelper.DefaultReferenceColor);
 			
 			// new with 1.5.0.x:
-			NewCommentsFontColor = (Color)reader.GetValue("NewCommentsFontColor",typeof(Color), FontColorHelper.DefaultNewCommentsColor);
+			NewCommentsFontColor = reader.Get(StringHelper.GetPropertyName(() => NewCommentsFontColor), FontColorHelper.DefaultNewCommentsColor);
 			
 			#endregion
 
-			MaxItemAge = TimeSpan.FromTicks(reader.GetLong("MaxItemAge", TimeSpan.FromDays(90).Ticks));
+			MaxItemAge = TimeSpan.FromTicks(reader.Get(StringHelper.GetPropertyName(() => MaxItemAge), TimeSpan.FromDays(90).Ticks));
 			
-			if (reader.Contains("UseRemoteStorage"))
-				UseRemoteStorage = reader.GetBoolean("UseRemoteStorage", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => UseRemoteStorage)))
+				UseRemoteStorage = reader.Get(StringHelper.GetPropertyName(() => UseRemoteStorage), false);
 
-			if (reader.Contains("RemoteStorageUserName"))	{
-				RemoteStorageUserName = reader.GetString("RemoteStorageUserName", String.Empty);
+			if (reader.Contains(StringHelper.GetPropertyName(() => RemoteStorageUserName)))	{
+				RemoteStorageUserName = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageUserName), String.Empty);
 			} else {
-				RemoteStorageUserName = EncryptionHelper.Decrypt(reader.GetString("RemoteStorageUserNameCrypted", String.Empty));
+				RemoteStorageUserName = EncryptionHelper.Decrypt(reader.Get("RemoteStorageUserNameCrypted", String.Empty));
 			}
-			if (reader.Contains("RemoteStoragePassword")) {	
-				RemoteStoragePassword = reader.GetString("RemoteStoragePassword", String.Empty);
+			if (reader.Contains(StringHelper.GetPropertyName(() => RemoteStoragePassword))) {
+				RemoteStoragePassword = reader.Get(StringHelper.GetPropertyName(() => RemoteStoragePassword), String.Empty);
 			} else {
-				RemoteStoragePassword = EncryptionHelper.Decrypt(reader.GetString("RemoteStoragePasswordCrypted", String.Empty));
+				RemoteStoragePassword = EncryptionHelper.Decrypt(reader.Get("RemoteStoragePasswordCrypted", String.Empty));
 			}
-			
-			RemoteStorageProtocol = (RemoteStorageProtocolType)reader.GetValue("RemoteStorageProtocol", RemoteStorageProtocol.GetType(), RemoteStorageProtocolType.Unknown);
-			RemoteStorageLocation = reader.GetString("RemoteStorageLocation", String.Empty);
+
+			RemoteStorageProtocol = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageProtocol), RemoteStorageProtocolType.Unknown);
+			RemoteStorageLocation = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageLocation), String.Empty);
 				// dasBlog_1_3 is not anymore supported:
 			if (UseRemoteStorage && RemoteStorageProtocol == RemoteStorageProtocolType.dasBlog_1_3) {
 				UseRemoteStorage = false;	
 			}
 
-			BrowserOnNewWindow = (BrowserBehaviorOnNewWindow)reader.GetValue("BrowserOnNewWindow", typeof(BrowserBehaviorOnNewWindow), BrowserBehaviorOnNewWindow.OpenNewTab);
-			BrowserCustomExecOnNewWindow = reader.GetString("BrowserCustomExecOnNewWindow", String.Empty);
+			BrowserOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserBehaviorOnNewWindow.OpenNewTab);
+			BrowserCustomExecOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserCustomExecOnNewWindow), String.Empty);
 
-			if (reader.Contains("NewsItemOpenLinkInDetailWindow")) {
-				NewsItemOpenLinkInDetailWindow = reader.GetBoolean("NewsItemOpenLinkInDetailWindow", true);
+			if (reader.Contains(StringHelper.GetPropertyName(() => NewsItemOpenLinkInDetailWindow))) {
+				NewsItemOpenLinkInDetailWindow = reader.Get(StringHelper.GetPropertyName(() => NewsItemOpenLinkInDetailWindow), true);
 			}
-			if (reader.Contains("UseIEProxySettings")) {
-				UseIEProxySettings = reader.GetBoolean("UseIEProxySettings", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => UseIEProxySettings))) {
+				UseIEProxySettings = reader.Get(StringHelper.GetPropertyName(() => UseIEProxySettings), false);
 			}
-			if (reader.Contains("FeedRefreshOnStartup")) {
-				FeedRefreshOnStartup = reader.GetBoolean("FeedRefreshOnStartup", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => FeedRefreshOnStartup))) {
+				FeedRefreshOnStartup = reader.Get(StringHelper.GetPropertyName(() => FeedRefreshOnStartup), false);
 			}
-			if (reader.Contains("BrowserJavascriptAllowed")) {
-				BrowserJavascriptAllowed = reader.GetBoolean("BrowserJavascriptAllowed", true);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed))) {
+				BrowserJavascriptAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed), true);
 			}
-			if (reader.Contains("BrowserJavaAllowed")) {
-				BrowserJavaAllowed = reader.GetBoolean("BrowserJavaAllowed", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavaAllowed))) {
+				BrowserJavaAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavaAllowed), false);
 			}
-			if (reader.Contains("BrowserActiveXAllowed")) {
-				BrowserActiveXAllowed = reader.GetBoolean("BrowserActiveXAllowed", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserActiveXAllowed))) {
+				BrowserActiveXAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserActiveXAllowed), false);
 			}
-			if (reader.Contains("BrowserBGSoundAllowed")) {
-				BrowserBGSoundAllowed = reader.GetBoolean("BrowserBGSoundAllowed", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserBGSoundAllowed))) {
+				BrowserBGSoundAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserBGSoundAllowed), false);
 			}
-			if (reader.Contains("BrowserVideoAllowed")) {
-				BrowserVideoAllowed = reader.GetBoolean("BrowserVideoAllowed", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserVideoAllowed))) {
+				BrowserVideoAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserVideoAllowed), false);
 			}
-			if (reader.Contains("BrowserImagesAllowed")) {
-				BrowserImagesAllowed = reader.GetBoolean("BrowserImagesAllowed", true);
+			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserImagesAllowed))) {
+				BrowserImagesAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserImagesAllowed), true);
 			}
 			
 			if (reader.Contains("ShowConfiguredAlertWindows")) {
-				bool showConfiguredAlertWindows = reader.GetBoolean("ShowConfiguredAlertWindows", false);
+				bool showConfiguredAlertWindows = reader.Get("ShowConfiguredAlertWindows", false);
 				// migrate the old bool value to the new enum:
 				if (showConfiguredAlertWindows) {
 					ShowAlertWindow = DisplayFeedAlertWindow.AsConfiguredPerFeed;
@@ -1340,45 +1335,45 @@ namespace RssBandit {
 					ShowAlertWindow = DisplayFeedAlertWindow.None;
 				}
 			} else {
-				ShowAlertWindow = (DisplayFeedAlertWindow)reader.GetValue("ShowAlertWindow", typeof(DisplayFeedAlertWindow), DisplayFeedAlertWindow.AsConfiguredPerFeed);
+				ShowAlertWindow = reader.Get(StringHelper.GetPropertyName(() => ShowAlertWindow), DisplayFeedAlertWindow.AsConfiguredPerFeed);
 			}
 
-			if (reader.Contains("ShowNewItemsReceivedBalloon")) {
-				ShowNewItemsReceivedBalloon = reader.GetBoolean("ShowNewItemsReceivedBalloon", true);
+			if (reader.Contains(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon))) {
+				ShowNewItemsReceivedBalloon = reader.Get(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon), true);
 			}
 			
-			ProxyBypassList = (string[])reader.GetValue("ProxyBypassList", typeof(string[]), new string[]{});
+			ProxyBypassList = reader.Get(StringHelper.GetPropertyName(() => ProxyBypassList), new string[]{});
 			if (ProxyBypassList == null)
 				ProxyBypassList = new string[]{};
 
-			if (reader.Contains("MarkItemsReadOnExit")) {
-				MarkItemsReadOnExit = reader.GetBoolean("MarkItemsReadOnExit", false);
+			if (reader.Contains(StringHelper.GetPropertyName(() => MarkItemsReadOnExit))) {
+				MarkItemsReadOnExit = reader.Get(StringHelper.GetPropertyName(() => MarkItemsReadOnExit), false);
 			}
 
-			UserIdentityForComments = reader.GetString("UserIdentityForComments", String.Empty);
+			UserIdentityForComments = reader.Get(StringHelper.GetPropertyName(() => UserIdentityForComments), String.Empty);
 			
-			if (reader.Contains("ReuseFirstBrowserTab")) {
-				ReuseFirstBrowserTab = reader.GetBoolean("ReuseFirstBrowserTab", true);
+			if (reader.Contains(StringHelper.GetPropertyName(() => ReuseFirstBrowserTab))) {
+				ReuseFirstBrowserTab = reader.Get(StringHelper.GetPropertyName(() => ReuseFirstBrowserTab), true);
 			}
 
-			this.NgosSyncToken = reader.GetString("NgosSyncToken", String.Empty); 
+			this.NgosSyncToken = reader.Get(StringHelper.GetPropertyName(() => NgosSyncToken), String.Empty); 
 
-			this.NumNewsItemsPerPage = reader.GetDecimal("NumNewsItemsPerPage", 10);
+			this.NumNewsItemsPerPage = reader.Get(StringHelper.GetPropertyName(() => NumNewsItemsPerPage), 10);
 
-            this.ReadingPaneTextSize = (TextSize)reader.GetValue("ReadingPaneTextSize", typeof(TextSize), TextSize.Medium);
+            this.ReadingPaneTextSize = reader.Get(StringHelper.GetPropertyName(() => ReadingPaneTextSize), TextSize.Medium);
 
-			this.RefreshRate = reader.GetInt("RefreshRate", FeedSource.DefaultRefreshRate);
-            this.EnclosureFolder = reader.GetString("EnclosureFolder", String.Empty);
+			this.RefreshRate = reader.Get(StringHelper.GetPropertyName(() => RefreshRate), FeedSource.DefaultRefreshRate);
+            this.EnclosureFolder = reader.Get(StringHelper.GetPropertyName(() => EnclosureFolder), String.Empty);
             this.EnclosureFolder = String.IsNullOrWhiteSpace(this.EnclosureFolder) 
                 ? RssBanditApplication.GetDefaultEnclosuresPath()
                 : this.EnclosureFolder; 
-			this.NumEnclosuresToDownloadOnNewFeed = reader.GetInt("NumEnclosuresToDownloadOnNewFeed", FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
-			this.EnclosureCacheSize = reader.GetInt("EnclosureCacheSize", FeedSource.DefaultEnclosureCacheSize);
-            this.PodcastFolder = reader.GetString("PodcastFolder", String.Empty);
+			this.NumEnclosuresToDownloadOnNewFeed = reader.Get(StringHelper.GetPropertyName(() => NumEnclosuresToDownloadOnNewFeed), FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
+			this.EnclosureCacheSize = reader.Get(StringHelper.GetPropertyName(() => EnclosureCacheSize), FeedSource.DefaultEnclosureCacheSize);
+            this.PodcastFolder = reader.Get(StringHelper.GetPropertyName(() => PodcastFolder), String.Empty);
             this.PodcastFolder = String.IsNullOrWhiteSpace(this.PodcastFolder)
                 ? RssBanditApplication.GetDefaultPodcastPath()
                 : this.PodcastFolder; 
-			this.PodcastFileExtensions = reader.GetString("PodcastFileExtensions", RssBanditApplication.DefaultPodcastFileExts);
+			this.PodcastFileExtensions = reader.Get(StringHelper.GetPropertyName(() => PodcastFileExtensions), RssBanditApplication.DefaultPodcastFileExts);
 		}
 
 		/// <summary>
@@ -1395,68 +1390,49 @@ namespace RssBandit {
 		
 			info.AddValue("_PrefsVersion", 25);	// added refresh rate
 			EncryptionHelper.CompatibilityMode = false;
-			info.AddValue("ProxyAddress", ProxyAddress);
-			info.AddValue("ProxyPort", ProxyPort);
-			info.AddValue("ProxyUser", EncryptionHelper.Encrypt(ProxyUser));
-			info.AddValue("ProxyPassword", EncryptionHelper.Encrypt(ProxyPassword));
-			info.AddValue("ProxyBypassList", ProxyBypassList);
-			info.AddValue("NewsItemStylesheetFile", NewsItemStylesheetFile);
-			info.AddValue("HideToTrayAction", HideToTrayAction);
-			info.AddValue("AutoUpdateFrequency", AutoUpdateFrequency);
+			info.AddValue(StringHelper.GetPropertyName(() => ProxyAddress), ProxyAddress);
+			info.AddValue(StringHelper.GetPropertyName(() => ProxyPort), ProxyPort);
+			info.AddValue(StringHelper.GetPropertyName(() => ProxyUser), EncryptionHelper.Encrypt(ProxyUser));
+			info.AddValue(StringHelper.GetPropertyName(() => ProxyPassword), EncryptionHelper.Encrypt(ProxyPassword));
+			info.AddValue(StringHelper.GetPropertyName(() => ProxyBypassList), ProxyBypassList);
+			info.AddValue(StringHelper.GetPropertyName(() => NewsItemStylesheetFile), NewsItemStylesheetFile);
+			info.AddValue(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTrayAction);
+			info.AddValue(StringHelper.GetPropertyName(() => AutoUpdateFrequency), AutoUpdateFrequency);
 			//info.AddValue("LastAutoUpdateCheck", LastAutoUpdateCheck);
-			info.AddValue("NormalFontString", SerializationInfoReader.ConvertFont(NormalFont));
-			info.AddValue("HighlightFontString", SerializationInfoReader.ConvertFont(UnreadFont));
-			info.AddValue("FlagFontString", SerializationInfoReader.ConvertFont(FlagFont));
-			info.AddValue("ErrorFontString", SerializationInfoReader.ConvertFont(ErrorFont));
-			info.AddValue("RefererFontString", SerializationInfoReader.ConvertFont(RefererFont));
-			info.AddValue("NewCommentsFontString", SerializationInfoReader.ConvertFont(NewCommentsFont));
-			info.AddValue("NormalFontColor", NormalFontColor);
-			info.AddValue("UnreadFontColor", UnreadFontColor);
-			info.AddValue("FlagFontColor", FlagFontColor);
-			info.AddValue("ErrorFontColor", ErrorFontColor);
-			info.AddValue("RefererFontColor", RefererFontColor);
-			info.AddValue("NewCommentsFontColor", NewCommentsFontColor);
-			info.AddValue("MaxItemAge", MaxItemAge.Ticks);
-			info.AddValue("RemoteStorageUserNameCrypted", EncryptionHelper.Encrypt(RemoteStorageUserName));
-			info.AddValue("RemoteStoragePasswordCrypted", EncryptionHelper.Encrypt(RemoteStoragePassword));
-			info.AddValue("RemoteStorageProtocol", RemoteStorageProtocol);
-			info.AddValue("RemoteStorageLocation", RemoteStorageLocation);
-			info.AddValue("BrowserOnNewWindow", BrowserOnNewWindow);
-			info.AddValue("BrowserCustomExecOnNewWindow", BrowserCustomExecOnNewWindow);
-			info.AddValue("ShowAlertWindow", ShowAlertWindow);
-			info.AddValue("UserIdentityForComments", UserIdentityForComments); 
+			info.AddValue(StringHelper.GetPropertyName(() => NormalFont)+"String", SerializationInfoReader.ConvertFont(NormalFont));
+			info.AddValue(StringHelper.GetPropertyName(() => UnreadFont) + "String", SerializationInfoReader.ConvertFont(UnreadFont));
+			info.AddValue(StringHelper.GetPropertyName(() => FlagFont)+"String", SerializationInfoReader.ConvertFont(FlagFont));
+			info.AddValue(StringHelper.GetPropertyName(() => ErrorFont)+"String", SerializationInfoReader.ConvertFont(ErrorFont));
+			info.AddValue(StringHelper.GetPropertyName(() => ReferrerFont)+"String", SerializationInfoReader.ConvertFont(ReferrerFont));
+			info.AddValue(StringHelper.GetPropertyName(() => NewCommentsFont)+"String", SerializationInfoReader.ConvertFont(NewCommentsFont));
+			info.AddValue(StringHelper.GetPropertyName(() => NormalFontColor), NormalFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => UnreadFontColor), UnreadFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => FlagFontColor), FlagFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => ErrorFontColor), ErrorFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => ReferrerFontColor), ReferrerFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => NewCommentsFontColor), NewCommentsFontColor);
+			info.AddValue(StringHelper.GetPropertyName(() => MaxItemAge), MaxItemAge.Ticks);
+			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageUserName)+"Crypted", EncryptionHelper.Encrypt(RemoteStorageUserName));
+			info.AddValue(StringHelper.GetPropertyName(() => RemoteStoragePassword)+"Crypted", EncryptionHelper.Encrypt(RemoteStoragePassword));
+			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageProtocol), RemoteStorageProtocol);
+			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageLocation), RemoteStorageLocation);
+			info.AddValue(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserOnNewWindow);
+			info.AddValue(StringHelper.GetPropertyName(() => BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow);
+			info.AddValue(StringHelper.GetPropertyName(() => ShowAlertWindow), ShowAlertWindow);
+			info.AddValue(StringHelper.GetPropertyName(() => UserIdentityForComments), UserIdentityForComments); 
 			info.AddValue("AllOptionalFlags", this.allOptionalFlags);
-			info.AddValue("NgosSyncToken", this.NgosSyncToken); 
-			info.AddValue("NumNewsItemsPerPage", this.NumNewsItemsPerPage);
-            info.AddValue("ReadingPaneTextSize", this.ReadingPaneTextSize);
-			info.AddValue("RefreshRate", this.RefreshRate);
-			info.AddValue("EnclosureFolder", this.EnclosureFolder);
-			info.AddValue("NumEnclosuresToDownloadOnNewFeed", this.NumEnclosuresToDownloadOnNewFeed);
-			info.AddValue("EnclosureCacheSize", this.EnclosureCacheSize);
-			info.AddValue("PodcastFolder", this.PodcastFolder);
-			info.AddValue("PodcastFileExtensions", this.PodcastFileExtensions);
+			info.AddValue(StringHelper.GetPropertyName(() => NgosSyncToken), this.NgosSyncToken); 
+			info.AddValue(StringHelper.GetPropertyName(() => NumNewsItemsPerPage), this.NumNewsItemsPerPage);
+            info.AddValue(StringHelper.GetPropertyName(() => ReadingPaneTextSize), this.ReadingPaneTextSize);
+			info.AddValue(StringHelper.GetPropertyName(() => RefreshRate), this.RefreshRate);
+			info.AddValue(StringHelper.GetPropertyName(() => EnclosureFolder), this.EnclosureFolder);
+			info.AddValue(StringHelper.GetPropertyName(() => NumEnclosuresToDownloadOnNewFeed), this.NumEnclosuresToDownloadOnNewFeed);
+			info.AddValue(StringHelper.GetPropertyName(() => EnclosureCacheSize), this.EnclosureCacheSize);
+			info.AddValue(StringHelper.GetPropertyName(() => PodcastFolder), this.PodcastFolder);
+			info.AddValue(StringHelper.GetPropertyName(() => PodcastFileExtensions), this.PodcastFileExtensions);
 		}
 		#endregion
 
-		#region IPropertyChanged interface
-		/// <summary>
-		/// Raises the property changed.
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		protected void RaisePropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-			{
-				EventsHelper.Fire(PropertyChanged, this,
-					new PropertyChangedEventArgs(propertyName ?? String.Empty));
-			}
-		}
-
-		/// <summary>
-		/// Gets fired on a change of any preference property.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-		#endregion
 		
 		#region helper classes
 		private class EncryptionHelper {

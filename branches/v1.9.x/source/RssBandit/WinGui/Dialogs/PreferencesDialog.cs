@@ -121,7 +121,7 @@ namespace RssBandit.WinGui.Dialogs {
 			this.checkCustomFormatter.Enabled = false;
 			this.checkLimitNewsItemsPerPage.Checked = prefs.LimitNewsItemsPerPage; 
 			this.checkMarkItemsAsReadWhenViewed.Checked = prefs.MarkItemsAsReadWhenViewed;
-			this.numNewsItemsPerPage.Value = Decimal.Floor(prefs.NumNewsItemsPerPage);
+			this.numNewsItemsPerPage.Value = prefs.NumNewsItemsPerPage;
 			this.comboFormatters.Items.Clear();
 				
 			if (Directory.Exists(tmplFolder)) {
@@ -171,13 +171,13 @@ namespace RssBandit.WinGui.Dialogs {
 			this.SetFontForState(FontStates.Read, prefs.NormalFont);	// default font
 			this.SetFontForState(FontStates.Unread, prefs.UnreadFont);	
 			this.SetFontForState(FontStates.Flag, prefs.FlagFont);	
-			this.SetFontForState(FontStates.Referrer, prefs.RefererFont);
+			this.SetFontForState(FontStates.Referrer, prefs.ReferrerFont);
 			this.SetFontForState(FontStates.Error, prefs.ErrorFont);	
 			this.SetFontForState(FontStates.NewComments, prefs.NewCommentsFont);	
 			this.SetColorForState(FontStates.Read, prefs.NormalFontColor);
 			this.SetColorForState(FontStates.Unread, prefs.UnreadFontColor);
 			this.SetColorForState(FontStates.Flag, prefs.FlagFontColor);
-			this.SetColorForState(FontStates.Referrer, prefs.RefererFontColor);
+			this.SetColorForState(FontStates.Referrer, prefs.ReferrerFontColor);
 			this.SetColorForState(FontStates.Error, prefs.ErrorFontColor);
 			this.SetColorForState(FontStates.NewComments, prefs.NewCommentsFontColor);
 

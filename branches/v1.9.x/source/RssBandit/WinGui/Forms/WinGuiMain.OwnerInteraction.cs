@@ -805,14 +805,16 @@ namespace RssBandit.WinGui.Forms
             {
                 try
                 {
-                    Process.Start(owner.Preferences.BrowserCustomExecOnNewWindow, url);
+                    Process.Start("" + owner.Preferences.BrowserCustomExecOnNewWindow, url);
                 }
                 catch (Exception ex)
                 {
                     if (
                         owner.MessageQuestion(String.Format(
                                                   SR.ExceptionStartBrowserCustomExecMessage,
-                                                  owner.Preferences.BrowserCustomExecOnNewWindow,
+												  String.IsNullOrEmpty(owner.Preferences.BrowserCustomExecOnNewWindow) 
+														? "<empty>" 
+														: owner.Preferences.BrowserCustomExecOnNewWindow,
                                                   ex.Message, url)) == DialogResult.Yes)
                     {
                         DetailTabNavigateToUrl(url, null, true, true);

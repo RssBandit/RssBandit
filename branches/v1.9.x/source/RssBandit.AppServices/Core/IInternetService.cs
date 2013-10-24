@@ -1,21 +1,5 @@
-using System;
-using System.ComponentModel;
-
 namespace RssBandit.AppServices
 {
-	#region IPropertyChange
-	/// <summary>
-	/// Support property change notification
-	/// </summary>
-	public interface IPropertyChange {
-		/// <summary>
-		/// Gets fired on a property change
-		/// </summary>
-		event PropertyChangedEventHandler PropertyChanged;
-	}
-	#endregion
-
-	#region IInternetService
 	/// <summary>
 	/// IInternetService.
 	/// </summary>
@@ -43,5 +27,4 @@ namespace RssBandit.AppServices
 		/// </summary>
 		InternetState InternetConnectionState { get; }
 	}
-	#endregion
 }

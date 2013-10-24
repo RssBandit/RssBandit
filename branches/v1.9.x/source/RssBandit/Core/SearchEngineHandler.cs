@@ -24,80 +24,68 @@ using Logger = RssBandit.Common.Logging;
 namespace RssBandit.WebSearch
 {
 	/// <summary>
-	/// Summary description for SearchEngineHandler.
+	/// Class SearchEngineHandler. Manages web search engines and their corresponding settings
 	/// </summary>
 	public class SearchEngineHandler
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SearchEngineHandler" /> class.
+		/// </summary>
 		public SearchEngineHandler()
 		{
 			this.LoadSearchConfigSchema(); 
 		}
 
+		/// <summary>
+		/// The _log
+		/// </summary>
 		private static readonly log4net.ILog _log = Logger.Log.GetLogger(typeof(SearchEngineHandler));
 
 		/// <summary>
 		/// Holds the search engines.
 		/// </summary>
 		private SearchEngines _engines;
-		
-		///<summary>
-		///Internal flag used to track whether the XML in the 
-		///searches config validated against the schema. 
-		///</summary>
-		private bool  validationErrorOccured; 
 
-		///<summary>
-		///Internal flag used to track whether the XML in the 
-		///searches config validated against the schema. 
-		///</summary>
-		private bool  enginesLoaded; 
+		/// <summary>
+		/// Internal flag used to track whether the XML in the
+		/// searches config validated against the schema.
+		/// </summary>
+		private bool  validationErrorOccured;
+
+		/// <summary>
+		/// Internal flag used to track whether the XML in the
+		/// searches config validated against the schema.
+		/// </summary>
+		private bool  enginesLoaded;
 
 		/// <summary>
 		/// The schema for the search engines list format
 		/// </summary>
-		private XmlSchema searchConfigSchema; 
+		private XmlSchema searchConfigSchema;
 
 		/// <summary>
-		/// Boolean flag indicates whether the search engines list was loaded 
+		/// Boolean flag indicates whether the search engines list was loaded
 		/// successfully during the last call to LoadEngines()
 		/// </summary>
+		/// <value><c>true</c> if [engines ok]; otherwise, <c>false</c>.</value>
 		public bool EnginesOK
 		{		
 			get { return !validationErrorOccured; }
 		}
-		
+
 		/// <summary>
-		/// Boolean flag indicates whether the search engines list was loaded 
+		/// Boolean flag indicates whether the search engines list was loaded
 		/// during the last call to LoadEngines()
 		/// </summary>
+		/// <value><c>true</c> if [engines loaded]; otherwise, <c>false</c>.</value>
 		public bool EnginesLoaded {		
 			get { return enginesLoaded; }
 		}
 
-		public bool NewTabRequired
-		{
-			get 
-			{
-				if(_engines == null)
-					_engines = new SearchEngines(); 
-
-				if(_engines.Engines== null)
-					_engines.Engines = new List<SearchEngine>();
-				
-				return _engines.NewTabRequired;
-			}
-			set 
-			{
-				if(_engines == null)
-					_engines = new SearchEngines(); 
-
-				if(_engines.Engines== null)
-					_engines.Engines = new List<SearchEngine>();
-				
-				_engines.NewTabRequired = value;
-			}
-		}
-
+		/// <summary>
+		/// Gets the engines.
+		/// </summary>
+		/// <value>The engines.</value>
 		public List<SearchEngine> Engines		
 		{
 			get 
@@ -112,9 +100,9 @@ namespace RssBandit.WebSearch
 			}			
 		}
 
-		///<summary>
-		/// Loads the schema for search Engines into an XmlSchema object. 
-		///</summary>		
+		/// <summary>
+		/// Loads the schema for search Engines into an XmlSchema object.
+		/// </summary>
 		private void LoadSearchConfigSchema()	{
 			using (Stream stream = Resource.GetStream("Resources.SearchEnginesConfig.xsd")) {
 				searchConfigSchema = XmlSchema.Read(stream, null); 
@@ -122,13 +110,13 @@ namespace RssBandit.WebSearch
 		}
 
 		/// <summary>
-		/// Loads the search engines list from the given URL. 
+		/// Loads the search engines list from the given URL.
 		/// </summary>
 		/// <param name="configUrl">The URL of the engines config</param>
 		/// <param name="veh">The event handler that should be invoked on the client if validation errors occur</param>
 		/// <exception cref="XmlException">XmlException thrown if XML is not well-formed</exception>
-		public void LoadEngines(string configUrl, ValidationEventHandler veh)	{
-
+		public void LoadEngines(string configUrl, ValidationEventHandler veh)	
+		{
 			XmlDocument doc = new XmlDocument();
 
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -159,8 +147,9 @@ namespace RssBandit.WebSearch
 				_engines = mySearchEngines; 
 				enginesLoaded = true;
 
-				if (this.RepairedPhrasePlaceholders()) {
-					using (Stream stream = NewsComponents.Utils.FileHelper.OpenForWrite(configUrl)) {
+				if (this.RepairedPhrasePlaceholders()) 
+				{
+					using (Stream stream = FileHelper.OpenForWrite(configUrl)) {
 						this.SaveEngines(stream);
 					}
 				}
@@ -171,7 +160,9 @@ namespace RssBandit.WebSearch
 		/// Because of the localiaziation issue with the hardcoded "[PHRASE]" string
 		/// we have to repair (replace) teh old definitions by the new one: "{0}"
 		/// </summary>
-		private bool RepairedPhrasePlaceholders() {
+		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		private bool RepairedPhrasePlaceholders() 
+		{
 			bool anyFound = false;
 			if (EnginesOK) {
 				foreach (SearchEngine se in Engines) {
@@ -187,36 +178,32 @@ namespace RssBandit.WebSearch
 		/// <summary>
 		/// Handles errors that occur during schema validation of search engines list
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		private void LoaderValidationCallback(object sender,
-			ValidationEventArgs args) 
+		/// <param name="sender">The sender.</param>
+		/// <param name="args">The <see cref="ValidationEventArgs"/> instance containing the event data.</param>
+		private void LoaderValidationCallback(object sender, ValidationEventArgs args) 
 		{
 
 			if(args.Severity == XmlSeverityType.Warning) {
 				_log.Info(@"searches\config.xml validation warning: " + args.Message);
 			}
-			else if(args.Severity == XmlSeverityType.Error) {
-
+			else if(args.Severity == XmlSeverityType.Error) 
+			{
 				validationErrorOccured = true; 
 				
 				_log.Error(@"searches\config.xml validation error: " + args.Message);
 				AppExceptions.ExceptionManager.Publish(args.Exception);
-				
 			}
-
 		}
 
 
 		/// <summary>
-		/// Loads the search engines list from the given URL. 
+		/// Loads the search engines list from the given URL.
 		/// </summary>
 		/// <param name="configStream">The Stream of the engines config</param>
 		/// <exception cref="Exception">Exception thrown on file access errors</exception>
 		public void SaveEngines(Stream configStream)
 		{
 			XmlSerializer serializer = XmlHelper.SerializerCache.GetSerializer(typeof(SearchEngines));
-
 
 			if(_engines != null)
 			{
@@ -234,13 +221,13 @@ namespace RssBandit.WebSearch
 
 			TextWriter writer = new StreamWriter(configStream);
 			serializer.Serialize(writer, _engines);
-			writer.Close();
-
+			writer.Flush();
 		}
 
 		/// <summary>
 		/// Generates a config file with default search engine(s).
 		/// </summary>
+		/// <param name="configUrl">The configuration URL.</param>
 		public void GenerateDefaultEngines([NotNull]string configUrl)
 		{
 			configUrl.ExceptionIfNullOrEmpty("configUrl");
@@ -252,6 +239,7 @@ namespace RssBandit.WebSearch
 			{
 				TextWriter writer = new StreamWriter(stream);
 				writer.Write(Properties.Resources.web_searches_config);
+				writer.Flush();
 			}
 
 			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "google.ico")))
@@ -273,10 +261,10 @@ namespace RssBandit.WebSearch
 		/// <summary>
 		/// Reset the engines.
 		/// </summary>
-		public void Clear() {
+		public void Clear() 
+		{
 			_engines = new SearchEngines();
 			_engines.Engines = new List<SearchEngine>();
-			_engines.NewTabRequired = true;
 			validationErrorOccured = false; 
 			enginesLoaded = true;
 		}
@@ -292,8 +280,12 @@ namespace RssBandit.WebSearch
 		public List<SearchEngine> Engines;
 
 		/// <remarks/>
-		[XmlAttributeAttribute("open-newtab", DataType="boolean")]
-		public bool NewTabRequired;
+		[XmlAnyAttribute]
+		public XmlAttribute[] AnyAttr { get; set; }
+
+		/// <remarks/>
+		[XmlAnyElement]
+		public XmlElement[] Any { get; set; }
 	}
 
 	/// <remarks/>
@@ -355,6 +347,14 @@ namespace RssBandit.WebSearch
 			get { return mrergeRssResult; }
 			set { mrergeRssResult = value; }
 		}
+
+		/// <remarks/>
+		[XmlAnyAttribute]
+		public XmlAttribute[] AnyAttr { get; set; }
+
+		/// <remarks/>
+		[XmlAnyElement]
+		public XmlElement[] Any { get; set; }
 
 		#region ICloneable Members
 

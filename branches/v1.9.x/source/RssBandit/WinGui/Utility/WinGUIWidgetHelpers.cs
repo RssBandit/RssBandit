@@ -24,7 +24,6 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using System.Net;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinStatusBar;
@@ -46,7 +45,8 @@ using NewsComponents.Utils;
 
 #endregion
 
-namespace RssBandit.WinGui.Utility {
+namespace RssBandit.WinGui.Utility 
+{
 
 	#region UrlCompletionExtender
 
@@ -233,61 +233,6 @@ namespace RssBandit.WinGui.Utility {
 	} */
 	#endregion
     
-	#region EventsHelper
-	/// <summary>
-	/// When publishing events in C#, you need to test that the delegate has targets. 
-	/// You also must handle exceptions the subscribers throw, otherwise, the publishing 
-	/// sequence is aborted. You can iterate over the delegate’s internal invocation list 
-	/// and handle individual exceptions that way. 
-	/// This generic helper class called EventsHelper that does just that. 
-	/// EventsHelper can publish to any delegate, accepting any collection of parameters. 
-	/// EventsHelper can also publish asynchronously and concurrently to the subscribers 
-	/// using the thread pool, turning any subscriber’s target method into a fire-and-forget 
-	/// method.
-	/// </summary>
-	/// <remarks>Thanks to http://www.idesign.net/ </remarks>
-	public class EventsHelper {
-		private static readonly log4net.ILog _log = Common.Logging.Log.GetLogger(typeof(EventsHelper));
-
-		public static void Fire(Delegate del,params object[] args) {
-			Delegate temp = del;
-			if(temp == null) {
-				return;
-			}
-			Delegate[] delegates = temp.GetInvocationList();
-			foreach(Delegate sink in delegates) {
-				try {
-					sink.DynamicInvoke(args);
-				}
-				catch (Exception sinkEx) {
-					_log.Error(String.Format("Calling '{0}.{1}' caused an exception." , temp.Method.DeclaringType.FullName, temp.Method.Name ), sinkEx);
-				} 
-			}
-		}
-
-		public static void FireAsync(Delegate del,params object[] args) {
-			Delegate temp = del;
-			if(temp == null) {
-				return;
-			}
-			Delegate[] delegates = del.GetInvocationList();
-			AsyncFire asyncFire;
-			foreach(Delegate sink in delegates) {
-				asyncFire = InvokeDelegate;
-				asyncFire.BeginInvoke(sink,args,null,null);
-			}
-		}
-
-		delegate void AsyncFire(Delegate del,object[] args);
-		[OneWay]
-		static void InvokeDelegate(Delegate del,object[] args) {
-			del.DynamicInvoke(args);
-		}
-
-	}
-
-	#endregion
-
 	#region WebTabState
 
 	public class SerializableWebTabState{

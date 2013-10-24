@@ -544,7 +544,7 @@ namespace NewsComponents.Collections
 	    {
             if (reader != null)
             {
-                int version = (int) reader.GetValue(SerialVersion, typeof (int), DefaultVersion);
+                int version = reader.Get(SerialVersion, DefaultVersion);
                 switch (version)
                 {
                     

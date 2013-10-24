@@ -29,7 +29,7 @@ namespace NewsComponents.Net
         /// <summary>
         /// The task Id.
         /// </summary>
-        private readonly Guid id;
+        private readonly Guid _id;
 
         private readonly DateTime _createDate;
 
@@ -38,7 +38,7 @@ namespace NewsComponents.Net
         /// <summary>
         /// The status of the download task.
         /// </summary>
-        private DownloadTaskState state = DownloadTaskState.Pending;
+        private DownloadTaskState _state = DownloadTaskState.Pending;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace NewsComponents.Net
         /// <param name="info">IDownloadInfo</param>
         public DownloadTask(DownloadItem item, IDownloadInfoProvider info)
         {
-            id = Guid.NewGuid();
+            _id = Guid.NewGuid();
             _createDate = DateTime.Now;
 
             Init(item, info);
@@ -91,7 +91,7 @@ namespace NewsComponents.Net
         /// </summary>
         public Guid TaskId
         {
-            get { return id; }
+            get { return _id; }
         }
 
         private Guid? _jobId;
@@ -115,15 +115,19 @@ namespace NewsComponents.Net
         /// </summary>
         public DownloadTaskState State
         {
-            get { return state; }
+            get { return _state; }
             set
             {
-                state = value;
+                _state = value;
                 RaisePropertyChanged(()=>State);
             }
         }
 
         private string _errorText;
+		/// <summary>
+		/// Gets or sets the error text.
+		/// </summary>
+		/// <value>The error text.</value>
         public string ErrorText
         {
             get { return _errorText; }
@@ -135,6 +139,10 @@ namespace NewsComponents.Net
             }
         }
 
+		/// <summary>
+		/// Gets the created date.
+		/// </summary>
+		/// <value>The created date.</value>
         public DateTime CreatedDate
         {
             get
@@ -143,6 +151,10 @@ namespace NewsComponents.Net
             }
         }
 
+		/// <summary>
+		/// Gets or sets the name of the file.
+		/// </summary>
+		/// <value>The name of the file.</value>
         public string FileName
         {
             get
@@ -158,6 +170,10 @@ namespace NewsComponents.Net
 
         private long _fileSize;
 
+		/// <summary>
+		/// Gets the size of the file.
+		/// </summary>
+		/// <value>The size of the file.</value>
         public long FileSize
         {
             get { return _fileSize; }
@@ -172,6 +188,10 @@ namespace NewsComponents.Net
 
         private long _transferredSize;
 
+		/// <summary>
+		/// Gets the size of the transferred.
+		/// </summary>
+		/// <value>The size of the transferred.</value>
         public long TransferredSize
         {
             get { return _transferredSize; }
@@ -184,6 +204,10 @@ namespace NewsComponents.Net
             }
         }
 
+		/// <summary>
+		/// Gets the percent complete.
+		/// </summary>
+		/// <value>The percent complete.</value>
         public double PercentComplete
         {
             get;
@@ -205,6 +229,10 @@ namespace NewsComponents.Net
         }
 
 	    private int _downloadErrorResumeCount;
+		/// <summary>
+		/// Gets or sets the download error resume count.
+		/// </summary>
+		/// <value>The download error resume count.</value>
 	    public int DownloadErrorResumeCount
 	    {
 		    get { return _downloadErrorResumeCount; }
@@ -215,6 +243,10 @@ namespace NewsComponents.Net
 		    }
 	    }
 
+		/// <summary>
+		/// Gets a value indicating whether this instance can cancel resume.
+		/// </summary>
+		/// <value><c>true</c> if this instance can cancel resume; otherwise, <c>false</c>.</value>
         public bool CanCancelResume
         {
             get
@@ -224,6 +256,9 @@ namespace NewsComponents.Net
             
         }
 
+		/// <summary>
+		/// Cancels this downloading instance.
+		/// </summary>
         public void Cancel()
         {
             if(CanCancelResume)
@@ -275,27 +310,27 @@ namespace NewsComponents.Net
         protected DownloadTask(SerializationInfo info, StreamingContext context)
         {
             var reader = new SerializationInfoReader(info, context);
-            DownloadItem = (DownloadItem) reader.GetValue("_manifest", typeof (DownloadItem), null);
-            state = (DownloadTaskState) reader.GetValue("_state", typeof (DownloadTaskState), DownloadTaskState.None);
-            id = (Guid) reader.GetValue("_id", typeof (Guid), Guid.Empty);
-            JobId = (Guid?) reader.GetValue("_jobId", typeof (Guid?), null);
-            TransferredSize = (long) reader.GetValue("_transferSize", typeof(long), 0);
-            FileSize = (long)reader.GetValue("_fileSize", typeof(long), 0);
-            _createDate = TimeZoneInfo.ConvertTime((DateTime)reader.GetValue("_createDate", typeof(DateTime), DateTime.Now), TimeZoneInfo.Local);
-            _fileName = (string)reader.GetValue("_fileName", typeof(string), null);
-            _errorText = (string)reader.GetValue("_errorText", typeof(string), null);
-            _supportsBITS = (bool)reader.GetBoolean("_supportsBITS", false); 
+            DownloadItem =  reader.Get("_manifest", (DownloadItem)null);
+            _state = reader.Get("_state", DownloadTaskState.None);
+            _id = reader.Get("_id",  Guid.Empty);
+            JobId = reader.Get("_jobId",(Guid?) null);
+            TransferredSize = reader.Get("_transferSize", 0);
+            FileSize = reader.Get("_fileSize", 0);
+            _createDate = TimeZoneInfo.ConvertTime(reader.Get("_createDate", DateTime.Now), TimeZoneInfo.Local);
+            _fileName = reader.Get("_fileName", (string)null);
+            _errorText = reader.Get("_errorText", (string) null);
+            _supportsBITS = reader.Get("_supportsBITS", false); 
 
             if (reader.Contains("_downloadFilesBase"))
-                DownloadFilesBase = reader.GetString("_downloadFilesBase", null);
+                DownloadFilesBase = reader.Get("_downloadFilesBase", (string)null);
             else /* there used to be a typo in the field name */
-                DownloadFilesBase = reader.GetString("_donwnloadFilesBase", null);
+                DownloadFilesBase = reader.Get("_donwnloadFilesBase", (string)null);
 	        if (reader.Contains("_downloadErrorResumeCount"))
-		        _downloadErrorResumeCount = reader.GetInt("_downloadErrorResumeCount", 0);
+		        _downloadErrorResumeCount = reader.Get("_downloadErrorResumeCount", 0);
         }
 
         /// <summary>
-        /// Method used by the seralization mechanism to retrieve the serialized information.
+        /// Method used by the serialization mechanism to retrieve the serialized information.
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
@@ -303,8 +338,8 @@ namespace NewsComponents.Net
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_manifest", DownloadItem);
-            info.AddValue("_state", state);
-            info.AddValue("_id", id);
+            info.AddValue("_state", _state);
+            info.AddValue("_id", _id);
             info.AddValue("_downloadFilesBase", DownloadFilesBase);
             info.AddValue("_jobId", JobId);
             info.AddValue("_transferSize", TransferredSize);

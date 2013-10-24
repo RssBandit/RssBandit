@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace RssBandit.AppServices
@@ -6,7 +7,7 @@ namespace RssBandit.AppServices
 	/// <summary>
 	/// User Preferences service
 	/// </summary>
-	public interface IUserPreferences: IPropertyChange
+	public interface IUserPreferences : INotifyPropertyChanged
 	{
 
 		/// <summary>
@@ -111,7 +112,7 @@ namespace RssBandit.AppServices
 		/// Get the DateTime of the last check for updates. 
 		/// <see cref="AutoUpdateFrequency">AutoUpdateFrequency</see>
 		/// </summary>
-		[Obsolete("Please use the propery DateTime ICoreApplication:LastAutoUpdateCheck instead!", true)]
+		[Obsolete("Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!", true)]
 		DateTime LastAutoUpdateCheck { get; }
 
 		/// <summary>
@@ -122,25 +123,25 @@ namespace RssBandit.AppServices
 
 		/// <summary>
 		/// Normal font used to render items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		Font NormalFont { get; }
 
 		/// <summary>
 		/// Normal font color used to render items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		Color NormalFontColor { get; }
 
 		/// <summary>
 		/// Font used to highlight items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		Font UnreadFont { get; }
 			
 		/// <summary>
 		/// Color used to highlight items (listview) 
-		/// and feeds (treeview)
+		/// and feeds (tree view)
 		/// </summary>
 		Color UnreadFontColor { get; }
 
@@ -158,13 +159,13 @@ namespace RssBandit.AppServices
 		/// Font used to render items that refer back to the users 
 		/// default identity (listview) 
 		/// </summary>
-		Font RefererFont { get; }
+		Font ReferrerFont { get; }
 
 		/// <summary>
 		/// Color used to render items that refer back to the users 
 		/// default identity (listview) 
 		/// </summary>
-		Color RefererFontColor { get; }
+		Color ReferrerFontColor { get; }
 
 		/// <summary>
 		/// Font used to render items that display an error message (listview) 
@@ -194,7 +195,7 @@ namespace RssBandit.AppServices
 		bool UseRemoteStorage { get; }
 		
 		/// <summary>
-		/// Sets/Get the username that may be required to access
+		/// Sets/Get the user name that may be required to access
 		/// the remote storage location.
 		/// </summary>
 		string RemoteStorageUserName { get; }

@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsComponents", "NewsComponents\NewsComponents.csproj", "{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailThis", "RssBandit\plugins\MailThis\MailThis.csproj", "{0FE0B444-A9FD-4077-9E35-8E76B420A37C}"
@@ -15,8 +17,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNote", "RssBandit\plugins\OneNote\OneNote.csproj", "{BA2ADD22-E076-48C9-8DA1-1811DB230169}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdsBlocker2.AddIn", "AddIn\AdsBlocker\AdsBlocker2.AddIn.csproj", "{E0DCA353-A72C-467F-AEB6-E81230185475}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "RssBanditSetup", "RssBandit Installer\WixProject\RssBanditSetup.wixproj", "{29A6A57D-1DF4-45CF-B99E-651E65024043}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
 EndProject
@@ -364,35 +364,6 @@ Global
 		{E0DCA353-A72C-467F-AEB6-E81230185475}.ReleaseSetupx86|x64.Build.0 = Release|Any CPU
 		{E0DCA353-A72C-467F-AEB6-E81230185475}.ReleaseSetupx86|x86.ActiveCfg = Release|Any CPU
 		{E0DCA353-A72C-467F-AEB6-E81230185475}.ReleaseSetupx86|x86.Build.0 = Release|Any CPU
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|x64.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|x64.Build.0 = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug|x86.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|Any CPU.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|Mixed Platforms.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|Mixed Platforms.Build.0 = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|x64.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|x64.Build.0 = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Debug-AltPath|x86.ActiveCfg = Debug|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|Any CPU.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|Mixed Platforms.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|Mixed Platforms.Build.0 = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|x64.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|x64.Build.0 = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.Release|x86.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx64|Any CPU.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx64|Mixed Platforms.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx64|Mixed Platforms.Build.0 = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx64|x64.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx64|x86.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|Any CPU.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|Mixed Platforms.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|Mixed Platforms.Build.0 = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|x64.ActiveCfg = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|x64.Build.0 = ReleaseSetupx64|x64
-		{29A6A57D-1DF4-45CF-B99E-651E65024043}.ReleaseSetupx86|x86.ActiveCfg = ReleaseSetupx64|x64
 		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68909A87-203D-4DF1-84F9-151EBE7CA15C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

@@ -44,6 +44,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Practices.Unity;
 using RssBandit.AppServices.Configuration;
+using RssBandit.ViewModel;
 using RssBandit.WinGui.Controls.ThListView;
 using System.Xml;
 using System.Xml.Schema;
@@ -362,7 +363,7 @@ namespace RssBandit
 				sourceManager.Remove(fbReaderFeedSource);
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
-				MessageInfo(String.Concat("Bad news: the Facebook synchronization feature was rarly used in the past, so ",
+				MessageInfo(String.Concat("Bad news: the Facebook synchronization feature was rarely used in the past, so ",
 					"we disabled this synchronizable feed source.{0}{0}",
 					"Good news: you can use the FBRSS service at fbrss.com instead.")
 					.FormatWith(Environment.NewLine));
@@ -373,7 +374,7 @@ namespace RssBandit
 			if (BanditFeedSourceEntry == null)
 			{
 				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
-				// save the test enviroment:
+				// save the test environment:
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 				// save only, if we don't start the very first time after installation:
 				if (BanditFeedSourceEntry != null &&
@@ -1779,8 +1780,7 @@ namespace RssBandit
                 {
                     /* Create a new text writer using the output stream, and add it to
 					 * the trace listeners. */
-                    var myTextListener = new
-                        TextWriterTraceListener(myFile);
+                    var myTextListener = new TextWriterTraceListener(myFile);
                     Trace.Listeners.Add(myTextListener);
 
                     try
@@ -1797,7 +1797,7 @@ namespace RssBandit
 
                     if (SearchEngineHandler.EnginesOK)
                     {
-                        // Build the menues, below
+                        // Build the menu's, below
                     }
                     else if (validationErrorOccured)
                     {
@@ -1825,7 +1825,7 @@ namespace RssBandit
 				}
 				catch (Exception ex)
 				{
-					_log.Error("Unexpected Error on saving GenerateDefaultEngines({0}).".FormatWith(p), ex);
+					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ex);
 				}
             }
         }
@@ -1983,7 +1983,7 @@ namespace RssBandit
                 }
             }
 
-            Preferences.NumNewsItemsPerPage = propertiesDialog.numNewsItemsPerPage.Value;
+            Preferences.NumNewsItemsPerPage = Convert.ToInt32(propertiesDialog.numNewsItemsPerPage.Value);
 
             Preferences.MarkItemsAsReadWhenViewed = propertiesDialog.checkMarkItemsAsReadWhenViewed.Checked;
             Preferences.LimitNewsItemsPerPage = propertiesDialog.checkLimitNewsItemsPerPage.Checked;
@@ -2007,14 +2007,14 @@ namespace RssBandit
             Preferences.NormalFont = (Font) propertiesDialog.FontForState(FontStates.Read).Clone();
             Preferences.UnreadFont = (Font) propertiesDialog.FontForState(FontStates.Unread).Clone();
             Preferences.FlagFont = (Font) propertiesDialog.FontForState(FontStates.Flag).Clone();
-            Preferences.RefererFont = (Font) propertiesDialog.FontForState(FontStates.Referrer).Clone();
+            Preferences.ReferrerFont = (Font) propertiesDialog.FontForState(FontStates.Referrer).Clone();
             Preferences.ErrorFont = (Font) propertiesDialog.FontForState(FontStates.Error).Clone();
             Preferences.NewCommentsFont = (Font) propertiesDialog.FontForState(FontStates.NewComments).Clone();
 
             Preferences.NormalFontColor = propertiesDialog.ColorForState(FontStates.Read);
             Preferences.UnreadFontColor = propertiesDialog.ColorForState(FontStates.Unread);
             Preferences.FlagFontColor = propertiesDialog.ColorForState(FontStates.Flag);
-            Preferences.RefererFontColor = propertiesDialog.ColorForState(FontStates.Referrer);
+            Preferences.ReferrerFontColor = propertiesDialog.ColorForState(FontStates.Referrer);
             Preferences.ErrorFontColor = propertiesDialog.ColorForState(FontStates.Error);
             Preferences.NewCommentsFontColor = propertiesDialog.ColorForState(FontStates.NewComments);
 
