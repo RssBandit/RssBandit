@@ -166,9 +166,6 @@
     </Compile>
     <Compile Include="Collections\CollectionInterfaces.cs" />
     <Compile Include="Configuration\IPersistedSettings.cs" />
-    <Compile Include="Core\CommonInterfaces.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Core\EventsAndDelegates.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -179,6 +176,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\IFeedSources.cs" />
+    <Compile Include="Core\IInternetService.cs" />
     <Compile Include="Core\INewsFeed.cs" />
     <Compile Include="Core\INewsItem.cs">
       <SubType>Code</SubType>

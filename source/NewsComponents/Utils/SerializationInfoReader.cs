@@ -21,10 +21,11 @@ namespace NewsComponents.Utils
 	/// Simple class that reads a SerializationInfo object 
 	/// with default values
 	/// </summary>
-	public class SerializationInfoReader {
-		private readonly SerializationInfo moInfo;
-		private readonly StringCollection keys;
-		private readonly StreamingContext context;
+	public class SerializationInfoReader 
+	{
+		private readonly SerializationInfo _info;
+		private readonly StringCollection _keys;
+		private readonly StreamingContext _context;
 
 		/// <summary>
 		/// Gets access to the keys.
@@ -32,7 +33,7 @@ namespace NewsComponents.Utils
 		/// <value>The keys.</value>
 		public StringCollection Keys {
 			get {
-				return keys;
+				return _keys;
 			}
 		}
 
@@ -42,7 +43,7 @@ namespace NewsComponents.Utils
 		/// <value>The info.</value>
 		public SerializationInfo Info {
 			get {
-				return moInfo;
+				return _info;
 			}
 		}
 
@@ -52,18 +53,18 @@ namespace NewsComponents.Utils
 		/// <value>The context.</value>
 		public StreamingContext Context
 		{
-			get { return context; }
+			get { return _context; }
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SerializationInfoReader"/> class.
 		/// </summary>
-		/// <param name="moInfo">The mo info.</param>
+		/// <param name="info">The mo info.</param>
 		/// <param name="keys">The keys.</param>
-		public SerializationInfoReader(SerializationInfo moInfo, StringCollection keys)
+		public SerializationInfoReader(SerializationInfo info, StringCollection keys)
 		{
-			this.moInfo = moInfo;
-			this.keys = keys;
+			this._info = info;
+			this._keys = keys;
 		}
 
 		/// <summary>
@@ -73,20 +74,20 @@ namespace NewsComponents.Utils
 		/// <param name="context">The context.</param>
 		public SerializationInfoReader(SerializationInfo info, StreamingContext context)
 		{
-			this.context = context;
-			moInfo = info;
+			this._context = context;
+			_info = info;
 			if (context.Context is StringCollection)
 			{
-				keys = (StringCollection)context.Context;
+				_keys = (StringCollection)context.Context;
 			}
 			else
 			{
-				keys = new StringCollection();
-				if (moInfo != null)
+				_keys = new StringCollection();
+				if (_info != null)
 				{
-					foreach (SerializationEntry entry in moInfo)
+					foreach (SerializationEntry entry in _info)
 					{
-						keys.Add(entry.Name);
+						_keys.Add(entry.Name);
 					}
 				}
 			}
@@ -99,224 +100,9 @@ namespace NewsComponents.Utils
 		/// <returns>
 		/// 	<c>true</c> if it contains the specified key; otherwise, <c>false</c>.
 		/// </returns>
-		public bool Contains(string key) {
-			return keys.Contains(key);
-		}
-
-		/// <summary>
-		/// Gets a boolean.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="defaultValue">the default value.</param>
-		/// <returns></returns>
-		public bool GetBoolean(string name, bool defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetBoolean(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Byte
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public byte GetByte(string name, byte defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetByte(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Char
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public char GetChar(string name, char defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetChar(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Date Time
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public DateTime GetDateTime(string name, DateTime defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetDateTime(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Decimal
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public decimal GetDecimal(string name, decimal defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetDecimal(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Double
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public double GetDouble(string name, double defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					// avoid exception
-					string number = moInfo.GetString(name);
-					switch (number) {
-						case "NaN":
-							return Double.NaN;
-						default:
-							return Convert.ToDouble(number,CultureInfo.InvariantCulture);
-					}
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Short
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public short GetShort(string name, short defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetInt16(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Int
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public int GetInt(string name, int defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetInt32(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Long
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public long GetLong(string name, long defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetInt64(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// Get Single
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public float GetSingle(string name, float defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetSingle(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
-		}
-
-		/// <summary>
-		/// GetString
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public string GetString(string name, string defaultValue) {
-			try
-			{
-				if (keys.Contains(name)) {
-					return moInfo.GetString(name);
-				}
-				return defaultValue;
-			}
-			catch {
-				return defaultValue;
-			}
+		public bool Contains(string key) 
+		{
+			return _keys.Contains(key);
 		}
 
 		/// <summary>
@@ -326,11 +112,12 @@ namespace NewsComponents.Utils
 		/// <param name="type"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		public object GetValue(string name, Type type, object defaultValue) {
+		private object GetValue(string name, Type type, object defaultValue) 
+		{
 			try
 			{
-				if (keys.Contains(name)) {
-					return moInfo.GetValue(name, type);
+				if (_keys.Contains(name)) {
+					return _info.GetValue(name, type);
 				}
 				return defaultValue;
 			}
@@ -340,19 +127,44 @@ namespace NewsComponents.Utils
 		}
 
 		/// <summary>
+		/// Gets the value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name">The name.</param>
+		/// <param name="defaultValue">The default value.</param>
+		/// <returns></returns>
+		public T Get<T>(string name, T defaultValue)
+		{
+			try
+			{
+				if (_keys.Contains(name))
+				{
+					return (T)_info.GetValue(name, typeof(T));
+				}
+				return defaultValue;
+			}
+			catch
+			{
+				return defaultValue;
+			}
+		}
+
+
+		/// <summary>
 		/// Gets a Font, but only if it was serialized with a call to
 		/// SerializationInfoReader.ConvertFont().
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
-		public Font GetFont(string name, Font defaultValue) {
+		public Font GetFont(string name, Font defaultValue) 
+		{
 			try
 			{
-				if (keys.Contains(name)) {
-					FontConverter oFontConv = new FontConverter();
-					string sFont = moInfo.GetString(name);
-					return oFontConv.ConvertFromString(null, CultureInfo.InvariantCulture, sFont) as Font;
+				if (_keys.Contains(name)) {
+					var oFont = new FontConverter();
+					var sFont = _info.GetString(name);
+					return oFont.ConvertFromString(null, CultureInfo.InvariantCulture, sFont) as Font;
 				}
 				return defaultValue;
 			}
@@ -370,8 +182,8 @@ namespace NewsComponents.Utils
 		public Image GetImage(string name, Image defaultValue) {
 			try
 			{
-				if (keys.Contains(name)) {
-					byte[] sImage = (byte[])moInfo.GetValue(name,typeof(byte[]));
+				if (_keys.Contains(name)) {
+					byte[] sImage = (byte[])_info.GetValue(name,typeof(byte[]));
 					return ConvertBytesToImage(sImage);
 				}
 				return defaultValue;
@@ -384,16 +196,16 @@ namespace NewsComponents.Utils
 		/// <summary>
 		/// Gets the generic dictionary.
 		/// </summary>
-		/// <typeparam name="Key">The type of the key.</typeparam>
-		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
 		/// <param name="name">The name.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public Dictionary<Key, Value> GetGenericDictionary<Key, Value>(string name, Dictionary<Key, Value> defaultValue)
+		public Dictionary<TKey, TValue> GetGenericDictionary<TKey, TValue>(string name, Dictionary<TKey, TValue> defaultValue)
 		{
 			try
 			{
-				return GetGenericDictionary(context, this, name, defaultValue);
+				return GetGenericDictionary(_context, this, name, defaultValue);
 			}
 			catch
 			{
@@ -404,16 +216,16 @@ namespace NewsComponents.Utils
 		/// <summary>
 		/// Gets the generic dictionary.
 		/// </summary>
-		/// <typeparam name="Key">The type of the key.</typeparam>
-		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
 		/// <param name="name">The name.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public SortedList<Key, Value> GetGenericDictionary<Key, Value>(string name, SortedList<Key, Value> defaultValue)
+		public SortedList<TKey, TValue> GetGenericDictionary<TKey, TValue>(string name, SortedList<TKey, TValue> defaultValue)
 		{
 			try
 			{
-				return GetGenericDictionary(context, this, name, defaultValue);
+				return GetGenericDictionary(_context, this, name, defaultValue);
 			}
 			catch
 			{
@@ -423,15 +235,15 @@ namespace NewsComponents.Utils
 		/// <summary>
 		/// Gets the generic list.
 		/// </summary>
-		/// <typeparam name="Value">The type of the value.</typeparam>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
 		/// <param name="name">The name.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public List<Value> GetGenericList<Value>(string name, List<Value> defaultValue)
+		public List<TValue> GetGenericList<TValue>(string name, List<TValue> defaultValue)
 		{
 			try
 			{
-				return GetGenericList(context, this, name, defaultValue);
+				return GetGenericList(_context, this, name, defaultValue);
 			}
 			catch
 			{
@@ -446,17 +258,17 @@ namespace NewsComponents.Utils
 		/// <param name="info">The info.</param>
 		/// <param name="key">The key.</param>
 		/// <param name="list">The list.</param>
-		public static void AddGenericList<Value>(StreamingContext context, SerializationInfo info, string key, List<Value> list)
+		public static void AddGenericList<TValue>(StreamingContext context, SerializationInfo info, string key, List<TValue> list)
 		{
 			// Persitence is soap so don't save generic 
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Value[] values;
+				TValue[] values;
 				if (list != null)
 				{
-					values = new Value[list.Count];
+					values = new TValue[list.Count];
 					int pos = 0;
-					foreach (Value value in list)
+					foreach (TValue value in list)
 					{
 						values[pos] = value;
 						pos++;
@@ -466,11 +278,11 @@ namespace NewsComponents.Utils
 				{
 					values = null;
 				}
-				info.AddValue(key, values, typeof(Value[]));
+				info.AddValue(key, values, typeof(TValue[]));
 			}
 			else
 			{
-				info.AddValue(key, list, typeof(List<Value>));
+				info.AddValue(key, list, typeof(List<TValue>));
 			}
 		}
 
@@ -482,22 +294,22 @@ namespace NewsComponents.Utils
 		/// <param name="key">The key.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public static List<Value> GetGenericList<Value>(StreamingContext context, SerializationInfoReader reader, string key, List<Value> defaultValue)
+		public static List<TValue> GetGenericList<TValue>(StreamingContext context, SerializationInfoReader reader, string key, List<TValue> defaultValue)
 		{
-			List<Value> list;
+			List<TValue> list;
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Value[] values = (Value[])reader.GetValue(key, typeof(Value[]), null);
+				TValue[] values = (TValue[])reader.GetValue(key, typeof(TValue[]), null);
 				if (values == null)
 				{
 					return defaultValue;
 				}
 
-				list = new List<Value>(values);
+				list = new List<TValue>(values);
 			}
 			else
 			{
-				list = (List<Value>)reader.GetValue(key, typeof(List<Value>), defaultValue);
+				list = (List<TValue>)reader.GetValue(key, typeof(List<TValue>), defaultValue);
 			}
 			return list;
 		}
@@ -509,19 +321,19 @@ namespace NewsComponents.Utils
 		/// <param name="info">The info.</param>
 		/// <param name="key">The key.</param>
 		/// <param name="dictionary">The dictionary.</param>
-		public static void AddGenericDictionary<Key, Value>(StreamingContext context, SerializationInfo info, string key, Dictionary<Key, Value> dictionary)
+		public static void AddGenericDictionary<TKey, TValue>(StreamingContext context, SerializationInfo info, string key, Dictionary<TKey, TValue> dictionary)
 		{
-			// Persitence is soap so don't save generic 
+			// Persistence is soap so don't save generic 
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Key[] keys;
-				Value[] values;
+				TKey[] keys;
+				TValue[] values;
 				if (dictionary != null)
 				{
-					keys = new Key[dictionary.Count];
-					values = new Value[dictionary.Count];
+					keys = new TKey[dictionary.Count];
+					values = new TValue[dictionary.Count];
 					int pos = 0;
-					foreach (KeyValuePair<Key, Value> entry in dictionary)
+					foreach (KeyValuePair<TKey, TValue> entry in dictionary)
 					{
 						keys[pos] = entry.Key;
 						values[pos] = entry.Value;
@@ -534,12 +346,12 @@ namespace NewsComponents.Utils
 					values = null;
 				}
 
-				info.AddValue(key + "_" + "value", values, typeof(Value[]));
-				info.AddValue(key + "_" + "key", keys, typeof(Key[]));
+				info.AddValue(key + "_" + "value", values, typeof(TValue[]));
+				info.AddValue(key + "_" + "key", keys, typeof(TKey[]));
 			}
 			else
 			{
-				info.AddValue(key, dictionary, typeof(Dictionary<Key, Value>));
+				info.AddValue(key, dictionary, typeof(Dictionary<TKey, TValue>));
 			}
 		}
 
@@ -552,28 +364,28 @@ namespace NewsComponents.Utils
 		/// <param name="key">The key.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public static Dictionary<Key, Value> GetGenericDictionary<Key, Value>(StreamingContext context, SerializationInfoReader reader, string key, Dictionary<Key, Value> defaultValue)
+		public static Dictionary<TKey, TValue> GetGenericDictionary<TKey, TValue>(StreamingContext context, SerializationInfoReader reader, string key, Dictionary<TKey, TValue> defaultValue)
 		{
-			Dictionary<Key, Value> dictionary;
+			Dictionary<TKey, TValue> dictionary;
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Key[] keys = (Key[])reader.GetValue(key + "_" + "key", typeof(Key[]), null);
+				TKey[] keys = (TKey[])reader.GetValue(key + "_" + "key", typeof(TKey[]), null);
 				if (keys == null)
 				{
 					return defaultValue;
 				}
-				Value[] values = (Value[])reader.GetValue(key + "_" + "value", typeof(Value[]), null);
-				dictionary = new Dictionary<Key, Value>(keys.Length);
+				TValue[] values = (TValue[])reader.GetValue(key + "_" + "value", typeof(TValue[]), null);
+				dictionary = new Dictionary<TKey, TValue>(keys.Length);
 				for (int iPos = 0; iPos < keys.Length; iPos++)
 				{
-					Key link = keys[iPos];
-					Value objectLink = values[iPos];
+					TKey link = keys[iPos];
+					TValue objectLink = values[iPos];
 					dictionary.Add(link, objectLink);
 				}
 			}
 			else
 			{
-				dictionary = (Dictionary<Key, Value>)reader.GetValue(key, typeof(Dictionary<Key, Value>), defaultValue);
+				dictionary = (Dictionary<TKey, TValue>)reader.GetValue(key, typeof(Dictionary<TKey, TValue>), defaultValue);
 			}
 			return dictionary;
 		}
@@ -585,19 +397,19 @@ namespace NewsComponents.Utils
 		/// <param name="info">The info.</param>
 		/// <param name="key">The key.</param>
 		/// <param name="dictionary">The dictionary.</param>
-		public static void AddGenericDictionary<Key, Value>(StreamingContext context, SerializationInfo info, string key, SortedList<Key, Value> dictionary)
+		public static void AddGenericDictionary<TKey, TValue>(StreamingContext context, SerializationInfo info, string key, SortedList<TKey, TValue> dictionary)
 		{
-			// Persitence is soap so don't save generic 
+			// Persistence is soap so don't save generic 
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Key[] keys;
-				Value[] values;
+				TKey[] keys;
+				TValue[] values;
 				if (dictionary != null)
 				{
-					keys = new Key[dictionary.Count];
-					values = new Value[dictionary.Count];
+					keys = new TKey[dictionary.Count];
+					values = new TValue[dictionary.Count];
 					int pos = 0;
-					foreach (KeyValuePair<Key, Value> entry in dictionary)
+					foreach (KeyValuePair<TKey, TValue> entry in dictionary)
 					{
 						keys[pos] = entry.Key;
 						values[pos] = entry.Value;
@@ -610,12 +422,12 @@ namespace NewsComponents.Utils
 					values = null;
 				}
 
-				info.AddValue(key + "_" + "value", values, typeof(Value[]));
-				info.AddValue(key + "_" + "key", keys, typeof(Key[]));
+				info.AddValue(key + "_" + "value", values, typeof(TValue[]));
+				info.AddValue(key + "_" + "key", keys, typeof(TKey[]));
 			}
 			else
 			{
-				info.AddValue(key, dictionary, typeof(SortedList<Key, Value>));
+				info.AddValue(key, dictionary, typeof(SortedList<TKey, TValue>));
 			}
 		}
 
@@ -627,28 +439,28 @@ namespace NewsComponents.Utils
 		/// <param name="key">The key.</param>
 		/// <param name="defaultValue">The default value.</param>
 		/// <returns></returns>
-		public static SortedList<Key, Value> GetGenericDictionary<Key, Value>(StreamingContext context, SerializationInfoReader reader, string key, SortedList<Key, Value> defaultValue)
+		public static SortedList<TKey, TValue> GetGenericDictionary<TKey, TValue>(StreamingContext context, SerializationInfoReader reader, string key, SortedList<TKey, TValue> defaultValue)
 		{
-			SortedList<Key, Value> dictionary;
+			SortedList<TKey, TValue> dictionary;
 			if (context.State == StreamingContextStates.Persistence)
 			{
-				Key[] keys = (Key[])reader.GetValue(key + "_" + "key", typeof(Key[]), null);
+				TKey[] keys = (TKey[])reader.GetValue(key + "_" + "key", typeof(TKey[]), null);
 				if (keys == null)
 				{
 					return defaultValue;
 				}
-				Value[] values = (Value[])reader.GetValue(key + "_" + "value", typeof(Value[]), null);
-				dictionary = new SortedList<Key, Value>(keys.Length);
+				TValue[] values = (TValue[])reader.GetValue(key + "_" + "value", typeof(TValue[]), null);
+				dictionary = new SortedList<TKey, TValue>(keys.Length);
 				for (int iPos = 0; iPos < keys.Length; iPos++)
 				{
-					Key link = keys[iPos];
-					Value objectLink = values[iPos];
+					TKey link = keys[iPos];
+					TValue objectLink = values[iPos];
 					dictionary.Add(link, objectLink);
 				}
 			}
 			else
 			{
-				dictionary = (SortedList<Key, Value>)reader.GetValue(key, typeof(SortedList<Key, Value>), defaultValue);
+				dictionary = (SortedList<TKey, TValue>)reader.GetValue(key, typeof(SortedList<TKey, TValue>), defaultValue);
 			}
 			return dictionary;
 		}
@@ -658,10 +470,11 @@ namespace NewsComponents.Utils
 		/// <param name="name">The name.</param>
 		/// <param name="value">The value.</param>
 		/// <param name="type">The type.</param>
-		public void AddValue(string name, object value,Type type) {
-			if (!keys.Contains(name)) {
-				keys.Add(name);
-				moInfo.AddValue(name,value,type);
+		public void AddValue(string name, object value,Type type) 
+		{
+			if (!_keys.Contains(name)) {
+				_keys.Add(name);
+				_info.AddValue(name,value,type);
 			}
 		}
 
@@ -670,10 +483,11 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="value">The value.</param>
-		public void AddValue(string name, object value) {
-			if (!keys.Contains(name)) {
-				keys.Add(name);
-				moInfo.AddValue(name,value);
+		public void AddValue(string name, object value)
+		{
+			if (!_keys.Contains(name)) {
+				_keys.Add(name);
+				_info.AddValue(name,value);
 			}
 		}
 
@@ -684,7 +498,8 @@ namespace NewsComponents.Utils
 		/// <param name="value">The value.</param>
 		/// <param name="type">The type.</param>
 		/// <param name="defaultValue">The default value.</param>
-		public void AddValue(string name, object value, Type type, object defaultValue) {
+		public void AddValue(string name, object value, Type type, object defaultValue) 
+		{
 			if (value!=defaultValue) {
 				this.AddValue(name,value,type);
 			}
@@ -696,7 +511,8 @@ namespace NewsComponents.Utils
 		/// <param name="name">The name.</param>
 		/// <param name="value">The value.</param>
 		/// <param name="defaultValue">The default value.</param>
-		public void AddValue(string name, object value, object defaultValue) {
+		public void AddValue(string name, object value, object defaultValue) 
+		{
 			if (value!=defaultValue) {
 				this.AddValue(name,value);
 			}
@@ -706,8 +522,9 @@ namespace NewsComponents.Utils
 		/// Returns the Version Number of the assembly
 		/// </summary>
 		/// <returns></returns>
-		public Version VersionNumber() {
-			return GetVersion(moInfo);
+		public Version VersionNumber() 
+		{
+			return GetVersion(_info);
 		}
 
 		/// <summary>
@@ -715,7 +532,8 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="info">The info.</param>
 		/// <returns></returns>
-		static public Version GetVersion(SerializationInfo info) {
+		static public Version GetVersion(SerializationInfo info) 
+		{
 			string assemblyName = info.AssemblyName;
 			//	assemblyName is in the form of "MyAssembly, Version=1.2.3.4,Culture=neutral, PublicKeyToken=null"	
 			char[] separators = { ',', '=' };
@@ -728,7 +546,8 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="font"></param>
 		/// <returns></returns>
-		public static string ConvertFont(Font font) {
+		public static string ConvertFont(Font font) 
+		{
 			FontConverter oFontConv = new FontConverter();
 			return oFontConv.ConvertToString(null,CultureInfo.InvariantCulture,font);
 		}
@@ -738,7 +557,8 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="bytes">The bytes.</param>
 		/// <returns></returns>
-		public static Image ConvertBytesToImage(byte[] bytes) {
+		public static Image ConvertBytesToImage(byte[] bytes) 
+		{
 			if (bytes!=null) {
 				MemoryStream stream = new MemoryStream(bytes);
 				return Image.FromStream(stream);
@@ -751,8 +571,10 @@ namespace NewsComponents.Utils
 		/// </summary>
 		/// <param name="image">The image.</param>
 		/// <returns></returns>
-		public static byte[] ConvertImageToBytes(Image image) {
-			if (image!=null) {
+		public static byte[] ConvertImageToBytes(Image image) 
+		{
+			if (image!=null) 
+			{
 				MemoryStream stream = new MemoryStream();
 				image.Save(stream,image.RawFormat);
 				

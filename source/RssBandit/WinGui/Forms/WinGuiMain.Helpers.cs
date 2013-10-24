@@ -2084,7 +2084,7 @@ namespace RssBandit.WinGui.Forms
                 return null;
             }
 
-            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+            int itemsPerPage = owner.Preferences.NumNewsItemsPerPage;
 
             bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
 
@@ -2152,7 +2152,7 @@ namespace RssBandit.WinGui.Forms
                 return null;
             }
 
-            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+            int itemsPerPage = owner.Preferences.NumNewsItemsPerPage;
             int numItems = _currentFeedNewsItems.ItemsList.Count;
 
             bool validPageNum = (pageNum >= 1) && (pageNum <= _lastPageNumber);
@@ -2264,7 +2264,7 @@ namespace RssBandit.WinGui.Forms
 
                         if (numItems > 0)
                         {
-                            int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+                            int itemsPerPage = owner.Preferences.NumNewsItemsPerPage;
                             _lastPageNumber = (numItems/itemsPerPage) + (numItems%itemsPerPage == 0 ? 0 : 1);
 
                             //default stylesheet: get first page of items
@@ -2322,7 +2322,7 @@ namespace RssBandit.WinGui.Forms
 
             if (numItems > 0)
             {
-                int itemsPerPage = Convert.ToInt32(owner.Preferences.NumNewsItemsPerPage);
+                int itemsPerPage = owner.Preferences.NumNewsItemsPerPage;
                 _lastPageNumber = (numItems/itemsPerPage) + (numItems%itemsPerPage == 0 ? 0 : 1);
 
                 //default stylesheet: get first page of items

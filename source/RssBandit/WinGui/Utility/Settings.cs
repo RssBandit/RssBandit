@@ -29,8 +29,9 @@ namespace RssBandit.WinGui.Utility
 	/// </summary>
 	internal static class Ps
 	{
-		public const string LastAutoUpdateCheck = "LastAutoUpdateCheck"; // datetime
-		
+		public const string LastAutoUpdateCheck = "LastAutoUpdateCheck"; // date time
+		public const string WebSearchEnginesRequiresNewTab = "WebSearchEngines.RequiresNewTab";
+
 		// migration keys are for backward compat. (read old formats and convert in background)
 		public const string UnreadItemsSearchFoldersMigrationRequired = "UnreadItemsSearchFolders.migrationRequired.to.1.9"; //bool
 		public const string WatchedItemsFeedMigrationRequired = "WatchedItemsFeed.migrationRequired.to.1.7";

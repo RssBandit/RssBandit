@@ -709,7 +709,10 @@ namespace RssBandit.WinGui.Forms
                         }
                         else
                         {
-                            DetailTabNavigateToUrl(s, thisEngine.Title, owner.SearchEngineHandler.NewTabRequired, true);
+                            DetailTabNavigateToUrl(s
+								, thisEngine.Title
+								, RssBanditApplication.PersistedSettings.GetProperty(Ps.WebSearchEnginesRequiresNewTab, true)
+								, true);
                         }
                     }
                 }
@@ -2268,7 +2271,7 @@ namespace RssBandit.WinGui.Forms
                                     owner.Preferences.UnreadFont, owner.Preferences.UnreadFontColor,
                                     owner.Preferences.FlagFont, owner.Preferences.FlagFontColor,
                                     owner.Preferences.ErrorFont, owner.Preferences.ErrorFontColor,
-                                    owner.Preferences.RefererFont, owner.Preferences.RefererFontColor,
+                                    owner.Preferences.ReferrerFont, owner.Preferences.ReferrerFontColor,
                                     owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
                                     );
 
