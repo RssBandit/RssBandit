@@ -155,8 +155,8 @@
 		<col def="I4">ISAttributes</col>
 		<row><td>CostFinalize</td><td/><td>1000</td><td>CostFinalize</td><td/></row>
 		<row><td>CostInitialize</td><td/><td>800</td><td>CostInitialize</td><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td/><td>700</td><td/><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td/><td>600</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X86" AND PREV_INSTALLATION_X64_FOUND</td><td>700</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND (PREV_REGX86_INSTALLATION_X86_FOUND OR PREV_REGX64_INSTALLATION_X86_FOUND)</td><td>600</td><td/><td/></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>InstallAdminPackage</td><td/><td>3900</td><td>InstallAdminPackage</td><td/></row>
 		<row><td>InstallFiles</td><td/><td>4000</td><td>InstallFiles</td><td/></row>
@@ -177,8 +177,8 @@
 		<row><td>CostFinalize</td><td/><td>1000</td><td>CostFinalize</td><td/></row>
 		<row><td>CostInitialize</td><td/><td>800</td><td>CostInitialize</td><td/></row>
 		<row><td>ExecuteAction</td><td/><td>1300</td><td>ExecuteAction</td><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td/><td>43</td><td/><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td/><td>37</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X86" AND PREV_INSTALLATION_X64_FOUND</td><td>43</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND (PREV_REGX86_INSTALLATION_X86_FOUND OR PREV_REGX64_INSTALLATION_X86_FOUND)</td><td>37</td><td/><td/></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>46</td><td/><td/></row>
 		<row><td>SetupCompleteError</td><td/><td>-3</td><td>SetupCompleteError</td><td/></row>
@@ -197,8 +197,8 @@
 		<row><td>CostFinalize</td><td/><td>1000</td><td>CostFinalize</td><td/></row>
 		<row><td>CostInitialize</td><td/><td>800</td><td>CostInitialize</td><td/></row>
 		<row><td>CreateShortcuts</td><td/><td>4500</td><td>CreateShortcuts</td><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td/><td>700</td><td/><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td/><td>600</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X86" AND PREV_INSTALLATION_X64_FOUND</td><td>700</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND (PREV_REGX86_INSTALLATION_X86_FOUND OR PREV_REGX64_INSTALLATION_X86_FOUND)</td><td>600</td><td/><td/></row>
 		<row><td>InstallFinalize</td><td/><td>6600</td><td>InstallFinalize</td><td/></row>
 		<row><td>InstallInitialize</td><td/><td>1500</td><td>InstallInitialize</td><td/></row>
 		<row><td>InstallValidate</td><td/><td>1400</td><td>InstallValidate</td><td/></row>
@@ -265,6 +265,7 @@
 		<col key="yes" def="s72">Name</col>
 		<col def="V0">Data</col>
 		<col def="S255">ISBuildSourcePath</col>
+		<row><td>ISPrereqLauncher</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\PrqLaunch.dll</td></row>
 		<row><td>ISSetupFilesHelper</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\SFHelper.dll</td></row>
 		<row><td>NewBinary1</td><td/><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources\welcome.bmp</td></row>
 		<row><td>NewBinary10</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CompleteSetupIco.ibd</td></row>
@@ -388,6 +389,7 @@
 		<row><td>C__IBlogExtension_dll</td><td>{EDE71CA8-C0EE-462A-B236-CE61334EEEAD}</td><td>_FOLDER_PLUGINS</td><td>0</td><td/><td>blogextension.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__IEControl_dll</td><td>{9EBAD1F3-314E-4380-88C8-1D0E279F53B7}</td><td>INSTALLDIR</td><td>0</td><td/><td>iecontrol.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__IGWin_Misc_dll</td><td>{261198FF-03C1-45EB-85DE-40277424956A}</td><td>INSTALLDIR</td><td>8</td><td/><td>infragistics.win.misc.dll</td><td>9</td><td>This component consists of a Windows dynamic link library.</td><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__IGWin_Shared_dll</td><td>{C6AAED91-9C2E-4760-A2B3-72C48FC23537}</td><td>INSTALLDIR</td><td>0</td><td/><td>infragistics.shared.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__IGWin_UltraWinEditors_dll</td><td>{171CB250-BC20-4729-B995-F9FFB37248B8}</td><td>INSTALLDIR</td><td>8</td><td/><td>infragistics.win.ultrawinedi</td><td>9</td><td>This component consists of a Windows dynamic link library.</td><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__IGWin_UltraWinExplorerBar_dll</td><td>{A8E0EFCF-3FDB-4205-86B4-B5F5E1FEBEF1}</td><td>INSTALLDIR</td><td>8</td><td/><td>infragistics.win.ultrawinexp</td><td>9</td><td>This component consists of a Windows dynamic link library.</td><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__IGWin_UltraWinStatusBar_dll</td><td>{0236BEAF-B8C5-480A-AFAD-B43809D47E3C}</td><td>INSTALLDIR</td><td>8</td><td/><td>infragistics.win.ultrawinsta</td><td>9</td><td>This component consists of a Windows dynamic link library.</td><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -412,6 +414,9 @@
 		<row><td>C__MSPractices_Unity_dll</td><td>{EB23A7DF-0983-4A23-8661-D5C78D57F971}</td><td>INSTALLDIR</td><td>0</td><td/><td>microsoft.practices.unity.dl</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MSWindowsAPICodePack_Shell_dll</td><td>{25F84F4E-C316-455B-AF89-E628CB636F79}</td><td>INSTALLDIR</td><td>0</td><td/><td>microsoft.windowsapicodepack1</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MSWindowsAPICodePack_dll</td><td>{6A3522A1-D137-4D92-93BE-A2BE6A04FFCC}</td><td>INSTALLDIR</td><td>0</td><td/><td>microsoft.windowsapicodepack</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__MS_BCL_SysIO_dll</td><td>{1BC0DF4A-C296-4A04-B648-919A1B79602A}</td><td>INSTALLDIR</td><td>0</td><td/><td>system.io.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__MS_BCL_SysRuntime_dll</td><td>{C2F1A722-3862-47AE-A105-CB3483FB41B1}</td><td>INSTALLDIR</td><td>0</td><td/><td>system.runtime.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>C__MS_BCL_SysThreadingTasks_dll</td><td>{B5033181-8631-4987-8A98-AC7BE69E4F97}</td><td>INSTALLDIR</td><td>0</td><td/><td>system.threading.tasks.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MailThis_plugin</td><td>{8F0207AC-D07D-4D13-81BD-A4C2898F58F2}</td><td>_FOLDER_PLUGINS</td><td>0</td><td/><td>blogextension.mailthis.dll</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MailThis_plugin_res_de</td><td>{B361B5A8-E30E-4392-AB94-5A2163C67854}</td><td>_FOLDER_PLUGINS</td><td>0</td><td>INSTALL_DESK_LOCALE_DE = 1</td><td>blogextension.mailthis.resou</td><td>9</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>C__MediaImages</td><td>{540B9377-1588-4FF7-BD77-C7446A3A6D2F}</td><td>_FOLDER_MEDIA</td><td>0</td><td/><td>webpage.ico</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -883,6 +888,7 @@
 		<row><td>InstallWelcome</td><td>Copyright</td><td>Show</td><td>SHOWCOPYRIGHT="Yes"</td></row>
 		<row><td>LicenseAgreement</td><td>Next</td><td>Disable</td><td>AgreeToLicense &lt;&gt; "Yes"</td></row>
 		<row><td>LicenseAgreement</td><td>Next</td><td>Enable</td><td>AgreeToLicense = "Yes"</td></row>
+		<row><td>ReadyToInstall</td><td>Back</td><td>Disable</td><td>IS_PREREQ="Reboot"</td></row>
 		<row><td>ReadyToInstall</td><td>DlgText</td><td>Hide</td><td>VersionNT &gt;= "601" AND ISSupportPerUser AND NOT Installed</td></row>
 		<row><td>ReadyToInstall</td><td>DlgText</td><td>Show</td><td>VersionNT &lt; "601" OR NOT ISSupportPerUser OR Installed</td></row>
 		<row><td>ReadyToInstall</td><td>DlgText2</td><td>Hide</td><td>VersionNT &lt; "601" OR NOT ISSupportPerUser OR Installed</td></row>
@@ -1132,6 +1138,7 @@
 		<col def="S255">ISComments</col>
 		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td>19</td><td/><td>The installer has found a existing installation targeting the X64 platform. Please use the appropriate update installer package (x64) to update your installation!</td><td/><td>prevent x86 .msi package installation if there is yet a x64 version installed</td></row>
 		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td>19</td><td/><td>The installer has found a existing installation targeting the X86 platform. Please use the appropriate update installer package (x86) to update your installation!</td><td/><td>prevent x64 .msi package installation if there is yet a x86 version installed</td></row>
+		<row><td>ISInstallPrerequisites</td><td>1</td><td>ISPrereqLauncher</td><td>InstallPrerequisites</td><td/><td/></row>
 		<row><td>ISPreventDowngrade</td><td>19</td><td/><td>[IS_PREVENT_DOWNGRADE_EXIT]</td><td/><td>Exits install when a newer version of this product is found</td></row>
 		<row><td>ISPrint</td><td>1</td><td>SetAllUsers.dll</td><td>PrintScrollableText</td><td/><td>Prints the contents of a ScrollableText control on a dialog.</td></row>
 		<row><td>ISSetAllUsers</td><td>257</td><td>SetAllUsers.dll</td><td>SetAllUsers</td><td/><td/></row>
@@ -1999,6 +2006,7 @@
 		<row><td>Delicious</td><td>C__Delicious_plugin_res_de</td></row>
 		<row><td>DisplayTemplates</td><td>C__Template_Images</td></row>
 		<row><td>Infragistics</td><td>C__IGWin_Misc_dll</td></row>
+		<row><td>Infragistics</td><td>C__IGWin_Shared_dll</td></row>
 		<row><td>Infragistics</td><td>C__IGWin_UltraWinEditors_dll</td></row>
 		<row><td>Infragistics</td><td>C__IGWin_UltraWinExplorerBar_dll</td></row>
 		<row><td>Infragistics</td><td>C__IGWin_UltraWinStatusBar_dll</td></row>
@@ -2049,6 +2057,9 @@
 		<row><td>ThirdParty</td><td>C__MSPractices_IExceptionMng_dll</td></row>
 		<row><td>ThirdParty</td><td>C__MSPractices_ServiceLocation_dll</td></row>
 		<row><td>ThirdParty</td><td>C__MSPractices_Unity_dll</td></row>
+		<row><td>ThirdParty</td><td>C__MS_BCL_SysIO_dll</td></row>
+		<row><td>ThirdParty</td><td>C__MS_BCL_SysRuntime_dll</td></row>
+		<row><td>ThirdParty</td><td>C__MS_BCL_SysThreadingTasks_dll</td></row>
 		<row><td>ThirdParty</td><td>C__Org_Mime_Net_dll</td></row>
 		<row><td>ThirdParty</td><td>C__SharpZLib_dll</td></row>
 		<row><td>Twitter</td><td>C__Twitter_plugin</td></row>
@@ -2119,6 +2130,7 @@
 		<row><td>flag.yellow.gif</td><td>C__Template_Images</td><td>FLAGYE~1.GIF|flag.yellow.gif</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\flag.yellow.gif</td><td>1</td><td/></row>
 		<row><td>icsharpcode.sharpziplib.dll</td><td>C__SharpZLib_dll</td><td>ICSHAR~1.DLL|ICSharpCode.SharpZipLib.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ICSharpCode.SharpZipLib.dll</td><td>1</td><td/></row>
 		<row><td>iecontrol.dll</td><td>C__IEControl_dll</td><td>IECONT~1.DLL|IEControl.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\IEControl.dll</td><td>1</td><td/></row>
+		<row><td>infragistics.shared.dll</td><td>C__IGWin_Shared_dll</td><td>INFRAG~1.DLL|Infragistics.Shared.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Infragistics.Shared.dll</td><td>1</td><td/></row>
 		<row><td>infragistics.win.dll</td><td>C__IGWin_dll</td><td>INFRAG~1.DLL|Infragistics.Win.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Infragistics.Win.dll</td><td>1</td><td/></row>
 		<row><td>infragistics.win.misc.dll</td><td>C__IGWin_Misc_dll</td><td>INFRAG~1.DLL|Infragistics.Win.Misc.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Infragistics.Win.Misc.dll</td><td>1</td><td/></row>
 		<row><td>infragistics.win.ultrawinedi</td><td>C__IGWin_UltraWinEditors_dll</td><td>INFRAG~1.DLL|Infragistics.Win.UltraWinEditors.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Infragistics.Win.UltraWinEditors.dll</td><td>1</td><td/></row>
@@ -2201,6 +2213,9 @@
 		<row><td>sanddock.dll</td><td>C__SandDock_dll</td><td>SandDock.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\SandDock.dll</td><td>1</td><td/></row>
 		<row><td>shared.png</td><td>C__Template_Images</td><td>shared.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\shared.png</td><td>1</td><td/></row>
 		<row><td>snowball.net.dll</td><td>C__SnowBall_dll</td><td>SNOWBA~1.DLL|Snowball.Net.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\Snowball.Net.dll</td><td>1</td><td/></row>
+		<row><td>system.io.dll</td><td>C__MS_BCL_SysIO_dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\System.IO.dll</td><td>1</td><td/></row>
+		<row><td>system.runtime.dll</td><td>C__MS_BCL_SysRuntime_dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\System.Runtime.dll</td><td>1</td><td/></row>
+		<row><td>system.threading.tasks.dll</td><td>C__MS_BCL_SysThreadingTasks_dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\System.Threading.Tasks.dll</td><td>1</td><td/></row>
 		<row><td>torsteroids.common.dll</td><td>C__TorSteroids_Common_dll</td><td>TORSTE~1.DLL|TorSteroids.Common.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\TorSteroids.Common.dll</td><td>1</td><td/></row>
 		<row><td>unflag.gif</td><td>C__Template_Images</td><td>unflag.GIF</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\unflag.GIF</td><td>1</td><td/></row>
 		<row><td>unread.gif</td><td>C__Template_Images</td><td>unread.gif</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\templates\images\unread.gif</td><td>1</td><td/></row>
@@ -2379,6 +2394,7 @@
 		<row><td>C__IBlogExtension_dll</td><td/><td/><td>_6B68610C_FC32_42ED_9432_BC67085D3C71_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__IEControl_dll</td><td/><td/><td>_6AFECAA7_6139_4313_8289_EFE55866091E_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__IGWin_Misc_dll</td><td/><td/><td>_83D4EFA7_532B_4B17_8F5A_A6A174156DFB_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__IGWin_Shared_dll</td><td/><td/><td>_8BB4436A_1EC6_4FBE_A6C3_68E7D7FE9254_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__IGWin_UltraWinEditors_dll</td><td/><td/><td>_977B409E_9A31_47A5_83CF_EC1940E0CB5C_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__IGWin_UltraWinExplorerBar_dll</td><td/><td/><td>_636156F3_8AEE_4854_BD85_F75C0CA4C731_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__IGWin_UltraWinStatusBar_dll</td><td/><td/><td>_A2DC9413_7E71_4B54_9F31_BD8624F84226_FILTER</td><td/><td/><td/><td/></row>
@@ -2403,6 +2419,9 @@
 		<row><td>C__MSPractices_Unity_dll</td><td/><td/><td>_AB069B2C_C480_4BD8_A659_CF4BD72F88F0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__MSWindowsAPICodePack_Shell_dll</td><td/><td/><td>_92343789_2199_43FB_ACE4_9B6C3B12E9E7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__MSWindowsAPICodePack_dll</td><td/><td/><td>_92343789_2199_43FB_ACE4_9B6C3B12E9E7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__MS_BCL_SysIO_dll</td><td/><td/><td>_AB069B2C_C480_4BD8_A659_CF4BD72F88F0_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__MS_BCL_SysRuntime_dll</td><td/><td/><td>_AB069B2C_C480_4BD8_A659_CF4BD72F88F0_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>C__MS_BCL_SysThreadingTasks_dll</td><td/><td/><td>_AB069B2C_C480_4BD8_A659_CF4BD72F88F0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__MailThis_plugin</td><td/><td/><td>_54EBB8CA_ED7C_44A7_A405_7324CB0F65E4_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__MailThis_plugin_res_de</td><td/><td/><td>_A44B6BC4_12A6_4EF9_96A2_28DCC086FBA3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>C__MediaImages</td><td/><td/><td>_7F8C63D2_6FCA_48AF_837D_64D424DDD87B_FILTER</td><td/><td/><td/><td/></row>
@@ -2559,6 +2578,8 @@
 	<table name="ISFeatureSetupPrerequisites">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">ISSetupPrerequisites_</col>
+		<row><td>Application.x64</td><td>_5ED2207D_93CB_4A38_B276_C85AECAC3387_</td></row>
+		<row><td>Application.x86</td><td>_5ED2207D_93CB_4A38_B276_C85AECAC3387_</td></row>
 	</table>
 
 	<table name="ISFileManifests">
@@ -2772,6 +2793,7 @@
 		<row><td>PATH_TO_RELEASE_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit\bin\Release</td><td/><td>2</td></row>
 		<row><td>PATH_TO_RESOURCES_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit\branches\v1.9.x\source\RssBandit Installer\Resources</td><td/><td>2</td></row>
 		<row><td>PATH_TO_RSSBANDIT_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF\Code\RssBandit</td><td/><td>2</td></row>
+		<row><td>PATH_TO_SF_FILES</td><td>D:\torsten.rendelmann\Virtual Machines\Share\My Projects\SF</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
 		<row><td>WindowsFolder</td><td/><td/><td>1</td></row>
@@ -2806,6 +2828,7 @@
 		<row><td>Release 1.9.x (x64)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3293_x64</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductCode</td><td>{62586B9B-B8F2-411E-87A3-8D6E14CBED2A}</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x64)</td></row>
+		<row><td>Release 1.9.x (x64)</td><td>ProductVersion</td><td>1.9.3293</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>SetupFileName</td><td>RssBandit_1.9.3293.1180_x64 (RC)</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>Subject</td><td>##SIS_TITLE_X64##</td></row>
 		<row><td>Release 1.9.x (x64)</td><td>TemplateSummary</td><td>x64;0</td></row>
@@ -2814,8 +2837,10 @@
 		<row><td>Release 1.9.x (x86)</td><td>MSIPackageFileName</td><td>RssBandit_1.9.3293_x86</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductCode</td><td>{3CBE6C15-21D4-4F88-AB52-72446A6C6429}</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>ProductName</td><td>RSS Bandit 1.9.3 (x86)</td></row>
+		<row><td>Release 1.9.x (x86)</td><td>ProductVersion</td><td>1.9.3293</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>SetupFileName</td><td>RssBandit_1.9.3293.1180_x86 (RC)</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Subject</td><td>##SIS_TITLE##</td></row>
+		<row><td>Release 1.9.x (x86)</td><td>TemplateSummary</td><td>Intel;0</td></row>
 		<row><td>Release 1.9.x (x86)</td><td>Title</td><td>##SIS_TITLE##</td></row>
 	</table>
 
@@ -2850,8 +2875,8 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>0</td><td>0</td><td>X64</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>(C)2003-2013 rssbandit.org</td><td>42052621</td><td/><td/><td/><td/></row>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>1</td><td>0</td><td>X86</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td>&lt;PATH_TO_RSSBANDIT_FILES&gt;\bandit.code.pfx</td><td/><td>(C)2003-2013 rssbandit.org</td><td>579445775</td><td/><td/><td/><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>&lt;PATH_TO_SF_FILES&gt;\PubBinaries</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>0</td><td>0</td><td>X64</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td>&lt;PATH_TO_RSSBANDIT_FILES&gt;\bandit.code.pfx</td><td/><td>(C)2003-2013 rssbandit.org</td><td>578923535</td><td/><td/><td/><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>&lt;PATH_TO_SF_FILES&gt;\PubBinaries</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>2</td><td>0</td><td>1</td><td>0</td><td>X86</td><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td>&lt;PATH_TO_RSSBANDIT_FILES&gt;\bandit.code.pfx</td><td/><td>(C)2003-2013 rssbandit.org</td><td>579445775</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -2892,7 +2917,7 @@
 		<col def="I4">MsiEngineVersion</col>
 		<col def="S255">WinMsi30Url</col>
 		<col def="S255">CertPassword</col>
-		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>0</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td/></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>0</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td>1CBAB0EF9C98660CAF1C938E7EF8349CCE6D0FE7</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[LocalAppDataFolder]Downloaded Installations</td><td>1</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td/><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>2</td><td>1033</td><td/><td/><td/><td/><td>80</td><td>3</td><td>16</td><td>http://www.installengine.com/Msiengine30</td><td>1CBAB0EF9C98660CAF1C938E7EF8349CCE6D0FE7</td></row>
 	</table>
 
@@ -2902,6 +2927,8 @@
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>CabCompressionType</td><td>3</td></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>CertificateSignFiles</td><td>1</td></row>
+		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>CertificateSignInPlace</td><td>1</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x64)</td><td>SetupIcon</td><td>&lt;PATH_TO_RESOURCES_FILES&gt;\_ARPPRODUCTICON.ico,0</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>CabCompressionType</td><td>3</td></row>
 		<row><td>Release 1.9.3x</td><td>Release 1.9.x (x86)</td><td>CertificateSignFiles</td><td>1</td></row>
@@ -3102,6 +3129,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_5ED2207D_93CB_4A38_B276_C85AECAC3387_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISStorages">
@@ -4242,6 +4270,12 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td>RSSBAN~1|RSS Bandit</td><td>0</td><td/><td>488763183</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121904149</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121904149</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121904149</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121864628</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121864628</td></row>
+		<row><td>ID_STRING7</td><td>1033</td><td>0</td><td>0</td><td/><td>-1121864628</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-224316768</td></row>
 		<row><td>SIS_AUTHORS</td><td>1033</td><td>Dare Obasanjo &amp; Torsten Rendelmann</td><td>0</td><td/><td>220279568</td></row>
 		<row><td>SIS_PRODUCT_LINK</td><td>1033</td><td>http://www.rssbandit.org/</td><td>0</td><td/><td>220271472</td></row>
@@ -4522,27 +4556,28 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>CostFinalize</td><td/><td>1000</td><td>CostFinalize</td><td/></row>
 		<row><td>CostInitialize</td><td/><td>800</td><td>CostInitialize</td><td/></row>
 		<row><td>ExecuteAction</td><td/><td>1300</td><td>ExecuteAction</td><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td/><td>445</td><td/><td/></row>
-		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td/><td>440</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX64</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X86" AND PREV_INSTALLATION_X64_FOUND</td><td>445</td><td/><td/></row>
+		<row><td>FAILONBADPLATFORMINSTALLERX86</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64" AND (PREV_REGX86_INSTALLATION_X86_FOUND OR PREV_REGX64_INSTALLATION_X86_FOUND)</td><td>440</td><td/><td/></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>FindRelatedProducts</td><td/><td>430</td><td>FindRelatedProducts</td><td/></row>
+		<row><td>ISInstallPrerequisites</td><td>NOT(EXECUTEMODE~="NONE") AND NOT(PATCH AND Installed)</td><td>1241</td><td/><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
 		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>ISSetupFilesCleanup</td><td/><td>1301</td><td/><td/></row>
 		<row><td>ISSetupFilesExtract</td><td/><td>3</td><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Not Installed</td><td>1210</td><td>InstallWelcome</td><td/></row>
+		<row><td>InstallWelcome</td><td>Not Installed And IS_PREREQ&lt;&gt;"Reboot"</td><td>1210</td><td>InstallWelcome</td><td/></row>
 		<row><td>IsolateComponents</td><td/><td>950</td><td>IsolateComponents</td><td/></row>
 		<row><td>LaunchConditions</td><td>Not Installed</td><td>410</td><td>LaunchConditions</td><td/></row>
 		<row><td>MaintenanceWelcome</td><td>Installed And Not RESUME And Not Preselected And Not PATCH</td><td>1230</td><td>MaintenanceWelcome</td><td/></row>
 		<row><td>MigrateFeatureStates</td><td/><td>1200</td><td>MigrateFeatureStates</td><td/></row>
 		<row><td>PatchWelcome</td><td>Installed And PATCH And Not IS_MAJOR_UPGRADE</td><td>1205</td><td>Patch Panel</td><td/></row>
 		<row><td>RMCCPSearch</td><td>Not CCP_SUCCESS And CCP_TEST</td><td>600</td><td>RMCCPSearch</td><td/></row>
-		<row><td>ReadyToInstall</td><td>Not Installed And IS_PREREQ="Reboot"</td><td>1235</td><td/><td/></row>
+		<row><td>ReadyToInstall</td><td>Not Installed And IS_PREREQ="Reboot"</td><td>1239</td><td/><td/></row>
 		<row><td>ResolveSource</td><td>Not Installed</td><td>990</td><td>ResolveSource</td><td/></row>
 		<row><td>SETX64INSTALLDIR</td><td>VersionNT64 AND ISReleaseFlags &gt;&lt; "X64"</td><td>415</td><td/><td/></row>
 		<row><td>SetAllUsersProfileNT</td><td>VersionNT = 400</td><td>970</td><td/><td/></row>
 		<row><td>SetupCompleteError</td><td/><td>-3</td><td>SetupCompleteError</td><td/></row>
-		<row><td>SetupCompleteSuccess</td><td/><td>-1</td><td>SetupCompleteSuccess</td><td/></row>
+		<row><td>SetupCompleteSuccess</td><td>Not IS_PREREQ_REBOOTING</td><td>-1</td><td>SetupCompleteSuccess</td><td/></row>
 		<row><td>SetupInitialization</td><td/><td>420</td><td>SetupInitialization</td><td/></row>
 		<row><td>SetupInterrupted</td><td/><td>-2</td><td>SetupInterrupted</td><td/></row>
 		<row><td>SetupProgress</td><td/><td>1240</td><td>SetupProgress</td><td/></row>
@@ -4866,6 +4901,9 @@ UgBlAGwAZQBhAHMAZQAgADEALgA5AC4AMwB4AAEAUgBlAGwAZQBhAHMAZQAgADEALgA5AC4AeAAgACgA
 		<row><td>IS_SQLSERVER_SERVER</td><td/><td/></row>
 		<row><td>IS_SQLSERVER_USERNAME</td><td>sa</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
+		<row><td>IsPrerequisiteSetupBrowse</td><td>##IDS_PREREQUISITE_SETUP_BROWSE##</td><td/></row>
+		<row><td>IsPrerequisiteSetupInvalid</td><td>##IDS_PREREQUISITE_SETUP_INVALID##</td><td/></row>
+		<row><td>IsPrerequisiteSetupSearch</td><td>##IDS_PREREQUISITE_SETUP_SEARCH##</td><td/></row>
 		<row><td>MSIFASTINSTALL</td><td>4</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDTemplate</td><td>12345&lt;###-%%%%%%%&gt;@@@@@</td><td/></row>
