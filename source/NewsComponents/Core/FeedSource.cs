@@ -7252,6 +7252,15 @@ namespace NewsComponents
             return readonly_feedsTable;
         }
 
+		/// <summary>
+		/// Gets a value indicating whether this instance has feeds.
+		/// </summary>
+		/// <value><c>true</c> if this instance has feeds; otherwise, <c>false</c>.</value>
+	    public virtual bool HasFeeds
+	    {
+			get { return feedsTable.Count > 0; }
+	    }
+
         /// <summary>
         /// Tests whether this feed is currently subscribed to. 
         /// </summary>
