@@ -95,32 +95,26 @@ namespace NewsComponents.Feed {
 		/// to prepare a valid web url.
 		/// </summary>
 		/// <param name="webUrl">Url to mangle</param>
+		/// <param name="baseUrl">The base URL. Optional.</param>
 		/// <returns>Mangled Url</returns>
-		public static string UrlFromFeedProtocolUrl(string webUrl) 
+		public static string UrlFromFeedProtocolUrl(string webUrl, string baseUrl = null) 
 		{
-			if (webUrl == null)
+			if (String.IsNullOrWhiteSpace(webUrl))
 				return String.Empty;
 
 			string retUrl = webUrl;
 			
-			if (retUrl == null)
-				return String.Empty;
-
-			if (retUrl.ToLower(CultureInfo.InvariantCulture).StartsWith("feed:"))
+			if (retUrl.ToLowerInvariant().StartsWith("feed:"))
 				retUrl = retUrl.Substring(5);
 
 			if (retUrl.StartsWith("//"))
 				retUrl = retUrl.Substring(2);
-
-			try 
-			{
-				new Uri(retUrl);
-				// valid Url here
-			} 
-			catch 
+			
+			Uri validated;
+			if (!Uri.TryCreate(retUrl, UriKind.Absolute,  out validated))
 			{
 				// format exception
-				if (!retUrl.ToLower(CultureInfo.InvariantCulture).StartsWith("http")) 
+				if (!retUrl.ToLowerInvariant().StartsWith("http")) 
 				{
 					if (retUrl.StartsWith("/"))
 						retUrl = "http://" + retUrl.Substring(1);
