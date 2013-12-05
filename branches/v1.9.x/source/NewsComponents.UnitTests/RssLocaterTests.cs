@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using NewsComponents.Feed;
 using NUnit.Framework;
@@ -161,8 +160,8 @@ namespace NewsComponents.UnitTests
 			var feeds = locater.GetRssAutoDiscoveryLinks(BASE_URL + "NoFeeds.html");
 			Assert.AreEqual(0, feeds.Count, "Impossibly, we auto-discovered a feed where there are none.");
 		}
-
 		
+		#region setup/teardown
 
 		/// <summary>
 		/// Setups the test fixture by starting unpacking 
@@ -185,38 +184,8 @@ namespace NewsComponents.UnitTests
 		{
 			base.TearDown();
 		}
+
+		#endregion
+
 	}
-
-
-    /// <summary>
-    /// RSS Locator tests without web server
-    /// </summary>
-    [TestFixture]
-    public class RssLocaterWithoutWebServerTests
-    {
-        private const string BASE_URL = "http://127.0.0.1:8081/RssLocaterTestFiles/";
-
-        /// <summary>
-        /// If the web server is down, GetRssFeedsForUrl should not throw an 
-        /// exception. but GetRssAutoDiscoveryLinks should be quite exceptional!
-        /// </summary>
-        [Test]
-        public void GetRssFeedsForUrlDoesNotThrowExceptionWhenWebServerDown()
-        {
-            RssLocater locater = new RssLocater(null, null);
-            IList<string> feeds = locater.GetRssFeedsForUrl(BASE_URL + "NoFeeds.html", false);
-            Assert.AreEqual(0, feeds.Count, "Impossibly we found feeds where there are none.");
-        }
-
-        /// <summary>
-        /// If the web server is down, GetRssAutoDiscoveryLinks should throw 
-        /// an exception!
-        /// </summary>
-        [Test, ExpectedException(typeof(WebException))]
-        public void GetRssAutoDiscoveryLinksThrowsExceptionIfWebServerIsDown()
-        {
-            RssLocater locater = new RssLocater(null, null);
-            locater.GetRssAutoDiscoveryLinks(BASE_URL + "NoFeeds.html");
-        }
-    }
 }
