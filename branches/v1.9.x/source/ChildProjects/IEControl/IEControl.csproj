@@ -167,7 +167,6 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="license.txt" />
-    <None Include="Migrated rules for IEControl.ruleset" />
     <None Include="readme.txt" />
     <None Include="rssbandit.org.snk" />
     <EmbeddedResource Include="Resources\IEControl.Toolbitmap16.bmp" />
