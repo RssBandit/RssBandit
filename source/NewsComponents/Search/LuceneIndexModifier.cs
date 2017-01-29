@@ -782,7 +782,7 @@ namespace NewsComponents.Search
 #endif
 				this.indexWriter = new IndexWriter(this.BaseDirectory, 
 					LuceneSearch.GetAnalyzer(LuceneSearch.DefaultLanguage), false);
-				this.indexWriter.SetInfoStream( _logHelper);
+				this.indexWriter.SetInfoStream(_logHelper);
                 this.indexWriter.SetMergeFactor(MaxSegments);
                 this.indexWriter.SetMaxBufferedDocs(DocsPerSegment);
 				this.indexWriter.SetMergeScheduler(new NoExceptionsConcurrentMergeScheduler());
@@ -815,23 +815,23 @@ namespace NewsComponents.Search
 	{
 		public NoExceptionsConcurrentMergeScheduler()
 		{
-			// as long there is no  handleMergeException method to overwrite,
-			// we use this one:
-			this.SetSuppressExceptions_ForNUnitTest();
+            // as long there is no  handleMergeException method to overwrite,
+            // we use this one:
+            this.SetSuppressExceptions();//.SetSuppressExceptions_ForNUnitTest();
 		} 
 	}
 
 	/**
 	 * Helper class which writes internal Lucene debug info to RSS Bandit trace logs. 
 	 */
-	internal class LuceneInfoWriter: TextWriter{
+	internal class LuceneInfoWriter: StreamWriter{
 
 		private readonly ILog logger; 
 		
 		/// <summary>
 		/// We don't want a default constructor
 		/// </summary>
-		private LuceneInfoWriter(){;}
+		private LuceneInfoWriter(): base(new MemoryStream()){;}
 
 
 		/// <summary>
@@ -848,7 +848,7 @@ namespace NewsComponents.Search
 		/// Constructor accepts logger as input
 		/// </summary>
 		/// <param name="logger">The logger to which we'll actually write the information</param>
-		internal LuceneInfoWriter(ILog logger){
+		internal LuceneInfoWriter(ILog logger) : base(new MemoryStream()){
 			this.logger = logger; 					
 		}
 
