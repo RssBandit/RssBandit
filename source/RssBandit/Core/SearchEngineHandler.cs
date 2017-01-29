@@ -246,10 +246,10 @@ namespace RssBandit.WebSearch
 			{
 				Properties.Resources.google.Save(stream);
 			}
-			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "bing.ico")))
-			{
-				Properties.Resources.bing.Save(stream);
-			}
+			//using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "bing.png")))
+			//{
+				Properties.Resources.bing.Save(Path.Combine(searchesPath, "bing.png"));
+			//}
 			using (var stream = FileHelper.OpenForWrite(Path.Combine(searchesPath, "yahoo.ico")))
 			{
 				Properties.Resources.yahoo.Save(stream);

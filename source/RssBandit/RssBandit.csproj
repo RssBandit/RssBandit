@@ -583,11 +583,11 @@
     <None Include="Resources\subsription_banner_image.png" />
     <None Include="Resources\subscription_wizard_finished.png" />
     <None Include="Resources\subscription_wizard_welcome.png" />
-    <None Include="Resources\searches\bing.ico" />
     <None Include="Resources\searches\config.xml" />
     <None Include="Resources\searches\google.ico" />
     <None Include="Resources\searches\yahoo.ico" />
     <None Include="Resources\splash2.png" />
+    <None Include="Resources\searches\bing.png" />
     <Content Include="templates\aura-8.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
