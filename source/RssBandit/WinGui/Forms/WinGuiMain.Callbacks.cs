@@ -16,7 +16,7 @@ using IEControl;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
-using Interop.SHDocVw;
+using SHDocVw;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.RelationCosmos;

@@ -28,7 +28,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using IEControl.Impl;
-using Interop.SHDocVw;
+using SHDocVw;
 
 namespace IEControl
 {
@@ -1785,7 +1785,7 @@ namespace IEControl
 			Uri uri = new Uri(favUrl);
 			object oTitle = title;
 
-			ShellUIHelperClass uih = new ShellUIHelperClass();
+            var uih = new ShellUIHelper();
 			try {
 				uih.AddFavorite(uri.AbsoluteUri, ref oTitle);
 			} catch (Exception ex) {
@@ -2752,5 +2752,41 @@ namespace IEControl
 			BrowserStatusTextChangeEvent statustextchangeEvent = new BrowserStatusTextChangeEvent(text);
 			this.parent.RaiseOnStatusTextChange(this.parent, statustextchangeEvent);
 		}
+
+	    public void FileDownload(bool ActiveDocument, ref bool Cancel)
+	    {
+	    }
+
+	    public void SetPhishingFilterStatus(int PhishingFilterStatus)
+	    {
+	    }
+
+	    public void WindowStateChanged(uint dwWindowStateFlags, uint dwValidFlagsMask)
+	    {
+	    }
+
+	    public void NewProcess(int lCauseFlag, object pWB2, ref bool Cancel)
+	    {
+	    }
+
+	    public void ThirdPartyUrlBlocked(ref object URL, uint dwCount)
+	    {
+	    }
+
+	    public void RedirectXDomainBlocked(object pDisp, ref object StartURL, ref object RedirectURL, ref object Frame, ref object StatusCode)
+	    {
+	    }
+
+	    public void BeforeScriptExecute(object pDispWindow)
+	    {
+	    }
+
+	    public void WebWorkerStarted(uint dwUniqueID, string bstrWorkerLabel)
+	    {
+	    }
+
+	    public void WebWorkerFinsihed(uint dwUniqueID)
+	    {
+	    }
 	}
 }

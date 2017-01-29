@@ -200,7 +200,6 @@
     <Compile Include="RssLocaterTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RssLocaterWithoutWebServerTests.cs" />
     <Compile Include="RssParserTests.cs">
       <SubType>Code</SubType>
     </Compile>
