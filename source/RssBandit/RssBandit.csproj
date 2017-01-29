@@ -796,11 +796,11 @@
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SR.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="Resources\SR.sr-Cyrl-RS.resx">
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SR.sr-Latn-CS.resx">
+    <EmbeddedResource Include="Resources\SR.sr-Latn-RS.resx">
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -909,11 +909,11 @@
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Cyrl-RS.resx">
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.sr-Latn-RS.resx">
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -981,11 +981,11 @@
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Cyrl-RS.resx">
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.sr-Latn-RS.resx">
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1053,11 +1053,11 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Cyrl-RS.resx">
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.sr-Latn-RS.resx">
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1130,11 +1130,11 @@
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Cyrl-RS.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DR.sr-Latn-RS.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1230,11 +1230,11 @@
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Cyrl-RS.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.sr-Latn-RS.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1302,11 +1302,11 @@
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Cyrl-RS.resx">
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.sr-Latn-RS.resx">
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1370,11 +1370,11 @@
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Cyrl-RS.resx">
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.sr-Latn-RS.resx">
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1450,11 +1450,11 @@
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Cyrl-RS.resx">
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.sr-Latn-RS.resx">
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1518,11 +1518,11 @@
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Cyrl-RS.resx">
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.sr-Latn-RS.resx">
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1590,11 +1590,11 @@
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Cyrl-RS.resx">
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.sr-Latn-RS.resx">
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1658,11 +1658,11 @@
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Cyrl-RS.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.sr-Latn-RS.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1726,11 +1726,11 @@
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Cyrl-RS.resx">
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.sr-Latn-RS.resx">
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1794,11 +1794,11 @@
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Cyrl-RS.resx">
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.sr-Latn-RS.resx">
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1866,11 +1866,11 @@
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Cyrl-CS.resx">
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Cyrl-RS.resx">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Latn-CS.resx">
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.sr-Latn-RS.resx">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -2103,9 +2103,7 @@
     <Compile Include="WinGui\Controls\TreeView\TreeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WinGui\Controls\TreeView\UltraTreeExtended.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="WinGui\Controls\TreeView\UltraTreeExtended.cs" />
     <Compile Include="WinGui\Controls\UltraToolTipContextHelperBase.cs" />
     <Compile Include="WinGui\Controls\VerticalHeaderLabel.cs">
       <SubType>Component</SubType>
