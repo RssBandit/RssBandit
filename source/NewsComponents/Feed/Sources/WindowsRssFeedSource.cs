@@ -117,7 +117,7 @@ namespace NewsComponents.Feed
         /// <summary>
         /// The Windows RSS platform feed manager
         /// </summary>
-        private readonly IFeedsManager feedManager = new FeedsManagerClass();
+        private readonly IFeedsManager feedManager = new FeedsManager();
 
         /// <summary>
         /// Needed for event handling support with Windows RSS platform
