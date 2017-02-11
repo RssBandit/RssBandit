@@ -19,7 +19,7 @@
 	<!-- properties required for the Version target-->  
 	<PropertyGroup>
 		<Major>1</Major>
-		<Minor>7</Minor>
+		<Minor>9</Minor>
 		<Build>0</Build>
 		<BuildDOY>0</BuildDOY>
 		<Revision>0</Revision>
@@ -46,12 +46,12 @@
 
 	<Target Name="Version_Make">
 
-		<SvnVersion LocalPath="." ToolPath="tools\svn\">
+		<!--<SvnVersion LocalPath="." ToolPath="tools\svn\">
 			<Output TaskParameter="Revision" PropertyName="Revision" />
 		</SvnVersion>
 		<BuildDay>
 		  <Output TaskParameter="BuildDayOfYear" PropertyName="BuildDOY" />
-		</BuildDay> 
+		</BuildDay> -->
 
 		<Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
 
@@ -119,26 +119,26 @@
 	
 	
 	<Target Name="Compile_Plugins" >
-		<MSBuild ToolsVersion="3.5"	Projects="@(PluginProjectToBuild)" Targets="Rebuild"></MSBuild>
+		<MSBuild Projects="@(PluginProjectToBuild)" Targets="Rebuild"></MSBuild>
 		<Copy SourceFiles="@(PluginOutputFiles)" 
 		  DestinationFiles="@(PluginOutputFiles->'source\RssBandit\bin\x86\$(Configuration)\plugins\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 	
 	<Target Name="Compile_RssBandit" 
 	  DependsOnTargets="Compile_AppServices;Compile_NewsComponents;VersionInfo_RssBandit">
-		<MSBuild ToolsVersion="3.5" Projects="@(MainProjectToBuild)" Targets="Rebuild" />
+		<MSBuild Projects="@(MainProjectToBuild)" Targets="Rebuild" />
 	</Target>
 	
 	<Target Name="Compile_NewsComponents" DependsOnTargets="VersionInfo_NewsComponents">
-		<MSBuild ToolsVersion="3.5" Projects="source\NewsComponents\NewsComponents.csproj" Targets="Rebuild" />
+		<MSBuild Projects="source\NewsComponents\NewsComponents.csproj" Targets="Rebuild" />
 	</Target>
 	
 	<Target Name="Compile_AppServices" DependsOnTargets="VersionInfo_AppServices">
-		<MSBuild ToolsVersion="2.0" Projects="source\RssBandit.AppServices\RssBandit.AppServices.csproj" Targets="Rebuild" />
+		<MSBuild Projects="source\RssBandit.AppServices\RssBandit.AppServices.csproj" Targets="Rebuild" />
 	</Target>
 	
 	<Target Name="Compile_FeedInstaller">
-		<MSBuild ToolsVersion="3.5"	Projects="source\RssBandit Installer\Rssbandit Feed Installer\Rssbandit Feed Installer.csproj" Targets="Rebuild" />
+		<MSBuild Projects="source\RssBandit Installer\Rssbandit Feed Installer\Rssbandit Feed Installer.csproj" Targets="Rebuild" />
 	</Target>
 	
 	<Target Name="Source_Export" 
