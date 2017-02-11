@@ -2498,4 +2498,11 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  
+  <Target Name="ClearLicenseFiles" BeforeTargets="Compile">
+    <ItemGroup>
+        <LicenseFiles Include="**\*.licx"/>
+    </ItemGroup>
+    <Copy SourceFiles="licenses.empty" DestinationFiles="%(LicenseFiles.FullPath)"/>
+  </Target>
 </Project>
