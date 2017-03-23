@@ -28,7 +28,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <SignAssembly>false</SignAssembly>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -2498,11 +2498,10 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  
   <Target Name="ClearLicenseFiles" BeforeTargets="Compile">
     <ItemGroup>
-        <LicenseFiles Include="**\*.licx"/>
+      <LicenseFiles Include="**\*.licx" />
     </ItemGroup>
-    <Copy SourceFiles="licenses.empty" DestinationFiles="%(LicenseFiles.FullPath)"/>
+    <Copy SourceFiles="licenses.empty" DestinationFiles="%(LicenseFiles.FullPath)" />
   </Target>
 </Project>
