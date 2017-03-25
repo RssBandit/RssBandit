@@ -469,9 +469,6 @@ namespace IEControl
                     if (OpticalZoomFactorChanged != null)
                         OpticalZoomFactorChanged(this, EventArgs.Empty);
                 }
-                else
-                    throw new InvalidOperationException(String.Format(
-                        "Invalid zoom factor: {0}. Allowed values are between 10 and 1000", value));
             }
 	    }
 
