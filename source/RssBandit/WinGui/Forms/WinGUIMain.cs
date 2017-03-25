@@ -1081,7 +1081,6 @@ namespace RssBandit.WinGui.Forms
 			this.htmlDetail.Location = new System.Drawing.Point(0, 0);
 			this.htmlDetail.Name = "htmlDetail";
 			this.htmlDetail.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-			this.htmlDetail.OpticalZoomFactor = 100;
 			this.htmlDetail.RightToLeft = false;
 			this.helpProvider1.SetShowHelp(this.htmlDetail, false);
 			this.htmlDetail.Size = new System.Drawing.Size(402, 199);

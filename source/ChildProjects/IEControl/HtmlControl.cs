@@ -46,7 +46,6 @@ namespace IEControl
 	]
 	public class HtmlControl : AxHost , IMessageFilter
     {
-        
 		///<summary>
 		///</summary>
 		public static Assembly SHDocVwAssembly;
@@ -65,7 +64,7 @@ namespace IEControl
 		private DocHostUIHandler uiHandler;
 		private Interop.IWebBrowser2Application iwb2app;
 		private bool ie7BuildInZoomEnabled;
-        private int currentOpticalZoomFactor = 100;
+        private int currentOpticalZoomFactor;
         private const int zoomStep = 5;
 
 		string url = String.Empty;
@@ -285,7 +284,9 @@ namespace IEControl
 			HandleDestroyed += SelfHandleDestroyed;
 			NavigateComplete += SelfNavigateComplete;
 
-		}
+            // Set the default zoom factor based on the device dpi
+		    currentOpticalZoomFactor  = (DeviceDpi / 96) * 100;
+        }
     
 		///<summary>
 		///Summary of HtmlControl.
@@ -451,6 +452,8 @@ namespace IEControl
         /// Gets or sets the optical zoom factor.
         /// </summary>
         /// <value>The optical zoom factor.</value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [ReadOnly(true)]
 	    public int OpticalZoomFactor
 	    {
             get { return this.currentOpticalZoomFactor; }
@@ -458,6 +461,9 @@ namespace IEControl
             {
                 if (value >= 10 && value <= 1000)
                 {
+                    if (currentOpticalZoomFactor == value)
+                        return;
+
                     currentOpticalZoomFactor = value;
                     ApplyOpticalZoom(currentOpticalZoomFactor);
                     if (OpticalZoomFactorChanged != null)
@@ -1906,7 +1912,7 @@ namespace IEControl
 		protected override void AttachInterfaces()
 		{
 			try {
-				this.ocx = ((IWebBrowser2)(GetOcx()));
+                this.ocx = ((IWebBrowser2)(GetOcx()));
 				this.iwb2app = (Interop.IWebBrowser2Application) this.ocx;
 			} catch (Exception ex) {
 				System.Diagnostics.Trace.WriteLine("IEControl::AttachInterfaces() exception - " + ex.Message);
@@ -2184,6 +2190,7 @@ namespace IEControl
 		///<param name="sender"></param>
 		///<param name="e"></param>
 		internal void RaiseOnDocumentComplete(object sender, BrowserDocumentCompleteEvent e) {
+            ApplyOpticalZoom(currentOpticalZoomFactor);
 			if ((this.DocumentComplete != null)) {
 				this.DocumentComplete(sender, e);
 			}
