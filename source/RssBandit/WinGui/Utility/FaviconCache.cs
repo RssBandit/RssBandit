@@ -51,20 +51,31 @@ namespace RssBandit.WinGui.Utility
 			if (Uri.TryCreate(feed.link, UriKind.Absolute, out faviconUri))
 				id = "{0}/{1}".FormatWith(faviconUri.Authority, feed.favicon);
 
-			Image image;
-			if (_favicons.TryGetValue(id, out image))
-				return image;
+            Image image = null;
+			
 
 			try
 			{
-				byte[] imageData = source.GetFaviconForFeed(feed);
+			    if (_favicons.TryGetValue(id, out image))
+			    {
+                    // Ensure they're valid
+                    var w = image.Width;
+                    var h = image.Height;
+
+			        return image;
+			    }
+
+                byte[] imageData = source.GetFaviconForFeed(feed);
 				
 				if (ImageDataAreResized(ref imageData, feed.favicon, out image))
 				{
 					// save resized image data to permanent store:
 					source.SetFaviconForFeed(feed, feed.favicon, imageData);
-				}
 
+				    // Ensure they're valid
+				    var w = image.Width;
+				    var h = image.Height;
+                }
 			}
 			catch(Exception ex)
 			{
@@ -73,7 +84,7 @@ namespace RssBandit.WinGui.Utility
 			
 			lock (_favicons)
 			{
-				if (!_favicons.ContainsKey(id))
+				if (!_favicons.ContainsKey(id) && image != null)
 					_favicons.Add(id, image);
 			}
 

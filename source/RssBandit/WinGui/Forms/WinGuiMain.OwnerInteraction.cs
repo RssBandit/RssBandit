@@ -644,8 +644,15 @@ namespace RssBandit.WinGui.Forms
 		/// </returns>
         private Image LoadCachedFavicon(FeedSource source, INewsFeed feed)
 		{
-			return FaviconCache.GetImage(source, feed)?.GetImageStretchedDpi(ScaleFactor);
-		}
+		    try
+		    {
+		        return FaviconCache.GetImage(source, feed)?.GetImageStretchedDpi(ScaleFactor);
+		    }
+		    catch
+		    {
+		        return null;
+		    }
+        }
 		
 		private void PopulateTreeRssSearchScope()
         {
