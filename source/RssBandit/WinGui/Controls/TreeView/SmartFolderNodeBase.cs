@@ -1,13 +1,3 @@
-#region CVS Version Header
-
-/*
- * $Id$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-
-#endregion
 
 #region CVS Version Log
 

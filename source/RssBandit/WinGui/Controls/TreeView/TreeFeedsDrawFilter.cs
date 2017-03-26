@@ -66,6 +66,11 @@ namespace RssBandit.WinGui.Controls.TreeView
             if (treeNode != null)
             {
 
+                var scale = (float)drawParams.ControlElement.Control.DeviceDpi / 96;
+                var sz300 = (int)(300 * scale);
+
+
+
                 TreeFeedsNodeBase feedsNode = treeNode as TreeFeedsNodeBase;
                 if (drawPhase == DrawPhase.AfterDrawElement &&
                     feedsNode != null && feedsNode.Control != null)
@@ -95,7 +100,7 @@ namespace RssBandit.WinGui.Controls.TreeView
 					RectangleF initialRect = drawParams.Element.RectInsideBorders;
                     RectangleF r = new RectangleF(initialRect.Left, initialRect.Top, 0, 0);
                     // this SHOULD be the horizontal scrolling area, but how do we get this (?):
-					r.Width = treeNode.Control.DisplayRectangle.Width + 300;
+					r.Width = treeNode.Control.DisplayRectangle.Width + sz300;
                     r.Height = treeNode.ItemHeightResolved;
 
                     TreeFeedsNodeGroupHeaderPainter.PaintOutlook2003Header(drawParams.Graphics, r);

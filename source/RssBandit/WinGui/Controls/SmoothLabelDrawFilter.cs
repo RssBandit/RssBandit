@@ -41,8 +41,8 @@ namespace RssBandit.WinGui.Controls
 		}
 
 		public bool DrawElement(DrawPhase drawPhase, ref UIElementDrawParams drawParams) {
-
-			Graphics g = drawParams.Graphics;
+            
+            Graphics g = drawParams.Graphics;
 			StringFormat frmt  = new StringFormat();
 			
 			g.SmoothingMode = SmoothingMode.AntiAlias;
