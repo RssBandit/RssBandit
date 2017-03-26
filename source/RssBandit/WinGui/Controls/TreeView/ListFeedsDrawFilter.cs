@@ -1,22 +1,22 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
+
 
 using System.Drawing;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
+using RssBandit.WinGui.Utility;
+using System.Windows.Forms;
 
 namespace RssBandit.WinGui.Controls.TreeView
 {
 	public sealed class ListFeedsDrawFilter : IUIElementDrawFilter
 	{
+	    readonly Control owner;
+
+	    public ListFeedsDrawFilter(Control owner)
+	    {
+	        this.owner = owner;
+	    }
 		DrawPhase IUIElementDrawFilter.GetPhasesToFilter( ref UIElementDrawParams drawParams )
 		{
 			if(drawParams.Element is EditorWithTextDisplayTextUIElement )
@@ -57,7 +57,8 @@ namespace RssBandit.WinGui.Controls.TreeView
 		
 		bool IUIElementDrawFilter.DrawElement( DrawPhase drawPhase, ref UIElementDrawParams drawParams )
 		{
-			const int FLAG_WIDTH = 23;
+            var scaleFactor = (float)owner.DeviceDpi / 96;
+			int FLAG_WIDTH = (int)(23 * scaleFactor);
 			UltraTreeNodeExtended treeNode = drawParams.Element.GetContext( typeof(UltraTreeNode), true ) as UltraTreeNodeExtended;
 			if ( treeNode != null )
 			{
@@ -72,11 +73,11 @@ namespace RssBandit.WinGui.Controls.TreeView
 				{
 					Image img = null;
 					if(treeNode.Expanded)
-						img = Properties.Resources.Minus_16;
+						img = Properties.Resources.Minus_16.GetImageStretchedDpi(scaleFactor);
 					else 
-						img = Properties.Resources.Plus_16;
-					
-					if(!treeNode.Selected) {
+						img = Properties.Resources.Plus_16.GetImageStretchedDpi(scaleFactor);
+
+                    if (!treeNode.Selected) {
 						drawParams.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220,224,227)),r);
 					}
 

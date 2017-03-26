@@ -22,6 +22,8 @@ using RssBandit.Common.Logging;
 using RssBandit.WinGui.Controls.ThListView.Sorting;
 using RssBandit.Resources;
 using System.Collections.Generic;
+using System.Linq;
+using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui.Controls.ThListView
 {
@@ -87,6 +89,26 @@ namespace RssBandit.WinGui.Controls.ThListView
             _columns = new ThreadedListViewColumnHeaderCollection(this);
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
+
+            var scale = (float)DeviceDpi / 96;
+            if (scale != 1.0)
+            {
+                var sz = (int)(16 * scale);
+
+                var images = imageListStates.Images.Cast<Bitmap>().ToArray();
+                imageListStates.Images.Clear();
+                
+                imageListStates.ImageSize = new Size(sz, sz);
+
+                foreach (var b in images)
+                {
+                    imageListStates.Images.Add(b.GetImageStretchedDpi(scale));
+                }
+            }
+            
+
+            var il = new ImageList();
+            
             InitListView();
         }
 
@@ -159,15 +181,20 @@ namespace RssBandit.WinGui.Controls.ThListView
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            var resources = new System.Resources.ResourceManager(typeof (ThreadedListView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThreadedListView));
             this.imageListStates = new System.Windows.Forms.ImageList(this.components);
+            this.SuspendLayout();
             // 
             // imageListStates
             // 
-            this.imageListStates.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageListStates.ImageStream =
-                ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("imageListStates.ImageStream")));
+            this.imageListStates.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListStates.ImageStream")));
             this.imageListStates.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListStates.Images.SetKeyName(0, "");
+            this.imageListStates.Images.SetKeyName(1, "");
+            this.imageListStates.Images.SetKeyName(2, "");
+            this.imageListStates.Images.SetKeyName(3, "");
+            this.ResumeLayout(false);
+
         }
 
         #endregion

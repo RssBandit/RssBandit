@@ -214,7 +214,7 @@ namespace RssBandit.WinGui.Forms
             listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].SortType = SortType.Ascending;
             listFeedItemsO.ColumnSettings.AllowSorting = DefaultableBoolean.True;
             listFeedItemsO.Override.SortComparer = sc;
-            listFeedItemsO.DrawFilter = new ListFeedsDrawFilter();
+            listFeedItemsO.DrawFilter = new ListFeedsDrawFilter(listFeedItemsO);
             listFeedItemsO.AfterSelect += OnListFeedItemsO_AfterSelect;
             listFeedItemsO.KeyDown += OnListFeedItemsO_KeyDown;
             listFeedItemsO.BeforeExpand += listFeedItemsO_BeforeExpand;
