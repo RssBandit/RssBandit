@@ -616,7 +616,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
 
   div.PostTitle {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size:larger;
+  font-size:normal;
   }
 
   .PostTitle a, .PostTitle a:active, .PostTitle a:visited {
@@ -637,7 +637,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   }
 
   div.PageNavigation {
-  font-size: small;
+  font-size: x-small;
   margin: 5px 0px 10px 0px;
   padding: 2px 0px 2px 0px;
   }
@@ -645,18 +645,18 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   div.PostInfos {
   color: #808080;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: small;
+  font-size: x-small;
   font-weight:normal;
   text-transform: none;
   }
 
   div.PostContent {
-  font-size: normal;
+  font-size: small;
   border-top: 1px dotted #CBCBCB;
   }
 
   div.PostItemContent {
-  font-size: normal;
+  font-size: small;
   margin: 10px 0px 10px 0px;
   padding: 10px 0px 10px 0px;
   border-bottom: 1px dotted #CBCBCB;
@@ -665,7 +665,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   div.PostSignature {
   text-align: right;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: x-small;
+  font-size: xx-small;
   font-style: italic;
   }
 
