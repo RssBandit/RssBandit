@@ -106,23 +106,29 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		}
 
 		public void CreateToolbars(NewsgroupsConfiguration mainConfig) {
-			
+
+            var scaleFactor = (float)mainConfig.DeviceDpi / 96;
 			UltraToolbar mainTools = new UltraToolbar(Resource.Toolbar.MainTools);
 			
 			mainTools.DockedColumn = 0;
 			mainTools.DockedRow = 0;
 			mainTools.Text = SR.NewsGroupConfiguration_MainToolbarCaption;
+       
 				
 			this.manager.Toolbars.AddRange(
 				new UltraToolbar[] {  mainTools });
-			
+          
 			Infragistics.Win.Appearance a = null;
 			
-			ButtonTool newIdentity = new ButtonTool("toolNewIndentity");
+            var img = Properties.Resources.add_user_16.GetImageStretchedDpi(scaleFactor);
+
+            manager.ImageSizeSmall = img.Size;
+
+            ButtonTool newIdentity = new ButtonTool("toolNewIndentity");
 			newIdentity.SharedProps.Caption = SR.NewsGroupConfiguration_NewIdentityToolCaption;
 			newIdentity.SharedProps.StatusText = newIdentity.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewIdentityToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.add_user_16.GetImageStretchedDpi(main.ScaleFactor);
+            a.Image = img;
 			newIdentity.SharedProps.AppearancesSmall.Appearance = a;
 			newIdentity.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -130,7 +136,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			newServer.SharedProps.Caption = SR.NewsGroupConfiguration_NewNewsServerToolCaption;
 			newServer.SharedProps.StatusText = newServer.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewNewsServerToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.add_newsserver_16.GetImageStretchedDpi(main.ScaleFactor);
+			a.Image = Properties.Resources.add_newsserver_16.GetImageStretchedDpi(scaleFactor);
 			newServer.SharedProps.AppearancesSmall.Appearance = a;
 			newServer.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -138,12 +144,14 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			deleteItem.SharedProps.Caption = SR.NewsGroupConfiguration_DeleteToolCaption;
 			deleteItem.SharedProps.StatusText = deleteItem.SharedProps.ToolTipText = SR.NewsGroupConfiguration_DeleteToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.delete_16.GetImageStretchedDpi(main.ScaleFactor);
+			a.Image = Properties.Resources.delete_16.GetImageStretchedDpi(scaleFactor);
 			deleteItem.SharedProps.AppearancesSmall.Appearance = a;
 			deleteItem.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
-			
-			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {newIdentity, newServer, deleteItem});
+
+
+
+          // must be added to the toolbar first:
+          this.manager.Tools.AddRange(new ToolBase[] {newIdentity, newServer, deleteItem});
 
 			mainTools.Tools.AddRange(new ToolBase[]{newIdentity, newServer, deleteItem});
 			foreach (ToolBase tool in mainTools.Tools) {

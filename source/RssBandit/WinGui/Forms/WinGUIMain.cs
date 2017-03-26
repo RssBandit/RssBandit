@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
@@ -286,6 +287,11 @@ namespace RssBandit.WinGui.Forms
 
             GuiOwner = theGuiOwner;
             initialStartupState = initialFormState;
+
+            // set IG scale factor
+            typeof(DrawUtility).GetField("scalingFactor", BindingFlags.Static | BindingFlags.NonPublic)?.SetValue(null, ScaleFactor);
+            var sf = new SizeF(DeviceDpi, DeviceDpi);
+            typeof(DrawUtility).GetField("screenDpi", BindingFlags.Static | BindingFlags.NonPublic)?.SetValue(null, sf);
 
             urlExtender = new UrlCompletionExtender(this);
             _feedItemImpressionHistory = new History( /* TODO: get maxEntries from .config */);

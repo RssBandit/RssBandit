@@ -494,7 +494,7 @@ namespace RssBandit.WinGui.Forms
 							tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.FeedSecured,
 											  Resource.SubscriptionTreeImage.FeedSecuredSelected,
 											  _treeFeedContextMenu,
-											  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
+											  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor) : null));
 						}
 						else
 						{
@@ -502,7 +502,7 @@ namespace RssBandit.WinGui.Forms
 								f.title, Resource.SubscriptionTreeImage.Feed,
 								Resource.SubscriptionTreeImage.FeedSelected,
 								_treeFeedContextMenu,
-								(owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
+								(owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor) : null));
 						}
 
 						//interconnect for speed:
