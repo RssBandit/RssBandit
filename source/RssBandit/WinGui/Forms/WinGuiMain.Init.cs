@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
@@ -427,6 +428,13 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
+        Image GetTreeImage(string name)
+        {
+            var str = typeof(UltraTree).Assembly.GetManifestResourceStream(typeof(UltraTree), $"Images.{name}");
+            var img = Image.FromStream(str).GetImageStretchedDpi(ScaleFactor);
+            return img;
+        }
+    
         private void InitFeedTreeView()
         {
 			if (Win32.IsOSAtLeastWindowsVista)
@@ -444,7 +452,14 @@ namespace RssBandit.WinGui.Forms
 			treeFeeds.PathSeparator = FeedSource.CategorySeparator;
             treeFeeds.ImageList = _treeImages;
             
-			treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
+            treeFeeds.ExpansionIndicatorImageCollapsed = GetTreeImage("WindowsVistaExpansionIndicatorCollapsed.png");
+            treeFeeds.ExpansionIndicatorImageCollapsedHotTracked = GetTreeImage("WindowsVistaExpansionIndicatorCollapsedHotTracked.png");
+            treeFeeds.ExpansionIndicatorImageExpanded = GetTreeImage("WindowsVistaExpansionIndicatorExpanded.png");
+            treeFeeds.ExpansionIndicatorImageExpandedHotTracked = GetTreeImage("WindowsVistaExpansionIndicatorExpandedHotTracked.png");
+
+            treeFeeds.ExpansionIndicatorSize = new Size(treeFeeds.ExpansionIndicatorImageCollapsed.Width /4, treeFeeds.ExpansionIndicatorImageCollapsed.Height/2);
+
+            treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
 
             //this.treeFeeds.CreationFilter = new TreeFeedsNodeUIElementCreationFilter();
             treeFeeds.Override.SelectionType = SelectType.SingleAutoDrag;
