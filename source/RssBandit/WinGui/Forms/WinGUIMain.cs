@@ -2228,7 +2228,6 @@ namespace RssBandit.WinGui.Forms
             }
 			
 			owner.AskAndCheckForDefaultAggregator();
-			Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
 
             _startupTimer.Interval = 1000*
                                      RssBanditApplication.ReadAppSettingsEntry(

@@ -3297,18 +3297,19 @@ namespace RssBandit
 					if (fs.SourceType == FeedSourceType.DirectAccess)
 					{
 						// migrate old subscriptions or install a default one:
-						string oldsubs = MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
+						//string oldsubs =
+                        MigrateOrInstallDefaultFeedList(fs.Source.SubscriptionLocation.Location);
 						
                         LoadFeedSourceSubscriptions(fs, false);
                         
-                        //due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
-                        //into migrated feed list
-                        if (!String.IsNullOrWhiteSpace(oldsubs))
-                        {
-                            FileStream stream = File.Open(oldsubs, FileMode.Open);
-                            fs.Source.ImportFeedlist(stream);
-                            stream.Close();
-                        }
+                        ////due to lost feeds issue in v1.8.0.855 we merge any recently added subscriptions 
+                        ////into migrated feed list
+                        //if (!String.IsNullOrWhiteSpace(oldsubs))
+                        //{
+                        //    FileStream stream = File.Open(oldsubs, FileMode.Open);
+                        //    fs.Source.ImportFeedlist(stream);
+                        //    stream.Close();
+                        //}
 
 						// needs the feedlist to be loaded:
 						CheckAndMigrateSettingsAndPreferences();
@@ -3324,7 +3325,7 @@ namespace RssBandit
 				}//foreach
 
 				// script might be changed in this new version:
-				Win32.Registry.UnRegisterInternetExplorerExtension(Win32.IEMenuExtension.Bandit);
+
 				
 				//reset first app start flag:
 				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
@@ -3352,42 +3353,44 @@ namespace RssBandit
         /// <param name="currentFeedListFileName">Name of the current feed list file.</param>
         /// <exception cref="BanditApplicationException">On any failure</exception>
         /// <returns>Path to temp file containing contents of input file</returns>
-        internal static string MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
+        internal static void MigrateOrInstallDefaultFeedList(string currentFeedListFileName)
         {
             //Due to issue in 1.8.0.855 where we lost feed subscriptions, we will merge subscriptions.xml with 
             //current feed file instead of migration
-            /* 
+
             if (File.Exists(currentFeedListFileName))
                 return;
-             */
-            string tempFile = String.Empty;
-            if (File.Exists(currentFeedListFileName))
-            {
-				do tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-				while (File.Exists(tempFile));
-                File.Move(currentFeedListFileName, tempFile);
-            }
 
-            //checks if new feed file exists and if we can migrate some older:
-			string oldSubscriptionFile = OldVersionSupport.GetSubscriptionsFileName();
-			string veryOldSubscriptionFile = OldVersionSupport.GetFeedListFileName();
+            //create default feed list 			
+            InstallDefaultFeedList(currentFeedListFileName);
 
-            if (!File.Exists(currentFeedListFileName))
-            {
-                if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
-                {                   
-                    File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
-                }
-                else if (File.Exists(oldSubscriptionFile))
-                {                 
-                    File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
-                }
-                else
-                {
-                    //create default feed list 			
-                    InstallDefaultFeedList(currentFeedListFileName);
-                }
-            }
+   //         string tempFile = String.Empty;
+   //         if (File.Exists(currentFeedListFileName))
+   //         {
+			//	do tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+			//	while (File.Exists(tempFile));
+   //             File.Move(currentFeedListFileName, tempFile);
+   //         }
+
+   //         //checks if new feed file exists and if we can migrate some older:
+			//string oldSubscriptionFile = OldVersionSupport.GetSubscriptionsFileName();
+			//string veryOldSubscriptionFile = OldVersionSupport.GetFeedListFileName();
+
+   //         if (!File.Exists(currentFeedListFileName))
+   //         {
+   //             if (!File.Exists(oldSubscriptionFile) && File.Exists(veryOldSubscriptionFile))
+   //             {                   
+   //                 File.Copy(veryOldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+   //             }
+   //             else if (File.Exists(oldSubscriptionFile))
+   //             {                 
+   //                 File.Copy(oldSubscriptionFile, currentFeedListFileName); // copy to be used to load from
+   //             }
+   //             else
+   //             {
+                    
+   //             }
+   //         }
 
             // now we should have that file:
             if (!File.Exists(currentFeedListFileName))
@@ -3395,8 +3398,6 @@ namespace RssBandit
                 // no feedlist file exists:
                 throw new BanditApplicationException(ApplicationExceptions.FeedlistNA);
             }
-
-            return tempFile; 
         }
 
 		private void RaiseFeedSourceSubscriptionsLoaded(FeedSourceEntry entry)

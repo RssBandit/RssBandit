@@ -797,15 +797,8 @@ namespace RssBandit
                 _log.Debug("Unable to set CurrentFeedProtocolHandler", ex);
                 throw;
             }
-
-            Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
         }
 
-        [Obsolete("Please use/call Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions() instead", false)]
-        public static void CheckAndRegisterIEMenuExtensions()
-        {
-			Win32.InternetExplorerIntegration.CheckAndRegisterMenuExtensions();
-        }
 
         /// <summary>
         /// Method test the running application, if it is registered as the
