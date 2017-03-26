@@ -222,8 +222,21 @@ namespace IEControl
 		/// <summary>
 		/// Internet Explorer 10. Webpages are displayed in IE10 Standards mode, regardless of the !DOCTYPE directive
 		/// </summary>
-		IE10StandardMode = 10001
-	}
+		IE10StandardMode = 10001,
+
+
+        /// <summary>
+        /// IE11. Webpages containing standards-based !DOCTYPE directives are displayed in IE11 edge mode. 
+        /// Default value for Internet Explorer 11
+        /// </summary>
+        IE11Mode = 11000,
+
+        /// <summary>
+        /// Internet Explorer 11. Webpages are displayed in IE11 edge mode, regardless of the declared !DOCTYPE directive
+        /// </summary>
+        IE11StandardMode = 11001
+
+    }
 
 	/// <summary>
 	/// Contains the feature controls for Microsoft Internet Explorer.

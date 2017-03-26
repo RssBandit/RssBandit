@@ -724,8 +724,17 @@ namespace RssBandit
 			{
 				var currentVersion = GetRegistryInternetExplorerVersion();
 
-				// see http://support.microsoft.com/kb/969393 
-				if (currentVersion >= new Version(9, 10))
+			    if (currentVersion >= new Version(9, 11))
+			    {
+			        InternetExplorerFeature.SetBrowserEmulation(appExeName,
+			            forceToInstalledIEVersion
+			                ? InternetFeatureBrowserEmulation.IE11StandardMode
+			                : InternetFeatureBrowserEmulation.IE11Mode);
+			        return;
+			    }
+
+                // see http://support.microsoft.com/kb/969393 
+                if (currentVersion >= new Version(9, 10))
 				{
 					InternetExplorerFeature.SetBrowserEmulation(appExeName,
 						forceToInstalledIEVersion
