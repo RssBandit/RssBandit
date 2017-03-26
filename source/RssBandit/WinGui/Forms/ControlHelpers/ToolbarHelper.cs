@@ -502,7 +502,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			AppButtonToolCommand toolTopStories = new AppButtonToolCommand(
 				"cmdTopStories", owner.Mediator, owner.CmdTopStories,
 				SR.MenuTopStoriesCaption, SR.MenuTopStoriesDesc);
-			toolTopStories.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.hotnews_16;
+			toolTopStories.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.hotnews_16.GetImageStretchedDpi(owner.ScaleFactor);
 			toolTopStories.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
 			AppButtonToolCommand style51 = new AppButtonToolCommand(
@@ -579,10 +579,10 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdAbout", owner.Mediator, owner.CmdAboutApp , 
 				SR.MenuAboutCaption, SR.MenuAboutDesc, shortcutHandler);
 
-			style2.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.rssbandit_16;
-			style2.SharedProps.AppearancesLarge.Appearance.Image = Properties.Resources.rssbandit_32;
-			
-			AppButtonToolCommand style3 = new AppButtonToolCommand(
+			style2.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.rssbandit_16.GetImageStretchedDpi(owner.ScaleFactor);
+			style2.SharedProps.AppearancesLarge.Appearance.Image = Properties.Resources.rssbandit_32.GetImageStretchedDpi(owner.ScaleFactor);
+
+            AppButtonToolCommand style3 = new AppButtonToolCommand(
 				"cmdCheckForUpdates", owner.Mediator, owner.CmdCheckForUpdates,
 				SR.MenuCheckForUpdatesCaption, SR.MenuCheckForUpdatesDesc, shortcutHandler);
 
@@ -703,12 +703,12 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuAutodiscoveredFeedsDropdownCaption, SR.MenuAutodiscoveredFeedsDropdownDesc);
 			
 			Infragistics.Win.Appearance a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.no_feed_discovered_16;
-			discoveredDropDown.SharedProps.AppearancesSmall.Appearance = a;
+			a.Image = Properties.Resources.no_feed_discovered_16.GetImageStretchedDpi(owner.ScaleFactor);
+            discoveredDropDown.SharedProps.AppearancesSmall.Appearance = a;
 			
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.no_feed_discovered_32;
-			discoveredDropDown.SharedProps.AppearancesLarge.Appearance = a;
+			a.Image = Properties.Resources.no_feed_discovered_32.GetImageStretchedDpi(owner.ScaleFactor);
+            discoveredDropDown.SharedProps.AppearancesLarge.Appearance = a;
 			
 			discoveredDropDown.SharedProps.DisplayStyle = ToolDisplayStyle.ImageOnlyOnToolbars;
 

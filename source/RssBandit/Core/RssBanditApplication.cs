@@ -117,6 +117,7 @@ namespace RssBandit
         private FeedSource commentFeedsHandler;
 
         private WinGuiMain guiMain;
+        private Control scaleControl;
         private PostReplyForm postReplyForm;
         private SearchEngineHandler searchEngines;
         private ThreadResultManager threadResultManager;
@@ -578,6 +579,7 @@ namespace RssBandit
 			Application.ThreadException += this.OnThreadException;
 #endif
             Splash.Status = SR.AppLoadStateGuiLoading;
+            scaleControl = new Control();
 
             _dispatcherThread = new Thread(DispatcherThread);
             _dispatcherThread.TrySetApartmentState(ApartmentState.STA);
@@ -587,6 +589,7 @@ namespace RssBandit
             _dispatcherThread.Start();
 
 			ResourceInfragistics.TranslateAll();
+            
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
 
             GuiInvoker.Initialize();
@@ -620,8 +623,10 @@ namespace RssBandit
 #else
             Application.Run(this);
 #endif
-
+            
         }
+
+        public float ScaleFactor => (float)scaleControl.DeviceDpi / 96;
      
         private void DispatcherThread()
         {

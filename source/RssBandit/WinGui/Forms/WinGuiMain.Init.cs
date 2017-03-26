@@ -173,7 +173,7 @@ namespace RssBandit.WinGui.Forms
 
         private void InitOutlookNavigator()
         {
-            navigatorHeaderHelper = new NavigatorHeaderHelper(Navigator, Properties.Resources.Arrows_Left_16);
+            navigatorHeaderHelper = new NavigatorHeaderHelper(Navigator, Properties.Resources.Arrows_Left_16.GetImageStretchedDpi(ScaleFactor));
             navigatorHeaderHelper.ImageClick += OnNavigatorCollapseClick;
             Navigator.GroupClick += OnNavigatorGroupClick;
             Navigator.SelectedGroupChanging += OnNavigatorSelectedGroupChanging;
@@ -194,9 +194,9 @@ namespace RssBandit.WinGui.Forms
             Navigator.ContextMenu.MenuItems.AddRange(new[]{subSourceDelete, subSourceProperties});
 
 			Navigator.Groups[Resource.NavigatorGroup.RssSearch].Settings.AppearancesSmall.HeaderAppearance.Image =
-				Properties.Resources.feedsource_search_16;
+				Properties.Resources.feedsource_search_16.GetImageStretchedDpi(ScaleFactor);
 			Navigator.Groups[Resource.NavigatorGroup.RssSearch].Settings.AppearancesLarge.HeaderAppearance.Image =
-		        Properties.Resources.feedsource_search_32;
+		        Properties.Resources.feedsource_search_32.GetImageStretchedDpi(ScaleFactor);
 	
             if (SearchIndexBehavior.NoIndexing == RssBanditApplication.SearchIndexBehavior)
             {
@@ -249,7 +249,7 @@ namespace RssBandit.WinGui.Forms
             navigatorHiddenCaption.Appearance.BackColor2 =
                 FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderGradientDark;
             navigatorHiddenCaption.Appearance.BackGradientStyle = GradientStyle.Horizontal;
-	        navigatorHiddenCaption.Appearance.Image = Properties.Resources.Arrows_Right_16;
+	        navigatorHiddenCaption.Appearance.Image = Properties.Resources.Arrows_Right_16.GetImageStretchedDpi(ScaleFactor);
 			navigatorHiddenCaption.Appearance.ImageHAlign = HAlign.Center;
 			navigatorHiddenCaption.Appearance.ImageVAlign = VAlign.Top;
             navigatorHiddenCaption.ForeColor = FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderForecolor;

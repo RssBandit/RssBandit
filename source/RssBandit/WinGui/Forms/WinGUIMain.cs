@@ -293,6 +293,9 @@ namespace RssBandit.WinGui.Forms
             var sf = new SizeF(DeviceDpi, DeviceDpi);
             typeof(DrawUtility).GetField("screenDpi", BindingFlags.Static | BindingFlags.NonPublic)?.SetValue(null, sf);
 
+            UltraTreeExtended.COMMENT_HEIGHT = (int)(UltraTreeExtended.COMMENT_HEIGHT * ScaleFactor);
+            UltraTreeExtended.DATETIME_GROUP_HEIGHT = (int)(UltraTreeExtended.DATETIME_GROUP_HEIGHT * ScaleFactor);
+
             urlExtender = new UrlCompletionExtender(this);
             _feedItemImpressionHistory = new History( /* TODO: get maxEntries from .config */);
             _feedItemImpressionHistory.StateChanged += OnFeedItemImpressionHistoryStateChanged;
@@ -620,19 +623,31 @@ namespace RssBandit.WinGui.Forms
 
         private void ResetListViewOutlookFontAndColor()
         {
+
+            var scale = (float)DeviceDpi / 96;
+            var sz1 = (int)(1 * scale);
+            var sz2 = (int)(2 * scale);
+            var sz3 = (int)(3 * scale);
+            var sz4 = (int)(4 * scale);
+            var sz5 = (int)(5 * scale);
+            var sz6 = (int)(6 * scale);
+            var sz7 = (int)(7 * scale);
+            var sz8 = (int)(8 * scale);
+            var sz9 = (int)(9 * scale);
+
             listFeedItemsO.BeginUpdate();
 
             listFeedItemsO.Font = FontColorHelper.NormalFont;
             var hh = (int) listFeedItemsO.CreateGraphics().MeasureString("W", listFeedItemsO.Font).Height;
-            int hh2 = 2 + hh + 3 + hh + 2;
-            listFeedItemsO.Override.ItemHeight = hh2%2 == 0 ? hh2 + 1 : hh2;
+            int hh2 = sz2 + hh + sz3 + hh + sz2;
+            listFeedItemsO.Override.ItemHeight = hh2%2 == 0 ? hh2 + sz1 : hh2;
             //BUGBUG: if the height is an even number, it uses a bad rectangle
             listFeedItemsO.ColumnSettings.ColumnSets[0].Columns[0].LayoutInfo.PreferredCellSize =
                 new Size(listFeedItemsO.Width, listFeedItemsO.Override.ItemHeight);
-            hh2 = 5 + hh;
-            UltraTreeExtended.COMMENT_HEIGHT = hh2%2 == 0 ? hh2 + 1 : hh2;
-            hh2 = hh + 9;
-            UltraTreeExtended.DATETIME_GROUP_HEIGHT = hh2%2 == 0 ? hh2 + 1 : hh2;
+            hh2 = sz5 + hh;
+            UltraTreeExtended.COMMENT_HEIGHT = hh2%2 == 0 ? hh2 + sz1 : hh2;
+            hh2 = hh + sz9;
+            UltraTreeExtended.DATETIME_GROUP_HEIGHT = hh2%2 == 0 ? hh2 + sz1 : hh2;
 
             // now iterate and update the single items
             //Root DateTime Nodes

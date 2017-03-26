@@ -57,15 +57,35 @@ namespace RssBandit.WinGui.Controls.TreeView
 		
 		bool IUIElementDrawFilter.DrawElement( DrawPhase drawPhase, ref UIElementDrawParams drawParams )
 		{
-            var scaleFactor = (float)owner.DeviceDpi / 96;
-			int FLAG_WIDTH = (int)(23 * scaleFactor);
-			UltraTreeNodeExtended treeNode = drawParams.Element.GetContext( typeof(UltraTreeNode), true ) as UltraTreeNodeExtended;
+		    var scale = (float)owner.DeviceDpi / 96;
+		    var sz1 = (int)(1 * scale);
+		    var sz2 = (int)(2 * scale);
+		    var sz3 = (int)(3 * scale);
+		    var sz4 = (int)(4 * scale);
+		    var sz5 = (int)(5 * scale);
+		    var sz6 = (int)(6 * scale);
+		    var sz7 = (int)(7 * scale);
+		    var sz8 = (int)(8 * scale);
+		    var sz9 = (int)(9 * scale);
+		    var sz10 = (int)(10 * scale);
+		    var sz14 = (int)(14 * scale);
+		    var sz16 = (int)(16 * scale);
+		    var sz20 = (int)(20 * scale);
+		    var sz23 = (int)(23 * scale);
+		    var sz26 = (int)(26 * scale);
+		    var sz27 = (int)(27 * scale);
+		    var sz90 = (int)(90 * scale);
+		    var sz180 = (int)(180 * scale);
+
+            int FLAG_WIDTH = sz23;
+
+            UltraTreeNodeExtended treeNode = drawParams.Element.GetContext( typeof(UltraTreeNode), true ) as UltraTreeNodeExtended;
 			if ( treeNode != null )
 			{
 				RectangleF initialRect = (RectangleF)drawParams.Element.RectInsideBorders;
 				Rectangle r = new Rectangle((int)initialRect.Left,(int)initialRect.Top,(int)initialRect.Width,(int)initialRect.Height);
-				r.X -= 2;
-				r.Width += 2;
+				r.X -= sz2;
+				r.Width += sz2;
 				r.Height = treeNode.ItemHeightResolved;
 				Rectangle rO = r;
 				//
@@ -73,24 +93,24 @@ namespace RssBandit.WinGui.Controls.TreeView
 				{
 					Image img = null;
 					if(treeNode.Expanded)
-						img = Properties.Resources.Minus_16.GetImageStretchedDpi(scaleFactor);
+						img = Properties.Resources.Minus_16.GetImageStretchedDpi(scale);
 					else 
-						img = Properties.Resources.Plus_16.GetImageStretchedDpi(scaleFactor);
+						img = Properties.Resources.Plus_16.GetImageStretchedDpi(scale);
 
                     if (!treeNode.Selected) {
 						drawParams.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(220,224,227)),r);
 					}
 
 					//Image
-					drawParams.Graphics.DrawImage(img, r.Left+ 4, r.Top+ 5);
-					treeNode.CollapseRectangle = new Rectangle(r.Left+ 4, r.Top+ 5, img.Width, img.Height); 
+					drawParams.Graphics.DrawImage(img, r.Left+ sz4, r.Top+ sz5);
+					treeNode.CollapseRectangle = new Rectangle(r.Left+ sz4, r.Top+ sz5, img.Width, img.Height); 
 					//String
 					Color c = Color.FromArgb(112, 111, 145);
 					drawParams.Graphics.DrawString((string)treeNode.Cells[0].Value /*+ treeNode.DateTime.ToString()*/, new Font(drawParams.Font,FontStyle.Bold), 
-					                               new SolidBrush(c), r.Left+ 20, r.Top+4);
+					                               new SolidBrush(c), r.Left+ sz20, r.Top+sz4);
 					//Bottom Lines
 					Pen pen = new Pen(Color.FromArgb(165, 164, 189));
-					drawParams.Graphics.DrawLine(pen, r.Left,r.Bottom-1,r.Right,r.Bottom-1);
+					drawParams.Graphics.DrawLine(pen, r.Left,r.Bottom-sz1,r.Right,r.Bottom-sz1);
 					drawParams.Graphics.DrawLine(pen, r.Left,r.Bottom,r.Right,r.Bottom);
 					//
 					return true;
@@ -106,7 +126,7 @@ namespace RssBandit.WinGui.Controls.TreeView
 
 					//Icon
 					treeNode.NodeOwner.ListView.SmallImageList.Draw(drawParams.Graphics,
-					                                                r.Left + 7, r.Top + 3,
+					                                                r.Left + sz7, r.Top + sz3,
 					                                                treeNode.NodeOwner.ImageIndex);
 					//Flag
 					Rectangle rF = r;
@@ -114,17 +134,17 @@ namespace RssBandit.WinGui.Controls.TreeView
 					rF.Width = FLAG_WIDTH;
 					int flagInd = GetFlagImageIndex(item.FlagStatus);
 					treeNode.NodeOwner.ListView.SmallImageList.Draw(drawParams.Graphics,
-						rF.Left + 2+(rF.Width-treeNode.NodeOwner.ListView.SmallImageList.ImageSize.Width)/2, 
-						rF.Top + 2+ (rF.Height-treeNode.NodeOwner.ListView.SmallImageList.ImageSize.Height)/2,
+						rF.Left + sz2 + (rF.Width-treeNode.NodeOwner.ListView.SmallImageList.ImageSize.Width)/2, 
+						rF.Top + sz2 + (rF.Height-treeNode.NodeOwner.ListView.SmallImageList.ImageSize.Height)/2,
 						flagInd);
 					treeNode.FlagRectangle = rF;
 					//Date
 					r.Width -= FLAG_WIDTH;
 					r.Height = MeasureDisplayStringHeight(drawParams.Graphics, "W", treeNode.NodeOwner.Font);
-					r.Y += 3;
+					r.Y += sz3;
 					Rectangle r2 = r;
-					r.X += 180;
-					r.Width -= 180;
+					r.X += sz180;
+					r.Width -= sz180;
 					string dtS = item.Date.ToLocalTime().ToShortDateString()+" "+item.Date.ToLocalTime().ToShortTimeString();
 
 					if(((UltraTreeNodeExtended)treeNode.Parent).IsGroupOneDay)
@@ -132,10 +152,10 @@ namespace RssBandit.WinGui.Controls.TreeView
 
 					int ww = MeasureDisplayStringWidth(drawParams.Graphics, dtS, treeNode.NodeOwner.Font);
 					r.X = r.Right - ww;
-					r.Width = ww+10;
+					r.Width = ww+sz10;
 					drawParams.Graphics.DrawString(dtS, treeNode.NodeOwner.Font, bGray, r);
 					//Author
-					r2.X += 26;
+					r2.X += sz26;
 					r2.Width = r.X-r2.X;
 					r = r2;
 					string author = (string.IsNullOrEmpty(item.Author) ? item.Feed.title: item.Author);
@@ -143,13 +163,13 @@ namespace RssBandit.WinGui.Controls.TreeView
 
 					//Title
 					r = rO;
-					r.X += 26;
-					r.Width -= 26+FLAG_WIDTH;
+					r.X += sz26;
+					r.Width -= sz26+FLAG_WIDTH;
 					if(item.CommentCount>0)
-						r.Width -= 16;
+						r.Width -= sz16;
 					if(item.Enclosures!=null && item.Enclosures.Count>0)
-						r.Width -= 16;
-					r.Y += rO.Height / 2+2;
+						r.Width -= sz16;
+					r.Y += rO.Height / 2+sz2;
 					r.Height = MeasureDisplayStringHeight(drawParams.Graphics, item.Title, treeNode.NodeOwner.Font);
 					Brush titleBrush = (treeNode.Selected ? bGray : new SolidBrush(treeNode.NodeOwner.ForeColor));
 					drawParams.Graphics.DrawString(item.Title, treeNode.NodeOwner.Font, titleBrush , r);
@@ -159,9 +179,9 @@ namespace RssBandit.WinGui.Controls.TreeView
 					{
 						Rectangle rC = r;
 						rC.X = r.Right;
-						rC.Width = 16;
-						rC.Height -= 2;
-						posAddons += 16;
+						rC.Width = sz16;
+						rC.Height -= sz2;
+						posAddons += sz16;
 						treeNode.NodeOwner.ListView.SmallImageList.Draw(drawParams.Graphics,
 							rC.Left, rC.Top,
 							Resource.NewsItemRelatedImage.Attachment);
@@ -171,11 +191,11 @@ namespace RssBandit.WinGui.Controls.TreeView
 					{
 						Rectangle rC = r;
 						rC.X = r.Right + posAddons;
-						rC.Width = 16;
-						posAddons += 16;
-						rC.Height -= 2;
-						Bitmap bmp = Properties.Resources.Comment_16;
-						drawParams.Graphics.DrawImage(bmp,rC.Left+2,rC.Top+1,
+						rC.Width = sz16;
+						posAddons += sz16;
+						rC.Height -= sz2;
+						var bmp = Properties.Resources.Comment_16.GetImageStretchedDpi(scale);
+						drawParams.Graphics.DrawImage(bmp,rC.Left+ sz2, rC.Top+sz1,
 						                              bmp.Width,bmp.Height);
 						treeNode.CommentsRectangle = rC;
 					}
@@ -193,10 +213,10 @@ namespace RssBandit.WinGui.Controls.TreeView
 					{
 						if(treeNode.Cells.Count>0 && treeNode.Cells[0].Value is string)
 						{
-							r.Y += 2;
-							r.Height -= 2;
-							//Text
-							r.X += UltraTreeExtended.COMMENT_HEIGHT + 3 + 20;
+							r.Y += sz2;
+							r.Height -= sz2;
+                            //Text
+                            r.X += UltraTreeExtended.COMMENT_HEIGHT + sz3 + sz20;
 							drawParams.Graphics.DrawString((string)treeNode.Cells[0].Value, treeNode.Control.Font, Brushes.Black, r);
 							//Bottom Line
 							drawParams.Graphics.DrawLine(new Pen(Color.FromArgb(234,233,225)), 
@@ -209,18 +229,18 @@ namespace RssBandit.WinGui.Controls.TreeView
 					else
 					{
 						INewsItem ni = treeNode.NewsItem;
-						r.X += 27;
-						r.Width -= 27;
-						r.Y += 3;
-						r.Height -= 4;
+						r.X += sz27;
+						r.Width -= sz27;
+						r.Y += sz3;
+						r.Height -= sz4;
 						//Icon
 						treeNode.NodeOwner.ListView.SmallImageList.Draw(drawParams.Graphics,
-							r.Left, r.Top-1,
+							r.Left, r.Top-sz1,
 							treeNode.NodeOwner.ImageIndex);
-						//Text
-						r.X += UltraTreeExtended.COMMENT_HEIGHT+2;
-						r.Width -= UltraTreeExtended.COMMENT_HEIGHT+2;
-						string byAuthor = "";
+                        //Text
+                        r.X += UltraTreeExtended.COMMENT_HEIGHT + sz2;
+                        r.Width -= UltraTreeExtended.COMMENT_HEIGHT + sz2;
+                        string byAuthor = "";
 						if(!string.IsNullOrEmpty(ni.Author))
 							byAuthor = "(by " + ni.Author + ") ";//TODO:I18N
 						drawParams.Graphics.DrawString(byAuthor + ni.Title, treeNode.NodeOwner.Font, Brushes.Black, r);

@@ -126,6 +126,7 @@ namespace RssBandit.WinGui.Controls
 	
 	public class UltraTreeExtended : UltraTree
 	{
+        // These will be scaled upon application start to correct initial values
 		public static int DATETIME_GROUP_HEIGHT = 23;
 		public static int COMMENT_HEIGHT = 19;
 		
