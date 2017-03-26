@@ -1,11 +1,4 @@
-#region CVS Version Header
-/*
- * $Id$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
+
 /*
 
 	Windows Forms Collapsible Splitter Control for .Net
@@ -84,6 +77,8 @@ namespace RssBandit.WinGui.Controls
 	//[DesignerAttribute(typeof(CollapsibleSplitterDesigner))]
 	public class CollapsibleSplitter : System.Windows.Forms.Splitter
 	{
+
+
 		#region Private Properties
 
 		// declare and define some base properties
@@ -108,8 +103,9 @@ namespace RssBandit.WinGui.Controls
 		private int animationDelay = 20;
 		private int animationStep = 20;
 		private bool useAnimations;
+	    readonly Size defaultSize;
 
-		#endregion
+	    #endregion
 
 		#region Public Properties
 
@@ -269,11 +265,28 @@ namespace RssBandit.WinGui.Controls
 			this.animationTimer.Tick += new System.EventHandler(this.animationTimerTick);
 		}
 
+
+
 		#endregion
 
 		#region Overrides
 
-		protected override void OnHandleCreated(EventArgs e)
+	    //protected override Size DefaultSize
+	    //{
+	    //    get
+	    //    {
+	    //        var scale = (float)DeviceDpi / 96;
+	    //        if (scale != 1.0)
+	    //        {
+	    //            var defSize = base.DefaultSize;
+     //               var sz = new Size((int)(scale * defSize.Width), (int)(scale * defSize.Height));
+     //               return sz;
+	    //        }
+     //           return base.DefaultSize;
+	    //    }
+	    //}
+
+	    protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
 			this.parentForm = this.FindForm();
@@ -607,8 +620,22 @@ namespace RssBandit.WinGui.Controls
 		// OnPaint is now an override rather than an event in version 1.1
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			// create a Graphics object
-			Graphics g = e.Graphics;
+            var scale = (float)DeviceDpi / 96;
+		    var sz1 = (int)(1 * scale);
+		    var sz2 = (int)(2 * scale);
+		    var sz3 = (int)(3 * scale);
+		    var sz5 = (int)(5 * scale);
+		    var sz6 = (int)(6 * scale);
+		    var sz8 = (int)(8 * scale);
+		    var sz9 = (int)(9 * scale);
+		    var sz14 = (int)(14 * scale);
+		    var sz88 = (int)(88 * scale);
+		    var sz90 = (int)(90 * scale);
+		    var sz115 = (int)(115 * scale);
+
+
+            // create a Graphics object
+            Graphics g = e.Graphics;
 				
 			// find the rectangle for the splitter and paint it
 			Rectangle r = this.ClientRectangle; // fixed in version 1.1
@@ -619,35 +646,35 @@ namespace RssBandit.WinGui.Controls
 			if(this.Dock == DockStyle.Left || this.Dock == DockStyle.Right)
 			{
 				// create a new rectangle in the vertical center of the splitter for our collapse control button
-				rr = new Rectangle(r.X, (int)r.Y + ((r.Height - 115)/2), 8, 115);
+				rr = new Rectangle(r.X, (int)r.Y + ((r.Height - sz115)/2), sz8, sz115);
 				// force the width to 8px so that everything always draws correctly
-				this.Width = 8;
+				this.Width = sz8;
 
 				// draw the background color for our control image
 				if(hot)
 				{
-					g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X + 1, rr.Y, 6, 115));
+					g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X + sz1, rr.Y, sz6, sz115));
 				}
 				else
 				{
-					g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X + 1, rr.Y, 6, 115));
+					g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X + sz1, rr.Y, sz6, sz115));
 				}
 
 				// draw the top & bottom lines for our control image
-				g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + 1, rr.Y, rr.X + rr.Width - 2, rr.Y);
-				g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + 1, rr.Y + rr.Height, rr.X + rr.Width - 2, rr.Y + rr.Height);
+				g.DrawLine(new Pen(SystemColors.ControlDark, sz1), rr.X + sz1, rr.Y, rr.X + rr.Width - sz2, rr.Y);
+				g.DrawLine(new Pen(SystemColors.ControlDark, sz1), rr.X + sz1, rr.Y + rr.Height, rr.X + rr.Width - sz2, rr.Y + rr.Height);
 
 				if(this.Enabled)
 				{
 					// draw the arrows for our control image
 					// the ArrowPointArray is a point array that defines an arrow shaped polygon
-					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 2, rr.Y + 3));
-					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 2, rr.Y + rr.Height - 9));
+					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + sz2, rr.Y + sz3));
+					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + sz2, rr.Y + rr.Height - sz9));
 				}
 
 				// draw the dots for our control image using a loop
-				int x = rr.X + 3;
-				int y = rr.Y + 14;
+				int x = rr.X + sz3;
+				int y = rr.Y + sz14;
 
 				// Visual Styles added in version 1.1
 				switch(visualStyle)
@@ -657,17 +684,17 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 30; i++)
 						{
 							// light dot
-							g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y + (i*3), x+1, y + 1 + (i*3));
+							g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y + (i*sz3), x+ sz1, y + sz1 + (i* sz3));
 							// dark dot
-							g.DrawLine(new Pen(SystemColors.ControlDarkDark), x+1, y + 1 + (i*3), x+2, y + 2 + (i*3));
+							g.DrawLine(new Pen(SystemColors.ControlDarkDark), x+ sz1, y + sz1 + (i* sz3), x+sz2, y + sz2 + (i* sz3));
 							// overdraw the background color as we actually drew 2px diagonal lines, not just dots
 							if(hot)
 							{
-								g.DrawLine(new Pen(hotColor), x+2, y + 1 + (i*3), x+2, y + 2 + (i*3));
+								g.DrawLine(new Pen(hotColor), x+ sz2, y + sz1 + (i* sz3), x+ sz2, y + sz2 + (i* sz3));
 							}
 							else
 							{
-								g.DrawLine(new Pen(this.BackColor), x+2, y + 1 + (i*3), x+2, y + 2 + (i*3));
+								g.DrawLine(new Pen(this.BackColor), x+ sz2, y + sz1 + (i* sz3), x+ sz2, y + sz2 + (i* sz3));
 							}
 						}
 						break;
@@ -676,23 +703,23 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 30; i++)
 						{
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x, y + 1 + (i*3), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x, y + sz1 + (i* sz3), sz1, sz1);
 							// dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDark), x - 1, y +(i*3), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDark), x - sz1, y +(i* sz3), sz1, sz1);
 							i++;
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 2, y + 1 + (i*3), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + sz2, y + sz1 + (i* sz3), sz1, sz1);
 							// dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + 1, y  + (i*3), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + sz1, y  + (i* sz3), sz1, sz1);
 						}
 						break;
 
 					case VisualStyles.Win9x:
 
-						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + 2, y);
-						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x,y + 90);
-						g.DrawLine(new Pen(SystemColors.ControlDark), x + 2, y, x + 2, y + 90);
-						g.DrawLine(new Pen(SystemColors.ControlDark), x, y + 90, x + 2, y + 90);
+						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + sz2, y);
+						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x,y + sz90);
+						g.DrawLine(new Pen(SystemColors.ControlDark), x + sz2, y, x + sz2, y + sz90);
+						g.DrawLine(new Pen(SystemColors.ControlDark), x, y + sz90, x + sz2, y + sz90);
 						break;
 
 					case VisualStyles.XP:
@@ -700,14 +727,14 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 18; i++)
 						{
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLight), x, y + (i*5), 2, 2 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLight), x, y + (i*sz5), sz2, sz2);
 							// light light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1, y + 1 + (i*5), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + sz1, y + sz1 + (i* sz5), sz1, sz1);
 							// dark dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x, y +(i*5), 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x, y +(i* sz5), sz1, sz1);
 							// dark fill
-							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i*5), x, y + (i*5) + 1);
-							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i*5), x + 1, y + (i*5));
+							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i* sz5), x, y + (i* sz5) + sz1);
+							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i* sz5), x + sz1, y + (i* sz5));
 						}
 						break;
 
@@ -715,7 +742,7 @@ namespace RssBandit.WinGui.Controls
 
 						for(int i=0; i < 44; i++)
 						{
-							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i*2), x + 2, y + (i*2));
+							g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i* sz2), x + sz2, y + (i* sz2));
 						}
 
 						break;
@@ -738,36 +765,39 @@ namespace RssBandit.WinGui.Controls
 
 			else if (this.Dock == DockStyle.Top || this.Dock == DockStyle.Bottom)
 			{
-				// create a new rectangle in the horizontal center of the splitter for our collapse control button
-				rr = new Rectangle((int)r.X + ((r.Width - 115)/2), r.Y, 115, 8);
-				// force the height to 8px
-				this.Height = 8;
+                // create a new rectangle in the horizontal center of the splitter for our collapse control button
+
+
+
+                rr = new Rectangle((int)r.X + ((r.Width - sz115)/2), r.Y, sz115, sz8);
+                // force the height to 8px
+                this.Height = sz8;
 
 				// draw the background color for our control image
 				if(hot)
 				{
-					g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X, rr.Y + 1, 115, 6));
+					g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X, rr.Y + sz1, sz115, sz6));
 				}
 				else
 				{
-					g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X, rr.Y + 1, 115, 6));
+					g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X, rr.Y + sz1, sz115, sz6));
 				}
 
 				// draw the left & right lines for our control image
-				g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X, rr.Y + 1, rr.X, rr.Y + rr.Height - 2);
-				g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + rr.Width, rr.Y + 1, rr.X + rr.Width, rr.Y + rr.Height - 2);
+				g.DrawLine(new Pen(SystemColors.ControlDark, sz1), rr.X, rr.Y + sz1, rr.X, rr.Y + rr.Height - sz2);
+				g.DrawLine(new Pen(SystemColors.ControlDark, sz1), rr.X + rr.Width, rr.Y + sz1, rr.X + rr.Width, rr.Y + rr.Height - sz2);
 
 				if(this.Enabled)
 				{
 					// draw the arrows for our control image
 					// the ArrowPointArray is a point array that defines an arrow shaped polygon
-					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 3, rr.Y + 2));
-					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X +  rr.Width - 9, rr.Y + 2));
+					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + sz3, rr.Y + sz2));
+					g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X +  rr.Width - sz9, rr.Y + sz2));
 				}
 
 				// draw the dots for our control image using a loop
-				int x = rr.X + 14;
-				int y = rr.Y + 3;
+				int x = rr.X + sz14;
+				int y = rr.Y + sz3;
 
 				// Visual Styles added in version 1.1
 				switch(visualStyle)
@@ -777,17 +807,17 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 30; i++)
 						{
 							// light dot
-							g.DrawLine(new Pen(SystemColors.ControlLightLight), x + (i*3), y, x + 1 + (i*3), y + 1);
+							g.DrawLine(new Pen(SystemColors.ControlLightLight), x + (i*sz3), y, x + sz1 + (i* sz3), y + sz1);
 							// dark dot
-							g.DrawLine(new Pen(SystemColors.ControlDarkDark), x + 1 + (i*3), y + 1, x + 2 + (i*3), y + 2);
+							g.DrawLine(new Pen(SystemColors.ControlDarkDark), x + sz1 + (i* sz3), y + sz1, x + sz2 + (i* sz3), y + sz2);
 							// overdraw the background color as we actually drew 2px diagonal lines, not just dots
 							if(hot)
 							{
-								g.DrawLine(new Pen(hotColor), x + 1 + (i*3), y + 2, x + 2 + (i*3), y + 2);
+								g.DrawLine(new Pen(hotColor), x + sz1 + (i* sz3), y + sz2, x + sz2 + (i* sz3), y + sz2);
 							}
 							else
 							{
-								g.DrawLine(new Pen(this.BackColor),  x + 1 + (i*3), y + 2, x + 2 + (i*3), y + 2);
+								g.DrawLine(new Pen(this.BackColor),  x + sz1 + (i* sz3), y + sz2, x + sz2 + (i* sz3), y + sz2);
 							}
 						}
 						break;
@@ -797,23 +827,23 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 30; i++)
 						{
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i*3), y, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + sz1 + (i* sz3), y, sz1, sz1);
 							// dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i*3), y - 1, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i* sz3), y - sz1, sz1, sz1);
 							i++;
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i*3), y + 2, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + sz1 + (i* sz3), y + sz2, sz1, sz1);
 							// dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i*3), y + 1, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i* sz3), y + sz1, sz1, sz1);
 						}
 						break;
 
 					case VisualStyles.Win9x:
 
-						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x, y + 2);
-						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + 88, y);
-						g.DrawLine(new Pen(SystemColors.ControlDark), x, y + 2, x + 88, y + 2);
-						g.DrawLine(new Pen(SystemColors.ControlDark), x + 88, y, x + 88, y + 2);
+						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x, y + sz2);
+						g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + sz88, y);
+						g.DrawLine(new Pen(SystemColors.ControlDark), x, y + sz2, x + sz88, y + sz2);
+						g.DrawLine(new Pen(SystemColors.ControlDark), x + sz88, y, x + sz88, y + sz2);
 						break;
 
 					case VisualStyles.XP:
@@ -821,14 +851,14 @@ namespace RssBandit.WinGui.Controls
 						for(int i=0; i < 18; i++)
 						{
 							// light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLight), x + (i*5), y, 2, 2 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLight), x + (i*sz5), y, sz2, sz2);
 							// light light dot
-							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i*5), y + 1, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + sz1 + (i* sz5), y + sz1, sz1, sz1);
 							// dark dark dot
-							g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x +(i*5), y, 1, 1 );
+							g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x +(i* sz5), y, sz1, sz1);
 							// dark fill
-							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i*5), y, x + (i*5) + 1, y);
-							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i*5), y, x + (i*5), y + 1);
+							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i* sz5), y, x + (i* sz5) + sz1, y);
+							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i* sz5), y, x + (i* sz5), y + sz1);
 						}
 						break;
 
@@ -836,7 +866,7 @@ namespace RssBandit.WinGui.Controls
 
 						for(int i=0; i < 44; i++)
 						{
-							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i*2), y, x + (i*2), y + 2);
+							g.DrawLine(new Pen(SystemColors.ControlDark), x + (i*sz2), y, x + (i* sz2), y + sz2);
 						}
 
 						break;
@@ -870,7 +900,13 @@ namespace RssBandit.WinGui.Controls
 		// This creates a point array to draw a arrow-like polygon
 		private Point[] ArrowPointArray(int x, int y)
 		{
-			Point[] point = new Point[3];
+		    var scale = (float)DeviceDpi / 96;
+		    var sz3 = (int)(3 * scale);
+		    var sz4 = (int)(4 * scale);
+		    var sz6 = (int)(6 * scale);
+
+
+            Point[] point = new Point[3];
 
 			if(controlToHide!= null)
 			{
@@ -882,8 +918,8 @@ namespace RssBandit.WinGui.Controls
 				{
 					// right arrow
 					point[0] = new Point(x,y);
-					point[1] = new Point(x + 3, y + 3);
-					point[2] = new Point(x, y + 6);
+					point[1] = new Point(x + sz3, y + sz3);
+					point[2] = new Point(x, y + sz6);
 				}
 				else if (
 					(this.Dock == DockStyle.Right && !controlToHide.Visible) 
@@ -891,9 +927,9 @@ namespace RssBandit.WinGui.Controls
 					)
 				{
 					// left arrow
-					point[0] = new Point(x + 3 ,y);
-					point[1] = new Point(x, y + 3);
-					point[2] = new Point(x + 3, y + 6);
+					point[0] = new Point(x + sz3, y);
+					point[1] = new Point(x, y + sz3);
+					point[2] = new Point(x + sz3, y + sz6);
 				}
 
 					// Up/Down arrows added in v1.2
@@ -904,9 +940,9 @@ namespace RssBandit.WinGui.Controls
 					)
 				{
 					// up arrow
-					point[0] = new Point(x + 3, y);
-					point[1] = new Point(x + 6, y + 4);
-					point[2] = new Point(x, y + 4);
+					point[0] = new Point(x + sz3, y);
+					point[1] = new Point(x + sz6, y + sz4);
+					point[2] = new Point(x, y + sz4);
 				}
 				else if (
 					(this.Dock == DockStyle.Top && !controlToHide.Visible) 
@@ -915,8 +951,8 @@ namespace RssBandit.WinGui.Controls
 				{
 					// down arrow
 					point[0] = new Point(x,y);
-					point[1] = new Point(x + 6, y);
-					point[2] = new Point(x + 3, y + 3);
+					point[1] = new Point(x + sz6, y);
+					point[2] = new Point(x + sz3, y + sz3);
 				}
 			}
 
