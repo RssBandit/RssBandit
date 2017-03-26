@@ -143,26 +143,33 @@ namespace RssBandit.WinGui.Controls {
 			Brush		h	= null;
 			Brush		s	= null;
 
-			if( Beveled ) {
+		    var scaleFactor = (double)DeviceDpi / 96;
+
+		    var width = (int)(Width * scaleFactor);
+		    var lineWidth = (int)(LineWidth * scaleFactor);
+		    var height = (int)(Height * scaleFactor);
+
+
+            if ( Beveled ) {
 				h = new SolidBrush( Highlight );
 				s = new SolidBrush( Shadow );
 
 				if( Orientation == Orientation.Horizontal ) {
-					g.FillRectangle( s, 0, 0, Width, LineWidth / 2 );
-					g.FillRectangle( h, 0, LineWidth / 2, Width, LineWidth / 2 );
+					g.FillRectangle( s, 0, 0, width, lineWidth / 2 );
+					g.FillRectangle( h, 0, lineWidth / 2, width, lineWidth / 2 );
 				}
 				else {
-					g.FillRectangle( s, 0, 0, LineWidth / 2, Height );
-					g.FillRectangle( h, LineWidth / 2, 0, LineWidth / 2, Height );
+					g.FillRectangle( s, 0, 0, lineWidth / 2, height);
+					g.FillRectangle( h, lineWidth / 2, 0, lineWidth / 2, height);
 				}
 			}
 			else {
 				h = new SolidBrush( Highlight );
 
 				if( Orientation == Orientation.Horizontal )
-					g.FillRectangle( h, 0, 0, Width, LineWidth );
+					g.FillRectangle( h, 0, 0, width, lineWidth);
 				else
-					g.FillRectangle( h, 0, 0, LineWidth, Height );
+					g.FillRectangle( h, 0, 0, lineWidth, height);
 			}
 
 			if( h != null )

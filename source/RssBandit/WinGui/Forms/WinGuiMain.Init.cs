@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using IEControl;
 using Infragistics.Win;
@@ -23,6 +26,7 @@ using RssBandit.WinGui.Menus;
 using RssBandit.WinGui.Utility;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
+using TD.SandDock;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -71,6 +75,8 @@ namespace RssBandit.WinGui.Forms
             InitTrayIcon();
             InitWidgets();                    
         }
+
+        public float ScaleFactor => (float)DeviceDpi / 96;
 
 
         #region Windows 7 related initialization procedures 
@@ -523,6 +529,7 @@ namespace RssBandit.WinGui.Forms
             ultraToolbarsManager.DesignerFlags = 1;
             ultraToolbarsManager.DockWithinContainer = this;
             ultraToolbarsManager.ImageListSmall = _allToolImages;
+            ultraToolbarsManager.ImageSizeSmall = _allToolImages.ImageSize;
             ultraToolbarsManager.ShowFullMenusDelay = 500;
             ultraToolbarsManager.ShowToolTips = true;
             ultraToolbarsManager.Style = ToolbarStyle.Office2003;
@@ -1521,11 +1528,26 @@ namespace RssBandit.WinGui.Forms
             //if(Win32.IsOSAtLeastWindowsVista)
             //    _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
             //else
-            _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", new Size(16, 16));
 
-            _listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
-            _allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.png", new Size(16, 16));
+
+            var size = (int)(16 * ScaleFactor);
+            var sz = new Size(size, size);
+
+            // hack, resize the image array by the scale factor
+            var treeImgBmp = Resource.LoadBitmap("Resources.TreeImages.png").GetImageStretchedDpi(ScaleFactor);
+            var listImgBmp = Resource.LoadBitmap("Resources.ListImages.png").GetImageStretchedDpi(ScaleFactor);
+            var allToolImgBmp = Resource.LoadBitmap("Resources.AllToolImages.png").GetImageStretchedDpi(ScaleFactor);
+
+            //  _treeImages = Resource.LoadBitmapStrip("Resources.TreeImages.png", sz);
+            _treeImages = Resource.LoadBitmapStrip(treeImgBmp, sz);
+            _listImages = Resource.LoadBitmapStrip(listImgBmp, sz);
+            _allToolImages = Resource.LoadBitmapStrip(allToolImgBmp, sz);
+
+            //_listImages = Resource.LoadBitmapStrip("Resources.ListImages.png", new Size(16, 16));
+            //_allToolImages = Resource.LoadBitmapStrip("Resources.AllToolImages.png", sz);
         }
+
+  
 
         #region Init DocManager
 
@@ -1535,7 +1557,15 @@ namespace RssBandit.WinGui.Forms
 
             _docContainer.LayoutSystem.SplitMode = Orientation.Vertical;
 
-            _docFeedDetails.TabImage = _listImages.Images[0];
+            //_docFeedDetails.TabImage = _listImages.Images[0];
+            // This is here because TabImage will throw if it's not 16x16
+            typeof(DockControl).GetField("e", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(_docFeedDetails, _listImages.Images[0], BindingFlags.SetField, null, null);
+            var b = typeof(DockControl).GetField("b", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(_docFeedDetails) as ControlLayoutSystem;
+            if (b != null)
+            {
+                typeof(ControlLayoutSystem).GetMethod("g", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(b, null);
+            }
+            
             _docFeedDetails.Tag = this; // I'm the ITabState implementor
             if (Win32.IsOSAtLeastWindowsXP)
                 ColorEx.ColorizeOneNote(_docFeedDetails, 0);

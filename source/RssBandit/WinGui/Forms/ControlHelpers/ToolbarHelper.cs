@@ -122,7 +122,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			newIdentity.SharedProps.Caption = SR.NewsGroupConfiguration_NewIdentityToolCaption;
 			newIdentity.SharedProps.StatusText = newIdentity.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewIdentityToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.add_user_16;
+			a.Image = Properties.Resources.add_user_16.GetImageStretchedDpi(main.ScaleFactor);
 			newIdentity.SharedProps.AppearancesSmall.Appearance = a;
 			newIdentity.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -130,7 +130,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			newServer.SharedProps.Caption = SR.NewsGroupConfiguration_NewNewsServerToolCaption;
 			newServer.SharedProps.StatusText = newServer.SharedProps.ToolTipText = SR.NewsGroupConfiguration_NewNewsServerToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.add_newsserver_16;
+			a.Image = Properties.Resources.add_newsserver_16.GetImageStretchedDpi(main.ScaleFactor);
 			newServer.SharedProps.AppearancesSmall.Appearance = a;
 			newServer.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
@@ -138,7 +138,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			deleteItem.SharedProps.Caption = SR.NewsGroupConfiguration_DeleteToolCaption;
 			deleteItem.SharedProps.StatusText = deleteItem.SharedProps.ToolTipText = SR.NewsGroupConfiguration_DeleteToolDesc;
 			a = new Infragistics.Win.Appearance();
-			a.Image = Properties.Resources.delete_16;
+			a.Image = Properties.Resources.delete_16.GetImageStretchedDpi(main.ScaleFactor);
 			deleteItem.SharedProps.AppearancesSmall.Appearance = a;
 			deleteItem.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			

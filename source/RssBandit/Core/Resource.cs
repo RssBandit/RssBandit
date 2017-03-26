@@ -343,7 +343,7 @@ namespace RssBandit
 				public const string FeedLinkCosmosUrlBase = "http://www.technorati.com/cosmos/links.html?rank=links&url=";
 			
 				// now use the new tracker at SF, filtering bugs by status "open":
-				public const string BugReportUrl = "http://sourceforge.net/tracker2/?func=browse&group_id=96589&atid=615248&status=1";
+				public const string BugReportUrl = "https://github.com/RssBandit/RssBandit/issues";
 				// now pointing to the new site structure:
 				public const string WebHelpUrl = "http://docs.rssbandit.org/v1.8/";
 				public const string ProjectNewsUrl = "http://rssbandit.org/";
@@ -527,6 +527,26 @@ namespace RssBandit
 			return img;
 		}
 
-		#endregion
-	}
+	    /// <summary>
+	    /// Loads an BitmapStrip resource 
+	    /// from the executing assembly Manifest stream.
+	    /// </summary>
+	    /// <param name="image">The image</param>
+	    /// <param name="imageSize">Size of one image</param>
+	    /// <returns>ImageList instance, that contains the images from the strip</returns>
+	    /// <remarks>Remember, that resource names within a project subfolder 
+	    /// needs to be prefixed with subfolder name like this: "MySubfolder.MyStripResource.bmp".
+	    /// The Resource class uses the Namespace of itself to prefix the provided name.
+	    /// </remarks>
+	    public static ImageList LoadBitmapStrip(Image image, Size imageSize)
+	    {
+	        ImageList img = new ImageList();
+	        img.ColorDepth = ColorDepth.Depth32Bit;
+	        img.ImageSize = imageSize;
+	        img.Images.AddStrip(image);
+	        return img;
+        }
+
+        #endregion
+    }
 }
