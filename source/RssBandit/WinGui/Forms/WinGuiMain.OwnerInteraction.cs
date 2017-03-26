@@ -494,7 +494,7 @@ namespace RssBandit.WinGui.Forms
 							tn = new FeedNode(f.title, Resource.SubscriptionTreeImage.FeedSecured,
 											  Resource.SubscriptionTreeImage.FeedSecuredSelected,
 											  _treeFeedContextMenu,
-											  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor) : null));
+											  (owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
 						}
 						else
 						{
@@ -502,7 +502,7 @@ namespace RssBandit.WinGui.Forms
 								f.title, Resource.SubscriptionTreeImage.Feed,
 								Resource.SubscriptionTreeImage.FeedSelected,
 								_treeFeedContextMenu,
-								(owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor) : null));
+								(owner.Preferences.UseFavicons ? LoadCachedFavicon(entry.Source, f) : null));
 						}
 
 						//interconnect for speed:
@@ -644,7 +644,7 @@ namespace RssBandit.WinGui.Forms
 		/// </returns>
         private Image LoadCachedFavicon(FeedSource source, INewsFeed feed)
 		{
-			return FaviconCache.GetImage(source, feed);
+			return FaviconCache.GetImage(source, feed)?.GetImageStretchedDpi(ScaleFactor);
 		}
 		
 		private void PopulateTreeRssSearchScope()
@@ -1501,7 +1501,7 @@ namespace RssBandit.WinGui.Forms
 				INewsFeed feed;
 				if (entry.Source.GetFeeds().TryGetValue(feedUrls[0], out feed))
 				{
-					icon = FaviconCache.GetImage(entry.Source, feed);
+					icon = FaviconCache.GetImage(entry.Source, feed)?.GetImageStretchedDpi(ScaleFactor);
 				}
 			}
 
@@ -1574,7 +1574,7 @@ namespace RssBandit.WinGui.Forms
 							if (string.IsNullOrEmpty(f.favicon))
 								continue;
 
-							Image icon = FaviconCache.GetImage(entry.Source, f);
+							Image icon = FaviconCache.GetImage(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor);
 
 							if (icon != null)
 							{
