@@ -26,12 +26,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- we have a separate item for the main application, because of the special platoform config: -->
-        <MainProjectToBuild Include="source\RssBandit\RssBandit.csproj">
-            <AdditionalProperties>Platform=x86</AdditionalProperties>
-        </MainProjectToBuild>
-     </ItemGroup>
-<ItemGroup>        
+     <MainProjectToBuild Include="source\RssBandit\RssBandit.csproj" />
+  </ItemGroup>
+  <ItemGroup>        
         <PluginProjectToBuild Include="source\RssBandit\plugins\MailThis\MailThis.csproj"></PluginProjectToBuild>
         <PluginProjectToBuild Include="source\RssBandit\plugins\Delicious\Delicious.csproj"></PluginProjectToBuild>
         <PluginProjectToBuild Include="source\RssBandit\plugins\BlogThis.LiveWriter\BlogThis.LiveWriter.csproj"></PluginProjectToBuild>
