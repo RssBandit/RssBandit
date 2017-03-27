@@ -645,7 +645,7 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   div.PostInfos {
   color: #808080;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: x-small;
+  font-size: small;
   font-weight:normal;
   text-transform: none;
   }
