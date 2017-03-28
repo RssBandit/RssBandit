@@ -16,7 +16,7 @@
   <Applications>
     <Application Id="RssBandit" Executable="win32\RssBandit.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="RSS Bandit" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png">
+        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" ShortName="RSS Bandit" Square310x310Logo="images\LargeTile.png" Square71x71Logo="images\SmallTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="images\splashscreen.png" />
       </uap:VisualElements>
