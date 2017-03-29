@@ -46,6 +46,11 @@ project.lock.json
 *.user
 *.sln.docstates
 
+AppPackages/
+BundleArtifacts/
+_pkginfo.txt
+*.appx
+
 # Build results
 [Dd]ebug/
 [Rr]elease/
