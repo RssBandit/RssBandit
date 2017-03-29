@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>确定(&amp;O)</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="tabGeneral.Text" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text" xml:space="preserve">
+    <value>启动</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text" xml:space="preserve">
+    <value>强制在启动的时候下载新闻</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text" xml:space="preserve">
+    <value>应用程序行为</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text" xml:space="preserve">
+    <value>把RSS Bandit设置成缺省的浏览器</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>如果按钮无法使用, RSS Bandit已经是你的缺省新闻浏览器. 反之, 你可以点击按钮，把它设置成你的缺省新闻浏览器.</value>
+  </data>
+  <data name="radioTrayActionNone.Text" xml:space="preserve">
+    <value>没有(&amp;e)</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>选择程序在"最小化到系统托盘"时的动作.</value>
+  </data>
+  <data name="radioTrayActionClose.Text" xml:space="preserve">
+    <value>当程序关闭(&amp;C)</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text" xml:space="preserve">
+    <value>当应用程序最小化(&amp;i)(推荐)</value>
+  </data>
+  <data name="labelCheckForUpdates.Text" xml:space="preserve">
+    <value>检查升级(&amp;u):</value>
+  </data>
+  <data name="tabNetConnection.Text" xml:space="preserve">
+    <value>网络联结</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text" xml:space="preserve">
+    <value>代理服务器</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text" xml:space="preserve">
+    <value>密码(&amp;w):</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text" xml:space="preserve">
+    <value>用户(&amp;N):</value>
+  </data>
+  <data name="checkProxyAuth.Text" xml:space="preserve">
+    <value>代理服务器需要认证(&amp;a)</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms" />
+  <data name="textProxyBypassList.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="checkUseProxy.Text" xml:space="preserve">
+    <value>使用代理服务器设置(&amp;p):</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text" xml:space="preserve">
+    <value>使用IE中的代理服务器设置(&amp;I)</value>
+  </data>
+  <data name="checkNoProxy.Text" xml:space="preserve">
+    <value>不要使用代理服务器(&amp;D)</value>
+  </data>
+  <data name="labelProxyPort.Text" xml:space="preserve">
+    <value>端口(&amp;t): </value>
+  </data>
+  <data name="labelProxyAddress.Text" xml:space="preserve">
+    <value>地址(&amp;e): </value>
+  </data>
+  <data name="checkProxyBypassLocal.Text" xml:space="preserve">
+    <value>对本地网络不使用代理服务器</value>
+  </data>
+  <data name="tabFonts.Text" xml:space="preserve">
+    <value>字体</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
+    <value>如果没有描述,在详细窗口中打开联接</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
+    <value>单条目格式</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>为新闻选择一个内置的或者自定义的格式化页.</value>
+  </data>
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
+    <value>使用自定义的格式页(&amp;c)</value>
+  </data>
+  <data name="labelFormatters.Text" xml:space="preserve">
+    <value>格式化风格页(&amp;S):</value>
+  </data>
+  <data name="tabFeeds.Text" xml:space="preserve">
+    <value>新闻</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>定制你的缺省个人设置，用来在发表新闻回复的时候使用. 这项功能只有在新闻支持CommentAPI的时候才能使用.</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>更新每一个新闻</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>指定更新新闻的时间间隔. 每条新闻都会在这个时间内被更新 (有条件的获得).</value>
+  </data>
+  <data name="tabRemoteStorage.Text" xml:space="preserve">
+    <value>远程存储器</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text" xml:space="preserve">
+    <value>使用远程存储 (&amp;R)</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>这项功能允许你远程存储新闻列表,在多台电脑之间共享.</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text" xml:space="preserve">
+    <value>存储服务(&amp;U):</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text" xml:space="preserve">
+    <value>密码(&amp;w):</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text" xml:space="preserve">
+    <value>用户(&amp;N):</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text" xml:space="preserve">
+    <value>协议:</value>
+  </data>
+  <data name="tabWebBrowser.Text" xml:space="preserve">
+    <value>网页浏览器</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text" xml:space="preserve">
+    <value>安全,限制</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text" xml:space="preserve">
+    <value>允许ActiveX控件</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text" xml:space="preserve">
+    <value>允许Javescript</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text" xml:space="preserve">
+    <value>允许Java小程序运行</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text" xml:space="preserve">
+    <value>允许背景声音</value>
+  </data>
+  <data name="checkBrowserVideoAllowed.Text" xml:space="preserve">
+    <value>允许视频</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
+    <value>允许下载图片</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>如果你修改了安全设置, 这些设置只会在最新打开的Tab上生效, 或者在程序重新启动后完全生效! 这些设置不会影响新闻详细内容阅览窗口!</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text" xml:space="preserve">
+    <value>当打开新窗口的时候</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text" xml:space="preserve">
+    <value>开始执行(&amp;x):</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
+    <value>打开缺省配置的网页浏览器(&amp;D)</value>
+  </data>
+  <data name="optNewWindowOnTab.Text" xml:space="preserve">
+    <value>打开一个新的Tab页(缺省)</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
+    <value>程序文件(&amp;P):</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>为内置的浏览器设置在接到新开窗口请求的时候采取什么样的举动.</value>
+  </data>
+  <data name="tabWebSearch.Text" xml:space="preserve">
+    <value>网页搜索</value>
+  </data>
+  <data name="btnSERemove.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="btnSEAdd.Text" xml:space="preserve">
+    <value>增加...</value>
+  </data>
+  <data name="btnSEProperties.Text" xml:space="preserve">
+    <value>属性...</value>
+  </data>
+  <data name="btnSEMoveDown.Text" xml:space="preserve">
+    <value>向下移动</value>
+  </data>
+  <data name="btnSEMoveUp.Text" xml:space="preserve">
+    <value>向上移动</value>
+  </data>
+  <data name="columnHeader1.Text" xml:space="preserve">
+    <value>引擎标题</value>
+  </data>
+  <data name="columnHeader2.Text" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>选择搜索引擎. </value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing" />
+  <data name="errorProvider1.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAwMDAAICAgAAAAP8AAP8AAAD//wD/AAAA/wD/AP//
+        AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAJmZAAAAAACZmZmZAAAACZmf+ZmQAAAJmZ/5mZAAAJmZmZmZ
+        mQAAmZmZmZmZAACZmZ/5mZkAAJmZn/mZmQAACZmf+ZmQAAAJmZ/5mZAAAACZmZmZAAAAAACZmQAAAAAA
+        AAAAAAAAAAAAAAAAAAD//wAA//8AAPw/AADwDwAA4AcAAOAHAADAAwAAwAMAAMADAADAAwAA4AcAAOAH
+        AADwDwAA/D8AAP//AAD//wAA
+</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="textProxyAddress.ToolTip" xml:space="preserve">
+    <value>代理地址</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text" xml:space="preserve">
+    <value>Feeds, 定时</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>阅读更多关于 '有条件获取'...</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
+    <value>证书的用户名称。可以指定为 '域\用户名'。</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text" xml:space="preserve">
+    <value>注释的默认值</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>移除条目旧于(&amp;T)：</value>
+  </data>
+  <data name="labelProxyBypassListHint.Text" xml:space="preserve">
+    <value>使用分号 ( ; ) 来分隔条目。</value>
+  </data>
+  <data name="btnChangeFont.Text" xml:space="preserve">
+    <value>更改(&amp;C)...</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip" xml:space="preserve">
+    <value>异常地址列表</value>
+  </data>
+  <data name="tabNewsItems.Text" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip" xml:space="preserve">
+    <value>阅读更多关于 'CommentAPI'...</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
+    <value>重新打开浏览器标签页</value>
+  </data>
+  <data name="lblFontSampleCaption.Text" xml:space="preserve">
+    <value>样例：</value>
+  </data>
+  <data name="labelRemoteStorageLocation.ToolTip" xml:space="preserve">
+    <value>代理证书密码</value>
+  </data>
+  <data name="lblUsedFontNameSize.Text" xml:space="preserve">
+    <value>Tahoma, 8pt</value>
+  </data>
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
+    <value>选择格式化风格页</value>
+  </data>
+  <data name="btnManageIdentities.Text" xml:space="preserve">
+    <value>标识符...</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip" xml:space="preserve">
+    <value>应用程序将总在任务栏上可见</value>
+  </data>
+  <data name="btnSEProperties.ToolTip" xml:space="preserve">
+    <value>打开搜索引擎属性对话框</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text" xml:space="preserve">
+    <value>搜索引擎</value>
+  </data>
+  <data name="labelProxyServerSummery.Text" xml:space="preserve">
+    <value>代理服务器担当了你的电脑和互联网之间的中介，从远端网页服务器中获取文件。</value>
+  </data>
+  <data name="labelCheckToAllow.Text" xml:space="preserve">
+    <value>选择以允许：</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
+    <value>代理证书的用户名称。可以指定为 '域\用户名'</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1" xml:space="preserve">
+    <value>FTP</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items3" xml:space="preserve">
+    <value>Newsgator Online</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items2" xml:space="preserve">
+    <value>dasBlog</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text" xml:space="preserve">
+    <value>设置用于高亮或标记订阅和新闻条目状态的字体，风格和颜色。</value>
+  </data>
+  <data name="lstItemStates.Items" xml:space="preserve">
+    <value>读 (常规)</value>
+  </data>
+  <data name="lstItemStates.Items2" xml:space="preserve">
+    <value>标志</value>
+  </data>
+  <data name="lstItemStates.Items3" xml:space="preserve">
+    <value>提交者</value>
+  </data>
+  <data name="lstItemStates.Items4" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2" xml:space="preserve">
+    <value>14 天一次</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3" xml:space="preserve">
+    <value>1个月一次</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1" xml:space="preserve">
+    <value>每次应用程序启动</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip" xml:space="preserve">
+    <value>使用RSS Bandit 作为缺省的应用程序来侦听 'feed:' Url 协议...</value>
+  </data>
+  <data name="lstItemStates.Items1" xml:space="preserve">
+    <value>未读</value>
+  </data>
+  <data name="chkFontBold.Text" xml:space="preserve">
+    <value>粗体(&amp;B)</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
+    <value>在现有的feed或分类中标记所有条目为已读</value>
+  </data>
+  <data name="textProxyPort.ToolTip" xml:space="preserve">
+    <value>代理端口号</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip" xml:space="preserve">
+    <value>代理证书密码</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text" xml:space="preserve">
+    <value>订阅，新闻条目</value>
+  </data>
+  <data name="btnSERemove.ToolTip" xml:space="preserve">
+    <value>移除所选搜索引擎</value>
+  </data>
+  <data name="lblItemStates.Text" xml:space="preserve">
+    <value>条目状态(&amp;I)：</value>
+  </data>
+  <data name="chkFontUnderline.Text" xml:space="preserve">
+    <value>下划线(&amp;U)</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip" xml:space="preserve">
+    <value>代理证书密码</value>
+  </data>
+  <data name="lstItemStates.ToolTip" xml:space="preserve">
+    <value>选择条目状态来更改设置...</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>代理证书的用户名称。可以指定为 '域\用户名'</value>
+  </data>
+  <data name="lblFontSampleABC.Text" xml:space="preserve">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+  <data name="btnChangeColor.Text" xml:space="preserve">
+    <value>颜色(&amp;o)...</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip" xml:space="preserve">
+    <value>代理证书密码</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip" xml:space="preserve">
+    <value>应用程序将在任务栏上不可见</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip" xml:space="preserve">
+    <value>上移条目</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text" xml:space="preserve">
+    <value>注释的用户标识符</value>
+  </data>
+  <data name="linkCommentAPI.Text" xml:space="preserve">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text" xml:space="preserve">
+    <value>远程feed列表存储</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+  <data name="chkFontItalic.Text" xml:space="preserve">
+    <value>斜体(&amp;t)</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
+    <value>选中该选项用于定制格式</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip" xml:space="preserve">
+    <value>下移条目</value>
+  </data>
+  <data name="labelProxyBypassList.Text" xml:space="preserve">
+    <value>对以下列内容开头的地址不要使用代理(&amp;o)：</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items4" xml:space="preserve">
+    <value>WebDAV</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>代理证书的用户名称。可以指定为 '域\用户名'</value>
+  </data>
+  <data name="btnSEAdd.ToolTip" xml:space="preserve">
+    <value>添加新的搜索引擎</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
+    <value>手动</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip" xml:space="preserve">
+    <value>应用程序将在任务栏上不可见</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="chkFontStrikeout.Text" xml:space="preserve">
+    <value>删除线(&amp;S)</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
+    <value>文件共享</value>
+  </data>
+  <data name="btnSelectExecutable.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text" xml:space="preserve">
+    <value>显示相关条目作为讨论的线索</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip" xml:space="preserve">
+    <value>如果选中，条目将被显示为具有到其他已知条目链接的讨论线索</value>
+  </data>
+  <data name="tabGeneral.ToolTipText" xml:space="preserve">
+    <value>常规应用程序设置</value>
+  </data>
+  <data name="optionSectionPanel1.Text" xml:space="preserve">
+    <value>声音</value>
+  </data>
+  <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
+    <value>启用应用程序事件声音</value>
+  </data>
+  <data name="btnConfigureAppSounds.Text" xml:space="preserve">
+    <value>配置...</value>
+  </data>
+  <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
+    <value>打开 Windows 声音设置面板以允许 RSS Bandit 应用程序的声音设置...</value>
+  </data>
+  <data name="checkRunAtStartup.Text" xml:space="preserve">
+    <value>在登录Windows后启动应用程序</value>
+  </data>
+  <data name="checkUseFavicons.Text" xml:space="preserve">
+    <value>在Feed订阅树中使用袖珍图形作为feed图标</value>
+  </data>
+  <data name="checkUseFavicons.ToolTip" xml:space="preserve">
+    <value>如果选中，订阅的feeds将显示袖珍图形作为feed符号</value>
+  </data>
+  <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
+    <value>在后台载入新标签页</value>
+  </data>
+  <data name="tabEnclosures.Text" xml:space="preserve">
+    <value>附件/播客</value>
+  </data>
+  <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
+    <value>播客</value>
+  </data>
+  <data name="btnPodcastOptions.Text" xml:space="preserve">
+    <value>高级选项...</value>
+  </data>
+  <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
+    <value>点击下列按钮配置播客选项：</value>
+  </data>
+  <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
+    <value>查找文件系统上的文件夹...</value>
+  </data>
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
+    <value>不能超出已使用磁盘空间的总和</value>
+  </data>
+  <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
+    <value>附件</value>
+  </data>
+  <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
+    <value>初始订阅：仅下载最近的</value>
+  </data>
+  <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
+    <value>将下载文件放置到按 feed 命名的子文件夹中</value>
+  </data>
+  <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
+    <value>其他附件下载路径</value>
+  </data>
+  <data name="labelEnclosureDirectory.Text" xml:space="preserve">
+    <value>下载附件到：</value>
+  </data>
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
+    <value>自动下载附件</value>
+  </data>
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
+    <value>为新下载的附件启用警告窗口(&amp;E)</value>
+  </data>
+  <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>设置附件的常规下载行为和下载路径。</value>
+  </data>
+  <data name="lstItemStates.Items5" xml:space="preserve">
+    <value>新注释 (已查看)</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>news items per page</value>
+  </data>
+  <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
+    <value>Show only </value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+  <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+  <data name="comboRefreshRate.ToolTip" xml:space="preserve">
+    <value>Changes refresh rate setting for all feeds</value>
+  </data>
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
+    <value>Changes default item age setting for all feeds</value>
+  </data>
+</root>

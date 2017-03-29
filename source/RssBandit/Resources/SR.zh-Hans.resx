@@ -1,0 +1,2371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MenuBrowserNavigateBackCaption" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeeds" xml:space="preserve">
+    <value>查找第
+{0}页的新闻</value>
+  </data>
+  <data name="MenuWorkspaceNewsCaption" xml:space="preserve">
+    <value>显示新闻...</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardCaption" xml:space="preserve">
+    <value>复制主页链接到剪贴板</value>
+  </data>
+  <data name="ExceptionInvalidSearchEnginesMessage" xml:space="preserve">
+    <value>读取搜索配置时，发生验证错误。请查看文件 '{0}' 以获得详细信息。</value>
+  </data>
+  <data name="MenuFeedDetailLayoutCaption" xml:space="preserve">
+    <value>阅读区域位置</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabCaption" xml:space="preserve">
+    <value>为新闻打开新的标签页</value>
+  </data>
+  <data name="GUIFeedlistDownloadExceptionMessage" xml:space="preserve">
+    <value>新闻列表下在错误：
+{0}</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的项目集合中...</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageLocation" xml:space="preserve">
+    <value>请提供远程存储器所在的位置</value>
+  </data>
+  <data name="MenuFlagFeedItemDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的项目集合中...</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsCaption" xml:space="preserve">
+    <value>删除所有条目</value>
+  </data>
+  <data name="RssSearchTypeTextHintCaption" xml:space="preserve">
+    <value>查找包含指定单词或短语的邮件。</value>
+  </data>
+  <data name="GUIStatusNoFeedsAreUpdated" xml:space="preserve">
+    <value>没有新闻更新。</value>
+  </data>
+  <data name="ExceptionLoadingNewsItemFormatterStylesheet" xml:space="preserve">
+    <value>读取格式化新闻用的XSLT风格页时发生意外错误：
+        
+'{0}'</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp" xml:space="preserve">
+    <value>FTP 服务器/路径：</value>
+  </data>
+  <data name="GUIStatusErrorLoadingSearchConfig" xml:space="preserve">
+    <value>读取搜索配置错误。</value>
+  </data>
+  <data name="ExceptionLoadingSearchEnginesMessage" xml:space="preserve">
+    <value>读取搜索配置时发生意外的错误：{0}。
+请查看文件 '{1}' 以获得详细信息。</value>
+  </data>
+  <data name="InvalidFeedURIBoxCaption" xml:space="preserve">
+    <value>无效网址</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>复制当前选中的新闻链接到剪贴板...</value>
+  </data>
+  <data name="MenuBanditForumCaption" xml:space="preserve">
+    <value>访问RSS Bandit论坛...</value>
+  </data>
+  <data name="MenuDoSearchWebCaption" xml:space="preserve">
+    <value>搜索互联网</value>
+  </data>
+  <data name="MenuBrowserNewTabDesc" xml:space="preserve">
+    <value>创建一个新的浏览页...</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsCaption" xml:space="preserve">
+    <value>特殊新闻</value>
+  </data>
+  <data name="GUIStatusFeedJustReceivedItemsMessage" xml:space="preserve">
+    <value>接收到：{0} 项</value>
+  </data>
+  <data name="GUIStatusInfoCaptionNoFeeds" xml:space="preserve">
+    <value>新闻没有找到</value>
+  </data>
+  <data name="RssSearchSuccessResultMessage" xml:space="preserve">
+    <value>发现{0}项。</value>
+  </data>
+  <data name="FeedNodeFinderRootCaption" xml:space="preserve">
+    <value>搜索目录</value>
+  </data>
+  <data name="ExceptionReadingFeedlistFile" xml:space="preserve">
+    <value>读取新闻列表的时候发生意外的错误： 
+  '{0}'。请查看文件 '{1}' 以获得详细信息。</value>
+  </data>
+  <data name="ExceptionDuplicateCategoryName" xml:space="preserve">
+    <value>对不起, 名称 '{0}' 已经被使用过了。</value>
+  </data>
+  <data name="GUIFieldLinkRedundant" xml:space="preserve">
+    <value>你已经订阅了这条新闻</value>
+  </data>
+  <data name="GUIFieldLinkRedundantInfo" xml:space="preserve">
+    <value>你已经订阅了这个feed。
+ 分类/名称： {0}
+ 链接： {1}.</value>
+  </data>
+  <data name="GeneralNewItemText" xml:space="preserve">
+    <value>[新建]</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftDesc" xml:space="preserve">
+    <value>新闻列表在左侧,内容在右侧...</value>
+  </data>
+  <data name="URL_FeedLinkCosmosUrlBase" xml:space="preserve">
+    <value>http://www.technorati.com/cosmos/links.html?rank=links&amp;url=</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceived" xml:space="preserve">
+    <value>接受的新的新闻...</value>
+  </data>
+  <data name="MainMenuViewDesc" xml:space="preserve">
+    <value>RSS Bandit视图控制命令</value>
+  </data>
+  <data name="GUIStatusLoadingChildItems" xml:space="preserve">
+    <value>启动中，请稍侯...</value>
+  </data>
+  <data name="InvalidFeedURIBoxText" xml:space="preserve">
+    <value>为新新闻指定的网址无效</value>
+  </data>
+  <data name="MenuFlagFeedItemCaption" xml:space="preserve">
+    <value>作标记...</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadCaption" xml:space="preserve">
+    <value>标记未读(&amp;u)</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardDesc" xml:space="preserve">
+    <value>前向访问...</value>
+  </data>
+  <data name="ListviewColumnCaptionCreator" xml:space="preserve">
+    <value>创建者</value>
+  </data>
+  <data name="MenuAppOptionsCaption" xml:space="preserve">
+    <value>选项...</value>
+  </data>
+  <data name="GUIStatusRetriveCommentRssFeed" xml:space="preserve">
+    <value>请求新闻中, 请稍等...</value>
+  </data>
+  <data name="GUIStatusErrorEmptyTitleNotAllowed" xml:space="preserve">
+    <value>操作取消. 标题不能为空.</value>
+  </data>
+  <data name="GUIStatusWaitMessageDetectingFeedsWithKeywords" xml:space="preserve">
+    <value>查找包含指定关键字
+{0}的新闻</value>
+  </data>
+  <data name="MenuNextUnreadItemCaption" xml:space="preserve">
+    <value>下一个未读的项目 </value>
+  </data>
+  <data name="RssSearchStateMessage" xml:space="preserve">
+    <value>搜索中, ...</value>
+  </data>
+  <data name="MenuDoSearchComboBoxDesc" xml:space="preserve">
+    <value>在网页上搜索的单词...</value>
+  </data>
+  <data name="MenuShowFeedPropertiesDesc" xml:space="preserve">
+    <value>显示新闻的属性对话框..</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsCaption" xml:space="preserve">
+    <value>错误新闻</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的项目集合中...</value>
+  </data>
+  <data name="MenuBrowserNavigateForwardCaption" xml:space="preserve">
+    <value>向前</value>
+  </data>
+  <data name="DragDockablePanelInfo" xml:space="preserve">
+    <value>请按住CTRL键以防止停靠.</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowDesc" xml:space="preserve">
+    <value>在缺省浏览器中打开链接...</value>
+  </data>
+  <data name="MenuAboutCaption" xml:space="preserve">
+    <value>关于...</value>
+  </data>
+  <data name="MenuCatchUpThisFeedDesc" xml:space="preserve">
+    <value>标记所有新闻为已读...</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoDesc" xml:space="preserve">
+    <value>高级/更多的新闻信息...</value>
+  </data>
+  <data name="MenuDeleteThisFeedDesc" xml:space="preserve">
+    <value>删除这条新闻...</value>
+  </data>
+  <data name="GUIStatusNoUnreadFeedItemsLeft" xml:space="preserve">
+    <value>没有其他未读的新闻.</value>
+  </data>
+  <data name="MenuShowLinkCosmosDesc" xml:space="preserve">
+    <value>访问技术领域并查看新闻链接...</value>
+  </data>
+  <data name="MenuBrowserRefreshDesc" xml:space="preserve">
+    <value>刷新...</value>
+  </data>
+  <data name="ControlCollapsiblePanelExpandTooltip" xml:space="preserve">
+    <value>展开面板...</value>
+  </data>
+  <data name="MainMenuToolsCaption" xml:space="preserve">
+    <value>工具(&amp;T)</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedDesc" xml:space="preserve">
+    <value>按照特殊的网页或者主题定位RSS新闻</value>
+  </data>
+  <data name="MenuExportFeedsCaption" xml:space="preserve">
+    <value>导出新闻...</value>
+  </data>
+  <data name="ListviewColumnCaptionHeadline" xml:space="preserve">
+    <value>头条</value>
+  </data>
+  <data name="FeedNodeFeedExceptionsDesc" xml:space="preserve">
+    <value>记录订阅新闻错误的容器</value>
+  </data>
+  <data name="UpgradeInfoBoxCaption" xml:space="preserve">
+    <value>升级信息</value>
+  </data>
+  <data name="CmdLineStartInTaskbarDesc" xml:space="preserve">
+    <value>最小化到任务栏</value>
+  </data>
+  <data name="MainMenuViewCaption" xml:space="preserve">
+    <value>视图(&amp;V)</value>
+  </data>
+  <data name="ExceptionPostReplyToNewsItem" xml:space="preserve">
+    <value>在发表回复的时候发生错误  
+'{0}' (新闻项 链接/标题) 错误内容:
+        
+'{1}'</value>
+  </data>
+  <data name="MenuBrowserDoNavigateDesc" xml:space="preserve">
+    <value>访问指定的网址...</value>
+  </data>
+  <data name="MenuConfigCommandCaption" xml:space="preserve">
+    <value>配置...</value>
+  </data>
+  <data name="MenuCopyFeedCaption" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="ExceptionOpenFileMessage" xml:space="preserve">
+    <value>无法打开文件 '{0}'，原因是：
+		
+		'{1}'。
+	</value>
+  </data>
+  <data name="ExceptionNoProxyAuthUser" xml:space="preserve">
+    <value>请提供代理服务器验证用的用户名</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsDesc" xml:space="preserve">
+    <value>记录被标记的新闻的容器</value>
+  </data>
+  <data name="MenuBanditForumDesc" xml:space="preserve">
+    <value>讨论所有相关的主题...</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelDesc" xml:space="preserve">
+    <value>点击取消当前的搜索...</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare_hint" xml:space="preserve">
+    <value>你可以将你的应用程序状态存储成rssbandit-state.zip作为本地或网络的文件共享。提供类似于 '\\yournetworkshare\feedlist\' 或 'H:\' 的目录路径。</value>
+  </data>
+  <data name="AutoDiscoveredDefaultTitle" xml:space="preserve">
+    <value>[自动发现]</value>
+  </data>
+  <data name="MenuDeleteCategoryCaption" xml:space="preserve">
+    <value>删除分类</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelCaption" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="MenuShowFinderPropertiesDesc" xml:space="preserve">
+    <value>显示发现属性对话框...</value>
+  </data>
+  <data name="MenuFlagFeedItemClearCaption" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="MenuFinderDeleteCaption" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedDesc" xml:space="preserve">
+    <value>新闻描述</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxDesc" xml:space="preserve">
+    <value>要访问的网页地址...</value>
+  </data>
+  <data name="MenuCatchUpCategoryCaption" xml:space="preserve">
+    <value>标记所有分类新闻为已读</value>
+  </data>
+  <data name="ExceptionNoProxyUrl" xml:space="preserve">
+    <value>请提供代理服务器的IP地址或者主机名</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterInvalidStylesheet" xml:space="preserve">
+    <value>Xslt 风格页无效</value>
+  </data>
+  <data name="MenuUpdateThisFeedCaption" xml:space="preserve">
+    <value>更新新闻</value>
+  </data>
+  <data name="MainMenuHelpDesc" xml:space="preserve">
+    <value>RSS Bandit 帮助...</value>
+  </data>
+  <data name="MenuDownloadFeedsCaption" xml:space="preserve">
+    <value>下载新闻...</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyCaption" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="MenuDocTabsCloseAllDesc" xml:space="preserve">
+    <value>关闭所有的文档页...</value>
+  </data>
+  <data name="GUIStatusFeedsAreUpdatedMessage" xml:space="preserve">
+    <value>{0} 项新闻更新.</value>
+  </data>
+  <data name="MainMenuFileDesc" xml:space="preserve">
+    <value>RSS Bandit文件命令菜单</value>
+  </data>
+  <data name="MenuDownloadFeedsDesc" xml:space="preserve">
+    <value>从远程存储器上下载新闻列表.</value>
+  </data>
+  <data name="ExceptionImportFeedlist" xml:space="preserve">
+    <value>在从 
+'{0}' 导入新闻列表的时候发生一个错误:
+        
+'{1}'</value>
+  </data>
+  <data name="GUIStatusRefreshConnectionState" xml:space="preserve">
+    <value>检查当前的互联网连接...</value>
+  </data>
+  <data name="MenuPostReplyFeedItemCaption" xml:space="preserve">
+    <value>张贴回复...</value>
+  </data>
+  <data name="TabValidationResultCaption" xml:space="preserve">
+    <value>新闻验证结果</value>
+  </data>
+  <data name="MessageBoxDeleteThisFeedQuestion" xml:space="preserve">
+    <value>你确定要删除这条新闻的订阅么？</value>
+  </data>
+  <data name="RemoteStorageDownload_Question" xml:space="preserve">
+    <value>本地的新闻列表将要被远程下载的列表所替换。
+        继续吗？</value>
+  </data>
+  <data name="UpgradeFeedlistInfoText" xml:space="preserve">
+    <value>当前版本的{0}支持下列新的特性和缺陷修复
+需要更改你的feed列表文件格式。
+为使你的旧版本继续运行，应用程序将尝试从你当前的列表中建立一个新的feed列表文件。
+
+原来的文件将保持不变。
+
+你想要继续吗？</value>
+  </data>
+  <data name="URL_UserForum" xml:space="preserve">
+    <value>http://www.rssbandit.org/forum/</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeDesc" xml:space="preserve">
+    <value>连接网络模式</value>
+  </data>
+  <data name="ListviewColumnCaptionDate" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentCaption" xml:space="preserve">
+    <value>关闭文档</value>
+  </data>
+  <data name="MenuCatchUpOnAllCaption" xml:space="preserve">
+    <value>标记所有的新闻为已读</value>
+  </data>
+  <data name="GUIStatusWaitMessageDownLoadingFeedlist" xml:space="preserve">
+    <value>下载新闻列表({0}), 请等待...</value>
+  </data>
+  <data name="ExceptionWebSearchEnginesSave" xml:space="preserve">
+    <value>保存网页搜索引擎设置时遇到意外错误:
+        
+'{0}'</value>
+  </data>
+  <data name="FormatExceptionRefreshRate" xml:space="preserve">
+    <value>刷新率不是有效数字</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateCaption" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="MenuFeedDetailLayoutLeftCaption" xml:space="preserve">
+    <value>阅读区域在右侧</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsQuestion" xml:space="preserve">
+    <value>你确定要删除所有的新闻么?</value>
+  </data>
+  <data name="FeedNodeMyFeedsCaption" xml:space="preserve">
+    <value>我的新闻</value>
+  </data>
+  <data name="GUIErrorMessageBoxCaption" xml:space="preserve">
+    <value>错误发生</value>
+  </data>
+  <data name="MenuShowLinkCosmosCaption" xml:space="preserve">
+    <value>联结空间</value>
+  </data>
+  <data name="ListviewColumnCaptionTopic" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="MenuDeleteCategoryDesc" xml:space="preserve">
+    <value>删除分类和其中的新闻...</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownDesc" xml:space="preserve">
+    <value>从访问过的网页中显示所有没有浏览过的新闻...</value>
+  </data>
+  <data name="MenuUpdateThisFeedDesc" xml:space="preserve">
+    <value>刷新/更新 这条新闻...</value>
+  </data>
+  <data name="FeedNodeFlaggedForReplyCaption" xml:space="preserve">
+    <value>回复的项目</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardCaption" xml:space="preserve">
+    <value>新闻链接到剪贴板</value>
+  </data>
+  <data name="MenuNextUnreadItemDesc" xml:space="preserve">
+    <value>移动到下一个未读的新闻...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopDesc" xml:space="preserve">
+    <value>新闻列表在上部, 内容在下...</value>
+  </data>
+  <data name="GUIStatusErrorLoadingFeedMessage" xml:space="preserve">
+    <value>读取新闻失败: {0}</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomDesc" xml:space="preserve">
+    <value>新闻列表在底部, 内容在上部...</value>
+  </data>
+  <data name="MenuFeedDetailLayoutDesc" xml:space="preserve">
+    <value>选择/改变 新闻详细内容布局...</value>
+  </data>
+  <data name="GUIStatusErrorInvalidSearchConfig" xml:space="preserve">
+    <value>读取搜索配置列表时发生验证错误.</value>
+  </data>
+  <data name="MenuDoSearchComboBoxCaption" xml:space="preserve">
+    <value>在网页上搜索</value>
+  </data>
+  <data name="MenuBugReportCaption" xml:space="preserve">
+    <value>报告程序错误...</value>
+  </data>
+  <data name="GUIStatusErrorReadingFeedlistFile" xml:space="preserve">
+    <value>读取新闻列表文件错误.</value>
+  </data>
+  <data name="MenuWebSearchRequiresNewTabDesc" xml:space="preserve">
+    <value>网页搜索结果显示在新的标签页上...</value>
+  </data>
+  <data name="MainMenuSearchDesc" xml:space="preserve">
+    <value>RSS Bandit网页搜索配置命令</value>
+  </data>
+  <data name="ExceptionNewsItemTransformation" xml:space="preserve">
+    <value>新闻无法解释成 HTML。</value>
+  </data>
+  <data name="ExceptionProxyPortRange" xml:space="preserve">
+    <value>指定的代理服务器端口不在规定的0到65535的范围内</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightDesc" xml:space="preserve">
+    <value>新闻列表在右侧, 内容在左侧...</value>
+  </data>
+  <data name="MenuNewRssSearchDesc" xml:space="preserve">
+    <value>在本地搜索...</value>
+  </data>
+  <data name="MenuFlagFeedItemReadDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的条目集合中...</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_ftp_hint" xml:space="preserve">
+    <value>你可以使用FTP服务器将你的应用程序状态存储成 rssbandit-state.zip 文件。提供类似于 'ftp://yourserver.com:7788/feedlistfolder/' 的FTP服务器名称和路径。</value>
+  </data>
+  <data name="MenuDocTabsCloseCurrentDesc" xml:space="preserve">
+    <value>关闭当前选中的文档页...</value>
+  </data>
+  <data name="MenuToggleRssSearchTabStateDesc" xml:space="preserve">
+    <value>固定搜索面板。</value>
+  </data>
+  <data name="FeedDetailDocumentTabCaption" xml:space="preserve">
+    <value>详细内容</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardDesc" xml:space="preserve">
+    <value>复制当前选中的新闻联结到剪贴板...</value>
+  </data>
+  <data name="MenuFinderDeleteAllDesc" xml:space="preserve">
+    <value>删除所有在选中节点下的搜索文件夹...</value>
+  </data>
+  <data name="ExceptionGeneral" xml:space="preserve">
+    <value>对不起, 发生了一个错误:
+        
+'{0}'</value>
+  </data>
+  <data name="MenuFlagFeedItemReviewCaption" xml:space="preserve">
+    <value>评论</value>
+  </data>
+  <data name="MenuNewFeedDesc" xml:space="preserve">
+    <value>订阅一个新闻</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的条目集合中...</value>
+  </data>
+  <data name="MenuBanditWikiCaption" xml:space="preserve">
+    <value>访问RSS Bandit主页...</value>
+  </data>
+  <data name="MenuCopyFeedItemDesc" xml:space="preserve">
+    <value>复制一条新闻的剪贴板...</value>
+  </data>
+  <data name="MenuToggleTreeViewStateCaption" xml:space="preserve">
+    <value>查找订阅项</value>
+  </data>
+  <data name="MenuBrowserNavigateComboBoxCaption" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="GUIFieldWebUrlInvalid" xml:space="preserve">
+    <value>没有指定网页的网址</value>
+  </data>
+  <data name="GUIStatusRefreshFeedsMessage" xml:space="preserve">
+    <value>刷新新闻...</value>
+  </data>
+  <data name="MenuFlagFeedItemFollowUpCaption" xml:space="preserve">
+    <value>跟贴</value>
+  </data>
+  <data name="FeedNodeFlaggedForFollowUpCaption" xml:space="preserve">
+    <value>跟贴的项目</value>
+  </data>
+  <data name="MenuFeedItemPostReplyDesc" xml:space="preserve">
+    <value>张贴这条新闻的回复...</value>
+  </data>
+  <data name="MenuBrowserNewTabCaption" xml:space="preserve">
+    <value>新标签</value>
+  </data>
+  <data name="MenuFeedDetailLayoutBottomCaption" xml:space="preserve">
+    <value>最上层的阅读面板</value>
+  </data>
+  <data name="GUIStatusWaitMessageUpLoadingFeedlist" xml:space="preserve">
+    <value>上传新闻列表 ({0}), 请等待...</value>
+  </data>
+  <data name="MenuToggleTreeViewStateDesc" xml:space="preserve">
+    <value>固定新闻列表面板。</value>
+  </data>
+  <data name="MenuRenameCategoryDesc" xml:space="preserve">
+    <value>重命名这个分类...</value>
+  </data>
+  <data name="MenuShowMainGuiCaption" xml:space="preserve">
+    <value>显示...</value>
+  </data>
+  <data name="RssSearchNoResultMessage" xml:space="preserve">
+    <value>没有找到.</value>
+  </data>
+  <data name="MenuFeedItemPostReplyCaption" xml:space="preserve">
+    <value>张贴回复...</value>
+  </data>
+  <data name="TabFeedSourceCaption" xml:space="preserve">
+    <value>新闻来源： {0}</value>
+  </data>
+  <data name="MenuUpdateAllFeedsCaption" xml:space="preserve">
+    <value>更新所有的新闻</value>
+  </data>
+  <data name="MenuFlagFeedItemClearDesc" xml:space="preserve">
+    <value>移除所选的feed条目至已标记条目收藏夹...</value>
+  </data>
+  <data name="MenuCopyFeedItemCaption" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="MenuValidateFeedCaption" xml:space="preserve">
+    <value>校验</value>
+  </data>
+  <data name="FormatExceptionProxyPort" xml:space="preserve">
+    <value>端口不是有效数字。</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsDesc" xml:space="preserve">
+    <value>删除所有选中的新闻项...</value>
+  </data>
+  <data name="GUIStatusWaitMessageRequestFile" xml:space="preserve">
+    <value>请求文件：
+{0}</value>
+  </data>
+  <data name="MenuValidateFeedDesc" xml:space="preserve">
+    <value>对新闻源代码进行校验...</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteDesc" xml:space="preserve">
+    <value>移除所选的feed条目至已标记条目收藏夹...</value>
+  </data>
+  <data name="GUIStatusErrorGeneralFeedMessage" xml:space="preserve">
+    <value>操作取消. 新闻 '{0}' 产生了一个错误: {1}</value>
+  </data>
+  <data name="MenuCopyFeedItemLinkToClipboardCaption" xml:space="preserve">
+    <value>新闻联结到剪贴板</value>
+  </data>
+  <data name="MenuShowFinderPropertiesCaption" xml:space="preserve">
+    <value>属性...</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeOffline" xml:space="preserve">
+    <value>[脱机工作]</value>
+  </data>
+  <data name="MenuViewOutlookReadingPane" xml:space="preserve">
+    <value>在组内显示条目</value>
+  </data>
+  <data name="MenuAppCloseExitDesc" xml:space="preserve">
+    <value>关闭并退出RssBandit</value>
+  </data>
+  <data name="MenuWebSearchToogleEngineDesc" xml:space="preserve">
+    <value>检查本入口，把它包含到同步搜索中...</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardDesc" xml:space="preserve">
+    <value>复制当前选中的新闻主页网址到剪贴板...</value>
+  </data>
+  <data name="MenuUploadFeedsCaption" xml:space="preserve">
+    <value>上传新闻...</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardCaption" xml:space="preserve">
+    <value>项目的内容到剪贴板</value>
+  </data>
+  <data name="MenuBrowserDoNavigateCaption" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchDesc" xml:space="preserve">
+    <value>点击开始搜索...</value>
+  </data>
+  <data name="MenuViewSourceOfFeedCaption" xml:space="preserve">
+    <value>查看源代码</value>
+  </data>
+  <data name="MenuCatchUpThisFeedCaption" xml:space="preserve">
+    <value>标记所有新闻为已读</value>
+  </data>
+  <data name="MainMenuToolsDesc" xml:space="preserve">
+    <value>RSS Bandit 工具命令</value>
+  </data>
+  <data name="MenuFlagFeedItemReadCaption" xml:space="preserve">
+    <value>阅读</value>
+  </data>
+  <data name="MenuRenameThisFeedDesc" xml:space="preserve">
+    <value>重命名这条新闻...</value>
+  </data>
+  <data name="MenuIBlogExtensionConfigCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (AddIn) 配置</value>
+  </data>
+  <data name="MenuBrowserRefreshCaption" xml:space="preserve">
+    <value>刷新
+</value>
+  </data>
+  <data name="MenuCopyFeedLinkToClipboardDesc" xml:space="preserve">
+    <value>复制当前选中的新闻联结到剪贴板...</value>
+  </data>
+  <data name="ExceptionInvalidXmlChracterMessage" xml:space="preserve">
+    <value>无效的字符</value>
+  </data>
+  <data name="MenuCheckForUpdatesCaption" xml:space="preserve">
+    <value>检查升级...</value>
+  </data>
+  <data name="RssSearchDialogButtonSearchCaption" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedXMLFailed" xml:space="preserve">
+    <value>刷新 {0} 失败 (XML错误): {1}</value>
+  </data>
+  <data name="MenuDoSearchWebDesc" xml:space="preserve">
+    <value>在网页上搜索的短语...</value>
+  </data>
+  <data name="MenuFlagFeedItemForwardCaption" xml:space="preserve">
+    <value>转发</value>
+  </data>
+  <data name="GuiStateNoFeedItemSelectedMessage" xml:space="preserve">
+    <value>没有选择新闻项</value>
+  </data>
+  <data name="FeedNodeSentItemsDesc" xml:space="preserve">
+    <value>发件箱 (回复)</value>
+  </data>
+  <data name="MenuImportFeedsDesc" xml:space="preserve">
+    <value>导入新闻列表 (.xml, .ocs 或 .opml)</value>
+  </data>
+  <data name="FeedNodeFlaggedFeedsCaption" xml:space="preserve">
+    <value>标记的项</value>
+  </data>
+  <data name="MenuAboutDesc" xml:space="preserve">
+    <value>提供和程序相关的信息</value>
+  </data>
+  <data name="GUIStatusBusyRefresh" xml:space="preserve">
+    <value>繁忙,刷新...</value>
+  </data>
+  <data name="GUIAutoDiscoverFeedFailedCaption" xml:space="preserve">
+    <value>自动探索新闻失败</value>
+  </data>
+  <data name="InvalidFeedFileInfoBoxCaption" xml:space="preserve">
+    <value>无效的新闻文件</value>
+  </data>
+  <data name="MenuIBlogExtensionCommandDesc" xml:space="preserve">
+    <value>IBlogExtension (AddIn) 命令</value>
+  </data>
+  <data name="GUIStatusWaitMessagePrefetchFeed" xml:space="preserve">
+    <value>请求新闻:
+{0}</value>
+  </data>
+  <data name="WebExceptionOnUrlAccess" xml:space="preserve">
+    <value>请求URL {0} 失败: {1}</value>
+  </data>
+  <data name="MenuAutoDiscoverFeedCaption" xml:space="preserve">
+    <value>定位新闻</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListDesc" xml:space="preserve">
+    <value>清除所有下面列举的自动发现的新闻...</value>
+  </data>
+  <data name="GUIStatusChildItemsNA" xml:space="preserve">
+    <value>无法读取子条目， 网络中断。</value>
+  </data>
+  <data name="GUIStatusPostReplyToItem" xml:space="preserve">
+    <value>发布回复，请等待...</value>
+  </data>
+  <data name="MenuExportFeedsDesc" xml:space="preserve">
+    <value>导出新闻列表...</value>
+  </data>
+  <data name="InvalidFeedlistFileMessage" xml:space="preserve">
+    <value>新闻列表无效。 详细错误信息请查看文件 
+  '{0}' 。</value>
+  </data>
+  <data name="GUIStatusLoadingFeed" xml:space="preserve">
+    <value>新闻读取中...</value>
+  </data>
+  <data name="MenuFinderDeleteAllCaption" xml:space="preserve">
+    <value>全部删除</value>
+  </data>
+  <data name="ListviewColumnCaptionSiteUrl" xml:space="preserve">
+    <value>站点网址</value>
+  </data>
+  <data name="MenuFlagFeedItemCompleteCaption" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeCaption" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="ControlCollapsiblePanelCollapseTooltip" xml:space="preserve">
+    <value>折叠面板...</value>
+  </data>
+  <data name="MenuCatchUpOnAllDesc" xml:space="preserve">
+    <value>标记所有的新闻为已读</value>
+  </data>
+  <data name="URL_FeedValidationBase" xml:space="preserve">
+    <value>http://www.feedvalidator.org/check?url=</value>
+  </data>
+  <data name="MenuFinderDeleteDesc" xml:space="preserve">
+    <value>删除选中的搜索文件夹...</value>
+  </data>
+  <data name="MenuBrowserNavigateBackDesc" xml:space="preserve">
+    <value>回退到访问的网址...</value>
+  </data>
+  <data name="ExceptionRefreshRateInvalid" xml:space="preserve">
+    <value>无效的刷新率</value>
+  </data>
+  <data name="MenuNewFeedCaption" xml:space="preserve">
+    <value>Feed 订阅...(&amp;F)</value>
+  </data>
+  <data name="MessageBoxDeleteAllFeedsInCategoryQuestion" xml:space="preserve">
+    <value>你确定要删除这个分类和其中的新闻与子分类么?</value>
+  </data>
+  <data name="TabLinkCosmosCaption" xml:space="preserve">
+    <value>新闻链接： {0}</value>
+  </data>
+  <data name="CmdLineHelpDesc" xml:space="preserve">
+    <value>打印这条信息</value>
+  </data>
+  <data name="CmdLineCultureDesc" xml:space="preserve">
+    <value>以不同的语言启动应用程序 (ISO 语言代码)</value>
+  </data>
+  <data name="GUIStatusDone" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="MainMenuFileCaption" xml:space="preserve">
+    <value>文件(&amp;F)</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripDesc" xml:space="preserve">
+    <value>关闭选中级别上的文档页...</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetCompile" xml:space="preserve">
+    <value>Xslt 风格页无法编译</value>
+  </data>
+  <data name="GUIStatusNewFeedItemsReceivedMessage" xml:space="preserve">
+    <value>{0} 条新闻,包含 {1} 条信息</value>
+  </data>
+  <data name="GUIStatusRefreshThisFeedMessage" xml:space="preserve">
+    <value>刷新: {0} ...</value>
+  </data>
+  <data name="RssSearchDialogButtonCancelCaption" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ExceptionIBlogExtensionFunctionCall" xml:space="preserve">
+    <value>IBlogExtension (AddIn) 的功能 '{0}' 调用的时引发了一个异常:
+'{1}'.        
+        </value>
+  </data>
+  <data name="GUICurrentConnectionState_Info" xml:space="preserve">
+    <value>当前的网络连接状态...</value>
+  </data>
+  <data name="ExceptionStartDefaultBrowserMessage" xml:space="preserve">
+    <value>在启动您的缺省浏览器的时候遇到了一个错误:
+		
+		'{0}'.
+		
+		我们是否应该在新的列表页上打开 '{1}'?</value>
+  </data>
+  <data name="MenuAppOptionsDesc" xml:space="preserve">
+    <value>显示应用程序的选项对话框...</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalCaption" xml:space="preserve">
+    <value>水平分层</value>
+  </data>
+  <data name="TabFeedHomeCaption" xml:space="preserve">
+    <value>新闻主页: {0}</value>
+  </data>
+  <data name="AppLoadStateLoading" xml:space="preserve">
+    <value>启动程序...</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedUrl" xml:space="preserve">
+    <value>新闻网址</value>
+  </data>
+  <data name="RssSearchResultNodeCaption" xml:space="preserve">
+    <value>搜索结果</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsAvailable" xml:space="preserve">
+    <value>有未读新闻...</value>
+  </data>
+  <data name="AppLoadStateGuiLoading" xml:space="preserve">
+    <value>装载用户界面...</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog_hint" xml:space="preserve">
+    <value>如果你是dasBlog (http://www.dasblog.net)的用户，你可以把你的新闻订阅清单存成blogroll.opml。存储服务的网址是http://yourblog.com/dasblog/ConfigEditingService.asmx 你需要打开dasBlog的可配置编辑服务。</value>
+  </data>
+  <data name="MenuDocTabsLayoutHorizontalDesc" xml:space="preserve">
+    <value>如果选中, 文档可以被水平分层...</value>
+  </data>
+  <data name="MenuAdvancedFeedInfoCaption" xml:space="preserve">
+    <value>这条新闻</value>
+  </data>
+  <data name="GUIFeedlistUploadExceptionMessage" xml:space="preserve">
+    <value>新闻列表更新错误:
+{0}</value>
+  </data>
+  <data name="GUIStatusValidationErrorReadingFeedlistFile" xml:space="preserve">
+    <value>读取新闻列表时发生校验错误.</value>
+  </data>
+  <data name="FeedDefaultCategory" xml:space="preserve">
+    <value>[Unclassified Feeds]</value>
+  </data>
+  <data name="GUIFieldKeywordsInvalid" xml:space="preserve">
+    <value>没有指定关键字</value>
+  </data>
+  <data name="MenuCopyFeedItemContentToClipboardDesc" xml:space="preserve">
+    <value>复制当前选中的新闻内容到剪贴板...</value>
+  </data>
+  <data name="MenuCopyFeedFeedHomeTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>复制新闻主页的联结到剪贴板</value>
+  </data>
+  <data name="MenuDeleteThisFeedCaption" xml:space="preserve">
+    <value>删除新闻</value>
+  </data>
+  <data name="GUIStatusErrorInvalidFeed" xml:space="preserve">
+    <value>无效新闻.</value>
+  </data>
+  <data name="OverflowExceptionRefreshRate" xml:space="preserve">
+    <value>指定的刷新率太高了.</value>
+  </data>
+  <data name="RemoteStorageFeature_Info" xml:space="preserve">
+    <value>在使用本功能前,你必须先在选项设置中配置远程服务器.</value>
+  </data>
+  <data name="RssSearchTypeXPathHintCaption" xml:space="preserve">
+    <value>按照指定的XPath查找支持RSS2.0邮件.</value>
+  </data>
+  <data name="RssSearchTypeRegExHintCaption" xml:space="preserve">
+    <value>查找匹配表达式的单词或者短语.</value>
+  </data>
+  <data name="MenuDocTabsCloseAllCaption" xml:space="preserve">
+    <value>关闭所有的文档</value>
+  </data>
+  <data name="MenuDeleteAllFeedItemsDesc" xml:space="preserve">
+    <value>删掉所有的新闻条目...</value>
+  </data>
+  <data name="MenuUpdateCategoryDesc" xml:space="preserve">
+    <value>更新这个分类中的所有新闻</value>
+  </data>
+  <data name="URL_WikiWebNews" xml:space="preserve">
+    <value>http://www.rssbandit.org/</value>
+  </data>
+  <data name="PreferencesExceptionMessageTitle" xml:space="preserve">
+    <value>性能设置异常</value>
+  </data>
+  <data name="ExceptionSettingDefaultAggregator" xml:space="preserve">
+    <value>在设置缺省的新闻浏览器时系统报告错误:
+        
+'{0}'</value>
+  </data>
+  <data name="MenuUploadFeedsDesc" xml:space="preserve">
+    <value>上传新闻列表到远程服务器.</value>
+  </data>
+  <data name="GUIFieldLinkTitleInvalid" xml:space="preserve">
+    <value>RSS新闻的联结和标题不能为空</value>
+  </data>
+  <data name="MenuNewCategoryCaption" xml:space="preserve">
+    <value>新分类...</value>
+  </data>
+  <data name="MenuUpdateAllFeedsDesc" xml:space="preserve">
+    <value>更新所有的新闻...</value>
+  </data>
+  <data name="MenuDeleteSelectedFeedItemsCaption" xml:space="preserve">
+    <value>删除选中的项</value>
+  </data>
+  <data name="RssSearchCancelledStateMessage" xml:space="preserve">
+    <value>搜索正在取消中, ...</value>
+  </data>
+  <data name="GUIStatusUnreadFeedItemsLeftMessage" xml:space="preserve">
+    <value>{0} 条未读新闻.</value>
+  </data>
+  <data name="MenuShowFeedPropertiesCaption" xml:space="preserve">
+    <value>属性...</value>
+  </data>
+  <data name="FeedNodeSpecialFeedsDesc" xml:space="preserve">
+    <value>特殊新闻箱</value>
+  </data>
+  <data name="MenuViewSourceOfFeedDesc" xml:space="preserve">
+    <value>察看这条新闻的源代码...</value>
+  </data>
+  <data name="MenuCopyFeedHomeLinkToClipboardDesc" xml:space="preserve">
+    <value>复制当前当前选中的RSS新闻的主页地址到剪贴板...</value>
+  </data>
+  <data name="MenuAppInternetConnectionModeCaption" xml:space="preserve">
+    <value>脱机工作</value>
+  </data>
+  <data name="GUIStatusIdle" xml:space="preserve">
+    <value>空闲</value>
+  </data>
+  <data name="FeedNodeMyFeedsDesc" xml:space="preserve">
+    <value>订阅新闻的容器</value>
+  </data>
+  <data name="ToolbarAddRemoveButtonsCaption" xml:space="preserve">
+    <value>添加或删除按钮</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_dasBlog" xml:space="preserve">
+    <value>Web 服务网址:</value>
+  </data>
+  <data name="MenuMarkFeedItemsUnreadDesc" xml:space="preserve">
+    <value>标记选中的新闻为未读...</value>
+  </data>
+  <data name="ExceptionProxyPortInvalid" xml:space="preserve">
+    <value>无效的代理服务器端口</value>
+  </data>
+  <data name="MenuBrowserNewExternalWindowCaption" xml:space="preserve">
+    <value>在缺省网页浏览器中打开</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeCaption" xml:space="preserve">
+    <value>标记已读</value>
+  </data>
+  <data name="FeedNodeFlaggedForForwardCaption" xml:space="preserve">
+    <value>转发的项目</value>
+  </data>
+  <data name="MainMenuSearchCaption" xml:space="preserve">
+    <value>搜索(&amp;S)</value>
+  </data>
+  <data name="MenuDocTabsCloseAllOnStripCaption" xml:space="preserve">
+    <value>关闭所有的同级的文档页</value>
+  </data>
+  <data name="MenuCatchUpCategoryDesc" xml:space="preserve">
+    <value>标记在这个分类中所有的新闻为已读状态...</value>
+  </data>
+  <data name="RemoteStorageUpload_Question" xml:space="preserve">
+    <value>你的新闻列表将要被上传到你设定的远程服务器. 
+        
+继续?</value>
+  </data>
+  <data name="MenuFeedDetailLayoutRightCaption" xml:space="preserve">
+    <value>阅读区域在左侧</value>
+  </data>
+  <data name="MenuAppCloseExitCaption" xml:space="preserve">
+    <value>退出(&amp;X)</value>
+  </data>
+  <data name="ExceptionNoOnNewWindowExecutable" xml:space="preserve">
+    <value>请提供可执行文件的全路径和名称</value>
+  </data>
+  <data name="MenuDeleteAllFeedsCaption" xml:space="preserve">
+    <value>删掉所有的新闻</value>
+  </data>
+  <data name="MenuNavigateToFeedHomeDesc" xml:space="preserve">
+    <value>访问新闻主页...</value>
+  </data>
+  <data name="ExceptionRefreshThisFeedFatalFailed" xml:space="preserve">
+    <value>刷新 {0} 失败 (致命错误): {1}</value>
+  </data>
+  <data name="MenuFeedDetailLayoutTopCaption" xml:space="preserve">
+    <value>阅读区域在底部</value>
+  </data>
+  <data name="MenuUpdateCategoryCaption" xml:space="preserve">
+    <value>更新分类</value>
+  </data>
+  <data name="FeedNodeFinderRootDesc" xml:space="preserve">
+    <value>记录持续搜索的容器</value>
+  </data>
+  <data name="MenuNewRssSearchCaption" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="MenuPostReplyFeedItemDesc" xml:space="preserve">
+    <value>张贴这条新闻的回复...</value>
+  </data>
+  <data name="ListviewColumnCaptionFeedTitle" xml:space="preserve">
+    <value>新闻标题</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_fileShare" xml:space="preserve">
+    <value>目录路径：</value>
+  </data>
+  <data name="MenuRenameThisFeedCaption" xml:space="preserve">
+    <value>重命名新闻</value>
+  </data>
+  <data name="MenuBanditWikiDesc" xml:space="preserve">
+    <value>阅读新闻,提新建议,问答等等...</value>
+  </data>
+  <data name="MenuCopyFeedDesc" xml:space="preserve">
+    <value>复制选中的新闻到o...</value>
+  </data>
+  <data name="MenuBugReportDesc" xml:space="preserve">
+    <value>您可以在上报告程序的错误</value>
+  </data>
+  <data name="MenuBrowserNavigateCancelDesc" xml:space="preserve">
+    <value>取消访问...</value>
+  </data>
+  <data name="RemoteStorageUploadSucceeds_Info" xml:space="preserve">
+    <value>新闻列表上传成功.</value>
+  </data>
+  <data name="MenuImportFeedsCaption" xml:space="preserve">
+    <value>导入新闻...</value>
+  </data>
+  <data name="MenuCheckForUpdatesDesc" xml:space="preserve">
+    <value>检查程序的升级版本</value>
+  </data>
+  <data name="ExceptionStartBrowserCustomExecMessage" xml:space="preserve">
+    <value>在启动您自定义的可执行程序 '{0}'时发生错误:
+		
+		'{1}'.
+		
+		是否需要在新的列表页上打开网址 '{2}'?</value>
+  </data>
+  <data name="NotYetImplementedFeature_Info" xml:space="preserve">
+    <value>抱歉,这个功能还没有实现.</value>
+  </data>
+  <data name="ExceptionNoRemoteStorageAuthUser" xml:space="preserve">
+    <value>请提供远程存储器验证用的用户名</value>
+  </data>
+  <data name="MenuCatchUpSelectedNodeDesc" xml:space="preserve">
+    <value>把所有在列表中被选择的节点中的新闻标记为已读...</value>
+  </data>
+  <data name="FeedNodeSentItemsCaption" xml:space="preserve">
+    <value>发件</value>
+  </data>
+  <data name="MenuWorkspaceNewsDesc" xml:space="preserve">
+    <value>在阅读最新的关于本应用程序的消息</value>
+  </data>
+  <data name="MenuRenameCategoryCaption" xml:space="preserve">
+    <value>重命名分类</value>
+  </data>
+  <data name="GUIStatusInfoMessageNoFeedsFound" xml:space="preserve">
+    <value>对不起,没有找到RSS新闻</value>
+  </data>
+  <data name="MenuDeleteAllFeedsDesc" xml:space="preserve">
+    <value>删掉所有的新闻...</value>
+  </data>
+  <data name="FeedNodeFlaggedForReadCaption" xml:space="preserve">
+    <value>已阅读的项目</value>
+  </data>
+  <data name="GUIStatusLoadingFeedlist" xml:space="preserve">
+    <value>读取新闻列表...</value>
+  </data>
+  <data name="MenuNewCategoryDesc" xml:space="preserve">
+    <value>在新闻组中增加一个新分类</value>
+  </data>
+  <data name="MenuAutodiscoveredFeedsDropdownCaption" xml:space="preserve">
+    <value>已发现的Feeds</value>
+  </data>
+  <data name="MenuCopyFeedItemTitleLinkToClipboardCaption" xml:space="preserve">
+    <value>新闻标题的联结到剪贴板</value>
+  </data>
+  <data name="WindowAboutCaption" xml:space="preserve">
+    <value>关于 {0}</value>
+  </data>
+  <data name="MenuShowMainGuiDesc" xml:space="preserve">
+    <value>重新显示/打开 RSS Bandit 主窗口...</value>
+  </data>
+  <data name="GUIBlankFieldDetectedCaption" xml:space="preserve">
+    <value>监测到了空白字段</value>
+  </data>
+  <data name="WrongImageSizeMessage" xml:space="preserve">
+    <value>图像不是16x16.</value>
+  </data>
+  <data name="MenuFlagFeedItemReplyDesc" xml:space="preserve">
+    <value>把选中的新闻添加到已标记的项目集合中...</value>
+  </data>
+  <data name="MainMenuHelpCaption" xml:space="preserve">
+    <value>帮助(&amp;H)</value>
+  </data>
+  <data name="URL_BugReport" xml:space="preserve">
+    <value>http://sourceforge.net/tracker/?atid=615248&amp;group_id=96589&amp;func=browse</value>
+  </data>
+  <data name="CmdLineSubscribeToDesc" xml:space="preserve">
+    <value>订阅指定的新闻</value>
+  </data>
+  <data name="GUIStatusNoFeedlistFile" xml:space="preserve">
+    <value>没有新闻列表.</value>
+  </data>
+  <data name="MenuClearAutodiscoveredFeedsListCaption" xml:space="preserve">
+    <value>清空发现的新闻列表</value>
+  </data>
+  <data name="FeedNodeFlaggedForReviewCaption" xml:space="preserve">
+    <value>评论的项目</value>
+  </data>
+  <data name="URL_ProjectNews" xml:space="preserve">
+    <value>http://sourceforge.net/news/?group_id=96589</value>
+  </data>
+  <data name="MenuShowAlertWindowsCaption" xml:space="preserve">
+    <value>显示提示窗口</value>
+  </data>
+  <data name="MenuShowAlertWindowsDesc" xml:space="preserve">
+    <value>控制提示窗口的提示信息</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsCaption" xml:space="preserve">
+    <value>作为每条新闻的配置</value>
+  </data>
+  <data name="MenuShowConfiguredFeedAlertWindowsDesc" xml:space="preserve">
+    <value>为每一条新闻显示提示窗口</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsCaption" xml:space="preserve">
+    <value>从不</value>
+  </data>
+  <data name="MenuShowNoneAlertWindowsDesc" xml:space="preserve">
+    <value>不要显示提示窗口</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsCaption" xml:space="preserve">
+    <value>总是</value>
+  </data>
+  <data name="MenuShowAllAlertWindowsDesc" xml:space="preserve">
+    <value>当接收到新的新闻时,显示提示窗口</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonCaption" xml:space="preserve">
+    <value>显示新条目的桌面提示</value>
+  </data>
+  <data name="MenuShowNewItemsReceivedBalloonDesc" xml:space="preserve">
+    <value>控制提示窗口关于接收到新条目的显示</value>
+  </data>
+  <data name="InternetExplorerMenuExtDefaultCaption" xml:space="preserve">
+    <value>在缺省的新闻浏览器中订阅</value>
+  </data>
+  <data name="InternetExplorerMenuExtBanditCaption" xml:space="preserve">
+    <value>在RSS Bandit订阅</value>
+  </data>
+  <data name="PostReplyFormCaption" xml:space="preserve">
+    <value>张贴回复 - 答复： {0}</value>
+  </data>
+  <data name="StatisticsAllFeedsCountMessage" xml:space="preserve">
+    <value>已订阅的feeds: {0}</value>
+  </data>
+  <data name="StatisticsItemsDisplayedMessage" xml:space="preserve">
+    <value>选择包括了 {0} 条目</value>
+  </data>
+  <data name="URL_WebHelp" xml:space="preserve">
+    <value>http://www.rssbandit.org/docs/</value>
+  </data>
+  <data name="GUIExceptionRetriveCommentRssFeed" xml:space="preserve">
+    <value>要求注释Rss feed时发生错误： {0}</value>
+  </data>
+  <data name="GUIFieldTitleInvalid" xml:space="preserve">
+    <value>分类标题不能为空！</value>
+  </data>
+  <data name="GeneralNewItemTextWithCounter" xml:space="preserve">
+    <value>[新 {0}]</value>
+  </data>
+  <data name="ExceptionNewsItemFormatterStylesheetMessage" xml:space="preserve">
+    <value>所选择用于格式化条目的 Xslt 风格页报告了这个问题：
+{0}
+细节：{1}</value>
+  </data>
+  <data name="MenuWebHelpCaption" xml:space="preserve">
+    <value>在线文档(&amp;O)</value>
+  </data>
+  <data name="MenuWebHelpDesc" xml:space="preserve">
+    <value>获取关于应用，使用指南，FAQ等的帮助</value>
+  </data>
+  <data name="MenuViewToolbarsCaption" xml:space="preserve">
+    <value>工具条(&amp;T)</value>
+  </data>
+  <data name="MenuViewToolbarsDesc" xml:space="preserve">
+    <value>切换不同工具条的视图状态。</value>
+  </data>
+  <data name="MenuViewToolbarMainCaption" xml:space="preserve">
+    <value>标准</value>
+  </data>
+  <data name="MenuViewToolbarMainDesc" xml:space="preserve">
+    <value>切换标准工具条的视图状态。</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationCaption" xml:space="preserve">
+    <value>网页导航</value>
+  </data>
+  <data name="MenuViewToolbarWebNavigationDesc" xml:space="preserve">
+    <value>切换网页导航工具条的视图状态。</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchCaption" xml:space="preserve">
+    <value>网页搜索</value>
+  </data>
+  <data name="MenuViewToolbarWebSearchDesc" xml:space="preserve">
+    <value>切换网页搜索工具条的视图状态。</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesCaption" xml:space="preserve">
+    <value>属性...</value>
+  </data>
+  <data name="MenuShowCategoryPropertiesDesc" xml:space="preserve">
+    <value>显示分类属性对话框...</value>
+  </data>
+  <data name="MenuNewFinderCaption" xml:space="preserve">
+    <value>新搜索文件夹</value>
+  </data>
+  <data name="MenuNewFinderDesc" xml:space="preserve">
+    <value>创建新的搜索文件夹...</value>
+  </data>
+  <data name="MenuFinderRenameCaption" xml:space="preserve">
+    <value>重命名搜索文件夹</value>
+  </data>
+  <data name="MenuRenameCaptionDesc" xml:space="preserve">
+    <value>重命名本搜索文件夹...</value>
+  </data>
+  <data name="MessageBoxDeleteThisFinderQuestion" xml:space="preserve">
+    <value>你真的想要删除本搜索文件夹吗？</value>
+  </data>
+  <data name="MenuRefreshFinderCaption" xml:space="preserve">
+    <value>刷新搜索</value>
+  </data>
+  <data name="MenuRefreshFinderDesc" xml:space="preserve">
+    <value>刷新在搜索文件夹中的搜索结果...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultCaption" xml:space="preserve">
+    <value>订阅...</value>
+  </data>
+  <data name="MenuSubscribeToFinderResultDesc" xml:space="preserve">
+    <value>显示新的feed对话框来订阅查找结果...</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsCaption" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="MenuRestoreSelectedFeedItemsDesc" xml:space="preserve">
+    <value>恢复所有选择的条目...</value>
+  </data>
+  <data name="ExceptionSaveFileMessage" xml:space="preserve">
+    <value>无法保存文件 '{0}'，因为：
+		
+		'{1}'.
+	</value>
+  </data>
+  <data name="FileDialogFilterOPMLFiles" xml:space="preserve">
+    <value>OPML 文件</value>
+  </data>
+  <data name="FileDialogFilterXMLFiles" xml:space="preserve">
+    <value>XML 文件</value>
+  </data>
+  <data name="FileDialogFilterAllFiles" xml:space="preserve">
+    <value>所有文件</value>
+  </data>
+  <data name="ExceptionInvalidFtpUrlSchemeForRemoteStorageLocation" xml:space="preserve">
+    <value>FTP 远程位置需要使用 'ftp:' url 模式。</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV" xml:space="preserve">
+    <value>WebDAV 文件夹 Url：</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_WebDAV_hint" xml:space="preserve">
+    <value>你可以将你的应用程序状态存储成 rssbandit-state.zip 文件到WebDAV文件夹中。存储服务的URL 应该指向一个WebDAV文件夹，例如'http://mywebdav.com/personal/' 并且你能够在这里保存和读取文件。</value>
+  </data>
+  <data name="ListviewColumnCaptionCommentCount" xml:space="preserve">
+    <value>注释</value>
+  </data>
+  <data name="ListviewColumnCaptionEnclosure" xml:space="preserve">
+    <value>其他附件</value>
+  </data>
+  <data name="ToolbarOptionsCaption" xml:space="preserve">
+    <value>工具条选项</value>
+  </data>
+  <data name="RefreshFeedExceptionReportStringPart" xml:space="preserve">
+    <value>刷新feed '&lt;strong&gt;{0}&lt;/strong&gt;' 失败并包含错误： {1}</value>
+  </data>
+  <data name="RefreshFeedExceptionReportValidationPart" xml:space="preserve">
+    <value>点击这里 &lt;strong&gt;验证&lt;/strong&gt; feed。</value>
+  </data>
+  <data name="RefreshFeedExceptionGeneratorStringPart" xml:space="preserve">
+    <value>Feed 由 '{0}' 生成。</value>
+  </data>
+  <data name="RefreshFeedExceptionReportContactInfo" xml:space="preserve">
+    <value>联系信息：</value>
+  </data>
+  <data name="RefreshFeedExceptionReportManagingEditor" xml:space="preserve">
+    <value>管理编辑器</value>
+  </data>
+  <data name="RefreshFeedExceptionReportWebMaster" xml:space="preserve">
+    <value>网络管理员</value>
+  </data>
+  <data name="RefreshFeedExceptionReportHomePage" xml:space="preserve">
+    <value>Feed 主页</value>
+  </data>
+  <data name="XmlExceptionCategory" xml:space="preserve">
+    <value>Xml 异常</value>
+  </data>
+  <data name="WebExceptionCategory" xml:space="preserve">
+    <value>网页异常</value>
+  </data>
+  <data name="ProtocolViolationExceptionCategory" xml:space="preserve">
+    <value>协议违例异常</value>
+  </data>
+  <data name="ExceptionCategory" xml:space="preserve">
+    <value>一般异常</value>
+  </data>
+  <data name="PostReplyTitlePrefix" xml:space="preserve">
+    <value>回复： {0}</value>
+  </data>
+  <data name="PostReplySentIdentityInfoText" xml:space="preserve">
+    <value>用户名： {0}
+电子邮件： {1}
+提交者url： {2}</value>
+  </data>
+  <data name="PostReplySentIdentityInfoTextEmptyValue" xml:space="preserve">
+    <value>&lt;无&gt;</value>
+  </data>
+  <data name="DirectoryDoesNotExistMessage" xml:space="preserve">
+    <value>指定目录不存在</value>
+  </data>
+  <data name="ExceptionUISettingsSave" xml:space="preserve">
+    <value>在保存UI设置的使合用发生意外错误 (.settings.xml)：
+        
+'{0}'</value>
+  </data>
+  <data name="NameRequiredInPostReplyMessage" xml:space="preserve">
+    <value>在张贴回复的时候你必须提供一个名称</value>
+  </data>
+  <data name="ExceptionInvalidShortcutSettingsFile" xml:space="preserve">
+    <value>快捷设置文件不能被验证</value>
+  </data>
+  <data name="ExceptionGeneralCritical" xml:space="preserve">
+    <value>发生错误并且不能被记录到文件 
+'{0}'。
+请将它的内容报告给 dev.rssbandit.org 开发团队 
+连同下述信息：
+</value>
+  </data>
+  <data name="FeedNodeDeletedItemsCaption" xml:space="preserve">
+    <value>删除条目</value>
+  </data>
+  <data name="FeedNodeDeletedItemsDesc" xml:space="preserve">
+    <value>已删除条目的容器</value>
+  </data>
+  <data name="MessageBoxDeleteAllFindersQuestion" xml:space="preserve">
+    <value>你真的想要删除所有的搜索目录吗？</value>
+  </data>
+  <data name="MessageBoxDeleteAllItemsQuestion" xml:space="preserve">
+    <value>你真的想要删除所有的条目吗？</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>管理标识符...</value>
+  </data>
+  <data name="MenuOpenConfigIdentitiesDialogdesc" xml:space="preserve">
+    <value>打开对话框管理标识符...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogCaption" xml:space="preserve">
+    <value>新闻组...</value>
+  </data>
+  <data name="MenuOpenConfigNntpServerDialogDesc" xml:space="preserve">
+    <value>打开对话框来管理 NNTP 服务器...</value>
+  </data>
+  <data name="ConfigIdentitiesDialogCaption" xml:space="preserve">
+    <value>管理标识符</value>
+  </data>
+  <data name="ConfigNewsServerDialogCaption" xml:space="preserve">
+    <value>管理新闻组</value>
+  </data>
+  <data name="CertificateIssueOnFeedCaption" xml:space="preserve">
+    <value>你与feed '{0}' 交换的信息不能被其他用户查看或更改。但是具有一个feed的安全认证问题。</value>
+  </data>
+  <data name="CertificateIssueOnSiteCaption" xml:space="preserve">
+    <value>你与站点 '{0}' 交换的信息不能被其他用户查看或更改。但是具有一个站点的安全认证问题。</value>
+  </data>
+  <data name="CertificateIssue_CertCN_NO_MATCH" xml:space="preserve">
+    <value>安全认证的名称无效或者与站点的名称不符。</value>
+  </data>
+  <data name="CertificateIssue_CertEXPIRED" xml:space="preserve">
+    <value>颁发的证书过期时间为 {0}。</value>
+  </data>
+  <data name="CertificateIssue_CertREVOKED" xml:space="preserve">
+    <value>证书被撤回。</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDCA" xml:space="preserve">
+    <value>证书具有未信任的认证授权(CA)。</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDROOT" xml:space="preserve">
+    <value>证书具有未信任的CA (认证授权) 根。</value>
+  </data>
+  <data name="CertificateIssue_CertUNTRUSTEDTESTROOT" xml:space="preserve">
+    <value>证书具有未信任的测试CA (认证授权) 根。</value>
+  </data>
+  <data name="CertificateIssue_CertPURPOSE" xml:space="preserve">
+    <value>证书的用途与所需的任务不符。</value>
+  </data>
+  <data name="CertificateIssue_CertCHAINING" xml:space="preserve">
+    <value>证书已经是信任链的成员。</value>
+  </data>
+  <data name="CertificateIssue_CertCRITICAL" xml:space="preserve">
+    <value>证书导致了严重错误。</value>
+  </data>
+  <data name="CertificateIssue_CertISSUERCHAINING" xml:space="preserve">
+    <value>证书颁发者已经是信任链的成员。</value>
+  </data>
+  <data name="CertificateIssue_CertMALFORMED" xml:space="preserve">
+    <value>证书制作不良。</value>
+  </data>
+  <data name="CertificateIssue_CertPATHLENCONST" xml:space="preserve">
+    <value>证书导致了错误：路径长度常量。</value>
+  </data>
+  <data name="CertificateIssue_CertREVOCATION_FAILURE" xml:space="preserve">
+    <value>撤回证书失败。</value>
+  </data>
+  <data name="CertificateIssue_CertROLE" xml:space="preserve">
+    <value>证书的角色错误。</value>
+  </data>
+  <data name="CertificateIssue_CertVALIDITYPERIODNESTING" xml:space="preserve">
+    <value>证书的有效性周期嵌套。</value>
+  </data>
+  <data name="CertificateIssue_CertWRONG_USAGE" xml:space="preserve">
+    <value>证书不能被用于所要求的任务。</value>
+  </data>
+  <data name="CertificateIssue_Unknown" xml:space="preserve">
+    <value>安全证书导致一个通用的未知问题：'{0}'。</value>
+  </data>
+  <data name="MenuColumnChooserCaption" xml:space="preserve">
+    <value>列布局</value>
+  </data>
+  <data name="MenuColumnChooserDesc" xml:space="preserve">
+    <value>管理显示的列和布局...</value>
+  </data>
+  <data name="MenuColumnChooserTitleCaption" xml:space="preserve">
+    <value>显示标题行</value>
+  </data>
+  <data name="MenuColumnChooserTitleDesc" xml:space="preserve">
+    <value>显示标题行(标题)上新闻条目的列...</value>
+  </data>
+  <data name="MenuColumnChooserDateCaption" xml:space="preserve">
+    <value>显示日期</value>
+  </data>
+  <data name="MenuColumnChooserDateDesc" xml:space="preserve">
+    <value>显示新闻条目的日期列...</value>
+  </data>
+  <data name="MenuColumnChooserSubjectCaption" xml:space="preserve">
+    <value>显示主题</value>
+  </data>
+  <data name="MenuColumnChooserSubjectDesc" xml:space="preserve">
+    <value>显示新闻条目的主题 (分类，话题) 列...</value>
+  </data>
+  <data name="MenuColumnChooserAuthorCaption" xml:space="preserve">
+    <value>显示著作者</value>
+  </data>
+  <data name="MenuColumnChooserAuthorDesc" xml:space="preserve">
+    <value>显示新闻条目的著作者列...</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleCaption" xml:space="preserve">
+    <value>显示订阅标题</value>
+  </data>
+  <data name="MenuColumnChooserFeedTitleDesc" xml:space="preserve">
+    <value>显示新闻条目的订阅标题列...</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountCaption" xml:space="preserve">
+    <value>显示注释数目</value>
+  </data>
+  <data name="MenuColumnChooserCommentCountDesc" xml:space="preserve">
+    <value>显示新闻条目的注释计数器列...</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureCaption" xml:space="preserve">
+    <value>显示其他附件状态</value>
+  </data>
+  <data name="MenuColumnChooserEnclosureDesc" xml:space="preserve">
+    <value>显示新闻条目的其他附件状态列...</value>
+  </data>
+  <data name="MenuColumnChooserFlagCaption" xml:space="preserve">
+    <value>显示标志状态</value>
+  </data>
+  <data name="MenuColumnChooserFlagDesc" xml:space="preserve">
+    <value>显示新闻条目的标志状态列...</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalCaption" xml:space="preserve">
+    <value>使用布局作为分类的缺省</value>
+  </data>
+  <data name="MenuColumnChooserUseCategoryLayoutGlobalDesc" xml:space="preserve">
+    <value>布局将对所有没有单独指派布局的分类节点有效...</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalCaption" xml:space="preserve">
+    <value>把该布局做为feeds的缺省布局</value>
+  </data>
+  <data name="MenuColumnChooserUseFeedLayoutGlobalDesc" xml:space="preserve">
+    <value>布局将对所有没有单独指派布局的feed节点有效...</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultCaption" xml:space="preserve">
+    <value>重置为缺省布局</value>
+  </data>
+  <data name="MenuColumnChooserResetLayoutToDefaultDesc" xml:space="preserve">
+    <value>将从所选的订阅节点移除布局...</value>
+  </data>
+  <data name="ListviewColumnCaptionFlagStatus" xml:space="preserve">
+    <value>标志</value>
+  </data>
+  <data name="URL_ProjectDonation" xml:space="preserve">
+    <value>http://sourceforge.net/donate/index.php?group_id=96589</value>
+  </data>
+  <data name="MenuDonateToProjectCaption" xml:space="preserve">
+    <value>捐赠...</value>
+  </data>
+  <data name="MenuDonateToProjectDesc" xml:space="preserve">
+    <value>导航到你所能支持项目的URL...</value>
+  </data>
+  <data name="URL_ProjectDownload" xml:space="preserve">
+    <value>http://sourceforge.net/project/showfiles.php?group_id=96589&amp;package_id=103276</value>
+  </data>
+  <data name="DialogQuestionNewAppVersionAvailable" xml:space="preserve">
+    <value>现有新版本可供下载。
+你想了解更多信息吗？
+
+如果你选择否，你将在以后被再次提醒。</value>
+  </data>
+  <data name="WaitDialogMessageCheckForNewAppVersion" xml:space="preserve">
+    <value>检查新的升级...</value>
+  </data>
+  <data name="DialogMessageNoNewAppVersionAvailable" xml:space="preserve">
+    <value>当前没有新的升级可以获得下载。</value>
+  </data>
+  <data name="FeedListNoChildsMessage" xml:space="preserve">
+    <value>不是子条目...</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline" xml:space="preserve">
+    <value>位置：</value>
+  </data>
+  <data name="LabelTextRemoteStorageLocation_NewsgatorOnline_hint" xml:space="preserve">
+    <value>你可以在 Newsgator Online 上用你已订阅的feeds同步你的应用程序状态。要登录 Newsgator Online 请到http://www.newsgator.com</value>
+  </data>
+  <data name="NntpLoadingGroupsWaitMessage" xml:space="preserve">
+    <value>载入新闻组。这将需要一些时间...</value>
+  </data>
+  <data name="ExceptionNntpLoadingGroupsFailed" xml:space="preserve">
+    <value>从 '{0}' 载入新闻组失败：{1}</value>
+  </data>
+  <data name="GUINntpLoadingGroupsFailedCaption" xml:space="preserve">
+    <value>载入新闻组失败</value>
+  </data>
+  <data name="Syndic8FeedSearchTitle" xml:space="preserve">
+    <value>Syndic8 服务</value>
+  </data>
+  <data name="MainMenuEditCaption" xml:space="preserve">
+    <value>编辑(&amp;E)</value>
+  </data>
+  <data name="MainMenuEditDesc" xml:space="preserve">
+    <value>RSS Bandit 编辑控制命令</value>
+  </data>
+  <data name="MenuListViewSelectAllCaption" xml:space="preserve">
+    <value>全选(&amp;A)</value>
+  </data>
+  <data name="MenuListViewSelectAllDesc" xml:space="preserve">
+    <value>选择新闻条目列表面板中的所有条目。</value>
+  </data>
+  <data name="MenuNewCmdsCaption" xml:space="preserve">
+    <value>新建(&amp;N)...</value>
+  </data>
+  <data name="MenuNewCmdsDesc" xml:space="preserve">
+    <value>创建新的订阅</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardCaption" xml:space="preserve">
+    <value>新订阅(&amp;N)...</value>
+  </data>
+  <data name="MenuNewSubscriptionByWizardDesc" xml:space="preserve">
+    <value>通过向导的帮助来创建新订阅</value>
+  </data>
+  <data name="MenuNewFeedCaption2" xml:space="preserve">
+    <value>新Feed订阅(&amp;N)...</value>
+  </data>
+  <data name="MenuNewNntpFeedCaption" xml:space="preserve">
+    <value>新闻组订阅(&amp;N)...</value>
+  </data>
+  <data name="MenuNewNntpFeedDesc" xml:space="preserve">
+    <value>订阅到新的feed</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedCaption" xml:space="preserve">
+    <value>搜索结果订阅(&amp;S)...</value>
+  </data>
+  <data name="MenuNewDiscoveredFeedDesc" xml:space="preserve">
+    <value>查找 feed 或者订阅到搜索结果 feed</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogCaption" xml:space="preserve">
+    <value>插件(&amp;A)...</value>
+  </data>
+  <data name="MenuOpenManageAddInsDialogDesc" xml:space="preserve">
+    <value>显示应用程序的插件管理对话框...</value>
+  </data>
+  <data name="ExceptionProxyConfiguration" xml:space="preserve">
+    <value>无效的代理配置：
+{0}。
+
+设置被重置为不使用代理。</value>
+  </data>
+  <data name="WizardValidationTask_SuccessMessage" xml:space="preserve">
+    <value>网页 feed 已获取。</value>
+  </data>
+  <data name="WizardValidationTask_Success_xFeedsFound_Message" xml:space="preserve">
+    <value>发现 {0} 网页feed(s) </value>
+  </data>
+  <data name="WizardValidationTask_VerifyingUrlMessage" xml:space="preserve">
+    <value>验证 URL...</value>
+  </data>
+  <data name="WizardValidationTask_GetWebFeedTitleMessage" xml:space="preserve">
+    <value>获取网页feed标题...</value>
+  </data>
+  <data name="WizardValidationTask_SearchingMessage" xml:space="preserve">
+    <value>搜索...</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchCanceledMessage" xml:space="preserve">
+    <value>网页 feed 预取已取消。</value>
+  </data>
+  <data name="WizardValidationTask_PrefetchFailedMessage" xml:space="preserve">
+    <value>网页 feed 预取失败。</value>
+  </data>
+  <data name="WizardValidationTask_SearchCanceledMessage" xml:space="preserve">
+    <value>搜索已取消。</value>
+  </data>
+  <data name="WizardValidationTask_SearchFailedMessage" xml:space="preserve">
+    <value>搜索失败。</value>
+  </data>
+  <data name="WizardValidationTask_InvalidFeedMessage" xml:space="preserve">
+    <value>无效的网页搜索。</value>
+  </data>
+  <data name="WizardLocateFeedBySearchTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>返回以更改关键字或者点击取消</value>
+  </data>
+  <data name="WizardLocateFeedByUrlTask_NoFeedFoundMessage" xml:space="preserve">
+    <value>返回以更改URL或者点击取消</value>
+  </data>
+  <data name="AddInLoadFailure" xml:space="preserve">
+    <value>载入插件 '{1}' 失败：
+        
+{0}</value>
+  </data>
+  <data name="NntpServerConfig_GeneralSettingsNodeCaption" xml:space="preserve">
+    <value>常规设置</value>
+  </data>
+  <data name="NntpServerConfig_ServerSettingsNodeCaption" xml:space="preserve">
+    <value>服务器设置</value>
+  </data>
+  <data name="NntpServerConfig_AdvancedSettingsNodeCaption" xml:space="preserve">
+    <value>高级设置</value>
+  </data>
+  <data name="MenuPostNewFeedItemCaption" xml:space="preserve">
+    <value>新张贴</value>
+  </data>
+  <data name="MenuPostNewFeedItemDesc" xml:space="preserve">
+    <value>创建新的张贴发送给所选的feed</value>
+  </data>
+  <data name="NewPostToFeedFormCaption" xml:space="preserve">
+    <value>Feed 的新张贴： {0}</value>
+  </data>
+  <data name="GUIStatusPostNewFeedItem" xml:space="preserve">
+    <value>张贴新条目，请稍候...</value>
+  </data>
+  <data name="ExceptionPostNewFeedItem" xml:space="preserve">
+    <value>在张贴新的条目时发生错误  
+'{0}' (RSS 条目链接/标题) ：
+        
+'{1}'</value>
+  </data>
+  <data name="AddInUnloadFailure" xml:space="preserve">
+    <value>卸载插件 '{1}' 失败：
+        
+{0}</value>
+  </data>
+  <data name="AddInGeneralFailure" xml:space="preserve">
+    <value>插件 '{1}' 发生一个通用错误：
+        
+{0}</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemPublisher" xml:space="preserve">
+    <value>发行者</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemAuthor" xml:space="preserve">
+    <value>著作者</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemDate" xml:space="preserve">
+    <value>张贴</value>
+  </data>
+  <data name="XsltDefaultTemplate_ItemEnclosure" xml:space="preserve">
+    <value>其他附件</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleReadState" xml:space="preserve">
+    <value>标记为已读或未读</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleFlagState" xml:space="preserve">
+    <value>设置或清除标志</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlEmpty" xml:space="preserve">
+    <value>请提供搜索url</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchCaptionEmpty" xml:space="preserve">
+    <value>请提供搜索标题</value>
+  </data>
+  <data name="SearchEnginePropertiesSearchUrlMissingParam" xml:space="preserve">
+    <value>缺少 '{0}' 参数规范</value>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMoved" xml:space="preserve">
+    <value>数据缓存位置
+
+{0}
+
+似乎是旧有缓存的子目录，所以旧有缓存文件夹不能被自动移除。将继续使用旧的缓存文件夹...</value>
+  </data>
+  <data name="CacheFolderInvalid_CannotBeMovedException" xml:space="preserve">
+    <value>不能移动旧的缓存文件夹到新的数据缓存位置在
+
+{0}
+
+所抱告的错误：
+{1}
+
+将继续使用原有的缓存文件夹...</value>
+  </data>
+  <data name="MenuFinderRenameDesc" xml:space="preserve">
+    <value>重命名选择的搜索目录</value>
+  </data>
+  <data name="DetailHeaderCaptionWelcome" xml:space="preserve">
+    <value>欢迎！</value>
+  </data>
+  <data name="FeedNodeWatchedItemsCaption" xml:space="preserve">
+    <value>已查看条目</value>
+  </data>
+  <data name="FeedNodeWatchedItemsDesc" xml:space="preserve">
+    <value>已查看条目的容器</value>
+  </data>
+  <data name="MenuSendLogsByMailCaption" xml:space="preserve">
+    <value>通过邮件发送日志文件...</value>
+  </data>
+  <data name="MenuSendLogsByMailDesc" xml:space="preserve">
+    <value>将为失败分析发送包含日志文件的邮件</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsCaption" xml:space="preserve">
+    <value>查看注释(&amp;W)</value>
+  </data>
+  <data name="MenuFeedItemWatchCommentsDesc" xml:space="preserve">
+    <value>对该条目通告新的注释</value>
+  </data>
+  <data name="CmdLineResetUIDesc" xml:space="preserve">
+    <value>将用户界面重置为缺省设置</value>
+  </data>
+  <data name="ExceptionProcessStartToPlayEnclosure" xml:space="preserve">
+    <value>系统在尝试打开补充附件时报告一个错误：
+
+{0}
+
+错误：{1}.</value>
+  </data>
+  <data name="FeedNodeUnreadItemsCaption" xml:space="preserve">
+    <value>未读条目</value>
+  </data>
+  <data name="FeedNodeUnreadItemsDesc" xml:space="preserve">
+    <value>未读条目容器</value>
+  </data>
+  <data name="BrowseForFolderEnclosureDownloadLocation" xml:space="preserve">
+    <value>选择或创建一个文件夹来存储下载的附件</value>
+  </data>
+  <data name="MenuDownloadAttachmentCaption" xml:space="preserve">
+    <value>下载附件</value>
+  </data>
+  <data name="MenuDownloadAttachmentDesc" xml:space="preserve">
+    <value>下载条目所包含的文件到指定的播客文件夹</value>
+  </data>
+  <data name="ExceptionInvalidEnclosurePath" xml:space="preserve">
+    <value>下载指定目录的路径无效</value>
+  </data>
+  <data name="ExceptionProcessCommandlineCulture" xml:space="preserve">
+    <value>不能将应用的语言切换到 '{0}'：
+
+错误：{1}.</value>
+  </data>
+  <data name="GUIStatusEnclosureJustReceivedItemsMessage" xml:space="preserve">
+    <value>收到 1 个文件</value>
+  </data>
+  <data name="MainForm_MainMenuToolbarCaption" xml:space="preserve">
+    <value>主菜单条</value>
+  </data>
+  <data name="MainForm_MainAppToolbarCaption" xml:space="preserve">
+    <value>主要应用程序工具</value>
+  </data>
+  <data name="MainForm_MainWebToolbarCaption" xml:space="preserve">
+    <value>网页浏览工具</value>
+  </data>
+  <data name="MainForm_MainSearchToolbarCaption" xml:space="preserve">
+    <value>搜索工具</value>
+  </data>
+  <data name="MainForm_ToolCategoryMenu" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="MainForm_ToolCategoryFile" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="MainForm_ToolCategoryEdit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="MainForm_ToolCategoryView" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="MainForm_ToolCategoryTools" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="MainForm_ToolCategoryHelp" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="MainForm_ToolCategoryBrowse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="MainForm_ToolCategorySearch" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="MainForm_ToolUrlDropdownCueText" xml:space="preserve">
+    <value>键入要浏览的URL </value>
+  </data>
+  <data name="WindowsSoundControlPanelNewFeedDiscovered" xml:space="preserve">
+    <value>Feed已发现</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewItemsReceived" xml:space="preserve">
+    <value>新条目已接收</value>
+  </data>
+  <data name="WindowsSoundControlPanelNewAttachmentDownloaded" xml:space="preserve">
+    <value>新附件已下载</value>
+  </data>
+  <data name="WindowsSoundControlPanelDisplayFailed" xml:space="preserve">
+    <value>对不起，未能显示控制面板来配置系统和应用的声音：
+
+{0}
+
+请尝试使用控制面板启动菜单来手动打开面板。</value>
+  </data>
+  <data name="NewsGroupConfiguration_MainToolbarCaption" xml:space="preserve">
+    <value>主要工具</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolCaption" xml:space="preserve">
+    <value>添加标识</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewIdentityToolDesc" xml:space="preserve">
+    <value>创建新标识...</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolCaption" xml:space="preserve">
+    <value>添加新闻服务器</value>
+  </data>
+  <data name="NewsGroupConfiguration_NewNewsServerToolDesc" xml:space="preserve">
+    <value>添加新NNTP服务器...</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolCaption" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="NewsGroupConfiguration_DeleteToolDesc" xml:space="preserve">
+    <value>移除所选条目</value>
+  </data>
+  <data name="XsltDefaultTemplate_RelatedLinks" xml:space="preserve">
+    <value>相关链接</value>
+  </data>
+  <data name="XsltDefaultTemplate_ToggleWatchState" xml:space="preserve">
+    <value>查看或者停止查看注释</value>
+  </data>
+  <data name="MainForm_SubscriptionNavigatorCaption" xml:space="preserve">
+    <value>Feed 订阅</value>
+  </data>
+  <data name="MainForm_SearchNavigatorCaption" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="MainForm_StatusBarBrowser_ToolTipText" xml:space="preserve">
+    <value>网页浏览器状态...</value>
+  </data>
+  <data name="MainForm_StatusBarBrowserProgress_ToolTipText" xml:space="preserve">
+    <value>请求页面进度...</value>
+  </data>
+  <data name="MainForm_StatusBarConnectionState_ToolTipText" xml:space="preserve">
+    <value>网络连接状态...</value>
+  </data>
+  <data name="MainForm_StatusBarRssParser_ToolTipText" xml:space="preserve">
+    <value>RSS 引擎状态...</value>
+  </data>
+  <data name="MainForm_DetailHeaderCaption_AtStartup" xml:space="preserve">
+    <value>欢迎！</value>
+  </data>
+  <data name="SearchPanel_btnRssSearchSave_Text" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInLink_Text" xml:space="preserve">
+    <value>条目链接(&amp;L)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInCategory_Text" xml:space="preserve">
+    <value>主题(&amp;i)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInDesc_Text" xml:space="preserve">
+    <value>描述(&amp;D)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchInTitle_Text" xml:space="preserve">
+    <value>标题(&amp;T)</value>
+  </data>
+  <data name="SearchPanel_labelSearchFieldsHint_Text" xml:space="preserve">
+    <value>选定你想搜索的所有字段</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemPostedGroup_Text" xml:space="preserve">
+    <value>已张贴条目(&amp;p)</value>
+  </data>
+  <data name="SearchPanel_advancedOptionItemAgeGroup_Text" xml:space="preserve">
+    <value>条目时限(&amp;A)</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAge_Text" xml:space="preserve">
+    <value>&amp;Newer than</value>
+  </data>
+  <data name="SearchPanel_advancedOptionReadStatusGroup_Text" xml:space="preserve">
+    <value>阅读状态(&amp;R)</value>
+  </data>
+  <data name="SearchPanel_checkBoxRssSearchUnreadItems_Text" xml:space="preserve">
+    <value>未读张贴(&amp;U)</value>
+  </data>
+  <data name="SearchPanel_btnNewSearch_Text" xml:space="preserve">
+    <value>重置搜索</value>
+  </data>
+  <data name="SearchPanel_btnSearch_Text" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="SearchPanel_btnSearchCancel_Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneSaveOptions_Text" xml:space="preserve">
+    <value>将此搜索保存为(&amp;S)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneFields_Text" xml:space="preserve">
+    <value>搜索区域(&amp;F)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneAdvancedOptions_Text" xml:space="preserve">
+    <value>高级选项(&amp;O)</value>
+  </data>
+  <data name="SearchPanel_searchTaskPaneScope_Text" xml:space="preserve">
+    <value>搜索范围</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_at" xml:space="preserve">
+    <value>在</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_before" xml:space="preserve">
+    <value>在...之前</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_after" xml:space="preserve">
+    <value>在...之后</value>
+  </data>
+  <data name="SearchPanel_comboBoxRssSearchItemPostedOperator_between" xml:space="preserve">
+    <value>在...之间</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_hour" xml:space="preserve">
+    <value>1 小时</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_hours" xml:space="preserve">
+    <value>{0} 小时</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_day" xml:space="preserve">
+    <value>1 天</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_days" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_month" xml:space="preserve">
+    <value>1 月</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_months" xml:space="preserve">
+    <value>{0} 月</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_quarter" xml:space="preserve">
+    <value>1 季度</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_quarters" xml:space="preserve">
+    <value>{0} 季度</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_1_year" xml:space="preserve">
+    <value>1 年</value>
+  </data>
+  <data name="SearchPanel_comboRssSearchItemAge_x_years" xml:space="preserve">
+    <value>{0} 年</value>
+  </data>
+  <data name="ExceptionEnclosureDownloadError" xml:space="preserve">
+    <value>下载失败</value>
+  </data>
+  <data name="MenuFinderShowExcerptsCaption" xml:space="preserve">
+    <value>在搜索结果中显示摘录</value>
+  </data>
+  <data name="MenuFinderShowExcerptsDesc" xml:space="preserve">
+    <value>在概要和完整的条目文本之间转换</value>
+  </data>
+  <data name="SecurityExceptionCausedByRegistryAccess" xml:space="preserve">
+    <value>为应用这个功能应用程序需要写入访问权限到
+这个Windows 注册表键 '{0}' 中。
+        
+为了让它工作，请在Windows资源管理器中启动应用程序，
+通过右键点击可执行文件显示的上下文菜单中的‘运行为...’。
+然后选择本地管理员帐号来运行应用并再次尝试。
+
+管理权限仅在应用所需的功能的时候才需要。
+每次你运行应用的时候并不需要它们。抱歉所带来的
+不方便。</value>
+  </data>
+  <data name="SearchPanel_optionSetItemAgeOlderThan_Text" xml:space="preserve">
+    <value>&amp;Older than</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionIntroText" xml:space="preserve">
+    <value>What do you want to do now?</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionNavigateToSubscription" xml:space="preserve">
+    <value>Navigate to the subscription...</value>
+  </data>
+  <data name="RefreshFeedExceptionUserActionDeleteSubscription" xml:space="preserve">
+    <value>Remove this subscription...</value>
+  </data>
+  <data name="XsltDefaultTemplate_Previous" xml:space="preserve">
+    <value>Previous</value>
+    <comment> Xslt default template language resources</comment>
+  </data>
+  <data name="XsltDefaultTemplate_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="XsltDefaultTemplate_Displaying_page" xml:space="preserve">
+    <value>Displaying page</value>
+  </data>
+  <data name="XsltDefaultTemplate_of" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="GUILoadFileOperationExceptionMessage" xml:space="preserve">
+    <value>Loading of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUISaveFileOperationExceptionMessage" xml:space="preserve">
+    <value>Saving of file
+{0}
+failed with error:
+{1}
+
+{2}</value>
+    <comment>.
+ Parameters: 0 - fileName (string), 1 - error (string), 2 - additionalInfo (string) </comment>
+  </data>
+  <data name="GUIUserInfoAboutDefaultTreeState" xml:space="preserve">
+    <value>Using defaults for the subscription tree folder states.</value>
+  </data>
+  <data name="MenuTopStoriesCaption" xml:space="preserve">
+    <value>Top Stories</value>
+  </data>
+  <data name="MenuTopStoriesDesc" xml:space="preserve">
+    <value>View the most recently popular links in your subscriptions</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="ProcessTopStoriesEntertainmentWaitMessage" xml:space="preserve">
+    <value>Determining Top Stories, please wait...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="TopStoriesHtmlPageTitle" xml:space="preserve">
+    <value>{0} Top Stories: Most Linked Recent Stories</value>
+    <comment>CHANGED.
+ Parameters: 0 - appTitle (string) </comment>
+  </data>
+  <data name="TopStoriesHtmlDiscussionSectionTitle" xml:space="preserve">
+    <value>Discussion:</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeCaption" xml:space="preserve">
+    <value>Text Size</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeDesc" xml:space="preserve">
+    <value>Select/Change the feed details text size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestCaption" xml:space="preserve">
+    <value>Smallest</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallestDesc" xml:space="preserve">
+    <value>Select/Change the feed details text to smallest size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerCaption" xml:space="preserve">
+    <value>Smaller</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeSmallerDesc" xml:space="preserve">
+    <value>Select/Change the feed details text to smaller size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumCaption" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeMediumDesc" xml:space="preserve">
+    <value>Select/Change the feed details text to medium size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerCaption" xml:space="preserve">
+    <value>Larger</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargerDesc" xml:space="preserve">
+    <value>Select/Change the feed details text to larger size...</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestCaption" xml:space="preserve">
+    <value>Largest</value>
+  </data>
+  <data name="MenuFeedDetailTextSizeLargestDesc" xml:space="preserve">
+    <value>Select/Change the feed details text to largest size...</value>
+  </data>
+<data name="FeedNodeMyGoogleReaderFeedsCaption" space="preserve">
+    <value>My Google Reader Feeds</value>
+  </data>
+	<data name="FeedNodeMyGoogleReaderFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in Google Reader</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsCaption" space="preserve">
+    <value>My NewsGator Feeds</value>
+  </data>
+	<data name="FeedNodeMyNewsGatorFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in NewsGator</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsCaption" space="preserve">
+    <value>My Common Feed List Feeds</value>
+  </data>
+	<data name="FeedNodeMyWindowsRssFeedsDesc" space="preserve">
+    <value>Container of subscribed feeds in Windows RSS platform</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleShareState" space="preserve">
+    <value>Share or unshare item in Google Reader</value>
+  </data>
+	<data name="XsltDefaultTemplate_ToggleClipState" space="preserve">
+    <value>Add or remove item from clippings folder in NewsGator Online</value>
+  </data>
+	<data name="MenuSynchronizeFeedsCaption" space="preserve">
+    <value>&amp;Synchronize Feeds...</value>
+  </data>
+	<data name="MenuSynchronizeFeedsDesc" space="preserve">
+    <value>Launches the Synchronize Feeds Wizard</value>
+  </data>
+	<data name="ExceptionInvalidPlaylistName" space="preserve">
+    <value>Please specify a valid playlist name</value>
+  </data>
+	<data name="NoTopStoriesMessage" space="preserve">
+    <value>No stories found that have been linked from your subscriptions in '{0}' over the past week.</value>
+  </data>
+	<data name="TopStoriesDescription" space="preserve">
+    <value>Below is the list of the most popular links from your subscriptions in '{0}' over the past week. </value>
+  </data>
+	<data name="ExceptionNoFeedSourceName" space="preserve">
+    <value>Please provide a name for this subscription list</value>
+  </data>
+	<data name="ExceptionNoPassword" space="preserve">
+    <value>Please provide a valid password</value>
+  </data>
+	<data name="ExceptionNoUserName" space="preserve">
+    <value>Please provide a valid username</value>
+  </data>
+	<data name="MenuDownloadManager" space="preserve">
+    <value>Download Manager...</value>
+  </data>
+	<data name="MenuDownloadManagerDesc" space="preserve">
+    <value>Launches the download manager</value>
+  </data>
+	<data name="MenuDeleteFeedSourceCaption" space="preserve">
+    <value>Delete Feed Source...</value>
+  </data>
+	<data name="MenuDeleteFeedSourceDesc" space="preserve">
+    <value>Delete this feed source</value>
+  </data>
+	<data name="MenuRenameFeedSourceCaption" space="preserve">
+    <value>Rename Feed Source...</value>
+  </data>
+	<data name="MenuRenameFeedSourceDesc" space="preserve">
+    <value>Rename this feed source</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceCaption" space="preserve">
+    <value>Remove Synchronization Source</value>
+  </data>
+	<data name="MessageBoxDeleteThisFeedSourceQuestion" space="preserve">
+    <value>Do you really want to remove '{0}' from your list of synchronization sources?</value>
+  </data>
+	<data name="GUIStatusXofYFeedSourceSubscriptionsLoaded" space="preserve">
+    <value>{0} of {1} Subscription list(s) loaded</value>
+  </data>
+	<data name="GUIStatusAllSubscriptionListsLoaded" space="preserve">
+    <value>All Subscription list(s) loaded</value>
+  </data>
+	<data name="ExecutableForFileStartupFailure" space="preserve">
+    <value>Failed to start an application for file: {0}.
+
+Error: {1}</value>
+  </data>
+	<data name="MenuShowFeedSourceProperties" space="preserve">
+    <value>Properties...</value>
+  </data>
+	<data name="MenuShowFeedSourcePropertiesDesc" space="preserve">
+    <value>Show the feed source properties</value>
+  </data>
+	<data name="ExceptionFeedlistCredentials" space="preserve">
+    <value>An authorization exception occured while attempting to load the feed list for "{0}": {1}. Please ensure your username &amp; password are correct by right-clicking on "{0}" and selecting Properties.</value>
+  </data>
+	<data name="TreeFeedNodeType_Category" space="preserve">
+    <value>Category folder</value>
+  </data>
+	<data name="TreeFeedNodeType_Feed" space="preserve">
+    <value>Feed</value>
+  </data>
+	<data name="TreeFeedNodeType_Finder" space="preserve">
+    <value>Finder</value>
+  </data>
+	<data name="TreeFeedNodeType_FinderCategory" space="preserve">
+    <value>Finder category</value>
+  </data>
+	<data name="TreeFeedNodeType_Root" space="preserve">
+    <value>Subscription root</value>
+  </data>
+	<data name="TreeFeedNodeType_SmartFolder" space="preserve">
+    <value>Smart folder</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountMultipleHint" space="preserve">
+    <value>Contains {0} unread items</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountSingleHint" space="preserve">
+    <value>Contains 1 unread item</value>
+  </data>
+	<data name="TreeNodeTooltip_UnreadCountZeroHint" space="preserve">
+    <value>Contains no unread items</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Title" space="preserve">
+    <value>Select a X509 Client Certificate</value>
+  </data>
+	<data name="Certificate_ForFeedSiteRequired_Message" space="preserve">
+    <value>The site for feed '{0}' requires a client certificate. Please select one of your installed certificates.</value>
+  </data>
+	<data name="Certificate_SelectionDialog_Message" space="preserve">
+    <value> Select one of the displayed certificates below to assign it to the current feed:</value>
+  </data>
+	<data name="FeedNodeFacebookFeedsCaption" space="preserve">
+    <value>Facebook News Feed</value>
+  </data>
+	<data name="FeedNodeFacebookFeedsDesc" space="preserve">
+    <value>Container of news feed from Facebook</value>
+  </data>
+	<data name="ExceptionFacebookAuthToken" space="preserve">
+    <value>An error occured while trying to obtain a Facebook authorization token</value>
+  </data>
+	<data name="ExceptionFacebookLogin" space="preserve">
+    <value>Facebook login failure</value>
+  </data>
+	<data name="FacebookConnectFormTitle" space="preserve">
+    <value>Facebook Login</value>
+  </data>
+	<data name="GroupByTime_LastMonth" space="preserve">
+    <value>Last Month</value>
+  </data>
+	<data name="GroupByTime_LastWeek" space="preserve">
+    <value>Last Week</value>
+  </data>
+	<data name="GroupByTime_Older" space="preserve">
+    <value>Older</value>
+  </data>
+	<data name="GroupByTime_Today" space="preserve">
+    <value>Today</value>
+  </data>
+	<data name="GroupByTime_Yesterday" space="preserve">
+    <value>Yesterday</value>
+  </data>
+	</root>

@@ -360,7 +360,7 @@
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsShared.resx" />
-    <EmbeddedResource Include="Properties\InfragisticsShared.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsShared.zh-Hans.resx">
       <DependentUpon>InfragisticsShared.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWin.de.resx">
@@ -379,7 +379,7 @@
     <EmbeddedResource Include="Properties\InfragisticsWin.ru.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWin.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWin.zh-Hans.resx">
       <DependentUpon>InfragisticsWin.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinEditors.de.resx">
@@ -414,7 +414,7 @@
     <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.ru.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinExplorerBar.zh-Hans.resx">
       <DependentUpon>InfragisticsWinExplorerBar.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinMisc.de.resx">
@@ -481,7 +481,7 @@
     <EmbeddedResource Include="Properties\InfragisticsWinToolbars.ru.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinToolbars.zh-Hans.resx">
       <DependentUpon>InfragisticsWinToolbars.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\InfragisticsWinTree.de.resx">
@@ -500,7 +500,7 @@
     <EmbeddedResource Include="Properties\InfragisticsWinTree.ru.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\InfragisticsWinTree.zh-CHS.resx">
+    <EmbeddedResource Include="Properties\InfragisticsWinTree.zh-Hans.resx">
       <DependentUpon>InfragisticsWinTree.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\TreeImages.png" />
@@ -764,11 +764,11 @@
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SR.zh-CHS.resx">
+    <EmbeddedResource Include="Resources\SR.zh-Hans.resx">
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SR.zh-CHT.resx">
+    <EmbeddedResource Include="Resources\SR.zh-Hant.resx">
       <DependentUpon>SR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -877,11 +877,11 @@
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-Hans.resx">
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AddSubscriptionWizard.zh-Hant.resx">
       <DependentUpon>AddSubscriptionWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -949,11 +949,11 @@
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-Hans.resx">
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\AskForDefaultAggregator.zh-Hant.resx">
       <DependentUpon>AskForDefaultAggregator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1021,11 +1021,11 @@
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-Hans.resx">
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\CategoryProperties.zh-Hant.resx">
       <DependentUpon>CategoryProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1098,11 +1098,11 @@
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-Hans.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DR.zh-Hant.resx">
       <DependentUpon>DR.resx</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1198,11 +1198,11 @@
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-Hans.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SynchronizeFeedsWizard.zh-Hant.resx">
       <DependentUpon>SynchronizeFeedsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1270,11 +1270,11 @@
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-Hans.resx">
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\DiscoveredFeedsDialog.zh-Hant.resx">
       <DependentUpon>DiscoveredFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1338,11 +1338,11 @@
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-Hans.resx">
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\EntertainmentDialog.zh-Hant.resx">
       <DependentUpon>EntertainmentDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1418,11 +1418,11 @@
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-Hans.resx">
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ImportFeedsDialog.zh-Hant.resx">
       <DependentUpon>ImportFeedsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1486,11 +1486,11 @@
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-Hans.resx">
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\ManageAddInDialog.zh-Hant.resx">
       <DependentUpon>ManageAddInDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1558,11 +1558,11 @@
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-Hans.resx">
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PostReplyForm.zh-Hant.resx">
       <DependentUpon>PostReplyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1626,11 +1626,11 @@
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-Hans.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\PreferencesDialog.zh-Hant.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1694,11 +1694,11 @@
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-Hans.resx">
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SearchEngineProperties.zh-Hant.resx">
       <DependentUpon>SearchEngineProperties.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1762,11 +1762,11 @@
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-Hans.resx">
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Dialogs\SecurityIssueDialog.zh-Hant.resx">
       <DependentUpon>SecurityIssueDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1834,11 +1834,11 @@
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHS.resx">
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-Hans.resx">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-CHT.resx">
+    <EmbeddedResource Include="WinGui\Forms\NewsGroupsConfiguration.zh-Hant.resx">
       <DependentUpon>NewsGroupsConfiguration.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

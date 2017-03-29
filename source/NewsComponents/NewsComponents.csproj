@@ -507,11 +507,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ComponentsText.zh-CHS.resx">
+    <EmbeddedResource Include="Resources\ComponentsText.zh-Hans.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ComponentsText.zh-CHT.resx">
+    <EmbeddedResource Include="Resources\ComponentsText.zh-Hant.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>

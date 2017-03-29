@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+		<xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+				 <xsd:element name="data">
+						  <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+		<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+		<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+		</xsd:complexType>
+		</xsd:element>
+		<xsd:element name="resheader">
+				 <xsd:complexType>
+		<xsd:sequence>
+		<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		</xsd:complexType>
+		</xsd:element>
+		</xsd:choice>
+		</xsd:complexType>
+		</xsd:element></xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCancel.Text">
+    <value>取消</value>
+  </data>
+  <data name="btnOk.Text">
+    <value>确定(&amp;O)</value>
+  </data>
+  <data name="label1.Text">
+    <value>标题(&amp;T)</value>
+  </data>
+  <data name="label2.Text">
+    <value>描述(&amp;D)</value>
+  </data>
+  <data name="label3.Text">
+    <value>图像</value>
+  </data>
+  <data name="label5.Text">
+    <value>网址(&amp;U)</value>
+  </data>
+  <data name="checkBoxResultsetIsRssFeed.Text">
+    <value>搜索结果将会按RSS的格式返回</value>
+  </data>
+  <data name="checkBoxMergeRssResultset.Text">
+    <value>合并本地搜索的结果</value>
+  </data>
+  <data name="label6.Text">
+    <value>记住 "{0}" 占位符字符串，它们将会搜索请求时被搜索短语替换掉!</value>
+  </data>
+  
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.Text">
+    <value>网页搜索引擎属性</value>
+  </data>
+  <data name="textDesc.ToolTip">
+    <value>网页搜索引擎描述</value>
+  </data>
+  <data name="groupBox1.ToolTip">
+    <value>引擎图片。应为16x16 像素的尺寸</value>
+  </data>
+  <data name="label3.ToolTip">
+    <value>引擎的图片名称。应为16x16 像素的尺寸</value>
+  </data>
+  <data name="btnSelectImage.ToolTip">
+    <value>点击从文件系统选择一张图片</value>
+  </data>
+  <data name="label2.ToolTip">
+    <value>网页搜索引擎描述</value>
+  </data>
+  <data name="checkBoxMergeRssResultset.ToolTip">
+    <value>如果上述Url指定的搜索引擎将返回结果作为RSS Feed并且你想该结果集合与本地搜索返回的条目合并，则选中该选项</value>
+  </data>
+  <data name="btnSelectImage.Text">
+    <value>...</value>
+  </data>
+  <data name="label5.ToolTip">
+    <value>完整 Url 包括网页搜索引擎的搜索参数</value>
+  </data>
+  <data name="textCaption.ToolTip">
+    <value>将显示在菜单上的网页搜索引擎作为它的标题</value>
+  </data>
+  <data name="textPicture.ToolTip">
+    <value>引擎的图片名称。应为16x16 像素的尺寸</value>
+  </data>
+  <data name="textUrl.ToolTip">
+    <value>完整 Url 包括网页搜索引擎的搜索参数</value>
+  </data>
+  <data name="label1.ToolTip">
+    <value>将显示在菜单上的网页搜索引擎作为它的标题</value>
+  </data>
+  <data name="checkBoxResultsetIsRssFeed.ToolTip">
+    <value>如果上述Url指定的搜索引擎将返回结果作为RSS Feed，则选中该选项</value>
+  </data>
+  <data name="pictureEngine.ToolTip">
+    <value>引擎图片。应为16x16 像素的尺寸</value>
+  </data>
+</root>

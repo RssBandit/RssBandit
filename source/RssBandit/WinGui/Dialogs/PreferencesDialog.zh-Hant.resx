@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="labelRemoteStorageLocation.ToolTip" xml:space="preserve">
+    <value>Proxy Credential Password</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>這個功能讓你將新聞清單儲存在遠端, 如此就可以在不同電腦之間來分享.</value>
+  </data>
+  <data name="btnSEProperties.ToolTip" xml:space="preserve">
+    <value>開啟搜尋引擎屬性對話視窗</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.ToolTip" xml:space="preserve">
+    <value>代理認證密碼</value>
+  </data>
+  <data name="sectionPanelRemoteStorageFeedlist.Text" xml:space="preserve">
+    <value>遠端新聞清單儲存端</value>
+  </data>
+  <data name="btnSEMoveUp.Text" xml:space="preserve">
+    <value>向上</value>
+  </data>
+  <data name="optNewWindowOnTab.Text" xml:space="preserve">
+    <value>開啟新分頁&amp;T(預設)</value>
+  </data>
+  <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>代理認證使用者名稱. 可以用這格式 'Domain\Username'.</value>
+  </data>
+  <data name="tabNetConnection.Text" xml:space="preserve">
+    <value>網路連結</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="labelProxyServerSummery.Text" xml:space="preserve">
+    <value>代理伺服器扮演中介腳色在你的電腦與網路之間來與遠端網站伺服器溝通</value>
+  </data>
+  <data name="checkBrowserJavaAllowed.Text" xml:space="preserve">
+    <value>Java Applets</value>
+  </data>
+  <data name="chkFontStrikeout.Text" xml:space="preserve">
+    <value>刪除線&amp;S</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>選擇要使用的搜尋引擎,將會在工具列上按下"網站搜尋"時啟動下面所指定的蒐搜尋引擎. </value>
+  </data>
+  <data name="labelProxyBypassListHint.Text" xml:space="preserve">
+    <value>使用分號( ; )來分隔.</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>更新新聞每隔&amp;U</value>
+  </data>
+  <data name="chkNewsItemOpenLinkInDetailWindow.Text" xml:space="preserve">
+    <value>若沒有說明描述, 在閱讀面板中開啟連結</value>
+  </data>
+  <data name="linkCommentAPI.ToolTip" xml:space="preserve">
+    <value>更多關於 'CommentAPI'...</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>設定所訂閱的新聞要更新的間隔時間.每一個新聞的更新頻率在該定時中將會再度進行請求.請參閱</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>使用預設新聞格式化或使用自定的XSLT格式器.</value>
+  </data>
+  <data name="comboFormatters.ToolTip" xml:space="preserve">
+    <value>選擇一個格式器stylesheet</value>
+  </data>
+  <data name="btnChangeFont.Text" xml:space="preserve">
+    <value>改變&amp;C...</value>
+  </data>
+  <data name="lblFontSampleABC.Text" xml:space="preserve">
+    <value>AaBbCcXxYyZz</value>
+  </data>
+  <data name="checkBrowserBGSoundAllowed.Text" xml:space="preserve">
+    <value>背景音樂</value>
+  </data>
+  <data name="sectionPanelWebSearchEngines.Text" xml:space="preserve">
+    <value>搜尋引擎</value>
+  </data>
+  <data name="sectionPanelDisplayGeneral.Text" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="checkCustomFormatter.ToolTip" xml:space="preserve">
+    <value>選取本選項使用自訂格式</value>
+  </data>
+  <data name="lstItemStates.ToolTip" xml:space="preserve">
+    <value>選擇一個項目狀態來改變設定...</value>
+  </data>
+  <data name="lblUsedFontNameSize.Text" xml:space="preserve">
+    <value>Tahoma, 8點素</value>
+  </data>
+  <data name="sectionPanelWebBrowserOnNewWindow.Text" xml:space="preserve">
+    <value>超連結點擊及開啟新視窗</value>
+  </data>
+  <data name="chkFontBold.Text" xml:space="preserve">
+    <value>粗體&amp;B</value>
+  </data>
+  <data name="tabWebBrowser.Text" xml:space="preserve">
+    <value>瀏覽器</value>
+  </data>
+  <data name="checkUseRemoteStorage.Text" xml:space="preserve">
+    <value>使用遠端儲存&amp;r</value>
+  </data>
+  <data name="tabNewsItems.Text" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="tabFonts.Text" xml:space="preserve">
+    <value>字型</value>
+  </data>
+  <data name="textProxyAddress.ToolTip" xml:space="preserve">
+    <value>代理伺服器位址</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>若按鈕是無法使用, 表示RSS Bandit視你的預設新聞瀏覽器. 若是可使用, 則你可以點擊使其作為你的預設新聞瀏覽器</value>
+  </data>
+  <data name="labelProxyCredentialUserName.Text" xml:space="preserve">
+    <value>使用者名稱&amp;N:</value>
+  </data>
+  <data name="checkUseProxy.Text" xml:space="preserve">
+    <value>使用私有代理伺服器設定&amp;p:</value>
+  </data>
+  <data name="tabRemoteStorage.Text" xml:space="preserve">
+    <value>遠端儲存</value>
+  </data>
+  <data name="chkFontUnderline.Text" xml:space="preserve">
+    <value>底線&amp;U</value>
+  </data>
+  <data name="sectionPanelDisplayItemFormatting.Text" xml:space="preserve">
+    <value>新聞格式</value>
+  </data>
+  <data name="btnSEAdd.Text" xml:space="preserve">
+    <value>加入...</value>
+  </data>
+  <data name="checkUseIEProxySettings.Text" xml:space="preserve">
+    <value>經由&amp;Internet Explorer取得代理伺服器</value>
+  </data>
+  <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
+    <value>開啟系統已設定的預設瀏覽器&amp;D</value>
+  </data>
+  <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
+    <value>下載影像圖檔</value>
+  </data>
+  <data name="columnHeader2.Text" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="textProxyBypassList.ToolTip" xml:space="preserve">
+    <value>位址異常清單</value>
+  </data>
+  <data name="textProxyPort.ToolTip" xml:space="preserve">
+    <value>代理伺服器通訊埠號碼Port</value>
+  </data>
+  <data name="sectionPanelFeedsCommentDefs.Text" xml:space="preserve">
+    <value>發表預設</value>
+  </data>
+  <data name="radioTrayActionClose.Text" xml:space="preserve">
+    <value>當關閉時&amp;C</value>
+  </data>
+  <data name="chkFontItalic.Text" xml:space="preserve">
+    <value>斜體&amp;t</value>
+  </data>
+  <data name="sectionPanelFeedsTimings.Text" xml:space="preserve">
+    <value>新聞, 時間設定</value>
+  </data>
+  <data name="checkProxyAuth.Text" xml:space="preserve">
+    <value>代理伺服器需要驗證&amp;a</value>
+  </data>
+  <data name="radioTrayActionClose.ToolTip" xml:space="preserve">
+    <value>應用軟體將不會在工具列中顯示</value>
+  </data>
+  <data name="checkBrowserJavascriptAllowed.Text" xml:space="preserve">
+    <value>執行Javascript </value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>使用你的個人預設設定來回覆新聞資訊. 這個功能只能用在有被支援的發表API. 請參照</value>
+  </data>
+  <data name="btnMakeDefaultAggregator.Text" xml:space="preserve">
+    <value>將RSS Bandit設為預設的RSS閱讀瀏覽器</value>
+  </data>
+  <data name="radioTrayActionNone.ToolTip" xml:space="preserve">
+    <value>應用軟體將會在工具列中顯示</value>
+  </data>
+  <data name="btnSERemove.ToolTip" xml:space="preserve">
+    <value>移除選擇的代理伺服器</value>
+  </data>
+  <data name="labelProxyBypassList.Text" xml:space="preserve">
+    <value>位址開始時不使用代理伺服器&amp;D:</value>
+  </data>
+  <data name="labelProxyCredentialPassword.Text" xml:space="preserve">
+    <value>密碼&amp;w:</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>http://fishbowl.pastiche.org/archives/001132.html#001132</value>
+  </data>
+  <data name="checkRefreshFeedsOnStartup.Text" xml:space="preserve">
+    <value>啟動時強制下載新聞</value>
+  </data>
+  <data name="tabFeeds.Text" xml:space="preserve">
+    <value>新聞</value>
+  </data>
+  <data name="btnSEMoveUp.ToolTip" xml:space="preserve">
+    <value>向上移動項目</value>
+  </data>
+  <data name="lblIdentityDropdownCaption.Text" xml:space="preserve">
+    <value>將使用者身份作為發表</value>
+  </data>
+  <data name="btnSEMoveDown.Text" xml:space="preserve">
+    <value>向下</value>
+  </data>
+  <data name="lblItemStates.Text" xml:space="preserve">
+    <value>新聞狀態&amp;I:</value>
+  </data>
+  <data name="textRemoteStorageUserName.ToolTip" xml:space="preserve">
+    <value>認證使用者名稱. 可以用這格式 'Domain\Username'.</value>
+  </data>
+  <data name="radioTrayActionNone.Text" xml:space="preserve">
+    <value>無&amp;e</value>
+  </data>
+  <data name="btnSERemove.Text" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
+    <value>應用程式&amp;P:</value>
+  </data>
+  <data name="labelRemoteStorageLocation.Text" xml:space="preserve">
+    <value>儲存服務URL位址&amp;U:</value>
+  </data>
+  <data name="labelRemoteStoragePassword.Text" xml:space="preserve">
+    <value>密碼&amp;w:</value>
+  </data>
+  <data name="checkCustomFormatter.Text" xml:space="preserve">
+    <value>使用訂格式器&amp;c</value>
+  </data>
+  <data name="labelRemoteStorageProtocol.Text" xml:space="preserve">
+    <value>協定:</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>選取一個方式來作為內部瀏覽器,當點擊超連結或開啟新視窗</value>
+  </data>
+  <data name="sectionPanelFontsSubscriptions.Text" xml:space="preserve">
+    <value>訂閱, 新進新聞</value>
+  </data>
+  <data name="btnManageIdentities.Text" xml:space="preserve">
+    <value>身分...</value>
+  </data>
+  <data name="columnHeader1.Text" xml:space="preserve">
+    <value>引擎標題</value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>套用</value>
+  </data>
+  <data name="checkProxyBypassLocal.Text" xml:space="preserve">
+    <value>近端位址不使用代理伺服器&amp;B</value>
+  </data>
+  <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
+    <value>在目前新聞或分類標記全部已閱讀</value>
+  </data>
+  <data name="labelRemoteStorageUserName.Text" xml:space="preserve">
+    <value>使用者名稱&amp;N:</value>
+  </data>
+  <data name="labelCheckToAllow.Text" xml:space="preserve">
+    <value>檢查允許:</value>
+  </data>
+  <data name="labelFormatters.Text" xml:space="preserve">
+    <value>格式器&amp;Stylesheet:</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="sectionPanelNetworkConnectionProxy.Text" xml:space="preserve">
+    <value>代理伺服器</value>
+  </data>
+  <data name="linkCommentAPI.Text" xml:space="preserve">
+    <value>http://wellformedweb.org/story/9</value>
+  </data>
+  <data name="labelRemoteStoragePassword.ToolTip" xml:space="preserve">
+    <value>代理伺服器密碼</value>
+  </data>
+  <data name="labelProxyPort.Text" xml:space="preserve">
+    <value>埠&amp;t: </value>
+  </data>
+  <data name="btnSelectExecutable.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="radioTrayActionMinimize.ToolTip" xml:space="preserve">
+    <value>應用軟體將不會在工具列中顯示</value>
+  </data>
+  <data name="labelProxyAddress.Text" xml:space="preserve">
+    <value>位址&amp;e: </value>
+  </data>
+  <data name="btnMakeDefaultAggregator.ToolTip" xml:space="preserve">
+    <value>將 RSS Bandit 最為預設的應用軟體來顯示 'feed:' Url 協定...</value>
+  </data>
+  <data name="sectionPanelGeneralStartup.Text" xml:space="preserve">
+    <value>啟動</value>
+  </data>
+  <data name="checkNoProxy.Text" xml:space="preserve">
+    <value>不使用代理伺服器&amp;D</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>選項</value>
+  </data>
+  <data name="sectionPanelWebBrowserSecurity.Text" xml:space="preserve">
+    <value>安全, 限制</value>
+  </data>
+  <data name="labelProxyCredentialUserName.ToolTip" xml:space="preserve">
+    <value>代理伺服器認證使用者名稱. 可以用這格式 'Domain\Username'.</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>更多關於 'conditional get'...</value>
+  </data>
+  <data name="textProxyCredentialUser.ToolTip" xml:space="preserve">
+    <value>認證使用者名稱. 可以用這格式 'Domain\Username'.</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>決定一個選項作為應用程式要縮小至系統工具列的方式</value>
+  </data>
+  <data name="btnSEAdd.ToolTip" xml:space="preserve">
+    <value>加入新的搜尋引擎</value>
+  </data>
+  <data name="radioTrayActionMinimize.Text" xml:space="preserve">
+    <value>當最小化時 (建議)</value>
+  </data>
+  <data name="labelFontsSubscriptionsSummery.Text" xml:space="preserve">
+    <value>設定字型, 樣式及顏色作為訂閱及新到新聞時高亮度標示或標記狀態</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>移除過時新聞當超過&amp;T:</value>
+  </data>
+  <data name="btnSEProperties.Text" xml:space="preserve">
+    <value>屬性...</value>
+  </data>
+  <data name="sectionPanelGeneralBehavior.Text" xml:space="preserve">
+    <value>應用程式行為</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>確定&amp;O</value>
+  </data>
+  <data name="checkBrowserActiveXAllowed.Text" xml:space="preserve">
+    <value>ActiveX 控制項</value>
+  </data>
+  <data name="btnSEMoveDown.ToolTip" xml:space="preserve">
+    <value>向下移動項目</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>若你朽該任何安全設定, 這設定將只會立即生效於新開啟的瀏覽分頁, 或重新啟動程式後的分頁! 在閱讀面版本設定沒有任何效果!</value>
+  </data>
+  <data name="labelProxyCredentialPassword.ToolTip" xml:space="preserve">
+    <value>代理伺服器認證密碼</value>
+  </data>
+  <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
+    <value>使用現有分頁</value>
+  </data>
+  <data name="labelCheckForUpdates.Text" xml:space="preserve">
+    <value>檢查新版本&amp;u:</value>
+  </data>
+  <data name="tabGeneral.Text" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="optNewWindowCustomExec.Text" xml:space="preserve">
+    <value>執行外部應用程式&amp;x:</value>
+  </data>
+  <data name="btnChangeColor.Text" xml:space="preserve">
+    <value>顏色&amp;o...</value>
+  </data>
+  <data name="tabWebSearch.Text" xml:space="preserve">
+    <value>網站搜尋</value>
+  </data>
+  <data name="checkBrowserVideoAllowed.Text" xml:space="preserve">
+    <value>視訊</value>
+  </data>
+  <data name="lblFontSampleCaption.Text" xml:space="preserve">
+    <value>範例</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
+    <value>手動</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items1" xml:space="preserve">
+    <value>每一次應用程式啟動時</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items2" xml:space="preserve">
+    <value>14天一次</value>
+  </data>
+  <data name="comboAppUpdateFrequency.Items3" xml:space="preserve">
+    <value>一個月一次</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items" xml:space="preserve">
+    <value>檔案分享</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items1" xml:space="preserve">
+    <value>FTP</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items2" xml:space="preserve">
+    <value>dasBlog</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items3" xml:space="preserve">
+    <value>Newsgator Online</value>
+  </data>
+  <data name="comboRemoteStorageProtocol.Items4" xml:space="preserve">
+    <value>WebDAV</value>
+  </data>
+  <data name="lstItemStates.Items" xml:space="preserve">
+    <value>已讀取 (正常)</value>
+  </data>
+  <data name="lstItemStates.Items1" xml:space="preserve">
+    <value>未讀取</value>
+  </data>
+  <data name="lstItemStates.Items2" xml:space="preserve">
+    <value>標記</value>
+  </data>
+  <data name="lstItemStates.Items3" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="lstItemStates.Items4" xml:space="preserve">
+    <value>錯誤</value>
+  </data>
+  <data name="listSearchEngines.Items" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFpTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0xLjAuNTAw
+        MC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkMAwAAAFRT
+        eXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuNTAwMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tl
+        eVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAACFTeXN0ZW0uV2luZG93cy5Gb3Jtcy5MaXN0Vmlld0l0
+        ZW0KAAAABFRleHQKSW1hZ2VJbmRleAxTdWJJdGVtQ291bnQIU3ViSXRlbTEIU3ViSXRlbTIJQmFja0Nv
+        bG9yB0NoZWNrZWQERm9udAlGb3JlQ29sb3IXVXNlSXRlbVN0eWxlRm9yU3ViSXRlbXMBAAAEBAQABAQA
+        CAgxU3lzdGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAxU3lz
+        dGVtLldpbmRvd3MuRm9ybXMuTGlzdFZpZXdJdGVtK0xpc3RWaWV3U3ViSXRlbQIAAAAUU3lzdGVtLkRy
+        YXdpbmcuQ29sb3IDAAAAARNTeXN0ZW0uRHJhd2luZy5Gb250AwAAABRTeXN0ZW0uRHJhd2luZy5Db2xv
+        cgMAAAABAgAAAAYEAAAAAP////8DAAAACQUAAAAJBgAAAAX5////FFN5c3RlbS5EcmF3aW5nLkNvbG9y
+        BAAAAAV2YWx1ZQprbm93bkNvbG9yBXN0YXRlBG5hbWUAAAABCQcHAwAAAAAAAAAAAAAAGAABAAoACQgA
+        AAAB9/////n///8AAAAAAAAAABoAAQAKAQUFAAAAMVN5c3RlbS5XaW5kb3dzLkZvcm1zLkxpc3RWaWV3
+        SXRlbStMaXN0Vmlld1N1Ykl0ZW0CAAAABHRleHQFc3R5bGUBBD5TeXN0ZW0uV2luZG93cy5Gb3Jtcy5M
+        aXN0Vmlld0l0ZW0rTGlzdFZpZXdTdWJJdGVtK1N1Ykl0ZW1TdHlsZQIAAAACAAAABgoAAAAEVGVzdAoB
+        BgAAAAUAAAAGCwAAABFFaW5lIEJlc2NocmVpYnVuZwoFCAAAABNTeXN0ZW0uRHJhd2luZy5Gb250BAAA
+        AAROYW1lBFNpemUFU3R5bGUEVW5pdAEABAQLGFN5c3RlbS5EcmF3aW5nLkZvbnRTdHlsZQMAAAAbU3lz
+        dGVtLkRyYXdpbmcuR3JhcGhpY3NVbml0AwAAAAMAAAAGDAAAAAZUYWhvbWEAAARBBfP///8YU3lzdGVt
+        LkRyYXdpbmcuRm9udFN0eWxlAQAAAAd2YWx1ZV9fAAgDAAAAAAAAAAXy////G1N5c3RlbS5EcmF3aW5n
+        LkdyYXBoaWNzVW5pdAEAAAAHdmFsdWVfXwAIAwAAAAMAAAAL
+</value>
+  </data>
+  <data name="checkBuildRelationCosmos.Text" xml:space="preserve">
+    <value>在討論行程中顯示相關項目</value>
+  </data>
+  <data name="checkBuildRelationCosmos.ToolTip" xml:space="preserve">
+    <value>若選取, 項目將在討論行程中將顯示連結到其他已知項目</value>
+  </data>
+  <data name="tabGeneral.ToolTipText" xml:space="preserve">
+    <value>General Application Settings</value>
+  </data>
+  <data name="optionSectionPanel1.Text" xml:space="preserve">
+    <value>Sounds</value>
+  </data>
+  <data name="checkAllowAppEventSounds.Text" xml:space="preserve">
+    <value>Enable application event sounds</value>
+  </data>
+  <data name="btnConfigureAppSounds.Text" xml:space="preserve">
+    <value>Configure...</value>
+  </data>
+  <data name="btnConfigureAppSounds.ToolTip" xml:space="preserve">
+    <value>Opens the Windows Sounds Configuration Panel to allow RSS Bandit Application Sound configuration...</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkRunAtStartup.Text" xml:space="preserve">
+    <value>Start application after logon to Windows</value>
+  </data>
+  <data name="checkUseFavicons.Text" xml:space="preserve">
+    <value>Use favicons as feed icons in Feed Subscriptions tree </value>
+  </data>
+  <data name="checkUseFavicons.ToolTip" xml:space="preserve">
+    <value>If checked, subscribed feeds will display favicons as feed symbols</value>
+    <comment>CHANGED</comment>
+  </data>
+  <data name="checkOpenTabsInBackground.Text" xml:space="preserve">
+    <value>Load new tabs in the background</value>
+  </data>
+  <data name="tabEnclosures.Text" xml:space="preserve">
+    <value>Attachments/Podcasts</value>
+  </data>
+  <data name="sectionPanelEnclosurePodcasts.Text" xml:space="preserve">
+    <value>Podcasts</value>
+  </data>
+  <data name="btnPodcastOptions.Text" xml:space="preserve">
+    <value>Advanced Options...</value>
+  </data>
+  <data name="lblSectionPanelPodcastOptions.Text" xml:space="preserve">
+    <value>Click the button below to configure Podcast options:</value>
+  </data>
+  <data name="sectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="btnSelectEnclosureFolder2.ToolTip" xml:space="preserve">
+    <value>Lookup for a folder on the filesystem...</value>
+  </data>
+  <data name="lblDownloadAttachmentsSmallerThanPostfix.Text" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="checkEnclosureSizeOnDiskLimited.Text" xml:space="preserve">
+    <value>Total disk space used must not exceed</value>
+  </data>
+  <data name="lblDownloadXAttachmentsPostfix.Text" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="checkOnlyDownloadLastXAttachments.Text" xml:space="preserve">
+    <value>On initial subscription: only download last</value>
+  </data>
+  <data name="checkDownloadCreateFolderPerFeed.Text" xml:space="preserve">
+    <value>Place downloads in subfolders named after the feed</value>
+  </data>
+  <data name="textEnclosureDirectory.ToolTip" xml:space="preserve">
+    <value>Enclosure download path</value>
+  </data>
+  <data name="labelEnclosureDirectory.Text" xml:space="preserve">
+    <value>Download Attachments to:</value>
+  </data>
+  <data name="checkDownloadEnclosures.Text" xml:space="preserve">
+    <value>Automatically download attachments</value>
+  </data>
+  <data name="checkEnableEnclosureAlerts.Text" xml:space="preserve">
+    <value>&amp;Enable alert windows for newly downloaded attachments</value>
+  </data>
+  <data name="lblSectionPanelEnclosureGeneral.Text" xml:space="preserve">
+    <value>Configure the download behavior and download location of attachments in general.</value>
+  </data>
+  <data name="lstItemStates.Items5" xml:space="preserve">
+    <value>New Comments (Watched)</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.Text" xml:space="preserve">
+    <value>Automatically mark news items as read when viewed</value>
+  </data>
+  <data name="checkMarkItemsAsReadWhenViewed.ToolTip" xml:space="preserve">
+    <value>If checked, news items are automatically marked as read as you scroll through the reading pane</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>news items per page</value>
+  </data>
+  <data name="numNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>The number of news items that should be shown in the reading pane per page</value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.Text" xml:space="preserve">
+    <value>Show only </value>
+  </data>
+  <data name="checkLimitNewsItemsPerPage.ToolTip" xml:space="preserve">
+    <value>If checked, the reading pane is divided into separate pages each containing the specified number of news items</value>
+  </data>
+  <data name="checkClearFeedCategoryItemAgeSettings.Text" xml:space="preserve">
+    <value>Clear all individual feed and category Item Age settings</value>
+  </data>
+  <data name="checkResetIndividualRefreshRates.Text" xml:space="preserve">
+    <value>Reset all individual feed and category Refresh Rate settings</value>
+  </data>
+  <data name="comboRefreshRate.ToolTip" xml:space="preserve">
+    <value>Changes refresh rate setting for all feeds</value>
+  </data>
+  <data name="comboMaxItemAge.ToolTip" xml:space="preserve">
+    <value>Changes default item age setting for all feeds</value>
+  </data>
+</root>
