@@ -1508,7 +1508,7 @@ namespace RssBandit.WinGui.Forms
 				INewsFeed feed;
 				if (entry.Source.GetFeeds().TryGetValue(feedUrls[0], out feed))
 				{
-					icon = FaviconCache.GetImage(entry.Source, feed)?.GetImageStretchedDpi(ScaleFactor);
+                    icon = LoadCachedFavicon(entry.Source, feed);
 				}
 			}
 
@@ -1581,7 +1581,7 @@ namespace RssBandit.WinGui.Forms
 							if (string.IsNullOrEmpty(f.favicon))
 								continue;
 
-							Image icon = FaviconCache.GetImage(entry.Source, f)?.GetImageStretchedDpi(ScaleFactor);
+                            Image icon = LoadCachedFavicon(entry.Source, f);
 
 							if (icon != null)
 							{
