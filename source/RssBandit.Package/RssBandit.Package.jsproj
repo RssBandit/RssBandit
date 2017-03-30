@@ -56,7 +56,7 @@
     <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>F55A6560FB9DF32BA6DD0A44D73B9CFACA696840</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
@@ -65,10 +65,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\RssBandit\bin\$(Configuration)\**\*.*">
+    <!--<Content Include="..\RssBandit\bin\$(Configuration)\**\*.*">
       <Link>win32\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Content>-->
     <None Include="RssBandit.Package_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
@@ -128,6 +128,9 @@
     <Content Include="images\storelogo.scale-200.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RssBandit\RssBandit.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment
