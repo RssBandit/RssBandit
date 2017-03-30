@@ -14,7 +14,7 @@
     <Resource Language="en-US" />
   </Resources>
   <Applications>
-    <Application Id="RssBandit" Executable="RssBandit.exe" EntryPoint="Windows.FullTrustApplication">
+    <Application Id="RssBandit" Executable="win32\RssBandit.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="RSS Bandit" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
         <uap:DefaultTile ShortName="RSS Bandit" Square71x71Logo="images\SmallTile.png">
         </uap:DefaultTile>

@@ -65,10 +65,10 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <!--<Content Include="..\RssBandit\bin\$(Configuration)\**\*.*">
+    <Content Include="..\RssBandit\bin\$(Configuration)\**\*.*">
       <Link>win32\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>-->
+    </Content>
     <None Include="RssBandit.Package_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
@@ -129,9 +129,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <ProjectReference Include="..\RssBandit\RssBandit.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment
        that target and the DisableFastUpToDateCheck PropertyGroup. 
