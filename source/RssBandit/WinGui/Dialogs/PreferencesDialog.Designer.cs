@@ -34,7 +34,6 @@ namespace RssBandit.WinGui.Dialogs
             this.label1 = new System.Windows.Forms.Label();
             this.radioTrayActionClose = new System.Windows.Forms.RadioButton();
             this.radioTrayActionMinimize = new System.Windows.Forms.RadioButton();
-            this.labelCheckForUpdates = new System.Windows.Forms.Label();
             this.tabRemoteStorage = new System.Windows.Forms.TabPage();
             this.sectionPanelRemoteStorageFeedlist = new RssBandit.WinGui.Controls.OptionSectionPanel();
             this.textRemoteStorageLocation = new System.Windows.Forms.TextBox();
@@ -305,7 +304,6 @@ namespace RssBandit.WinGui.Dialogs
             this.sectionPanelGeneralBehavior.Controls.Add(this.label1);
             this.sectionPanelGeneralBehavior.Controls.Add(this.radioTrayActionClose);
             this.sectionPanelGeneralBehavior.Controls.Add(this.radioTrayActionMinimize);
-            this.sectionPanelGeneralBehavior.Controls.Add(this.labelCheckForUpdates);
             this.sectionPanelGeneralBehavior.Image = ((System.Drawing.Image)(resources.GetObject("sectionPanelGeneralBehavior.Image")));
             this.sectionPanelGeneralBehavior.ImageLocation = new System.Drawing.Point(0, 20);
             resources.ApplyResources(this.sectionPanelGeneralBehavior, "sectionPanelGeneralBehavior");
@@ -358,12 +356,6 @@ namespace RssBandit.WinGui.Dialogs
             this.radioTrayActionMinimize.Validated += new System.EventHandler(this.OnControlValidated);
             this.radioTrayActionMinimize.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);
             this.radioTrayActionMinimize.CheckedChanged += new System.EventHandler(this.OnAnyCheckedChanged);
-            // 
-            // labelCheckForUpdates
-            // 
-            this.labelCheckForUpdates.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            resources.ApplyResources(this.labelCheckForUpdates, "labelCheckForUpdates");
-            this.labelCheckForUpdates.Name = "labelCheckForUpdates";
             // 
             // tabRemoteStorage
             // 
@@ -1617,7 +1609,6 @@ namespace RssBandit.WinGui.Dialogs
 		internal System.Windows.Forms.RadioButton radioTrayActionMinimize;
 		internal System.Windows.Forms.RadioButton radioTrayActionClose;
 		private System.Windows.Forms.ErrorProvider errorProvider1;
-		private System.Windows.Forms.Label labelCheckForUpdates;
 		private System.Windows.Forms.FontDialog fontDialog1;
 		private System.Windows.Forms.Label label10;
 		internal System.Windows.Forms.CheckBox checkUseRemoteStorage;
