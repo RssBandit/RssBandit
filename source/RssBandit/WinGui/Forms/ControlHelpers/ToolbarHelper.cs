@@ -234,9 +234,9 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuNewSubscriptionByWizardCaption, SR.MenuNewSubscriptionByWizardDesc, 
 				Resource.ToolItemImage.NewSubscription, shortcutHandler);
 
-            AppButtonToolCommand syncFeeds = new AppButtonToolCommand(
-            "cmdSynchronizeFeeds", owner.Mediator, owner.CmdSynchronizeFeeds,
-            SR.MenuSynchronizeFeedsCaption, SR.MenuSynchronizeFeedsDesc, shortcutHandler);
+            //AppButtonToolCommand syncFeeds = new AppButtonToolCommand(
+            //"cmdSynchronizeFeeds", owner.Mediator, owner.CmdSynchronizeFeeds,
+            //SR.MenuSynchronizeFeedsCaption, SR.MenuSynchronizeFeedsDesc, shortcutHandler);
 
 
 			AppButtonToolCommand importFeeds = new AppButtonToolCommand(
@@ -256,9 +256,9 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuAppInternetConnectionModeCaption, SR.MenuAppInternetConnectionModeDesc, shortcutHandler);
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {newSubscription,importFeeds,exportFeeds,syncFeeds, toggleOffline,appExit});
+			this.manager.Tools.AddRange(new ToolBase[] {newSubscription,importFeeds,exportFeeds, toggleOffline,appExit});
 			
-			mc.Tools.AddRange(new ToolBase[]{newSubscription,importFeeds,exportFeeds,syncFeeds, toggleOffline,appExit});
+			mc.Tools.AddRange(new ToolBase[]{newSubscription,importFeeds,exportFeeds, toggleOffline,appExit});
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryFile;
 			}
@@ -484,15 +484,15 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				SR.MenuUpdateAllFeedsCaption, SR.MenuUpdateAllFeedsDesc, 
 				Resource.ToolItemImage.RefreshAll, shortcutHandler);
 
-			AppButtonToolCommand tbConfigIdentities = new AppButtonToolCommand(
-				"cmdOpenConfigIdentitiesDialog", owner.Mediator, main.CmdOpenConfigIdentitiesDialog,
-				SR.MenuOpenConfigIdentitiesDialogCaption, SR.MenuOpenConfigIdentitiesDialogdesc, shortcutHandler);
+			//AppButtonToolCommand tbConfigIdentities = new AppButtonToolCommand(
+			//	"cmdOpenConfigIdentitiesDialog", owner.Mediator, main.CmdOpenConfigIdentitiesDialog,
+			//	SR.MenuOpenConfigIdentitiesDialogCaption, SR.MenuOpenConfigIdentitiesDialogdesc, shortcutHandler);
 			
-			AppButtonToolCommand tbConfigNntpServer = new AppButtonToolCommand(
-				"cmdOpenConfigNntpServerDialog", owner.Mediator, main.CmdOpenConfigNntpServerDialog,
-				SR.MenuOpenConfigNntpServerDialogCaption, SR.MenuOpenConfigNntpServerDialogDesc, 
-				shortcutHandler);
-			tbConfigNntpServer.Enabled = true;
+			//AppButtonToolCommand tbConfigNntpServer = new AppButtonToolCommand(
+			//	"cmdOpenConfigNntpServerDialog", owner.Mediator, main.CmdOpenConfigNntpServerDialog,
+			//	SR.MenuOpenConfigNntpServerDialogCaption, SR.MenuOpenConfigNntpServerDialogDesc, 
+			//	shortcutHandler);
+			//tbConfigNntpServer.Enabled = true;
 
 			AppButtonToolCommand tbDownload = new AppButtonToolCommand(
 				"cmdLauchDownloadManager", owner.Mediator, main.CmdLauchDownloadManager,
@@ -505,17 +505,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			toolTopStories.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.hotnews_16.GetImageStretchedDpi(owner.ScaleFactor);
 			toolTopStories.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
-			AppButtonToolCommand style51 = new AppButtonToolCommand(
-				"cmdFeedItemNewPost", owner.Mediator, owner.CmdPostNewItem,
-				SR.MenuPostNewFeedItemCaption, SR.MenuPostNewFeedItemDesc, 
-				Resource.ToolItemImage.NewPost,shortcutHandler);
-			style51.Enabled = false;		// dynamically enabled on runtime if feed is NNTP
+			//AppButtonToolCommand style51 = new AppButtonToolCommand(
+			//	"cmdFeedItemNewPost", owner.Mediator, owner.CmdPostNewItem,
+			//	SR.MenuPostNewFeedItemCaption, SR.MenuPostNewFeedItemDesc, 
+			//	Resource.ToolItemImage.NewPost,shortcutHandler);
+			//style51.Enabled = false;		// dynamically enabled on runtime if feed is NNTP
 
-			AppButtonToolCommand style52 = new AppButtonToolCommand(
-				"cmdFeedItemPostReply", owner.Mediator, owner.CmdPostReplyToItem,
-				SR.MenuPostReplyFeedItemCaption, SR.MenuPostReplyFeedItemDesc,
-				Resource.ToolItemImage.PostReply, shortcutHandler);
-			style52.Enabled = false;		// dynamically enabled on runtime if feed supports commentAPI
+			//AppButtonToolCommand style52 = new AppButtonToolCommand(
+			//	"cmdFeedItemPostReply", owner.Mediator, owner.CmdPostReplyToItem,
+			//	SR.MenuPostReplyFeedItemCaption, SR.MenuPostReplyFeedItemDesc,
+			//	Resource.ToolItemImage.PostReply, shortcutHandler);
+			//style52.Enabled = false;		// dynamically enabled on runtime if feed supports commentAPI
 			
 			AppButtonToolCommand style6 = new AppButtonToolCommand(
 				"cmdUploadFeeds", owner.Mediator, owner.CmdUploadFeeds,
@@ -536,18 +536,18 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				Resource.ToolItemImage.OptionsDialog, shortcutHandler);
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] { style1, toolTopStories, style51, style52, style6, style7, tbConfigIdentities, tbConfigNntpServer, tbDownload, style8, style9 });
+			this.manager.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7, /*tbConfigIdentities, tbConfigNntpServer,*/ tbDownload, style8, style9 });
 
-			mc.Tools.AddRange(new ToolBase[] { style1, toolTopStories, style51, style52, style6, style7, tbConfigIdentities, tbConfigNntpServer, tbDownload, style8, style9 });
+			mc.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7,/* tbConfigIdentities, tbConfigNntpServer, */tbDownload, style8, style9 });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
 			
 			// now we can set instance properties:
 			foreach (string toolKey in new string[] {
-				"cmdOpenConfigIdentitiesDialog", 
+			//	"cmdOpenConfigIdentitiesDialog", 
 				"cmdTopStories",
-				"cmdFeedItemNewPost",
+				//"cmdFeedItemNewPost",
 				"cmdUploadFeeds", 
 				"cmdOpenManageAddInsDialog",
 				"cmdShowMainAppOptions"
@@ -627,33 +627,34 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		#region Main Tools
 		private void CreateMainToolbar(UltraToolbarBase tb) {
 			// the "New..." dropdown tool:
-			AppPopupMenuCommand toolNew = new AppPopupMenuCommand(
-				"mnuNewFeed", owner.Mediator, owner.CmdNewFeed,
-				SR.MenuNewCmdsCaption, SR.MenuNewCmdsDesc, Resource.ToolItemImage.NewSubscription);
-			toolNew.DropDownArrowStyle = DropDownArrowStyle.Segmented;
-			toolNew.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
+			//AppPopupMenuCommand toolNew = new AppPopupMenuCommand(
+			//	"mnuNewFeed", owner.Mediator, owner.CmdNewFeed,
+			//	SR.MenuNewCmdsCaption, SR.MenuNewCmdsDesc, Resource.ToolItemImage.NewSubscription);
+			//toolNew.DropDownArrowStyle = DropDownArrowStyle.Segmented;
+			//toolNew.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 			
 			// ... and it's items:
 			AppButtonToolCommand subNewFeed = new AppButtonToolCommand(
 				"cmdNewFeed", owner.Mediator, owner.CmdNewFeed, 
 				SR.MenuNewFeedCaption, SR.MenuNewFeedDesc, Resource.ToolItemImage.NewSubscription);
+            subNewFeed.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
 
-			AppButtonToolCommand subNewNntp = new AppButtonToolCommand(
-				"cmdNewNntpFeed", owner.Mediator, owner.CmdNewNntpFeed, 
-				SR.MenuNewNntpFeedCaption, SR.MenuNewNntpFeedDesc,
-				Resource.ToolItemImage.NewNntpSubscription);
+			//AppButtonToolCommand subNewNntp = new AppButtonToolCommand(
+			//	"cmdNewNntpFeed", owner.Mediator, owner.CmdNewNntpFeed, 
+			//	SR.MenuNewNntpFeedCaption, SR.MenuNewNntpFeedDesc,
+			//	Resource.ToolItemImage.NewNntpSubscription);
 
-			AppButtonToolCommand subNewDiscovered = new AppButtonToolCommand(
-				"cmdAutoDiscoverFeed", owner.Mediator, owner.CmdAutoDiscoverFeed, 
-				SR.MenuNewDiscoveredFeedCaption, SR.MenuNewDiscoveredFeedDesc,
-				Resource.ToolItemImage.NewDiscoveredSubscription);
+			//AppButtonToolCommand subNewDiscovered = new AppButtonToolCommand(
+			//	"cmdAutoDiscoverFeed", owner.Mediator, owner.CmdAutoDiscoverFeed, 
+			//	SR.MenuNewDiscoveredFeedCaption, SR.MenuNewDiscoveredFeedDesc,
+			//	Resource.ToolItemImage.NewDiscoveredSubscription);
 
 			
-			this.manager.Tools.AddRange(new ToolBase[]{subNewFeed,subNewNntp,subNewDiscovered});
-            toolNew.Tools.AddRange(new ToolBase[] { subNewFeed, subNewNntp, subNewDiscovered});
-			foreach (ToolBase tool in toolNew.Tools) {
-				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
-			}
+			//this.manager.Tools.AddRange(new ToolBase[]{subNewFeed});
+   //         toolNew.Tools.AddRange(new ToolBase[] { subNewFeed});
+			//foreach (ToolBase tool in toolNew.Tools) {
+			//	tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
+			//}
 			
 			// more tool commands
 			
@@ -677,13 +678,13 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			AppButtonToolCommand topStories = (AppButtonToolCommand)this.manager.Tools["cmdTopStories"];
 			
 			// re-use tool from menu:
-			AppButtonToolCommand tool4 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemNewPost"];
-			tool4.Enabled = false;
+			//AppButtonToolCommand tool4 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemNewPost"];
+			//tool4.Enabled = false;
 
-			// re-use tool from menu:
-			AppButtonToolCommand tool5 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemPostReply"];
-			tool5.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
-			tool5.Enabled = false;
+			//// re-use tool from menu:
+			//AppButtonToolCommand tool5 = (AppButtonToolCommand)this.manager.Tools["cmdFeedItemPostReply"];
+			//tool5.SharedProps.DisplayStyle = ToolDisplayStyle.ImageAndText;
+			//tool5.Enabled = false;
           
 			AppButtonToolCommand tool6 = new AppButtonToolCommand(
 				"cmdNewRssSearch", owner.Mediator, main.CmdNewRssSearch,
@@ -713,12 +714,12 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			clearDiscoveredList.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			
 			// must be added to the toolbar first:
-            this.manager.Tools.AddRange(new ToolBase[] { toolNew, tool1, tool2, tool6, discoveredDropDown, clearDiscoveredList });
+            this.manager.Tools.AddRange(new ToolBase[] { subNewFeed, tool1, tool2, tool6, discoveredDropDown, clearDiscoveredList });
 
 			// set UI controls for discovered feeds handler:
 			owner.BackgroundDiscoverFeedsHandler.SetControls(discoveredDropDown, clearDiscoveredList);
 
-            tb.Tools.AddRange(new ToolBase[] { toolNew, tool0, tool1, tool2,topStories, tool4, tool5, tool6, discoveredDropDown });
+            tb.Tools.AddRange(new ToolBase[] { subNewFeed, tool0, tool1, tool2,topStories,/* tool4, tool5,*/ tool6, discoveredDropDown });
 			foreach (ToolBase tool in tb.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
@@ -728,7 +729,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdRefreshFeeds", 
 				"cmdTopStories",
 				"cmdNextUnreadFeedItem",
-				"cmdFeedItemNewPost"
+			//	"cmdFeedItemNewPost"
 			})
 			{
 				ToolBase t = tb.Tools[toolKey];

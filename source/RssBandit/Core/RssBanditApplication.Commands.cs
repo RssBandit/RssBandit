@@ -507,7 +507,7 @@ namespace RssBandit
         {
             string category = guiMain.CategoryOfSelectedNode() ?? DefaultCategory;
 
-        	SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.Default);
+        	SubscribeToFeed(null, category.Trim(), null, null, AddSubscriptionWizardMode.SubscribeURLDirect);
 
             if (sender is AppContextMenuCommand)
                 guiMain.CurrentSelectedFeedsNode = null;
@@ -1641,7 +1641,7 @@ namespace RssBandit
             TreeFeedsNodeBase tn = guiMain.CurrentSelectedFeedsNode;            
             if (tn == null || tn.Type != FeedNodeType.Feed)
             {
-                Mediator.SetEnabled("-cmdFeedItemNewPost");
+               // Mediator.SetEnabled("-cmdFeedItemNewPost");
                 return;
             }
 
@@ -1652,7 +1652,7 @@ namespace RssBandit
                 !RssHelper.IsNntpUrl(feedUrl) ||
                 !source.IsSubscribed(feedUrl))
             {
-                Mediator.SetEnabled("-cmdFeedItemNewPost");
+              //  Mediator.SetEnabled("-cmdFeedItemNewPost");
                 return;
             }
 

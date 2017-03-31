@@ -6074,8 +6074,8 @@ namespace RssBandit
             if (! string.IsNullOrEmpty(url))
             {
                 mode = AddSubscriptionWizardMode.SubscribeURLDirect;
-                if (RssHelper.IsNntpUrl(url))
-                    mode = AddSubscriptionWizardMode.SubscribeNNTPGroupDirect;
+                //if (RssHelper.IsNntpUrl(url))
+                //    mode = AddSubscriptionWizardMode.SubscribeNNTPGroupDirect;
             }
             return SubscribeToFeed(url, category, title, null, mode);
         }

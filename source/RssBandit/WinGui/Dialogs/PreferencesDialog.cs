@@ -55,7 +55,10 @@ namespace RssBandit.WinGui.Dialogs {
             var scale = (float)DeviceDpi / 96;
             tabPrefs.ItemSize = new Size((int)(scale * itemSize.Width), (int)(scale * itemSize.Height));
 
-			itemStateFonts = new Font[lstItemStates.Items.Count];
+            // Hide comments / idenitity / nntp related info
+            sectionPanelFeedsCommentDefs.Visible = false;
+
+            itemStateFonts = new Font[lstItemStates.Items.Count];
 			itemStateColors = new Color[lstItemStates.Items.Count];
 
 			// fix: if label has FlatStyle set to "System" (to get it rendered using the OS ClearType settings), 

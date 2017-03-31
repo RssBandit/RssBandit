@@ -2520,24 +2520,24 @@ namespace RssBandit.WinGui.Forms
 
                 if (tn.Selected)
                 {
-                    if (tn.Type != FeedNodeType.Feed)
-                    {
-                        owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
-                    }
-                    else
-                    {
-                        string feedUrl = tn.DataKey;
-                    	FeedSourceEntry entry = FeedSourceEntryOf(tn);
-						if (feedUrl != null && entry != null && 
-							entry.Source.IsSubscribed(feedUrl))
-                        {
-                            owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
-                        }
-                        else
-                        {
-                            owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
-                        }
-                    }
+      //              if (tn.Type != FeedNodeType.Feed)
+      //              {
+      //                  owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
+      //              }
+      //              else
+      //              {
+      ////                  string feedUrl = tn.DataKey;
+      ////              	FeedSourceEntry entry = FeedSourceEntryOf(tn);
+						////if (feedUrl != null && entry != null && 
+						////	entry.Source.IsSubscribed(feedUrl))
+      ////                  {
+      ////                      owner.Mediator.SetEnabled(RssHelper.IsNntpUrl(feedUrl), "cmdFeedItemNewPost");
+      ////                  }
+      //                  //else
+      //                  //{
+      //                  //    owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
+      //                  //}
+      //              }
 
                     listFeedItems.FeedColumnLayout = GetFeedColumnLayout(tn); // raise events, that build the columns
 
@@ -2632,10 +2632,10 @@ namespace RssBandit.WinGui.Forms
                             break;
                     }
                 }
-                else
-                {
-                    owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
-                }
+                //else
+                //{
+                //    owner.Mediator.SetEnabled("-cmdFeedItemNewPost");
+                //}
             }
             catch (Exception ex)
             {

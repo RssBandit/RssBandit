@@ -1,14 +1,3 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-
 using System;
 using System.Drawing;
 using System.Collections;
