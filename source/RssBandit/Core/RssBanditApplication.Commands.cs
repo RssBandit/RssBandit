@@ -311,17 +311,17 @@ namespace RssBandit
             MessageBox.Show(Caption + " written by\n\n" +
                             "  * Dare Obasanjo (DareObasanjo, www.25hoursaday.com/weblog/)\n" +
                             "  * Torsten Rendelmann (TorstenR, www.rendelmann.info/blog/)\n" +
-                            "  * Oren Novotny\n" +
+                            "  * Oren Novotny (@onovotny, oren.codes)\n" +
                             "  * Phil Haack (haacked.com)\n" +
                             "  * and all the active members of RSS Bandit community.\n" +
                             "\nCredits:\n\n" +
                             "  * Mike Krueger (#ZipLib)\n" +
                             "  * Jack Palevich (NntpClient)\n" +
                             "  * Scott McMaster (WinInetAPI)\n" +
-                            "  * NetAdvantage for Windows Forms (c) 2008 by Infragistics, http://www.infragistics.com\n" +
+                            "  * NetAdvantage for Windows Forms (c) 2017 by Infragistics, http://www.infragistics.com\n" +
                             "  * SandBar, SandDock (c) 2005 by Divelements Limited, http://www.divil.co.uk/net/\n" +
                             "  * Portions Copyright ©2002-2004 The Genghis Group (www.genghisgroup.com)\n" +
-                            "  * sourceforge.net team (Project hosting)", String.Format(SR.WindowAboutCaption,CaptionOnly),
+                            "  * GitHub.com (Project hosting)", String.Format(SR.WindowAboutCaption,CaptionOnly),
                             MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
