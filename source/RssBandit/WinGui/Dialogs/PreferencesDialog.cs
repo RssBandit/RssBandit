@@ -51,6 +51,10 @@ namespace RssBandit.WinGui.Dialogs {
 			InitializeComponent();
 			ApplyComponentTranslations();
 
+            var itemSize = tabPrefs.ItemSize;
+            var scale = (float)DeviceDpi / 96;
+            tabPrefs.ItemSize = new Size((int)(scale * itemSize.Width), (int)(scale * itemSize.Height));
+
 			itemStateFonts = new Font[lstItemStates.Items.Count];
 			itemStateColors = new Color[lstItemStates.Items.Count];
 
