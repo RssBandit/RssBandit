@@ -1121,8 +1121,6 @@ namespace RssBandit
 					OptionalFlags.NewsItemOpenLinkInDetailWindow |
 					OptionalFlags.ReUseFirstBrowserTab |
 					OptionalFlags.AllowAppEventSounds  | 
-					OptionalFlags.AllowJavascriptInBrowser |
-                    OptionalFlags.AllowActiveXInBrowser | 
                     OptionalFlags.BuildRelationCosmos| 
                     OptionalFlags.CreateSubfoldersForEnclosures;
 				return f;
@@ -1270,7 +1268,7 @@ namespace RssBandit
 				FeedRefreshOnStartup = reader.Get(StringHelper.GetPropertyName(() => FeedRefreshOnStartup), false);
 			}
 			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed))) {
-				BrowserJavascriptAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed), true);
+				BrowserJavascriptAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed), false);
 			}
 			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavaAllowed))) {
 				BrowserJavaAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavaAllowed), false);
