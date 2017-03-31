@@ -236,6 +236,10 @@ namespace RssBandit.WinGui.Forms
             detailHeaderCaption.Appearance.BackGradientStyle = GradientStyle.Vertical;
             detailHeaderCaption.Appearance.ForeColor =
                 FontColorHelper.UiColorScheme.OutlookNavPaneCurrentGroupHeaderForecolor;
+
+            // Apply scale factor
+            var sz = (int)((float)DeviceDpi / 96 * 16);
+            detailHeaderCaption.ImageSize = new Size(sz, sz);
         }
 
         /// <summary>
