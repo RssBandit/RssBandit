@@ -552,7 +552,6 @@ namespace RssBandit.Utility.Keyboard
 						"cmdWorkspaceNews",
 						"cmdReportBug",
 						"cmdAbout",
-						"cmdCheckForUpdates",
 						"cmdWikiNews",
 						"cmdVisitForum",
 						"cmdNavigateToFeedHome",

@@ -119,9 +119,6 @@ namespace RssBandit
 
 		private string newsItemStylesheetFile = String.Empty;
 		private HideToTray hideToTrayAction = HideToTray.OnMinimize;
-		// autoupdate properties
-		private AutoUpdateMode autoUpdateFrequency = AutoUpdateMode.OnceIn14Days;
-		//private DateTime lastAutoUpdateCheck = DateTime.MinValue;
 
 		private Font normalFont;
 		private Font unreadFont;
@@ -592,38 +589,6 @@ namespace RssBandit
 				SetProperty(ref hideToTrayAction, value);
 			}
 		}
-
-		/// <summary>
-		/// Sets/Get the frequency defined in <see cref="AutoUpdateMode">AutoUpdateMode</see>
-		/// the application should check for available updates (internet access required).
-		/// </summary>
-		public AutoUpdateMode AutoUpdateFrequency {
-			[DebuggerStepThrough]
-			get {	return autoUpdateFrequency;		}
-			set 
-			{
-				SetProperty(ref autoUpdateFrequency, value);
-			}
-		}
-
-		//TODO: remove in Phoenix release!
-		/// <summary>
-		/// Deprecated (cause NotSupportedException).
-		/// Only kept for AppServices compatibility in version 1.5.0x,
-		/// will be removed in Phoenix release!
-		/// Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead! 
-		/// </summary>
-		[Obsolete("Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!")]
-		public DateTime LastAutoUpdateCheck {
-			get {
-				throw new NotSupportedException(
-					"Obsolete: Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!");
-			} 
-			set {
-				throw new NotSupportedException(
-					"Obsolete: Please use the property DateTime ICoreApplication:LastAutoUpdateCheck instead!");
-			}
-		} 
 
 		/// <summary>
 		/// Normal font used to render items (listview) 
@@ -1213,9 +1178,6 @@ namespace RssBandit
 
 			HideToTrayAction = reader.Get(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTray.OnMinimize);
 
-			AutoUpdateFrequency = reader.Get(StringHelper.GetPropertyName(() => AutoUpdateFrequency), AutoUpdateMode.OnceIn14Days);
-			//LastAutoUpdateCheck = reader.GetDateTime("LastAutoUpdateCheck", DateTime.Now);
-
 			#region read Fonts
 
 			if (reader.Contains("NormalFontString"))	// current
@@ -1397,8 +1359,6 @@ namespace RssBandit
 			info.AddValue(StringHelper.GetPropertyName(() => ProxyBypassList), ProxyBypassList);
 			info.AddValue(StringHelper.GetPropertyName(() => NewsItemStylesheetFile), NewsItemStylesheetFile);
 			info.AddValue(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTrayAction);
-			info.AddValue(StringHelper.GetPropertyName(() => AutoUpdateFrequency), AutoUpdateFrequency);
-			//info.AddValue("LastAutoUpdateCheck", LastAutoUpdateCheck);
 			info.AddValue(StringHelper.GetPropertyName(() => NormalFont)+"String", SerializationInfoReader.ConvertFont(NormalFont));
 			info.AddValue(StringHelper.GetPropertyName(() => UnreadFont) + "String", SerializationInfoReader.ConvertFont(UnreadFont));
 			info.AddValue(StringHelper.GetPropertyName(() => FlagFont)+"String", SerializationInfoReader.ConvertFont(FlagFont));

@@ -35,7 +35,6 @@ namespace RssBandit.WinGui.Dialogs
             this.radioTrayActionClose = new System.Windows.Forms.RadioButton();
             this.radioTrayActionMinimize = new System.Windows.Forms.RadioButton();
             this.labelCheckForUpdates = new System.Windows.Forms.Label();
-            this.comboAppUpdateFrequency = new System.Windows.Forms.ComboBox();
             this.tabRemoteStorage = new System.Windows.Forms.TabPage();
             this.sectionPanelRemoteStorageFeedlist = new RssBandit.WinGui.Controls.OptionSectionPanel();
             this.textRemoteStorageLocation = new System.Windows.Forms.TextBox();
@@ -307,7 +306,6 @@ namespace RssBandit.WinGui.Dialogs
             this.sectionPanelGeneralBehavior.Controls.Add(this.radioTrayActionClose);
             this.sectionPanelGeneralBehavior.Controls.Add(this.radioTrayActionMinimize);
             this.sectionPanelGeneralBehavior.Controls.Add(this.labelCheckForUpdates);
-            this.sectionPanelGeneralBehavior.Controls.Add(this.comboAppUpdateFrequency);
             this.sectionPanelGeneralBehavior.Image = ((System.Drawing.Image)(resources.GetObject("sectionPanelGeneralBehavior.Image")));
             this.sectionPanelGeneralBehavior.ImageLocation = new System.Drawing.Point(0, 20);
             resources.ApplyResources(this.sectionPanelGeneralBehavior, "sectionPanelGeneralBehavior");
@@ -366,19 +364,6 @@ namespace RssBandit.WinGui.Dialogs
             this.labelCheckForUpdates.FlatStyle = System.Windows.Forms.FlatStyle.System;
             resources.ApplyResources(this.labelCheckForUpdates, "labelCheckForUpdates");
             this.labelCheckForUpdates.Name = "labelCheckForUpdates";
-            // 
-            // comboAppUpdateFrequency
-            // 
-            resources.ApplyResources(this.comboAppUpdateFrequency, "comboAppUpdateFrequency");
-            this.comboAppUpdateFrequency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboAppUpdateFrequency.Items.AddRange(new object[] {
-            resources.GetString("comboAppUpdateFrequency.Items"),
-            resources.GetString("comboAppUpdateFrequency.Items1"),
-            resources.GetString("comboAppUpdateFrequency.Items2"),
-            resources.GetString("comboAppUpdateFrequency.Items3")});
-            this.comboAppUpdateFrequency.Name = "comboAppUpdateFrequency";
-            this.comboAppUpdateFrequency.Validating += new System.ComponentModel.CancelEventHandler(this.OnControlValidating);
-            this.comboAppUpdateFrequency.Validated += new System.EventHandler(this.OnControlValidated);
             // 
             // tabRemoteStorage
             // 
@@ -1633,7 +1618,6 @@ namespace RssBandit.WinGui.Dialogs
 		internal System.Windows.Forms.RadioButton radioTrayActionClose;
 		private System.Windows.Forms.ErrorProvider errorProvider1;
 		private System.Windows.Forms.Label labelCheckForUpdates;
-		internal System.Windows.Forms.ComboBox comboAppUpdateFrequency;
 		private System.Windows.Forms.FontDialog fontDialog1;
 		private System.Windows.Forms.Label label10;
 		internal System.Windows.Forms.CheckBox checkUseRemoteStorage;

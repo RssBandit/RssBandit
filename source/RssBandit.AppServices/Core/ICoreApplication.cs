@@ -91,11 +91,6 @@ namespace RssBandit.AppServices
 		/// </summary>
 		IList WebSearchEngines { get ; }
 
-		/// <summary>
-		/// Get the DateTime of the last check for updates. 
-		/// </summary>
-		DateTime LastAutoUpdateCheck { get; }
-		
 		#endregion
 
 		#region Dialogs

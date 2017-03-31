@@ -582,10 +582,6 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			style2.SharedProps.AppearancesSmall.Appearance.Image = Properties.Resources.rssbandit_16.GetImageStretchedDpi(owner.ScaleFactor);
 			style2.SharedProps.AppearancesLarge.Appearance.Image = Properties.Resources.rssbandit_32.GetImageStretchedDpi(owner.ScaleFactor);
 
-            AppButtonToolCommand style3 = new AppButtonToolCommand(
-				"cmdCheckForUpdates", owner.Mediator, owner.CmdCheckForUpdates,
-				SR.MenuCheckForUpdatesCaption, SR.MenuCheckForUpdatesDesc, shortcutHandler);
-
 			AppButtonToolCommand style4 = new AppButtonToolCommand(
 				"cmdWikiNews", owner.Mediator, owner.CmdProjectNews,
 				SR.MenuBanditWikiCaption, SR.MenuBanditWikiDesc, shortcutHandler);
@@ -610,8 +606,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			} catch { /* all */ }
 			
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style3,style6,style2});
-			mc.Tools.AddRange(new ToolBase[]{sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style3,style6,style2});
+			this.manager.Tools.AddRange(new ToolBase[] {sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style6,style2});
+			mc.Tools.AddRange(new ToolBase[]{sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style6,style2});
 			
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryHelp;
@@ -619,8 +615,6 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			
 			// now we can set instance properties:
 			ToolBase t = mc.Tools["cmdAbout"];
-			t.InstanceProps.IsFirstInGroup = true;
-			t = mc.Tools["cmdCheckForUpdates"];
 			t.InstanceProps.IsFirstInGroup = true;
 			t = mc.Tools["cmdWikiNews"];
 			t.InstanceProps.IsFirstInGroup = true;

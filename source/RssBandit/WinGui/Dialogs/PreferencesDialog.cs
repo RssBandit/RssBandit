@@ -89,8 +89,7 @@ namespace RssBandit.WinGui.Dialogs {
 					this.radioTrayActionNone.Checked = true;
 					break;
 			}
-
-			comboAppUpdateFrequency.SelectedIndex = (int)prefs.AutoUpdateFrequency;
+            
 			btnConfigureAppSounds.Enabled = !RssBanditApplication.PortableApplicationMode;
 			checkAllowAppEventSounds.Checked = prefs.AllowAppEventSounds;
 			checkRunAtStartup.Checked = prefs.RunBanditAsWindowsUserLogon;

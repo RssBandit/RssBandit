@@ -143,10 +143,6 @@
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>
 		<shortcut>
-			<command>cmdCheckForUpdates</command>
-			<shortcutEnumValue>None</shortcutEnumValue>
-		</shortcut>
-		<shortcut>
 			<command>cmdWikiNews</command>
 			<shortcutEnumValue>None</shortcutEnumValue>
 		</shortcut>

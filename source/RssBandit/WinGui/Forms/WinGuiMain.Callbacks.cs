@@ -1218,8 +1218,6 @@ namespace RssBandit.WinGui.Forms
 
 			RssBanditApplication.CheckAndInitIEBrowserEmulation();
 			RssBanditApplication.CheckAndInitSoundEvents();
-            
-			owner.CmdCheckForUpdates(AutoUpdateMode.OnApplicationStart);
 
 			Splash.Close();
 			

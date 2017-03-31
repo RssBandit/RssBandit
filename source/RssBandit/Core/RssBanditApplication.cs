@@ -438,9 +438,6 @@ namespace RssBandit
             // handle/listen to power save modes
             SystemEvents.PowerModeChanged += OnPowerModeChanged;
 
-            // App Update Management
-            RssBanditUpdateManager.OnUpdateAvailable += OnApplicationUpdateAvailable;
-
             InitApplicationServices();
 
             // register build in channel processors:
@@ -1214,22 +1211,6 @@ namespace RssBandit
 		{
 			get { return globalSettings; }
 		}
-
-        /// <summary>
-        /// Gets or sets the last auto update check date.
-        /// </summary>
-        /// <value>Date of the last auto update check.</value>
-        public DateTime LastAutoUpdateCheck
-        {
-            get
-            {
-                return PersistedSettings.GetProperty(Ps.LastAutoUpdateCheck, DateTime.MinValue);
-            }
-            set
-            {
-				PersistedSettings.SetProperty(Ps.LastAutoUpdateCheck, value);
-            }
-        }
 
         public GuiStateManager StateHandler
         {
@@ -2006,9 +1987,7 @@ namespace RssBandit
                 Preferences.HideToTrayAction = HideToTray.OnClose;
             if (propertiesDialog.radioTrayActionNone.Checked)
                 Preferences.HideToTrayAction = HideToTray.None;
-
-            Preferences.AutoUpdateFrequency = (AutoUpdateMode) propertiesDialog.comboAppUpdateFrequency.SelectedIndex;
-
+           
             Preferences.NormalFont = (Font) propertiesDialog.FontForState(FontStates.Read).Clone();
             Preferences.UnreadFont = (Font) propertiesDialog.FontForState(FontStates.Unread).Clone();
             Preferences.FlagFont = (Font) propertiesDialog.FontForState(FontStates.Flag).Clone();

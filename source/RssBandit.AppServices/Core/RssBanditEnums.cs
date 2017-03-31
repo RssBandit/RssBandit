@@ -32,16 +32,6 @@ namespace RssBandit
 	}
 
 	/// <summary>
-	/// Auto-update interval settings
-	/// </summary>
-	public enum AutoUpdateMode:int {
-		Manually = 0,
-		OnApplicationStart,
-		OnceIn14Days,
-		OnceAMonth
-	}
-
-	/// <summary>
 	/// Supported remote storage locations
 	/// </summary>
 	public enum RemoteStorageProtocolType:int {

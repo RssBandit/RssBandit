@@ -649,10 +649,6 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\CLR20.RssBandit.UpdateService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <None Include="WinGui\Genghis\Info.txt" />
     <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -1896,9 +1892,6 @@
     <Compile Include="Core\RssBanditPreferences.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\RssBanditUpdateManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Core\RssItemFilters.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1943,12 +1936,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\CLR20.RssBandit.UpdateService\Reference.cs">
-      <DependentUpon>Reference.map</DependentUpon>
-      <SubType>code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="WinGui\AutoDiscoveredFeedsMenuHandler.cs">
       <SubType>Code</SubType>
@@ -2341,19 +2328,6 @@
       <RelPath>Web References\CLR20.DasBlog\</RelPath>
       <UrlBehavior>Static</UrlBehavior>
       <UpdateFromURL>http://www.rendelmann.info/blog/ConfigEditingService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>
-      </CachedAppSettingsObjectName>
-      <CachedSettingsPropName>
-      </CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost/RssBandit.UpdateService/UpdateService.asmx">
-      <RelPath>Web References\CLR20.RssBandit.UpdateService\</RelPath>
-      <UrlBehavior>Static</UrlBehavior>
-      <UpdateFromURL>http://localhost/RssBandit.UpdateService/UpdateService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
