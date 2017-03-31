@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title>RSS Bandit Templates Readme</title>
-		<style> body, td, li { font-family:Verdana;Arial; font-size:11pt;font-weight:normal;}
-	h1,h2,h3,h4,h5 { font-family:Verdana;Arial; }
+		<style> body, td, li { font-family:Verdana,Arial; font-size:11pt;font-weight:normal;}
+	h1,h2,h3,h4,h5 { font-family:Verdana,Arial; }
 	code { font-size:12pt; }
 	p { font-family:Verdana,Arial;font-size:11pt; font-weight:normal; margin:5pt;padding:5pt; }
 	a:link { color:#336699;text-decoration:none; }
@@ -137,7 +137,7 @@ system temporary folder as a file named "RSSItem.xml" for your reference.
 						<li>
 							AppUserDataPath: the path to the Application Data folder
 							<br>
-							(usually C:\Documents and Settings\<username>\Application Data\RssBandit)</li>
+							(usually C:\Documents and Settings\&lt;username&gt;\Application Data\RssBandit)</li>
 					</ul>
 				<p>
 					Now you can code a line like this:
@@ -160,7 +160,8 @@ system temporary folder as a file named "RSSItem.xml" for your reference.
   ...
   <xsl:value-of disable-output-escaping='yes' 
     select='localized:ItemPublisherText()' />
-  </xmp>
+				    </xsl:stylesheet>
+				</xmp>
 				<P>
 					The following functions are available to return a localized version of a common 
 					text:
