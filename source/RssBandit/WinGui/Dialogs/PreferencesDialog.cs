@@ -64,6 +64,8 @@ namespace RssBandit.WinGui.Dialogs {
                 MaximumSize = MinimumSize;
 		    }
 
+            lblCheckImage.Image = lblCheckImage.Image.GetImageStretchedDpi(scaleFactor);
+
             MaximumSize = MinimumSize;
 
             //sectionPanelEnclosurePodcasts.Height = (int)(sectionPanelEnclosurePodcasts.Height * scale);
