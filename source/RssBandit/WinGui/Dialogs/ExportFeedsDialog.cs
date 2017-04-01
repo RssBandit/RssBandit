@@ -44,6 +44,12 @@ namespace RssBandit.WinGui.Dialogs
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+
+            var sf = (float)DeviceDpi / 96;
+
+            treeExportFeedsSelection.ItemHeight = (int)(treeExportFeedsSelection.ItemHeight * sf);
+            treeExportFeedsSelection.Indent = (int)(treeExportFeedsSelection.Indent * sf);
+
 			ApplyComponentTranslations();
 		}
 		
