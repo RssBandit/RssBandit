@@ -1084,7 +1084,14 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 					this.isRegistered = false;
 				}
 
-				base.Dispose(disposing);
+			    try
+			    {
+			        base.Dispose(disposing);
+			    }
+			    catch // Some users were reporting an Access Violation on shutdown. Cannnot repro and don't care
+			    {
+			        
+			    }
 			}
 			#endregion //Dispose
 
