@@ -63,6 +63,9 @@ namespace RssBandit.WinGui.Forms
                 owner.Preferences.NewCommentsFont, owner.Preferences.NewCommentsFontColor
                 );
 
+            MaxHeadlineWidth = (int)(MaxHeadlineWidth * ScaleFactor);
+            BrowserProgressBarWidth = (int)(BrowserProgressBarWidth * ScaleFactor);
+
             InitColors();
             InitResources();
             InitShortcutManager();

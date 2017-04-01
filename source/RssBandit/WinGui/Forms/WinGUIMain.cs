@@ -86,8 +86,8 @@ namespace RssBandit.WinGui.Forms
 
         private static readonly TimeSpan SevenDays = new TimeSpan(7, 0, 0, 0);
 
-        private const int BrowserProgressBarWidth = 120;
-        private const int MaxHeadlineWidth = 133;
+        private static int BrowserProgressBarWidth = 120;
+        private static int MaxHeadlineWidth = 133;
 
         /// <summary>
         /// To be raised by one on every Toolbars modification like new tools or menus!
