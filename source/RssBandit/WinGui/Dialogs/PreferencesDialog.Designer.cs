@@ -746,22 +746,22 @@ namespace RssBandit.WinGui.Dialogs
             // sectionPanelWebBrowserSecurity
             // 
             resources.ApplyResources(this.sectionPanelWebBrowserSecurity, "sectionPanelWebBrowserSecurity");
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserActiveXAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserBGSoundAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.lblCheckImage);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.labelCheckToAllow);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserJavascriptAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserJavaAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserVideoAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserImagesAllowed);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.label19);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.label7);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox1);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox2);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox3);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox4);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox5);
-            this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox6);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserImagesAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserBGSoundAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserVideoAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserActiveXAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.lblCheckImage);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.labelCheckToAllow);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserJavascriptAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBrowserJavaAllowed);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.label19);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.label7);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox1);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox2);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox3);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox4);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox5);
+		    this.sectionPanelWebBrowserSecurity.Controls.Add(this.checkBox6);
             this.sectionPanelWebBrowserSecurity.Image = ((System.Drawing.Image)(resources.GetObject("sectionPanelWebBrowserSecurity.Image")));
             this.sectionPanelWebBrowserSecurity.ImageLocation = new System.Drawing.Point(0, 20);
             this.sectionPanelWebBrowserSecurity.Name = "sectionPanelWebBrowserSecurity";
