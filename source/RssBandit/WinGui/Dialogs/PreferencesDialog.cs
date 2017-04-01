@@ -53,8 +53,19 @@ namespace RssBandit.WinGui.Dialogs {
 			ApplyComponentTranslations();
 
             var itemSize = tabPrefs.ItemSize;
-		    scaleFactor = (float)DeviceDpi / 96;
+		    scaleFactor = (float)DeviceDpi / 96; 
+
             tabPrefs.ItemSize = new Size((int)(scaleFactor * itemSize.Width), (int)(scaleFactor * itemSize.Height));
+
+		    if (scaleFactor > 1)
+		    {
+		        Height += 50;
+                MinimumSize = new Size(Width, Height);
+                MaximumSize = MinimumSize;
+		    }
+
+            MaximumSize = MinimumSize;
+
             //sectionPanelEnclosurePodcasts.Height = (int)(sectionPanelEnclosurePodcasts.Height * scale);
             // Hide comments / idenitity / nntp related info
             sectionPanelFeedsCommentDefs.Visible = false;

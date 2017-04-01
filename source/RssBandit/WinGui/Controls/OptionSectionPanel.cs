@@ -124,7 +124,7 @@ namespace RssBandit.WinGui.Controls
 			// 
 			// OptionSectionPanel
 			// 
-			this.Size = new System.Drawing.Size(220, 150);
+			this.Size = new System.Drawing.Size((int)(scaleFactor * 220), (int)(150*scaleFactor));
 
 		}
 		#endregion
