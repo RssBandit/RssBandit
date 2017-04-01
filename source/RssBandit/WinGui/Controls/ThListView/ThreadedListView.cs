@@ -1161,13 +1161,13 @@ namespace RssBandit.WinGui.Controls.ThListView
                                 item.fmt = (int) (NativeMethods.HeaderItemFlags.HDF_STRING);
 
 #if !NON_TRANSPARENT_SORTMARKERS
-								item.mask |= (int)(Win32.HeaderItemMask.HDI_IMAGE);
+								item.mask |= (int)(NativeMethods.HeaderItemMask.HDI_IMAGE);
 
 								if(i == sortedColumnIndex && sortOrder != SortOrder.None) {
 									if (align != HorizontalAlignment.Right)
-										item.fmt |= (int)(Win32.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
+										item.fmt |= (int)(NativeMethods.HeaderItemFlags.HDF_BITMAP_ON_RIGHT);
 
-									item.fmt |= (int)(Win32.HeaderItemFlags.HDF_IMAGE);
+									item.fmt |= (int)(NativeMethods.HeaderItemFlags.HDF_IMAGE);
 									item.iImage = (int) sortOrder - 1;
 								}
 #else
@@ -1202,8 +1202,11 @@ namespace RssBandit.WinGui.Controls.ThListView
         {
             if (! _headerImageListLoaded)
             {
+                var sz = (int)((float)DeviceDpi / 96 * 8);
+
                 _headerImageList = new ImageList(components);
-                _headerImageList.ImageSize = (_isWinXP ? new Size(9, 9) : new Size(8, 8));
+                _headerImageList.ImageSize = new Size(sz, sz);
+                //_headerImageList.ImageSize = (_isWinXP ? new Size(9, 9) : new Size(8, 8));
                 _headerImageList.TransparentColor = Color.Magenta;
 
                 _headerImageList.Images.Add(GetBitmap(true)); // Add ascending arrow
@@ -1220,73 +1223,85 @@ namespace RssBandit.WinGui.Controls.ThListView
 
         private Bitmap GetBitmap(bool ascending)
         {
+            var sf = (float)DeviceDpi / 96;
+            var sz1 = (int)(sf * 1);
+            var sz2 = (int)(sf * 2);
+            var sz3 = (int)(sf * 3);
+            var sz4 = (int)(sf * 4);
+            var sz7 = (int)(sf * 7);
+            var sz8 = (int)(sf * 8);
+            var sz9 = (int)(sf * 9);
+
             if (_isWinXP)
             {
                 // draw the flat triangle
-                var bm = new Bitmap(9, 9);
+                var bm = new Bitmap(sz9, sz9);
                 Graphics gfx = Graphics.FromImage(bm);
 
                 Brush fillBrush = SystemBrushes.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
-				gfx.FillRectangle(Brushes.Magenta, 0, 0, 9, 9);
+            	gfx.FillRectangle(Brushes.Magenta, 0, 0, sz9, sz9);
 #else
                 // XP ListView column header back color:
-                Brush backBrush = new SolidBrush(Color.FromArgb(235, 234, 219));
-                gfx.FillRectangle(backBrush /* SystemBrushes.ControlLight */, 0, 0, 9, 9);
-                backBrush.Dispose();
+                //Brush backBrush = new SolidBrush(Color.Magenta);
+                //Brush backBrush = new SolidBrush(Color.FromArgb(235, 234, 219));
+              //  Brush backBrush = new SolidBrush(Color.FromArgb(235, 234, 219));
+               // gfx.FillRectangle(backBrush /* SystemBrushes.ControlLight */, 0, 0, sz9, sz9);
+                gfx.FillRectangle(SystemBrushes.ControlLightLight, 0, 0, sz9, sz9);
+                //backBrush.Dispose();
 #endif
                 var path = new GraphicsPath();
 
                 if (ascending)
                 {
                     // Draw triangle pointing upwards
-                    path.AddLine(4, 1, -1, 7);
-                    path.AddLine(-1, 7, 9, 7);
-                    path.AddLine(9, 7, 4, 1);
+                    path.AddLine(sz4, sz1, -sz1, sz7);
+                    path.AddLine(-sz1, sz7, sz9, sz7);
+                    path.AddLine(sz9, sz7, sz4, sz1);
                     gfx.FillPath(fillBrush, path);
                 }
                 else
                 {
                     // Draw triangle pointing downwards
-                    path.AddLine(0, 2, 9, 2);
-                    path.AddLine(9, 2, 4, 7);
-                    path.AddLine(4, 7, 0, 2);
+                    path.AddLine(0, sz2, sz9, sz2);
+                    path.AddLine(sz9, sz2, sz4, sz7);
+                    path.AddLine(sz4, sz7, 0, sz2);
                     gfx.FillPath(fillBrush, path);
                 }
 
                 path.Dispose();
                 gfx.Dispose();
-
+            
                 return bm;
             }
             else
             {
-                var bm = new Bitmap(8, 8);
+                var bm = new Bitmap(sz8, sz8);
                 Graphics gfx = Graphics.FromImage(bm);
 
                 Pen lightPen = SystemPens.ControlLightLight;
                 Pen shadowPen = SystemPens.ControlDark;
 
 #if !NON_TRANSPARENT_SORTMARKERS
-				gfx.FillRectangle(Brushes.Magenta, 0, 0, 8, 8);
+			gfx.FillRectangle(Brushes.Magenta, 0, 0, sz8, sz8);
 #else
-                gfx.FillRectangle(SystemBrushes.ControlLight, 0, 0, 8, 8);
+                gfx.FillRectangle(SystemBrushes.ControlLight, 0, 0, sz8, sz8);
 #endif
 
                 if (ascending)
                 {
                     // Draw triangle pointing upwards
-                    gfx.DrawLine(lightPen, 0, 7, 7, 7);
-                    gfx.DrawLine(lightPen, 7, 7, 4, 0);
-                    gfx.DrawLine(shadowPen, 3, 0, 0, 7);
+                    gfx.DrawLine(lightPen, 0, sz7, sz7, sz7);
+                    gfx.DrawLine(lightPen, sz7, sz7, sz4, 0);
+                    gfx.DrawLine(shadowPen, sz3, 0, 0, sz7);
                 }
                 else
                 {
                     // Draw triangle pointing downwards
-                    gfx.DrawLine(lightPen, 4, 7, 7, 0);
-                    gfx.DrawLine(shadowPen, 3, 7, 0, 0);
-                    gfx.DrawLine(shadowPen, 0, 0, 7, 0);
+                    gfx.DrawLine(lightPen, sz4, sz7, sz7, 0);
+                    gfx.DrawLine(shadowPen, sz3, sz7, 0, 0);
+                    gfx.DrawLine(shadowPen, 0, 0, sz7, 0);
                 }
 
                 gfx.Dispose();
