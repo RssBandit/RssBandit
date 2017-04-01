@@ -13,6 +13,7 @@
     <DefineConstants>DEBUG</DefineConstants>
     <OutputPath>bin\AnyCPU\Debug\</OutputPath>
     <PackageLayout>..\RssBandit.Package\bin\Debug</PackageLayout>
+    <StartupTile>RssBandit</StartupTile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\AnyCPU\Release\</OutputPath>

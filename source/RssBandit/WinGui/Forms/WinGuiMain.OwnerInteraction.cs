@@ -435,7 +435,7 @@ namespace RssBandit.WinGui.Forms
             var froot = (FinderRootNode) GetRoot(RootFolderType.Finder);
             SyncFinderNodes(froot);
             if (expandRoots)
-                froot.ExpandAll();
+                froot?.ExpandAll();
 
             treeFeeds.EndUpdate();
         }

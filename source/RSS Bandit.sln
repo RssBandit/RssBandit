@@ -21,6 +21,9 @@ Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "RssBandit.Package", "RssBan
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit.Debug", "RssBandit.Debug\RssBandit.Debug.vsdproj", "{6E767866-7C1C-479A-A894-53EA746440D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6ADAF0C0-5732-4E55-925B-89AB00E06E00} = {6ADAF0C0-5732-4E55-925B-89AB00E06E00}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +66,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
