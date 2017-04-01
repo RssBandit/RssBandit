@@ -1116,13 +1116,14 @@ namespace RssBandit
 			get {
 				OptionalFlags f = OptionalFlags.AllOff;
 				f |= OptionalFlags.ByPassProxyOnLocal |
-					OptionalFlags.ShowNewItemsReceivedBalloon |
+				//	OptionalFlags.ShowNewItemsReceivedBalloon |
 					OptionalFlags.AllowImagesInBrowser |
 					OptionalFlags.NewsItemOpenLinkInDetailWindow |
 					OptionalFlags.ReUseFirstBrowserTab |
 					OptionalFlags.AllowAppEventSounds  | 
                     OptionalFlags.BuildRelationCosmos| 
-                    OptionalFlags.CreateSubfoldersForEnclosures;
+                    OptionalFlags.CreateSubfoldersForEnclosures|
+                    OptionalFlags.RefreshFeedsOnStartup;
 				return f;
 			}
 		}
@@ -1265,7 +1266,7 @@ namespace RssBandit
 				UseIEProxySettings = reader.Get(StringHelper.GetPropertyName(() => UseIEProxySettings), false);
 			}
 			if (reader.Contains(StringHelper.GetPropertyName(() => FeedRefreshOnStartup))) {
-				FeedRefreshOnStartup = reader.Get(StringHelper.GetPropertyName(() => FeedRefreshOnStartup), false);
+				FeedRefreshOnStartup = reader.Get(StringHelper.GetPropertyName(() => FeedRefreshOnStartup), true);
 			}
 			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed))) {
 				BrowserJavascriptAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed), false);
@@ -1299,7 +1300,7 @@ namespace RssBandit
 			}
 
 			if (reader.Contains(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon))) {
-				ShowNewItemsReceivedBalloon = reader.Get(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon), true);
+				ShowNewItemsReceivedBalloon = reader.Get(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon), false);
 			}
 			
 			ProxyBypassList = reader.Get(StringHelper.GetPropertyName(() => ProxyBypassList), new string[]{});
