@@ -77,7 +77,7 @@ namespace RssBandit
                 {
                     try
                     {
-                        appVersion = Assembly.GetEntryAssembly().GetName().Version;
+                        appVersion = new Version(typeof(RssBanditApplication).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
                     }
                     catch
                     {
