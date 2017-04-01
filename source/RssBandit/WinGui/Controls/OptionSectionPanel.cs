@@ -10,6 +10,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui.Controls
 {
@@ -25,13 +26,15 @@ namespace RssBandit.WinGui.Controls
 		private Image	_image			= null;
 		private Point	_imageLocation;
 		private System.ComponentModel.IContainer components = null;
+        readonly float scaleFactor;
 
 		/// <summary>
 		/// Initializer.
 		/// </summary>
 		public OptionSectionPanel()
 		{
-			_imageLocation = new Point(0, 20);
+            scaleFactor = (float)DeviceDpi / 96;
+            _imageLocation = new Point(0, 20);
 			SetStyle(ControlStyles.DoubleBuffer, true);
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
@@ -71,7 +74,7 @@ namespace RssBandit.WinGui.Controls
 			g.DrawLine( ph, lt.Width, lth + 1.0f, Width,  lth + 1.0f);
 			
 			if (this._image != null)
-				g.DrawImage(this._image,  _imageLocation.X, _imageLocation.Y, this._image.Width, this._image.Height);
+				g.DrawImage(this._image, _imageLocation.X * scaleFactor, _imageLocation.Y * scaleFactor, this._image.Width, this._image.Height);
 			
 			sf.Dispose();
 			ph.Dispose();
@@ -139,7 +142,7 @@ namespace RssBandit.WinGui.Controls
 		public Image Image {
 			get { return this._image;	}
 			set { 
-				this._image = value;	
+				this._image = value?.GetImageStretchedDpi(scaleFactor);	
 				this.Invalidate();
 			}
 		}
