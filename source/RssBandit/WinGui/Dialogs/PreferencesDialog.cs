@@ -43,6 +43,7 @@ namespace RssBandit.WinGui.Dialogs {
 		private readonly IdentityNewsServerManager identityManager;
 		internal Font[] itemStateFonts;
 		internal Color[] itemStateColors;
+        readonly float scaleFactor;
 
 		private PreferencesDialog() {
 			//
@@ -52,9 +53,9 @@ namespace RssBandit.WinGui.Dialogs {
 			ApplyComponentTranslations();
 
             var itemSize = tabPrefs.ItemSize;
-            var scale = (float)DeviceDpi / 96;
-            tabPrefs.ItemSize = new Size((int)(scale * itemSize.Width), (int)(scale * itemSize.Height));
-
+		    scaleFactor = (float)DeviceDpi / 96;
+            tabPrefs.ItemSize = new Size((int)(scaleFactor * itemSize.Width), (int)(scaleFactor * itemSize.Height));
+            //sectionPanelEnclosurePodcasts.Height = (int)(sectionPanelEnclosurePodcasts.Height * scale);
             // Hide comments / idenitity / nntp related info
             sectionPanelFeedsCommentDefs.Visible = false;
 
@@ -687,6 +688,8 @@ namespace RssBandit.WinGui.Dialogs {
 			this.imageIndexMap.Clear();
 			this.imagesSearchEngines.Images.Clear();
 			this.listSearchEngines.Items.Clear();
+            var sz = (int)(scaleFactor * 16);
+            imagesSearchEngines.ImageSize = new Size(sz, sz);
 
 			int i = 0;
 			foreach (SearchEngine engine in this.searchEngines) {
@@ -705,7 +708,7 @@ namespace RssBandit.WinGui.Dialogs {
 						string p = Path.Combine(RssBanditApplication.GetSearchesPath(), engine.ImageName);
 						if (File.Exists(p)) {
 							try {
-								Image img = Image.FromFile(p);
+								Image img = Image.FromFile(p).GetImageStretchedDpi(scaleFactor);
 								this.imagesSearchEngines.Images.Add(img);
 								this.imageIndexMap.Add(engine.ImageName, i);
 								lv.ImageIndex = i;

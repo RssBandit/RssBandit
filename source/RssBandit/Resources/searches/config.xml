@@ -2,20 +2,14 @@
 <searchConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" open-newtab="true" xmlns="http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/">
   <engine active="true">
     <title>Google</title>
-    <search-link>http://www.google.com/search?sourceid=navclient&amp;ie=UTF-8&amp;oe=UTF-8&amp;q={0}</search-link>
+    <search-link>https://www.google.com/search?q={0}</search-link>
     <description>Search the web with Google...</description>
     <image-name>google.ico</image-name>
   </engine>
   <engine active="true">
-    <title>MSN Search</title>
-    <search-link>http://search.msn.com/results.aspx?q={0}&amp;FORM=SMCRT&amp;x=32&amp;y=15</search-link>
-    <description>Search the web with MSN Search...</description>
+    <title>Bing</title>
+    <search-link>https://www.bing.com/search?q={0}</search-link>
+    <description>Search the web with Bing...</description>
     <image-name>bing.png</image-name>
-  </engine>
-  <engine active="true" rss-resultset="true">
-    <title>Yahoo! News</title>
-    <search-link>http://news.search.yahoo.com/news/rss?p={0}&amp;ie=UTF-8</search-link>
-    <description>Search news with Yahoo! News...</description>
-    <image-name>yahoo.ico</image-name>
   </engine>
 </searchConfiguration>
