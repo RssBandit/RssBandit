@@ -103,7 +103,7 @@ namespace RssBandit.WinGui.Controls
 		private int animationDelay = 20;
 		private int animationStep = 20;
 		private bool useAnimations;
-	    readonly Size defaultSize;
+	  //  readonly Size defaultSize;
 
 	    #endregion
 

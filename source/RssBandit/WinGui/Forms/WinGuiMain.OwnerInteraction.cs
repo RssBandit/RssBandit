@@ -3257,18 +3257,18 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        /// <summary>
-        /// Calls/opens new feed source wizard on GUI thread, if required
-        /// </summary>
-        /// <param name="sourceType">the feed source to add</param>
-        public void AddFeedSourceSynchronized(FeedSourceType sourceType)
-        {
+        ///// <summary>
+        ///// Calls/opens new feed source wizard on GUI thread, if required
+        ///// </summary>
+        ///// <param name="sourceType">the feed source to add</param>
+        //public void AddFeedSourceSynchronized(FeedSourceType sourceType)
+        //{
             
-            InvokeOnGui(delegate
-                            {
-                               owner.SynchronizeFeeds(sourceType);
-                            });            
-        }
+        //    InvokeOnGui(delegate
+        //                    {
+        //                       owner.SynchronizeFeeds(sourceType);
+        //                    });            
+        //}
 
         /// <summary>
         /// Calls/Open the newFeedDialog on the GUI thread, if required.

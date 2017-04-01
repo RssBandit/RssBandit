@@ -296,9 +296,9 @@ namespace RssBandit
         public bool Init()
         {
             //specify 'nntp' and 'news' URI handler
-            var creator = new NntpWebRequest(new Uri("http://www.example.com"));
-            WebRequest.RegisterPrefix("nntp", creator);
-            WebRequest.RegisterPrefix("news", creator);
+            //var creator = new NntpWebRequest(new Uri("http://www.example.com"));
+            //WebRequest.RegisterPrefix("nntp", creator);
+            //WebRequest.RegisterPrefix("news", creator);
 
             defaultCategory = SR.FeedDefaultCategory;
 
@@ -371,7 +371,6 @@ namespace RssBandit
 			}
 
             //make sure we have a direct access feed source
-			//DISCUSS: should we do so in the final release?
 			if (BanditFeedSourceEntry == null)
 			{
 				sourceManager.Add(SR.FeedNodeMyFeedsCaption, FeedSourceType.DirectAccess, null);
@@ -3500,91 +3499,91 @@ namespace RssBandit
             }
         }
 		
-		public void SynchronizeFeeds(FeedSourceType sourceType)
-        {
+//		public void SynchronizeFeeds(FeedSourceType sourceType)
+//        {
 
-			using (var wiz = new SynchronizeFeedsWizard(sourceType))
-			{
-				try
-				{
-					if (MainForm.IsHandleCreated)
-						Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
-					wiz.ShowDialog(guiMain);
-				}
-				catch (Exception ex)
-				{
-					_log.Error("SynchronizeFeeds caused exception.", ex);
-					wiz.DialogResult = DialogResult.Cancel;
-				}
+//			using (var wiz = new SynchronizeFeedsWizard(sourceType))
+//			{
+//				try
+//				{
+//					if (MainForm.IsHandleCreated)
+//						Win32.NativeMethods.SetForegroundWindow(MainForm.Handle);
+//					wiz.ShowDialog(guiMain);
+//				}
+//				catch (Exception ex)
+//				{
+//					_log.Error("SynchronizeFeeds caused exception.", ex);
+//					wiz.DialogResult = DialogResult.Cancel;
+//				}
 
-				try
-				{
-					if (wiz.DialogResult == DialogResult.OK)
-					{
-						var id = sourceManager.UniqueKey;
-						var locName = FeedSourceManager.BuildSubscriptionName(id, wiz.SelectedFeedSource);
-						SubscriptionLocation loc;
+//				try
+//				{
+//					if (wiz.DialogResult == DialogResult.OK)
+//					{
+//						var id = sourceManager.UniqueKey;
+//						var locName = FeedSourceManager.BuildSubscriptionName(id, wiz.SelectedFeedSource);
+//						SubscriptionLocation loc;
 
-						switch (wiz.SelectedFeedSource)
-						{
-							case FeedSourceType.WindowsRSS:
-								loc = new SubscriptionLocation(locName);
-								break;
-								//case FeedSourceType.Google:
-								//	loc = new SubscriptionLocation(locName,
-								//		new NetworkCredential(wiz.UserName, wiz.Password));
-								//	break;
-								//case FeedSourceType.NewsGator:
-								//	loc = new SubscriptionLocation(locName,
-								//		new NetworkCredential(wiz.UserName, wiz.Password));
-								//	break;
-							//case FeedSourceType.Facebook:
-							//	loc = new SubscriptionLocation(locName,
-							//		new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
-								break;
-#if FEEDLY_FEATURE
-							case FeedSourceType.FeedlyCloud:
-								loc = new SubscriptionLocation(locName,
-									new NetworkCredential(wiz.UserName, wiz.Password));
-								break;
-#endif
-							default:
-								throw new NotImplementedException("FEEDLY_FEATURE is under construction...");
-						}
+//						switch (wiz.SelectedFeedSource)
+//						{
+//							case FeedSourceType.WindowsRSS:
+//								loc = new SubscriptionLocation(locName);
+//								break;
+//								//case FeedSourceType.Google:
+//								//	loc = new SubscriptionLocation(locName,
+//								//		new NetworkCredential(wiz.UserName, wiz.Password));
+//								//	break;
+//								//case FeedSourceType.NewsGator:
+//								//	loc = new SubscriptionLocation(locName,
+//								//		new NetworkCredential(wiz.UserName, wiz.Password));
+//								//	break;
+//							//case FeedSourceType.Facebook:
+//							//	loc = new SubscriptionLocation(locName,
+//							//		new NetworkCredential(wiz.UserName, wiz.Password, wiz.FacebookAuthToken));
+//								//break;
+////#if FEEDLY_FEATURE
+////							case FeedSourceType.FeedlyCloud:
+////								loc = new SubscriptionLocation(locName,
+////									new NetworkCredential(wiz.UserName, wiz.Password));
+////								break;
+////#endif
+//							default:
+//								throw new NotImplementedException("FEEDLY_FEATURE is under construction...");
+//						}
 
-						var fs = FeedSource.CreateFeedSource(id, wiz.SelectedFeedSource, loc);
-						var entry = sourceManager.Add(fs, wiz.FeedSourceName);
+//						var fs = FeedSource.CreateFeedSource(id, wiz.SelectedFeedSource, loc);
+//						var entry = sourceManager.Add(fs, wiz.FeedSourceName);
 
-						AddFeedSourceToUserInterface(entry);
+//						AddFeedSourceToUserInterface(entry);
 
-						if (FeedSourceAdded != null)
-							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
+//						if (FeedSourceAdded != null)
+//							FeedSourceAdded(this, new FeedSourceEventArgs(entry));
 
-					}
-				}
-				catch (Exception ex)
-				{
-					_log.Error("SynchronizeFeeds {0} caused exception.".FormatWith(wiz.SelectedFeedSource), ex);
-					MessageError("Feed source {0} could not be created: {1}".FormatWith(wiz.SelectedFeedSource, ex.Message));
-				}
-			}
-        }
+//					}
+//				}
+//				catch (Exception ex)
+//				{
+//					_log.Error("SynchronizeFeeds {0} caused exception.".FormatWith(wiz.SelectedFeedSource), ex);
+//					MessageError("Feed source {0} could not be created: {1}".FormatWith(wiz.SelectedFeedSource, ex.Message));
+//				}
+//			}
+//        }
 
 
-        private void AddFeedSourceToUserInterface(FeedSourceEntry entry)
-        {
-            this.guiMain.CreateFeedSourceView(entry, true);
-            this.guiMain.AddToSubscriptionTree(entry);
-            this.guiMain.SelectFeedSource(entry);
-            this.guiMain.MaximizeNavigatorSelectedGroup();
-            this.LoadFeedSourceSubscriptions(entry, false);
-            this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
-            TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
-            if (root != null) root.Expanded = true;
-            ConnectFeedSourceEvents(entry.Source);
-            threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
-            SaveFeedSources();
-        }
+        //private void AddFeedSourceToUserInterface(FeedSourceEntry entry)
+        //{
+        //    this.guiMain.CreateFeedSourceView(entry, true);
+        //    this.guiMain.AddToSubscriptionTree(entry);
+        //    this.guiMain.SelectFeedSource(entry);
+        //    this.guiMain.MaximizeNavigatorSelectedGroup();
+        //    this.LoadFeedSourceSubscriptions(entry, false);
+        //    this.guiMain.PopulateFeedSubscriptions(entry, DefaultCategory);
+        //    TreeFeedsNodeBase root = this.guiMain.GetSubscriptionRootNode(entry);
+        //    if (root != null) root.Expanded = true;
+        //    ConnectFeedSourceEvents(entry.Source);
+        //    threadResultManager.ConnectFeedSourceEvents(entry.Source); //for updated feeds
+        //    SaveFeedSources();
+        //}
 
 		public void SaveFeedSources()
 		{
@@ -5505,13 +5504,13 @@ namespace RssBandit
             {
                 CmdShowMainGui(null);
 
-                if (commandLineOptions.AddFacebook || commandLineOptions.AddGoogleReader)
-                {
-                    FeedSourceType newFeedSource = (commandLineOptions.AddFacebook ? FeedSourceType.Facebook : FeedSourceType.Google);
+                //if (commandLineOptions.AddFacebook || commandLineOptions.AddGoogleReader)
+                //{
+                //    FeedSourceType newFeedSource = (commandLineOptions.AddFacebook ? FeedSourceType.Facebook : FeedSourceType.Google);
 
-                    if (IsFormAvailable(guiMain))
-                        guiMain.AddFeedSourceSynchronized(newFeedSource);
-                }
+                //    if (IsFormAvailable(guiMain))
+                //        guiMain.AddFeedSourceSynchronized(newFeedSource);
+                //}
 
                 if (!String.IsNullOrEmpty(commandLineOptions.NavigateTo))
                 {
@@ -5765,7 +5764,7 @@ namespace RssBandit
 				// allow users to specify commandline options via app.config:
 				StartInTaskbarNotificationAreaOnly = ReadAppSettingsEntry("ui.display.taskbar", false);
 				LocalCulture = ReadAppSettingsEntry("ui.display.culture", String.Empty);
-                AddFacebook = AddGoogleReader = false; 
+               // AddFacebook = AddGoogleReader = false; 
 			}
 
             /// <summary>
@@ -5784,13 +5783,13 @@ namespace RssBandit
                 Description = "CmdLineSubscribeToDesc", DescriptionIsResourceId = true)]
             public List<string> SubscribeTo { get; set; }          
 
-            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "facebook", ShortName = "f",
-              Description = "CmdLineFacebookDesc", DescriptionIsResourceId = true)]
-            public bool AddFacebook { get; set; }
+            //[CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "facebook", ShortName = "f",
+            //  Description = "CmdLineFacebookDesc", DescriptionIsResourceId = true)]
+            //public bool AddFacebook { get; set; }
 
-            [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "googlereader", ShortName = "g",
-              Description = "CmdLineGoogleReaderDesc", DescriptionIsResourceId = true)]
-            public bool AddGoogleReader { get; set; }
+            //[CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "googlereader", ShortName = "g",
+            //  Description = "CmdLineGoogleReaderDesc", DescriptionIsResourceId = true)]
+            //public bool AddGoogleReader { get; set; }
 
 
             [CommandLineArgument(CommandLineArgumentTypes.Exclusive, Name = "help", ShortName = "h",

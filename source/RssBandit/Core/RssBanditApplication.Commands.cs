@@ -998,14 +998,14 @@ namespace RssBandit
             ImportFeeds(String.Empty, category, feedSource);
         }
 
-        /// <summary>
-        /// Adds a new feed source
-        /// </summary>
-        /// <param name="sender">Object that initiates the call</param>
-        public void CmdSynchronizeFeeds(ICommand sender)
-        {
-			SynchronizeFeeds(FeedSourceType.Unknown); 
-        }
+   //     /// <summary>
+   //     /// Adds a new feed source
+   //     /// </summary>
+   //     /// <param name="sender">Object that initiates the call</param>
+   //     public void CmdSynchronizeFeeds(ICommand sender)
+   //     {
+			//SynchronizeFeeds(FeedSourceType.Unknown); 
+   //     }
 
         /// <summary>
         /// Sends the feed list to the location configured on the 

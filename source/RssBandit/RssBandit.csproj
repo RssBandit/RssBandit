@@ -56,7 +56,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;FEEDLY_FEATURE;ALT_CONFIG_PATH</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ALT_CONFIG_PATH</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
