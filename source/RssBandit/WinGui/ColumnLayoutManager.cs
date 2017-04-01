@@ -40,29 +40,50 @@ namespace RssBandit.WinGui
 
 	internal class ColumnLayoutManager
 	{
+	    readonly float scaleFactor;
+
+	    public ColumnLayoutManager(float scaleFactor)
+	    {
+	        this.scaleFactor = scaleFactor;
+
+            // update the default layouts based on scale
+            UpdateFeedLayout(DefaultFeedColumnLayout);
+            UpdateFeedLayout(DefaultCategoryColumnLayout);
+            UpdateFeedLayout(DefaultSearchFolderColumnLayout);
+            UpdateFeedLayout(DefaultSpecialFolderColumnLayout);
+	    }
+
+	    private void UpdateFeedLayout(FeedColumnLayout layout)
+	    {
+	        for (var i = 0; i < layout.ColumnWidthList.Count; i++)
+	        {
+                layout.ColumnWidthList[i] = (int)(layout.ColumnWidthList[i] * scaleFactor);
+	        }
+	    }
+
 		private static readonly log4net.ILog _log = Log.GetLogger(typeof(ColumnLayoutManager));
 
-		private static readonly FeedColumnLayout DefaultFeedColumnLayout =
+		private readonly FeedColumnLayout DefaultFeedColumnLayout =
 			new FeedColumnLayout(new[] { "Title", "Flag", "Enclosure", "Date", "Subject" },
 								 new[] { 250, 22, 22, 100, 120 }, "Date", SortOrder.Descending,
 								 LayoutType.GlobalFeedLayout);
 
-		private static readonly FeedColumnLayout DefaultCategoryColumnLayout =
+		private readonly FeedColumnLayout DefaultCategoryColumnLayout =
 			new FeedColumnLayout(new[] { "Title", "Subject", "Date", "FeedTitle" }, new[] { 250, 120, 100, 100 },
 								 "Date", SortOrder.Descending, LayoutType.GlobalCategoryLayout);
 
-		private static readonly FeedColumnLayout DefaultSearchFolderColumnLayout =
+		private readonly FeedColumnLayout DefaultSearchFolderColumnLayout =
 			new FeedColumnLayout(new[] { "Title", "Subject", "Date", "FeedTitle" }, new[] { 250, 120, 100, 100 },
 								 "Date", SortOrder.Descending, LayoutType.SearchFolderLayout);
 
-		private static readonly FeedColumnLayout DefaultSpecialFolderColumnLayout =
+		private readonly FeedColumnLayout DefaultSpecialFolderColumnLayout =
 			new FeedColumnLayout(new[] { "Title", "Subject", "Date", "FeedTitle" }, new[] { 250, 120, 100, 100 },
 								 "Date", SortOrder.Descending, LayoutType.SpecialFeedsLayout);
 
-		private static string defaultFeedColumnLayoutKey;
-		private static string defaultCategoryColumnLayoutKey;
-		private static string defaultSearchFolderColumnLayoutKey;
-		private static string defaultSpecialFolderColumnLayoutKey;
+		private string defaultFeedColumnLayoutKey;
+		private string defaultCategoryColumnLayoutKey;
+		private string defaultSearchFolderColumnLayoutKey;
+		private string defaultSpecialFolderColumnLayoutKey;
 		
 		private FeedColumnLayoutCollection _layouts;
 

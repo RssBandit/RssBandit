@@ -1176,6 +1176,11 @@ namespace RssBandit.WinGui.Forms
 
             //			InitDrawFilters();
 
+
+            // scale the initial size
+            var sz = new Size((int)(ScaleFactor * Width), (int)(ScaleFactor * Height));
+            Size = sz;
+            
             LoadUIConfiguration();
             SetTitleText(String.Empty);
             SetDetailHeaderText(null);
