@@ -5178,48 +5178,7 @@ namespace RssBandit
 
             return false;
         }
-
-        /// <summary>
-        /// Check for current default aggregator. If we are not the default, then display
-        /// the question dialog, if we have to ask.
-        /// </summary>
-        public void AskAndCheckForDefaultAggregator()
-        {
-            try
-            {
-                if (!IsDefaultAggregator() &&
-                    ShouldAskForDefaultAggregator &&
-                    !UACManager.Denied(ElevationRequiredAction.MakeDefaultAggregator))
-                {
-                    using (var dialog = new AskForDefaultAggregator())
-                    {
-                        if (dialog.ShowDialog(guiMain) == DialogResult.OK)
-                        {
-                            try
-                            {
-                                MakeDefaultAggregator();
-                            }
-                            catch (SecurityException)
-                            {
-                                MessageInfo(String.Format(SR.SecurityExceptionCausedByRegistryAccess,
-                                                          "HKEY_CLASSES_ROOT\feed"));
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageError(String.Format(SR.ExceptionSettingDefaultAggregator, ex.Message));
-                            }
-                        }
-                        ShouldAskForDefaultAggregator = !dialog.checkBoxDoNotAskAnymore.Checked;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                _log.Error("Unexpected error on checking for default aggregator.", e);
-            }
-
-        }
-
+        
 		/// <summary>
 		/// Checks the and initialize IE browser emulation.
 		/// </summary>

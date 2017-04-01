@@ -392,21 +392,21 @@ namespace RssBandit
             }
         }
 
-        /// <summary>
-        /// Returns true, if a Yes/No dialog should be displayed on startup (asking for
-        /// to make Bandit the default "feed:" scheme protocol handler)
-        /// </summary>
-        public static bool ShouldAskForDefaultAggregator
-        {
-            get
-            {
-                return PersistedSettings.GetProperty("AskForMakeDefaultAggregator", true);
-            }
-            set
-            {
-				PersistedSettings.SetProperty("AskForMakeDefaultAggregator", value);
-            }
-        }
+    //    /// <summary>
+    //    /// Returns true, if a Yes/No dialog should be displayed on startup (asking for
+    //    /// to make Bandit the default "feed:" scheme protocol handler)
+    //    /// </summary>
+    //    public static bool ShouldAskForDefaultAggregator
+    //    {
+    //        get
+    //        {
+    //            return PersistedSettings.GetProperty("AskForMakeDefaultAggregator", true);
+    //        }
+    //        set
+    //        {
+				//PersistedSettings.SetProperty("AskForMakeDefaultAggregator", value);
+    //        }
+    //    }
 
         public static string GetUserPath()
         {
@@ -777,29 +777,7 @@ namespace RssBandit
         {
             return Path.Combine(Application.StartupPath, "Media\\webpage.ico");
         }
-
-
         
-        /// <summary>
-        /// Method install Bandit as the "feed:" url scheme handler
-        /// </summary>
-        public static void MakeDefaultAggregator()
-        {
-            string appPath = Application.ExecutablePath;
-            try
-            {
-                Win32.Registry.CurrentFeedProtocolHandler = appPath;
-                // on success, ask the next startup time, if we are not anymore the default handler:
-                ShouldAskForDefaultAggregator = true;
-            }
-            catch (Exception ex)
-            {
-                _log.Debug("Unable to set CurrentFeedProtocolHandler", ex);
-                throw;
-            }
-        }
-
-
         /// <summary>
         /// Method test the running application, if it is registered as the
         /// default "feed:" protocol scheme handler.

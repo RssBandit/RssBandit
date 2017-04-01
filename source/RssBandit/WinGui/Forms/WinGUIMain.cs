@@ -2242,7 +2242,7 @@ namespace RssBandit.WinGui.Forms
                 LoadAndRestoreBrowserTabState();
             }
 			
-			owner.AskAndCheckForDefaultAggregator();
+			//owner.AskAndCheckForDefaultAggregator();
 
             _startupTimer.Interval = 1000*
                                      RssBanditApplication.ReadAppSettingsEntry(

@@ -229,9 +229,7 @@ namespace RssBandit.WinGui.Dialogs {
 			}
 
 			InitWebSearchEnginesTab();
-
-			btnMakeDefaultAggregator.Enabled = (!RssBanditApplication.IsDefaultAggregator());
-
+            
 			checkBrowserJavascriptAllowed.Checked = prefs.BrowserJavascriptAllowed;
 			checkBrowserJavaAllowed.Checked = prefs.BrowserJavaAllowed;
 			checkBrowserActiveXAllowed.Checked = prefs.BrowserActiveXAllowed;
@@ -298,15 +296,15 @@ namespace RssBandit.WinGui.Dialogs {
 					checkRunAtStartup.Enabled = true;
 				}
 			
-				if (btnMakeDefaultAggregator.Enabled && 
-				    UACManager.Denied(ElevationRequiredAction.MakeDefaultAggregator)) {
-					securityHintProvider.SetIconAlignment(btnMakeDefaultAggregator, ErrorIconAlignment.MiddleLeft);
-					securityHintProvider.SetIconPadding(btnMakeDefaultAggregator, 5);
-					securityHintProvider.SetError(btnMakeDefaultAggregator, DR.DialogBase_UACShieldedHint);
-					btnMakeDefaultAggregator.Enabled = false;
-				} else {
-					securityHintProvider.SetError(btnMakeDefaultAggregator, null);
-				}
+				//if (btnMakeDefaultAggregator.Enabled && 
+				//    UACManager.Denied(ElevationRequiredAction.MakeDefaultAggregator)) {
+				//	securityHintProvider.SetIconAlignment(btnMakeDefaultAggregator, ErrorIconAlignment.MiddleLeft);
+				//	securityHintProvider.SetIconPadding(btnMakeDefaultAggregator, 5);
+				//	securityHintProvider.SetError(btnMakeDefaultAggregator, DR.DialogBase_UACShieldedHint);
+				//	btnMakeDefaultAggregator.Enabled = false;
+				//} else {
+				//	securityHintProvider.SetError(btnMakeDefaultAggregator, null);
+				//}
 			} catch (Exception ex) {
 				_log.Error("Failure while query UACManager for denied actions.", ex);
 			}
@@ -1084,21 +1082,6 @@ namespace RssBandit.WinGui.Dialogs {
 				engine.IsActive = (e.NewValue == CheckState.Checked);
 				this.searchEnginesModified = true;
 				OnControlValidated(this, EventArgs.Empty);
-			}
-		}
-
-		private void btnMakeDefaultAggregator_Click(object sender, EventArgs e) {
-			try {
-				RssBanditApplication.MakeDefaultAggregator();
-				btnMakeDefaultAggregator.Enabled = false;	// disable on success
-				// on success, ask the next startup time, if we are not anymore the default handler:
-				RssBanditApplication.ShouldAskForDefaultAggregator = true;
-			} catch (System.Security.SecurityException) {
-				MessageBox.Show(this, String.Format(SR.SecurityExceptionCausedByRegistryAccess,"HKEY_CLASSES_ROOT\feed"),
-					SR.GUIErrorMessageBoxCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			} catch (Exception ex) {
-				MessageBox.Show(this, String.Format(SR.ExceptionSettingDefaultAggregator,ex.Message),
-					SR.GUIErrorMessageBoxCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 	

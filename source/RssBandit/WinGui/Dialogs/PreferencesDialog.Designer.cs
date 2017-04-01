@@ -28,7 +28,6 @@ namespace RssBandit.WinGui.Dialogs
             this.checkRunAtStartup = new System.Windows.Forms.CheckBox();
             this.checkRefreshFeedsOnStartup = new System.Windows.Forms.CheckBox();
             this.sectionPanelGeneralBehavior = new RssBandit.WinGui.Controls.OptionSectionPanel();
-            this.btnMakeDefaultAggregator = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.radioTrayActionNone = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -298,7 +297,6 @@ namespace RssBandit.WinGui.Dialogs
             // 
             // sectionPanelGeneralBehavior
             // 
-            this.sectionPanelGeneralBehavior.Controls.Add(this.btnMakeDefaultAggregator);
             this.sectionPanelGeneralBehavior.Controls.Add(this.label12);
             this.sectionPanelGeneralBehavior.Controls.Add(this.radioTrayActionNone);
             this.sectionPanelGeneralBehavior.Controls.Add(this.label1);
@@ -308,13 +306,6 @@ namespace RssBandit.WinGui.Dialogs
             this.sectionPanelGeneralBehavior.ImageLocation = new System.Drawing.Point(0, 20);
             resources.ApplyResources(this.sectionPanelGeneralBehavior, "sectionPanelGeneralBehavior");
             this.sectionPanelGeneralBehavior.Name = "sectionPanelGeneralBehavior";
-            // 
-            // btnMakeDefaultAggregator
-            // 
-            resources.ApplyResources(this.btnMakeDefaultAggregator, "btnMakeDefaultAggregator");
-            this.btnMakeDefaultAggregator.Name = "btnMakeDefaultAggregator";
-            this.toolTip1.SetToolTip(this.btnMakeDefaultAggregator, resources.GetString("btnMakeDefaultAggregator.ToolTip"));
-            this.btnMakeDefaultAggregator.Click += new System.EventHandler(this.btnMakeDefaultAggregator_Click);
             // 
             // label12
             // 
@@ -1663,7 +1654,6 @@ namespace RssBandit.WinGui.Dialogs
 		private System.Windows.Forms.Label label15;
 		internal System.Windows.Forms.ComboBox comboMaxItemAge;
 		private System.Windows.Forms.Label label12;
-		internal System.Windows.Forms.Button btnMakeDefaultAggregator;
 		internal System.Windows.Forms.CheckBox checkBrowserJavascriptAllowed;
 		internal System.Windows.Forms.CheckBox checkBrowserActiveXAllowed;
 		internal System.Windows.Forms.CheckBox checkBrowserJavaAllowed;
