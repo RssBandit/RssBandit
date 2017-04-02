@@ -10,9 +10,11 @@
 
 
 using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using RssBandit.Resources;
+using RssBandit.WinGui.Utility;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -40,6 +42,11 @@ namespace RssBandit.WinGui.Forms
 			//
 			InitializeComponent();
 			base.Text = SR.MainForm_DetailHeaderCaption_AtStartup;
+
+            var size = ClientSize;
+            var scale = (float)DeviceDpi / 96;
+            ClientSize = new Size((int)(size.Width * scale), (int)(size.Height * scale));
+            BackgroundImage = BackgroundImage.GetImageStretchedDpi(scale);
 		}
 
 		public void SetInfos(string status, string version)
