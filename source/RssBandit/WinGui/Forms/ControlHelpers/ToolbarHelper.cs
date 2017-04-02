@@ -49,7 +49,17 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		    this.manager.ShowShortcutsInToolTips = true;
 		}
 
-		public void CreateToolbars(WinGuiMain main, RssBanditApplication owner, ShortcutHandler shortcutHandler) {
+
+	    /// <summary>
+	    /// To be raised by one on every Toolbars modification like new tools or menus!
+	    /// </summary>
+	    /// <remarks>
+	    /// If you forget this, you will always get your old toolbars layout
+	    /// restored from the users local machine.
+	    /// </remarks>
+        public static readonly int CurrentToolbarsVersion = 22;
+
+	    public void CreateToolbars(WinGuiMain main, RssBanditApplication owner, ShortcutHandler shortcutHandler) {
 			
 			this.main = main;
 			this.owner = owner;
@@ -525,10 +535,10 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdDownloadFeeds", owner.Mediator, owner.CmdDownloadFeeds,
 				SR.MenuDownloadFeedsCaption, SR.MenuDownloadFeedsDesc, shortcutHandler);
 
-			AppButtonToolCommand style8 = new AppButtonToolCommand(
-				"cmdOpenManageAddInsDialog", owner.Mediator, owner.CmdOpenManageAddInsDialog,
-				SR.MenuOpenManageAddInsDialogCaption, SR.MenuOpenManageAddInsDialogDesc,
-				shortcutHandler);
+			//AppButtonToolCommand style8 = new AppButtonToolCommand(
+			//	"cmdOpenManageAddInsDialog", owner.Mediator, owner.CmdOpenManageAddInsDialog,
+			//	SR.MenuOpenManageAddInsDialogCaption, SR.MenuOpenManageAddInsDialogDesc,
+			//	shortcutHandler);
 
 			AppButtonToolCommand style9 = new AppButtonToolCommand(
 				"cmdShowMainAppOptions", owner.Mediator, owner.CmdShowOptions,
@@ -536,9 +546,9 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				Resource.ToolItemImage.OptionsDialog, shortcutHandler);
 
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7, /*tbConfigIdentities, tbConfigNntpServer,*/ tbDownload, style8, style9 });
+			this.manager.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7, /*tbConfigIdentities, tbConfigNntpServer,*/ tbDownload, /*style8, */style9 });
 
-			mc.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7,/* tbConfigIdentities, tbConfigNntpServer, */tbDownload, style8, style9 });
+			mc.Tools.AddRange(new ToolBase[] { style1, toolTopStories, /*style51, style52,*/ style6, style7,/* tbConfigIdentities, tbConfigNntpServer, */tbDownload, /*style8,*/ style9 });
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryTools;
 			}
@@ -549,7 +559,7 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdTopStories",
 				//"cmdFeedItemNewPost",
 				"cmdUploadFeeds", 
-				"cmdOpenManageAddInsDialog",
+				//"cmdOpenManageAddInsDialog",
 				"cmdShowMainAppOptions"
 			}) 
 			{
