@@ -466,24 +466,24 @@ namespace RssBandit
 			}
 		}	
 
-		/// <summary>
-		/// Gets or sets a value indicating whether to run bandit as windows user logon.
-		/// It directly modifies the registry value within the "Run" section and
-		/// don't get persisted into preferences file.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [run bandit as windows user logon]; otherwise, <c>false</c>.
-		/// </value>
-		public bool RunBanditAsWindowsUserLogon {
-			get { return Win32.Registry.RunAtStartup; }
-			set {
-				if (Win32.Registry.RunAtStartup != value)
-				{
-					Win32.Registry.RunAtStartup = value;
-					OnPropertyChanged();
-				}
-			}
-		}
+		///// <summary>
+		///// Gets or sets a value indicating whether to run bandit as windows user logon.
+		///// It directly modifies the registry value within the "Run" section and
+		///// don't get persisted into preferences file.
+		///// </summary>
+		///// <value>
+		///// 	<c>true</c> if [run bandit as windows user logon]; otherwise, <c>false</c>.
+		///// </value>
+		//public bool RunBanditAsWindowsUserLogon {
+		//	get { return Win32.Registry.RunAtStartup; }
+		//	set {
+		//		if (Win32.Registry.RunAtStartup != value)
+		//		{
+		//			Win32.Registry.RunAtStartup = value;
+		//			OnPropertyChanged();
+		//		}
+		//	}
+		//}
 		
 		/// <summary>
 		/// Sets/Get a value to control whether there should be a single playlist 

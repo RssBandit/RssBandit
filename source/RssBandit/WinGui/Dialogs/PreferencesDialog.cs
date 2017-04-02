@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Windows.ApplicationModel;
 using RssBandit.AppServices;
 using RssBandit.WinGui.Utility;
 using RssBandit.WebSearch;
@@ -109,7 +110,8 @@ namespace RssBandit.WinGui.Dialogs {
             
 			btnConfigureAppSounds.Enabled = !RssBanditApplication.PortableApplicationMode;
 			checkAllowAppEventSounds.Checked = prefs.AllowAppEventSounds;
-			checkRunAtStartup.Checked = prefs.RunBanditAsWindowsUserLogon;
+
+            
 			checkRefreshFeedsOnStartup.Checked = prefs.FeedRefreshOnStartup;
 
 			// proxy stuff

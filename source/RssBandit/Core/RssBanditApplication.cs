@@ -80,6 +80,8 @@ using Logger = RssBandit.Common.Logging;
 using Timer=System.Threading.Timer;
 using System.Windows.Threading;
 using System.Configuration;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using RssBandit.Core.Storage;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 using RssBandit.Properties;
@@ -1856,7 +1858,7 @@ namespace RssBandit
 
         // called from Preferences dialog via "Apply" button
         // takes over the settings
-        private void OnApplyPreferences(object sender, EventArgs e)
+        private async void OnApplyPreferences(object sender, EventArgs e)
         {
             var propertiesDialog = sender as PreferencesDialog;
             if (propertiesDialog == null)
@@ -1974,7 +1976,21 @@ namespace RssBandit
             Preferences.OpenNewTabsInBackground = propertiesDialog.checkOpenTabsInBackground.Checked;
             Preferences.FeedRefreshOnStartup = propertiesDialog.checkRefreshFeedsOnStartup.Checked;
             Preferences.AllowAppEventSounds = propertiesDialog.checkAllowAppEventSounds.Checked;
-            Preferences.RunBanditAsWindowsUserLogon = propertiesDialog.checkRunAtStartup.Checked;
+
+            // This will set the task state
+        //    Preferences.RunBanditAsWindowsUserLogon = propertiesDialog.checkRunAtStartup.Checked;
+            var startupCheck = propertiesDialog.checkRunAtStartup.Checked;
+            var startupTask = await StartupTask.GetAsync("RssBanditStartupTask");
+            if (startupCheck && startupTask.State != StartupTaskState.Enabled)
+            {
+                // currently disabled, try to enable
+                var state = await startupTask.RequestEnableAsync();
+            }
+            if (!startupCheck && startupTask.State == StartupTaskState.Enabled)
+            {
+                // currently enabled, disable
+                startupTask.Disable();
+            }
 
             Preferences.UserIdentityForComments = propertiesDialog.cboUserIdentityForComments.Text;
 
@@ -3263,7 +3279,7 @@ namespace RssBandit
         /// <summary>
         /// Load the various subscription lists. 
         /// </summary>
-        internal void LoadAllFeedSourcesSubscriptions()
+        internal async Task LoadAllFeedSourcesSubscriptions()
         {
 			// can always run:
             CheckAndMigrateNewsGatorSettings();
@@ -3307,9 +3323,15 @@ namespace RssBandit
 
 				// script might be changed in this new version:
 
-				
-				//reset first app start flag:
-				Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
+                // Disable the startup task by default since it'll be enabled initially
+                var startupTask = await StartupTask.GetAsync("RssBanditStartupTask");
+			    if (startupTask.State == StartupTaskState.Enabled)
+			    {
+			        startupTask.Disable();
+                }
+
+                //reset first app start flag:
+                Win32.Registry.ThisVersionExecutesFirstTimeAfterInstallation = false;
 							
 				RaiseAllFeedSourcesSubscriptionsLoaded();
 				LoadWatchedCommentsFeedlist();
@@ -5881,7 +5903,7 @@ namespace RssBandit
         /// <param name="selectedSection">OptionDialogSection</param>
         /// <param name="owner">The owner.</param>
         /// <param name="optionsChangedHandler">The options changed handler.</param>
-        public void ShowOptions(OptionDialogSection selectedSection, IWin32Window owner,
+        public async void ShowOptions(OptionDialogSection selectedSection, IWin32Window owner,
                                 EventHandler optionsChangedHandler)
         {
             if (!SearchEngineHandler.EnginesLoaded || !SearchEngineHandler.EnginesOK)
@@ -5891,6 +5913,11 @@ namespace RssBandit
                 new PreferencesDialog(CurrentGlobalRefreshRateMinutes, Preferences, searchEngines, IdentityManager)
                 )
             {
+
+                // Get the enabled state
+                var startupTask = await StartupTask.GetAsync("RssBanditStartupTask");
+                propertiesDialog.checkRunAtStartup.Checked = startupTask.State == StartupTaskState.Enabled;
+
                 propertiesDialog.OnApplyPreferences += OnApplyPreferences;
                 if (optionsChangedHandler != null)
                     propertiesDialog.OnApplyPreferences += optionsChangedHandler;

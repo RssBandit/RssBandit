@@ -1201,7 +1201,7 @@ namespace RssBandit.WinGui.Forms
         /// <summary>
         /// Provide the entry point to the delayed loading of the feed list
         /// </summary>
-        private void OnFinishLoading()
+        private async void OnFinishLoading()
         {
             if (owner.CommandLineArgs.StartInTaskbarNotificationAreaOnly || SystemTrayOnlyVisible)
             {
@@ -1230,7 +1230,7 @@ namespace RssBandit.WinGui.Forms
 			PopulateTreeSpecialFeeds();
 			
 			// load the subscriptions of each feedsource:
-        	owner.LoadAllFeedSourcesSubscriptions();
+        	await owner.LoadAllFeedSourcesSubscriptions();
 
 			#region code moved to OnAllFeedSourceSubscriptionsLoaded():
 
