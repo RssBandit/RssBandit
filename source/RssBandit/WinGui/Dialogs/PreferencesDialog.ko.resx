@@ -370,10 +370,10 @@
     <value>이 것을&amp; 실행 할수 있도록 시작합니다:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>설정된 &amp;기본 웹 브라우져(Web Browser)를 오픈 합니다</value>
+    <value>설정된 &amp;기본 웹 브라우져(Web Browser)를 오픈 합니다 (기본 값)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>새로운 &amp;탭을 오픈합니다 (기본 값)</value>
+    <value>새로운 &amp;탭을 오픈합니다</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>오픈된 브라우져 탭들을 다시 사용합니다</value>

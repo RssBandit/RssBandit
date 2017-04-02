@@ -136,7 +136,7 @@
     <value>向上</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>開啟新分頁&amp;T(預設)</value>
+    <value>開啟新分頁&amp;T</value>
   </data>
   <data name="labelRemoteStorageUserName.ToolTip" xml:space="preserve">
     <value>代理認證使用者名稱. 可以用這格式 'Domain\Username'.</value>
@@ -250,7 +250,7 @@
     <value>經由&amp;Internet Explorer取得代理伺服器</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>開啟系統已設定的預設瀏覽器&amp;D</value>
+    <value>開啟系統已設定的預設瀏覽器&amp;D(預設)</value>
   </data>
   <data name="checkBrowserImagesAllowed.Text" xml:space="preserve">
     <value>下載影像圖檔</value>

@@ -244,7 +244,7 @@
 </value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Abrir una nue&amp;va pestaña (predeterminado)</value>
+    <value>Abrir una nue&amp;va pestaña</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Especificar su configuración personal por defecto para publicar respuestas a los elementos de las fuentes. Esta característica sólo está disponible en fuentes que soporten el API CommentAPI. Mire también</value>
@@ -514,7 +514,7 @@
     <value>Añadir un nuevo motor de búsqueda</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Abrir el navegador web configurado por &amp;defecto</value>
+    <value>Abrir el navegador web configurado por &amp;defecto (predeterminado)</value>
   </data>
   <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
     <value>Manualmente</value>

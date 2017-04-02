@@ -441,10 +441,10 @@
     <value>Uruchom program</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Otwórz w domyślnej przeglądarce</value>
+    <value>Otwórz w domyślnej przeglądarce (domyślne)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Otwórz w nowej zakładce (domyślne)</value>
+    <value>Otwórz w nowej zakładce</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Wykorzystuj ponownie zakładki przeglądarki</value>

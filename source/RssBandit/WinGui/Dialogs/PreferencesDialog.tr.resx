@@ -416,10 +416,10 @@
     <value>&amp;Bu programla aç:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Varsayılan web &amp;tarayıcısı ile aç</value>
+    <value>Varsayılan web &amp;tarayıcısı ile aç (varsayılan)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Uygulama içinde &amp;yeni bir sekmede aç (varsayılan)</value>
+    <value>Uygulama içinde &amp;yeni bir sekmede aç</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Açık tarayıcı sekmelerini tekrar kullan</value>

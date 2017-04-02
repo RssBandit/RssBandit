@@ -370,10 +370,10 @@
     <value>Start dit &amp;programma:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Open de &amp;standaard webbrowser</value>
+    <value>Open de &amp;standaard webbrowser (standaard)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Open een nieuwe &amp;tab (standaard)</value>
+    <value>Open een nieuwe &amp;tab</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Laden in openstaande browser tabs</value>

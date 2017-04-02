@@ -453,10 +453,10 @@
     <value>Démarrer cet e&amp;xécutable :</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Ouvrir le &amp;navigateur par défault</value>
+    <value>Ouvrir le &amp;navigateur par défault (par défaut)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Ouvrir un nouvel &amp;onglet (par défaut)</value>
+    <value>Ouvrir un nouvel &amp;onglet</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Réutiliser les onglets du navigateur</value>

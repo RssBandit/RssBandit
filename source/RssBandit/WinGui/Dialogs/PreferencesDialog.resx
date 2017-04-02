@@ -4945,7 +4945,7 @@
     <value>3</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Open the configured &amp;Default Web Browser</value>
+    <value>Open the configured &amp;Default Web Browser (default)</value>
   </data>
   <data name="&gt;&gt;optNewWindowDefaultWebBrowser.Name" xml:space="preserve">
     <value>optNewWindowDefaultWebBrowser</value>
@@ -4978,7 +4978,7 @@
     <value>1</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Open a new &amp;Tab (default)</value>
+    <value>Open a new &amp;Tab</value>
   </data>
   <data name="&gt;&gt;optNewWindowOnTab.Name" xml:space="preserve">
     <value>optNewWindowOnTab</value>

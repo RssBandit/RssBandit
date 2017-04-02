@@ -214,10 +214,10 @@
     <value>Запускать следующий исполняемый файл:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Открывать Web браузер по умолчанию</value>
+    <value>Открывать Web браузер по умолчанию (по умолчанию)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Открывать в новой закладке (по умолчанию)</value>
+    <value>Открывать в новой закладке</value>
   </data>
   <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
     <value>Файл:</value>

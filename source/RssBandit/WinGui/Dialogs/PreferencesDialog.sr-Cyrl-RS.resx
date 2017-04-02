@@ -418,10 +418,10 @@
     <value>Стартуј овај И&amp;звршни фајл:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Отвори конфигурисани &amp;Основни Web Browser</value>
+    <value>Отвори конфигурисани &amp;Основни Web Browser (основно)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Отвори нови &amp;Одељак (основно)</value>
+    <value>Отвори нови &amp;Одељак</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Искористи отворене одељке претраживача</value>

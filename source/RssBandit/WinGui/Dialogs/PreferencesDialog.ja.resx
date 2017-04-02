@@ -485,10 +485,10 @@
     <value>プログラムを起動する(&amp;X)</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>デフォルトWebブラウザを開く(&amp;D)</value>
+    <value>デフォルトWebブラウザを開く(&amp;D) (デフォルト)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>新しいタブを開く(&amp;T) (デフォルト)</value>
+    <value>新しいタブを開く(&amp;T)</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>既に開いているタブを使う</value>

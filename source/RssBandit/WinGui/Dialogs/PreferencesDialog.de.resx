@@ -408,10 +408,10 @@
     <value>Starte dieses Programm:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Seite im konfigurierten &amp;Standard Web Browser öffnen</value>
+    <value>Seite im konfigurierten &amp;Standard Web Browser öffnen (Standard)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Ein neues Browser-Tab öffnen (Standard)</value>
+    <value>Ein neues Browser-Tab öffnen</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Geöffnete Browser-Tabs wiederverwenden</value>

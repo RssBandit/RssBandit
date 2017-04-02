@@ -340,7 +340,8 @@ namespace RssBandit
         /// <param name="sender">Object that initiates the call</param>
         public void CmdReportAppBug(ICommand sender)
         {
-			NavigateToUrlAsUserPreferred(Resource.OutgoingLinks.BugReportUrl, CaptionOnly + ": Bug Tracker", true, true);
+            // External browser since they'll be logged into to GitHub
+            NavigateToUrlInExternalBrowser(Resource.OutgoingLinks.BugReportUrl);
         }
 
         /// <summary>

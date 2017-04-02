@@ -281,10 +281,10 @@
     <value>开始执行(&amp;x):</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>打开缺省配置的网页浏览器(&amp;D)</value>
+    <value>打开缺省配置的网页浏览器(&amp;D)(缺省)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>打开一个新的Tab页(缺省)</value>
+    <value>打开一个新的Tab页</value>
   </data>
   <data name="labelBrowserStartExecutable.Text" xml:space="preserve">
     <value>程序文件(&amp;P):</value>

@@ -281,7 +281,7 @@
     <value>Storage service &amp;URL:</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>नया टैब खोलें (default)</value>
+    <value>नया टैब खोलें</value>
   </data>
   <data name="checkMarkItemsReadOnExit.Text" xml:space="preserve">
     <value>पद या वर्ग छोडने पर सभी पदों को पढ़ा हुआ चिन्हित करें</value>
@@ -389,7 +389,7 @@
     <value>On Link Clicked and New Window</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Open the configured &amp;Default Web Browser</value>
+    <value>Open the configured &amp;Default Web Browser (default)</value>
   </data>
   <data name="tabRemoteStorage.Text" xml:space="preserve">
     <value>सुदूर Storage</value>

@@ -221,7 +221,7 @@
     <value>Controlli ActiveX</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Apri un nuovo &amp;Tab (default)</value>
+    <value>Apri un nuovo &amp;Tab</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Specifica l'intervallo con cui i feed a cui sei sottoscritto devono essere aggiornati. Ogni feed con una frequenza di aggiornamento in questo intervallo verrà richiesto ancora (Conditional Get). Vedi anche</value>
@@ -491,7 +491,7 @@
     <value>Aggiungi un nuovo motore di ricerca</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Apri i browser web di &amp;Default</value>
+    <value>Apri i browser web di &amp;Default (default)</value>
   </data>
   <data name="comboAppUpdateFrequency.Items" xml:space="preserve">
     <value>Manualmente</value>

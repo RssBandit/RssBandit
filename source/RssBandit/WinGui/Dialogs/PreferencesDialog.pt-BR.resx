@@ -371,10 +371,10 @@
     <value>Iniciar este E&amp;xecutável:</value>
   </data>
   <data name="optNewWindowDefaultWebBrowser.Text" xml:space="preserve">
-    <value>Abrir o Navegador &amp;de Internet padrão configurado</value>
+    <value>Abrir o Navegador &amp;de Internet padrão configurado (padrão)</value>
   </data>
   <data name="optNewWindowOnTab.Text" xml:space="preserve">
-    <value>Abrir em uma nova &amp;Aba (padrão)</value>
+    <value>Abrir em uma nova &amp;Aba</value>
   </data>
   <data name="checkReuseFirstBrowserTab.Text" xml:space="preserve">
     <value>Reutilizar abas do navegador abertas</value>

@@ -136,7 +136,7 @@ namespace RssBandit
 		// general max item age: 90 days:
 		private TimeSpan maxItemAge = TimeSpan.FromDays(90);	
 
-		private BrowserBehaviorOnNewWindow browserBehaviorOnNewWindow = BrowserBehaviorOnNewWindow.OpenNewTab;
+		private BrowserBehaviorOnNewWindow browserBehaviorOnNewWindow = BrowserBehaviorOnNewWindow.OpenDefaultBrowser;
 		private string browserCustomExecOnNewWindow = String.Empty;
 
 		private DisplayFeedAlertWindow feedAlertWindow = DisplayFeedAlertWindow.AsConfiguredPerFeed;
@@ -1256,7 +1256,7 @@ namespace RssBandit
 				UseRemoteStorage = false;	
 			}
 
-			BrowserOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserBehaviorOnNewWindow.OpenNewTab);
+			BrowserOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserBehaviorOnNewWindow.OpenDefaultBrowser);
 			BrowserCustomExecOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserCustomExecOnNewWindow), String.Empty);
 
 			if (reader.Contains(StringHelper.GetPropertyName(() => NewsItemOpenLinkInDetailWindow))) {
