@@ -1,13 +1,3 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +20,30 @@ namespace RssBandit.Common
         }
     }
 
+    internal class UriEqualityComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            if (x == null || y == null) return false;
+
+            Uri a, b;
+            Uri.TryCreate(x, UriKind.Absolute, out a);
+            Uri.TryCreate(y, UriKind.Absolute, out b);
+            return a != null && b != null
+                       ? a.CanonicalizedUri().Equals(b.CanonicalizedUri())
+                       : x.Equals(y);
+        }
+
+        public int GetHashCode(string obj)
+        {
+            if (obj == null) return 0;
+
+            Uri.TryCreate(obj, UriKind.Absolute, out Uri a);
+
+            return a?.GetHashCode() ?? 0;
+        }
+    }
+
     /// <summary>
     /// Helper class used to add extension method to the System.Uri class. 
     /// </summary>
@@ -40,6 +54,7 @@ namespace RssBandit.Common
         /// Helper class that treats strings as canonicalized URIs then compares them
         /// </summary>
         public static IComparer<string> Comparer = new UriComparer();
+        public static IEqualityComparer<string> EqualityComparer = new UriEqualityComparer();
 
         /// <summary>
         /// Returns a the URI canonicalized in the following way. (1) if the file is a UNC or file URI then it only returns the local part. 

@@ -1,15 +1,4 @@
-#region Version Info Header
-
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-
-#endregion
-
+using System.Collections.Concurrent;
 using JetBrains.Annotations;
 
 #region framework usings
@@ -458,7 +447,8 @@ namespace NewsComponents
         /// <summary>
         /// Represents the list of available categories for feeds. 
         /// </summary>
-        protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
+        protected IDictionary<string, INewsFeedCategory> categories = new ConcurrentDictionary<string, INewsFeedCategory>();
+        //protected IDictionary<string, INewsFeedCategory> categories = new SortedDictionary<string, INewsFeedCategory>();
 
         /// <summary>
         /// Downloads enclosures/podcasts in the background using BITS. 
@@ -468,12 +458,14 @@ namespace NewsComponents
         /// <summary>
         /// FeedsCollection representing subscribed feeds list
         /// </summary>
-        protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+        protected IDictionary<string, INewsFeed> feedsTable = new ConcurrentDictionary<string, INewsFeed>(UriHelper.EqualityComparer);
+        //protected IDictionary<string, INewsFeed> feedsTable = new SortedDictionary<string, INewsFeed>(UriHelper.Comparer);
+
 
 		/// <summary>
 		/// Client certificates cache for feeds
 		/// </summary>
-		protected IDictionary<string, X509Certificate2> certCache = new Dictionary<string, X509Certificate2>(3); 
+		protected IDictionary<string, X509Certificate2> certCache = new ConcurrentDictionary<string, X509Certificate2>(); 
 		
 		//TODO: move that to BanditFeedSource:
         /// <summary>
