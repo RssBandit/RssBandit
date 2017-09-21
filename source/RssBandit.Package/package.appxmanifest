@@ -1,24 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap desktop desktop2">
   <Identity Name="OrenNovotnyLLC.RSSBandit" Version="1.9.6.0" Publisher="CN=9AA7F4F4-7682-4818-A20D-63579CAA0466" />
-  <mp:PhoneIdentity PhoneProductId="609ae873-75ea-4a67-b7a5-bd6376531e7a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>RSS Bandit</DisplayName>
     <PublisherDisplayName>Oren Novotny, LLC</PublisherDisplayName>
-    <Logo>images\storelogo.png</Logo>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.15063.0" MaxVersionTested="10.0.15063.0" />
   </Dependencies>
   <Resources>
-    <Resource Language="en-US" />
+    <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="RssBandit" Executable="win32\RssBandit.exe" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="RSS Bandit" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
-        <uap:DefaultTile ShortName="RSS Bandit" Square71x71Logo="images\SmallTile.png">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="RSS Bandit" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile ShortName="RSS Bandit" Square71x71Logo="Assets\SmallTile.png">
         </uap:DefaultTile>
-        <uap:SplashScreen Image="images\splashscreen.png" />
+        <uap:SplashScreen Image="Assets\splashscreen.png" />
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
@@ -26,7 +25,7 @@
             <uap:DisplayName>Feed Protocol</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <desktop:Extension Category="windows.startupTask" Executable="win32\RssBandit.exe" EntryPoint="Windows.FullTrustApplication">
+        <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
           <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit Startup Task" />
         </desktop:Extension>
       </Extensions>
@@ -37,7 +36,7 @@
   </Capabilities>
   <Extensions>
     <desktop2:Extension Category="windows.firewallRules">
-      <desktop2:FirewallRules Executable="win32\RssBandit.exe">
+      <desktop2:FirewallRules Executable="RssBandit\RSSBandit.exe">
         <desktop2:Rule Direction="in" IPProtocol="TCP" Profile="all" />
         <desktop2:Rule Direction="in" IPProtocol="UDP" Profile="all" />
       </desktop2:FirewallRules>
