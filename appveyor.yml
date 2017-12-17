@@ -6,5 +6,7 @@ build_script:
   - cmd: nuget restore "source\RSS Bandit.sln"
   - cmd: msbuild MSBuildDefault.proj /t:Daily /p:Configuration=Release  
 
+tests: off
+
 artifacts:
   - path: '**\*.zip'
