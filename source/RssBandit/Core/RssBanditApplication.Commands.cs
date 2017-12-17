@@ -396,6 +396,10 @@ namespace RssBandit
                 // RssBanditApplciation.GetUserPath() location:
                 string logFilesFolder =
                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Name);
+#if ALT_CONFIG_PATH
+                // Keep debug path separate
+                logFilesFolder = Path.Combine(logFilesFolder, "Debug");
+#endif
                 if (Directory.Exists(logFilesFolder))
                 {
                     string[] matches = Directory.GetFiles(logFilesFolder, "trace.log*");
