@@ -111,7 +111,7 @@
 			ZipFileName="RssBandit.$(Major).$(Minor).$(Build).$(Revision).Src.zip" />
 	</Target>
 	
-	<Target Name="Compile" DependsOnTargets="Compile_RssBandit;Compile_Plugins" />
+	<Target Name="Compile" DependsOnTargets="Compile_RssBandit" />
 	
 	
 	
