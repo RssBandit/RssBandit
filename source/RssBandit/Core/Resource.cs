@@ -345,7 +345,7 @@ namespace RssBandit
 				// now use the new tracker at SF, filtering bugs by status "open":
 				public const string BugReportUrl = "https://github.com/RssBandit/RssBandit/issues";
 				// now pointing to the new site structure:
-				public const string WebHelpUrl = "http://docs.rssbandit.org/v1.8/";
+				public const string WebHelpUrl = "https://github.com/RssBandit/RssBandit/issues";
 				public const string ProjectNewsUrl = "http://rssbandit.org/";
 				public const string ProjectBlogUrl = "http://rssbandit.org/blog/";
 				public const string UserForumUrl = "http://forum.rssbandit.org/";
