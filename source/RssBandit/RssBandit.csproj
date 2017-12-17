@@ -122,32 +122,32 @@
       <Name>Eyefinder</Name>
       <HintPath>..\Common\Libraries\Eyefinder.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Shared, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Shared.17.1.20171.1008\lib\Infragistics.Shared.dll</HintPath>
+    <Reference Include="Infragistics.Shared, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Shared.17.2.20172.1000\lib\Infragistics.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.17.1.20171.1008\lib\Infragistics.Win.dll</HintPath>
+    <Reference Include="Infragistics.Win, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.17.2.20172.1000\lib\Infragistics.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.Misc, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.Misc.17.1.20171.1008\lib\Infragistics.Win.Misc.dll</HintPath>
+    <Reference Include="Infragistics.Win.Misc, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.Misc.17.2.20172.1000\lib\Infragistics.Win.Misc.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinEditors, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinEditors.17.1.20171.1008\lib\Infragistics.Win.UltraWinEditors.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinEditors, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinEditors.17.2.20172.1000\lib\Infragistics.Win.UltraWinEditors.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinExplorerBar, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinExplorerBar.17.1.20171.1008\lib\Infragistics.Win.UltraWinExplorerBar.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinExplorerBar, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinExplorerBar.17.2.20172.1000\lib\Infragistics.Win.UltraWinExplorerBar.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinStatusBar, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinStatusBar.17.1.20171.1008\lib\Infragistics.Win.UltraWinStatusBar.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinStatusBar, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinStatusBar.17.2.20172.1000\lib\Infragistics.Win.UltraWinStatusBar.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTabControl, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTabControl.17.1.20171.1008\lib\Infragistics.Win.UltraWinTabControl.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinTabControl, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTabControl.17.2.20172.1000\lib\Infragistics.Win.UltraWinTabControl.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinToolbars, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinToolbars.17.1.20171.1008\lib\Infragistics.Win.UltraWinToolbars.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinToolbars, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinToolbars.17.2.20172.1000\lib\Infragistics.Win.UltraWinToolbars.dll</HintPath>
     </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTree, Version=17.1.20171.1008, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTree.17.1.20171.1008\lib\Infragistics.Win.UltraWinTree.dll</HintPath>
+    <Reference Include="Infragistics.Win.UltraWinTree, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTree.17.2.20172.1000\lib\Infragistics.Win.UltraWinTree.dll</HintPath>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
