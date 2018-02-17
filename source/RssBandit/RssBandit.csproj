@@ -101,16 +101,6 @@
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=1.4.0.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.4.0\lib\net47\CommonServiceLocator.dll</HintPath>
-    </Reference>
-    <Reference Include="Contrib.Regex, Version=2.9.4.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Contrib.Regex.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Accessibility">
       <Name>Accessibility</Name>
     </Reference>
@@ -121,33 +111,6 @@
     <Reference Include="Eyefinder">
       <Name>Eyefinder</Name>
       <HintPath>..\Common\Libraries\Eyefinder.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Shared, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Shared.17.2.20172.1000\lib\Infragistics.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.17.2.20172.1000\lib\Infragistics.Win.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.Misc, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.Misc.17.2.20172.1000\lib\Infragistics.Win.Misc.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinEditors, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinEditors.17.2.20172.1000\lib\Infragistics.Win.UltraWinEditors.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinExplorerBar, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinExplorerBar.17.2.20172.1000\lib\Infragistics.Win.UltraWinExplorerBar.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinStatusBar, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinStatusBar.17.2.20172.1000\lib\Infragistics.Win.UltraWinStatusBar.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTabControl, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTabControl.17.2.20172.1000\lib\Infragistics.Win.UltraWinTabControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinToolbars, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinToolbars.17.2.20172.1000\lib\Infragistics.Win.UltraWinToolbars.dll</HintPath>
-    </Reference>
-    <Reference Include="Infragistics.Win.UltraWinTree, Version=17.2.20172.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.WinForms.Win.UltraWinTree.17.2.20172.1000\lib\Infragistics.Win.UltraWinTree.dll</HintPath>
     </Reference>
     <Reference Include="Interop.iTunesLib">
       <Name>Interop.iTunesLib</Name>
@@ -161,39 +124,6 @@
       <Name>Interop.WMPLib</Name>
       <HintPath>..\Common\Libraries\Interop.WMPLib.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Analyzers, Version=2.9.2.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Analyzers.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Core, Version=2.9.2.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Highlighter, Version=2.3.2.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Highlighter.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Queries, Version=2.9.2.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Queries.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Snowball, Version=2.0.0.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Snowball.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.Spatial, Version=2.9.1.2, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.Spatial.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Contrib.SpellChecker, Version=2.9.2.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Contrib.SpellChecker.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.FastVectorHighlighter, Version=2.9.2.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.FastVectorHighlighter.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net.Search.SimpleFacetedSearch, Version=2.9.4.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lucene.Net.Contrib.2.9.4.1\lib\net40\Lucene.Net.Search.SimpleFacetedSearch.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement">
       <Name>Microsoft.ApplicationBlocks.ExceptionManagement</Name>
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
@@ -203,18 +133,6 @@
       <HintPath>..\Common\Libraries\Microsoft.ApplicationBlocks.ExceptionManagement.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.2\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib">
       <Name>mscorlib</Name>
     </Reference>
@@ -304,9 +222,6 @@
     <Compile Include="Core\RssBanditApplication.Commands.cs" />
     <None Include="BanditHelp.chm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
     </None>
     <None Include="readme.txt" />
     <None Include="Resources\SearchEnginesConfig.xsx">
@@ -2385,6 +2300,59 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Shared">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.Misc">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinEditors">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinExplorerBar">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinStatusBar">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinTabControl">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinToolbars">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="Infragistics.WinForms.Win.UltraWinTree">
+      <Version>17.2.20172.1000</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>1.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Lucene.Net">
+      <Version>2.9.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Lucene.Net.Contrib">
+      <Version>2.9.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="SharpZipLib">
+      <Version>0.86.0</Version>
+    </PackageReference>
+    <PackageReference Include="Unity">
+      <Version>2.1.505.2</Version>
+    </PackageReference>
+    <PackageReference Include="WindowsAPICodePack-Core">
+      <Version>1.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="WindowsAPICodePack-Shell">
+      <Version>1.1.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
