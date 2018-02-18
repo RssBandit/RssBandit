@@ -1,0 +1,38 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Dare Obasanjo,Torsten Rendelmann,Oren Novotny</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageIconUrl>https://raw.githubusercontent.com/RssBandit/RssBandit/master/source/RssBandit.Package/Assets/app.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RssBandit/RssBandit</PackageProjectUrl>
+    <PackageLicenseUrl>hhttps://raw.githubusercontent.com/RssBandit/RssBandit/master/LICENSE</PackageLicenseUrl>
+    <Company>www.rssbandit.org</Company>
+    <Copyright>© 2003-2018 by www.rssbandit.org</Copyright>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+
+    <IsLegacyProject>$(MSBuildProjectName.Equals('RssBandit'))</IsLegacyProject>
+    <IsPackageProject>$(MSBuildProjectName.Contains('.Package'))</IsPackageProject>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  
+  <PropertyGroup>
+    <NerdbankGitVersioningVersion>2.1.23</NerdbankGitVersioningVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.23" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- https://github.com/NuGet/Home/issues/4337 -->
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' == 'true' ">
+    <Import Project="$(NuGetPackageRoot)nerdbank.gitversioning\$(NerdbankGitVersioningVersion)\buildCrossTargeting\Nerdbank.GitVersioning.targets"
+            Condition="Exists('$(NuGetPackageRoot)nerdbank.gitversioning\$(NerdbankGitVersioningVersion)\buildCrossTargeting\Nerdbank.GitVersioning.targets')" />
+  </ImportGroup>
+  <Target Name="FixUpVersion"
+          BeforeTargets="_GenerateRestoreProjectSpec"
+          DependsOnTargets="GetBuildVersion"
+          Condition=" '$(NerdbankGitVersioningTasksPath)' != '' " />
+</Project>

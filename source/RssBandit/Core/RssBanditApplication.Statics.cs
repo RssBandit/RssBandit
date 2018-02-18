@@ -75,14 +75,7 @@ namespace RssBandit
             {
                 if (appVersion == null)
                 {
-                    try
-                    {
-                        appVersion = new Version(typeof(RssBanditApplication).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
-                    }
-                    catch
-                    {
-                        appVersion = new Version(Application.ProductVersion);
-                    }
+                    appVersion = new Version(typeof(RssBanditApplication).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
                 }
                 return appVersion;
             }
@@ -96,35 +89,14 @@ namespace RssBandit
         {
             get
             {
-                Version verInfo = Version;
-                string versionStr = String.Format("{0}.{1}.{2}.{3}",
-                                                  verInfo.Major, verInfo.Minor,
-                                                  verInfo.Build, verInfo.Revision);
-
-                if (!string.IsNullOrEmpty(versionPostfix))
-                    return String.Format("{0} {1}", versionStr, versionPostfix);
-                return versionStr;
+                if (appVersionLong == null)
+                {
+                    appVersionLong = typeof(RssBanditApplication).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+                }
+                return appVersionLong;
             }
         }
-
-        /// <summary>
-        /// Gets the version (short format, incl. version postfix).
-        /// </summary>
-        /// <value>The version</value>
-        public static string VersionShort
-        {
-            get
-            {
-                Version verInfo = Version;
-                string versionStr = String.Format("{0}.{1}",
-                                                  verInfo.Major, verInfo.Minor);
-
-                if (!string.IsNullOrEmpty(versionPostfix))
-                    return String.Format("{0} {1}", versionStr, versionPostfix);
-                return versionStr;
-            }
-        }
-
+        
 
         /// <summary>
         /// Gets the application infos.

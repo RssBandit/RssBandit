@@ -192,6 +192,7 @@ namespace RssBandit
 		private static SearchIndexBehavior searchIndexBehavior;
 
         private static Version appVersion;
+        private static string appVersionLong;
         private static string appDataFolderPath;
         private static string appCacheFolderPath;
         private static readonly ILog _log = Log.GetLogger(typeof (RssBanditApplication));

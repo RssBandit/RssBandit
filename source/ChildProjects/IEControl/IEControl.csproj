@@ -162,9 +162,6 @@
     <Compile Include="Interop\OSHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VersionInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <None Include="license.txt" />
     <None Include="readme.txt" />
     <None Include="rssbandit.org.snk" />
