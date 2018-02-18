@@ -4,9 +4,10 @@ skip_branch_with_pr: true
 
 build_script:
   - cmd: nuget restore "source\RSS Bandit.sln"
-  - cmd: msbuild MSBuildDefault.proj /t:Daily /p:Configuration=Release  
+  - cmd: msbuild "source\RSS Bandit.sln" /p:Configuration=Release  
 
 test: off
 
 artifacts:
-  - path: '**\*.zip'
+  - path: '**\*.storeupload'
+  - path: '**\*.appxbundle'

@@ -1,1 +1,0 @@
-msbuild /m /p:Configuration=Debug;Platform=x86 "RSS Bandit NoInstaller.2008.sln"
