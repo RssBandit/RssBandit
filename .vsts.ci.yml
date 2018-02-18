@@ -1,6 +1,7 @@
 queue: "Hosted VS2017"
 variables: 
   BuildConfiguration: Release
+  BuildPlatform: AnyCPU
 steps:
 - task: BatchScript@1
   inputs:
@@ -33,8 +34,8 @@ steps:
     
     
     # Build RSS Bandit
-    msbuild .\source\RssBandit\RssBandit.csproj /m /p:Configuration=$(BuildConfiguration) /bl:$(Build.ArtifactStagingDirectory)\Logs\Build-RssBandit.binlog    
-    msbuild .\source\RssBandit.Package\RssBandit.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:UapAppxPackageBuildMode=StoreUpload /bl:$(Build.ArtifactStagingDirectory)\Logs\Build-Package.binlog     
+    msbuild .\source\RssBandit\RssBandit.csproj /m /p:Configuration=$(BuildConfiguration) /p:Platform=$(BuildPlatform) /bl:$(Build.ArtifactStagingDirectory)\Logs\Build-RssBandit.binlog    
+    msbuild .\source\RssBandit.Package\RssBandit.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:Platform=$(BuildPlatform) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:UapAppxPackageBuildMode=StoreUpload /bl:$(Build.ArtifactStagingDirectory)\Logs\Build-Package.binlog     
         
   displayName: Build 
   
