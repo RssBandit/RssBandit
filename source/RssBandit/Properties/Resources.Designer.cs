@@ -19,7 +19,7 @@ namespace RssBandit.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -613,9 +613,11 @@ namespace RssBandit.Properties {
         ///&lt;searchConfiguration xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; open-newtab=&quot;true&quot; xmlns=&quot;http://www.25hoursaday.com/2003/RSSBandit/searchConfiguration/&quot;&gt;
         ///  &lt;engine active=&quot;true&quot;&gt;
         ///    &lt;title&gt;Google&lt;/title&gt;
-        ///    &lt;search-link&gt;http://www.google.com/search?sourceid=navclient&amp;amp;ie=UTF-8&amp;amp;oe=UTF-8&amp;amp;q={0}&lt;/search-link&gt;
+        ///    &lt;search-link&gt;https://www.google.com/search?q={0}&lt;/search-link&gt;
         ///    &lt;description&gt;Search the web with Google...&lt;/description&gt;
-        ///    &lt;image-name&gt;google.ico&lt;/i [rest of string was truncated]&quot;;.
+        ///    &lt;image-name&gt;google.ico&lt;/image-name&gt;
+        ///  &lt;/engine&gt;
+        ///  &lt;engine active=&quot;true&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string web_searches_config {
             get {

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net462</TargetFramework>
+        <TargetFramework>net471</TargetFramework>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <Title>News Components</Title>
         <Description>News Components</Description>

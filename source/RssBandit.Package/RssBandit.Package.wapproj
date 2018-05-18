@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
     <VisualStudioVersion>15.0</VisualStudioVersion>
@@ -36,7 +36,7 @@
   <PropertyGroup>
     <ProjectGuid>2c347273-6a74-43a2-a75a-fd4bc52f5938</ProjectGuid>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
@@ -52,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\*.png" />
-    <Content Include="..\RssBandit\bin\$(Configuration)\**\*.dll">
-      <Link>RssBandit\%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>
     <None Include="Package.xml" />
     <None Include="RssBandit.Package_StoreKey.pfx" />
   </ItemGroup>
