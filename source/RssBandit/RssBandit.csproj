@@ -10,6 +10,7 @@
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
+    <NgenR2R>true</NgenR2R>
     <AssemblyName>RSSBandit</AssemblyName>
     <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
