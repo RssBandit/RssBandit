@@ -11,9 +11,9 @@ steps:
   displayName: Setup Environment Variables
 
 - task: NuGetToolInstaller@0
-  displayName: Use NuGet 4.5
+  displayName: Use NuGet 4.7
   inputs:
-    versionSpec: 4.5.0
+    versionSpec: 4.7.0
 
 - powershell: |    
     
