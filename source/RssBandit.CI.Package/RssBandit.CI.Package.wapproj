@@ -20,25 +20,17 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|AnyCPU">
-      <Configuration>Debug</Configuration>
-      <Platform>AnyCPU</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|AnyCPU">
-      <Configuration>Release</Configuration>
-      <Platform>AnyCPU</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>2c347273-6a74-43a2-a75a-fd4bc52f5938</ProjectGuid>
+    <ProjectGuid>8922af5d-4740-4a06-8b4c-a3ecf306aa1c</ProjectGuid>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>RssBandit.CI.Package_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
     <PackageCertificateThumbprint>4745D507DDC36064E6C860C37849BC5205BC7928</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -52,8 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\*.png" />
-    <None Include="Package.xml" />
-    <None Include="RssBandit.Package_StoreKey.pfx" />
+    <None Include="RssBandit.CI.Package_StoreKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssBandit\RssBandit.csproj" SkipGetTargetFrameworkProperties="true" />

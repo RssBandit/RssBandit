@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap desktop desktop2">
-  <Identity Name="OrenNovotnyLLC.RSSBandit" Version="1.9.9.0" Publisher="CN=9AA7F4F4-7682-4818-A20D-63579CAA0466" />
+  <Identity Name="OrenNovotnyLLC.RSSBandit.CI" Version="1.9.9.0" Publisher="CN=9AA7F4F4-7682-4818-A20D-63579CAA0466" />
   <Properties>
-    <DisplayName>RSS Bandit</DisplayName>
+    <DisplayName>RSS Bandit CI</DisplayName>
     <PublisherDisplayName>Oren Novotny, LLC</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,8 +14,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="RSS Bandit" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile ShortName="RSS Bandit" Square71x71Logo="Assets\SmallTile.png">
+      <uap:VisualElements DisplayName="RSS Bandit CI" Description="RSS Bandit News Reader" BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile ShortName="RSS Bandit CI" Square71x71Logo="Assets\SmallTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\splashscreen.png" />
       </uap:VisualElements>
@@ -26,7 +26,7 @@
           </uap:Protocol>
         </uap:Extension>
         <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
-          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit Startup Task" />
+          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit CI Startup Task" />
         </desktop:Extension>
       </Extensions>
     </Application>

@@ -1,7 +1,7 @@
 queue: "Hosted VS2017"
 variables: 
   BuildConfiguration: Release
-  BuildPlatform: AnyCPU
+  BuildPlatform: x86
 steps:
 - task: BatchScript@1
   inputs:
@@ -26,17 +26,30 @@ steps:
     # Update appxmanifests. These must be done before build.
     $doc = Get-Content ".\source\RssBandit.Package\package.appxmanifest"    
     $doc | % { $_.Replace("1.9.9", "$ver") } | Set-Content ".\source\RssBandit.Package\package.appxmanifest"
+
+    # Update appxmanifests. These must be done before build.
+    $doc = Get-Content ".\source\RssBandit.CI.Package\package.appxmanifest"    
+    $doc | % { $_.Replace("1.9.9", "$ver") } | Set-Content ".\source\RssBandit.CI.Package\package.appxmanifest"
     
     # Build RSS Bandit
-    msbuild .\source\RssBandit\RssBandit.csproj /restore /m /p:Configuration=$(BuildConfiguration) /p:Platform=$(BuildPlatform) 
-    msbuild .\source\RssBandit.Package\RssBandit.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:Platform=$(BuildPlatform) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:UapAppxPackageBuildMode=StoreUpload 
+    msbuild .\source\RssBandit\RssBandit.csproj /restore /m /p:Configuration=$(BuildConfiguration) 
+    msbuild .\source\RssBandit.Package\RssBandit.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:UapAppxPackageBuildMode=StoreUpload 
+    msbuild .\source\RssBandit.CI.Package\RssBandit.CI.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\CI\"
         
   displayName: Build 
   
+- task: PublishBuildArtifacts@1
+  displayName: Publish CI Artifacts
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)\CI
+    artifactType: container
+    artifactName: CI
+  condition: eq(variables['system.pullrequest.isfork'], false)
+
 - task: PublishBuildArtifacts@1
   displayName: Publish Store Artifacts
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)\Store
     artifactType: container
     artifactName: Store
-  condition: always()
+  condition: eq(variables['system.pullrequest.isfork'], false)
