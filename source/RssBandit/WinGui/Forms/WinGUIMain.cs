@@ -1,4 +1,4 @@
-#region Version Header
+﻿#region Version Header
 
 /*
  * $Id$
@@ -27,7 +27,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using IEControl;
 using Infragistics.Win;
 using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinExplorerBar;
@@ -59,6 +58,7 @@ using K = RssBandit.Utility.Keyboard;
 using RssBandit.WinGui.Controls.ThListView;
 using ToolTip=System.Windows.Forms.ToolTip;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -233,7 +233,7 @@ namespace RssBandit.WinGui.Forms
         private System.Timers.Timer _timerTreeNodeExpand;
         private System.Timers.Timer _timerRefreshFeeds;
         private System.Timers.Timer _timerRefreshCommentFeeds;
-        private HtmlControl htmlDetail;
+        private WebView htmlDetail;
         private StatusBar _status;
         private StatusBarPanel statusBarBrowser;
         private StatusBarPanel statusBarBrowserProgress;
@@ -979,7 +979,7 @@ namespace RssBandit.WinGui.Forms
 			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
 			this.panelFeedDetails = new System.Windows.Forms.Panel();
 			this.panelWebDetail = new System.Windows.Forms.Panel();
-			this.htmlDetail = new IEControl.HtmlControl();
+            this.htmlDetail = new WebView();
 			this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
 			this.panelFeedItems = new System.Windows.Forms.Panel();
 			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
@@ -1096,13 +1096,9 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// htmlDetail
 			// 
-			this.htmlDetail.AllowDrop = true;
 			this.htmlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.htmlDetail.Enabled = true;
 			this.htmlDetail.Location = new System.Drawing.Point(0, 0);
 			this.htmlDetail.Name = "htmlDetail";
-			this.htmlDetail.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-			this.htmlDetail.RightToLeft = false;
 			this.helpProvider1.SetShowHelp(this.htmlDetail, false);
 			this.htmlDetail.Size = new System.Drawing.Size(402, 199);
 			this.htmlDetail.TabIndex = 170;
@@ -1777,7 +1773,7 @@ namespace RssBandit.WinGui.Forms
             resultContainer.Clear();
             UpdateTreeNodeUnreadStatus(resultContainer, 0);
             EmptyListView();
-            htmlDetail.Clear();
+            htmlDetail.NavigateToString("<html></html>");
 
             e.ResultContainer = resultContainer;
             TreeSelectedFeedsNode = resultContainer;
@@ -1891,7 +1887,7 @@ namespace RssBandit.WinGui.Forms
             {
                 _searchResultNode.Clear();
                 EmptyListView();
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
                 TreeSelectedFeedsNode = _searchResultNode;
                 SetSearchStatusText(SR.RssSearchStateMessage);
             }
@@ -2347,7 +2343,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // not just right-clicked elsewhere on a node:
                 EmptyListView();
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
 
                 TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(tn);
                 RefreshFeedDisplay(TreeSelectedFeedsNode, true);

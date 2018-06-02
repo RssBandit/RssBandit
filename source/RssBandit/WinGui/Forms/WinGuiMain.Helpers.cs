@@ -13,7 +13,6 @@ using RssBandit.AppServices;
 using RssBandit.WinGui.Controls.ThListView;
 using RssBandit.WinGui.Controls.ThListView.Sorting;
 using AppInteropServices;
-using IEControl;
 using Infragistics.Win.UltraWinTree;
 using Microsoft.ApplicationBlocks.ExceptionManagement;
 using NewsComponents;
@@ -31,6 +30,8 @@ using SortOrder=System.Windows.Forms.SortOrder;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.Net;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 using ExecuteCommandHandler = RssBandit.WinGui.Interfaces.ExecuteCommandHandler;
 
 namespace RssBandit.WinGui.Forms
@@ -420,7 +421,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private static void SetFocus2WebBrowser(HtmlControl theBrowser)
+        private static void SetFocus2WebBrowser(WebView theBrowser)
         {
             if (theBrowser == null)
                 return;
@@ -619,7 +620,7 @@ namespace RssBandit.WinGui.Forms
                 listFeedItems.SelectedItems.Clear();
                 foundLVItem.Selected = true;
                 foundLVItem.Focused = true;
-                htmlDetail.Activate(); // set focus to html after doc is loaded
+                htmlDetail.MoveFocus(WebViewControlMoveFocusReason.Programmatic); // set focus to html after doc is loaded)
                 OnFeedListItemActivate(null, EventArgs.Empty); //pass nulls because I don't use params
                 SetTitleText(tn.Text);
                 SetDetailHeaderText(tn);
@@ -935,7 +936,7 @@ namespace RssBandit.WinGui.Forms
 
                 if (updateGui)
                 {
-                    htmlDetail.Clear(); //clear browser pane 
+                    htmlDetail.NavigateToString("<html></html>"); //clear browser pane 
                     if (itemSelected == null || listFeedItems.Items.Count == 0)
                     {
                         CurrentSelectedFeedItem = null;
@@ -994,7 +995,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         //clear browser pane 
                         CurrentSelectedFeedItem = null;
-                        htmlDetail.Clear();
+                        htmlDetail.NavigateToString("<html></html>"); ;
                     }
                     else
                         ReSelectListViewItem(itemSelected);
@@ -2020,8 +2021,7 @@ namespace RssBandit.WinGui.Forms
                 if ((listFeedItems.SelectedItems.Count == 0) && treeFeeds.SelectedNodes.Count > 0 &&
                     ReferenceEquals(treeFeeds.SelectedNodes[0], node))
                 {
-                    htmlDetail.Html = html;
-                    htmlDetail.Navigate(null);
+                    htmlDetail.NavigateToString(html);
                 }
             }
         }
@@ -2202,7 +2202,7 @@ namespace RssBandit.WinGui.Forms
                 owner.StateHandler.MoveNewsHandlerStateTo(FeedSourceBusyState.RefreshOne);
                 try
                 {
-                    htmlDetail.Clear();
+                    htmlDetail.NavigateToString("<html></html>");
                     // Old: call may initiate a web request, if eTag/last retrived is too old:
                     //ArrayList items = owner.FeedHandler.GetItemsForFeed(tn.DataKey, false);
                     // this will just get the items from cache:
@@ -2301,9 +2301,9 @@ namespace RssBandit.WinGui.Forms
             string category = tn.CategoryStoreName;
 			FeedSourceEntry entry = FeedSourceEntryOf(tn);
 			
-			htmlDetail.Clear();
-            
-			listFeedItems.BeginUpdate();
+			htmlDetail.NavigateToString("<html></html>");
+
+            listFeedItems.BeginUpdate();
 			PopulateListView(tn, new List<INewsItem>(), true);
             WalkdownThenRefreshFeed(tn, false, true, tn);
 			listFeedItems.EndUpdate();
@@ -2383,7 +2383,7 @@ namespace RssBandit.WinGui.Forms
             if (cnf != null)
             {
                 EmptyListView();
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
 
             if (categoryFeedsNode.Selected ||

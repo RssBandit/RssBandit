@@ -10,8 +10,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Genghis.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
-using IEControl;
 using Infragistics.Win.UltraWinTree;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 using NewsComponents;
 using NewsComponents.Feed;
 using NewsComponents.Net;
@@ -687,7 +688,7 @@ namespace RssBandit.WinGui.Forms
             if (string.IsNullOrEmpty(tab))
                 tab = url;
 
-            HtmlControl hc = null;
+            WebView hc = null;
 
             DockControl currentDoc;
             DockControl previousDoc = currentDoc = _docContainer.ActiveDocument;
@@ -704,7 +705,7 @@ namespace RssBandit.WinGui.Forms
                         if (c != currentDoc)
                         {
                             // reuse first docTab not equal to news item listview container
-                            hc = (HtmlControl) c.Controls[0];
+                            hc = (WebView) c.Controls[0];
                             break;
                         }
                     }
@@ -714,7 +715,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // web doc tab
                 // reuse same tab
-                hc = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
+                hc = (WebView) _docContainer.ActiveDocument.Controls[0];
             }
 
             if (hc == null)
@@ -735,7 +736,8 @@ namespace RssBandit.WinGui.Forms
                 //hc.Activate();	// so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
                 if (setFocus)
                 {
-                    hc.Activate();
+                    //hc.Activate();
+                    hc.MoveFocus(WebViewControlMoveFocusReason.Programmatic);
                     // so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
                     currentDoc = (DockControl) hc.Tag;
                 }
@@ -754,48 +756,51 @@ namespace RssBandit.WinGui.Forms
             hc.Navigate(url);
         }
 
-        private HtmlControl CreateAndInitIEControl(string tabName)
+        private WebView CreateAndInitIEControl(string tabName)
         {
-            var hc = new HtmlControl();
+
+
+
+            var hc = new WebView();
             var resources = new ComponentResourceManager(typeof (WinGuiMain));
 
-            hc.BeginInit();
+            ((ISupportInitialize)(hc)).BeginInit();
             // we just take over some generic resource settings from htmlDetail:
             hc.AllowDrop = true;
             resources.ApplyResources(hc, "htmlDetail");
             hc.Name = tabName ?? String.Empty;
-            hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
-            hc.ContainingControl = this;
-			hc.EndInit();
+            // hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
+            //hc.ContainingControl = this;
 
-            hc.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
-            hc.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
+            hc.IsJavaScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            ((ISupportInitialize)(hc)).EndInit();
 
-            hc.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
-            HtmlControl.SetInternetFeatureEnabled(
-                InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
-                SetFeatureFlag.SET_FEATURE_ON_THREAD_INTERNET,
-                hc.ActiveXEnabled);
+            
+            
+            //HtmlControl.SetInternetFeatureEnabled(
+            //    InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
+            //    SetFeatureFlag.SET_FEATURE_ON_THREAD_INTERNET,
+            //    hc.ActiveXEnabled);
 
-            hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
-            hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
-            hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
-            hc.SilentModeEnabled = true;
-            hc.Border3d = true;
+            //hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
+            //hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
+            //hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
+            //hc.SilentModeEnabled = true;
+            //hc.Border3d = true;
 
         	AttachEvents(hc, true);
             
             return hc;
         }
 
-        private static ITabState GetTabStateFor(HtmlControl control)
-        {
-            if (control == null) return null;
-            var doc = (DockControl) control.Tag;
-            if (doc == null) return null;
-            var state = (ITabState) doc.Tag;
-            return state;
-        }
+        //private static ITabState GetTabStateFor(HtmlControl control)
+        //{
+        //    if (control == null) return null;
+        //    var doc = (DockControl) control.Tag;
+        //    if (doc == null) return null;
+        //    var state = (ITabState) doc.Tag;
+        //    return state;
+        //}
 
         private bool UrlRequestHandledExternally(string url, bool forceNewTab)
         {
@@ -870,7 +875,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // _docContainer.ActiveDocument != _docFeedDetails
 
-                var wb = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
+                var wb = (WebView) _docContainer.ActiveDocument.Controls[0];
                 try
                 {
                     switch (action)
@@ -885,8 +890,7 @@ namespace RssBandit.WinGui.Forms
                             wb.GoForward();
                             break;
                         case BrowseAction.DoRefresh:
-                            object level = 2;
-                            wb.Refresh2(ref level);
+                            wb.Refresh();
                             break;
                         default:
                             break;
@@ -2442,7 +2446,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // no items:
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
         }
 
@@ -2596,7 +2600,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // no items:
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
         }
 

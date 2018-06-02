@@ -1,4 +1,4 @@
-#region Version Info Header
+ï»¿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using IEControl;
 using Interop.ThumbCache;
 using log4net;
 using Microsoft.Win32;
@@ -638,44 +637,44 @@ namespace RssBandit
 			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
 			void IRegistry.CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion)
 			{
-				var currentVersion = GetRegistryInternetExplorerVersion();
+				//var currentVersion = GetRegistryInternetExplorerVersion();
 
-			    if (currentVersion >= new Version(9, 11))
-			    {
-			        InternetExplorerFeature.SetBrowserEmulation(appExeName,
-			            forceToInstalledIEVersion
-			                ? InternetFeatureBrowserEmulation.IE11StandardMode
-			                : InternetFeatureBrowserEmulation.IE11Mode);
-			        return;
-			    }
+			 //   if (currentVersion >= new Version(9, 11))
+			 //   {
+			 //       InternetExplorerFeature.SetBrowserEmulation(appExeName,
+			 //           forceToInstalledIEVersion
+			 //               ? InternetFeatureBrowserEmulation.IE11StandardMode
+			 //               : InternetFeatureBrowserEmulation.IE11Mode);
+			 //       return;
+			 //   }
 
-                // see http://support.microsoft.com/kb/969393 
-                if (currentVersion >= new Version(9, 10))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE10StandardMode
-							: InternetFeatureBrowserEmulation.IE10Mode);
-					return;
-				}
+    //            // see http://support.microsoft.com/kb/969393 
+    //            if (currentVersion >= new Version(9, 10))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE10StandardMode
+				//			: InternetFeatureBrowserEmulation.IE10Mode);
+				//	return;
+				//}
 
-				if (currentVersion >= new Version(9, 0))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE9StandardMode
-							: InternetFeatureBrowserEmulation.IE9Mode);
-					return;
-				}
+				//if (currentVersion >= new Version(9, 0))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE9StandardMode
+				//			: InternetFeatureBrowserEmulation.IE9Mode);
+				//	return;
+				//}
 
-				if (currentVersion >= new Version(8, 0))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE8StandardMode
-							: InternetFeatureBrowserEmulation.IE8Mode);
-					return;
-				}
+				//if (currentVersion >= new Version(8, 0))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE8StandardMode
+				//			: InternetFeatureBrowserEmulation.IE8Mode);
+				//	return;
+				//}
 
 			}
 
@@ -2032,7 +2031,7 @@ namespace RssBandit
 			/// as both this flag and the VER_SUITE_SMALLBUSINESS_RESTRICTED flag are set 
 			/// when this product suite is installed. If you upgrade this installation to 
 			/// Windows Server, Standard Edition, the VER_SUITE_SMALLBUSINESS_RESTRICTED flag 
-			/// will be unset — however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
+			/// will be unset â€” however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
 			/// In this case, this indicates that Small Business Server was once installed on 
 			/// this system. If this installation is further upgraded to Windows Server, 
 			/// Enterprise Edition, the VER_SUITE_SMALLBUSINESS key will remain set.
@@ -3299,7 +3298,7 @@ namespace RssBandit
 			public static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
 			/// <summary>
-			/// Implemented by many of the Microsoft® Windows® Shell dynamic-link libraries 
+			/// Implemented by many of the MicrosoftÂ® WindowsÂ® Shell dynamic-link libraries 
 			/// (DLLs) to allow applications to obtain DLL-specific version information
 			/// </summary>
 			/// <param name="pdvi">Pointer to a DLLVERSIONINFO structure that receives the 

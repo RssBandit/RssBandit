@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -78,9 +78,9 @@ namespace RssBandit.WinGui.Utility
 							return false;	// control is focused, so it should handle the wheel itself
 	
 						// thanks to http://sourceforge.net/users/kevindente/:
-						if (child is IEControl.HtmlControl)	{
-							return ScrollHtmlControl(child as IEControl.HtmlControl, m);
-						}
+						//if (child is IEControl.HtmlControl)	{
+						//	return ScrollHtmlControl(child as IEControl.HtmlControl, m);
+						//}
 
 						if (child is UltraTree) {
 							//HACK: because of no managed support, but works...
@@ -127,35 +127,35 @@ namespace RssBandit.WinGui.Utility
 			return control;
 		}
 		
-		/// <summary>
-		/// Mouse wheel scrolling on IEControl support.
-		/// Thanks to // thanks to http://sourceforge.net/users/kevindente/:
-		/// </summary>
-		/// <param name="control"></param>
-		/// <param name="m"></param>
-		/// <returns></returns>
-		private bool ScrollHtmlControl(IEControl.HtmlControl control, Message m) {
-			IntPtr hwnd;
+		///// <summary>
+		///// Mouse wheel scrolling on IEControl support.
+		///// Thanks to // thanks to http://sourceforge.net/users/kevindente/:
+		///// </summary>
+		///// <param name="control"></param>
+		///// <param name="m"></param>
+		///// <returns></returns>
+		//private bool ScrollHtmlControl(IEControl.HtmlControl control, Message m) {
+		//	IntPtr hwnd;
 
-			IEControl.Interop.IOleWindow oleWindow = null;
-			try {
-				oleWindow = control.Document2 as IEControl.Interop.IOleWindow;
-			} catch {}
+		//	IEControl.Interop.IOleWindow oleWindow = null;
+		//	try {
+		//		oleWindow = control.Document2 as IEControl.Interop.IOleWindow;
+		//	} catch {}
 
-			if (oleWindow == null)
-				return false;
+		//	if (oleWindow == null)
+		//		return false;
 
-			oleWindow.GetWindow(out hwnd);
+		//	oleWindow.GetWindow(out hwnd);
 
-			if (m.HWnd == hwnd) { 
-			 	// avoid recursion
-				return false;
-			}
+		//	if (m.HWnd == hwnd) { 
+		//	 	// avoid recursion
+		//		return false;
+		//	}
 
-			NativeMethods.PostMessage(hwnd, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
+		//	NativeMethods.PostMessage(hwnd, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
 
-			return true;	
-		}
+		//	return true;	
+		//}
 
 		#region Win32 interop/helpers
 

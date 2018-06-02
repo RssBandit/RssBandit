@@ -12,10 +12,10 @@ using System.Text;
 using System.Timers;
 using System.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
-using IEControl;
 using Infragistics.Win.UltraWinExplorerBar;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using SHDocVw;
 using NewsComponents;
 using NewsComponents.Feed;
@@ -34,6 +34,7 @@ using Syndication.Extensibility;
 using TD.SandDock;
 using TD.SandDock.Rendering;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -563,7 +564,7 @@ namespace RssBandit.WinGui.Forms
         private void CmdRefreshFinder(ICommand sender)
         {
             EmptyListView();
-            htmlDetail.Clear();
+            htmlDetail.NavigateToString("<html></html>");
             var afn = TreeSelectedFeedsNode as FinderNode;
             if (afn != null)
             {
@@ -651,7 +652,7 @@ namespace RssBandit.WinGui.Forms
                 fn.Clear();
                 UpdateTreeNodeUnreadStatus(fn, 0);
                 EmptyListView();
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
                 AsyncStartNewsSearch(fn);
             }
         }
@@ -961,7 +962,7 @@ namespace RssBandit.WinGui.Forms
                         break;
                 }
 
-                htmlDetail.SetZoomFactor(z);
+           //     htmlDetail.SetZoomFactor(z);
 
                 owner.Preferences.ReadingPaneTextSize = size;
                 owner.Mediator.SetChecked(false, "cmdFeedDetailTextSizeLargest", "cmdFeedDetailTextSizeLarger",
@@ -1086,7 +1087,7 @@ namespace RssBandit.WinGui.Forms
                 try
                 {
                     _docContainer.RemoveDocument(doc);
-                    var browser = doc.Controls[0] as HtmlControl;
+                    var browser = doc.Controls[0] as WebView;
                     if (browser != null)
                     {
                         browser.Tag = null; // remove ref to containing doc
@@ -1498,7 +1499,7 @@ namespace RssBandit.WinGui.Forms
                                         else if (_docContainer.ActiveDocument != _docFeedDetails)
                                         {
                                             // a tabbed browser should get focus
-                                            SetFocus2WebBrowser((HtmlControl) _docContainer.ActiveDocument.Controls[0]);
+                                            SetFocus2WebBrowser((WebView) _docContainer.ActiveDocument.Controls[0]);
                                             processed = true;
                                         }
                                     }
@@ -1548,7 +1549,7 @@ namespace RssBandit.WinGui.Forms
                                         else if (_docContainer.ActiveDocument != _docFeedDetails)
                                         {
                                             // a tabbed browser should get focus
-                                            SetFocus2WebBrowser((HtmlControl) _docContainer.ActiveDocument.Controls[0]);
+                                            SetFocus2WebBrowser((WebView) _docContainer.ActiveDocument.Controls[0]);
                                             processed = true;
                                         }
                                     }
@@ -1673,31 +1674,31 @@ namespace RssBandit.WinGui.Forms
 									}
 								}
 
-	                            IHTMLElement2 htbody = null;
-	                            if (internalStylesheetUsed)
-	                            {
-									IHTMLDocument3 htdoc3 = htmlDetail.Document as IHTMLDocument3;
-		                            if (htdoc3 != null)
-			                            htbody = htdoc3.documentElement() as IHTMLElement2;
-	                            }
-	                            else
-	                            {
-									IHTMLDocument2 htdoc2 = htmlDetail.Document2;
-									if (htdoc2 != null)
-										htbody = htdoc2.GetBody();
-	                            }
+	                           //IHTMLElement2 htbody = null;
+	        //                    if (internalStylesheetUsed)
+	        //                    {
+         //                           IHTMLDocument3 htdoc3 = htmlDetail.Document as IHTMLDocument3;
+		       //                     if (htdoc3 != null)
+			      //                      htbody = htdoc3.documentElement() as IHTMLElement2;
+	        //                    }
+	        //                    else
+	        //                    {
+									//IHTMLDocument2 htdoc2 = htmlDetail.Document2;
+									//if (htdoc2 != null)
+									//	htbody = htdoc2.GetBody();
+	        //                    }
 
-								if (htbody != null)
-								{
-									int num1 = htbody.getScrollTop();
-									htbody.setScrollTop(num1 + 20);
-									int num2 = htbody.getScrollTop();
-									if (num1 == num2)
-									{
-										MoveToNextUnreadItem(true);
-										processed = true;
-									}
-								}
+								//if (htbody != null)
+								//{
+								//	int num1 = htbody.getScrollTop();
+								//	htbody.setScrollTop(num1 + 20);
+								//	int num2 = htbody.getScrollTop();
+								//	if (num1 == num2)
+								//	{
+								//		MoveToNextUnreadItem(true);
+								//		processed = true;
+								//	}
+								//}
                             }
                             else
                             {
@@ -1771,13 +1772,13 @@ namespace RssBandit.WinGui.Forms
                     _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
                     Control mouseControl = wheelSupport.GetTopmostVisibleChild(this, MousePosition);
-                    _webUserNavigated = (mouseControl is HtmlControl); // set
+                    _webUserNavigated = (mouseControl is WebView); // set
                     _webForceNewTab = false;
-                    if (_webUserNavigated)
-                    {
-                        // CONTROL-Click opens a new Tab
-                        _webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
-                    }
+                    //if (_webUserNavigated)
+                    //{
+                    //    // CONTROL-Click opens a new Tab
+                    //    _webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
+                    //}
                 }
                 else if (m.Msg == (int) Win32.NativeMethods.Message.WM_MOUSEMOVE)
                 {
@@ -2623,8 +2624,8 @@ namespace RssBandit.WinGui.Forms
 							if (this.GetRootType(RootFolderType.MyFeeds).Equals(tn)) 
 								AggregateSubFeeds(tn);	// it is slow on startup, nothing is loaded in memory...
 							*/
-                            htmlDetail.Html = String.Empty;
-                            htmlDetail.Navigate(null);
+                            //htmlDetail.Html = String.Empty;
+                            htmlDetail.NavigateToString("<html></html>");
                             FeedDetailTabState.Url = String.Empty;
                             AddHistoryEntry(tn, null);
 							FeedSourceEntry entry = FeedSourceEntryOf(tn);
@@ -3173,7 +3174,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     // can happen on dummy items ("Loading..."), if the user clicks fast enough
 
-                    htmlDetail.Clear();
+                    htmlDetail.NavigateToString("<html></html>");
                     FeedDetailTabState.Url = String.Empty;
                     RefreshDocumentState(_docContainer.ActiveDocument);
                 }
@@ -3190,8 +3191,8 @@ namespace RssBandit.WinGui.Forms
                     {
                         // not allowed: just display the Read On... 
                         stylesheet = (item.Feed != null && entry != null ? entry.Source.GetStyleSheet(item.Feed.link) : String.Empty);
-                        htmlDetail.Html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
-                        htmlDetail.Navigate(null);
+                        var html = owner.FormatNewsItem(stylesheet, item, searchCriterias);
+                        htmlDetail.NavigateToString(html);
                     }
 
                     FeedDetailTabState.Url = item.Link;
@@ -3216,8 +3217,7 @@ namespace RssBandit.WinGui.Forms
                         html2render = owner.ReplaceImagesWithCachedVersions(html2render); 
                     }
 
-                    htmlDetail.Html = html2render; 
-                    htmlDetail.Navigate(null);
+                    htmlDetail.NavigateToString(html2render);
 
                     FeedDetailTabState.Url = item.Link;
                     if (!_navigationActionInProgress)
@@ -4041,26 +4041,26 @@ namespace RssBandit.WinGui.Forms
 
         #region html control events
 
-        private void OnHtmlWindowError(string description, string url, int line)
-        {
-            /* don't show script error dialog and don't disable script due to a single script error */
-			if (_docContainer.ActiveDocument != null && _docContainer.ActiveDocument.Controls.Count > 0)
-			{
-				HtmlControl hc = FindControl<HtmlControl>(_docContainer.ActiveDocument.Controls);
+   //     private void OnHtmlWindowError(string description, string url, int line)
+   //     {
+   //         /* don't show script error dialog and don't disable script due to a single script error */
+			//if (_docContainer.ActiveDocument != null && _docContainer.ActiveDocument.Controls.Count > 0)
+			//{
+			//	HtmlControl hc = FindControl<HtmlControl>(_docContainer.ActiveDocument.Controls);
 				
-				if (hc != null)
-				{
-					var window = (IHTMLWindow2)hc.Document2.GetParentWindow();
-					IHTMLEventObj eventObj = window.eventobj;
-					if (eventObj != null)
-						eventObj.ReturnValue = true;
-				} 
-				else
-				{
-					_log.Error("FindControl<HtmlControl>() returned null");
-				}
-			}
-        }
+			//	if (hc != null)
+			//	{
+			//		var window = (IHTMLWindow2)hc.Document2.GetParentWindow();
+			//		IHTMLEventObj eventObj = window.eventobj;
+			//		if (eventObj != null)
+			//			eventObj.ReturnValue = true;
+			//	} 
+			//	else
+			//	{
+			//		_log.Error("FindControl<HtmlControl>() returned null");
+			//	}
+			//}
+   //     }
 
 		private static T FindControl<T>(Control.ControlCollection collection) where T: class
 		{
@@ -4078,17 +4078,17 @@ namespace RssBandit.WinGui.Forms
 			return null;
 		}
 
-        private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e)
-        {
-            SetBrowserStatusBarText(e.text);
-        }
+        //private void OnWebStatusTextChanged(object sender, BrowserStatusTextChangeEvent e)
+        //{
+        //    SetBrowserStatusBarText(e.text);
+        //}
 
-        private void OnWebBeforeNavigate(object sender, BrowserBeforeNavigate2Event e)
+        private void OnWebBeforeNavigate(object sender, WebViewControlNavigationStartingEventArgs e)
         {
             bool userNavigates = _webUserNavigated;
             bool forceNewTab = _webForceNewTab;
 
-            string url = e.url;
+            string url = e.Uri?.ToString() ?? string.Empty;
 
             if (!url.ToLower().StartsWith("javascript:"))
             {
@@ -4116,13 +4116,13 @@ namespace RssBandit.WinGui.Forms
                 if ((ModifierKeys & Keys.Control) == Keys.Control)
                     forceSetFocus = false;
 
-                var hc = sender as HtmlControl;
+                var hc = sender as WebView;
                 if (hc != null)
                 {
                     var dc = (DockControl) hc.Tag;
                     var ts = (ITabState) dc.Tag;
                     tabCanClose = ts.CanClose;
-                    framesAllowed = hc.FrameDownloadEnabled;
+                   // framesAllowed = hc.FrameDownloadEnabled;
                 }
 
                 if (userNavigates && UrlRequestHandledExternally(url, forceNewTab))
@@ -4131,13 +4131,14 @@ namespace RssBandit.WinGui.Forms
                     return;
                 }
 
-                if (!tabCanClose && !userNavigates && !forceNewTab)
-                {
-                    if (!framesAllowed)
-                        e.Cancel = !e.IsRootPage; // prevent sub-sequent requests of <iframe>'s
-                    // else just allow navigate in current browser
-                    return;
-                }
+                //if (!tabCanClose && !userNavigates && !forceNewTab)
+                //{
+                //    if (!framesAllowed)
+                        
+                //        e.Cancel = !e.IsRootPage; // prevent sub-sequent requests of <iframe>'s
+                //    // else just allow navigate in current browser
+                //    return;
+                //}
 
                 if ((!tabCanClose && userNavigates) || forceNewTab)
                 {
@@ -4148,26 +4149,26 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void OnWebNavigateComplete(object sender, BrowserNavigateComplete2Event e)
+        private void OnWebNavigateComplete(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
             // if we cancelled subsequent requests in the WebBeforeNavigate event,
             // we may not receive the OnWebDocumentComplete event for the master page
             // so in general we do the same things here as in OnWebDocumentComplete()
             try
             {
-                var hc = (HtmlControl) sender;
+                var hc = (WebView) sender;
 
                 //handle script errors on page
-                var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
-                window.onerror += OnHtmlWindowError;
+                //var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
+                //window.onerror += OnHtmlWindowError;
 
-                if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
+                if (!string.IsNullOrEmpty(e.Uri?.ToString()) && e.Uri.ToString() != "about:blank")
                 {
-                    AddUrlToHistoryDropdown(e.url);
+                    AddUrlToHistoryDropdown(e.Uri.ToString());
 
                     var doc = (DockControl) hc.Tag;
                     var state = (ITabState) doc.Tag;
-                    state.Url = e.url;
+                    state.Url = e.Uri.ToString();
                     RefreshDocumentState(doc);
                     // we should only discover once per browse action (in OnWebDocumentComplete()):
                     //owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentOuterHTML, state.Url, null);
@@ -4177,109 +4178,109 @@ namespace RssBandit.WinGui.Forms
             }
             catch (Exception ex)
             {
-                _log.Error("OnWebNavigateComplete(): " + e.url, ex);
+                _log.Error("OnWebNavigateComplete(): " + e.Uri.ToString(), ex);
             }
         }
 
 
-        private void OnWebDocumentComplete(object sender, BrowserDocumentCompleteEvent e)
+        private void OnWebDocumentComplete(object sender, WebViewControlDOMContentLoadedEventArgs e)
         {
             try
             {
-                var hc = (HtmlControl) sender;
+                var hc = (WebView) sender;
 
                 //handle script errors on page
-                var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
-                window.onerror += OnHtmlWindowError;
+              //  var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
+              //  window.onerror += OnHtmlWindowError;
 
-                if (!string.IsNullOrEmpty(e.url) && e.url != "about:blank" && e.IsRootPage)
+                if (!string.IsNullOrEmpty(e.Uri?.ToString()) && e.Uri.ToString() != "about:blank" )
                 {
-                    AddUrlToHistoryDropdown(e.url);
+                    AddUrlToHistoryDropdown(e.Uri.ToString());
 
                     var doc = (DockControl) hc.Tag;
                     var state = (ITabState) doc.Tag;
-                    state.Url = e.url;
+                    state.Url = e.Uri.ToString();
                     RefreshDocumentState(doc);
-                    owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentInnerHTML, state.Url,
-                                                                               state.Title);
+                 
+                 //   owner.BackgroundDiscoverFeedsHandler.DiscoverFeedInContent(hc.DocumentInnerHTML, state.Url, state.Title);
                 }
             }
             catch (Exception ex)
             {
-                _log.Error("OnWebDocumentComplete(): " + e.url, ex);
+                _log.Error("OnWebDocumentComplete(): " + e.Uri.ToString(), ex);
             }
         }
 
-        private void OnWebTitleChanged(object sender, BrowserTitleChangeEvent e)
+        //private void OnWebTitleChanged(object sender, BrowserTitleChangeEvent e)
+        //{
+        //    try
+        //    {
+        //        var hc = (WebView) sender;
+        //        if (hc == null) return;
+        //        var doc = (DockControl) hc.Tag;
+        //        if (doc == null) return;
+        //        var state = (ITabState) doc.Tag;
+        //        if (state == null) return;
+
+        //        state.Title = e.text;
+        //        RefreshDocumentState(doc);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _log.Error("OnWebTitleChanged()", ex);
+        //    }
+        //}
+
+        //private static void OnWebCommandStateChanged(object sender, BrowserCommandStateChangeEvent e)
+        //{
+        //    try
+        //    {
+        //        ITabState state = GetTabStateFor(sender as HtmlControl);
+        //        if (state == null) return;
+
+        //        if (e.command == CommandStateChangeConstants.CSC_NAVIGATEBACK)
+        //            state.CanGoBack = e.enable;
+        //        else if (e.command == CommandStateChangeConstants.CSC_NAVIGATEFORWARD)
+        //            state.CanGoForward = e.enable;
+        //        else if (e.command == CommandStateChangeConstants.CSC_UPDATECOMMANDS)
+        //        {
+        //            // 
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _log.Error("OnWebCommandStateChanged() ", ex);
+        //    }
+        //}
+
+        private void OnWebNewWindow(object sender, WebViewControlNewWindowRequestedEventArgs e)
         {
-            try
-            {
-                var hc = (HtmlControl) sender;
-                if (hc == null) return;
-                var doc = (DockControl) hc.Tag;
-                if (doc == null) return;
-                var state = (ITabState) doc.Tag;
-                if (state == null) return;
-
-                state.Title = e.text;
-                RefreshDocumentState(doc);
-            }
-            catch (Exception ex)
-            {
-                _log.Error("OnWebTitleChanged()", ex);
-            }
+			ConfiguredWebBrowserNewWindowAction(e.Uri.ToString(), true);
+			e.Handled = true;
         }
 
-        private static void OnWebCommandStateChanged(object sender, BrowserCommandStateChangeEvent e)
-        {
-            try
-            {
-                ITabState state = GetTabStateFor(sender as HtmlControl);
-                if (state == null) return;
-
-                if (e.command == CommandStateChangeConstants.CSC_NAVIGATEBACK)
-                    state.CanGoBack = e.enable;
-                else if (e.command == CommandStateChangeConstants.CSC_NAVIGATEFORWARD)
-                    state.CanGoForward = e.enable;
-                else if (e.command == CommandStateChangeConstants.CSC_UPDATECOMMANDS)
-                {
-                    // 
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error("OnWebCommandStateChanged() ", ex);
-            }
-        }
-
-        private void OnWebNewWindow(object sender, BrowserNewWindowEvent e)
-        {
-			ConfiguredWebBrowserNewWindowAction(e.url, true);
-			e.Cancel = true;
-        }
-
-		// because this event gets fired without a BeforeNavigate(), we
-		// have to handle such things like "Ctrl-Click" again here
-		private void OnWebNewWindow3(object sender, BrowserNewWindow3Event e)
-		{
-            if (IEControl.Interop.NWMF.NWMF_USERINITED == (e.dwFlags & IEControl.Interop.NWMF.NWMF_USERINITED))
-            {
-                if (IEControl.Interop.NWMF.NWMF_FORCEWINDOW == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCEWINDOW))
-                {
-                    owner.NavigateToUrlInExternalBrowser(e.bstrUrl);
-                } 
-                else
-                {
-                    bool forceSetFocus = true;
-                    // if Ctrl-Click is true, Tab should open in background:
-                    if ((ModifierKeys & Keys.Control) == Keys.Control)
-                        forceSetFocus = false;
-                    ConfiguredWebBrowserNewWindowAction(e.bstrUrl, forceSetFocus);
-                }
-            }
-		    // if we do not cancel here, we would get the OnWebNewWindow event too:
-			e.Cancel = true;
-		}
+		//// because this event gets fired without a BeforeNavigate(), we
+		//// have to handle such things like "Ctrl-Click" again here
+		//private void OnWebNewWindow3(object sender, BrowserNewWindow3Event e)
+		//{
+  //          if (IEControl.Interop.NWMF.NWMF_USERINITED == (e.dwFlags & IEControl.Interop.NWMF.NWMF_USERINITED))
+  //          {
+  //              if (IEControl.Interop.NWMF.NWMF_FORCEWINDOW == (e.dwFlags & IEControl.Interop.NWMF.NWMF_FORCEWINDOW))
+  //              {
+  //                  owner.NavigateToUrlInExternalBrowser(e.bstrUrl);
+  //              } 
+  //              else
+  //              {
+  //                  bool forceSetFocus = true;
+  //                  // if Ctrl-Click is true, Tab should open in background:
+  //                  if ((ModifierKeys & Keys.Control) == Keys.Control)
+  //                      forceSetFocus = false;
+  //                  ConfiguredWebBrowserNewWindowAction(e.bstrUrl, forceSetFocus);
+  //              }
+  //          }
+		//    // if we do not cancel here, we would get the OnWebNewWindow event too:
+		//	e.Cancel = true;
+		//}
 
 		private void ConfiguredWebBrowserNewWindowAction(string url, bool forceSetFocus)
 		{
@@ -4323,117 +4324,117 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void OnWebTranslateAccelerator(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                HtmlControl htmlControl = (HtmlControl) sender;
-                // we use Control.ModifierKeys, because e.Shift etc. is not always set!
-                bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
-                bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
-                bool alt = (ModifierKeys & Keys.Alt) == Keys.Alt;
-                bool noModifier = (!shift && !ctrl && !alt);
+        //private void OnWebTranslateAccelerator(object sender, KeyEventArgs e)
+        //{
+        //    try
+        //    {
+        //        HtmlControl htmlControl = (HtmlControl) sender;
+        //        // we use Control.ModifierKeys, because e.Shift etc. is not always set!
+        //        bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
+        //        bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
+        //        bool alt = (ModifierKeys & Keys.Alt) == Keys.Alt;
+        //        bool noModifier = (!shift && !ctrl && !alt);
 
-                bool shiftOnly = (shift && !ctrl && !alt);
-                bool ctrlOnly = (ctrl && !shift && !alt);
-                bool ctrlShift = (ctrl && shift && !alt);
+        //        bool shiftOnly = (shift && !ctrl && !alt);
+        //        bool ctrlOnly = (ctrl && !shift && !alt);
+        //        bool ctrlShift = (ctrl && shift && !alt);
 
-                // Fix 504646: do not capture "RIGHT-ALT-N" (https://sourceforge.net/tracker/?func=detail&aid=1504646&group_id=96589&atid=615248)
-                if (ctrlOnly && _shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData))
-                {
-                    // capture Ctrl-N event or whichever combination is configured (new window)
-                    owner.CmdBrowserCreateNewTab(null);
-                    e.Handled = true;
-                }
-                if (_shortcutHandler.IsCommandInvoked("Help", e.KeyData))
-                {
-                    // capture F1 (or whichever keys are configured) event (help)
-                    Help.ShowHelp(this, helpProvider1.HelpNamespace, HelpNavigator.TableOfContents);
-                    e.Handled = true;
-                }
+        //        // Fix 504646: do not capture "RIGHT-ALT-N" (https://sourceforge.net/tracker/?func=detail&aid=1504646&group_id=96589&atid=615248)
+        //        if (ctrlOnly && _shortcutHandler.IsCommandInvoked("BrowserCreateNewTab", e.KeyData))
+        //        {
+        //            // capture Ctrl-N event or whichever combination is configured (new window)
+        //            owner.CmdBrowserCreateNewTab(null);
+        //            e.Handled = true;
+        //        }
+        //        if (_shortcutHandler.IsCommandInvoked("Help", e.KeyData))
+        //        {
+        //            // capture F1 (or whichever keys are configured) event (help)
+        //            Help.ShowHelp(this, helpProvider1.HelpNamespace, HelpNavigator.TableOfContents);
+        //            e.Handled = true;
+        //        }
 
-                if (!e.Handled)
-                {
-                    // prevent double handling of shortcuts:
-                    // IE will handle this codes by itself even if a user configures other shortcuts
-                    // than Ctrl-N and F1.
-                    e.Handled = (e.KeyCode == Keys.N && ctrlOnly ||
-                                 e.KeyCode == Keys.F1);
-                }
+        //        if (!e.Handled)
+        //        {
+        //            // prevent double handling of shortcuts:
+        //            // IE will handle this codes by itself even if a user configures other shortcuts
+        //            // than Ctrl-N and F1.
+        //            e.Handled = (e.KeyCode == Keys.N && ctrlOnly ||
+        //                         e.KeyCode == Keys.F1);
+        //        }
 
-                if (!e.Handled)
-                {
-                    // support: continue tab order throw the other controls than IEControl
-                    if (e.KeyCode == Keys.Tab && noModifier)
-                    {
-                        if (htmlControl.Document2 != null && null == htmlControl.Document2.GetActiveElement())
-                        {
-                            // one turn around within ALink element classes
-                            if (treeFeeds.Visible)
-                            {
-                                treeFeeds.Focus();
-                                e.Handled = true;
-                            }
-                            else if (listFeedItems.Visible)
-                            {
-                                listFeedItems.Focus();
-                                e.Handled = true;
-                            }
-                        }
-                    }
-                    else if (e.KeyCode == Keys.Tab && shiftOnly)
-                    {
+        //        if (!e.Handled)
+        //        {
+        //            // support: continue tab order throw the other controls than IEControl
+        //            if (e.KeyCode == Keys.Tab && noModifier)
+        //            {
+        //                if (htmlControl.Document2 != null && null == htmlControl.Document2.GetActiveElement())
+        //                {
+        //                    // one turn around within ALink element classes
+        //                    if (treeFeeds.Visible)
+        //                    {
+        //                        treeFeeds.Focus();
+        //                        e.Handled = true;
+        //                    }
+        //                    else if (listFeedItems.Visible)
+        //                    {
+        //                        listFeedItems.Focus();
+        //                        e.Handled = true;
+        //                    }
+        //                }
+        //            }
+        //            else if (e.KeyCode == Keys.Tab && shiftOnly)
+        //            {
 
-                        if (htmlControl.Document2 != null)
-                        {
-                            object element = htmlControl.Document2.GetActiveElement();
+        //                if (htmlControl.Document2 != null)
+        //                {
+        //                    object element = htmlControl.Document2.GetActiveElement();
                             
-                            if (null == element || element.GetType().Name == "HTMLBodyClass")
-                            {
-                                // one reverse turn around within ALink element classes
-                                if (listFeedItems.Visible)
-                                {
-                                    listFeedItems.Focus();
-                                    e.Handled = true;
-                                }
-                                else if (treeFeeds.Visible)
-                                {
-                                    treeFeeds.Focus();
-                                    e.Handled = true;
-                                }
-                            }
-                        }
-                    }
-                }
+        //                    if (null == element || element.GetType().Name == "HTMLBodyClass")
+        //                    {
+        //                        // one reverse turn around within ALink element classes
+        //                        if (listFeedItems.Visible)
+        //                        {
+        //                            listFeedItems.Focus();
+        //                            e.Handled = true;
+        //                        }
+        //                        else if (treeFeeds.Visible)
+        //                        {
+        //                            treeFeeds.Focus();
+        //                            e.Handled = true;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                if (!e.Handled)
-                {
-                    // support: Ctrl-Tab/Shift-Ctrl-Tab switch Browser Tabs
-                    if (e.KeyCode == Keys.Tab && ctrlOnly)
-                    {
-                        // step forward:
-                        if (_docContainer.Documents.Length > 1)
-                        {
-                            InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Next | Keys.Control);
-                            e.Handled = true;
-                        }
-                    }
-                    else if (e.KeyCode == Keys.Tab && ctrlShift)
-                    {
-                        // step backward:
-                        if (_docContainer.Documents.Length > 1)
-                        {
-                            InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Prior | Keys.Control);
-                            e.Handled = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error("OnWebTranslateAccelerator(): " + e.KeyCode, ex);
-            }
-        }
+        //        if (!e.Handled)
+        //        {
+        //            // support: Ctrl-Tab/Shift-Ctrl-Tab switch Browser Tabs
+        //            if (e.KeyCode == Keys.Tab && ctrlOnly)
+        //            {
+        //                // step forward:
+        //                if (_docContainer.Documents.Length > 1)
+        //                {
+        //                    InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Next | Keys.Control);
+        //                    e.Handled = true;
+        //                }
+        //            }
+        //            else if (e.KeyCode == Keys.Tab && ctrlShift)
+        //            {
+        //                // step backward:
+        //                if (_docContainer.Documents.Length > 1)
+        //                {
+        //                    InvokeProcessCmdKey(_docContainer.ActiveDocument, Keys.Prior | Keys.Control);
+        //                    e.Handled = true;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _log.Error("OnWebTranslateAccelerator(): " + e.KeyCode, ex);
+        //    }
+        //}
 
         private void InvokeProcessCmdKey(DockControl c, Keys keyData)
         {
@@ -4455,41 +4456,41 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void OnWebProgressChanged(object sender, BrowserProgressChangeEvent e)
-        {
-            try
-            {
-                if (_lastBrowserThatProgressChanged == null)
-                    _lastBrowserThatProgressChanged = sender;
+        //private void OnWebProgressChanged(object sender, BrowserProgressChangeEvent e)
+        //{
+        //    try
+        //    {
+        //        if (_lastBrowserThatProgressChanged == null)
+        //            _lastBrowserThatProgressChanged = sender;
 
-                if (sender != _lastBrowserThatProgressChanged)
-                {
-                    DeactivateWebProgressInfo();
-                    return;
-                }
+        //        if (sender != _lastBrowserThatProgressChanged)
+        //        {
+        //            DeactivateWebProgressInfo();
+        //            return;
+        //        }
 
-                if (((e.progress < 0) || (e.progressMax <= 0)) || (e.progress >= e.progressMax))
-                {
-                    DeactivateWebProgressInfo();
-                }
-                else
-                {
-                    if (!progressBrowser.Visible) progressBrowser.Visible = true;
-                    if (statusBarBrowserProgress.Width < BrowserProgressBarWidth)
-                    {
-                        statusBarBrowserProgress.Width = BrowserProgressBarWidth;
-                        progressBrowser.Width = BrowserProgressBarWidth - 12;
-                    }
-                    progressBrowser.Minimum = 0;
-                    progressBrowser.Maximum = e.progressMax;
-                    progressBrowser.Value = e.progress;
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error("OnWebProgressChanged()", ex);
-            }
-        }
+        //        if (((e.progress < 0) || (e.progressMax <= 0)) || (e.progress >= e.progressMax))
+        //        {
+        //            DeactivateWebProgressInfo();
+        //        }
+        //        else
+        //        {
+        //            if (!progressBrowser.Visible) progressBrowser.Visible = true;
+        //            if (statusBarBrowserProgress.Width < BrowserProgressBarWidth)
+        //            {
+        //                statusBarBrowserProgress.Width = BrowserProgressBarWidth;
+        //                progressBrowser.Width = BrowserProgressBarWidth - 12;
+        //            }
+        //            progressBrowser.Minimum = 0;
+        //            progressBrowser.Maximum = e.progressMax;
+        //            progressBrowser.Value = e.progress;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _log.Error("OnWebProgressChanged()", ex);
+        //    }
+        //}
 
         private object _lastBrowserThatProgressChanged;
 
