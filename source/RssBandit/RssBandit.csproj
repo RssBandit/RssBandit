@@ -2428,7 +2428,7 @@
       <Version>17.2.20172.1000</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.DotNet.Framework.NativeImageCompiler">
-      <Version>0.0.1-prerelease-00001</Version>
+      <Version>0.0.1-prerelease-00002</Version>
     </PackageReference>
     <PackageReference Include="Unity">
       <Version>2.1.505.2</Version>
