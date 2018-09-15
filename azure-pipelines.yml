@@ -2,10 +2,13 @@ trigger:
 - master
 - rel/*
 
-queue: Hosted VS2017
+pool:
+  vmImage: vs2017-win2016
+
 variables: 
   BuildConfiguration: Release
   BuildPlatform: x86
+
 steps:
 - task: BatchScript@1
   inputs:
