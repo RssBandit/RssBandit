@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap mp rescap desktop desktop2">
-  <Identity Name="OrenNovotnyLLC.RSSBandit.CI" Version="1.9.9.0" Publisher="CN=9AA7F4F4-7682-4818-A20D-63579CAA0466" />
+  <Identity Name="OrenNovotnyLLC.RSSBandit.CI" Version="1.9.9.0" Publisher="CN=oren" />
   <Properties>
     <DisplayName>RSS Bandit CI</DisplayName>
     <PublisherDisplayName>Oren Novotny, LLC</PublisherDisplayName>
@@ -20,14 +20,14 @@
         <uap:SplashScreen Image="Assets\splashscreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit CI Startup Task" />
+        </desktop:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="feed">
             <uap:DisplayName>Feed Protocol</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
-          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit CI Startup Task" />
-        </desktop:Extension>
       </Extensions>
     </Application>
   </Applications>

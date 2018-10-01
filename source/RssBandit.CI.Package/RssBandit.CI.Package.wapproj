@@ -30,9 +30,9 @@
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>RssBandit.CI.Package_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>RssBandit.CI.Package_TemporaryKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>4745D507DDC36064E6C860C37849BC5205BC7928</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>715B1DFA0F340A6595B7AE420F33C1C55CE46D63</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\*.png" />
-    <None Include="RssBandit.CI.Package_StoreKey.pfx" />
+    <None Include="RssBandit.CI.Package_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssBandit\RssBandit.csproj" SkipGetTargetFrameworkProperties="true" />

@@ -10,48 +10,66 @@ variables:
   BuildPlatform: x86
 
 steps:
-- task: BatchScript@1
+- task: DotNetCoreCLI@2  
   inputs:
-    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
-    arguments: -no_logo
-    modifyEnvironment: true
-  displayName: Setup Environment Variables
+    command: custom
+    custom: tool
+    arguments: install --tool-path . nbgv
+  displayName: Install NBGV tool
+  
+- script: nbgv cloud
+  displayName: Set Version
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
 
-- task: NuGetToolInstaller@0
-  displayName: Use NuGet 4.7
-  inputs:
-    versionSpec: 4.7.0
+- powershell: |
 
-- powershell: |    
-    
+    mkdir $(Build.ArtifactStagingDirectory)\CI
+    mkdir $(Build.ArtifactStagingDirectory)\Store    
+
     # version    
-    nuget install NerdBank.GitVersioning -SolutionDir $(Build.SourcesDirectory) -Verbosity quiet -ExcludeVersion
+    $ver = .\nbgv get-version -f json | ConvertFrom-Json
     
-    $vers = & $(Build.SourcesDirectory)\packages\nerdbank.gitversioning\tools\Get-Version.ps1
-    $ver = $vers.SimpleVersion
-        
     # Update appxmanifests. These must be done before build.
     $doc = Get-Content ".\source\RssBandit.Package\package.appxmanifest"    
-    $doc | % { $_.Replace("1.9.9", "$ver") } | Set-Content ".\source\RssBandit.Package\package.appxmanifest"
+    $doc | % { $_.Replace("1.9.9", "$($ver.CloudBuildVersionVars.GitBuildVersionSimple)") } | Set-Content ".\source\RssBandit.Package\package.appxmanifest"
 
     # Update appxmanifests. These must be done before build.
     $doc = Get-Content ".\source\RssBandit.CI.Package\package.appxmanifest"    
-    $doc | % { $_.Replace("1.9.9", "$ver") } | Set-Content ".\source\RssBandit.CI.Package\package.appxmanifest"
+    $doc | % { $_.Replace("1.9.9", "$($ver.CloudBuildVersionVars.GitBuildVersionSimple)") } | Set-Content ".\source\RssBandit.CI.Package\package.appxmanifest"
     
-    # Build RSS Bandit
-    msbuild .\source\RssBandit\RssBandit.csproj /restore /m /p:Configuration=$(BuildConfiguration) 
-    msbuild .\source\RssBandit.Package\RssBandit.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\" /p:UapAppxPackageBuildMode=StoreUpload 
-    msbuild .\source\RssBandit.CI.Package\RssBandit.CI.Package.wapproj /m /p:Configuration=$(BuildConfiguration) /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\CI\"
-        
-  displayName: Build 
-  
+  displayName: Update manifest versions 
+
+- task: MSBuild@1
+  displayName: Build RSS Bandit
+  inputs:
+    solution: .\source\RssBandit\RssBandit.csproj
+    msbuildArguments: /restore    
+    configuration: $(BuildConfiguration)
+    maximumCpuCount: true
+
+- task: MSBuild@1
+  displayName: Build CI Package
+  inputs:
+    solution: .\source\RssBandit.CI.Package\RssBandit.CI.Package.wapproj
+    msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\CI\\" 
+    configuration: $(BuildConfiguration)
+    maximumCpuCount: true
+
+- task: MSBuild@1
+  displayName: Build Store Package
+  inputs:
+    solution: .\source\RssBandit.Package\RssBandit.Package.wapproj
+    msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\\" /p:UapAppxPackageBuildMode=StoreUpload
+    configuration: $(BuildConfiguration)
+    maximumCpuCount: true
+
 - task: PublishBuildArtifacts@1
   displayName: Publish CI Artifacts
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)\CI
     artifactType: container
     artifactName: CI
-  condition: eq(variables['system.pullrequest.isfork'], false)
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Store Artifacts
@@ -59,4 +77,4 @@ steps:
     pathToPublish: $(Build.ArtifactStagingDirectory)\Store
     artifactType: container
     artifactName: Store
-  condition: eq(variables['system.pullrequest.isfork'], false)
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

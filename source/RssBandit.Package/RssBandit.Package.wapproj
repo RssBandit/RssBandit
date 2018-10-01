@@ -32,7 +32,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>4745D507DDC36064E6C860C37849BC5205BC7928</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>5C4A8D321C66B813B3998A2236CAE46450CAC304</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\*.png" />
-    <None Include="Package.xml" />
     <None Include="RssBandit.Package_StoreKey.pfx" />
+    <None Include="Package.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssBandit\RssBandit.csproj" SkipGetTargetFrameworkProperties="true" />
