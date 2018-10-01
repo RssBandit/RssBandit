@@ -20,14 +20,14 @@
         <uap:SplashScreen Image="Assets\splashscreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit Startup Task" />
+        </desktop:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="feed">
             <uap:DisplayName>Feed Protocol</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <desktop:Extension Category="windows.startupTask" Executable="RssBandit\RSSBandit.exe" EntryPoint="Windows.FullTrustApplication">
-          <desktop:StartupTask TaskId="RssBanditStartupTask" Enabled="true" DisplayName="RSS Bandit Startup Task" />
-        </desktop:Extension>
       </Extensions>
     </Application>
   </Applications>
