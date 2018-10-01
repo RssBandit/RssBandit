@@ -7,6 +7,8 @@ The latest version is available in the Microsoft Store:
 
 <a href="https://www.microsoft.com/store/apps/9PKZQ89JRBCW?ocid=badge"><img height="104" width="288" src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10"></a>
 
+Binaries/installer supporting older windows releases is available at http://rssbandit.org/download/rss-bandit-download/
+
 Users are welcome to discuss at https://gitter.im/RSSBandit/
 
 ## Specifications
