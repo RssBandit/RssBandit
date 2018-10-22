@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
 Copyright (c) 2004-2006 by Torsten Rendelmann
 
@@ -56,7 +56,7 @@ namespace IEControl {
 			/// </summary>
 			NWMF_FIRST = 0x0004,
 			/// <summary>
-			/// The override key (ALT) was pressed. The override key is used to bypass the pop-up manager—allowing all pop-up windows to display—and must be held down at the time that INewWindowManager::EvaluateNewWindow is called. 
+			/// The override key (ALT) was pressed. The override key is used to bypass the pop-up managerâ€”allowing all pop-up windows to displayâ€”and must be held down at the time that INewWindowManager::EvaluateNewWindow is called. 
 			/// </summary>
 			/// <remarks>
 			/// When INewWindowManager::EvaluateNewWindow is implemented for a WebBrowser control host, the implementer can choose to ignore the override key.
@@ -110,29 +110,29 @@ namespace IEControl {
 		#endregion
 
 		#region public methods
-		/// <summary>
-		/// Gets an assembly used to interop with the objects defined in the type
-		/// library.
-		/// </summary>
-		/// <param name="typeLibraryName">
-		///		Name of the type library such as SHDocVw.dll
-		/// </param>
-		/// <returns>
-		///		Returns the assembly if found/created otherwise null.
-		/// </returns>
-		public static Assembly GetAssemblyForTypeLib( string typeLibraryName ) {
-			object typeLib;
-			NativeMethods.LoadTypeLibEx( typeLibraryName, RegKind.RegKind_None, out typeLib ); 
+		///// <summary>
+		///// Gets an assembly used to interop with the objects defined in the type
+		///// library.
+		///// </summary>
+		///// <param name="typeLibraryName">
+		/////		Name of the type library such as SHDocVw.dll
+		///// </param>
+		///// <returns>
+		/////		Returns the assembly if found/created otherwise null.
+		///// </returns>
+		//public static Assembly GetAssemblyForTypeLib( string typeLibraryName ) {
+		//	object typeLib;
+		//	NativeMethods.LoadTypeLibEx( typeLibraryName, RegKind.RegKind_None, out typeLib ); 
       
-			if( typeLib == null )
-				return null;
+		//	//if( typeLib == null )
+		//	//	return null;
          
-			TypeLibConverter converter = new TypeLibConverter();
-			ConversionEventHandler eventHandler = new ConversionEventHandler();
-			AssemblyBuilder asm = converter.ConvertTypeLibToAssembly( typeLib, "Interop." + typeLibraryName, 0, eventHandler, null, null, null, null );   
+		//	//TypeLibConverter converter = new TypeLibConverter();
+		//	//ConversionEventHandler eventHandler = new ConversionEventHandler();
+		//	//AssemblyBuilder asm = converter.ConvertTypeLibToAssembly( typeLib, "Interop." + typeLibraryName, 0, eventHandler, null, null, null, null );   
 
-			return asm;
-		}
+		//	//return asm;
+		//}
 
 		/// <summary>
 		/// Gets the state of the async key.
@@ -234,22 +234,22 @@ namespace IEControl {
 			 * From the IE 8 (beta) zoom v2 docs at http://code.msdn.microsoft.com/ie8whitepapers/Release/ProjectReleases.aspx?ReleaseId=563
 			 * Zoom APIs 
 			 * 
-			 * OLECMDID_ZOOM – This corresponds to the View menu's Text Size command. 
+			 * OLECMDID_ZOOM â€“ This corresponds to the View menu's Text Size command. 
 			 * Only the text is scaled by using this command. 
 			 * Sites that have fixed text size are not changed in anyway. 
 			 * This command is used for primarily three purposes: 
 			 *   querying the current zoom value, displaying the zoom dialog box, 
 			 *   and setting a zoom value. 
 			 *   
-			 * OLECMDID_GETZOOMRANGE – This command returns two values (LOWORD, HIWORD) 
+			 * OLECMDID_GETZOOMRANGE â€“ This command returns two values (LOWORD, HIWORD) 
 			 * that represent the minimum and maximum of the zoom value range. 
 			 * This command is used when the user activates zoom UI. 
 			 * 
-			 * OLECMDID_OPTICAL_ZOOM – Internet Explorer 7 and later. 
+			 * OLECMDID_OPTICAL_ZOOM â€“ Internet Explorer 7 and later. 
 			 * Sets the zoom factor of the browser. 
 			 * Takes a VT_I4 parameter in the range of 10 to 1000 (percent). 
 			 * 
-			 * OLECMDID_OPTICAL_GETZOOMRANGE – Internet Explorer 7 and later. 
+			 * OLECMDID_OPTICAL_GETZOOMRANGE â€“ Internet Explorer 7 and later. 
 			 * Retrieves the minimum and maximum browser zoom factor limits. 
 			 * Returns a VT_I4 parameter, where the LOWORD is the minimum zoom factor, 
 			 * and the HIWORD is the maximum.
@@ -1164,19 +1164,19 @@ namespace IEControl {
 		}
 
 		#region ConversionEventHandler
-		/// <summary>
-		/// ConversionEventHandler
-		/// </summary>
-		internal class ConversionEventHandler : ITypeLibImporterNotifySink {
-			public void ReportEvent( ImporterEventKind eventKind, int eventCode, string eventMsg ) {
-				// handle warning event here...
-			}
+		///// <summary>
+		///// ConversionEventHandler
+		///// </summary>
+		//internal class ConversionEventHandler : ITypeLibImporterNotifySink {
+		//	public void ReportEvent( ImporterEventKind eventKind, int eventCode, string eventMsg ) {
+		//		// handle warning event here...
+		//	}
    
-			public Assembly ResolveRef( object typeLib ) {
-				// resolve reference here and return a correct assembly...
-				return null; 
-			}   
-		} // End class ConversionEventHandler
+		//	public Assembly ResolveRef( object typeLib ) {
+		//		// resolve reference here and return a correct assembly...
+		//		return null; 
+		//	}   
+		//} // End class ConversionEventHandler
 		#endregion
 
 		#region HTMLDocument
