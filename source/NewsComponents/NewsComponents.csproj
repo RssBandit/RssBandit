@@ -1,27 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Wpf">
     <PropertyGroup>
-        <TargetFramework>net471</TargetFramework>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <Title>News Components</Title>
         <Description>News Components</Description>
         <Company>www.rssbandit.org</Company>
         <Copyright>(C) 2003-2018 by www.rssbandit.org</Copyright>
     </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.DesktopUI" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Org.Mime4Net, Version=1.8.3189.15061, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
     </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="TorSteroids.Common">
       <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\Log.cs">
@@ -44,7 +43,7 @@
     <None Include="Resources\feedListSchema.xsx">
       <DependentUpon>feedListSchema.xsd</DependentUpon>
     </None>
-    <EmbeddedResource Update="Resources\ComponentsText.ko.resx">
+    <EmbeddedResource Update="Resources\ComponentsText.*.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
@@ -52,70 +51,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ComponentsText.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.bg.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.de.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.es.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.fr.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.hi.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.it.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.nl-NL.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.pl.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.pt-BR.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.ru.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.sr-Cyrl-CS.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.sr-Latn-CS.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.tr.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.zh-Hans.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ComponentsText.zh-Hant.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ComponentsText.Resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\feedImportFilters.OCS.xslt" />
     <EmbeddedResource Include="Resources\feedImportFilters.OPML.xslt" />
