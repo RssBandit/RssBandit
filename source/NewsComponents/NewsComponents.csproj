@@ -85,6 +85,7 @@
     <PackageReference Include="Lucene.Net" Version="2.9.4.1" />
     <PackageReference Include="Lucene.Net.Contrib" Version="2.9.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Windows.Extensions" Version="4.6.0-preview.18563.5" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" /> 
   </ItemGroup>

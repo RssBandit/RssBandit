@@ -11,6 +11,8 @@
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
+    <Description>Your desktop news aggregator</Description>
+    <Title>RSS Bandit</Title>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug-AltPath'">
     <DefineConstants>$(DefineConstants);ALT_CONFIG_PATH</DefineConstants>
@@ -22,8 +24,7 @@
   </ItemGroup>
 
 
-  <Target Name="__GetPublishItems" DependsOnTargets="ComputeFilesToPublish"
-          Returns="@(_PublishItem)">
+  <Target Name="__GetPublishItems" DependsOnTargets="ComputeFilesToPublish" Returns="@(_PublishItem)">
 
     <ItemGroup>
       <_PublishItem Include="@(ResolvedFileToPublish->'%(FullPath)')" TargetPath="%(ResolvedFileToPublish.RelativePath)" OutputGroup="__GetPublishItems" />
@@ -82,6 +83,11 @@
     <None Include="..\rssbandit.org.snk">
       <Link>rssbandit.org.snk</Link>
     </None>
+
+
+    <Compile Remove="plugins\**\*.cs" />
+    <EmbeddedResource Remove="plugins\**\*.resx" />
+    <None Remove="plugins\**" />
 
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

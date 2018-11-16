@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 
 /*
  * $Id$
@@ -2029,9 +2029,9 @@ namespace RssBandit
                 case 1: //"FTP"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.FTP;
                     break;
-                case 2: //"dasBlog"
-                    Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.dasBlog;
-                    break;
+                //case 2: //"dasBlog"
+                //    Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.dasBlog;
+                //    break;
                /* case 3: //"NewsgatorOnline"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.NewsgatorOnline;
                     break; */ 
