@@ -16,6 +16,9 @@
     <IsPackageProject>$(MSBuildProjectName.Contains('.Package'))</IsPackageProject>
     <DebugType>Full</DebugType>
     <LangVersion>latest</LangVersion>
+    
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   
   <ItemGroup>

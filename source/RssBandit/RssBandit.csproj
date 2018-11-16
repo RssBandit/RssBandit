@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Wpf">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
@@ -18,12 +18,6 @@
     <DefineConstants>$(DefineConstants);ALT_CONFIG_PATH</DefineConstants>
   </PropertyGroup>
  
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.DesktopUI" />
-  </ItemGroup>
-
-
   <Target Name="__GetPublishItems" DependsOnTargets="ComputeFilesToPublish" Returns="@(_PublishItem)">
 
     <ItemGroup>
@@ -115,12 +109,7 @@
     <EmbeddedResource Include="Resources\ListImages.png" />
 
     <Resource Include="Resources\error.png" />
-    
       
-    <None Include="Web References\CLR20.DasBlog\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Update="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -179,11 +168,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.resx</DependentUpon>
     </Compile>
-    <Compile Update="Web References\CLR20.DasBlog\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     
     <Compile Update="WinGui\Dialogs\DR.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -200,19 +184,8 @@
       <SubType>Designer</SubType>
     </Content>
 
-    <WebReferenceUrl Include="http://www.rendelmann.info/blog/ConfigEditingService.asmx">
-      <RelPath>Web References\CLR20.DasBlog\</RelPath>
-      <UrlBehavior>Static</UrlBehavior>
-      <UpdateFromURL>http://www.rendelmann.info/blog/ConfigEditingService.asmx</UpdateFromURL>
-    </WebReferenceUrl>
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Include="WinGui\Dialogs\DownloadManagerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChildProjects\IEControl\IEControl.csproj">
       <Project>{f42f07f7-7cc9-4347-bf15-092a09ba0b31}</Project>
@@ -278,6 +251,7 @@
     <PackageReference Include="Infragistics.WinForms.Win.UltraWinTree">
       <Version>17.2.20172.1000</Version>
     </PackageReference>
+    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.3.0" />
     <PackageReference Include="Unity">
       <Version>2.1.505.2</Version>
     </PackageReference>

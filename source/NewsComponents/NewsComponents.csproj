@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Wpf">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -9,11 +9,6 @@
     </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.DesktopUI" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Org.Mime4Net, Version=1.8.3189.15061, Culture=neutral, PublicKeyToken=39cb28311174616c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
