@@ -1,4 +1,4 @@
-#region License / Copyright
+﻿#region License / Copyright
 /* 
 Copyright (c) 2003-2013, Dare Obasanjo & Torsten Rendelmann
 All rights reserved.
@@ -27,15 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #endregion
 
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
+
 
 using System;
 using System.ComponentModel;
@@ -46,7 +38,6 @@ namespace RssBandit.ViewModel
 	/// <summary>
 	/// Implementation of <see cref="INotifyPropertyChanged"/> to simplify models.
 	/// </summary>
-	//[Windows.Foundation.Metadata.WebHostHidden]
 	public abstract class BindableBase : INotifyPropertyChanged
 	{
 		/// <summary>
@@ -84,12 +75,7 @@ namespace RssBandit.ViewModel
 		/// that support <see cref="CallerMemberNameAttribute"/>.</param>
 		protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			var eventHandler = this.PropertyChanged;
-			if (eventHandler != null)
-			{
-				EventsHelper.Fire(eventHandler, this,
-					new PropertyChangedEventArgs(propertyName ?? String.Empty));
-			}
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName ?? string.Empty));
 		}
 	}
 }

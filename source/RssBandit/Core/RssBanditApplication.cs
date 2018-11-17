@@ -4827,8 +4827,7 @@ namespace RssBandit
                                 });
 
                 // notify service consumers:
-                EventsHelper.Fire(InternetConnectionStateChange,
-                                  this, args);
+                InternetConnectionStateChange?.Invoke(this, args);
             }
         }
 
