@@ -781,8 +781,6 @@ namespace RssBandit
         /// <param name="e">The exception</param>
         public void HandleFeedlistException(Exception e)
         {
-            e.PreserveExceptionStackTrace();
-
             ResourceAuthorizationException rae = e as ResourceAuthorizationException; 
             BanditApplicationException ex = e as BanditApplicationException;
             

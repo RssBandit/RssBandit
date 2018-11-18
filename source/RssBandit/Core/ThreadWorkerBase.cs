@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -107,7 +107,6 @@ namespace RssBandit {
 
 			} catch (ThreadAbortException) { /* ignore */ 
 			} catch (Exception ex) {
-                ex.PreserveExceptionStackTrace();
 				RaiseBackgroundTaskFinished(this.task, 1, 1, ex, null);
 				return ex;
 			}

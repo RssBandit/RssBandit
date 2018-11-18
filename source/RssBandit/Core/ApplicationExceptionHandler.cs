@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -48,7 +49,7 @@ namespace RssBandit
             try
             {
                 Exception ex = (Exception) e.ExceptionObject;
-                ex.PreserveExceptionStackTrace();
+                ExceptionDispatchInfo.Capture(ex);
                 result = ShowExceptionDialog(ex);
             }
             catch (Exception fatal)
