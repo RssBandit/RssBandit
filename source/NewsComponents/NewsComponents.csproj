@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Facebook" Version="7.0.6" />
-    <PackageReference Include="log4net" Version="1.2.10" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Lucene.Net" Version="2.9.4.1" />
     <PackageReference Include="Lucene.Net.Contrib" Version="2.9.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

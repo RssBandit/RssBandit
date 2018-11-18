@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -12,6 +12,7 @@ using log4net;
 using log4net.Config;
 using System.IO;
 using System.Reflection;
+using log4net.Repository.Hierarchy;
 
 namespace RssBandit.Common.Logging {
 	
@@ -42,20 +43,21 @@ namespace RssBandit.Common.Logging {
                 var file = File.ReadAllText(Log4NetConfigFile);
                 // insert the alt path
                 var newFile = file.Replace(@"\\RssBandit\\", @"\\RssBandit\\Debug\\");
-                XmlConfigurator.Configure(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(newFile)));
+                XmlConfigurator.Configure(new Hierarchy(), new MemoryStream(System.Text.Encoding.UTF8.GetBytes(newFile)));
 
 #else
-				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-					XmlConfigurator.ConfigureAndWatch(new FileInfo(Log4NetConfigFile));
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+				{
+                    XmlConfigurator.ConfigureAndWatch(new Hierarchy(), new FileInfo(Log4NetConfigFile));
 				}
 				else {
-					XmlConfigurator.Configure(new FileInfo(Log4NetConfigFile));
+					XmlConfigurator.Configure(new Hierarchy(), new FileInfo(Log4NetConfigFile));
 				}
 
 #endif
 			}
 			else {
-				BasicConfigurator.Configure();
+                BasicConfigurator.Configure(new Hierarchy());
 			}
 			Logger = GetLogger(typeof(Log));
 		}
