@@ -582,9 +582,8 @@ namespace RssBandit
             _dispatcherThread.TrySetApartmentState(ApartmentState.STA);
             _dispatcherThread.Name = "Dispatcher Thread";
 
-            //TODO: Fix me on .NET Core 3
-           // _dispatcherThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-           // _dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+            CultureInfo.DefaultThreadCurrentCulture = Thread.CurrentThread.CurrentCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             _dispatcherThread.Start();
 
 			ResourceInfragistics.TranslateAll();
