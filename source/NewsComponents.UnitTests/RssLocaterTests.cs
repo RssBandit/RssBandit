@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net;
 using NewsComponents.Feed;
 using NUnit.Framework;
@@ -118,11 +118,12 @@ namespace NewsComponents.UnitTests
 		/// the method GetRssAutoDiscoveryLinks().
 		/// In this scenario, a WebException is thrown.
 		/// </summary>
-		[Test, ExpectedException(typeof(WebException))]
+		[Test]
 		public void GetRssAutoDiscoveryLinksThrowsWebExceptionIfFileNotFound()
 		{
             RssLocater locater = new RssLocater(null, null);
-			locater.GetRssAutoDiscoveryLinks(BASE_URL + "FileNotFound.html");
+
+            Assert.Throws<WebException>(() => locater.GetRssAutoDiscoveryLinks(BASE_URL + "FileNotFound.html"));
 		}
 
 		/// <summary>
@@ -167,7 +168,7 @@ namespace NewsComponents.UnitTests
 		/// Setups the test fixture by starting unpacking 
 		/// embedded resources and starting the web server.
 		/// </summary>
-		[TestFixtureSetUp]
+		[SetUp]
 		protected override void SetUp()
 		{
 			Console.WriteLine("SetupTestFixture");
@@ -179,7 +180,7 @@ namespace NewsComponents.UnitTests
 		/// <summary>
 		/// Stops the web server and cleans up the files.
 		/// </summary>
-		[TestFixtureTearDown]
+		[TearDown]
 		protected override void TearDown()
 		{
 			base.TearDown();

@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id: FileStorageDataServiceTests.cs 1099 2012-03-24 15:37:02Z t_rendelmann $
  * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/RssBandit.UnitTests/FileStorageDataServiceTests.cs $
@@ -37,19 +37,19 @@ namespace NewsComponents.UnitTests
         /// <summary>
         /// Tests that the Constructors throws argument exception if init parameter is null
         /// </summary>
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ConstructorThrowsArgumentNullExceptionIfInitializeGetNull()
         {
-            new FileStorageDataService().Initialize(null);
+            Assert.Throws<ArgumentNullException>(() => new FileStorageDataService().Initialize(null));
         }
 
         /// <summary>
         /// Tests that the Constructors throws argument out of range exception if init parameter is empty
         /// </summary>
-        [Test, ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Test]
         public void ConstructorThrowsArgumentOutOfRangeExceptionIfInitializeGetEmpty()
         {
-            new FileStorageDataService().Initialize("");
+            Assert.Throws<ArgumentOutOfRangeException>(() => new FileStorageDataService().Initialize(""));
         }
 
         /// <summary>
