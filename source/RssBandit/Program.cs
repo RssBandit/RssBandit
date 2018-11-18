@@ -14,6 +14,7 @@ using System.Threading;
 using System.Windows.Forms;
 using RssBandit.Resources;
 using RssBandit.WinGui.Forms;
+using SingleInstanceHelper;
 
 namespace RssBandit
 {
@@ -28,7 +29,7 @@ namespace RssBandit
         [STAThread]
         private static int Main(string[] args)
         {
-            bool running = true;
+            var isFirstInstance = true;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -58,11 +59,13 @@ namespace RssBandit
             // comment out the line above and uncomment the next one:
             //FormWindowState initialStartupState =  FormWindowState.Minimized;
 
-            RssBanditApplication appInstance = new RssBanditApplication();
-            OtherInstanceCallback callback = appInstance.OnOtherInstance;
+            var appInstance = new RssBanditApplication();
+            Action<string[]> callback = appInstance.OnOtherInstance;
             try
             {
-                running = InitialInstanceActivator.Activate(appInstance, callback, args);
+                GuiInvoker.Initialize();
+
+                isFirstInstance = ApplicationActivator.LaunchOrReturn(cb => GuiInvoker.Invoke(appInstance.MainForm, () => callback(cb)), args);
             }
             catch (Exception /* ex */)
             {
@@ -71,7 +74,7 @@ namespace RssBandit
             //_log.Info("Application v" + RssBanditApplication.VersionLong + " started, running instance is " + running);
 
 			RssBanditApplication.StaticInit(appInstance);
-            if (!running)
+            if (isFirstInstance)
             {
                 // init to system default:
                 RssBanditApplication.SharedCulture = CultureInfo.CurrentCulture;

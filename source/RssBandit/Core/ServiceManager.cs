@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -41,22 +41,22 @@ namespace AppInteropServices
 
         private static readonly ILog _log = Log.GetLogger(typeof (ServiceManager));
         
-        private static AppDomain CreateLoaderDomain(string relativeSearchPath)
-        {
-			var setup = new AppDomainSetup();
-			AppDomainSetup currentSetup = AppDomain.CurrentDomain.SetupInformation;
-			setup.LoaderOptimization = LoaderOptimization.SingleDomain;
+   //     private static AppDomain CreateLoaderDomain(string relativeSearchPath)
+   //     {
+			//var setup = new AppDomainSetup();
+			//AppDomainSetup currentSetup = AppDomain.CurrentDomain.SetupInformation;
+			//setup.LoaderOptimization = LoaderOptimization.SingleDomain;
 
-			// We have to copy this, otherwise we have System.Security.Permissions.FileIOPermission while debugging!
-			setup.ActivationArguments = currentSetup.ActivationArguments;
-        	setup.ApplicationBase = currentSetup.ApplicationBase;
-			setup.PrivateBinPath = relativeSearchPath;
+			//// We have to copy this, otherwise we have System.Security.Permissions.FileIOPermission while debugging!
+			//setup.ActivationArguments = currentSetup.ActivationArguments;
+   //     	setup.ApplicationBase = currentSetup.ApplicationBase;
+			//setup.PrivateBinPath = relativeSearchPath;
 			
-			// the loader appDomain is for search/load/test for plugin files only. Not all dll/exe implement our type,
-			// so we are able to unload the needless assemblies.
-			AppDomain loaderDomain = AppDomain.CreateDomain("loaderDomain", null, setup);
-        	return loaderDomain;      
-        }
+			//// the loader appDomain is for search/load/test for plugin files only. Not all dll/exe implement our type,
+			//// so we are able to unload the needless assemblies.
+			//AppDomain loaderDomain = AppDomain.CreateDomain("loaderDomain", null, setup);
+   //     	return loaderDomain;      
+   //     }
 
         private IList<IAddIn> addInList;
 
@@ -73,42 +73,43 @@ namespace AppInteropServices
         /// <permission cref="ReflectionPermission">Used to find extensions</permission>
         public static IList<IBlogExtension> SearchForIBlogExtensions(string path)
         {
-        	AppDomain loaderDomain = null;
-			try
-			{
-				Type managerType = typeof(ServiceManager);
+            return new List<IBlogExtension>();
+   //     	AppDomain loaderDomain = null;
+			//try
+			//{
+			//	Type managerType = typeof(ServiceManager);
 			
-				string fullPath = RssBanditApplication.GetPlugInPath();
-				loaderDomain = CreateLoaderDomain(RssBanditApplication.GetPlugInRelativePath());
-				ServiceManager srvFinder = (ServiceManager)loaderDomain.CreateInstanceAndUnwrap(
-						Assembly.GetAssembly(managerType).FullName,
-						managerType.FullName);
+			//	string fullPath = RssBanditApplication.GetPlugInPath();
+			//	loaderDomain = CreateLoaderDomain(RssBanditApplication.GetPlugInRelativePath());
+			//	ServiceManager srvFinder = (ServiceManager)loaderDomain.CreateInstanceAndUnwrap(
+			//			Assembly.GetAssembly(managerType).FullName,
+			//			managerType.FullName);
 
-				IEnumerable<Type> extensions = srvFinder.SearchForIBlogExtensionTypes(fullPath);
+			//	IEnumerable<Type> extensions = srvFinder.SearchForIBlogExtensionTypes(fullPath);
 
-				List<IBlogExtension> extensionInstances = new List<IBlogExtension>();
-				foreach (Type foundType in extensions)
-				{
-					if (foundType.Equals(typeof(IBlogExtension)))
-						continue;
-					try
-					{
-						IBlogExtension extension = (IBlogExtension)Activator.CreateInstance(foundType);
-						extensionInstances.Add(extension);
-					}
-					catch (Exception ex)
-					{
-						_log.Error("Plugin of type '" + foundType.FullName + "' could not be activated.", ex);
-					}
-				}
+			//	List<IBlogExtension> extensionInstances = new List<IBlogExtension>();
+			//	foreach (Type foundType in extensions)
+			//	{
+			//		if (foundType.Equals(typeof(IBlogExtension)))
+			//			continue;
+			//		try
+			//		{
+			//			IBlogExtension extension = (IBlogExtension)Activator.CreateInstance(foundType);
+			//			extensionInstances.Add(extension);
+			//		}
+			//		catch (Exception ex)
+			//		{
+			//			_log.Error("Plugin of type '" + foundType.FullName + "' could not be activated.", ex);
+			//		}
+			//	}
 
-				return extensionInstances;
-			} 
-			finally
-			{
-				if (loaderDomain != null)
-					AppDomain.Unload(loaderDomain);
-			}
+			//	return extensionInstances;
+			//} 
+			//finally
+			//{
+			//	if (loaderDomain != null)
+			//		AppDomain.Unload(loaderDomain);
+			//}
         }
 
         /// <summary>
@@ -199,55 +200,55 @@ namespace AppInteropServices
         public static IList<IAddIn> PopulateAndInitAddInPackages(IList<IAddIn> assemblies)
         {
 			List<IAddIn> newList = new List<IAddIn>();
-			if (assemblies == null || assemblies.Count == 0)
+			//if (assemblies == null || assemblies.Count == 0)
 				return newList;
 
-			AppDomain loaderDomain = null;
-			try
-			{
-				loaderDomain = CreateLoaderDomain(RssBanditApplication.GetAddInInRelativePath());
+			//AppDomain loaderDomain = null;
+			//try
+			//{
+			//	loaderDomain = CreateLoaderDomain(RssBanditApplication.GetAddInInRelativePath());
 
-				ServiceManager srvFinder =
-					(ServiceManager)
-					loaderDomain.CreateInstanceAndUnwrap(
-						Assembly.GetAssembly(typeof(ServiceManager)).FullName,
-						"AppInteropServices.ServiceManager");
-				IDictionary<string, IEnumerable<Type>> addInTypes =
-					srvFinder.SearchForIAddInPackagesTypes(assemblies);
+			//	ServiceManager srvFinder =
+			//		(ServiceManager)
+			//		loaderDomain.CreateInstanceAndUnwrap(
+			//			Assembly.GetAssembly(typeof(ServiceManager)).FullName,
+			//			"AppInteropServices.ServiceManager");
+			//	IDictionary<string, IEnumerable<Type>> addInTypes =
+			//		srvFinder.SearchForIAddInPackagesTypes(assemblies);
 
-				foreach (IAddIn a in assemblies)
-				{
-					if (a.Location == null || !addInTypes.ContainsKey(a.Location))
-						continue;
+			//	foreach (IAddIn a in assemblies)
+			//	{
+			//		if (a.Location == null || !addInTypes.ContainsKey(a.Location))
+			//			continue;
 
-					List<IAddInPackage> instances = new List<IAddInPackage>();
-					IEnumerable<Type> foundTypes = addInTypes[a.Location];
-					foreach (Type foundType in foundTypes)
-					{
-						try
-						{
-							IAddInPackage addInPackage = (IAddInPackage)Activator.CreateInstance(foundType);
-							if (addInPackage != null)
-								instances.Add(addInPackage);
-						}
-						catch (Exception ex)
-						{
-							_log.Error("AddIn of type '" + foundType.FullName + "' could not be activated.", ex);
-						}
-					}
+			//		List<IAddInPackage> instances = new List<IAddInPackage>();
+			//		IEnumerable<Type> foundTypes = addInTypes[a.Location];
+			//		foreach (Type foundType in foundTypes)
+			//		{
+			//			try
+			//			{
+			//				IAddInPackage addInPackage = (IAddInPackage)Activator.CreateInstance(foundType);
+			//				if (addInPackage != null)
+			//					instances.Add(addInPackage);
+			//			}
+			//			catch (Exception ex)
+			//			{
+			//				_log.Error("AddIn of type '" + foundType.FullName + "' could not be activated.", ex);
+			//			}
+			//		}
 
-					if (instances.Count > 0)
-					{
-						newList.Add(new AddIn(a.Location, Path.GetFileNameWithoutExtension(a.Location), instances));
-					}
-				}
-				return newList;
-			}
-			finally
-			{
-				if (loaderDomain != null)
-					AppDomain.Unload(loaderDomain);
-			}
+			//		if (instances.Count > 0)
+			//		{
+			//			newList.Add(new AddIn(a.Location, Path.GetFileNameWithoutExtension(a.Location), instances));
+			//		}
+			//	}
+			//	return newList;
+			//}
+			//finally
+			//{
+			//	if (loaderDomain != null)
+			//		AppDomain.Unload(loaderDomain);
+			//}
         }
 
         /// <summary>

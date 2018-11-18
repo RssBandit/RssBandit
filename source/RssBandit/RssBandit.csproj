@@ -251,6 +251,8 @@
     <PackageReference Include="Infragistics.WinForms.Win.UltraWinTree">
       <Version>17.2.20172.1000</Version>
     </PackageReference>
+    <PackageReference Include="SingleInstanceHelper" Version="0.1.11" />
+    <PackageReference Include="SoapFormatter" Version="1.0.2" />
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.3.0" />
     <PackageReference Include="Unity">
       <Version>2.1.505.2</Version>

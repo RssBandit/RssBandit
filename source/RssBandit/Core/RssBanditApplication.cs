@@ -588,8 +588,6 @@ namespace RssBandit
 			ResourceInfragistics.TranslateAll();
             
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
-
-            GuiInvoker.Initialize();
 			
 			// now we are ready to receive events from the backend:
 			sourceManager.ForEach(delegate(FeedSource f)

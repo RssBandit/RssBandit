@@ -36,6 +36,8 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
+    <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
+    <DebuggerType>CoreClr</DebuggerType>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -59,7 +61,7 @@
   <Target Name="_ValidateAppReferenceItems" />
   <Target Name="_FixEntryPoint" AfterTargets="_ConvertItems">
     <PropertyGroup>
-      <EntryPointExe>NuGetPackageExplorer\NuGetPackageExplorer.exe</EntryPointExe>
+      <EntryPointExe>RssBandit\RssBandit.exe</EntryPointExe>
     </PropertyGroup>
   </Target>
 
