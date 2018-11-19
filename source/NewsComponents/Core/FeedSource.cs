@@ -1,7 +1,5 @@
-using System.Collections.Concurrent;
-using JetBrains.Annotations;
+﻿using System.Collections.Concurrent;
 
-#region framework usings
 
 using System;
 using System.Collections;
@@ -25,9 +23,6 @@ using System.Xml.Xsl;
 using log4net;
 using System.Security.Cryptography.X509Certificates;
 
-#endregion
-
-#region project usings
 
 using NewsComponents.Collections;
 using NewsComponents.Feed;
@@ -44,7 +39,6 @@ using RssBandit.AppServices.Core;
 using RssBandit.Common;
 using RssBandit.Common.Logging;
 
-#endregion
 
 namespace NewsComponents
 {
@@ -1376,12 +1370,12 @@ namespace NewsComponents
 			get
 			{
 				return this.Configuration.PersistedSettings.GetProperty(
-					Ps.LastFaviconDownladTimeMask.FormatWith(Type), DateTime.MinValue);
+					 string.Format(Ps.LastFaviconDownladTimeMask, Type), DateTime.MinValue);
 			}
 			set
 			{
 				this.Configuration.PersistedSettings.SetProperty(
-					Ps.LastFaviconDownladTimeMask.FormatWith(Type), value);
+				    string.Format(Ps.LastFaviconDownladTimeMask, Type), value);
 			}
 		}
 
@@ -2906,8 +2900,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
 		public virtual bool FeedHasFavicon(string feedUrl)
 		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
+            if (string.IsNullOrWhiteSpace(feedUrl))
+            {
+                throw new ArgumentException("message", nameof(feedUrl));
+            }
+            
 			INewsFeed f;
 			if (!feedsTable.TryGetValue(feedUrl, out f))
 			{
@@ -2924,8 +2921,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feed is null</exception>
 		public virtual bool FeedHasFavicon(INewsFeed feed)
     	{
-			feed.ExceptionIfNull("feed");
-			
+            if (feed == null)
+            {
+                throw new ArgumentNullException(nameof(feed));
+            }
+            
     		return !String.IsNullOrEmpty(feed.favicon);
     	}
 
@@ -2937,8 +2937,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feedUrl is null or empty</exception>
 		public virtual byte[] GetFaviconForFeed(string feedUrl)
 		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
+            if (string.IsNullOrWhiteSpace(feedUrl))
+            {
+                throw new ArgumentException("message", nameof(feedUrl));
+            }
+            
 			INewsFeed f;
 			if (!feedsTable.TryGetValue(feedUrl, out f))
 			{
@@ -2955,7 +2958,10 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feed is null</exception>
 		public virtual byte[] GetFaviconForFeed(INewsFeed feed)
     	{
-			feed.ExceptionIfNull("feed");
+            if (feed == null)
+            {
+                throw new ArgumentNullException(nameof(feed));
+            }
 			
 			if (FeedHasFavicon(feed))
     		{
@@ -2974,8 +2980,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
 		public virtual void SetFaviconForFeed(string feedUrl, string contentId, byte[] imageData)
 		{
-			feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-			
+            if (string.IsNullOrWhiteSpace(feedUrl))
+            {
+                throw new ArgumentException("message", nameof(feedUrl));
+            }
+            
 			INewsFeed f;
 			if (!feedsTable.TryGetValue(feedUrl, out f))
 			{
@@ -2994,8 +3003,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feed is null</exception>
 		public virtual void SetFaviconForFeed(INewsFeed feed, string contentId, byte[] imageData)
     	{
-			feed.ExceptionIfNull("feed");
-			
+            if (feed == null)
+            {
+                throw new ArgumentNullException(nameof(feed));
+            }
+            
 			if (!String.IsNullOrEmpty(contentId) && imageData != null && imageData.Length > 0)
     		{
     			UserCacheDataService.SaveBinaryContent(contentId, imageData);
@@ -3010,8 +3022,11 @@ namespace NewsComponents
 		/// <exception cref="ArgumentNullException">If feed is null</exception>
 		public void RemoveFaviconFromFeed(INewsFeed feed)
 		{
-			feed.ExceptionIfNull("feed");
-			
+            if (feed == null)
+            {
+                throw new ArgumentNullException(nameof(feed));
+            }
+            
 			if (FeedHasFavicon(feed))
 			{
 				UserCacheDataService.DeleteBinaryContent(feed.favicon);
@@ -5468,7 +5483,7 @@ namespace NewsComponents
                     Uri requestUri;
 					Uri.TryCreate(requestUrl, UriKind.Absolute, out requestUri);
                     
-                    if (requestUri == null || !requestUri.Scheme.EqualsOrdinalIgnoreCase(Uri.UriSchemeHttp))
+                    if (requestUri == null || !requestUri.Scheme.Equals(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase))
                     {
                         continue;
                     }
@@ -7182,8 +7197,11 @@ namespace NewsComponents
         /// <exception cref="ArgumentNullException">If <paramref name="feedUrl"/> is null or empty</exception>
         public virtual void DeleteFeed(string feedUrl)
         {
-        	feedUrl.ExceptionIfNullOrEmpty("feedUrl");
-
+            if (string.IsNullOrWhiteSpace(feedUrl))
+            {
+                throw new ArgumentException("message", nameof(feedUrl));
+            }
+            
 			INewsFeed f;
             if (!feedsTable.TryGetValue(feedUrl, out f))
             {

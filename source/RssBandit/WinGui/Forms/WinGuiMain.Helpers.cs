@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using JetBrains.Annotations;
 using NewsComponents.Collections;
 using RssBandit.AppServices;
 using RssBandit.WinGui.Controls.ThListView;
@@ -2340,7 +2339,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-		private FeedInfoList BuildGroupedFeedInfoList([NotNull]string categoryName, [NotNull] IEnumerable<INewsItem> items)
+		private FeedInfoList BuildGroupedFeedInfoList(string categoryName, IEnumerable<INewsItem> items)
 	    {
 			var temp = new KeyItemCollection<string, IFeedDetails>();
 

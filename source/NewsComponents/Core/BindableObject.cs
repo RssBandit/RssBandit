@@ -1,18 +1,6 @@
-﻿#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
-using JetBrains.Annotations;
-using TorSteroids.Common.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace NewsComponents.Core
 {
@@ -31,26 +19,12 @@ namespace NewsComponents.Core
 		/// </summary>
 		/// <param name="propName">Name of the property.</param>
 		/// <exception cref="System.ArgumentNullException">propName</exception>
-		protected void RaisePropertyChanged([NotNull] string propName)
+		protected void RaisePropertyChanged([CallerMemberName] string propName = null)
         {
             if (propName == null) 
-                throw new ArgumentNullException("propName");
+                throw new ArgumentNullException(nameof(propName));
 
-            var evt = PropertyChanged;
-            if(evt != null)
-                evt(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
-		/// <summary>
-		/// Recommended method to use/provide a strong typed property name instead of a plain string:
-		/// Call it OnPropertyChanged(() =&gt; MyProperty);
-		/// </summary>
-		/// <param name="expression">The expression.</param>
-		/// <exception cref="System.ArgumentNullException">expression</exception>
-		protected void RaisePropertyChanged([NotNull] Expression<Func<object>> expression)
-		{
-			RaisePropertyChanged(expression.GetPropertyName());
-		}
-
     }
 }

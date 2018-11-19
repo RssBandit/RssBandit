@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -586,8 +586,7 @@ namespace RssBandit.WinGui.Forms
 		            ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 					if (coreApp.FeedSources.Contains(textFeedSourceName.Text.Trim()))
 		            {
-						errorProvider1.SetError(textFeedSourceName, SR.ExceptionDuplicateFeedSourceName
-							.FormatWith(textFeedSourceName.Text.Trim()));
+						errorProvider1.SetError(textFeedSourceName, string.Format(SR.ExceptionDuplicateFeedSourceName, textFeedSourceName.Text.Trim()));
 
 						this.pageSourceName.AllowMoveNext = false;
 						this.pageSourceName.AllowCancel = true;

@@ -293,9 +293,16 @@ namespace NewsComponents
 		/// <exception cref="InvalidOperationException">If source with provided name yet exists</exception>
 		public FeedSourceEntry Add(FeedSource source, string name)
 		{
-			source.ExceptionIfNull("source");
-			name.ExceptionIfNullOrEmpty("name");
-			
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("message", nameof(name));
+            }
+            
 			if (Contains(name))
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");
 
@@ -317,7 +324,10 @@ namespace NewsComponents
 		/// <exception cref="InvalidOperationException">If source with provided name yet exists</exception>
 		public FeedSourceEntry Add(string name, FeedSourceType type, IDictionary properties)
 		{
-			name.ExceptionIfNullOrEmpty("name");
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("message", nameof(name));
+            }
 			
 			if (Contains(name))
 				throw new InvalidOperationException("Entry with name '" + name + "' already exists");

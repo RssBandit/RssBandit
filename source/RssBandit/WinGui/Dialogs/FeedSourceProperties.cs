@@ -80,8 +80,7 @@ namespace RssBandit.WinGui.Dialogs
 				ICoreApplication coreApp = IoC.Resolve<ICoreApplication>();
 				if (coreApp.FeedSources.Contains(txtFeedSourceName.Text.Trim()))
 				{
-					errorProvider.SetError(txtFeedSourceName, SR.ExceptionDuplicateFeedSourceName
-						.FormatWith(txtFeedSourceName.Text.Trim()));
+					errorProvider.SetError(txtFeedSourceName, string.Format(SR.ExceptionDuplicateFeedSourceName, txtFeedSourceName.Text.Trim()));
 					e.Cancel = true;
 				}
 			}

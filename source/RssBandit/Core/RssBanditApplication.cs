@@ -333,12 +333,11 @@ namespace RssBandit
             }
             catch (Exception loadEx)
             {
-                _log.Error("Failed to load feed sources from file:{0}: {1}."
-					.FormatWith(GetFeedSourcesFileName(), loadEx.Message), loadEx);
+                _log.Error($"Failed to load feed sources from file:{GetFeedSourcesFileName()}: {loadEx.Message}.", loadEx);
 
                 if (DialogResult.No == MessageQuestion(
-					"Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?"
-						.FormatWith(Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
+					string.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?", 
+					              Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
 
@@ -351,12 +350,11 @@ namespace RssBandit
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
 		        MessageInfo(String.Concat("Bad news: the Google Reader itself is not anymore available and so ",
-					"we disabled this synchronizable feed source.{0}{0}",
-					"Good news: there is a alternative service available: feedly.com{0}{0}" ,
+					"we disabled this synchronizable feed source.\n\n",
+                    "Good news: there is a alternative service available: feedly.com\n\n",
 					"Feel free to import your google reader feeds there and use their online services ",
-					"for now until we integrated cloud.feedly.com as a new synchronizable feed source.{0}",
-					"Please vote to get this feature built in!")
-					.FormatWith(Environment.NewLine));
+					"for now until we integrated cloud.feedly.com as a new synchronizable feed source.\n",
+					"Please vote to get this feature built in!"));
 	        }
 
 			// Facebook is a very inactive source at Bandit:
@@ -368,9 +366,8 @@ namespace RssBandit
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
 				MessageInfo(String.Concat("Bad news: the Facebook synchronization feature was rarely used in the past, so ",
-					"we disabled this synchronizable feed source.{0}{0}",
-					"Good news: you can use the FBRSS service at fbrss.com instead.")
-					.FormatWith(Environment.NewLine));
+                    "we disabled this synchronizable feed source.\n\n",
+					"Good news: you can use the FBRSS service at fbrss.com instead."));
 			}
 
             //make sure we have a direct access feed source
@@ -1804,11 +1801,11 @@ namespace RssBandit
 				}
 				catch (InvalidOperationException ioe)
 				{
-					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ioe);
+					_log.Error($"Unexpected Error on GenerateDefaultEngines({p}).", ioe);
 				}
 				catch (Exception ex)
 				{
-					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ex);
+					_log.Error($"Unexpected Error on GenerateDefaultEngines({p}).", ex);
 				}
             }
         }

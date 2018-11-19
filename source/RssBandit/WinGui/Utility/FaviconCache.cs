@@ -49,7 +49,7 @@ namespace RssBandit.WinGui.Utility
 			Uri faviconUri;
 			
 			if (Uri.TryCreate(feed.link, UriKind.Absolute, out faviconUri))
-				id = "{0}/{1}".FormatWith(faviconUri.Authority, feed.favicon);
+				id = $"{faviconUri.Authority}/{feed.favicon}";
 
             Image image = null;
 			
@@ -79,7 +79,7 @@ namespace RssBandit.WinGui.Utility
 			}
 			catch(Exception ex)
 			{
-				_log.Error("Failed in GetImage({0}); id = {1}".FormatWith(feed.link, id), ex);
+				_log.Error($"Failed in GetImage({feed.link}); id = {id}", ex);
 			}
 			
 			lock (_favicons)
@@ -107,7 +107,7 @@ namespace RssBandit.WinGui.Utility
 
 			using (Stream s = new MemoryStream(imageData))
 			{
-				if (".ico".EqualsOrdinalIgnoreCase(extension))
+				if (".ico".Equals(extension, StringComparison.OrdinalIgnoreCase))
 				{
 					try
 					{
@@ -222,11 +222,11 @@ namespace RssBandit.WinGui.Utility
 				return null;
 
 			extension = extension.Replace(".", "");
-			if (extension.EqualsOrdinalIgnoreCase("jpg"))
+			if (extension.Equals("jpg", StringComparison.OrdinalIgnoreCase))
 				extension = "jpeg";
 
 			return ImageCodecInfo.GetImageEncoders()
-				.FirstOrDefault(e => extension.EqualsOrdinalIgnoreCase(e.FormatDescription));
+				.FirstOrDefault(e => extension.Equals(e.FormatDescription, StringComparison.OrdinalIgnoreCase));
 		}
 
 		[Conditional("DEBUG")]

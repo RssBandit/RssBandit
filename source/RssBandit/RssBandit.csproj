@@ -61,9 +61,6 @@
       <Name>SandDock</Name>
       <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
     </Reference>
-    <Reference Include="TorSteroids.Common">
-      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Windows">
       <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.16299.0\Windows.winmd</HintPath>
       <Private>False</Private>
@@ -150,19 +147,11 @@
     </EmbeddedResource>
     
    
-    <Compile Include="..\Common\Log.cs">
-      <Link>Log.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Common\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Common\ProfilerHelper.cs">
-      <Link>ProfilerHelper.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
- 
+    <Compile Include="..\Common\Log.cs" />
+    <Compile Include="..\Common\VersionInfo.cs" />
+    <Compile Include="..\Common\ProfilerHelper.cs" />
+    <Compile Include="..\Common\ExceptionHelper.cs" />
+
     <Compile Update="Resources\SR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

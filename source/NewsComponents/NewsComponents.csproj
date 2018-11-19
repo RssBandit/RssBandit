@@ -13,23 +13,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\Libraries\Org.Mime4Net.dll</HintPath>
     </Reference>
-    <Reference Include="TorSteroids.Common">
-      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\Log.cs">
-      <Link>Log.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\ProfilerHelper.cs">
-      <Link>ProfilerHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\UriHelper.cs">
-      <Link>UriHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\VersionInfo.cs">
-      <Link>VersionInfo.cs</Link>
-    </Compile>
+    <Compile Include="..\Common\*.cs" />
     <Compile Update="Resources\ComponentsText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -10,7 +10,6 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using JetBrains.Annotations;
 using RssBandit.Resources;
 using RssBandit.WinGui.Controls;
 
@@ -55,11 +54,14 @@ namespace RssBandit.WinGui
 			_currentState = ApplicationTrayState.NormalIdle;
 		}
 
-		public TrayStateManager([NotNull] IContainer components) :
+		public TrayStateManager(IContainer components) :
 			this()
 		{
-			components.ExceptionIfNull("components");
-
+            if (components == null)
+            {
+                throw new ArgumentNullException(nameof(components));
+            }
+            
 			_notifyIcon = new NotifyIconAnimation(components);
 
 			_notifyIcon.Click += OnTrayIconClick;

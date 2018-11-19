@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -14,7 +14,6 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using NewsComponents;
 using NewsComponents.Utils;
 using RssBandit.Xml;
@@ -228,10 +227,13 @@ namespace RssBandit.WebSearch
 		/// Generates a config file with default search engine(s).
 		/// </summary>
 		/// <param name="configUrl">The configuration URL.</param>
-		public void GenerateDefaultEngines([NotNull]string configUrl)
+		public void GenerateDefaultEngines(string configUrl)
 		{
-			configUrl.ExceptionIfNullOrEmpty("configUrl");
-
+            if (string.IsNullOrWhiteSpace(configUrl))
+            {
+                throw new ArgumentException("message", nameof(configUrl));
+            }
+            
 			this.Clear();
 
 			var searchesPath = Path.GetDirectoryName(configUrl);

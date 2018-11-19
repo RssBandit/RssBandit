@@ -1,13 +1,4 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
+﻿
 #region usings
 
 using System;
@@ -43,7 +34,6 @@ using NewsComponents.Feed;
 using NewsComponents.Resources;
 using NewsComponents.Utils;
 using RssBandit.Common.Logging;
-using TorSteroids.Common;
 using Directory=System.IO.Directory;
 
 #endregion
@@ -1079,5 +1069,19 @@ namespace NewsComponents.Search
 			}
 		}
 	}
+
+    internal static class DateTimeExtensions
+    {
+        /// <summary>
+        /// Returns the date part as integer in the format YYYYMMDD.
+        /// </summary>
+        /// <param name="dateTime">DateTime (only date part is relevant)</param>
+        /// <returns>Int32</returns>
+        public static int DateToInteger(this DateTime dateTime)
+        {
+            return dateTime.Year * 10000 + dateTime.Month * 100 + dateTime.Day;
+        }
+
+    }
 
 }

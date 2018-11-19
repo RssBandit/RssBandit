@@ -13,9 +13,6 @@
       <Private>True</Private>
     </Reference>
     <ProjectReference Include="..\NewsComponents\NewsComponents.csproj" />
-    <Reference Include="TorSteroids.Common">
-      <HintPath>..\Common\Libraries\TorSteroids.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExternalDependencies\Cassini.dll" />
