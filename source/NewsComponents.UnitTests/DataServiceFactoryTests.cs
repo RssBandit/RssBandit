@@ -24,10 +24,10 @@ namespace NewsComponents.UnitTests
         /// <summary>
         /// Test the factory method to create a service, that should throw argument null exception if configuration is missing.
         /// </summary>
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ConstructorThrowsArgumentNullExceptionIfConfigurationIsMissing()
 		{
-            DataServiceFactory.GetService(StorageDomain.UserCacheData, null);
+            Assert.Throws<ArgumentNullException>(() => DataServiceFactory.GetService(StorageDomain.UserCacheData, null));
 		}
 
         /// <summary>

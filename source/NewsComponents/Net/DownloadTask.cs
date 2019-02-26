@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -105,7 +105,7 @@ namespace NewsComponents.Net
             set
             {
                 _jobId = value;
-                RaisePropertyChanged(()=>JobId);
+                RaisePropertyChanged();
             }
         }
 
@@ -119,7 +119,7 @@ namespace NewsComponents.Net
             set
             {
                 _state = value;
-                RaisePropertyChanged(()=>State);
+                RaisePropertyChanged();
             }
         }
 
@@ -135,7 +135,7 @@ namespace NewsComponents.Net
             set
             {
                 _errorText = value;
-                RaisePropertyChanged(()=>ErrorText);
+                RaisePropertyChanged();
             }
         }
 
@@ -164,7 +164,7 @@ namespace NewsComponents.Net
             set
             {
                 _fileName = value;
-                RaisePropertyChanged(()=>FileName);
+                RaisePropertyChanged();
             }
         }
 
@@ -180,7 +180,7 @@ namespace NewsComponents.Net
             internal set
             {
                 _fileSize = value;
-                RaisePropertyChanged(()=>FileSize);
+                RaisePropertyChanged();
 
                 CalculatePercentComplete();
             }
@@ -198,7 +198,7 @@ namespace NewsComponents.Net
             internal set
             {
                 _transferredSize = value;
-                RaisePropertyChanged(()=>TransferredSize);
+                RaisePropertyChanged();
 
                 CalculatePercentComplete();
             }
@@ -225,7 +225,7 @@ namespace NewsComponents.Net
                 PercentComplete = 0;
             }
 
-            RaisePropertyChanged(()=>PercentComplete);
+            RaisePropertyChanged();
         }
 
 	    private int _downloadErrorResumeCount;
@@ -239,7 +239,7 @@ namespace NewsComponents.Net
 		    set
 		    {
 			    _downloadErrorResumeCount = value;
-			    RaisePropertyChanged(()=>DownloadErrorResumeCount);
+			    RaisePropertyChanged();
 		    }
 	    }
 
@@ -281,8 +281,8 @@ namespace NewsComponents.Net
             set
             {
                 _downloader = value;
-                RaisePropertyChanged(()=>CanCancelResume);
-                RaisePropertyChanged(()=>Downloader);
+                RaisePropertyChanged(nameof(CanCancelResume));
+                RaisePropertyChanged();
             }
         }
 

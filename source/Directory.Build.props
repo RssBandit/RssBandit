@@ -10,16 +10,19 @@
     <Company>www.rssbandit.org</Company>
     <Copyright>© 2003-2018 by www.rssbandit.org</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <NoWarn>1701;1702;1705;1591;NU1701</NoWarn>
 
     <IsLegacyProject>$(MSBuildProjectName.Equals('RssBandit'))</IsLegacyProject>
     <IsPackageProject>$(MSBuildProjectName.Contains('.Package'))</IsPackageProject>
     <DebugType>Full</DebugType>
     <LangVersion>latest</LangVersion>
+    
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.23" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.2.33" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

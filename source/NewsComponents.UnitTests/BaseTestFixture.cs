@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id: BaseTestFixture.cs 1098 2012-03-24 10:15:52Z t_rendelmann $
  * $HeadURL: https://rssbandit.svn.sourceforge.net/svnroot/rssbandit/trunk/source/RssBandit.UnitTests/BaseTestFixture.cs $
@@ -24,7 +24,7 @@ namespace RssBandit.UnitTests
         public static readonly string UNPACK_DESTINATION_FORMAT = Path.Combine(Path.GetTempPath(), APP_NAME + ".Resources.{0}");
 
         /// <summary>For ease of clean-up. Embedded resources are written to this directory (or a sub dir).</summary>
-        public string UNPACK_DESTINATION { get { return string.Format(UNPACK_DESTINATION_FORMAT, this.GetType().Name); } }
+        public string UNPACK_DESTINATION { get { return string.Format(UNPACK_DESTINATION_FORMAT, GetType().Name); } }
 
 	    /// <summary>For ease of clean-up and set-up, the web server files are written here.</summary>
         public string WEBROOT_PATH { get { return UNPACK_DESTINATION + @"\WebRoot"; } }

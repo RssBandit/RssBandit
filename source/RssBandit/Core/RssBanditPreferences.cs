@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -1147,35 +1147,35 @@ namespace RssBandit
 			EncryptionHelper.CompatibilityMode = (version <= 20);
 			//bool xmlFormat = (version >= 20);
 
-			this.allOptionalFlags = reader.Get("AllOptionalFlags", DefaultOptionalFlags);
+           this.allOptionalFlags = (OptionalFlags)reader.Get("AllOptionalFlags", (int)DefaultOptionalFlags);
 			
 			// all the following if (reader.Contains() calls are for migration from binary format
 			// and because booleans are stored now in a flagged enum (OptionalFlags), that gets read once above.
-			if (reader.Contains(StringHelper.GetPropertyName(()=>UseProxy)))
-				UseProxy = reader.Get(StringHelper.GetPropertyName(() => UseProxy), false);
+			if (reader.Contains(nameof(UseProxy)))
+				UseProxy = reader.Get(nameof(UseProxy), false);
 
-			ProxyAddress = reader.Get(StringHelper.GetPropertyName(() => ProxyAddress), String.Empty);
-			ProxyPort = reader.Get(StringHelper.GetPropertyName(() => ProxyPort), 8080);
-			ProxyUser = EncryptionHelper.Decrypt(reader.Get(StringHelper.GetPropertyName(() => ProxyUser), String.Empty));
-			ProxyPassword = EncryptionHelper.Decrypt(reader.Get(StringHelper.GetPropertyName(() => ProxyPassword), String.Empty));
+			ProxyAddress = reader.Get(nameof(ProxyAddress), String.Empty);
+			ProxyPort = reader.Get(nameof(ProxyPort), 8080);
+			ProxyUser = EncryptionHelper.Decrypt(reader.Get(nameof(ProxyUser), String.Empty));
+			ProxyPassword = EncryptionHelper.Decrypt(reader.Get(nameof(ProxyPassword), String.Empty));
 			
-			if (reader.Contains(StringHelper.GetPropertyName(()=>BypassProxyOnLocal)))
-				BypassProxyOnLocal = reader.Get(StringHelper.GetPropertyName(() => BypassProxyOnLocal), true);
-			if (reader.Contains(StringHelper.GetPropertyName(()=>ProxyCustomCredentials)))
-				ProxyCustomCredentials = reader.Get(StringHelper.GetPropertyName(() => ProxyCustomCredentials), false);
+			if (reader.Contains(nameof(BypassProxyOnLocal)))
+				BypassProxyOnLocal = reader.Get(nameof(BypassProxyOnLocal), true);
+			if (reader.Contains(nameof(ProxyCustomCredentials)))
+				ProxyCustomCredentials = reader.Get(nameof(ProxyCustomCredentials), false);
 
-			NewsItemStylesheetFile = reader.Get(StringHelper.GetPropertyName(() => NewsItemStylesheetFile), String.Empty);
+			NewsItemStylesheetFile = reader.Get(nameof(NewsItemStylesheetFile), String.Empty);
 
 			// see also version >= 16 below...
 			// we still read them to enable migration
 			// but newer formats do not store that anymore
 			if (version < 18) {
-				UserName = reader.Get(StringHelper.GetPropertyName(() => UserName), String.Empty);
-				UserMailAddress = reader.Get(StringHelper.GetPropertyName(() => UserMailAddress), String.Empty);
-				Referer = reader.Get(StringHelper.GetPropertyName(() => Referer), String.Empty);
+				UserName = reader.Get(nameof(UserName), String.Empty);
+				UserMailAddress = reader.Get(nameof(UserMailAddress), String.Empty);
+				Referer = reader.Get(nameof(Referer), String.Empty);
 			}
 
-			HideToTrayAction = reader.Get(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTray.OnMinimize);
+			HideToTrayAction = reader.Get(nameof(HideToTrayAction), HideToTray.OnMinimize);
 
 			#region read Fonts
 
@@ -1214,77 +1214,77 @@ namespace RssBandit
 
 			#region read colors
 
-			NormalFontColor = reader.Get(StringHelper.GetPropertyName(() => NormalFontColor), FontColorHelper.DefaultNormalColor);
-			if (reader.Contains(StringHelper.GetPropertyName(()=>UnreadFontColor)))	// current
-				UnreadFontColor = reader.Get(StringHelper.GetPropertyName(() => UnreadFontColor), FontColorHelper.DefaultUnreadColor);
+			NormalFontColor = reader.Get(nameof(NormalFontColor), FontColorHelper.DefaultNormalColor);
+			if (reader.Contains(nameof(UnreadFontColor)))	// current
+				UnreadFontColor = reader.Get(nameof(UnreadFontColor), FontColorHelper.DefaultUnreadColor);
 			else	// older versions may contain the old key:
 				UnreadFontColor = reader.Get("HighlightFontColor", FontColorHelper.DefaultUnreadColor);
 
-			FlagFontColor = reader.Get(StringHelper.GetPropertyName(() => FlagFontColor), FontColorHelper.DefaultHighlightColor);
-			ErrorFontColor = reader.Get(StringHelper.GetPropertyName(() => ErrorFontColor), FontColorHelper.DefaultFailureColor);
+			FlagFontColor = reader.Get(nameof(FlagFontColor), FontColorHelper.DefaultHighlightColor);
+			ErrorFontColor = reader.Get(nameof(ErrorFontColor), FontColorHelper.DefaultFailureColor);
 
-			if (reader.Contains(StringHelper.GetPropertyName(() => ReferrerFontColor)))	// current
-				ReferrerFontColor = reader.Get(StringHelper.GetPropertyName(() => ReferrerFontColor), FontColorHelper.DefaultReferenceColor);
+			if (reader.Contains(nameof(ReferrerFontColor)))	// current
+				ReferrerFontColor = reader.Get(nameof(ReferrerFontColor), FontColorHelper.DefaultReferenceColor);
 			else
 				ReferrerFontColor = reader.Get("RefererFontColor", FontColorHelper.DefaultReferenceColor);
 			
 			// new with 1.5.0.x:
-			NewCommentsFontColor = reader.Get(StringHelper.GetPropertyName(() => NewCommentsFontColor), FontColorHelper.DefaultNewCommentsColor);
+			NewCommentsFontColor = reader.Get(nameof(NewCommentsFontColor), FontColorHelper.DefaultNewCommentsColor);
 			
 			#endregion
 
-			MaxItemAge = TimeSpan.FromTicks(reader.Get(StringHelper.GetPropertyName(() => MaxItemAge), TimeSpan.FromDays(90).Ticks));
+			MaxItemAge = TimeSpan.FromTicks(reader.Get(nameof(MaxItemAge), TimeSpan.FromDays(90).Ticks));
 			
-			if (reader.Contains(StringHelper.GetPropertyName(() => UseRemoteStorage)))
-				UseRemoteStorage = reader.Get(StringHelper.GetPropertyName(() => UseRemoteStorage), false);
+			if (reader.Contains(nameof(UseRemoteStorage)))
+				UseRemoteStorage = reader.Get(nameof(UseRemoteStorage), false);
 
-			if (reader.Contains(StringHelper.GetPropertyName(() => RemoteStorageUserName)))	{
-				RemoteStorageUserName = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageUserName), String.Empty);
+			if (reader.Contains(nameof(RemoteStorageUserName)))	{
+				RemoteStorageUserName = reader.Get(nameof(RemoteStorageUserName), String.Empty);
 			} else {
 				RemoteStorageUserName = EncryptionHelper.Decrypt(reader.Get("RemoteStorageUserNameCrypted", String.Empty));
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => RemoteStoragePassword))) {
-				RemoteStoragePassword = reader.Get(StringHelper.GetPropertyName(() => RemoteStoragePassword), String.Empty);
+			if (reader.Contains(nameof(RemoteStoragePassword))) {
+				RemoteStoragePassword = reader.Get(nameof(RemoteStoragePassword), String.Empty);
 			} else {
 				RemoteStoragePassword = EncryptionHelper.Decrypt(reader.Get("RemoteStoragePasswordCrypted", String.Empty));
 			}
 
-			RemoteStorageProtocol = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageProtocol), RemoteStorageProtocolType.Unknown);
-			RemoteStorageLocation = reader.Get(StringHelper.GetPropertyName(() => RemoteStorageLocation), String.Empty);
+			RemoteStorageProtocol = reader.Get(nameof(RemoteStorageProtocol), RemoteStorageProtocolType.Unknown);
+			RemoteStorageLocation = reader.Get(nameof(RemoteStorageLocation), String.Empty);
 				// dasBlog_1_3 is not anymore supported:
 			if (UseRemoteStorage && RemoteStorageProtocol == RemoteStorageProtocolType.dasBlog_1_3) {
 				UseRemoteStorage = false;	
 			}
 
-			BrowserOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserBehaviorOnNewWindow.OpenDefaultBrowser);
-			BrowserCustomExecOnNewWindow = reader.Get(StringHelper.GetPropertyName(() => BrowserCustomExecOnNewWindow), String.Empty);
+			BrowserOnNewWindow = reader.Get(nameof(BrowserOnNewWindow), BrowserBehaviorOnNewWindow.OpenDefaultBrowser);
+			BrowserCustomExecOnNewWindow = reader.Get(nameof(BrowserCustomExecOnNewWindow), String.Empty);
 
-			if (reader.Contains(StringHelper.GetPropertyName(() => NewsItemOpenLinkInDetailWindow))) {
-				NewsItemOpenLinkInDetailWindow = reader.Get(StringHelper.GetPropertyName(() => NewsItemOpenLinkInDetailWindow), true);
+			if (reader.Contains(nameof(NewsItemOpenLinkInDetailWindow))) {
+				NewsItemOpenLinkInDetailWindow = reader.Get(nameof(NewsItemOpenLinkInDetailWindow), true);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => UseIEProxySettings))) {
-				UseIEProxySettings = reader.Get(StringHelper.GetPropertyName(() => UseIEProxySettings), false);
+			if (reader.Contains(nameof(UseIEProxySettings))) {
+				UseIEProxySettings = reader.Get(nameof(UseIEProxySettings), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => FeedRefreshOnStartup))) {
-				FeedRefreshOnStartup = reader.Get(StringHelper.GetPropertyName(() => FeedRefreshOnStartup), true);
+			if (reader.Contains(nameof(FeedRefreshOnStartup))) {
+				FeedRefreshOnStartup = reader.Get(nameof(FeedRefreshOnStartup), true);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed))) {
-				BrowserJavascriptAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavascriptAllowed), false);
+			if (reader.Contains(nameof(BrowserJavascriptAllowed))) {
+				BrowserJavascriptAllowed = reader.Get(nameof(BrowserJavascriptAllowed), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserJavaAllowed))) {
-				BrowserJavaAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserJavaAllowed), false);
+			if (reader.Contains(nameof(BrowserJavaAllowed))) {
+				BrowserJavaAllowed = reader.Get(nameof(BrowserJavaAllowed), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserActiveXAllowed))) {
-				BrowserActiveXAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserActiveXAllowed), false);
+			if (reader.Contains(nameof(BrowserActiveXAllowed))) {
+				BrowserActiveXAllowed = reader.Get(nameof(BrowserActiveXAllowed), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserBGSoundAllowed))) {
-				BrowserBGSoundAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserBGSoundAllowed), false);
+			if (reader.Contains(nameof(BrowserBGSoundAllowed))) {
+				BrowserBGSoundAllowed = reader.Get(nameof(BrowserBGSoundAllowed), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserVideoAllowed))) {
-				BrowserVideoAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserVideoAllowed), false);
+			if (reader.Contains(nameof(BrowserVideoAllowed))) {
+				BrowserVideoAllowed = reader.Get(nameof(BrowserVideoAllowed), false);
 			}
-			if (reader.Contains(StringHelper.GetPropertyName(() => BrowserImagesAllowed))) {
-				BrowserImagesAllowed = reader.Get(StringHelper.GetPropertyName(() => BrowserImagesAllowed), true);
+			if (reader.Contains(nameof(BrowserImagesAllowed))) {
+				BrowserImagesAllowed = reader.Get(nameof(BrowserImagesAllowed), true);
 			}
 			
 			if (reader.Contains("ShowConfiguredAlertWindows")) {
@@ -1296,45 +1296,45 @@ namespace RssBandit
 					ShowAlertWindow = DisplayFeedAlertWindow.None;
 				}
 			} else {
-				ShowAlertWindow = reader.Get(StringHelper.GetPropertyName(() => ShowAlertWindow), DisplayFeedAlertWindow.AsConfiguredPerFeed);
+				ShowAlertWindow = reader.Get(nameof(ShowAlertWindow), DisplayFeedAlertWindow.AsConfiguredPerFeed);
 			}
 
-			if (reader.Contains(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon))) {
-				ShowNewItemsReceivedBalloon = reader.Get(StringHelper.GetPropertyName(() => ShowNewItemsReceivedBalloon), false);
+			if (reader.Contains(nameof(ShowNewItemsReceivedBalloon))) {
+				ShowNewItemsReceivedBalloon = reader.Get(nameof(ShowNewItemsReceivedBalloon), false);
 			}
 			
-			ProxyBypassList = reader.Get(StringHelper.GetPropertyName(() => ProxyBypassList), new string[]{});
+			ProxyBypassList = reader.Get(nameof(ProxyBypassList), new string[]{});
 			if (ProxyBypassList == null)
 				ProxyBypassList = new string[]{};
 
-			if (reader.Contains(StringHelper.GetPropertyName(() => MarkItemsReadOnExit))) {
-				MarkItemsReadOnExit = reader.Get(StringHelper.GetPropertyName(() => MarkItemsReadOnExit), false);
+			if (reader.Contains(nameof(MarkItemsReadOnExit))) {
+				MarkItemsReadOnExit = reader.Get(nameof(MarkItemsReadOnExit), false);
 			}
 
-			UserIdentityForComments = reader.Get(StringHelper.GetPropertyName(() => UserIdentityForComments), String.Empty);
+			UserIdentityForComments = reader.Get(nameof(UserIdentityForComments), String.Empty);
 			
-			if (reader.Contains(StringHelper.GetPropertyName(() => ReuseFirstBrowserTab))) {
-				ReuseFirstBrowserTab = reader.Get(StringHelper.GetPropertyName(() => ReuseFirstBrowserTab), true);
+			if (reader.Contains(nameof(ReuseFirstBrowserTab))) {
+				ReuseFirstBrowserTab = reader.Get(nameof(ReuseFirstBrowserTab), true);
 			}
 
-			this.NgosSyncToken = reader.Get(StringHelper.GetPropertyName(() => NgosSyncToken), String.Empty); 
+			this.NgosSyncToken = reader.Get(nameof(NgosSyncToken), String.Empty); 
 
-			this.NumNewsItemsPerPage = reader.Get(StringHelper.GetPropertyName(() => NumNewsItemsPerPage), 10);
+			this.NumNewsItemsPerPage = reader.Get(nameof(NumNewsItemsPerPage), 10);
 
-            this.ReadingPaneTextSize = reader.Get(StringHelper.GetPropertyName(() => ReadingPaneTextSize), TextSize.Medium);
+            this.ReadingPaneTextSize = reader.Get(nameof(ReadingPaneTextSize), TextSize.Medium);
 
-			this.RefreshRate = reader.Get(StringHelper.GetPropertyName(() => RefreshRate), FeedSource.DefaultRefreshRate);
-            this.EnclosureFolder = reader.Get(StringHelper.GetPropertyName(() => EnclosureFolder), String.Empty);
+			this.RefreshRate = reader.Get(nameof(RefreshRate), FeedSource.DefaultRefreshRate);
+            this.EnclosureFolder = reader.Get(nameof(EnclosureFolder), String.Empty);
             this.EnclosureFolder = String.IsNullOrWhiteSpace(this.EnclosureFolder) 
                 ? RssBanditApplication.GetDefaultEnclosuresPath()
                 : this.EnclosureFolder; 
-			this.NumEnclosuresToDownloadOnNewFeed = reader.Get(StringHelper.GetPropertyName(() => NumEnclosuresToDownloadOnNewFeed), FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
-			this.EnclosureCacheSize = reader.Get(StringHelper.GetPropertyName(() => EnclosureCacheSize), FeedSource.DefaultEnclosureCacheSize);
-            this.PodcastFolder = reader.Get(StringHelper.GetPropertyName(() => PodcastFolder), String.Empty);
+			this.NumEnclosuresToDownloadOnNewFeed = reader.Get(nameof(NumEnclosuresToDownloadOnNewFeed), FeedSource.DefaultNumEnclosuresToDownloadOnNewFeed);
+			this.EnclosureCacheSize = reader.Get(nameof(EnclosureCacheSize), FeedSource.DefaultEnclosureCacheSize);
+            this.PodcastFolder = reader.Get(nameof(PodcastFolder), String.Empty);
             this.PodcastFolder = String.IsNullOrWhiteSpace(this.PodcastFolder)
                 ? RssBanditApplication.GetDefaultPodcastPath()
                 : this.PodcastFolder; 
-			this.PodcastFileExtensions = reader.Get(StringHelper.GetPropertyName(() => PodcastFileExtensions), RssBanditApplication.DefaultPodcastFileExts);
+			this.PodcastFileExtensions = reader.Get(nameof(PodcastFileExtensions), RssBanditApplication.DefaultPodcastFileExts);
 		}
 
 		/// <summary>
@@ -1351,44 +1351,44 @@ namespace RssBandit
 		
 			info.AddValue("_PrefsVersion", 25);	// added refresh rate
 			EncryptionHelper.CompatibilityMode = false;
-			info.AddValue(StringHelper.GetPropertyName(() => ProxyAddress), ProxyAddress);
-			info.AddValue(StringHelper.GetPropertyName(() => ProxyPort), ProxyPort);
-			info.AddValue(StringHelper.GetPropertyName(() => ProxyUser), EncryptionHelper.Encrypt(ProxyUser));
-			info.AddValue(StringHelper.GetPropertyName(() => ProxyPassword), EncryptionHelper.Encrypt(ProxyPassword));
-			info.AddValue(StringHelper.GetPropertyName(() => ProxyBypassList), ProxyBypassList);
-			info.AddValue(StringHelper.GetPropertyName(() => NewsItemStylesheetFile), NewsItemStylesheetFile);
-			info.AddValue(StringHelper.GetPropertyName(() => HideToTrayAction), HideToTrayAction);
-			info.AddValue(StringHelper.GetPropertyName(() => NormalFont)+"String", SerializationInfoReader.ConvertFont(NormalFont));
-			info.AddValue(StringHelper.GetPropertyName(() => UnreadFont) + "String", SerializationInfoReader.ConvertFont(UnreadFont));
-			info.AddValue(StringHelper.GetPropertyName(() => FlagFont)+"String", SerializationInfoReader.ConvertFont(FlagFont));
-			info.AddValue(StringHelper.GetPropertyName(() => ErrorFont)+"String", SerializationInfoReader.ConvertFont(ErrorFont));
-			info.AddValue(StringHelper.GetPropertyName(() => ReferrerFont)+"String", SerializationInfoReader.ConvertFont(ReferrerFont));
-			info.AddValue(StringHelper.GetPropertyName(() => NewCommentsFont)+"String", SerializationInfoReader.ConvertFont(NewCommentsFont));
-			info.AddValue(StringHelper.GetPropertyName(() => NormalFontColor), NormalFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => UnreadFontColor), UnreadFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => FlagFontColor), FlagFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => ErrorFontColor), ErrorFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => ReferrerFontColor), ReferrerFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => NewCommentsFontColor), NewCommentsFontColor);
-			info.AddValue(StringHelper.GetPropertyName(() => MaxItemAge), MaxItemAge.Ticks);
-			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageUserName)+"Crypted", EncryptionHelper.Encrypt(RemoteStorageUserName));
-			info.AddValue(StringHelper.GetPropertyName(() => RemoteStoragePassword)+"Crypted", EncryptionHelper.Encrypt(RemoteStoragePassword));
-			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageProtocol), RemoteStorageProtocol);
-			info.AddValue(StringHelper.GetPropertyName(() => RemoteStorageLocation), RemoteStorageLocation);
-			info.AddValue(StringHelper.GetPropertyName(() => BrowserOnNewWindow), BrowserOnNewWindow);
-			info.AddValue(StringHelper.GetPropertyName(() => BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow);
-			info.AddValue(StringHelper.GetPropertyName(() => ShowAlertWindow), ShowAlertWindow);
-			info.AddValue(StringHelper.GetPropertyName(() => UserIdentityForComments), UserIdentityForComments); 
-			info.AddValue("AllOptionalFlags", this.allOptionalFlags);
-			info.AddValue(StringHelper.GetPropertyName(() => NgosSyncToken), this.NgosSyncToken); 
-			info.AddValue(StringHelper.GetPropertyName(() => NumNewsItemsPerPage), this.NumNewsItemsPerPage);
-            info.AddValue(StringHelper.GetPropertyName(() => ReadingPaneTextSize), this.ReadingPaneTextSize);
-			info.AddValue(StringHelper.GetPropertyName(() => RefreshRate), this.RefreshRate);
-			info.AddValue(StringHelper.GetPropertyName(() => EnclosureFolder), this.EnclosureFolder);
-			info.AddValue(StringHelper.GetPropertyName(() => NumEnclosuresToDownloadOnNewFeed), this.NumEnclosuresToDownloadOnNewFeed);
-			info.AddValue(StringHelper.GetPropertyName(() => EnclosureCacheSize), this.EnclosureCacheSize);
-			info.AddValue(StringHelper.GetPropertyName(() => PodcastFolder), this.PodcastFolder);
-			info.AddValue(StringHelper.GetPropertyName(() => PodcastFileExtensions), this.PodcastFileExtensions);
+			info.AddValue(nameof(ProxyAddress), ProxyAddress);
+			info.AddValue(nameof(ProxyPort), ProxyPort);
+			info.AddValue(nameof(ProxyUser), EncryptionHelper.Encrypt(ProxyUser));
+			info.AddValue(nameof(ProxyPassword), EncryptionHelper.Encrypt(ProxyPassword));
+			info.AddValue(nameof(ProxyBypassList), ProxyBypassList);
+			info.AddValue(nameof(NewsItemStylesheetFile), NewsItemStylesheetFile);
+			info.AddValue(nameof(HideToTrayAction), HideToTrayAction);
+			info.AddValue(nameof(NormalFont)+"String", SerializationInfoReader.ConvertFont(NormalFont));
+			info.AddValue(nameof(UnreadFont) + "String", SerializationInfoReader.ConvertFont(UnreadFont));
+			info.AddValue(nameof(FlagFont)+"String", SerializationInfoReader.ConvertFont(FlagFont));
+			info.AddValue(nameof(ErrorFont)+"String", SerializationInfoReader.ConvertFont(ErrorFont));
+			info.AddValue(nameof(ReferrerFont)+"String", SerializationInfoReader.ConvertFont(ReferrerFont));
+			info.AddValue(nameof(NewCommentsFont)+"String", SerializationInfoReader.ConvertFont(NewCommentsFont));
+			info.AddValue(nameof(NormalFontColor), NormalFontColor);
+			info.AddValue(nameof(UnreadFontColor), UnreadFontColor);
+			info.AddValue(nameof(FlagFontColor), FlagFontColor);
+			info.AddValue(nameof(ErrorFontColor), ErrorFontColor);
+			info.AddValue(nameof(ReferrerFontColor), ReferrerFontColor);
+			info.AddValue(nameof(NewCommentsFontColor), NewCommentsFontColor);
+			info.AddValue(nameof(MaxItemAge), MaxItemAge.Ticks);
+			info.AddValue(nameof(RemoteStorageUserName)+"Crypted", EncryptionHelper.Encrypt(RemoteStorageUserName));
+			info.AddValue(nameof(RemoteStoragePassword)+"Crypted", EncryptionHelper.Encrypt(RemoteStoragePassword));
+			info.AddValue(nameof(RemoteStorageProtocol), RemoteStorageProtocol);
+			info.AddValue(nameof(RemoteStorageLocation), RemoteStorageLocation);
+			info.AddValue(nameof(BrowserOnNewWindow), BrowserOnNewWindow);
+			info.AddValue(nameof(BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow);
+			info.AddValue(nameof(ShowAlertWindow), ShowAlertWindow);
+			info.AddValue(nameof(UserIdentityForComments), UserIdentityForComments); 
+			info.AddValue("AllOptionalFlags", (int)this.allOptionalFlags);
+			info.AddValue(nameof(NgosSyncToken), this.NgosSyncToken); 
+			info.AddValue(nameof(NumNewsItemsPerPage), this.NumNewsItemsPerPage);
+            info.AddValue(nameof(ReadingPaneTextSize), this.ReadingPaneTextSize);
+			info.AddValue(nameof(RefreshRate), this.RefreshRate);
+			info.AddValue(nameof(EnclosureFolder), this.EnclosureFolder);
+			info.AddValue(nameof(NumEnclosuresToDownloadOnNewFeed), this.NumEnclosuresToDownloadOnNewFeed);
+			info.AddValue(nameof(EnclosureCacheSize), this.EnclosureCacheSize);
+			info.AddValue(nameof(PodcastFolder), this.PodcastFolder);
+			info.AddValue(nameof(PodcastFileExtensions), this.PodcastFileExtensions);
 		}
 		#endregion
 

@@ -38,9 +38,12 @@ namespace NewsComponents.Storage
 		/// <returns></returns>
 		public static object GetService(StorageDomain domain, INewsComponentsConfiguration configuration)
 		{
-			configuration.ExceptionIfNull("configuration");
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
 
-			IInitDataService service = new FileStorageDataService();
+            IInitDataService service = new FileStorageDataService();
 			if (domain == StorageDomain.UserCacheData)
 			{
 				service.Initialize(Path.Combine(

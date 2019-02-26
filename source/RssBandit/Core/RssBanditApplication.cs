@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 
 /*
  * $Id$
@@ -333,12 +333,11 @@ namespace RssBandit
             }
             catch (Exception loadEx)
             {
-                _log.Error("Failed to load feed sources from file:{0}: {1}."
-					.FormatWith(GetFeedSourcesFileName(), loadEx.Message), loadEx);
+                _log.Error($"Failed to load feed sources from file:{GetFeedSourcesFileName()}: {loadEx.Message}.", loadEx);
 
                 if (DialogResult.No == MessageQuestion(
-					"Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?"
-						.FormatWith(Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
+					string.Format("Failed to load feed sources from file:{0}{1}.{0}{0}Error was: {2}{0}{0}Continue?", 
+					              Environment.NewLine, GetFeedSourcesFileName(), loadEx.Message)))
                     return false;
             }
 
@@ -351,12 +350,11 @@ namespace RssBandit
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
 		        MessageInfo(String.Concat("Bad news: the Google Reader itself is not anymore available and so ",
-					"we disabled this synchronizable feed source.{0}{0}",
-					"Good news: there is a alternative service available: feedly.com{0}{0}" ,
+					"we disabled this synchronizable feed source.\n\n",
+                    "Good news: there is a alternative service available: feedly.com\n\n",
 					"Feel free to import your google reader feeds there and use their online services ",
-					"for now until we integrated cloud.feedly.com as a new synchronizable feed source.{0}",
-					"Please vote to get this feature built in!")
-					.FormatWith(Environment.NewLine));
+					"for now until we integrated cloud.feedly.com as a new synchronizable feed source.\n",
+					"Please vote to get this feature built in!"));
 	        }
 
 			// Facebook is a very inactive source at Bandit:
@@ -368,9 +366,8 @@ namespace RssBandit
 				sourceManager.SaveFeedSources(GetFeedSourcesFileName());
 
 				MessageInfo(String.Concat("Bad news: the Facebook synchronization feature was rarely used in the past, so ",
-					"we disabled this synchronizable feed source.{0}{0}",
-					"Good news: you can use the FBRSS service at fbrss.com instead.")
-					.FormatWith(Environment.NewLine));
+                    "we disabled this synchronizable feed source.\n\n",
+					"Good news: you can use the FBRSS service at fbrss.com instead."));
 			}
 
             //make sure we have a direct access feed source
@@ -581,15 +578,14 @@ namespace RssBandit
             _dispatcherThread = new Thread(DispatcherThread);
             _dispatcherThread.TrySetApartmentState(ApartmentState.STA);
             _dispatcherThread.Name = "Dispatcher Thread";
-            _dispatcherThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-            _dispatcherThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+            CultureInfo.DefaultThreadCurrentCulture = Thread.CurrentThread.CurrentCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             _dispatcherThread.Start();
 
 			ResourceInfragistics.TranslateAll();
             
             MainForm = guiMain = new WinGuiMain(this, initialStartupState); // interconnect
-
-            GuiInvoker.Initialize();
 			
 			// now we are ready to receive events from the backend:
 			sourceManager.ForEach(delegate(FeedSource f)
@@ -782,8 +778,6 @@ namespace RssBandit
         /// <param name="e">The exception</param>
         public void HandleFeedlistException(Exception e)
         {
-            e.PreserveExceptionStackTrace();
-
             ResourceAuthorizationException rae = e as ResourceAuthorizationException; 
             BanditApplicationException ex = e as BanditApplicationException;
             
@@ -1807,11 +1801,11 @@ namespace RssBandit
 				}
 				catch (InvalidOperationException ioe)
 				{
-					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ioe);
+					_log.Error($"Unexpected Error on GenerateDefaultEngines({p}).", ioe);
 				}
 				catch (Exception ex)
 				{
-					_log.Error("Unexpected Error on GenerateDefaultEngines({0}).".FormatWith(p), ex);
+					_log.Error($"Unexpected Error on GenerateDefaultEngines({p}).", ex);
 				}
             }
         }
@@ -2029,9 +2023,9 @@ namespace RssBandit
                 case 1: //"FTP"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.FTP;
                     break;
-                case 2: //"dasBlog"
-                    Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.dasBlog;
-                    break;
+                //case 2: //"dasBlog"
+                //    Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.dasBlog;
+                //    break;
                /* case 3: //"NewsgatorOnline"
                     Preferences.RemoteStorageProtocol = RemoteStorageProtocolType.NewsgatorOnline;
                     break; */ 
@@ -4827,8 +4821,7 @@ namespace RssBandit
                                 });
 
                 // notify service consumers:
-                EventsHelper.Fire(InternetConnectionStateChange,
-                                  this, args);
+                InternetConnectionStateChange?.Invoke(this, args);
             }
         }
 
@@ -5569,6 +5562,13 @@ namespace RssBandit
             try
             {
                 commandLineParser.Parse(args, commandLineOptions);
+                // clear out any dll's in the subscribe to
+                var dlls = commandLineOptions.SubscribeTo.Where(s => s.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList();
+                foreach(var dll in dlls)
+                {
+                    commandLineOptions.SubscribeTo.Remove(dll);
+                }
+
                 if (commandLineOptions.ShowHelp)
                 {
                     // show Help commandline options messagebox
@@ -6393,7 +6393,13 @@ namespace RssBandit
                 url = "about:blank";
             try
             {
-                Process.Start(url);
+                var psi = new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                };
+
+                Process.Start(psi);
             }
             catch (Exception  ex)
             {

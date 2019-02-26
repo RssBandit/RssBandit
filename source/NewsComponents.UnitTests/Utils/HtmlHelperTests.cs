@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NewsComponents.Utils;
 using Xunit;
@@ -43,7 +43,7 @@ Schuetz - TU Chemnitz)!
 		public void RetrieveTitledLinks()
 		{
 			var links = HtmlHelper.RetrieveTitledLinks(htmlFragments[0]);
-			Assert.NotEqual(null, links);
+			Assert.NotNull(links);
 			Assert.Equal(2, links.Count);
 
 			// Note: Urls should be lower case:

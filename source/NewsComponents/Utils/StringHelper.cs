@@ -1,19 +1,8 @@
-#region CVS Version Header
-/*
- * $Id$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
-using TorSteroids.Common.Extensions;
 
 namespace NewsComponents.Utils
 {
@@ -36,17 +25,6 @@ namespace NewsComponents.Utils
 		[Obsolete("Use String.IsNullOrWhiteSpace(...) instead", false)]
 		public static bool EmptyTrimOrNull(string text) {
 			return (text == null || text.Trim().Length == 0);
-		}
-
-		/// <summary>
-		/// Get the property name from the provided expression. E.g. GetPropertyName( () =&gt; myInstance.ObjectId )
-		/// will return "ObjectId".
-		/// </summary>
-		/// <param name="expression">Linq expression</param>
-		/// <returns></returns>
-		public static string GetPropertyName(Expression<Func<Object>> expression)
-		{
-			return expression.GetPropertyName();
 		}
 
 		/// <summary>

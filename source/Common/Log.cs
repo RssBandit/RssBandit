@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -12,6 +12,7 @@ using log4net;
 using log4net.Config;
 using System.IO;
 using System.Reflection;
+using log4net.Repository.Hierarchy;
 
 namespace RssBandit.Common.Logging {
 	
@@ -30,33 +31,29 @@ namespace RssBandit.Common.Logging {
 		/// statick initializer
 		/// </summary>
 		static Log() {
-			// Set up a simple configuration that logs on the console.
+            // Set up a simple configuration that logs on the console.
+
+            var hierarchy = LogManager.GetRepository(Assembly.GetEntryAssembly());
 
 
 
-
-			if( File.Exists(Log4NetConfigFile)) 
+            if ( File.Exists(Log4NetConfigFile)) 
             {
+                // Env variable isn't expanded, do it manually
+                var configfile = File.ReadAllText(Log4NetConfigFile);
+                // insert the alt path
+                var newConfig = configfile.Replace(@"${APPDATA}", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 #if ALT_CONFIG_PATH
 
-                var file = File.ReadAllText(Log4NetConfigFile);
                 // insert the alt path
-                var newFile = file.Replace(@"\\RssBandit\\", @"\\RssBandit\\Debug\\");
-                XmlConfigurator.Configure(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(newFile)));
-
-#else
-				if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
-					XmlConfigurator.ConfigureAndWatch(new FileInfo(Log4NetConfigFile));
-				}
-				else {
-					XmlConfigurator.Configure(new FileInfo(Log4NetConfigFile));
-				}
-
+                var newConfig = newConfig.Replace(@"\\RssBandit\\", @"\\RssBandit\\Debug\\");
 #endif
+                XmlConfigurator.Configure(hierarchy, new MemoryStream(System.Text.Encoding.UTF8.GetBytes(newConfig)));
 			}
 			else {
-				BasicConfigurator.Configure();
+                BasicConfigurator.Configure(hierarchy);
 			}
+            
 			Logger = GetLogger(typeof(Log));
 		}
 

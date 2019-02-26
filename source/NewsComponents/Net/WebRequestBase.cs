@@ -86,7 +86,7 @@ namespace NewsComponents.Net
             ServicePointManager.ServerCertificateValidationCallback =
                 TrustSelectedCertificatePolicy.CheckServerCertificate;  
 #else
-            ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
+            //ServicePointManager.CertificatePolicy = new TrustSelectedCertificatePolicy();
 #endif
             // allow the manager to send proxy crendentials for proxies that require auth.:
             AuthenticationManager.CredentialPolicy = new ProxyCredentialsPolicy();

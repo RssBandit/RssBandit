@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -46,7 +46,11 @@ namespace NewsComponents.Storage {
 		/// depending on the implementation of the data service</param>
 		public override void Initialize(string initData)
 		{
-			initData.ExceptionIfNullOrEmpty("initData");
+            if (string.IsNullOrWhiteSpace(initData))
+            {
+                throw new ArgumentException("message", nameof(initData));
+            }
+
 			base.Initialize(initData);
 			
 			if(!Directory.Exists(CacheLocation))

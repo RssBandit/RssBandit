@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
 Copyright (c) 2004-2006 by Torsten Rendelmann
 
@@ -296,15 +296,15 @@ namespace IEControl
 				lowSecurity = (Environment.OSVersion.Platform != PlatformID.Win32NT);
 				CurrentIEVersion = OSHelper.GetInternetExplorerVersion();
 				_UseCurrentDll();
-				return;
+			//	return;
 			}
 			catch{}
 
-			try {
-				SHDocVwAssembly = Interop.GetAssemblyForTypeLib( "SHDocVw.DLL" );
-				AppDomain.CurrentDomain.AssemblyResolve += RedirectSHDocAssembly;
-			}
-			catch{}
+			//try {
+			//	SHDocVwAssembly = Interop.GetAssemblyForTypeLib( "SHDocVw.DLL" );
+			//	AppDomain.CurrentDomain.AssemblyResolve += RedirectSHDocAssembly;
+			//}
+			//catch{}
 		}
 
 		///<summary>

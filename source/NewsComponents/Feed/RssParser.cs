@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -732,7 +732,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
+								date = DateTime.Parse(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -1341,7 +1341,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
+								date = DateTime.Parse(ReadElementString(reader));
                             }
                             continue;
                         }
@@ -1352,7 +1352,7 @@ namespace NewsComponents.Feed
                         {
                             if (!reader.IsEmptyElement)
                             {
-								date = TorSteroids.Common.DateTimeExt.ParseIso8601DateTime(ReadElementString(reader));
+								date = DateTime.Parse(ReadElementString(reader));
                             }
                             continue;
                         }

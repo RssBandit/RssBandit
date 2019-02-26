@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -267,7 +267,7 @@ namespace NewsComponents.Utils
 					href = RelationCosmos.RelationCosmos.UrlTable.Add(href);
 					TitledLink link = new TitledLink(ref href, String.IsNullOrEmpty(linkTitle) ? linkText : linkTitle);
 
-					var found = list.FirstOrDefault(newLink => link.Url.EqualsOrdinal(newLink.Url));
+					var found = list.FirstOrDefault(newLink => link.Url.Equals(newLink.Url, StringComparison.Ordinal));
 					if (String.IsNullOrEmpty(found.Url))
 						list.Add(link);
 				}
@@ -344,7 +344,7 @@ namespace NewsComponents.Utils
                     {
 
                             // I had to add this section for the Euro
-                        case '�':
+                        case '€':
                             output.Append("&euro;");
                             break;
 

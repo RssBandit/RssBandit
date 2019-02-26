@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infragistics.Win.Misc;
-using JetBrains.Annotations;
 using NewsComponents;
 using NewsComponents.Net;
 using NewsComponents.Feed;
@@ -66,9 +65,7 @@ namespace RssBandit.WinGui
 
 		#region ctor()'s
 		
-        public ToastNotifier(
-			[NotNull]IUserPreferences preferences,
-			[NotNull]UltraDesktopAlert desktopAlert) 
+        public ToastNotifier(IUserPreferences preferences, UltraDesktopAlert desktopAlert) 
         {
 			if (preferences == null)
 				throw new ArgumentNullException("preferences");
@@ -120,14 +117,12 @@ namespace RssBandit.WinGui
 				windowInfo.Key = NewsItemAlertWindowKey;
 				windowInfo.PinButtonVisible = true;
 				windowInfo.Image = node.ImageResolved;
-				windowInfo.Data = firstItem;	
-				
-				windowInfo.Caption = "<font face=\"Tahoma\">{0} ({1})</font>"
-					.FormatWith(node.Text, unreadCount - dispItemCount);
+				windowInfo.Data = firstItem;
+
+                windowInfo.Caption = $"<font face=\"Tahoma\">{node.Text} ({unreadCount - dispItemCount})</font>";
 				windowInfo.Text = String.Format("<hr NoShade=\"true\" size=\"1px\"/><font face=\"Tahoma\"><span style=\"font-style:italic_x003B_\">{0}</span></font>", 
 					StringHelper.ShortenByEllipsis(firstItem.Title, maxItemTextWith));
-				windowInfo.FooterText = "<font face=\"Tahoma\">{0}</font>"
-					.FormatWith(SR.MenuShowFeedPropertiesCaption);
+                windowInfo.FooterText = $"<font face=\"Tahoma\">{SR.MenuShowFeedPropertiesCaption}</font>";
 
 				if (_preferences.AllowAppEventSounds)
 					windowInfo.Sound = Resource.ApplicationSound.GetSoundStream(Resource.ApplicationSound.NewItemsReceived);
@@ -168,14 +163,12 @@ namespace RssBandit.WinGui
 				windowInfo.Data = firstItem;
 				windowInfo.PinButtonVisible = true;
 
-				windowInfo.Caption = "<font face=\"Tahoma\" size=\"+2\"><b>{0}</b></font><br/>&nbsp;"
-					.FormatWith(feed.title);
+                windowInfo.Caption = $"<font face=\"Tahoma\" size=\"+2\"><b>{feed.title}</b></font><br/>&nbsp;";
 				windowInfo.Text = String.Format("<font face=\"Tahoma\">{0}<br/>{1}<br/>{2}</font>",
 					SR.GUIStatusEnclosureJustReceivedItemsMessage,
 					StringHelper.ShortenByEllipsis(firstItem.File.LocalName, maxItemTextWith),  
 					String.IsNullOrEmpty(firstItem.Enclosure.Description) ? "" : firstItem.Enclosure.Description);
-				windowInfo.FooterText = "<font face=\"Tahoma\" size=\"-1\">{0}</font>"
-					.FormatWith(SR.MenuShowFeedPropertiesCaption);
+                windowInfo.FooterText = $"<font face=\"Tahoma\" size=\"-1\">{SR.MenuShowFeedPropertiesCaption}</font>";
 
 				if (_preferences.AllowAppEventSounds)
 					windowInfo.Sound = Resource.ApplicationSound.GetSoundStream(Resource.ApplicationSound.NewAttachmentDownloaded);

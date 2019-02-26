@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -16,7 +16,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using Genghis;
-using JetBrains.Annotations;
 using log4net;
 using NewsComponents.Utils;
 using RssBandit.AppServices.Configuration;
@@ -63,10 +62,14 @@ namespace RssBandit.WinGui.Utility
 
 		#region ctor's
 
-		public GlobalSettings([NotNull] string settingsFilePath, string domain)
+		public GlobalSettings(string settingsFilePath, string domain)
 			: base(domain)
 		{
-			settingsFilePath.ExceptionIfNullOrEmpty("settingsFilePath");
+            if (string.IsNullOrWhiteSpace(settingsFilePath))
+            {
+                throw new ArgumentException("message", nameof(settingsFilePath));
+            }
+
 			_settingsFilePath = settingsFilePath;
 
 			if (_userStore == null)
@@ -322,10 +325,14 @@ namespace RssBandit.WinGui.Utility
 
 		#region ctor's
 
-		public UiStateSettings([NotNull] string settingsFilePath, string domain)
+		public UiStateSettings(string settingsFilePath, string domain)
 			: base(domain)
 		{
-			settingsFilePath.ExceptionIfNullOrEmpty("settingsFilePath");
+            if (string.IsNullOrWhiteSpace(settingsFilePath))
+            {
+                throw new ArgumentException("message", nameof(settingsFilePath));
+            }
+
 			_settingsFilePath = settingsFilePath;
 
 			if (_userStore == null)

@@ -190,7 +190,7 @@ namespace NewsComponents.UnitTests
         /// Setups the test fixture by starting unpacking 
         /// embedded resources and starting the web server.
         /// </summary>
-        [TestFixtureSetUp]
+        [SetUp]
         protected override void SetUp()
         {
             //_cacheDirectory = NewsHandler.GetUserPath(APP_NAME);
@@ -204,7 +204,7 @@ namespace NewsComponents.UnitTests
         /// <summary>
         /// Stops the web server and cleans up the files.
         /// </summary>
-        [TestFixtureTearDown]
+        [TearDown]
         protected override void TearDown()
         {
             base.TearDown();

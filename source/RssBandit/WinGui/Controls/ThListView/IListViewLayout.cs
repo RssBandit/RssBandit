@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -52,7 +52,8 @@ namespace System.Windows.Forms.ThListView
 			_sortOrder = sortOrder;
 		}
 
-		public static ListViewLayout CreateFromXML(string xmlString) {
+	    
+        public static ListViewLayout CreateFromXML(string xmlString) {
 			if (xmlString != null && xmlString.Length > 0) {
 				XmlSerializer formatter = new XmlSerializer(typeof(ListViewLayout));
 				StringReader reader = new StringReader(xmlString);
@@ -161,13 +162,15 @@ namespace System.Windows.Forms.ThListView
 			}
 			return true;
 		}
-
-		#region ICloneable Members
-
+       
 		public object Clone() {
 			return new ListViewLayout(_columns, _columnWidths, _sortByColumn, _sortOrder);
 		}
 
-		#endregion
-	}
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(SortByColumn, SortOrder, Columns, ColumnWidths);
+        }
+        
+    }
 }

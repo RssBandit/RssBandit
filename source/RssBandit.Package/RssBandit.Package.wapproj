@@ -27,15 +27,16 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>2c347273-6a74-43a2-a75a-fd4bc52f5938</ProjectGuid>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
-    <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
     <PackageCertificateThumbprint>5C4A8D321C66B813B3998A2236CAE46450CAC304</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
+    <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
+    <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -48,7 +49,12 @@
     <None Include="Package.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RssBandit\RssBandit.csproj" SkipGetTargetFrameworkProperties="true" />
+    <ProjectReference Include="..\RssBandit\RssBandit.csproj">
+      <DesktopBridgeSelfContained>True</DesktopBridgeSelfContained>
+      <DesktopBridgeIdentifier>$(DesktopBridgeRuntimeIdentifier)</DesktopBridgeIdentifier>
+      <Properties>SelfContained=%(DesktopBridgeSelfContained);RuntimeIdentifier=%(DesktopBridgeIdentifier)</Properties>
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

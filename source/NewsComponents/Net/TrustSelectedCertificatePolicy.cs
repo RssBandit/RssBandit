@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -131,52 +131,52 @@ namespace NewsComponents.Net
 
     #endregion
 
-    /// <summary>
-    /// Does enable certificate acceptance. 
-    /// See also http://weblogs.asp.net/tgraham/archive/2004/08/12/213469.aspx
-    /// and http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconhostingremoteobjectsininternetinformationservicesiis.asp
-    /// </summary>
-    internal class TrustSelectedCertificatePolicy : ICertificatePolicy
-    {
-        // this is marked obsolete by MS in the CLR 2.0
-        public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
-        {
-            try
-            {
-                if (problem != 0)
-                {
-                    // move bits around to get it casted from an signed int to a normal long enum type:
-                    CertificateIssue issue = (CertificateIssue)(((problem << 1) >> 1) + 0x80000000);
+    ///// <summary>
+    ///// Does enable certificate acceptance. 
+    ///// See also http://weblogs.asp.net/tgraham/archive/2004/08/12/213469.aspx
+    ///// and http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconhostingremoteobjectsininternetinformationservicesiis.asp
+    ///// </summary>
+    //internal class TrustSelectedCertificatePolicy : ICertificatePolicy
+    //{
+    //    // this is marked obsolete by MS in the CLR 2.0
+    //    public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
+    //    {
+    //        try
+    //        {
+    //            if (problem != 0)
+    //            {
+    //                // move bits around to get it casted from an signed int to a normal long enum type:
+    //                CertificateIssue issue = (CertificateIssue)(((problem << 1) >> 1) + 0x80000000);
 
-                    // this is marked obsolete by MS in the CLR 2.0
-                    // It seems also they has broken the old impl., we don't get a valid cert object now (handle is 0) on WinXP SP2
-                    // via parameter, so we now use that of the servicepoint as a workaround:
-                    CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, sp.Certificate, req, true);
-                    AsyncWebRequest.RaiseOnCertificateIssue(sp, args);
-                    return !args.Cancel;
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("TrustSelectedCertificatePolicy.CheckValidationResult() error: " + ex.Message);
-            }
-            // The 1.1 framework calls this method with a problem of 0, even if nothing is wrong
-            return (problem == 0);
-        }
+    //                // this is marked obsolete by MS in the CLR 2.0
+    //                // It seems also they has broken the old impl., we don't get a valid cert object now (handle is 0) on WinXP SP2
+    //                // via parameter, so we now use that of the servicepoint as a workaround:
+    //                CertificateIssueCancelEventArgs args = new CertificateIssueCancelEventArgs(issue, sp.Certificate, req, true);
+    //                AsyncWebRequest.RaiseOnCertificateIssue(sp, args);
+    //                return !args.Cancel;
+    //            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Trace.WriteLine("TrustSelectedCertificatePolicy.CheckValidationResult() error: " + ex.Message);
+    //        }
+    //        // The 1.1 framework calls this method with a problem of 0, even if nothing is wrong
+    //        return (problem == 0);
+    //    }
 
-        /// <summary>
-        /// Checks the server certificate.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="certificate">The certificate.</param>
-        /// <param name="chain">The chain.</param>
-        /// <param name="sslPolicyErrors">The SSL policy errors.</param>
-        /// <returns></returns>
-        public static bool CheckServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            //TODO: impl.
-            return true;
-        }
+    //    /// <summary>
+    //    /// Checks the server certificate.
+    //    /// </summary>
+    //    /// <param name="sender">The sender.</param>
+    //    /// <param name="certificate">The certificate.</param>
+    //    /// <param name="chain">The chain.</param>
+    //    /// <param name="sslPolicyErrors">The SSL policy errors.</param>
+    //    /// <returns></returns>
+    //    public static bool CheckServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+    //    {
+    //        //TODO: impl.
+    //        return true;
+    //    }
 
-    }
+    //}
 }

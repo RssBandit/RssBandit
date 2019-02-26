@@ -1,4 +1,4 @@
-#region Version Info Header
+ï»¿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -596,13 +596,13 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 				"cmdWikiNews", owner.Mediator, owner.CmdProjectNews,
 				SR.MenuBanditWikiCaption, SR.MenuBanditWikiDesc, shortcutHandler);
 			
-			AppButtonToolCommand style5 = new AppButtonToolCommand(
-				"cmdVisitForum",owner.Mediator, owner.CmdVisitForum,
-				SR.MenuBanditForumCaption, SR.MenuBanditForumDesc, shortcutHandler);
+			//AppButtonToolCommand style5 = new AppButtonToolCommand(
+			//	"cmdVisitForum",owner.Mediator, owner.CmdVisitForum,
+			//	SR.MenuBanditForumCaption, SR.MenuBanditForumDesc, shortcutHandler);
 
-			AppButtonToolCommand style6 = new AppButtonToolCommand(
-				"cmdDonateToProject",owner.Mediator, owner.CmdDonateToProject,
-				SR.MenuDonateToProjectCaption, SR.MenuDonateToProjectDesc, shortcutHandler);
+			//AppButtonToolCommand style6 = new AppButtonToolCommand(
+			//	"cmdDonateToProject",owner.Mediator, owner.CmdDonateToProject,
+			//	SR.MenuDonateToProjectCaption, SR.MenuDonateToProjectDesc, shortcutHandler);
 
 			
 			AppButtonToolCommand sendLogs = new AppButtonToolCommand(
@@ -616,8 +616,8 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 			} catch { /* all */ }
 			
 			// must be added to the toolbar first:
-			this.manager.Tools.AddRange(new ToolBase[] {sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style6,style2});
-			mc.Tools.AddRange(new ToolBase[]{sendLogs, styleHelpWebDoc, style4, style5, style0,style1,style6,style2});
+			this.manager.Tools.AddRange(new ToolBase[] {sendLogs, styleHelpWebDoc, style4, style0, style1, style2});
+			mc.Tools.AddRange(new ToolBase[]{sendLogs, styleHelpWebDoc, style4, style0, style1, style2});
 			
 			foreach (ToolBase tool in mc.Tools) {
 				tool.SharedProps.Category = SR.MainForm_ToolCategoryHelp;
@@ -1021,13 +1021,13 @@ namespace RssBandit.WinGui.Forms.ControlHelpers
 		/// See the IG docs for more information on the options available when creating custom tool providers. 
 		///  
 		/// The RssBanditToolbarManager class performs 2 important functions: 
-		///        1. Registering the custom tool types that it supports (see the private ToolFactory class‘s constructor) 
+		///        1. Registering the custom tool types that it supports (see the private ToolFactory classâ€˜s constructor) 
 		///            When registering a custom tool type, the tool provider: 
 		///                a. supplies a reference to an IToolProvider implementation 
 		///                b. supplies a Guid to identify the custom tool type.  This Guid will be contained in the 
-		///                   customizer‘s request to create an instance of the custom tool type. 
+		///                   customizerâ€˜s request to create an instance of the custom tool type. 
 		///                c. supplies a descriptive string used in the NewTool dialog to identify the custom tool 
-		///                d. supplies a string to be used as the basis for the custom tool instance‘s key and caption 
+		///                d. supplies a string to be used as the basis for the custom tool instanceâ€˜s key and caption 
 		///             
 		///        2. Contains a private ToolFactory class that implements the IToolProvider interface which allows the 
 		///           Customizer to call back when it needs to create an instance of a registered custom tool. 

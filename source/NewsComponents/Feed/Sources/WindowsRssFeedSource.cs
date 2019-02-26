@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -24,7 +23,6 @@ using System.Xml.Serialization;
 using System.Xml.XPath;
 
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 using Microsoft.Feeds.Interop;
 using NewsComponents.Core;
 using RssBandit.Common;
@@ -541,7 +539,10 @@ namespace NewsComponents.Feed
         /// <param name="moveFolder">Indicates whether the underlying folder in the Windows RSS platform should be moved.</param>
         private void ChangeCategory(INewsFeedCategory category, INewsFeedCategory parent, bool moveFolder)
         {
-			category.ExceptionIfNull("category");
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
             
             WindowsRssNewsFeedCategory c = category as WindowsRssNewsFeedCategory;
 
@@ -609,8 +610,11 @@ namespace NewsComponents.Feed
         /// categorized</param>
         public override void ChangeCategory(INewsFeed feed, INewsFeedCategory cat)
         {
-			feed.ExceptionIfNull("feed");
-        
+            if (feed == null)
+            {
+                throw new ArgumentNullException(nameof(feed));
+            }
+            
             WindowsRssNewsFeed f = feed as WindowsRssNewsFeed; 
 
             if (f != null && feedsTable.ContainsKey(f.link))
@@ -635,9 +639,16 @@ namespace NewsComponents.Feed
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
-			oldName.ExceptionIfNullOrEmpty("oldName");
-			newName.ExceptionIfNullOrEmpty("newName");
+            if (oldName == null)
+            {
+                throw new ArgumentNullException(nameof(oldName));
+            }
 
+            if (newName == null)
+            {
+                throw new ArgumentNullException(nameof(newName));
+            }
+            
             if (this.categories.ContainsKey(oldName))
             {
                 WindowsRssNewsFeedCategory c = this.categories[oldName] as WindowsRssNewsFeedCategory;
@@ -2694,7 +2705,7 @@ namespace NewsComponents.Feed
         /// Initializes the class
         /// </summary>
         /// <param name="feed">The IFeed instance that this object will wrap</param>
-		internal WindowsRssNewsFeed([NotNull]IFeed feed)
+		internal WindowsRssNewsFeed(IFeed feed)
 		{
 			if (feed == null) throw new ArgumentNullException("feed");
 			this.myfeed = feed;

@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -20,10 +20,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using log4net;
 using RssBandit.AppServices.Configuration;
-using RssBandit.CLR20.DasBlog;
 using RssBandit.Common.Logging;
 using RssBandit.Core.Storage;
-using ClrMappedWebReference = RssBandit.CLR20.DasBlog;
 using ICSharpCode.SharpZipLib.Zip;
 using Logger = RssBandit.Common.Logging;
 using NewsComponents;
@@ -222,30 +220,30 @@ namespace RssBandit.WinGui
 
 							break;
                      
-                        case RemoteStorageProtocolType.dasBlog:
+                        //case RemoteStorageProtocolType.dasBlog:
 
-                            //save direct access feed list as OPML:
-                            rssBanditApp.BanditFeedSource.SaveFeedList(tempStream, FeedListFormat.OPML);
-                            tempStream.Position = 0;
+                        //    //save direct access feed list as OPML:
+                        //    rssBanditApp.BanditFeedSource.SaveFeedList(tempStream, FeedListFormat.OPML);
+                        //    tempStream.Position = 0;
 
-                            XmlDocument doc = new XmlDocument();
-                            doc.Load(tempStream);
+                        //    XmlDocument doc = new XmlDocument();
+                        //    doc.Load(tempStream);
 
-                            // Send it to the web service
-                            ConfigEditingService remoteStore = new ConfigEditingService();
+                        //    // Send it to the web service
+                        //    ConfigEditingService remoteStore = new ConfigEditingService();
 
-                            remoteStore.Url = remoteLocation;
-                            remoteStore.authenticationHeaderValue = new authenticationHeader();
-                            remoteStore.authenticationHeaderValue.userName = credentialUser;
-                            remoteStore.authenticationHeaderValue.password = credentialPassword;
-                            remoteStore.Proxy = rssBanditApp.Proxy;
+                        //    remoteStore.Url = remoteLocation;
+                        //    remoteStore.authenticationHeaderValue = new authenticationHeader();
+                        //    remoteStore.authenticationHeaderValue.userName = credentialUser;
+                        //    remoteStore.authenticationHeaderValue.password = credentialPassword;
+                        //    remoteStore.Proxy = rssBanditApp.Proxy;
 
-                            //TODO: figure out, when we have to use Credentials????
-                            //	remoteStore.Credentials = 	FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
+                        //    //TODO: figure out, when we have to use Credentials????
+                        //    //	remoteStore.Credentials = 	FeedSource.CreateCredentialsFrom(credentialUser, credentialPassword);
 
-                            remoteStore.PostBlogroll("blogroll", doc.DocumentElement);
-                                // ".opml" is appended by the service!
-                            break;
+                        //    remoteStore.PostBlogroll("blogroll", doc.DocumentElement);
+                        //        // ".opml" is appended by the service!
+                        //    break;
 
 
 						case RemoteStorageProtocolType.FTP: // Send to FTP server
@@ -404,24 +402,24 @@ namespace RssBandit.WinGui
                                 FileMode.Open);
                         break;
 
-                    case RemoteStorageProtocolType.dasBlog:
-                        // Fetch from the dasBlog web service
-                        // Connect to the web service and request an update
-                        ConfigEditingService remoteStore = new ConfigEditingService();
-                        remoteStore.Url = remoteLocation;
-                        remoteStore.authenticationHeaderValue = new authenticationHeader();
-                        remoteStore.authenticationHeaderValue.userName = credentialUser;
-                        remoteStore.authenticationHeaderValue.password = credentialPassword;
-                        remoteStore.Proxy = rssBanditApp.Proxy;
+                    //case RemoteStorageProtocolType.dasBlog:
+                    //    // Fetch from the dasBlog web service
+                    //    // Connect to the web service and request an update
+                    //    ConfigEditingService remoteStore = new ConfigEditingService();
+                    //    remoteStore.Url = remoteLocation;
+                    //    remoteStore.authenticationHeaderValue = new authenticationHeader();
+                    //    remoteStore.authenticationHeaderValue.userName = credentialUser;
+                    //    remoteStore.authenticationHeaderValue.password = credentialPassword;
+                    //    remoteStore.Proxy = rssBanditApp.Proxy;
 
-                        importStream = new MemoryStream();
-                        XmlElement xml = remoteStore.GetBlogroll("blogroll"); // ".opml" is appended by the service!
+                    //    importStream = new MemoryStream();
+                    //    XmlElement xml = remoteStore.GetBlogroll("blogroll"); // ".opml" is appended by the service!
 
-                        XmlDocument doc = new XmlDocument();
-                        doc.LoadXml(xml.OuterXml);
-                        doc.Save(importStream);
-                        importStream.Position = 0;
-                        break;
+                    //    XmlDocument doc = new XmlDocument();
+                    //    doc.LoadXml(xml.OuterXml);
+                    //    doc.Save(importStream);
+                    //    importStream.Position = 0;
+                    //    break;
                    
 
                     case RemoteStorageProtocolType.FTP:

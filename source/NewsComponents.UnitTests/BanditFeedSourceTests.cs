@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using NewsComponents.Feed;
@@ -20,11 +20,12 @@ namespace NewsComponents.UnitTests
         /// Tests loading a non-existent feed list.  
         /// This should throw a 404 exception
         /// </summary>
-        [Test, ExpectedException(typeof(System.Net.WebException))]
+        [Test]
         public void LoadNonExistentEnsureExceptionThrown()
         {
             var handler = new BanditFeedSource(ConfigurationWithoutSearchIndexer, new SubscriptionLocation(BASE_URL + "ThisFeedDoesNotExist.xml"));
-            handler.LoadFeedlist(); 
+
+            Assert.Throws<System.Net.WebException>(() => handler.LoadFeedlist()); 
         }
 
         /// <summary>
@@ -166,11 +167,11 @@ namespace NewsComponents.UnitTests
         /// <summary>
         /// Tests that ApplyFeedModifications doesn't accept null argument.
         /// </summary>
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ApplyFeedModificationsThrowsArgumentNullException()
         {
             var handler = CreateNewsHandlerWithFeedList();
-            handler.ApplyFeedModifications(null);
+            Assert.Throws<ArgumentNullException>(() => handler.ApplyFeedModifications(null));
         }
 
         /// <summary>
@@ -280,7 +281,7 @@ namespace NewsComponents.UnitTests
         /// Setups the test fixture by starting unpacking 
         /// embedded resources and starting the web server.
         /// </summary>
-        [TestFixtureSetUp]
+        [SetUp]
 		protected override void SetUp()
         {
             //_cacheDirectory = NewsHandler.GetUserPath(APP_NAME);
@@ -297,7 +298,7 @@ namespace NewsComponents.UnitTests
         /// <summary>
         /// Stops the web server and cleans up the files.
         /// </summary>
-        [TestFixtureTearDown]
+        [TearDown]
         protected override void TearDown()
         {
             base.TearDown();
