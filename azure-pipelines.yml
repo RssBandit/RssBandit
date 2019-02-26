@@ -7,7 +7,7 @@ pr:
 - rel/*
 
 pool:
-  vmImage: vs2017-win2016
+  vmImage: windows-2019
 
 variables: 
   BuildConfiguration: Release
@@ -16,7 +16,7 @@ variables:
 steps:
 - task: DotNetCoreInstaller@0
   inputs:
-    version: '3.0.100-preview-009754'
+    version: '3.0.100-preview4-010530'
 
 - task: DotNetCoreCLI@2  
   inputs:
