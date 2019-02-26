@@ -106,8 +106,6 @@
     <EmbeddedResource Include="Resources\ListImages.png" />
 
     <Resource Include="Resources\error.png" />
-      
-    <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Update="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -252,6 +250,6 @@
     <ItemGroup>
       <LicenseFiles Include="**\*.licx" />
     </ItemGroup>
-    <Copy SourceFiles="licenses.empty" DestinationFiles="%(LicenseFiles.FullPath)" />
+    <!--<Copy SourceFiles="licenses.empty" DestinationFiles="%(LicenseFiles.FullPath)" />-->
   </Target>
 </Project>
