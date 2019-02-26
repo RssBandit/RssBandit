@@ -6393,7 +6393,13 @@ namespace RssBandit
                 url = "about:blank";
             try
             {
-                Process.Start(url);
+                var psi = new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                };
+
+                Process.Start(psi);
             }
             catch (Exception  ex)
             {
