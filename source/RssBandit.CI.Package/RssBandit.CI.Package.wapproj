@@ -27,8 +27,8 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>8922af5d-4740-4a06-8b4c-a3ecf306aa1c</ProjectGuid>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>RssBandit.CI.Package_TemporaryKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>715B1DFA0F340A6595B7AE420F33C1C55CE46D63</PackageCertificateThumbprint>
