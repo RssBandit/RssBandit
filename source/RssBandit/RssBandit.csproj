@@ -78,6 +78,7 @@
 
     <Compile Remove="plugins\**\*.cs" />
     <EmbeddedResource Remove="plugins\**\*.resx" />
+    <EmbeddedResource Include="*.licenses" />
     <None Remove="plugins\**" />
 
     <Compile Update="Properties\Resources.Designer.cs">
