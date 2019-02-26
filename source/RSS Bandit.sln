@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26906.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssBandit", "RssBandit\RssBandit.csproj", "{68909A87-203D-4DF1-84F9-151EBE7CA15C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4} = {9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}
 	EndProjectSection
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssBandit.AppServices", "Rs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IEControl", "ChildProjects\IEControl\IEControl.csproj", "{F42F07F7-7CC9-4347-BF15-092A09BA0B31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsComponents.UnitTests", "NewsComponents.UnitTests\NewsComponents.UnitTests.csproj", "{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsComponents.UnitTests", "NewsComponents.UnitTests\NewsComponents.UnitTests.csproj", "{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "RssBandit.Package", "RssBandit.Package\RssBandit.Package.wapproj", "{2C347273-6A74-43A2-A75A-FD4BC52F5938}"
 EndProject
@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
 		..\version.json = ..\version.json
 	EndProjectSection
 EndProject
