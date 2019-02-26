@@ -1147,7 +1147,7 @@ namespace RssBandit
 			EncryptionHelper.CompatibilityMode = (version <= 20);
 			//bool xmlFormat = (version >= 20);
 
-			this.allOptionalFlags = reader.Get("AllOptionalFlags", DefaultOptionalFlags);
+           this.allOptionalFlags = (OptionalFlags)reader.Get("AllOptionalFlags", (int)DefaultOptionalFlags);
 			
 			// all the following if (reader.Contains() calls are for migration from binary format
 			// and because booleans are stored now in a flagged enum (OptionalFlags), that gets read once above.
@@ -1379,7 +1379,7 @@ namespace RssBandit
 			info.AddValue(nameof(BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow);
 			info.AddValue(nameof(ShowAlertWindow), ShowAlertWindow);
 			info.AddValue(nameof(UserIdentityForComments), UserIdentityForComments); 
-			info.AddValue("AllOptionalFlags", this.allOptionalFlags);
+			info.AddValue("AllOptionalFlags", (int)this.allOptionalFlags);
 			info.AddValue(nameof(NgosSyncToken), this.NgosSyncToken); 
 			info.AddValue(nameof(NumNewsItemsPerPage), this.NumNewsItemsPerPage);
             info.AddValue(nameof(ReadingPaneTextSize), this.ReadingPaneTextSize);
