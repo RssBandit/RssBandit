@@ -5562,6 +5562,13 @@ namespace RssBandit
             try
             {
                 commandLineParser.Parse(args, commandLineOptions);
+                // clear out any dll's in the subscribe to
+                var dlls = commandLineOptions.SubscribeTo.Where(s => s.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)).ToList();
+                foreach(var dll in dlls)
+                {
+                    commandLineOptions.SubscribeTo.Remove(dll);
+                }
+
                 if (commandLineOptions.ShowHelp)
                 {
                     // show Help commandline options messagebox
