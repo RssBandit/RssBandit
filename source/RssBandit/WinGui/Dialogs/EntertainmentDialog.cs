@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -14,7 +14,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
 	/// <summary>
 	/// EntertainmentDialog used by EntertainmentThreadHandlerBase

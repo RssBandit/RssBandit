@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -10,7 +10,7 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using RssBandit.WinGui.Forms;
+using RssBandit.WinGui.Dialogs;
 
 namespace RssBandit.WinGui
 {

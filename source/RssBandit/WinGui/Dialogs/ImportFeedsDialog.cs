@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using RssBandit.WinGui.Utility;
 using NewsComponents;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
 	/// <summary>
 	/// Import Feeds Dialog: requests a feed url to import

@@ -20,7 +20,7 @@ using RssBandit.WinGui.Controls;
 using NewsComponents;
 
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
 
     /// <summary>

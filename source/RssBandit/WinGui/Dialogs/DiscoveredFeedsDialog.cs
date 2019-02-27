@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 using RssBandit.Resources;
 
-namespace RssBandit.WinGui.Forms
+namespace RssBandit.WinGui.Dialogs
 {
 	/// <summary>
 	/// Summary description for AutoDiscoveredFeedsDialog.
