@@ -856,7 +856,7 @@
     <value>22, 84</value>
   </data>
   <data name="listFeeds.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+    <value>Top, Left, Right</value>
   </data>
   <data name="listFeeds.Location" type="System.Drawing.Point, System.Drawing">
     <value>38, 146</value>
