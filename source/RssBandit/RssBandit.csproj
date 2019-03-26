@@ -209,6 +209,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <!-- https://github.com/dotnet/sdk/issues/3044#issuecomment-476795447 -->
+    <PackageReference Include="Microsoft.NETCore.App" Version="3.0.0-preview3-27503-5" ExcludeAssets="all" PrivateAssets="all" />
+    
+    
     <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
     <PackageReference Include="Infragistics.WinForms.Shared">
       <Version>17.2.20172.1000</Version>
