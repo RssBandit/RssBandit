@@ -1147,7 +1147,7 @@ namespace RssBandit
 			EncryptionHelper.CompatibilityMode = (version <= 20);
 			//bool xmlFormat = (version >= 20);
 
-           this.allOptionalFlags = (OptionalFlags)reader.Get("AllOptionalFlags", (int)DefaultOptionalFlags);
+           this.allOptionalFlags = reader.Get("AllOptionalFlags", DefaultOptionalFlags);
 			
 			// all the following if (reader.Contains() calls are for migration from binary format
 			// and because booleans are stored now in a flagged enum (OptionalFlags), that gets read once above.
@@ -1357,7 +1357,7 @@ namespace RssBandit
 			info.AddValue(nameof(ProxyPassword), EncryptionHelper.Encrypt(ProxyPassword));
 			info.AddValue(nameof(ProxyBypassList), ProxyBypassList);
 			info.AddValue(nameof(NewsItemStylesheetFile), NewsItemStylesheetFile);
-			info.AddValue(nameof(HideToTrayAction), HideToTrayAction);
+			info.AddValue(nameof(HideToTrayAction), HideToTrayAction.ToString());
 			info.AddValue(nameof(NormalFont)+"String", SerializationInfoReader.ConvertFont(NormalFont));
 			info.AddValue(nameof(UnreadFont) + "String", SerializationInfoReader.ConvertFont(UnreadFont));
 			info.AddValue(nameof(FlagFont)+"String", SerializationInfoReader.ConvertFont(FlagFont));
@@ -1373,16 +1373,16 @@ namespace RssBandit
 			info.AddValue(nameof(MaxItemAge), MaxItemAge.Ticks);
 			info.AddValue(nameof(RemoteStorageUserName)+"Crypted", EncryptionHelper.Encrypt(RemoteStorageUserName));
 			info.AddValue(nameof(RemoteStoragePassword)+"Crypted", EncryptionHelper.Encrypt(RemoteStoragePassword));
-			info.AddValue(nameof(RemoteStorageProtocol), RemoteStorageProtocol);
+			info.AddValue(nameof(RemoteStorageProtocol), RemoteStorageProtocol.ToString());
 			info.AddValue(nameof(RemoteStorageLocation), RemoteStorageLocation);
-			info.AddValue(nameof(BrowserOnNewWindow), BrowserOnNewWindow);
-			info.AddValue(nameof(BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow);
-			info.AddValue(nameof(ShowAlertWindow), ShowAlertWindow);
+			info.AddValue(nameof(BrowserOnNewWindow), BrowserOnNewWindow.ToString());
+			info.AddValue(nameof(BrowserCustomExecOnNewWindow), BrowserCustomExecOnNewWindow.ToString());
+			info.AddValue(nameof(ShowAlertWindow), ShowAlertWindow.ToString());
 			info.AddValue(nameof(UserIdentityForComments), UserIdentityForComments); 
-			info.AddValue("AllOptionalFlags", (int)this.allOptionalFlags);
+			info.AddValue("AllOptionalFlags", this.allOptionalFlags.ToString());
 			info.AddValue(nameof(NgosSyncToken), this.NgosSyncToken); 
 			info.AddValue(nameof(NumNewsItemsPerPage), this.NumNewsItemsPerPage);
-            info.AddValue(nameof(ReadingPaneTextSize), this.ReadingPaneTextSize);
+            info.AddValue(nameof(ReadingPaneTextSize), this.ReadingPaneTextSize.ToString());
 			info.AddValue(nameof(RefreshRate), this.RefreshRate);
 			info.AddValue(nameof(EnclosureFolder), this.EnclosureFolder);
 			info.AddValue(nameof(NumEnclosuresToDownloadOnNewFeed), this.NumEnclosuresToDownloadOnNewFeed);

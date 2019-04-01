@@ -338,7 +338,7 @@ namespace NewsComponents.Net
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_manifest", DownloadItem);
-            info.AddValue("_state", _state);
+            info.AddValue("_state", _state.ToString());
             info.AddValue("_id", _id);
             info.AddValue("_downloadFilesBase", DownloadFilesBase);
             info.AddValue("_jobId", JobId);

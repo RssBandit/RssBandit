@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -126,38 +126,47 @@ namespace NewsComponents.Utils
 			}
 		}
 
-		/// <summary>
-		/// Gets the value.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="name">The name.</param>
-		/// <param name="defaultValue">The default value.</param>
-		/// <returns></returns>
-		public T Get<T>(string name, T defaultValue)
-		{
-			try
-			{
-				if (_keys.Contains(name))
-				{
-					return (T)_info.GetValue(name, typeof(T));
-				}
-				return defaultValue;
-			}
-			catch
-			{
-				return defaultValue;
-			}
-		}
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The name.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
+        public T Get<T>(string name, T defaultValue)
+        {
+            try
+            {
+                if (_keys.Contains(name))
+                {
+                    if (typeof(T).IsEnum)
+                    {
+                        var value = (string)_info.GetValue(name, typeof(string));
+
+                        return (T)Enum.Parse(typeof(T), value);
+                    }
+                    else
+                    {
+                        return (T)_info.GetValue(name, typeof(T));
+                    }
+                }
+                return defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
 
 
-		/// <summary>
-		/// Gets a Font, but only if it was serialized with a call to
-		/// SerializationInfoReader.ConvertFont().
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
-		public Font GetFont(string name, Font defaultValue) 
+        /// <summary>
+        /// Gets a Font, but only if it was serialized with a call to
+        /// SerializationInfoReader.ConvertFont().
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public Font GetFont(string name, Font defaultValue) 
 		{
 			try
 			{
