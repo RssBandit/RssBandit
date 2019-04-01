@@ -15,7 +15,7 @@
     <IsLegacyProject>$(MSBuildProjectName.Equals('RssBandit'))</IsLegacyProject>
     <IsPackageProject>$(MSBuildProjectName.Contains('.Package'))</IsPackageProject>
     <DebugType>Full</DebugType>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
