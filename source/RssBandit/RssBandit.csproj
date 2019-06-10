@@ -29,6 +29,8 @@
 
 
   <ItemGroup>
+    <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="2.1.0" ExcludeAssets="all" PrivateAssets="all" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
@@ -208,11 +210,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <!-- https://github.com/dotnet/sdk/issues/3044#issuecomment-476795447 -->
-    <PackageReference Include="Microsoft.NETCore.App" Version="3.0.0-preview3-27503-5" ExcludeAssets="all" PrivateAssets="all" />
-    
-    
+  <ItemGroup>    
     <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
     <PackageReference Include="Infragistics.WinForms.Shared">
       <Version>17.2.20172.1000</Version>
