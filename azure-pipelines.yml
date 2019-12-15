@@ -14,7 +14,8 @@ variables:
   BuildPlatform: x86
 
 steps:
-- task: DotNetCoreInstaller@0
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK 3.1.x'
   inputs:
     version: '3.1.x'
 
