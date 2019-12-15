@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="2.1.0" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" ExcludeAssets="all" PrivateAssets="all" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>

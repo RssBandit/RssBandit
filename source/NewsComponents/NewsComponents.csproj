@@ -61,6 +61,8 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Facebook" Version="7.0.6" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Lucene.Net" Version="2.9.4.1" />
