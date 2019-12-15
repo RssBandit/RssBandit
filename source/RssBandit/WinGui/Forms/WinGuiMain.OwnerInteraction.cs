@@ -954,7 +954,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     _listContextMenuDownloadAttachmentsSeparator.Visible = true;
                     owner.Mediator.SetVisible("+cmdDownloadAttachment");
-                    _listContextMenuDownloadAttachment.MenuItems.Clear();
+                    _listContextMenuDownloadAttachment.DropDownItems.Clear();
 
                     foreach (Enclosure enc in item.Enclosures)
                     {
@@ -975,7 +975,7 @@ namespace RssBandit.WinGui.Forms
                                                       owner.Mediator, new ExecuteCommandHandler(CmdDownloadAttachment),
                                                       fileName, fileName, _shortcutHandler);
 
-                        _listContextMenuDownloadAttachment.MenuItems.AddRange(new MenuItem[] {downloadFileMenuItem});
+                        _listContextMenuDownloadAttachment.DropDownItems.AddRange(new ToolStripMenuItem[] {downloadFileMenuItem});
                     }
                 }
 

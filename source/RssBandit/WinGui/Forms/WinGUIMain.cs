@@ -1,4 +1,4 @@
-#region Version Header
+﻿#region Version Header
 
 /*
  * $Id$
@@ -192,25 +192,25 @@ namespace RssBandit.WinGui.Forms
         private ImageList _treeImages;
         private ImageList _listImages;
 
-        private MenuItem _feedInfoContextMenu;
-        private ContextMenu _subscriptionTreeRootContextMenu;
-        private ContextMenu _treeCategoryContextMenu;
-        private ContextMenu _treeFeedContextMenu;
-        private ContextMenu _notifyContextMenu;
-        private ContextMenu _listContextMenu;
-        private ContextMenu _treeLocalFeedContextMenu;
-        private ContextMenu _treeSearchFolderRootContextMenu;
-        private ContextMenu _treeSearchFolderContextMenu;
-        private ContextMenu _treeTempSearchFolderContextMenu;
-        private ContextMenu _docTabContextMenu;
+        private ToolStripMenuItem _feedInfoContextMenu;
+        private ContextMenuStrip _subscriptionTreeRootContextMenu;
+        private ContextMenuStrip _treeCategoryContextMenu;
+        private ContextMenuStrip _treeFeedContextMenu;
+        private ContextMenuStrip _notifyContextMenu;
+        private ContextMenuStrip _listContextMenu;
+        private ContextMenuStrip _treeLocalFeedContextMenu;
+        private ContextMenuStrip _treeSearchFolderRootContextMenu;
+        private ContextMenuStrip _treeSearchFolderContextMenu;
+        private ContextMenuStrip _treeTempSearchFolderContextMenu;
+        private ContextMenuStrip _docTabContextMenu;
 
         // Used to temp. store the context menu position. Processed later within
         // ICommand event receiver (in Screen-Coordinates).
         private Point _contextMenuCalledAt = Point.Empty;
 
         private AppContextMenuCommand _listContextMenuDownloadAttachment;
-        private MenuItem _listContextMenuDeleteItemsSeparator;
-        private MenuItem _listContextMenuDownloadAttachmentsSeparator;
+        private ToolStripMenuItem _listContextMenuDeleteItemsSeparator;
+        private ToolStripMenuItem _listContextMenuDownloadAttachmentsSeparator;
 
         private TrayStateManager _trayManager;
 

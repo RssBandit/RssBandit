@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -53,7 +53,7 @@ namespace RssBandit.WinGui.Controls
         /// <returns>The top category node.</returns>
         /// <remarks>If one category in the path is not found, it will be created.</remarks>
         public static TreeFeedsNodeBase CreateCategoryHive(TreeFeedsNodeBase startNode, string category,
-                                                           ContextMenu contextMenu)
+                                                           ContextMenuStrip contextMenu)
         {
             return CreateCategoryHive(startNode, category, contextMenu, FeedNodeType.Category);
         }
@@ -69,7 +69,7 @@ namespace RssBandit.WinGui.Controls
         /// <returns>The top category node.</returns>
         /// <remarks>If one category in the path is not found, it will be created.</remarks>
         public static TreeFeedsNodeBase CreateCategoryHive(TreeFeedsNodeBase startNode, string category,
-                                                           ContextMenu contextMenu, FeedNodeType categoryNodeType)
+                                                           ContextMenuStrip contextMenu, FeedNodeType categoryNodeType)
         {
             if (string.IsNullOrEmpty(category) || startNode == null) return startNode;
 

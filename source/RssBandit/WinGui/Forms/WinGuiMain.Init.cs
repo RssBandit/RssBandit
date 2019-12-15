@@ -183,7 +183,7 @@ namespace RssBandit.WinGui.Forms
 			Navigator.SelectedGroupChanged += OnNavigatorSelectedGroupChanged;
            
             Navigator.ShowDefaultContextMenu = false;
-            Navigator.ContextMenu = new ContextMenu();
+            Navigator.ContextMenuStrip = new ContextMenuStrip();
 
             var subSourceDelete = new AppContextMenuCommand("cmdDeleteFeedSource",
                                                   owner.Mediator, CmdDeleteFeedSource,
@@ -194,7 +194,7 @@ namespace RssBandit.WinGui.Forms
                                                   SR.MenuShowFeedSourceProperties, SR.MenuShowFeedSourcePropertiesDesc,
                                                   _shortcutHandler);
 
-            Navigator.ContextMenu.MenuItems.AddRange(new[]{subSourceDelete, subSourceProperties});
+            Navigator.ContextMenuStrip.Items.AddRange(new[]{subSourceDelete, subSourceProperties});
 
 			Navigator.Groups[Resource.NavigatorGroup.RssSearch].Settings.AppearancesSmall.HeaderAppearance.Image =
 				Properties.Resources.feedsource_search_16.GetImageStretchedDpi(ScaleFactor);
@@ -623,7 +623,9 @@ namespace RssBandit.WinGui.Forms
 
             #region root menu
 
-            _subscriptionTreeRootContextMenu = new ContextMenu();
+            _subscriptionTreeRootContextMenu = new ContextMenuStrip();
+
+            var sep = new ToolStripMenuItem("-");
 
             var sub1 = new AppContextMenuCommand("cmdNewFeed",
                                                  owner.Mediator,
@@ -640,8 +642,6 @@ namespace RssBandit.WinGui.Forms
                                                  _shortcutHandler);
 
             //sub2.ImageList  = _treeImages;
-
-            var sep = new MenuItem("-");
 
             var subR1 = new AppContextMenuCommand("cmdRefreshFeeds",
                                                   owner.Mediator,
@@ -689,7 +689,7 @@ namespace RssBandit.WinGui.Forms
 												  _shortcutHandler);
 
             // append items
-            _subscriptionTreeRootContextMenu.MenuItems.AddRange(
+            _subscriptionTreeRootContextMenu.Items.AddRange(
 				new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subSourceRename, subSourceDelete, 
 					sep.CloneMenu(), subSourceProperties });
 
@@ -697,7 +697,7 @@ namespace RssBandit.WinGui.Forms
 
             #region category menu
 
-            _treeCategoryContextMenu = new ContextMenu();
+            _treeCategoryContextMenu = new ContextMenuStrip();
 
             var subC1 = new AppContextMenuCommand("cmdUpdateCategory",
                                                   owner.Mediator,
@@ -755,7 +755,7 @@ namespace RssBandit.WinGui.Forms
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
-                subCL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] {subCL4_layoutSubColumn});
+                subCL_ColLayoutMain.DropDownItems.AddRange(new ToolStripMenuItem[] {subCL4_layoutSubColumn});
             }
 
             var subCL_subUseCatLayout =
@@ -781,7 +781,7 @@ namespace RssBandit.WinGui.Forms
                                                                      MenuColumnChooserResetLayoutToDefaultDesc,
                                                                  _shortcutHandler);
 
-            subCL_ColLayoutMain.MenuItems.AddRange(
+            subCL_ColLayoutMain.DropDownItems.AddRange(
                 new[]
                     {
                         sep.CloneMenu(), subCL_subUseCatLayout, subCL_subUseFeedLayout, sep.CloneMenu(),
@@ -789,7 +789,7 @@ namespace RssBandit.WinGui.Forms
                     });
 
             // append items. Reuse cmdNewCat/cmdNewFeed, because it's allowed on categories
-            _treeCategoryContextMenu.MenuItems.AddRange(
+            _treeCategoryContextMenu.Items.AddRange(
                 new[]
                     {
                         sub1.CloneMenu(), sub2.CloneMenu(), sep.CloneMenu(), subC1, subC2, sep.CloneMenu(), subC3,
@@ -800,7 +800,7 @@ namespace RssBandit.WinGui.Forms
 
             #region feed menu
 
-            _treeFeedContextMenu = new ContextMenu();
+            _treeFeedContextMenu = new ContextMenuStrip();
 
             var subF1 = new AppContextMenuCommand("cmdUpdateFeed",
                                                   owner.Mediator,
@@ -858,10 +858,10 @@ namespace RssBandit.WinGui.Forms
                                           SR.MenuCopyFeedFeedHomeTitleLinkToClipboardCaption,
                                           SR.MenuCopyFeedFeedHomeTitleLinkToClipboardDesc, 1, _shortcutHandler);
 
-            subFeedCopy.MenuItems.AddRange(new MenuItem[] {subFeedCopy_sub1, subFeedCopy_sub2, subFeedCopy_sub3});
+            subFeedCopy.DropDownItems.AddRange(new ToolStripMenuItem[] {subFeedCopy_sub1, subFeedCopy_sub2, subFeedCopy_sub3});
 
 
-            _feedInfoContextMenu = new MenuItem(SR.MenuAdvancedFeedInfoCaption);
+            _feedInfoContextMenu = new ToolStripMenuItem(SR.MenuAdvancedFeedInfoCaption);
 
             // the general properties item
             var subF6 = new AppContextMenuCommand("cmdShowFeedProperties",
@@ -893,7 +893,7 @@ namespace RssBandit.WinGui.Forms
                                                                            "MenuColumnChooser" + colID +
                                                                            "Desc"), _shortcutHandler);
 
-                subFL_ColLayoutMain.MenuItems.AddRange(new MenuItem[] {subFL4_layoutSubColumn});
+                subFL_ColLayoutMain.DropDownItems.AddRange(new ToolStripMenuItem[] {subFL4_layoutSubColumn});
             }
 
             var subFL_subUseCatLayout =
@@ -919,7 +919,7 @@ namespace RssBandit.WinGui.Forms
                                                                      MenuColumnChooserResetLayoutToDefaultDesc,
                                                                  _shortcutHandler);
 
-            subFL_ColLayoutMain.MenuItems.AddRange(
+            subFL_ColLayoutMain.DropDownItems.AddRange(
                 new[]
                     {
                         sep.CloneMenu(), subFL_subUseCatLayout, subFL_subUseFeedLayout, sep.CloneMenu(),
@@ -927,7 +927,7 @@ namespace RssBandit.WinGui.Forms
                     });
 
             // append items. 
-            _treeFeedContextMenu.MenuItems.AddRange(
+            _treeFeedContextMenu.Items.AddRange(
                 new[]
                     {
                         subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subFeedCopy, sep.CloneMenu(),
@@ -968,14 +968,14 @@ namespace RssBandit.WinGui.Forms
                                                             SR.MenuValidateFeedCaption,
                                                             SR.MenuValidateFeedDesc, _shortcutHandler);
 
-            _feedInfoContextMenu.MenuItems.AddRange(
-                new MenuItem[] {subInfoHome, subInfoCosmos, subInfoSource, subInfoValidate});
+            _feedInfoContextMenu.DropDownItems.AddRange(
+                new ToolStripMenuItem[] {subInfoHome, subInfoCosmos, subInfoSource, subInfoValidate});
 
             #endregion
 
             #region root search folder context menu
 
-            _treeSearchFolderRootContextMenu = new ContextMenu();
+            _treeSearchFolderRootContextMenu = new ContextMenuStrip();
 
             subF1 = new AppContextMenuCommand("cmdNewFinder",
                                               owner.Mediator, new ExecuteCommandHandler(CmdNewFinder),
@@ -985,13 +985,13 @@ namespace RssBandit.WinGui.Forms
                                               SR.MenuFinderDeleteAllCaption, SR.MenuFinderDeleteAllDesc,
                                               _shortcutHandler);
 
-            _treeSearchFolderRootContextMenu.MenuItems.AddRange(new[] {subF1, sep.CloneMenu(), subF2});
+            _treeSearchFolderRootContextMenu.Items.AddRange(new[] {subF1, sep.CloneMenu(), subF2});
 
             #endregion
 
             #region search folder context menu's
 
-            _treeSearchFolderContextMenu = new ContextMenu();
+            _treeSearchFolderContextMenu = new ContextMenuStrip();
 
             subF1 = new AppContextMenuCommand("cmdMarkFinderItemsRead",
                                               owner.Mediator, new ExecuteCommandHandler(CmdMarkFinderItemsRead),
@@ -1017,7 +1017,7 @@ namespace RssBandit.WinGui.Forms
                                               SR.MenuShowFinderPropertiesCaption, SR.MenuShowFinderPropertiesDesc,
                                               _shortcutHandler);
 
-            _treeSearchFolderContextMenu.MenuItems.AddRange(
+            _treeSearchFolderContextMenu.Items.AddRange(
                 new[]
                     {
                         subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subFinderShowFullText,
@@ -1025,7 +1025,7 @@ namespace RssBandit.WinGui.Forms
                     });
 
 
-            _treeTempSearchFolderContextMenu = new ContextMenu();
+            _treeTempSearchFolderContextMenu = new ContextMenuStrip();
 
             subF1 = new AppContextMenuCommand("cmdMarkFinderItemsRead",
                                               owner.Mediator, new ExecuteCommandHandler(CmdMarkFinderItemsRead),
@@ -1045,7 +1045,7 @@ namespace RssBandit.WinGui.Forms
                                               SR.MenuShowFinderPropertiesCaption, SR.MenuShowFinderPropertiesDesc,
                                               _shortcutHandler);
 
-            _treeTempSearchFolderContextMenu.MenuItems.AddRange(
+            _treeTempSearchFolderContextMenu.Items.AddRange(
                 new[]
                     {
                         subF1, subF2, sep.CloneMenu(), subF3, sep.CloneMenu(), subFinderShowFullText.CloneMenu(),
@@ -1054,13 +1054,13 @@ namespace RssBandit.WinGui.Forms
 
             #endregion
 
-            treeFeeds.ContextMenu = _subscriptionTreeRootContextMenu; // init to root context
+            treeFeeds.ContextMenuStrip = _subscriptionTreeRootContextMenu; // init to root context
 
             #endregion
 
             #region list view context menu
 
-            _listContextMenu = new ContextMenu();
+            _listContextMenu = new ContextMenuStrip();
 
             var subL0 = new AppContextMenuCommand("cmdMarkSelectedFeedItemsRead",
                                                   owner.Mediator,
@@ -1144,7 +1144,7 @@ namespace RssBandit.WinGui.Forms
                                                        SR.MenuFlagFeedItemClearDesc, 1,
                                                        _shortcutHandler);
 
-            subL3.MenuItems.AddRange(
+            subL3.DropDownItems.AddRange(
                 new[]
                     {
                         subL3_sub1, subL3_sub2, subL3_sub3, subL3_sub4, subL3_sub5, sep.CloneMenu(), subL3_sub8,
@@ -1179,7 +1179,7 @@ namespace RssBandit.WinGui.Forms
                                                         SR.MenuCopyFeedItemContentToClipboardDesc, 1,
                                                         _shortcutHandler);
 
-            subL10.MenuItems.AddRange(new MenuItem[] {subL10_sub1, subL10_sub2, subL10_sub3});
+            subL10.DropDownItems.AddRange(new ToolStripMenuItem[] {subL10_sub1, subL10_sub2, subL10_sub3});
 
 
             var subL4 = new AppContextMenuCommand("cmdColumnChooserMain",
@@ -1201,7 +1201,7 @@ namespace RssBandit.WinGui.Forms
                                                                     "MenuColumnChooser" + colID +
                                                                     "Desc"), _shortcutHandler);
 
-                subL4.MenuItems.AddRange(new MenuItem[] {subL4_subColumn});
+                subL4.DropDownItems.AddRange(new ToolStripMenuItem[] {subL4_subColumn});
             }
 
             var subL4_subUseCatLayout =
@@ -1227,7 +1227,7 @@ namespace RssBandit.WinGui.Forms
                                                                      MenuColumnChooserResetLayoutToDefaultDesc,
                                                                  _shortcutHandler);
 
-            subL4.MenuItems.AddRange(
+            subL4.DropDownItems.AddRange(
                 new[]
                     {
                         sep.CloneMenu(), subL4_subUseCatLayout, subL4_subUseFeedLayout, sep.CloneMenu(),
@@ -1282,7 +1282,7 @@ namespace RssBandit.WinGui.Forms
             _listContextMenuDownloadAttachment = subL9;
             _listContextMenuDeleteItemsSeparator = sep.CloneMenu();
             _listContextMenuDownloadAttachmentsSeparator = sep.CloneMenu();
-            _listContextMenu.MenuItems.AddRange(
+            _listContextMenu.Items.AddRange(
                 new[]
                     {
                         subL2, subL3, subL0, subL1, subL7, sep.CloneMenu(), subL10,
@@ -1290,14 +1290,14 @@ namespace RssBandit.WinGui.Forms
                         ,
                         subL6, sep.CloneMenu(), subL4, subL8
                     });
-            listFeedItems.ContextMenu = _listContextMenu;
-            listFeedItemsO.ContextMenu = _listContextMenu;
+            listFeedItems.ContextMenuStrip = _listContextMenu;
+            listFeedItemsO.ContextMenuStrip = _listContextMenu;
 
             #endregion
 
             #region Local Feeds context menu
 
-            _treeLocalFeedContextMenu = new ContextMenu();
+            _treeLocalFeedContextMenu = new ContextMenuStrip();
 
             var subTL1 = new AppContextMenuCommand("cmdDeleteAllNewsItems",
                                                    owner.Mediator,
@@ -1312,13 +1312,13 @@ namespace RssBandit.WinGui.Forms
 												  SR.MenuCatchUpThisFeedDesc, 0, _shortcutHandler);
             //subTL1.ImageList           = _listImages;
 
-            _treeLocalFeedContextMenu.MenuItems.AddRange(new [] {subTL2, sep.CloneMenu(), subTL1});
+            _treeLocalFeedContextMenu.Items.AddRange(new [] {subTL2, sep.CloneMenu(), subTL1});
 
             #endregion
 
             #region doc tab context menu
 
-            _docTabContextMenu = new ContextMenu();
+            _docTabContextMenu = new ContextMenuStrip();
 
             var subDT1 = new AppContextMenuCommand("cmdDocTabCloseThis",
                                                    owner.Mediator,
@@ -1392,17 +1392,17 @@ namespace RssBandit.WinGui.Forms
                                                     _shortcutHandler);
 
 
-            subDT5.MenuItems.AddRange(new MenuItem[] {subSub1, subSub2, subSub3, subSub4});
+            subDT5.DropDownItems.AddRange(new ToolStripMenuItem[] {subSub1, subSub2, subSub3, subSub4});
 
 
-            _docTabContextMenu.MenuItems.AddRange(
+            _docTabContextMenu.Items.AddRange(
                 new[] {subDT1, subDT2, subDT3, sep.CloneMenu(), subDT4, sep.CloneMenu(), subDT5});
 
             #endregion
 
             #region tray context menu
 
-            _notifyContextMenu = new ContextMenu();
+            _notifyContextMenu = new ContextMenuStrip();
 
             var subT1 = new AppContextMenuCommand("cmdShowGUI",
                                                   owner.Mediator,
@@ -1410,8 +1410,9 @@ namespace RssBandit.WinGui.Forms
                                                   SR.MenuShowMainGuiCaption, SR.MenuShowMainGuiDesc,
                                                   _shortcutHandler)
                             {
-                                DefaultItem = true
+                               
                             };
+            subT1.Select();
 
             var subT1_1 = new AppContextMenuCommand("cmdRefreshFeeds",
                                                     owner.Mediator,
@@ -1465,7 +1466,7 @@ namespace RssBandit.WinGui.Forms
                                   Checked = (owner.Preferences.ShowAlertWindow == DisplayFeedAlertWindow.All)
                               };
 
-            subT5.MenuItems.AddRange(new MenuItem[] {subT5_1, subT5_2, subT5_3});
+            subT5.DropDownItems.AddRange(new ToolStripMenuItem[] {subT5_1, subT5_2, subT5_3});
 
             #endregion
 
@@ -1486,7 +1487,7 @@ namespace RssBandit.WinGui.Forms
                                                    SR.MenuAppCloseExitCaption, SR.MenuAppCloseExitDesc,
                                                    _shortcutHandler);
 
-            _notifyContextMenu.MenuItems.AddRange(
+            _notifyContextMenu.Items.AddRange(
                 new[]
                     {
                         subT1, subT1_1, sep.CloneMenu(), sub1.CloneMenu(), subT2, sep.CloneMenu(), subT5, subT6,

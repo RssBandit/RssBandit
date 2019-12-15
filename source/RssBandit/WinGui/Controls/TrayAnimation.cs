@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -418,7 +418,7 @@ namespace RssBandit.WinGui.Controls
 		CategoryAttribute("Behavior")]
 		public event EventHandler BalloonShow;
 
-		[DescriptionAttribute("Occurs when the balloon disappears�for example, when the icon is deleted. This message is not sent if the balloon is dismissed because of a timeout or a mouse click."),
+		[DescriptionAttribute("Occurs when the balloon disappears—for example, when the icon is deleted. This message is not sent if the balloon is dismissed because of a timeout or a mouse click."),
 		CategoryAttribute("Behavior")]
 		public event EventHandler BalloonHide;
 
@@ -450,7 +450,7 @@ namespace RssBandit.WinGui.Controls
 		private bool _visibleBeforeBalloon;
 		private bool _visible;
 		private bool _versionSet;
-		private ContextMenu _contextMenu;
+		private ContextMenuStrip _contextMenu;
 
 		// provide the NotifyIcon events
 		/// <summary>
@@ -619,7 +619,7 @@ namespace RssBandit.WinGui.Controls
 		[Description("The pop-up menu to show when the user right-clicks the icon."),
 		CategoryAttribute("Behavior"),
 		DefaultValueAttribute("")]
-		public ContextMenu ContextMenu
+		public ContextMenuStrip ContextMenu
 		{
 			get { return _contextMenu; }
 			set { _contextMenu = value; }
@@ -787,14 +787,14 @@ namespace RssBandit.WinGui.Controls
 
 		private void OnPerformContextMenuClick(int menuID)
 		{
-			foreach (MenuItem menuItem in _contextMenu.MenuItems)
+			foreach (ToolStripMenuItem menuItem in _contextMenu.Items)
 			{
 				if (PerformContextMenuClick(menuID, menuItem))
 					break;
 			}
 		}
 
-		private bool PerformContextMenuClick(int menuID, MenuItem item)
+		private bool PerformContextMenuClick(int menuID, ToolStripMenuItem item)
 		{
 			if (item == null)
 				return false;
@@ -813,7 +813,7 @@ namespace RssBandit.WinGui.Controls
 			}
 
 			// check for child menu items:
-			foreach (MenuItem menuItem in item.MenuItems)
+			foreach (ToolStripMenuItem menuItem in item.DropDownItems)
 			{
 				if (PerformContextMenuClick(menuID, menuItem))
 					return true;

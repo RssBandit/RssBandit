@@ -2313,7 +2313,7 @@ namespace RssBandit.WinGui.Forms
                     }
                     else
                     {
-                        tv.ContextMenu = null; // no context menu
+                        tv.ContextMenuStrip = null; // no context menu
                     }
                     CurrentSelectedFeedsNode = selectedNode;
                 }

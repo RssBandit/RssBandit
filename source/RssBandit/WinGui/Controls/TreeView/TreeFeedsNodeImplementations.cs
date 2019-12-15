@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -30,11 +30,11 @@ namespace RssBandit.WinGui.Controls
 
 	internal class SubscriptionRootNode : TreeFeedsNodeBase
     {
-        private static ContextMenu _popup; // share one context menu
+        private static ContextMenuStrip _popup; // share one context menu
 
     	public int SourceID;
 
-        public SubscriptionRootNode(int sourceID, string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
+        public SubscriptionRootNode(int sourceID, string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu)
             : base(text, FeedNodeType.Root, true, imageIndex, selectedImageIndex)
         {
         	SourceID = sourceID;
@@ -65,7 +65,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -77,14 +77,14 @@ namespace RssBandit.WinGui.Controls
 
     internal class CategoryNode : TreeFeedsNodeBase
     {
-        private static ContextMenu _popup; // share one context menu
+        private static ContextMenuStrip _popup; // share one context menu
 
         public CategoryNode(string text) :
             base(text, FeedNodeType.Category, true, 2, 3)
         {
         }
 
-        public CategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
+        public CategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu)
             : base(text, FeedNodeType.Category, true, imageIndex, selectedImageIndex)
         {
             _popup = menu;
@@ -114,7 +114,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -126,14 +126,14 @@ namespace RssBandit.WinGui.Controls
 
     internal class FeedNode : TreeFeedsNodeBase
     {
-        private static ContextMenu _popup; // share one context menu
+        private static ContextMenuStrip _popup; // share one context menu
 
-        public FeedNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public FeedNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             this(text, imageIndex, selectedImageIndex, menu, null)
         {
         }
 
-        public FeedNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu, Image image)
+        public FeedNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu, Image image)
             : base(text, FeedNodeType.Feed, true, imageIndex, selectedImageIndex, image)
         {
             _popup = menu;
@@ -164,7 +164,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -179,9 +179,9 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
 	internal class SpecialRootNode : TreeFeedsNodeBase
     {
-        private readonly ContextMenu _popup; // context menu
+        private readonly ContextMenuStrip _popup; // context menu
 
-        public SpecialRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu)
+        public SpecialRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu)
             : base(text, FeedNodeType.Root, true, imageIndex, selectedImageIndex)
         {
             _popup = menu;
@@ -213,7 +213,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -228,7 +228,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class WasteBasketNode : SmartFolderNodeBase
     {
-        public WasteBasketNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public WasteBasketNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(itemStore, imageIndex, selectedImageIndex, menu)
         {
         }
@@ -243,7 +243,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class SentItemsNode : SmartFolderNodeBase
     {
-        public SentItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public SentItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(itemStore, imageIndex, selectedImageIndex, menu)
         {
         }
@@ -258,7 +258,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class WatchedItemsNode : SmartFolderNodeBase
     {
-        public WatchedItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public WatchedItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(itemStore, imageIndex, selectedImageIndex, menu)
         {
         }
@@ -279,7 +279,7 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class ExceptionReportNode : SmartFolderNodeBase
     {
-        public ExceptionReportNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public ExceptionReportNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(null, text, imageIndex, selectedImageIndex, menu)
         {
         }
@@ -375,7 +375,7 @@ namespace RssBandit.WinGui.Controls
         private readonly Flagged flagsFiltered = Flagged.None;
 
         public FlaggedItemsNode(Flagged flag, LocalFeedsFeed itemStore, string text, int imageIndex,
-                                int selectedImageIndex, ContextMenu menu) :
+                                int selectedImageIndex, ContextMenuStrip menu) :
                                     base(itemStore, text, imageIndex, selectedImageIndex, menu)
         {
             flagsFiltered = flag;
@@ -462,9 +462,9 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class FlaggedItemsRootNode : TreeFeedsNodeBase
     {
-        private static ContextMenu _popup; // share one context menu
+        private static ContextMenuStrip _popup; // share one context menu
 
-        public FlaggedItemsRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public FlaggedItemsRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(text, FeedNodeType.Root, false, imageIndex, selectedImageIndex)
         {
             _popup = menu;
@@ -488,7 +488,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -508,7 +508,7 @@ namespace RssBandit.WinGui.Controls
     	
 		#region ctor's
 
-    	public UnreadItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+    	public UnreadItemsNode(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
     		base(itemStore, imageIndex, selectedImageIndex, menu)
     	{
 			// TODO: we should extend the interface ICoreApplication
@@ -528,7 +528,7 @@ namespace RssBandit.WinGui.Controls
     			}
     	}
 		
-    	protected UnreadItemsNode(LocalFeedsFeed itemStore, string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+    	protected UnreadItemsNode(LocalFeedsFeed itemStore, string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
     		base(itemStore, text, imageIndex, selectedImageIndex, menu)
     	{
     	}
@@ -685,7 +685,7 @@ namespace RssBandit.WinGui.Controls
 	internal class UnreadItemsNodePerSource : UnreadItemsNode
 	{
 		private readonly int _entryId;
-		public UnreadItemsNodePerSource(FeedSourceEntry entry, LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu):
+		public UnreadItemsNodePerSource(FeedSourceEntry entry, LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu):
 			base(itemStore, entry.Name, imageIndex, selectedImageIndex, menu)
 		{
             base.ColumnLayout = entry.UnreadItemsColumnLayoutId; 
@@ -757,16 +757,16 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
 	internal class FinderRootNode : TreeFeedsNodeBase
     {
-        private readonly ContextMenu _popup; // context menu
+        private readonly ContextMenuStrip _popup; // context menu
 
-        public FinderRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public FinderRootNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(text, FeedNodeType.Root, true, imageIndex, selectedImageIndex)
         {
             _popup = menu;
             base.Editable = false;
         }
 
-        public void InitFromFinders(ArrayList finderList, ContextMenu menu)
+        public void InitFromFinders(ArrayList finderList, ContextMenuStrip menu)
         {
             var categories = new Hashtable();
 
@@ -850,7 +850,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -862,14 +862,14 @@ namespace RssBandit.WinGui.Controls
 
     internal class FinderCategoryNode : TreeFeedsNodeBase
     {
-        private static ContextMenu _popup; // share one context menu
+        private static ContextMenuStrip _popup; // share one context menu
 
         public FinderCategoryNode(string text) :
             base(text, FeedNodeType.FinderCategory, true, 2, 3)
         {
         }
 
-        public FinderCategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public FinderCategoryNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(text, FeedNodeType.FinderCategory, true, imageIndex, selectedImageIndex)
         {
             _popup = menu;
@@ -893,7 +893,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -909,7 +909,7 @@ namespace RssBandit.WinGui.Controls
     [Serializable]
     public class FinderNode : TreeFeedsNodeBase, ISmartFolder
     {
-        private readonly ContextMenu _popup; // context menu
+        private readonly ContextMenuStrip _popup; // context menu
         private readonly LocalFeedsFeed itemsFeed;
         //use a dictionary because we want fast access to objects
         private readonly List<INewsItem> items = new List<INewsItem>();
@@ -918,7 +918,7 @@ namespace RssBandit.WinGui.Controls
         {
         }
 
-        public FinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public FinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(text, FeedNodeType.Finder, true, imageIndex, selectedImageIndex)
         {
             itemsFeed = new LocalFeedsFeed(null,
@@ -979,7 +979,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = _popup;
+                Control.ContextMenuStrip = _popup;
         }
 
         #endregion
@@ -1133,7 +1133,7 @@ namespace RssBandit.WinGui.Controls
         {
         }
 
-        public TempFinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public TempFinderNode(string text, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             base(text, imageIndex, selectedImageIndex, menu)
         {
         }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.w3.org/XML/1998/namespace">
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" >
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ComponentsText_app1.xsd" />
     <xs:element name="root" msdata:IsDataSet="true" msdata:Locale="en-US">
       <xs:complexType>
@@ -46,65 +46,65 @@
       </xs:complexType>
     </xs:element>
   </xs:schema>
-  <data name="ExceptionUnsupportedAtomVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionUnsupportedAtomVersion" >
     <value>ATOM version wordt niet ondersteund</value>
   </data>
-  <data name="ExceptionUnknownXmlDialect" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionUnknownXmlDialect" >
     <value>Dit XML document is geen RSS feed</value>
   </data>
-  <data name="ExceptionDirectoryNotExistsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionDirectoryNotExistsMessage" >
     <value>Map bestaat niet: {0}</value>
     <comment>.
  Parameters: 0 - directoryName (string) </comment>
   </data>
-  <data name="ExceptionRFC2822ParseGroupsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionRFC2822ParseGroupsMessage" >
     <value>RFC2822 datum regex match succesvol, maar parsen van de groepen resulteert in een '{0}'-exception.</value>
     <comment>.
  Parameters: 0 - exceptionTypeName (string) </comment>
   </data>
-  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" >
     <value>Onjuiste Tijdzone formaat: {0}.</value>
     <comment>.
  Parameters: 0 - originalDateTimeString (string) </comment>
   </data>
-  <data name="ExceptionNoProcessingHandlerMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionNoProcessingHandlerMessage" >
     <value>Feedadres '{0}' kan niet worden verwerkt. Er is geen handler geïmplementeerd.</value>
     <comment>.
  Parameters: 0 - url (string) </comment>
   </data>
-  <data name="ExceptionEnclosureCacheLimitReached" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionEnclosureCacheLimitReached" >
     <value>Downloaden van '{0}' is niet gelukt, omdat het de grootte limiet van {1}MB gereserveerd voor podcasts en bijlagen zou overschreiden. Verkleind de grootte limiet of verwijder eerder gedownloade bijlagen.</value>
     <comment>.
  Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
   </data>
-  <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchNoSearchCriteria" >
     <value>Geen zoekterm opgegeven</value>
   </data>
-  <data name="ExceptionSearchQueryBuilder" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchQueryBuilder" >
     <value>Er kan geen zoekopdracht worden gemaakt met deze zoektermen</value>
   </data>
-  <data name="ExceptionSearchQueryBuilderFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchQueryBuilderFatal" >
     <value>Er kan geen zoekopdracht worden gemaakt met deze zoektermen. Een fout is opgetreden: {0}</value>
     <comment>.
  Parameters: 0 - error (string) </comment>
   </data>
-  <data name="ExceptionLuceneSearchKindNotSupported" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionLuceneSearchKindNotSupported" >
     <value>Ditsoort zoektermen worden niet meer ondersteund ('{0}').</value>
     <comment>.
  Parameters: 0 - typeOfSearch (string) </comment>
   </data>
-  <data name="ExceptionSearchFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchFatal" >
     <value>Fatale zoekfout</value>
   </data>
-  <data name="ExceptionHelpFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedTitle" >
     <value>Help bij fouten</value>
   </data>
-  <data name="ExceptionHelpFeedItemTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedItemTitle" >
     <value>Foutsoort: {0}</value>
     <comment>.
  Parameters: 0 - typeOfError (string) </comment>
   </data>
-  <data name="ExceptionHelpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedDesc" >
     <value>Biedt hulp bij fouten</value>
   </data>
   <resheader name="ResMimeType">

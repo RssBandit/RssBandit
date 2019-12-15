@@ -1964,7 +1964,7 @@ namespace RssBandit.WinGui.Forms
                     return;
 
                 // separator
-                _listContextMenu.MenuItems.Add(new MenuItem("-"));
+                _listContextMenu.Items.Add(new ToolStripMenuItem("-"));
 
                 for (int i = 0; i < blogExtensions.Count; i++)
                 {
@@ -1975,7 +1975,7 @@ namespace RssBandit.WinGui.Forms
                                                           owner.CmdGenericListviewCommand),
                                                       ibe.DisplayName,
                                                       SR.MenuIBlogExtensionCommandDesc);
-                    _listContextMenu.MenuItems.Add(m);
+                    _listContextMenu.Items.Add(m);
                     if (ibe.HasConfiguration)
                     {
                         var mc = new AppContextMenuCommand("cmdIBlogExtConfig." + i,
@@ -1985,7 +1985,7 @@ namespace RssBandit.WinGui.Forms
                                                            ibe.DisplayName + " - " +
                                                            SR.MenuConfigCommandCaption,
                                                            SR.MenuIBlogExtensionConfigCommandDesc);
-                        _listContextMenu.MenuItems.Add(mc);
+                        _listContextMenu.Items.Add(mc);
                     }
                 }
             }

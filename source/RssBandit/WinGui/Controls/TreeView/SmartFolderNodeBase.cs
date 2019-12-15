@@ -1,4 +1,4 @@
-
+﻿
 #region CVS Version Log
 
 /*
@@ -33,16 +33,16 @@ namespace RssBandit.WinGui.Controls
     /// </summary>
     internal class SmartFolderNodeBase : TreeFeedsNodeBase, ISmartFolder
     {
-		protected ContextMenu p_popup;
+		protected ContextMenuStrip p_popup;
         protected LocalFeedsFeed itemsFeed;
 
-        public SmartFolderNodeBase(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenu menu) :
+        public SmartFolderNodeBase(LocalFeedsFeed itemStore, int imageIndex, int selectedImageIndex, ContextMenuStrip menu) :
             this(itemStore, itemStore.title, imageIndex, selectedImageIndex, menu)
         {
         }
 
         public SmartFolderNodeBase(LocalFeedsFeed itemStore, string text, int imageIndex, int selectedImageIndex,
-                                   ContextMenu menu) :
+                                   ContextMenuStrip menu) :
                                        base(text, FeedNodeType.SmartFolder, false, imageIndex, selectedImageIndex)
         {
             p_popup = menu;
@@ -67,7 +67,7 @@ namespace RssBandit.WinGui.Controls
         public override void UpdateContextMenu()
         {
             if (Control != null)
-                Control.ContextMenu = p_popup;
+                Control.ContextMenuStrip = p_popup;
         }
 
         #endregion

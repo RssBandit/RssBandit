@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -150,7 +150,7 @@ namespace RssBandit.WinGui.Menus {
 	/// <summary>
 	/// Colleage base Menu class, that is controlled by and talks to the mediator
 	/// </summary>
-	public class AppContextMenuCommand : MenuItem, ICommand, ICommandComponent	{
+	public class AppContextMenuCommand : ToolStripMenuItem, ICommand, ICommandComponent	{
 	
 		/// <summary>
 		/// Required designer variable.
@@ -158,7 +158,8 @@ namespace RssBandit.WinGui.Menus {
 		private Container components = null;
 		protected CommandMediator med;
 		protected event ExecuteCommandHandler OnExecute;
-		protected string description = String.Empty;
+        
+        protected string description = String.Empty;
 		protected int imageIndex;
 
 		public AppContextMenuCommand()
@@ -187,8 +188,11 @@ namespace RssBandit.WinGui.Menus {
 			
 			Tag = cmdId;
 			med = mediator;
-			if (executor != null)
-				OnExecute += executor;
+            if (executor != null)
+            {
+                OnExecute += executor;
+                Executor = executor;
+            }
 			med.RegisterCommand (cmdId, this);
 		}
 		
@@ -222,8 +226,8 @@ namespace RssBandit.WinGui.Menus {
 		{
 			if(shortcuts != null)
 			{
-				this.Shortcut = shortcuts.GetShortcut(cmdId);
-				this.ShowShortcut = shortcuts.IsShortcutDisplayed(cmdId);
+				this.ShortcutKeys = (Keys)shortcuts.GetShortcut(cmdId);
+                this.ShowShortcutKeys = shortcuts.IsShortcutDisplayed(cmdId);
 			}
 		}
 
@@ -285,7 +289,10 @@ namespace RssBandit.WinGui.Menus {
 
 		public string CommandID { get { return (string)Tag; } }
 
-		public CommandMediator Mediator	{
+        public string Description => description;
+        public ExecuteCommandHandler Executor { get; }
+
+        public CommandMediator Mediator	{
 			get { return med;  }
 			set	{ med = value; }
 		}

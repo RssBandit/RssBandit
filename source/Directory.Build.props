@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/RssBandit/RssBandit</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/RssBandit/RssBandit/master/LICENSE</PackageLicenseUrl>
     <Company>www.rssbandit.org</Company>
-    <Copyright>© 2003-2018 by www.rssbandit.org</Copyright>
+    <Copyright>© 2003-2020 by www.rssbandit.org</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
     <NoWarn>1701;1702;1705;1591;NU1701</NoWarn>
 
@@ -22,7 +22,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

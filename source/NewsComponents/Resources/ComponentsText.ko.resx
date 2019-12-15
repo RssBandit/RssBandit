@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.w3.org/XML/1998/namespace">
+  <xs:schema id="root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ComponentsText_app1.xsd" />
     <xs:element name="root" msdata:IsDataSet="true" msdata:Locale="en-US">
       <xs:complexType>
@@ -46,28 +46,28 @@
       </xs:complexType>
     </xs:element>
   </xs:schema>
-  <data name="ExceptionUnsupportedAtomVersion" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionUnsupportedAtomVersion" >
     <value>지원되지 않는 ATOM 버젼</value>
   </data>
-  <data name="ExceptionUnknownXmlDialect" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionUnknownXmlDialect" >
     <value>이 XML 문서는 RSS 피드(feed) 문서가 아닙니다</value>
   </data>
-  <data name="ExceptionDirectoryNotExistsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionDirectoryNotExistsMessage" >
     <value>존재 하지 않는 디렉토리: {0}</value>
     <comment>.
  Parameters: 0 - directoryName (string) </comment>
   </data>
-  <data name="ExceptionRFC2822ParseGroupsMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionRFC2822ParseGroupsMessage" >
     <value>RFC2822 date regex match succeeds, but parse the groups raises a '{0}' exception.</value>
     <comment>.
  Parameters: 0 - exceptionTypeName (string) </comment>
   </data>
-  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionRFC2822InvalidTimezoneFormatMessage" >
     <value>존재 하지 않는 시간대 설정: {0}.</value>
     <comment>.
  Parameters: 0 - originalDateTimeString (string) </comment>
   </data>
-  <data name="ExceptionNoProcessingHandlerMessage" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionNoProcessingHandlerMessage" >
     <value>피드(Feed) Url '{0}' 을 실행할 수 없습니다. 해당되는 핸들러가 실행 되지 않았습니다.</value>
     <comment>.
  Parameters: 0 - url (string) </comment>
@@ -76,34 +76,34 @@
     <value>The attempt to download the file '{0}' failed because it would exceed the size limit of {1}MB dedicated to podcasts and attachments. Either increase the size limit or delete previously downloaded attachments to make room for this download.</value>
     <comment>Parameters: 0 - fileName (string), 1 - sizeLimit (int) </comment>
   </data>
-  <data name="ExceptionSearchNoSearchCriteria" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchNoSearchCriteria" >
     <value>검색 하시려는 해당 분야가 존재 하지 않습니다.</value>
   </data>
-  <data name="ExceptionSearchQueryBuilder" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchQueryBuilder" >
     <value>검색 분야로 부터 쿼리를 만들수 없었습니다.</value>
   </data>
-  <data name="ExceptionSearchQueryBuilderFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchQueryBuilderFatal" >
     <value>검색 분야로 부터 쿼리를 만들수 없었습니다. 에러가 발생하였습니다: {0}</value>
     <comment>.
  Parameters: 0 - error (string) </comment>
   </data>
-  <data name="ExceptionLuceneSearchKindNotSupported" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionLuceneSearchKindNotSupported" >
     <value>이런 식의 검색은 더 이상 지원되지 않습니다 ('{0}').</value>
     <comment>.
  Parameters: 0 - typeOfSearch (string) </comment>
   </data>
-  <data name="ExceptionSearchFatal" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionSearchFatal" >
     <value>치명적인 검색 에러</value>
   </data>
-  <data name="ExceptionHelpFeedTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedTitle" >
     <value>에러에 관한 도움말</value>
   </data>
-  <data name="ExceptionHelpFeedItemTitle" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedItemTitle" >
     <value>에러의 종류: {0}</value>
     <comment>.
  Parameters: 0 - typeOfError (string) </comment>
   </data>
-  <data name="ExceptionHelpFeedDesc" d2p1:space="preserve" xmlns:d2p1="http://www.w3.org/XML/1998/namespace">
+  <data name="ExceptionHelpFeedDesc" >
     <value>발생된 에러들에 대한 도움말이 제공 됩니다.</value>
   </data>
   <resheader name="ResMimeType">

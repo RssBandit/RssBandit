@@ -125,7 +125,7 @@ namespace RssBandit.WinGui
 			_notifyIcon.ShowBalloon((NotifyIconAnimation.EBalloonIcon)icon, text, title, timeout);
 		}
 
-		public ContextMenu IconContextMenu
+		public ContextMenuStrip IconContextMenu
 		{
 			get { return _notifyIcon.ContextMenu; }
 			set { _notifyIcon.ContextMenu = value; }
