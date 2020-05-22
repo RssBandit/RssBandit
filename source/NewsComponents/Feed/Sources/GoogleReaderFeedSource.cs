@@ -1183,11 +1183,11 @@ namespace NewsComponents.Feed
         /// <param name="feedTitle">The title of the feed to delete</param>
         internal void DeleteFeedFromGoogleReader(string feedUrl, string feedTitle)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl))
             {
                 string subscribeUrl = apiUrlPrefix + "subscription/edit";
                 string feedId = "feed/" + feedUrl;
-                string feedTitleParam = StringHelper.EmptyTrimOrNull(feedTitle) ? String.Empty : "&t=" + Uri.EscapeDataString(feedTitle); 
+                string feedTitleParam = string.IsNullOrWhiteSpace(feedTitle) ? String.Empty : "&t=" + Uri.EscapeDataString(feedTitle); 
 
                 string body = "s=" + Uri.EscapeDataString(feedId) + "&T=" + GetGoogleEditToken(this.AuthToken) + "&ac=unsubscribe&i=null" + feedTitleParam ;
 				HttpWebResponse response = SyncWebRequest.PostResponse(subscribeUrl, body, MakeGoogleAuthHeader(this.AuthToken), null, this.Proxy);
@@ -1265,7 +1265,7 @@ namespace NewsComponents.Feed
         /// the INewsFeed object in the feeds table that has the same feed URL.</param>
         private void AddFeedInGoogleReader(string feedUrl, string title, string label)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && (feedsTable.ContainsKey(feedUrl) || label != null))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && (feedsTable.ContainsKey(feedUrl) || label != null))
             {               
 
                 /* first add the feed */
@@ -1381,12 +1381,12 @@ namespace NewsComponents.Feed
         /// <param name="title">The new title</param>
         internal void RenameFeedInGoogleReader(string url, string title)
         {            
-            if (StringHelper.EmptyTrimOrNull(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 return; 
             }
 
-            if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
+            if(!string.IsNullOrWhiteSpace(url) && feedsTable.ContainsKey(url)){
 
                 GoogleReaderNewsFeed f = feedsTable[url] as GoogleReaderNewsFeed;
 
@@ -1410,7 +1410,7 @@ namespace NewsComponents.Feed
                     catch { }
                 }
 
-            }// if(!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url)){
+            }// if(!string.IsNullOrWhiteSpace(url) && feedsTable.ContainsKey(url)){
 
         }
 
@@ -1592,7 +1592,7 @@ namespace NewsComponents.Feed
         /// <param name="olderThan">The date from which to mark all items older than that date as read</param>
         internal void MarkAllItemsAsReadInGoogleReader(string feedUrl, string olderThan)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;                
                 string markReadUrl = apiUrlPrefix + "mark-all-as-read";
@@ -1702,7 +1702,7 @@ namespace NewsComponents.Feed
         /// nested categories</exception>
         public override INewsFeedCategory AddCategory(string cat)
         {
-            if (StringHelper.EmptyTrimOrNull(cat))
+            if (string.IsNullOrWhiteSpace(cat))
                 return null;
 
             if (cat.IndexOf(FeedSource.CategorySeparator)!= -1)
@@ -1743,7 +1743,7 @@ namespace NewsComponents.Feed
         /// <param name="cat"></param>
         public override void DeleteCategory(string cat)
         {
-            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            if (!string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat))
             {
                 IList<string> categories2remove = this.GetChildCategories(cat);
                 categories2remove.Add(cat);
@@ -1780,7 +1780,7 @@ namespace NewsComponents.Feed
 
                 readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(this.feedsTable); 
                 readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(this.categories);
-            }// if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            }// if (!string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat))
         }
 
         /// <summary>
@@ -1789,7 +1789,7 @@ namespace NewsComponents.Feed
         /// <param name="name">The name of the category to delete</param>
         internal void DeleteCategoryInGoogleReader(string name)
         {
-            if (!StringHelper.EmptyTrimOrNull(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 string labelUrl = apiUrlPrefix + "disable-tag";
                 string labelParams = "&s=" + "user/" + this.GoogleUserId + "/label/" + Uri.EscapeDataString(name) + "&t=" + Uri.EscapeDataString(name);              
@@ -1840,7 +1840,7 @@ namespace NewsComponents.Feed
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
-            if(( StringHelper.EmptyTrimOrNull(oldName) || StringHelper.EmptyTrimOrNull(newName) )
+            if(( string.IsNullOrWhiteSpace(oldName) || string.IsNullOrWhiteSpace(newName) )
                 || oldName.Equals(newName) ){
                 return; 
             }
@@ -1858,7 +1858,7 @@ namespace NewsComponents.Feed
         /// <param name="oldCategory">The old category of the feed.</param>
         internal void ChangeCategoryInGoogleReader(string feedUrl, string newCategory, string oldCategory)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 GoogleReaderNewsFeed f = feedsTable[feedUrl] as GoogleReaderNewsFeed;
                 string labelUrl = apiUrlPrefix + "subscription/edit";
@@ -2085,7 +2085,7 @@ namespace NewsComponents.Feed
             {
                 GoogleReaderFeedSource myowner = owner as GoogleReaderFeedSource;
 
-                if (myowner != null && !StringHelper.EmptyTrimOrNull(value) && !mysubscription.Title.Equals(value))
+                if (myowner != null && !string.IsNullOrWhiteSpace(value) && !mysubscription.Title.Equals(value))
                 {
                     myowner.GoogleReaderUpdater.RenameFeedInGoogleReader(myowner.GoogleUserName, this.link, value);
                     mysubscription.Title = value;

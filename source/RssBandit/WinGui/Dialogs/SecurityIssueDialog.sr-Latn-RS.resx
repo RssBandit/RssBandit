@@ -115,7 +115,4 @@
 	<data name="labelProceedMessage.Text" xmlns="">
     <value>Da li želite da nastavite?</value>
   </data>
-	<data name="buttonYes.Text" xmlns="">
-    <value>&amp;Da</value>
-  </data>
 	</root>

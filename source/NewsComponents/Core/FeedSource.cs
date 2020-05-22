@@ -681,7 +681,7 @@ namespace NewsComponents
         //Search	impl. 
 
         /// <summary>Called if NewsItems are found, that match the search criteria(s)</summary>
-        public event NewsItemSearchResultEventHandler NewsItemSearchResult;
+        //public event NewsItemSearchResultEventHandler NewsItemSearchResult;
 
 
         #region Nested type: CategoryChangedEventArgs
@@ -1488,7 +1488,7 @@ namespace NewsComponents
 
                 foreach (string s in podcastfileextensions)
                 {
-                    if (!StringHelper.EmptyTrimOrNull(s))
+                    if (!string.IsNullOrWhiteSpace(s))
                     {
                         toReturn.Append(s);
                         toReturn.Append(";");
@@ -3192,7 +3192,7 @@ namespace NewsComponents
                 /* sometimes we get nulls in the arraylist */
                 foreach (var cat in categories.Values)
                 {
-                    if (!StringHelper.EmptyTrimOrNull(cat.Value))
+                    if (!string.IsNullOrWhiteSpace(cat.Value))
                     {
                         c.Add(new category(cat));
                     }
@@ -6045,7 +6045,7 @@ namespace NewsComponents
                     }
                     else
                     {
-                        if (!StringHelper.EmptyTrimOrNull(category))
+                        if (!string.IsNullOrWhiteSpace(category))
                         {
                             f1.category = (f1.category == null ? category : category + CategorySeparator + f1.category);
                         }
@@ -6076,7 +6076,7 @@ namespace NewsComponents
                 if (myFeeds.categories.Count == 0)
                 {
                     //no new subcategories
-                    if (!StringHelper.EmptyTrimOrNull(category) && categories.ContainsKey(category) == false)
+                    if (!string.IsNullOrWhiteSpace(category) && categories.ContainsKey(category) == false)
                     {
                         AddCategory(category);
                     }
@@ -6085,7 +6085,7 @@ namespace NewsComponents
                 {
                     foreach (var cat in myFeeds.categories)
                     {
-                        string cat2 = (StringHelper.EmptyTrimOrNull(category)
+                        string cat2 = (string.IsNullOrWhiteSpace(category)
                                            ? cat.Value
                                            : category + CategorySeparator + cat.Value);
 
@@ -6794,7 +6794,7 @@ namespace NewsComponents
         /// <returns>The INewsFeedCategory instance that will actually be used to represent the category</returns>
         public virtual INewsFeedCategory AddCategory(string cat)
         {
-            if (StringHelper.EmptyTrimOrNull(cat))
+            if (string.IsNullOrWhiteSpace(cat))
                 return null;
 
             if (categories.ContainsKey(cat))
@@ -6879,7 +6879,7 @@ namespace NewsComponents
         /// <param name="cat"></param>
         public virtual void DeleteCategory(string cat)
         {
-            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            if (!string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat))
             {
                 IList<string> categories2remove = GetChildCategories(cat);
                 categories2remove.Add(cat);
@@ -6910,7 +6910,7 @@ namespace NewsComponents
                 }
 
                 readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories);
-            } // if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            } // if (!string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat))
         }
 
 
@@ -7001,10 +7001,10 @@ namespace NewsComponents
         /// <param name="newName">The new name of the category</param>        
         public virtual void RenameCategory(string oldName, string newName)
         {
-            if (StringHelper.EmptyTrimOrNull(oldName))
+            if (string.IsNullOrWhiteSpace(oldName))
                 throw new ArgumentNullException("oldName");
 
-            if (StringHelper.EmptyTrimOrNull(newName))
+            if (string.IsNullOrWhiteSpace(newName))
                 throw new ArgumentNullException("newName");
 
             if (categories.ContainsKey(oldName))

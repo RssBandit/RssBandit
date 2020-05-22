@@ -1,4 +1,4 @@
-#region Version Info Header
+ï»¿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -2032,7 +2032,7 @@ namespace RssBandit
 			/// as both this flag and the VER_SUITE_SMALLBUSINESS_RESTRICTED flag are set 
 			/// when this product suite is installed. If you upgrade this installation to 
 			/// Windows Server, Standard Edition, the VER_SUITE_SMALLBUSINESS_RESTRICTED flag 
-			/// will be unset — however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
+			/// will be unset â€” however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
 			/// In this case, this indicates that Small Business Server was once installed on 
 			/// this system. If this installation is further upgraded to Windows Server, 
 			/// Enterprise Edition, the VER_SUITE_SMALLBUSINESS key will remain set.
@@ -3299,7 +3299,7 @@ namespace RssBandit
 			public static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
 			/// <summary>
-			/// Implemented by many of the Microsoft® Windows® Shell dynamic-link libraries 
+			/// Implemented by many of the MicrosoftÂ® WindowsÂ® Shell dynamic-link libraries 
 			/// (DLLs) to allow applications to obtain DLL-specific version information
 			/// </summary>
 			/// <param name="pdvi">Pointer to a DLLVERSIONINFO structure that receives the 

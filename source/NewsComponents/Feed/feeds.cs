@@ -169,7 +169,7 @@ namespace NewsComponents.Feed
         /// </summary>
         /// <param name="name">The name of the category</param>
         public category(string name) {
-            if (StringHelper.EmptyTrimOrNull(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException("name");
 
             this.Value = name; 
@@ -728,7 +728,7 @@ namespace NewsComponents.Feed
             {
                 this.categories.Clear(); 
 
-                if (!StringHelper.EmptyTrimOrNull(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     this.categories.Add(value); 
                 }

@@ -903,7 +903,7 @@ namespace NewsComponents.Search
 
 		private static DictionaryEntry ReadIndexingState(TextReader reader) {
 			string line = reader.ReadLine();	
-			if (!StringHelper.EmptyTrimOrNull(line)) 
+			if (!string.IsNullOrWhiteSpace(line)) 
 			{
 				string[] fields = line.Split(new[]{'\t'});
 				if (fields.Length > 1) {

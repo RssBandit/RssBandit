@@ -1661,20 +1661,8 @@ Proceed?</value>
 		<value>फीड मुखपृष्ठ</value>
 		<comment>Part of the error text displayed for refresh feed exceptions</comment>
 	</data>
-	<data name="XmlExceptionCategory">
-		<value>Xml Exception</value>
-		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
-	</data>
-	<data name="WebExceptionCategory">
-		<value>Web Exception</value>
-		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
-	</data>
 	<data name="ProtocolViolationExceptionCategory">
 		<value>Protocol Violation Exception</value>
-		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
-	</data>
-	<data name="ExceptionCategory">
-		<value>General Exception</value>
 		<comment>Category name displayed for refresh feed exceptions (listview)</comment>
 	</data>
 	<data name="InternetExplorerMenuExtDefaultCaption">

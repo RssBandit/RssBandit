@@ -501,7 +501,7 @@ namespace NewsComponents.Utils
             if (m.Success)
             {
                 string t = m.Groups["title"].Value;
-                if (StringHelper.EmptyTrimOrNull(t))
+                if (string.IsNullOrWhiteSpace(t))
                     return defaultIfNoMatch;
                 return HtmlDecode(t);
             }

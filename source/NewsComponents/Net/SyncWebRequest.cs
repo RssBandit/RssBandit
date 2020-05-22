@@ -86,7 +86,7 @@ namespace NewsComponents.Net
                         httpRequest.Credentials = credentials;
                     }
 
-                    if (method != HttpMethod.Get && !StringHelper.EmptyTrimOrNull(body))
+                    if (method != HttpMethod.Get && !string.IsNullOrWhiteSpace(body))
                     {
                         UTF8Encoding encoding = new UTF8Encoding();
                         byte[] data = encoding.GetBytes(body);

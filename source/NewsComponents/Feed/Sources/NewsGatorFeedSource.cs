@@ -700,7 +700,7 @@ namespace NewsComponents.Feed
             string feedUrl = feedsTable.FirstOrDefault(kvp =>
                                 kvp.Value.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
 
-            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl))
             {
                 Uri feedUri = new Uri(feedUrl);
                 base.OnRequestStart(feedUri, ref cancel);
@@ -720,7 +720,7 @@ namespace NewsComponents.Feed
             string feedUrl = feedsTable.FirstOrDefault(kvp =>
                                 kvp.Value.Any.FirstOrDefault(elem => elem.LocalName == "syncXmlUrl").InnerText.Equals(syncUrl)).Key;
 
-            if (!StringHelper.EmptyTrimOrNull(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl))
             {
                 Uri feedUri = new Uri(feedUrl);
                 base.OnRequestException(feedUri, e, priority);
@@ -1098,7 +1098,7 @@ namespace NewsComponents.Feed
         /// <param name="clipped">Indicates whether the item is being clipped or unclipped</param>
         internal void ChangeItemClippedStateInNewsGatorOnline(string itemId, bool clipped)
         {
-            if (!StringHelper.EmptyTrimOrNull(itemId))
+            if (!string.IsNullOrWhiteSpace(itemId))
             {
 
                 string clipApiUrl = PostItemApiUrl + (clipped ? "/clipposts" : "/unclipposts");
@@ -1195,7 +1195,7 @@ namespace NewsComponents.Feed
         /// <param name="state">Indicates the flag status of the item</param>
         internal void ChangeItemStateInNewsGatorOnline(string itemId, string feedUrl, NewsGatorFlagStatus state)
         {
-            if (!StringHelper.EmptyTrimOrNull(itemId) && !StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(itemId) && !string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
                 string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 
@@ -1249,7 +1249,7 @@ namespace NewsComponents.Feed
         /// <param name="state">Indicates whether the item was marked as read, unread or deleted</param>
         internal void ChangeItemStateInNewsGatorOnline(string itemId, NewsGatorItemState state)
         {
-            if(!StringHelper.EmptyTrimOrNull(itemId)){
+            if(!string.IsNullOrWhiteSpace(itemId)){
                 string body = "loc=" + NgosLocationName + "&";
 
                 switch (state)
@@ -1288,7 +1288,7 @@ namespace NewsComponents.Feed
         /// <param name="syncToken">The synchronization token that identifies which items should be marked as read</param>
         internal void MarkAllItemsAsReadInNewsGatorOnline(string feedUrl, string syncToken)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 NewsFeed f = feedsTable[feedUrl] as NewsFeed;
                 string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText;
@@ -1386,7 +1386,7 @@ namespace NewsComponents.Feed
         /// <param name="cat"></param>
         public override void DeleteCategory(string cat)
         {
-            if (!StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat))
+            if (!string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat))
             {
                 INewsFeedCategory c = categories[cat];
                 XmlAttribute idNode = c.AnyAttr.FirstOrDefault(attr => attr.LocalName == "id");
@@ -1406,7 +1406,7 @@ namespace NewsComponents.Feed
         /// <param name="folderId">The ID of the folder to delete</param>
         internal void DeleteFolderFromNewsGatorOnline(string folderId)
         {
-            if (!StringHelper.EmptyTrimOrNull(folderId))
+            if (!string.IsNullOrWhiteSpace(folderId))
             {
 
                 string folderDeleteUrl = FolderApiUrl + "/delete"; 
@@ -1513,7 +1513,7 @@ namespace NewsComponents.Feed
         /// <param name="newName">The new name of the category</param>        
         public override void RenameCategory(string oldName, string newName)
         {
-            if ((StringHelper.EmptyTrimOrNull(oldName) || StringHelper.EmptyTrimOrNull(newName))
+            if ((string.IsNullOrWhiteSpace(oldName) || string.IsNullOrWhiteSpace(newName))
                 || oldName.Equals(newName))
             {
                 return;
@@ -1554,7 +1554,7 @@ namespace NewsComponents.Feed
         /// nested categories</exception>
         public override INewsFeedCategory AddCategory(string cat)
         {
-            if (StringHelper.EmptyTrimOrNull(cat))
+            if (string.IsNullOrWhiteSpace(cat))
                 return null;
 
             return this.AddCategory(new category(cat)); 
@@ -1566,7 +1566,7 @@ namespace NewsComponents.Feed
         /// <param name="name">The name of the folder to add</param>
         internal void AddFolderInNewsGatorOnline(string name)
         {
-            if (StringHelper.EmptyTrimOrNull(name))
+            if (string.IsNullOrWhiteSpace(name))
                 return;
 
             INewsFeedCategory cat;
@@ -1663,12 +1663,12 @@ namespace NewsComponents.Feed
         /// <param name="title">The new title</param>
         internal void RenameFeedInNewsGatorOnline(string url, string title)
         {
-            if (StringHelper.EmptyTrimOrNull(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 return;
             }
 
-            if (!StringHelper.EmptyTrimOrNull(url) && feedsTable.ContainsKey(url))
+            if (!string.IsNullOrWhiteSpace(url) && feedsTable.ContainsKey(url))
             {
                 INewsFeed f = feedsTable[url];
 
@@ -1680,7 +1680,7 @@ namespace NewsComponents.Feed
                 outline.id = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 
 
 
-                if (!StringHelper.EmptyTrimOrNull(f.category))
+                if (!string.IsNullOrWhiteSpace(f.category))
                 {
                     string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
 
@@ -1728,8 +1728,8 @@ namespace NewsComponents.Feed
         internal void ChangeFolderInNewsGatorOnline(string feedUrl, string cat)
         {
 
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl)
-                && !StringHelper.EmptyTrimOrNull(cat) && categories.ContainsKey(cat) )
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl)
+                && !string.IsNullOrWhiteSpace(cat) && categories.ContainsKey(cat) )
             {
                 INewsFeed f = feedsTable[feedUrl];
                 string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText;
@@ -1814,7 +1814,7 @@ namespace NewsComponents.Feed
         /// <param name="feedUrl">The URL of the feed to add</param>
         internal void AddFeedInNewsGatorOnline(string feedUrl)
         {
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
 
@@ -1825,7 +1825,7 @@ namespace NewsComponents.Feed
                     outline.text = f.title;
 
 
-                    if (!StringHelper.EmptyTrimOrNull(f.category))
+                    if (!string.IsNullOrWhiteSpace(f.category))
                     {
                         string[] catHives = f.category.Split(CategorySeparator.ToCharArray());
 
@@ -1865,7 +1865,7 @@ namespace NewsComponents.Feed
                                 f.Any = new XmlElement[2];
 
                                 string id = outlineElem.GetAttribute("id", NewsGatorOpmlNS);
-                                if (!StringHelper.EmptyTrimOrNull(id))
+                                if (!string.IsNullOrWhiteSpace(id))
                                 {
                                     XmlElement idNode = doc.CreateElement("ng", "id", NewsGatorRssNS);
                                     idNode.InnerText = id;
@@ -1873,7 +1873,7 @@ namespace NewsComponents.Feed
                                 }
 
                                 string syncXmlUrl = outlineElem.GetAttribute("syncXmlUrl", NewsGatorOpmlNS);
-                                if (!StringHelper.EmptyTrimOrNull(syncXmlUrl))
+                                if (!string.IsNullOrWhiteSpace(syncXmlUrl))
                                 {
                                     XmlElement syncXmlUrlNode = doc.CreateElement("ng", "syncXmlUrl", NewsGatorRssNS);
                                     syncXmlUrlNode.InnerText = syncXmlUrl;
@@ -1937,7 +1937,7 @@ namespace NewsComponents.Feed
         internal void DeleteFeedFromNewsGatorOnline(string feedUrl)
         {
 
-            if (!StringHelper.EmptyTrimOrNull(feedUrl) && feedsTable.ContainsKey(feedUrl))
+            if (!string.IsNullOrWhiteSpace(feedUrl) && feedsTable.ContainsKey(feedUrl))
             {
                 INewsFeed f = feedsTable[feedUrl];
                 string feedId = f.Any.FirstOrDefault(elem => elem.LocalName == "id").InnerText; 

@@ -316,7 +316,7 @@ namespace NewsComponents.Feed
 
             lock (event_caused_by_rssbandit_syncroot)
             {
-                if (!StringHelper.EmptyTrimOrNull(path))
+                if (!string.IsNullOrWhiteSpace(path))
                 {
                     string[] categoryPath = path.Split(new char[] { '\\' });
 
@@ -335,7 +335,7 @@ namespace NewsComponents.Feed
                             }
                         }
                     }
-                }// if (!StringHelper.EmptyTrimOrNull(category))           
+                }// if (!string.IsNullOrWhiteSpace(category))           
 
                 event_caused_by_rssbandit = true;
             }
@@ -2910,7 +2910,7 @@ namespace NewsComponents.Feed
             {
                 lock (WindowsRssFeedSource.event_caused_by_rssbandit_syncroot)
                 {
-                    if (!StringHelper.EmptyTrimOrNull(value))
+                    if (!string.IsNullOrWhiteSpace(value))
                     {
                         myfeed.Rename(value);
                         OnPropertyChanged("title");
@@ -3239,7 +3239,7 @@ namespace NewsComponents.Feed
 
             set
             {
-                if (!StringHelper.EmptyTrimOrNull(value) && !value.Equals(this.category))
+                if (!string.IsNullOrWhiteSpace(value) && !value.Equals(this.category))
                 {
                     WindowsRssFeedSource handler = owner as WindowsRssFeedSource;
                     handler.ChangeCategory(this, handler.AddCategory(value)); 
@@ -3915,7 +3915,7 @@ namespace NewsComponents.Feed
             }
             set 
             {
-                if (!StringHelper.EmptyTrimOrNull(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     myfolder.Rename(value);
                 }
