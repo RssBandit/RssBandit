@@ -42,7 +42,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Practices.Unity;
 using RssBandit.AppServices.Configuration;
 using RssBandit.ViewModel;
 using RssBandit.WinGui.Controls.ThListView;
@@ -85,8 +84,11 @@ using Windows.ApplicationModel;
 using RssBandit.Core.Storage;
 using UserIdentity = RssBandit.Core.Storage.Serialization.UserIdentity;
 using RssBandit.Properties;
+using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 
-#if DEBUG && TEST_I18N_THISCULTURE			
+#if DEBUG && TEST_I18N_THISCULTURE
 internal struct I18NTestCulture {  public string Culture { get { return  "ru-RU"; } } };
 #endif
 
@@ -537,10 +539,10 @@ namespace RssBandit
 			var sContainer = IoC.Resolve<IServiceDependencyContainer>();
 			var uContainer = IoC.Resolve<IUnityContainer>();
 
-			uContainer.RegisterType<ICoreApplication>(new InjectionFactory(x => Current));
-			uContainer.RegisterType<IInternetService>(new InjectionFactory(x => Current));
-			uContainer.RegisterType<IUserPreferences>(new InjectionFactory(x => Current.Preferences));
-			
+            uContainer.RegisterFactory<ICoreApplication>(x => Current);
+            uContainer.RegisterFactory<IInternetService>(x => Current);
+            uContainer.RegisterFactory<IUserPreferences>(x => Current.Preferences);
+            
 			uContainer.RegisterInstance(addInManager, new ContainerControlledLifetimeManager());
 
 			sContainer.Register<IUserCacheDataService>(

@@ -223,7 +223,7 @@
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
     <PackageReference Include="Unity">
-      <Version>2.1.505.2</Version>
+      <Version>5.11.6</Version>
     </PackageReference>
   </ItemGroup>
 

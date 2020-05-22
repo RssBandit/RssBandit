@@ -1,16 +1,8 @@
-﻿#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity;
+
+using Unity;
+using Unity.Lifetime;
 
 namespace RssBandit
 {
