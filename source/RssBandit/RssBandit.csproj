@@ -211,7 +211,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>    
-    <PackageReference Include="CommonServiceLocator" Version="2.0.4" />        
+    <PackageReference Include="CommonServiceLocator" Version="2.0.5" />        
     <PackageReference Include="Infragistics.WinForms.Editors" Version="19.2.134" />
     <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="19.2.134" />
     <PackageReference Include="Infragistics.WinForms.StatusBar" Version="19.2.134" />
@@ -219,9 +219,9 @@
     <PackageReference Include="Infragistics.WinForms.Toolbars" Version="19.2.134" />
     <PackageReference Include="Infragistics.WinForms.Tree" Version="19.2.134" />   
     
-    <PackageReference Include="SingleInstanceHelper" Version="0.1.11" />
+    <PackageReference Include="SingleInstanceHelper" Version="1.0.3" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
-    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
     <PackageReference Include="Unity">
       <Version>2.1.505.2</Version>
     </PackageReference>
