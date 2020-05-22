@@ -6,7 +6,7 @@
     <OutputType>WinExe</OutputType>
     <StartAction>Program</StartAction>
     <StartProgram>c:\windows\system32\notepad.exe</StartProgram>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -21,6 +21,7 @@
   <ItemGroup>
     <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
     <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" PrivateAssets="all" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
@@ -52,10 +53,6 @@
     <Reference Include="SandDock">
       <Name>SandDock</Name>
       <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Windows">
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="WizardFramework">
       <Name>WizardFramework</Name>
