@@ -1,18 +1,11 @@
-#region CVS Version Header
-/*
- * $Id$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.IO;
 using Lucene.Net.Store;
 using RssBandit.AppServices.Configuration;
 using Directory=Lucene.Net.Store.Directory;
 using Logger = RssBandit.Common.Logging;
+
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace NewsComponents.Search
 {
@@ -100,7 +93,7 @@ namespace NewsComponents.Search
 			{
 				return new RAMDirectory();
 			}
-	        return FSDirectory.GetDirectory(this.indexPath, create);
+            return FSDirectory.GetDirectory(this.indexPath, create);
         }
 
 		/// <summary>
@@ -180,14 +173,4 @@ namespace NewsComponents.Search
 	}
 }
 
-#region CVS Version Log
-/*
- * $Log: LuceneSettings.cs,v $
- * Revision 1.2  2007/07/21 12:26:21  t_rendelmann
- * added support for "portable Bandit" version
- *
- * Revision 1.1  2006/12/07 13:17:18  t_rendelmann
- * now Lucene.OptimizeIndex() calls are only at startup and triggered by index folder modification datetime
- *
- */
-#endregion
+#pragma warning restore CS0618 // Type or member is obsolete

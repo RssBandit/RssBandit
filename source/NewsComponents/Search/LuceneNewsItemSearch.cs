@@ -1,45 +1,9 @@
-#region CVS Version Header
-/*
- * $Id$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-#region CVS Version Log
-/*
- * $Log: LuceneNewsItemSearch.cs,v $
- * Revision 1.8  2007/07/26 20:14:51  t_rendelmann
- * switched to new lucene.net v2.0 004 (now using the unmodified binaries)
- *
- * Revision 1.7  2007/01/17 19:26:38  carnage4life
- * Added initial support for custom newspaper view for search results
- *
- * Revision 1.6  2006/10/03 16:52:21  t_rendelmann
- * cont. integrate lucene - the search part
- *
- * Revision 1.5  2006/09/29 18:11:59  t_rendelmann
- * a) integrated lucene index refreshs;
- * b) now using a centralized defined category separator;
- * c) unified decision about storage relevant changes to feed, feed and feeditem properties;
- *
- * Revision 1.4  2006/09/12 19:06:53  t_rendelmann
- * next iteration on lucense integration - using a fixed lucene.dll with more localized analyzers
- *
- * Revision 1.3  2006/08/18 19:10:57  t_rendelmann
- * added an "id" XML attribute to the NewsFeed. We need it to make the feed items (feeditem.id + feed.id) unique to enable progressive indexing (lucene)
- *
- * Revision 1.2  2006/08/13 17:01:18  t_rendelmann
- * further progress on lucene search (not yet finished)
- *
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Text;
 using Lucene.Net.Documents;
 using NewsComponents.Utils;
+
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace NewsComponents.Search
 { 
@@ -199,3 +163,5 @@ namespace NewsComponents.Search
 		}
 	}
 }
+
+#pragma warning restore CS0618 // Type or member is obsolete

@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
 Copyright (c) 2004-2006 by Torsten Rendelmann
 
@@ -214,7 +214,6 @@ namespace IEControl
         
 		///<summary>
 		///</summary>
-		[CLSCompliant(false)]
 		public SecureLockIconConstants secureLockIcon;
         
 		///<summary>
@@ -684,7 +683,6 @@ namespace IEControl
 	///Summary of BrowserNewWindow2Event
 	///</summary>
 	[ComVisible(false)]
-	[CLSCompliant(false)]
 	public class BrowserNewWindow3Event : BrowserNewWindow2Event
 	{
 		/// <summary>
@@ -839,7 +837,6 @@ namespace IEControl
         
 		///<summary>
 		///</summary>
-		[CLSCompliant(false)]
 		public CommandStateChangeConstants command;
         
 		///<summary>

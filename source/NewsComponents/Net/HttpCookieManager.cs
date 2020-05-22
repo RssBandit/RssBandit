@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -73,7 +73,7 @@ namespace NewsComponents.Net
                 {
                     container.SetCookies(url, cookieHeaders);
                 }
-                catch (CookieException ce)
+                catch (CookieException)
                 {
                     //we might get an error on malformed cookies
                     //_log.Error(

@@ -40,8 +40,7 @@ namespace IEControl
 	DesignTimeVisible(true),
 	DefaultProperty("Name"),
 	ToolboxItem(true),
-	ToolboxBitmap( typeof( HtmlControl ), "Resources.IEControl.Toolbitmap16.bmp" ),
-	CLSCompliant(false),
+	ToolboxBitmap( typeof( HtmlControl ), "Resources.IEControl.Toolbitmap16.bmp" ),	
 	ComVisible(false)
 	]
 	public class HtmlControl : AxHost , IMessageFilter
@@ -2404,7 +2403,6 @@ namespace IEControl
 	///<summary>
 	///Summary of AxWebBrowserEventMulticaster
 	///</summary>
-	[CLSCompliant(false)]
 	[ComVisible(false)]
 	public class AxWebBrowserEventMulticaster : DWebBrowserEvents2 {
         

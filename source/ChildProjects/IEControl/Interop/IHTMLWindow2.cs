@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright (c) 2007 by Dare Obasanjo 
  * Based on code found at http://www.codeproject.com/cs/miscctrl/csEXWB.asp?msg=2134983 
@@ -16,7 +16,6 @@ namespace IEControl {
 	/// Summary description for IHTMLWindow2.
 	/// </summary>
 	[ComVisible(true), ComImport]
-	[CLSCompliant(false)]
 	[TypeLibType((short)4160)] //TypeLibTypeFlags.FDispatchable
 	[InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIDispatch)]
 	[Guid("332c4427-26cb-11d0-b483-00c04fd90119")]

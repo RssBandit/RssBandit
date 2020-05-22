@@ -366,62 +366,62 @@ namespace NewsComponents.Feed
 			//TR: gr is dead now
 			return;
 
-            bool feedlistModified = false, categoriesModified = false; 
+            //bool feedlistModified = false, categoriesModified = false; 
 
-            IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
-            var addedFeeds = from feed in gReaderFeeds
-                             where !feedsTable.ContainsKey(feed.FeedUrl)
-                             select feed;
+            //IEnumerable<GoogleReaderSubscription> gReaderFeeds = this.LoadFeedlistFromGoogleReader();
+            //var addedFeeds = from feed in gReaderFeeds
+            //                 where !feedsTable.ContainsKey(feed.FeedUrl)
+            //                 select feed;
 
-            foreach (GoogleReaderSubscription newFeed in addedFeeds)
-            {
-                this.feedsTable.Add(newFeed.FeedUrl, new GoogleReaderNewsFeed(newFeed,null, this));
-                RaiseOnAddedFeed(new FeedChangedEventArgs(newFeed.FeedUrl));
-                feedlistModified = true; 
-            }
+            //foreach (GoogleReaderSubscription newFeed in addedFeeds)
+            //{
+            //    this.feedsTable.Add(newFeed.FeedUrl, new GoogleReaderNewsFeed(newFeed,null, this));
+            //    RaiseOnAddedFeed(new FeedChangedEventArgs(newFeed.FeedUrl));
+            //    feedlistModified = true; 
+            //}
             
-            var removedFeeds = from url in feedsTable.Keys
-                               where !gReaderFeeds.Any(gf => gf.FeedUrl == url)
-                               select url;
+            //var removedFeeds = from url in feedsTable.Keys
+            //                   where !gReaderFeeds.Any(gf => gf.FeedUrl == url)
+            //                   select url;
 
-            string[] deletedFeeds = removedFeeds.ToArray(); //prevent InvalidOperationException due to modifying feedsTable
+            //string[] deletedFeeds = removedFeeds.ToArray(); //prevent InvalidOperationException due to modifying feedsTable
 
-            foreach (string deletedFeed in deletedFeeds)
-            {
-                INewsFeed f = null;
-                if (feedsTable.TryGetValue(deletedFeed, out f))
-                {
-                    this.feedsTable.Remove(deletedFeed);
-                    RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
-                    feedlistModified = true;
-                }
-            }
+            //foreach (string deletedFeed in deletedFeeds)
+            //{
+            //    INewsFeed f = null;
+            //    if (feedsTable.TryGetValue(deletedFeed, out f))
+            //    {
+            //        this.feedsTable.Remove(deletedFeed);
+            //        RaiseOnDeletedFeed(new FeedDeletedEventArgs(f.link, f.title));
+            //        feedlistModified = true;
+            //    }
+            //}
             
-            var movedFeeds   = from gfeed in gReaderFeeds
-                               where feedsTable.ContainsKey(gfeed.FeedUrl) && !gfeed.Categories.Any(l => l.Label.Equals(feedsTable[gfeed.FeedUrl].category))
-                               select gfeed;
+            //var movedFeeds   = from gfeed in gReaderFeeds
+            //                   where feedsTable.ContainsKey(gfeed.FeedUrl) && !gfeed.Categories.Any(l => l.Label.Equals(feedsTable[gfeed.FeedUrl].category))
+            //                   select gfeed;
 
-            foreach (GoogleReaderSubscription relocatedFeed in movedFeeds)
-            {
-                INewsFeed f = null;
-                if (feedsTable.TryGetValue(relocatedFeed.FeedUrl, out f))
-                {
-                    f.categories.Clear();
-                    f.categories.AddRange(relocatedFeed.Categories.Select(l => l.Label));
-                    RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, f.category));
-                    categoriesModified = true;
-                }
-            }
+            //foreach (GoogleReaderSubscription relocatedFeed in movedFeeds)
+            //{
+            //    INewsFeed f = null;
+            //    if (feedsTable.TryGetValue(relocatedFeed.FeedUrl, out f))
+            //    {
+            //        f.categories.Clear();
+            //        f.categories.AddRange(relocatedFeed.Categories.Select(l => l.Label));
+            //        RaiseOnMovedFeed(new FeedMovedEventArgs(f.link, f.category));
+            //        categoriesModified = true;
+            //    }
+            //}
 
-            if (feedlistModified)
-            {
-                readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
-            }
+            //if (feedlistModified)
+            //{
+            //    readonly_feedsTable = new ReadOnlyDictionary<string, INewsFeed>(feedsTable); 
+            //}
 
-            if (categoriesModified)
-            {
-                readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories); 
-            }
+            //if (categoriesModified)
+            //{
+            //    readonly_categories = new ReadOnlyDictionary<string, INewsFeedCategory>(categories); 
+            //}
         }
 
         /// <summary>

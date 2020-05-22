@@ -1,14 +1,4 @@
-#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-
+﻿
 //#define TRACE_INDEX_OPS
 
 using System;
@@ -25,6 +15,9 @@ using NewsComponents.Collections;
 using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using Directory=System.IO.Directory;
+
+
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace NewsComponents.Search
 {
@@ -862,3 +855,5 @@ namespace NewsComponents.Search
 		
 	}
 }
+
+#pragma warning restore CS0618 // Type or member is obsolete

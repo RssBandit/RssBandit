@@ -1,7 +1,4 @@
-﻿
-#region usings
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,19 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Lucene.Net.Analysis;
-#if LUCENE_1_9
-using Lucene.Net.Analysis.Br;
-using Lucene.Net.Analysis.CJK;
-using Lucene.Net.Analysis.Cn;
-using Lucene.Net.Analysis.DE;
-using Lucene.Net.Analysis.Fr;
-using Lucene.Net.Analysis.Nl;
-using Lucene.Net.Analysis.RU;
-using Lucene.Net.Analysis.Sp;
-using Lucene.Net.Search.Regex;
-#else// lucene 2.0:
 using Lucene.Net.Analysis.Snowball;
-#endif
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -36,7 +21,7 @@ using NewsComponents.Utils;
 using RssBandit.Common.Logging;
 using Directory=System.IO.Directory;
 
-#endregion
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace NewsComponents.Search
 {
@@ -1085,3 +1070,5 @@ namespace NewsComponents.Search
     }
 
 }
+
+#pragma warning restore CS0618 // Type or member is obsolete

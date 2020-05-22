@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -176,7 +176,7 @@ namespace NewsComponents.News {
 
 		#region public methods 
 
-		protected virtual void Dispose(bool disposing)
+		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
 			{
@@ -189,17 +189,10 @@ namespace NewsComponents.News {
 
 				responseStream = null;
 			}
-		}
 
-		/// <summary>
-		/// Close memory stream and open connections
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
+            base.Dispose(disposing);
 		}
-
+	
 		/// <summary>
 		/// Returns the response stream sent back by the server
 		/// </summary>

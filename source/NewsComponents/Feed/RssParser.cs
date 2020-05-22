@@ -1917,7 +1917,9 @@ namespace NewsComponents.Feed
 
             //Handle entities (added due to blogs which reference Netscape RSS 0.91 DTD)	
             XmlReaderSettings settings = new XmlReaderSettings();
+#pragma warning disable CS0618 // Type or member is obsolete
             settings.ProhibitDtd = false;
+#pragma warning restore CS0618 // Type or member is obsolete
             settings.IgnoreWhitespace = true;
             settings.XmlResolver = new ProxyXmlUrlResolver(FeedSource.GlobalProxy);
             XmlReader r = XmlReader.Create(feedStream, settings);
@@ -2484,7 +2486,9 @@ namespace NewsComponents.Feed
     /// An XmlValidatingReader that knows how to process xml:base and always provide the correct base URI
     /// </summary>
     /// <remarks>Originally obtained from http://www.tkachenko.com/blog/archives/000333.html</remarks>
+#pragma warning disable CS0618 // Type or member is obsolete
     internal class XmlBaseAwareXmlValidatingReader : XmlValidatingReader
+#pragma warning restore CS0618 // Type or member is obsolete
     {
         private XmlBaseState _state = new XmlBaseState();
         private readonly Stack<XmlBaseState> _states = new Stack<XmlBaseState>();
