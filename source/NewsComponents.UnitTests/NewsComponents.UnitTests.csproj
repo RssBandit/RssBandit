@@ -56,7 +56,7 @@
   
   <ItemGroup>
     <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="3.1.0" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0-preview.4.20251.6" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
