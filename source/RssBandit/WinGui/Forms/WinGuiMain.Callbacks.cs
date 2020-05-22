@@ -3755,13 +3755,10 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void OnStatusPanelClick(object sender, StatusBarPanelClickEventArgs e)
+        private void OnConnectionStateDoubleClick(object sender, EventArgs e)
         {
-            if (e.Clicks > 1 && e.StatusBarPanel == statusBarConnectionState)
-            {
-                // DblClick to the connection state panel image
-                owner.UpdateInternetConnectionState(true); // force a connection check
-            }
+            // DblClick to the connection state panel image
+            owner.UpdateInternetConnectionState(true); // force a connection check 
         }
 
         private void OnStatusPanelLocationChanged(object sender, EventArgs e)

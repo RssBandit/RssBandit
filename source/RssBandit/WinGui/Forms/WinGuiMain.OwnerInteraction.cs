@@ -1147,10 +1147,11 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                StatusBarPanel p = statusBarConnectionState; //_status.Panels[2];
-                p.Icon = connected
+                ToolStripStatusLabel p = statusBarConnectionState; //_status.Panels[2];
+                
+                p.Image = (connected
                              ? Resource.LoadIcon("Resources.Connected.ico")
-                             : Resource.LoadIcon("Resources.Disconnected.ico");
+                             : Resource.LoadIcon("Resources.Disconnected.ico")).ToBitmap();
             }
             catch
             {
@@ -1162,13 +1163,14 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                StatusBarPanel p = statusBarRssParser; //_status.Panels[3];
+                ToolStripStatusLabel p = statusBarRssParser; //_status.Panels[3];
                 if (!p.Text.Equals(text))
                 {
                     p.Text = p.ToolTipText = text;
-                    if (text.Length == 0 && p.Icon != null)
+                    if (text.Length == 0 && p.Image != null)
                     {
-                        p.Icon = null;
+                        p.Image.Dispose();
+                        p.Image = null;
                     }
                     _status.Refresh();
                 }
@@ -1207,7 +1209,7 @@ namespace RssBandit.WinGui.Forms
                     }
                 }
 
-                StatusBarPanel p = statusBarRssParser; //_status.Panels[3];
+                ToolStripStatusLabel p = statusBarRssParser; //_status.Panels[3];
                 if (state == ApplicationTrayState.NormalIdle)
                 {
                     _timerResetStatus.Start();
@@ -1223,17 +1225,18 @@ namespace RssBandit.WinGui.Forms
                     _trayManager.SetState(state);
                     if (state == ApplicationTrayState.BusyRefreshFeeds)
                     {
-                        if (p.Icon == null)
+                        if (p.Image == null)
                         {
-	                        p.Icon = Properties.Resources.Refresh;
+	                        p.Image = Properties.Resources.Refresh.ToBitmap();
                             _status.Refresh();
                         }
                     }
                     else
                     {
-                        if (p.Icon != null)
+                        if (p.Image != null)
                         {
-                            p.Icon = null;
+                            p.Image.Dispose();
+                            p.Image = null;
                             _status.Refresh();
                         }
                     }
@@ -1248,7 +1251,7 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                StatusBarPanel p = statusBarBrowser; //_status.Panels[0];
+                ToolStripStatusLabel p = statusBarBrowser; //_status.Panels[0];
                 if (!p.Text.Equals(text))
                 {
                     p.Text = text;

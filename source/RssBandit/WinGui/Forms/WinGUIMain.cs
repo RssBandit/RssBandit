@@ -234,11 +234,11 @@ namespace RssBandit.WinGui.Forms
         private System.Timers.Timer _timerRefreshFeeds;
         private System.Timers.Timer _timerRefreshCommentFeeds;
         private HtmlControl htmlDetail;
-        private StatusBar _status;
-        private StatusBarPanel statusBarBrowser;
-        private StatusBarPanel statusBarBrowserProgress;
-        private StatusBarPanel statusBarConnectionState;
-        private StatusBarPanel statusBarRssParser;
+        private StatusStrip _status;
+        private ToolStripStatusLabel statusBarBrowser;
+        private ToolStripStatusLabel statusBarBrowserProgress;
+        private ToolStripStatusLabel statusBarConnectionState;
+        private ToolStripStatusLabel statusBarRssParser;
         private ProgressBar progressBrowser;
         private Panel panelRssSearch;
         private UITaskTimer _uiTasksTimer;
@@ -988,11 +988,11 @@ namespace RssBandit.WinGui.Forms
 			this.colDate = ((RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader)(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader()));
 			this.colTopic = ((RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader)(new RssBandit.WinGui.Controls.ThListView.ThreadedListViewColumnHeader()));
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this._status = new System.Windows.Forms.StatusBar();
-			this.statusBarBrowser = new System.Windows.Forms.StatusBarPanel();
-			this.statusBarBrowserProgress = new System.Windows.Forms.StatusBarPanel();
-			this.statusBarConnectionState = new System.Windows.Forms.StatusBarPanel();
-			this.statusBarRssParser = new System.Windows.Forms.StatusBarPanel();
+			this._status = new System.Windows.Forms.StatusStrip();
+			this.statusBarBrowser = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusBarBrowserProgress = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusBarConnectionState = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusBarRssParser = new System.Windows.Forms.ToolStripStatusLabel();
 			this.progressBrowser = new System.Windows.Forms.ProgressBar();
 			this.rightSandDock = new TD.SandDock.DockContainer();
 			this.sandDockManager = new TD.SandDock.SandDockManager();
@@ -1023,10 +1023,6 @@ namespace RssBandit.WinGui.Forms
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).BeginInit();
 			this.panelFeedItems.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).BeginInit();
 			this._docContainer.SuspendLayout();
 			this._docFeedDetails.SuspendLayout();
 			this.panelClientAreaContainer.SuspendLayout();
@@ -1223,20 +1219,17 @@ namespace RssBandit.WinGui.Forms
 			this._status.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this._status.Location = new System.Drawing.Point(0, 446);
 			this._status.Name = "_status";
-			this._status.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+			this._status.Items.AddRange(new System.Windows.Forms.ToolStripStatusLabel[] {
             this.statusBarBrowser,
             this.statusBarBrowserProgress,
             this.statusBarConnectionState,
             this.statusBarRssParser});
 			this.helpProvider1.SetShowHelp(this._status, false);
-			this._status.ShowPanels = true;
 			this._status.Size = new System.Drawing.Size(671, 30);
 			this._status.TabIndex = 1003;
 			// 
 			// statusBarBrowser
 			// 
-			this.statusBarBrowser.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
-			this.statusBarBrowser.MinWidth = 100;
 			this.statusBarBrowser.Name = "statusBarBrowser";
 			this.statusBarBrowser.Text = "Browser";
 			this.statusBarBrowser.ToolTipText = "Web Browser status...";
@@ -1244,21 +1237,18 @@ namespace RssBandit.WinGui.Forms
 			// 
 			// statusBarBrowserProgress
 			// 
-			this.statusBarBrowserProgress.MinWidth = 0;
 			this.statusBarBrowserProgress.Name = "statusBarBrowserProgress";
 			this.statusBarBrowserProgress.ToolTipText = "Request page progress...";
 			this.statusBarBrowserProgress.Width = 120;
 			// 
 			// statusBarConnectionState
 			// 
-			this.statusBarConnectionState.MinWidth = 24;
 			this.statusBarConnectionState.Name = "statusBarConnectionState";
 			this.statusBarConnectionState.ToolTipText = "Network connection state...";
 			this.statusBarConnectionState.Width = 24;
 			// 
 			// statusBarRssParser
 			// 
-			this.statusBarRssParser.MinWidth = 250;
 			this.statusBarRssParser.Name = "statusBarRssParser";
 			this.statusBarRssParser.ToolTipText = "RSS Engine state...";
 			this.statusBarRssParser.Width = 250;
@@ -1527,10 +1517,6 @@ namespace RssBandit.WinGui.Forms
 			((System.ComponentModel.ISupportInitialize)(this.htmlDetail)).EndInit();
 			this.panelFeedItems.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.listFeedItemsO)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowser)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarBrowserProgress)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarConnectionState)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.statusBarRssParser)).EndInit();
 			this._docContainer.ResumeLayout(false);
 			this._docFeedDetails.ResumeLayout(false);
 			this.panelClientAreaContainer.ResumeLayout(false);
@@ -1551,7 +1537,8 @@ namespace RssBandit.WinGui.Forms
 
         private void InitStatusBar()
         {
-            _status.PanelClick += OnStatusPanelClick;
+            //_status.ItemClicked += OnStatusPanelClick;
+            statusBarConnectionState.DoubleClick += OnConnectionStateDoubleClick;
             _status.LocationChanged += OnStatusPanelLocationChanged;
             statusBarBrowserProgress.Width = 0;
             progressBrowser.Visible = false;

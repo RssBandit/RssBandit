@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
     <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <OutputType>WinExe</OutputType>
@@ -17,16 +17,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug-AltPath'">
     <DefineConstants>$(DefineConstants);ALT_CONFIG_PATH</DefineConstants>
   </PropertyGroup>
- 
-  <Target Name="__GetPublishItems" DependsOnTargets="ComputeFilesToPublish" Returns="@(_PublishItem)">
-
-    <ItemGroup>
-      <_PublishItem Include="@(ResolvedFileToPublish->'%(FullPath)')" TargetPath="%(ResolvedFileToPublish.RelativePath)" OutputGroup="__GetPublishItems" />
-      <_PublishItem Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)" />
-      <_PublishItem Include="$(ProjectRuntimeConfigFilePath)" TargetPath="$(ProjectRuntimeConfigFileName)" />
-    </ItemGroup>
-  </Target>
-
 
   <ItemGroup>
     <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
