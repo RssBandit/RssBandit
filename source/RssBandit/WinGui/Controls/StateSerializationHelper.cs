@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -230,7 +230,7 @@ namespace RssBandit.WinGui.Controls {
 		/// <param name="saveUserCustomizations">true, to get also the user customizations saved</param>
 		/// <returns>byte[]</returns>
 		public static byte[] SaveControlStateToByte(UltraToolbarsManager toolbarManager, bool saveUserCustomizations) {
-			using (MemoryStream stream = SaveToolbarManager(toolbarManager, saveUserCustomizations, true)) {
+			using (MemoryStream stream = SaveToolbarManager(toolbarManager, saveUserCustomizations)) {
 				return stream.ToArray();
 			}
 		}
@@ -240,10 +240,12 @@ namespace RssBandit.WinGui.Controls {
 		/// No exceptions are catched in this method
 		/// </summary>
 		public static string SaveControlStateToString(UltraToolbarsManager toolbarManager, bool saveUserCustomizations) {
-			using (MemoryStream stream = SaveToolbarManager(toolbarManager, saveUserCustomizations, false)) {
-				StreamReader r = new StreamReader(stream);
-				return r.ReadToEnd();
-			}
+            //using (MemoryStream stream = SaveToolbarManager(toolbarManager, saveUserCustomizations, false)) {
+            //	StreamReader r = new StreamReader(stream);
+            //	return r.ReadToEnd();
+            //}
+
+            return Convert.ToBase64String(SaveControlStateToByte(toolbarManager, saveUserCustomizations));
 		}
 
 		/// <summary>
@@ -252,13 +254,10 @@ namespace RssBandit.WinGui.Controls {
 		/// </summary>
 		/// <param name="toolbarManager">UltraToolbarsManager</param>
 		/// <param name="saveUserCustomizations">True, if user customizations should be included</param>
-		/// <param name="asBinary">True, if Stream should be a binary one; False for an Xml Stream.</param>
-		public static MemoryStream SaveToolbarManager(UltraToolbarsManager toolbarManager, bool saveUserCustomizations, bool asBinary) {
+		public static MemoryStream SaveToolbarManager(UltraToolbarsManager toolbarManager, bool saveUserCustomizations) {
 			MemoryStream stream = new MemoryStream();
-			if (asBinary)
-				toolbarManager.SaveAsBinary(stream, saveUserCustomizations);
-			else
-				toolbarManager.SaveAsXml(stream, saveUserCustomizations);
+			
+            toolbarManager.SaveAsBinary(stream, saveUserCustomizations);
 
 			stream.Seek(0, SeekOrigin.Begin);
 			return stream;
@@ -282,7 +281,7 @@ namespace RssBandit.WinGui.Controls {
 				return;
 
 			using (Stream stream = new MemoryStream(theSettings)) {
-				LoadToolbarManager(toolbarManager, stream, true, mediator);
+				LoadToolbarManager(toolbarManager, stream, mediator);
 			}
 		}
 
@@ -302,13 +301,18 @@ namespace RssBandit.WinGui.Controls {
 			if (string.IsNullOrEmpty(theSettings))
 				return;
 
-			using (Stream stream = new MemoryStream()) {
-				StreamWriter writer = new StreamWriter(stream);
-				writer.Write(theSettings);
-				writer.Flush();
-				stream.Seek(0, SeekOrigin.Begin);
-				LoadToolbarManager(toolbarManager, stream, false, mediator);
-			}
+
+            var bytes = Convert.FromBase64String(theSettings);
+
+            LoadControlStateFromByte(toolbarManager, bytes, mediator);
+
+			//using (Stream stream = new MemoryStream()) {
+			//	StreamWriter writer = new StreamWriter(stream);
+			//	writer.Write(theSettings);
+			//	writer.Flush();
+			//	stream.Seek(0, SeekOrigin.Begin);
+			//	LoadToolbarManager(toolbarManager, stream, mediator);
+			//}
 		}
 
 		
@@ -353,9 +357,8 @@ namespace RssBandit.WinGui.Controls {
 		/// </summary>
 		/// <param name="toolbarManager">UltraToolbarsManager</param>
 		/// <param name="stream">Stream</param>
-		/// <param name="asBinary">bool</param>
 		/// <param name="mediator">The mediator.</param>
-		public static void LoadToolbarManager(UltraToolbarsManager toolbarManager, Stream stream, bool asBinary, CommandMediator mediator) 
+		public static void LoadToolbarManager(UltraToolbarsManager toolbarManager, Stream stream, CommandMediator mediator) 
 		{
 			//First remember original (current language) strings
 			Hashtable oCaptions = new Hashtable();
@@ -367,10 +370,7 @@ namespace RssBandit.WinGui.Controls {
 
 			//Now load the settings
 			try {
-				if (asBinary)
-					toolbarManager.LoadFromBinary(stream);
-				else
-					toolbarManager.LoadFromXml(stream);
+				toolbarManager.LoadFromBinary(stream);
 			}
 			catch (Exception ex) {
 				Trace.WriteLine("toolbarManager.LoadFrom...() failed: " + ex.Message);

@@ -211,34 +211,14 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>    
-    <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
-    <PackageReference Include="Infragistics.WinForms.Shared">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.Misc">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinEditors">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinExplorerBar">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinStatusBar">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinTabControl">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinToolbars">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.WinForms.Win.UltraWinTree">
-      <Version>17.2.20172.1000</Version>
-    </PackageReference>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.4" />        
+    <PackageReference Include="Infragistics.WinForms.Editors" Version="19.2.134" />
+    <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="19.2.134" />
+    <PackageReference Include="Infragistics.WinForms.StatusBar" Version="19.2.134" />
+    <PackageReference Include="Infragistics.WinForms.TabControl" Version="19.2.134" />
+    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="19.2.134" />
+    <PackageReference Include="Infragistics.WinForms.Tree" Version="19.2.134" />   
+    
     <PackageReference Include="SingleInstanceHelper" Version="0.1.11" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.3.0" />
