@@ -9,78 +9,125 @@ pr:
 pool:
   vmImage: windows-latest
 
-variables: 
-  BuildConfiguration: Release
-  BuildPlatform: x86
+stages:
+- stage: Build
+  variables:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    BuildConfiguration: Release
 
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core SDK 3.1.x'
-  inputs:
-    version: '3.1.x'
+  jobs:
+  - job: Build
+    pool:
+      vmImage: windows-latest
+    strategy:
+      matrix:
+        Channel_Store:
+          ReleaseChannel: Store
+        Channel_Nightly:
+          ReleaseChannel: Nightly
 
-- task: DotNetCoreCLI@2  
-  inputs:
-    command: custom
-    custom: tool
-    arguments: install --tool-path . nbgv
-  displayName: Install NBGV tool
-  
-- script: nbgv cloud
-  displayName: Set Version
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 5.0.x'
+      inputs:
+        version: 5.0.x
+        includePreviewVersions: true
 
-- powershell: |
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: custom
+        custom: tool
+        arguments: install --tool-path . nbgv
+      displayName: Install NBGV tool
 
-    mkdir $(Build.ArtifactStagingDirectory)\CI
-    mkdir $(Build.ArtifactStagingDirectory)\Store    
+    - script: nbgv cloud -c -a
+      displayName: Set Version
 
-    # version    
-    $ver = .\nbgv get-version -f json | ConvertFrom-Json
-    
-    # Update appxmanifests. These must be done before build.
-    $doc = Get-Content ".\source\RssBandit.Package\package.appxmanifest"    
-    $doc | % { $_.Replace("1.9.9", "$($ver.CloudBuildVersionVars.GitBuildVersionSimple)") } | Set-Content ".\source\RssBandit.Package\package.appxmanifest"
+    - powershell: |
+        mkdir $(Build.ArtifactStagingDirectory)\$(ReleaseChannel)
 
-    # Update appxmanifests. These must be done before build.
-    $doc = Get-Content ".\source\RssBandit.CI.Package\package.appxmanifest"    
-    $doc | % { $_.Replace("1.9.9", "$($ver.CloudBuildVersionVars.GitBuildVersionSimple)") } | Set-Content ".\source\RssBandit.CI.Package\package.appxmanifest"
-    
-  displayName: Update manifest versions 
+        # Set versions
 
-- task: MSBuild@1
-  displayName: Build RSS Bandit
-  inputs:
-    solution: .\source\RssBandit\RssBandit.csproj
-    msbuildArguments: /restore    
-    configuration: $(BuildConfiguration)
-    maximumCpuCount: true
+        # Update appxmanifests. These must be done before build.
+        [xml]$manifest = Get-Content ".\RssBandit.Package\package.appxmanifest"
+        $manifest.Package.Identity.Version = "$(GitBuildVersionSimple).0"
+        $manifest.Save(".\RssBandit.Package\package.appxmanifest")
 
-- task: MSBuild@1
-  displayName: Build CI Package
-  inputs:
-    solution: .\source\RssBandit.CI.Package\RssBandit.CI.Package.wapproj
-    msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\CI\\" 
-    configuration: $(BuildConfiguration)
-    maximumCpuCount: true
+        [xml]$manifest = Get-Content ".\RssBandit.Package\Package-Nightly.appxmanifest"
+        $manifest.Package.Identity.Version = "$(GitBuildVersionSimple).0"
+        $manifest.Save(".\RssBandit.Package\Package-Nightly.appxmanifest")
+        
+        # Update badges
+        [xml]$badge = Get-Content ".\buildconfig\ci_badge.svg"
+        $badge.svg.g[1].text[2].InnerText = "$(GitBuildVersionSimple).0"
+        $badge.svg.g[1].text[3].InnerText = "$(GitBuildVersionSimple).0"
+        $badge.Save("$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\ci_badge.svg")
 
-- task: MSBuild@1
-  displayName: Build Store Package
-  inputs:
-    solution: .\source\RssBandit.Package\RssBandit.Package.wapproj
-    msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\Store\\" /p:UapAppxPackageBuildMode=StoreUpload
-    configuration: $(BuildConfiguration)
-    maximumCpuCount: true
+        [xml]$badge = Get-Content ".\buildconfig\store_badge.svg"
+        $badge.svg.g[1].text[2].InnerText = "$(GitBuildVersionSimple).0"
+        $badge.svg.g[1].text[3].InnerText = "$(GitBuildVersionSimple).0"
+        $badge.Save("$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\stable_badge.svg")        
+      displayName: Update manifest versions
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish CI Artifacts
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)\CI
-    artifactType: container
-    artifactName: CI
+    - task: MSBuild@1
+      displayName: Build Package
+      inputs:
+        solution: RssBandit.Package/RssBandit.Package.wapproj
+        msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
+        configuration: $(BuildConfiguration)
+        maximumCpuCount: true
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish Store Artifacts
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)\Store
-    artifactType: container
-    artifactName: Store
+    - publish: $(Build.ArtifactStagingDirectory)\$(ReleaseChannel)
+      displayName: Publish Build Packages
+      artifact: $(ReleaseChannel)
+      
+    - publish: buildconfig
+      displayName: Publish signing scripts
+      artifact: SigningScripts      
+
+- stage: CodeSign
+  condition: and(succeeded('Build'), not(eq(variables['build.reason'], 'PullRequest')))
+  jobs:
+  - deployment: CodeSign
+    displayName: Code Signing
+    pool:
+      vmImage: windows-latest
+    environment: Code Sign - CI
+    variables:
+    - group: NuGet Package Explorer Sign Client
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: Download Nightly Artifacts
+            inputs:
+              artifactName: Nightly
+              targetPath: $(Pipeline.Workspace)/ToSign/Nightly
+
+          - download: current
+            artifact: SigningScripts
+
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: custom
+              custom: tool
+              arguments: install --tool-path . SignClient
+            displayName: Install SignTool tool
+
+          - pwsh: |
+              .\SignClient "Sign" `
+              --baseDirectory "$(Pipeline.Workspace)\ToSign" `
+              --input "**/*.{appxbundle,appinstaller}" `
+              --config "$(Pipeline.Workspace)\SigningScripts\appsettings.json" `
+              --filelist "$(Pipeline.Workspace)\SigningScripts\filelist.txt" `
+              --user "$(SignClientUser)" `
+              --secret "$(SignClientSecret)" `
+              --name "RSS Bandit" `
+              --description "RSS Bandit" `
+              --descriptionUrl "https://github.com/RssBandit/RssBandit"
+            displayName: Authenticode Sign artifacts
+
+          - publish: $(Pipeline.Workspace)/ToSign/Nightly
+            displayName: Publish Signed Choco Packages
+            artifact: NightlySigned

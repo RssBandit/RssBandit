@@ -30,29 +30,73 @@
     <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>RssBandit.Package_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>5C4A8D321C66B813B3998A2236CAE46450CAC304</PackageCertificateThumbprint>
+    <DebuggerType>ManagedOnly</DebuggerType>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
     <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
-    <EntryPointProjectUniqueName>..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
+    <UapAppxPackageBuildMode>SideLoadOnly</UapAppxPackageBuildMode>
+    <UapAppxPackageBuildMode Condition="'$(ReleaseChannel)' == 'Store'">CI</UapAppxPackageBuildMode>
+    <EntryPointProjectUniqueName Condition="'$(BuildingInsideVisualStudio)' == 'true' ">..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
+    <EntryPointExe Condition="'$(BuildingInsideVisualStudio)' != 'true' ">RssBandit\RssBandit.exe</EntryPointExe>
+    <GetPackagingOutputsDependsOn Condition="'$(BuildingInsideVisualStudio)' != 'true' ">$(GetPackagingOutputsDependsOn);BuildRefsOutputGroup</GetPackagingOutputsDependsOn>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(ReleaseChannel)' == 'Nightly'">
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppInstallerUri>https://rssbandit.blob.core.windows.net/nightly</AppInstallerUri>
+    <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+  </PropertyGroup>
+  
+
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
+    <AppxManifest Include="Package.appxmanifest" Condition="'$(ReleaseChannel)' == 'Store'">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <AppxManifest Include="Package-Nightly.appxmanifest" Condition="'$(ReleaseChannel)' == 'Nightly'">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <AppxManifest Include="Package-Local.appxmanifest" Condition="'$(ReleaseChannel)' != 'Store' and '$(ReleaseChannel)' != 'Nightly'">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="*.appxmanifest" />
+    <None Include="*.appinstaller" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="Assets\*.png" />
-    <None Include="RssBandit.Package_StoreKey.pfx" />
     <None Include="Package.xml" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <ProjectReference Include="..\RssBandit\RssBandit.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
       <PublishProfile>Properties\PublishProfiles\WinX86.pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  
+  <Target Name="BuildRef" Condition="'$(BuildingInsideVisualStudio)' != 'true' " BeforeTargets="BeforeBuild">
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+      <BuildExecCmd>dotnet publish -c $(Configuration) "$(MSBuildThisFileDirectory)..\RssBandit\RssBandit.csproj" /p:PublishProfile=Properties\PublishProfiles\Win$(Platform).pubxml</BuildExecCmd>
+    </PropertyGroup>
+    <Message Text="Executing: $(BuildExecCmd)" Importance="High" />
+    <Exec Command="$(BuildExecCmd)" />
+    <Message Text="Built target project" />
+    <ItemGroup>
+      <TheFiles Include="..\RssBandit\bin\$(Configuration)\netcoreapp3.1\win-$(Platform)\publish\**\*.*" />
+      <TheFiles TargetPath="RssBandit\%(RecursiveDir)%(Filename)%(Extension)" />
+      <BuiltRef Include="@(TheFiles)">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </BuiltRef>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="BuildRefsOutputGroup" Returns="@(BuiltRefsOutput)">
+    <ItemGroup>
+      <_PackagingOutputsUnexpanded Include="@(BuiltRef)" OutputGroup="BuildRefsOutputGroup"  ProjectName="$(ProjectName)"  />
+    </ItemGroup>
+  </Target>
+  
 </Project>

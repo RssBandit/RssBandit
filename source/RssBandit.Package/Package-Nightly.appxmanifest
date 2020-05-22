@@ -3,7 +3,7 @@
   <Identity Name="OrenNovotnyLLC.RSSBandit.CI" Version="1.9.9.0" Publisher="CN=oren" />
   <Properties>
     <DisplayName>RSS Bandit CI</DisplayName>
-    <PublisherDisplayName>Oren Novotny, LLC</PublisherDisplayName>
+    <PublisherDisplayName>Claire Novotny LLC</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

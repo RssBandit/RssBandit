@@ -22,10 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		Directory.Build.props = Directory.Build.props
+		..\buildconfig\filelist.txt = ..\buildconfig\filelist.txt
 		..\version.json = ..\version.json
 	EndProjectSection
-EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "RssBandit.CI.Package", "RssBandit.CI.Package\RssBandit.CI.Package.wapproj", "{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,24 +114,6 @@ Global
 		{2C347273-6A74-43A2-A75A-FD4BC52F5938}.Release|x86.ActiveCfg = Release|x86
 		{2C347273-6A74-43A2-A75A-FD4BC52F5938}.Release|x86.Build.0 = Release|x86
 		{2C347273-6A74-43A2-A75A-FD4BC52F5938}.Release|x86.Deploy.0 = Release|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x64.ActiveCfg = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x64.Build.0 = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x64.Deploy.0 = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x86.ActiveCfg = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x86.Build.0 = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug|x86.Deploy.0 = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x64.ActiveCfg = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x64.Build.0 = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x64.Deploy.0 = Debug|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x86.ActiveCfg = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x86.Build.0 = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Debug-AltPath|x86.Deploy.0 = Debug|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x64.ActiveCfg = Release|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x64.Build.0 = Release|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x64.Deploy.0 = Release|x64
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x86.ActiveCfg = Release|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x86.Build.0 = Release|x86
-		{8922AF5D-4740-4A06-8B4C-A3ECF306AA1C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
