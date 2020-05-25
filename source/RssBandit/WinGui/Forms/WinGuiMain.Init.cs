@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
-using IEControl;
 using Infragistics.Win;
 using Infragistics.Win.UltraWinToolbars;
 using Infragistics.Win.UltraWinTree;
@@ -28,6 +27,7 @@ using RssBandit.WinGui.Utility;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using TD.SandDock;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -331,42 +331,46 @@ namespace RssBandit.WinGui.Forms
             ResetHtmlDetail(false);
         }
 
-        private void InitHtmlDetail()
+        private async void InitHtmlDetail()
         {
+            await htmlDetail.EnsureCoreWebView2Async();
             ResetHtmlDetail(true);
         }
 
         private void ResetHtmlDetail(bool initializeControlUsage)
         {
             // enable enhanced browser security available with XP SP2:
-            htmlDetail.EnhanceBrowserSecurityForProcess();
+          //  htmlDetail.EnhanceBrowserSecurityForProcess();
 
             // configurable settings:
-            htmlDetail.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
+       //     htmlDetail.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ActiveXEnabled", typeof(bool), false);
-            HtmlControl.SetInternetFeatureEnabled(
-                InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
-                SetFeatureFlag.SET_FEATURE_ON_PROCESS,
-                htmlDetail.ActiveXEnabled);
-            htmlDetail.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
+            //HtmlControl.SetInternetFeatureEnabled(
+            //    InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
+            //    SetFeatureFlag.SET_FEATURE_ON_PROCESS,
+            //    htmlDetail.ActiveXEnabled);
+         //   htmlDetail.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ImagesDownloadEnabled", typeof(bool), true);
-            htmlDetail.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
+         //   htmlDetail.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.JavaEnabled", typeof(bool), false);
-            htmlDetail.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
+       //     htmlDetail.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.VideoEnabled", typeof(bool), false);
-            htmlDetail.FrameDownloadEnabled =
-                RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", false);
+          //  htmlDetail.FrameDownloadEnabled =
+         //       RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", false);
             // hardcoded settings:
-            htmlDetail.Border3d = true;
-            htmlDetail.FlatScrollBars = true;
-            htmlDetail.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            //htmlDetail.Border3d = true;
+            //htmlDetail.FlatScrollBars = true;
+
+            htmlDetail.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ScriptEnabled", typeof(bool), true); //maybe this should be false by default?
-            htmlDetail.ScriptObject = null; // set this later to enable inner-HTML function calls
-            htmlDetail.ScrollBarsEnabled = true;
-            htmlDetail.AllowInPlaceNavigation = false;
+          //  htmlDetail.ScriptObject = null; // set this later to enable inner-HTML function calls
+         //   htmlDetail.ScrollBarsEnabled = true;
+         
+         //   htmlDetail.AllowInPlaceNavigation = false;
 #if DEBUG
             // allow IEControl reporting of javascript errors while dev.:
-            htmlDetail.SilentModeEnabled = false;
+            //htmlDetail.SilentModeEnabled = false;
+
 #else
 			this.htmlDetail.SilentModeEnabled = true;
 #endif
@@ -376,62 +380,64 @@ namespace RssBandit.WinGui.Forms
 			if (initializeControlUsage)
             {
 				AttachEvents(htmlDetail, false);
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
         }
 
 		// MUST attach the same events that are detached in DetachEvents(...) !
-		private void AttachEvents(HtmlControl hc, bool isClosableWindow)
+		private async void AttachEvents(WebView2 hc, bool isClosableWindow)
 		{
-			hc.StatusTextChanged += OnWebStatusTextChanged;
-			hc.BeforeNavigate += OnWebBeforeNavigate;
-			hc.NavigateComplete += OnWebNavigateComplete;
-			hc.DocumentComplete += OnWebDocumentComplete;
+            await hc.EnsureCoreWebView2Async();
+            var wv2 = hc.CoreWebView2;
+
+			//hc.StatusTextChanged += OnWebStatusTextChanged;
+
+
+            wv2.NavigationStarting += OnWebBeforeNavigate;
+            wv2.NavigationCompleted += OnWebNavigateComplete;
+            
+			//hc.DocumentComplete += OnWebDocumentComplete;
 			
-			hc.NewWindow += OnWebNewWindow;
+			wv2.NewWindowRequested += OnWebNewWindow;
+	
 
-			if (Win32.IEVersion.Major >= 7)
-			{
-				hc.NewWindow3 += OnWebNewWindow3;
-				HtmlControl.SetInternetFeatureEnabled(
-					InternetFeatureList.FEATURE_TABBED_BROWSING,
-					SetFeatureFlag.SET_FEATURE_ON_PROCESS, true);
-			}
-
-			hc.ProgressChanged += OnWebProgressChanged;
-			hc.TranslateAccelerator += OnWebTranslateAccelerator;
+			//hc.ProgressChanged += OnWebProgressChanged;
+			//hc.TranslateAccelerator += OnWebTranslateAccelerator;
 
 			if (isClosableWindow)
 			{
-				hc.OnQuit += OnWebQuit;
-				hc.TitleChanged += OnWebTitleChanged;
-				hc.CommandStateChanged += OnWebCommandStateChanged;
+				wv2.WindowCloseRequested += OnWebQuit;
+                wv2.DocumentTitleChanged += OnWebTitleChanged;
+
+				//hc.CommandStateChanged += OnWebCommandStateChanged;
 			}
 		}
 
-		// MUST detach the same events that are attached in AttachEvents(...) !
-		private void DetachEvents(HtmlControl hc, bool isClosableWindow)
+        private void Hc_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        // MUST detach the same events that are attached in AttachEvents(...) !
+        private void DetachEvents(WebView2 hc, bool isClosableWindow)
 		{
-			hc.StatusTextChanged -= OnWebStatusTextChanged;
-			hc.BeforeNavigate -= OnWebBeforeNavigate;
-			hc.NavigateComplete -= OnWebNavigateComplete;
-			hc.DocumentComplete -= OnWebDocumentComplete;
-			
-			hc.NewWindow -= OnWebNewWindow;
 
-			if (Win32.IEVersion.Major >= 7)
-			{
-				hc.NewWindow3 -= OnWebNewWindow3;
-			}
+            var wv2 = hc.CoreWebView2;
 
-			hc.ProgressChanged -= OnWebProgressChanged;
-			hc.TranslateAccelerator -= OnWebTranslateAccelerator;
+            wv2.NavigationStarting += OnWebBeforeNavigate;
+            wv2.NavigationCompleted += OnWebNavigateComplete;
+
+            wv2.NewWindowRequested += OnWebNewWindow;
+
+
+			//hc.ProgressChanged -= OnWebProgressChanged;
+			//hc.TranslateAccelerator -= OnWebTranslateAccelerator;
 
 			if (isClosableWindow)
 			{
-				hc.OnQuit -= OnWebQuit;
-				hc.TitleChanged -= OnWebTitleChanged;
-				hc.CommandStateChanged -= OnWebCommandStateChanged;
+                wv2.WindowCloseRequested += OnWebQuit;
+                wv2.DocumentTitleChanged += OnWebTitleChanged;
+                //hc.CommandStateChanged -= OnWebCommandStateChanged;
 			}
 		}
 

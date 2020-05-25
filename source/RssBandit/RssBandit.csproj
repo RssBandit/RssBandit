@@ -17,6 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="0.9.515-prerelease" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" PrivateAssets="all" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
@@ -155,10 +157,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChildProjects\IEControl\IEControl.csproj">
-      <Project>{f42f07f7-7cc9-4347-bf15-092a09ba0b31}</Project>
-      <Name>IEControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewsComponents\NewsComponents.csproj">
       <Project>{9FE2BCC6-DEF9-478B-8A1C-B31836EE6BE4}</Project>
       <Name>NewsComponents</Name>
@@ -169,15 +167,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SHDocVw">
-      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>

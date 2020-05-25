@@ -10,7 +10,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Genghis.Windows.Forms;
 using RssBandit.WinGui.Controls.ThListView;
-using IEControl;
 using Infragistics.Win.UltraWinTree;
 using NewsComponents;
 using NewsComponents.Feed;
@@ -29,6 +28,8 @@ using RssBandit.WinGui.Utility;
 using TD.SandDock;
 
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.Web.WebView2.WinForms;
+using System.Threading.Tasks;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -669,7 +670,7 @@ namespace RssBandit.WinGui.Forms
         /// <param name="tab">tabpage title name</param>
         /// <param name="createNewTab">true to force creation of a new Tab</param>
         /// <param name="setFocus">true to force brower Tab activation (move to foreground, set focus)</param>
-        public void DetailTabNavigateToUrl(string url, string tab, bool createNewTab, bool setFocus)
+        public async void DetailTabNavigateToUrl(string url, string tab, bool createNewTab, bool setFocus)
         {
             Debug.Assert(!InvokeRequired, "DetailTabNavigateToUrl() from Non-UI Thread called");
 
@@ -687,7 +688,7 @@ namespace RssBandit.WinGui.Forms
             if (string.IsNullOrEmpty(tab))
                 tab = url;
 
-            HtmlControl hc = null;
+            WebView2 hc = null;
 
             DockControl currentDoc;
             DockControl previousDoc = currentDoc = _docContainer.ActiveDocument;
@@ -704,7 +705,7 @@ namespace RssBandit.WinGui.Forms
                         if (c != currentDoc)
                         {
                             // reuse first docTab not equal to news item listview container
-                            hc = (HtmlControl) c.Controls[0];
+                            hc = (WebView2) c.Controls[0];
                             break;
                         }
                     }
@@ -714,14 +715,14 @@ namespace RssBandit.WinGui.Forms
             {
                 // web doc tab
                 // reuse same tab
-                hc = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
+                hc = (WebView2) _docContainer.ActiveDocument.Controls[0];
             }
 
             if (hc == null)
             {
                 // create new doc tab with a contained web browser
 
-                hc = CreateAndInitIEControl(tab);
+                hc = await CreateAndInitIEControl(tab);
                 var doc = new DockControl(hc, tab)
                               {
                                   Tag = new WebTabState(tab, url)
@@ -735,7 +736,7 @@ namespace RssBandit.WinGui.Forms
                 //hc.Activate();	// so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
                 if (setFocus)
                 {
-                    hc.Activate();
+                    hc.Focus();
                     // so users do not have to explicitly click into the browser area after navigation for keyboard scrolling, etc.
                     currentDoc = (DockControl) hc.Tag;
                 }
@@ -751,44 +752,41 @@ namespace RssBandit.WinGui.Forms
             currentDoc.Activate();
             _docContainer.ActiveDocument = (setFocus ? currentDoc : previousDoc);
 
-            hc.Navigate(url);
+            hc.Source = new Uri(url);
         }
 
-        private HtmlControl CreateAndInitIEControl(string tabName)
+        private async Task<WebView2> CreateAndInitIEControl(string tabName)
         {
-            var hc = new HtmlControl();
+            var hc = new WebView2();
+            await hc.EnsureCoreWebView2Async();
+
             var resources = new ComponentResourceManager(typeof (WinGuiMain));
 
-            hc.BeginInit();
+            //hc.BeginInit();
             // we just take over some generic resource settings from htmlDetail:
             hc.AllowDrop = true;
             resources.ApplyResources(hc, "htmlDetail");
             hc.Name = tabName ?? String.Empty;
-            hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
-            hc.ContainingControl = this;
-			hc.EndInit();
+            // hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
+            //  hc.ContainingControl = this;
+            //hc.EndInit();
 
-            hc.ScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
-            hc.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
-
-            hc.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
-            HtmlControl.SetInternetFeatureEnabled(
-                InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
-                SetFeatureFlag.SET_FEATURE_ON_THREAD_INTERNET,
-                hc.ActiveXEnabled);
-
-            hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
-            hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
-            hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
-            hc.SilentModeEnabled = true;
-            hc.Border3d = true;
+            hc.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            
+                       
+            
+            //hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;
+            //hc.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
+            //hc.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
+            //hc.SilentModeEnabled = true;
+            //hc.Border3d = true;
 
         	AttachEvents(hc, true);
             
             return hc;
         }
 
-        private static ITabState GetTabStateFor(HtmlControl control)
+        private static ITabState GetTabStateFor(WebView2 control)
         {
             if (control == null) return null;
             var doc = (DockControl) control.Tag;
@@ -870,7 +868,7 @@ namespace RssBandit.WinGui.Forms
             {
                 // _docContainer.ActiveDocument != _docFeedDetails
 
-                var wb = (HtmlControl) _docContainer.ActiveDocument.Controls[0];
+                var wb = (WebView2) _docContainer.ActiveDocument.Controls[0];
                 try
                 {
                     switch (action)
@@ -885,8 +883,7 @@ namespace RssBandit.WinGui.Forms
                             wb.GoForward();
                             break;
                         case BrowseAction.DoRefresh:
-                            object level = 2;
-                            wb.Refresh2(ref level);
+                            wb.Reload();
                             break;
                         default:
                             break;
@@ -2445,7 +2442,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // no items:
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
         }
 
@@ -2599,7 +2596,7 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // no items:
-                htmlDetail.Clear();
+                htmlDetail.NavigateToString("<html></html>");
             }
         }
 

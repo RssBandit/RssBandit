@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsComponents", "NewsCompo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssBandit.AppServices", "RssBandit.AppServices\RssBandit.AppServices.csproj", "{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IEControl", "ChildProjects\IEControl\IEControl.csproj", "{F42F07F7-7CC9-4347-BF15-092A09BA0B31}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsComponents.UnitTests", "NewsComponents.UnitTests\NewsComponents.UnitTests.csproj", "{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "RssBandit.Package", "RssBandit.Package\RssBandit.Package.wapproj", "{2C347273-6A74-43A2-A75A-FD4BC52F5938}"
@@ -72,18 +70,6 @@ Global
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|x64.Build.0 = Release|Any CPU
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{5C79195B-AD8E-45B7-B405-AD32E6BF55B0}.Release|x86.Build.0 = Release|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug|x64.Build.0 = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug|x86.Build.0 = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug-AltPath|x64.ActiveCfg = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug-AltPath|x64.Build.0 = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug-AltPath|x86.ActiveCfg = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Debug-AltPath|x86.Build.0 = Debug|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Release|x64.ActiveCfg = Release|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Release|x64.Build.0 = Release|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Release|x86.ActiveCfg = Release|Any CPU
-		{F42F07F7-7CC9-4347-BF15-092A09BA0B31}.Release|x86.Build.0 = Release|Any CPU
 		{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}.Debug|x64.Build.0 = Debug|Any CPU
 		{CF51024A-DEA3-4D04-9D84-6CC2A27C78B2}.Debug|x86.ActiveCfg = Debug|Any CPU

@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Infragistics.Win.UltraWinTree;
 using RssBandit.WinGui.Controls;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace RssBandit.WinGui.Utility
 {
@@ -78,8 +79,8 @@ namespace RssBandit.WinGui.Utility
 							return false;	// control is focused, so it should handle the wheel itself
 	
 						// thanks to http://sourceforge.net/users/kevindente/:
-						if (child is IEControl.HtmlControl)	{
-							return ScrollHtmlControl(child as IEControl.HtmlControl, m);
+						if (child is WebView2)	{
+							return ScrollHtmlControl(child as WebView2, m);
 						}
 
 						if (child is UltraTree) {
@@ -134,27 +135,28 @@ namespace RssBandit.WinGui.Utility
 		/// <param name="control"></param>
 		/// <param name="m"></param>
 		/// <returns></returns>
-		private bool ScrollHtmlControl(IEControl.HtmlControl control, Message m) {
-			IntPtr hwnd;
+		private bool ScrollHtmlControl(WebView2 control, Message m) {
+			//IntPtr hwnd;
 
-			IEControl.Interop.IOleWindow oleWindow = null;
-			try {
-				oleWindow = control.Document2 as IEControl.Interop.IOleWindow;
-			} catch {}
+            //IEControl.Interop.IOleWindow oleWindow = null;
+            //try {
+            //	oleWindow = control.Document2 as IEControl.Interop.IOleWindow;
+            //} catch {}
 
-			if (oleWindow == null)
-				return false;
+            //if (oleWindow == null)
+            //	return false;
 
-			oleWindow.GetWindow(out hwnd);
+            //oleWindow.GetWindow(out hwnd);
+            return false;
 
-			if (m.HWnd == hwnd) { 
-			 	// avoid recursion
-				return false;
-			}
+			//if (m.HWnd == hwnd) { 
+			// 	// avoid recursion
+			//	return false;
+			//}
 
-			NativeMethods.PostMessage(hwnd, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
+			//NativeMethods.PostMessage(hwnd, NativeMethods.WM_MOUSEWHEEL, m.WParam, m.LParam);
 
-			return true;	
+			//return true;	
 		}
 
 		#region Win32 interop/helpers

@@ -1,14 +1,4 @@
-﻿#region Version Info Header
-/*
- * $Id$
- * $HeadURL$
- * Last modified by $Author$
- * Last modified at $Date$
- * $Revision$
- */
-#endregion
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -22,7 +12,6 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using IEControl;
 using Interop.ThumbCache;
 using log4net;
 using Microsoft.Win32;
@@ -637,44 +626,44 @@ namespace RssBandit
 			/// <param name="forceToInstalledIEVersion">if set to <c>true</c> the function force the emulation to the installed IE version.</param>
 			void IRegistry.CheckAndInitInternetExplorerBrowserEmulation(string appExeName, bool forceToInstalledIEVersion)
 			{
-				var currentVersion = GetRegistryInternetExplorerVersion();
+				//var currentVersion = GetRegistryInternetExplorerVersion();
 
-			    if (currentVersion >= new Version(9, 11))
-			    {
-			        InternetExplorerFeature.SetBrowserEmulation(appExeName,
-			            forceToInstalledIEVersion
-			                ? InternetFeatureBrowserEmulation.IE11StandardMode
-			                : InternetFeatureBrowserEmulation.IE11Mode);
-			        return;
-			    }
+			 //   if (currentVersion >= new Version(9, 11))
+			 //   {
+			 //       InternetExplorerFeature.SetBrowserEmulation(appExeName,
+			 //           forceToInstalledIEVersion
+			 //               ? InternetFeatureBrowserEmulation.IE11StandardMode
+			 //               : InternetFeatureBrowserEmulation.IE11Mode);
+			 //       return;
+			 //   }
 
-                // see http://support.microsoft.com/kb/969393 
-                if (currentVersion >= new Version(9, 10))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE10StandardMode
-							: InternetFeatureBrowserEmulation.IE10Mode);
-					return;
-				}
+    //            // see http://support.microsoft.com/kb/969393 
+    //            if (currentVersion >= new Version(9, 10))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE10StandardMode
+				//			: InternetFeatureBrowserEmulation.IE10Mode);
+				//	return;
+				//}
 
-				if (currentVersion >= new Version(9, 0))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE9StandardMode
-							: InternetFeatureBrowserEmulation.IE9Mode);
-					return;
-				}
+				//if (currentVersion >= new Version(9, 0))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE9StandardMode
+				//			: InternetFeatureBrowserEmulation.IE9Mode);
+				//	return;
+				//}
 
-				if (currentVersion >= new Version(8, 0))
-				{
-					InternetExplorerFeature.SetBrowserEmulation(appExeName,
-						forceToInstalledIEVersion
-							? InternetFeatureBrowserEmulation.IE8StandardMode
-							: InternetFeatureBrowserEmulation.IE8Mode);
-					return;
-				}
+				//if (currentVersion >= new Version(8, 0))
+				//{
+				//	InternetExplorerFeature.SetBrowserEmulation(appExeName,
+				//		forceToInstalledIEVersion
+				//			? InternetFeatureBrowserEmulation.IE8StandardMode
+				//			: InternetFeatureBrowserEmulation.IE8Mode);
+				//	return;
+				//}
 
 			}
 
