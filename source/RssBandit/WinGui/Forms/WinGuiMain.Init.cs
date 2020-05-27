@@ -462,8 +462,8 @@ namespace RssBandit.WinGui.Forms
             treeFeeds.ExpansionIndicatorImageCollapsed = GetTreeImage("WindowsVistaExpansionIndicatorCollapsed.png");
             treeFeeds.ExpansionIndicatorImageCollapsedHotTracked = GetTreeImage("WindowsVistaExpansionIndicatorCollapsedHotTracked.png");
             treeFeeds.ExpansionIndicatorImageExpanded = GetTreeImage("WindowsVistaExpansionIndicatorExpanded.png");
-            treeFeeds.ExpansionIndicatorImageExpandedHotTracked = GetTreeImage("WindowsVistaExpansionIndicatorExpandedHotTracked.png");
-            treeFeeds.ExpansionIndicatorPadding = -(int)(1 * ScaleFactor);
+            treeFeeds.ExpansionIndicatorImageExpandedHotTracked = GetTreeImage("WindowsVistaExpansionIndicatorExpandedHotTracked.png");           
+            treeFeeds.ExpansionIndicatorSize = treeFeeds.ExpansionIndicatorImageCollapsed.Size;
 
             treeFeeds.ScrollBounds = ScrollBounds.ScrollToFill;
 

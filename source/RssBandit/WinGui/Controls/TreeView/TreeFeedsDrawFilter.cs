@@ -1,4 +1,4 @@
-#region Version Header
+﻿#region Version Header
 
 /*
  * $Id$

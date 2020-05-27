@@ -31,6 +31,7 @@ namespace RssBandit
         {
             var isFirstInstance = true;
 
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // This might fix the SEHException raised sometimes. See issue:
