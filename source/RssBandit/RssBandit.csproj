@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
     <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <OutputType>WinExe</OutputType>
@@ -197,12 +197,12 @@
   </ItemGroup>
   <ItemGroup>    
     <PackageReference Include="CommonServiceLocator" Version="2.0.5" />        
-    <PackageReference Include="Infragistics.WinForms.Editors" Version="19.2.134" />
-    <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="19.2.134" />
-    <PackageReference Include="Infragistics.WinForms.StatusBar" Version="19.2.134" />
-    <PackageReference Include="Infragistics.WinForms.TabControl" Version="19.2.134" />
-    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="19.2.134" />
-    <PackageReference Include="Infragistics.WinForms.Tree" Version="19.2.134" />   
+    <PackageReference Include="Infragistics.WinForms.Editors" Version="20.1.22" />
+    <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="20.1.22" />
+    <PackageReference Include="Infragistics.WinForms.StatusBar" Version="20.1.22" />
+    <PackageReference Include="Infragistics.WinForms.TabControl" Version="20.1.22" />
+    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="20.1.22" />
+    <PackageReference Include="Infragistics.WinForms.Tree" Version="20.1.22" />   
     
     <PackageReference Include="SingleInstanceHelper" Version="1.0.3" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
