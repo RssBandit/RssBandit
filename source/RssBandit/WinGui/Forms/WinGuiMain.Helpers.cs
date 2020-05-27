@@ -1964,7 +1964,7 @@ namespace RssBandit.WinGui.Forms
                     return;
 
                 // separator
-                _listContextMenu.Items.Add(new ToolStripMenuItem("-"));
+                _listContextMenu.Items.Add(new ToolStripSeparator());
 
                 for (int i = 0; i < blogExtensions.Count; i++)
                 {

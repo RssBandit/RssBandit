@@ -209,8 +209,8 @@ namespace RssBandit.WinGui.Forms
         private Point _contextMenuCalledAt = Point.Empty;
 
         private AppContextMenuCommand _listContextMenuDownloadAttachment;
-        private ToolStripMenuItem _listContextMenuDeleteItemsSeparator;
-        private ToolStripMenuItem _listContextMenuDownloadAttachmentsSeparator;
+        private ToolStripItem _listContextMenuDeleteItemsSeparator;
+        private ToolStripItem _listContextMenuDownloadAttachmentsSeparator;
 
         private TrayStateManager _trayManager;
 

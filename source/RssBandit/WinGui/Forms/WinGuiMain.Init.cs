@@ -625,7 +625,7 @@ namespace RssBandit.WinGui.Forms
 
             _subscriptionTreeRootContextMenu = new ContextMenuStrip();
 
-            var sep = new ToolStripMenuItem("-");
+          //  var sep = new ToolStripSeparator();
 
             var sub1 = new AppContextMenuCommand("cmdNewFeed",
                                                  owner.Mediator,
@@ -690,8 +690,8 @@ namespace RssBandit.WinGui.Forms
 
             // append items
             _subscriptionTreeRootContextMenu.Items.AddRange(
-				new[] { sub1, sub2, sep, subR1, subR2, sep.CloneMenu(), subR3, sep.CloneMenu(), subSourceRename, subSourceDelete, 
-					sep.CloneMenu(), subSourceProperties });
+				new ToolStripItem[] { sub1, sub2, new ToolStripSeparator(), subR1, subR2, new ToolStripSeparator(), subR3, new ToolStripSeparator(), subSourceRename, subSourceDelete,
+                    new ToolStripSeparator(), subSourceProperties });
 
             #endregion
 
@@ -782,18 +782,18 @@ namespace RssBandit.WinGui.Forms
                                                                  _shortcutHandler);
 
             subCL_ColLayoutMain.DropDownItems.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        sep.CloneMenu(), subCL_subUseCatLayout, subCL_subUseFeedLayout, sep.CloneMenu(),
+                        new ToolStripSeparator(), subCL_subUseCatLayout, subCL_subUseFeedLayout, new ToolStripSeparator(),
                         subCL_subResetLayout
                     });
 
             // append items. Reuse cmdNewCat/cmdNewFeed, because it's allowed on categories
             _treeCategoryContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        sub1.CloneMenu(), sub2.CloneMenu(), sep.CloneMenu(), subC1, subC2, sep.CloneMenu(), subC3,
-                        sep.CloneMenu(), subC4, sep.CloneMenu(), subCL_ColLayoutMain, sep.CloneMenu(), subC5
+                        sub1.CloneMenu(), sub2.CloneMenu(), new ToolStripSeparator(), subC1, subC2, new ToolStripSeparator(), subC3,
+                        new ToolStripSeparator(), subC4, new ToolStripSeparator(), subCL_ColLayoutMain, new ToolStripSeparator(), subC5
                     });
 
             #endregion
@@ -920,18 +920,18 @@ namespace RssBandit.WinGui.Forms
                                                                  _shortcutHandler);
 
             subFL_ColLayoutMain.DropDownItems.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        sep.CloneMenu(), subFL_subUseCatLayout, subFL_subUseFeedLayout, sep.CloneMenu(),
+                        new ToolStripSeparator(), subFL_subUseCatLayout, subFL_subUseFeedLayout, new ToolStripSeparator(),
                         subFL_subResetLayout
                     });
 
             // append items. 
             _treeFeedContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subFeedCopy, sep.CloneMenu(),
-                        _feedInfoContextMenu, sep.CloneMenu(), subFL_ColLayoutMain, sep.CloneMenu(), subF6
+                        subF1, subF2, subF3, new ToolStripSeparator(), subF4, new ToolStripSeparator(), subFeedCopy, new ToolStripSeparator(),
+                        _feedInfoContextMenu, new ToolStripSeparator(), subFL_ColLayoutMain, new ToolStripSeparator(), subF6
                     });
 
             #endregion
@@ -985,7 +985,7 @@ namespace RssBandit.WinGui.Forms
                                               SR.MenuFinderDeleteAllCaption, SR.MenuFinderDeleteAllDesc,
                                               _shortcutHandler);
 
-            _treeSearchFolderRootContextMenu.Items.AddRange(new[] {subF1, sep.CloneMenu(), subF2});
+            _treeSearchFolderRootContextMenu.Items.AddRange(new ToolStripItem[] {subF1, new ToolStripSeparator(), subF2});
 
             #endregion
 
@@ -1018,10 +1018,10 @@ namespace RssBandit.WinGui.Forms
                                               _shortcutHandler);
 
             _treeSearchFolderContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subF1, subF2, subF3, sep.CloneMenu(), subF4, sep.CloneMenu(), subFinderShowFullText,
-                        sep.CloneMenu(), subF6
+                        subF1, subF2, subF3, new ToolStripSeparator(), subF4, new ToolStripSeparator(), subFinderShowFullText,
+                        new ToolStripSeparator(), subF6
                     });
 
 
@@ -1046,10 +1046,10 @@ namespace RssBandit.WinGui.Forms
                                               _shortcutHandler);
 
             _treeTempSearchFolderContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subF1, subF2, sep.CloneMenu(), subF3, sep.CloneMenu(), subFinderShowFullText.CloneMenu(),
-                        sep.CloneMenu(), subF4
+                        subF1, subF2, new ToolStripSeparator(), subF3, new ToolStripSeparator(), subFinderShowFullText.CloneMenu(),
+                        new ToolStripSeparator(), subF4
                     });
 
             #endregion
@@ -1145,10 +1145,10 @@ namespace RssBandit.WinGui.Forms
                                                        _shortcutHandler);
 
             subL3.DropDownItems.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subL3_sub1, subL3_sub2, subL3_sub3, subL3_sub4, subL3_sub5, sep.CloneMenu(), subL3_sub8,
-                        sep.CloneMenu(), subL3_sub9
+                        subL3_sub1, subL3_sub2, subL3_sub3, subL3_sub4, subL3_sub5, new ToolStripSeparator(), subL3_sub8,
+                        new ToolStripSeparator(), subL3_sub9
                     });
 
             var subL10 = new AppContextMenuCommand("cmdCopyNewsItem",
@@ -1228,9 +1228,9 @@ namespace RssBandit.WinGui.Forms
                                                                  _shortcutHandler);
 
             subL4.DropDownItems.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        sep.CloneMenu(), subL4_subUseCatLayout, subL4_subUseFeedLayout, sep.CloneMenu(),
+                        new ToolStripSeparator(), subL4_subUseCatLayout, subL4_subUseFeedLayout, new ToolStripSeparator(),
                         subL4_subResetLayout
                     });
 
@@ -1280,15 +1280,15 @@ namespace RssBandit.WinGui.Forms
 
 
             _listContextMenuDownloadAttachment = subL9;
-            _listContextMenuDeleteItemsSeparator = sep.CloneMenu();
-            _listContextMenuDownloadAttachmentsSeparator = sep.CloneMenu();
+            _listContextMenuDeleteItemsSeparator = new ToolStripSeparator();
+            _listContextMenuDownloadAttachmentsSeparator = new ToolStripSeparator();
             _listContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subL2, subL3, subL0, subL1, subL7, sep.CloneMenu(), subL10,
+                        subL2, subL3, subL0, subL1, subL7, new ToolStripSeparator(), subL10,
                         _listContextMenuDownloadAttachmentsSeparator, subL9, _listContextMenuDeleteItemsSeparator, subL5
                         ,
-                        subL6, sep.CloneMenu(), subL4, subL8
+                        subL6, new ToolStripSeparator(), subL4, subL8
                     });
             listFeedItems.ContextMenuStrip = _listContextMenu;
             listFeedItemsO.ContextMenuStrip = _listContextMenu;
@@ -1312,7 +1312,7 @@ namespace RssBandit.WinGui.Forms
 												  SR.MenuCatchUpThisFeedDesc, 0, _shortcutHandler);
             //subTL1.ImageList           = _listImages;
 
-            _treeLocalFeedContextMenu.Items.AddRange(new [] {subTL2, sep.CloneMenu(), subTL1});
+            _treeLocalFeedContextMenu.Items.AddRange(new ToolStripItem[] {subTL2, new ToolStripSeparator(), subTL1});
 
             #endregion
 
@@ -1396,7 +1396,7 @@ namespace RssBandit.WinGui.Forms
 
 
             _docTabContextMenu.Items.AddRange(
-                new[] {subDT1, subDT2, subDT3, sep.CloneMenu(), subDT4, sep.CloneMenu(), subDT5});
+                new ToolStripItem[] {subDT1, subDT2, subDT3, new ToolStripSeparator(), subDT4, new ToolStripSeparator(), subDT5});
 
             #endregion
 
@@ -1488,10 +1488,10 @@ namespace RssBandit.WinGui.Forms
                                                    _shortcutHandler);
 
             _notifyContextMenu.Items.AddRange(
-                new[]
+                new ToolStripItem[]
                     {
-                        subT1, subT1_1, sep.CloneMenu(), sub1.CloneMenu(), subT2, sep.CloneMenu(), subT5, subT6,
-                        sep.CloneMenu(), subT10
+                        subT1, subT1_1, new ToolStripSeparator(), sub1.CloneMenu(), subT2, new ToolStripSeparator(), subT5, subT6,
+                        new ToolStripSeparator(), subT10
                     });
 
             #endregion
