@@ -52,10 +52,6 @@
       <Name>SandDock</Name>
       <HintPath>..\Common\Libraries\SandDock.dll</HintPath>
     </Reference>
-    <Reference Include="WizardFramework">
-      <Name>WizardFramework</Name>
-      <HintPath>..\Common\Libraries\WizardFramework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\rssbandit.org.snk">
@@ -197,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>    
     <PackageReference Include="CommonServiceLocator" Version="2.0.5" />        
+    <PackageReference Include="Divelements.WizardFramework" Version="1.2.14" />        
     <PackageReference Include="Infragistics.WinForms.Editors" Version="20.1.22" />
     <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="20.1.22" />
     <PackageReference Include="Infragistics.WinForms.StatusBar" Version="20.1.22" />
