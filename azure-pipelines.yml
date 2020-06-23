@@ -49,13 +49,13 @@ stages:
         # Set versions
 
         # Update appxmanifests. These must be done before build.
-        [xml]$manifest = Get-Content ".\RssBandit.Package\package.appxmanifest"
+        [xml]$manifest = Get-Content ".\source\RssBandit.Package\package.appxmanifest"
         $manifest.Package.Identity.Version = "$(GitBuildVersionSimple).0"
-        $manifest.Save(".\RssBandit.Package\package.appxmanifest")
+        $manifest.Save(".\source\RssBandit.Package\package.appxmanifest")
 
-        [xml]$manifest = Get-Content ".\RssBandit.Package\Package-Nightly.appxmanifest"
+        [xml]$manifest = Get-Content ".\source\RssBandit.Package\Package-Nightly.appxmanifest"
         $manifest.Package.Identity.Version = "$(GitBuildVersionSimple).0"
-        $manifest.Save(".\RssBandit.Package\Package-Nightly.appxmanifest")
+        $manifest.Save(".\source\RssBandit.Package\Package-Nightly.appxmanifest")
         
         # Update badges
         [xml]$badge = Get-Content ".\buildconfig\ci_badge.svg"
@@ -72,7 +72,7 @@ stages:
     - task: MSBuild@1
       displayName: Build Package
       inputs:
-        solution: RssBandit.Package/RssBandit.Package.wapproj
+        solution: source/RssBandit.Package/RssBandit.Package.wapproj
         msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
         configuration: $(BuildConfiguration)
         maximumCpuCount: true
