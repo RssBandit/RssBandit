@@ -80,7 +80,7 @@
     <Exec Command="$(BuildExecCmd)" />
     <Message Text="Built target project" />
     <ItemGroup>
-      <TheFiles Include="..\RssBandit\bin\$(Configuration)\netcoreapp3.1\win-$(Platform)\publish\**\*.*" />
+      <TheFiles Include="..\RssBandit\bin\$(Configuration)\net5.0-windows10.0.19041\win-$(Platform)\publish\**\*.*" />
       <TheFiles TargetPath="RssBandit\%(RecursiveDir)%(Filename)%(Extension)" />
       <BuiltRef Include="@(TheFiles)">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
