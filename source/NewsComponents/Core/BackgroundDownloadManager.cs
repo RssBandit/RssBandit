@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -972,7 +972,6 @@ namespace NewsComponents
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         protected DownloaderException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }

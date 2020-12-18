@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 
  * Copyright (c) 2007-2013 MindTouch. All rights reserved.
  * www.mindtouch.com  oss@mindtouch.com
@@ -106,8 +106,7 @@ namespace Sgml {
         /// Populates a SerializationInfo with the data needed to serialize the exception.
         /// </summary>
         /// <param name="info">The <see cref="SerializationInfo"/> to populate with data. </param>
-        /// <param name="context">The destination (see <see cref="StreamingContext"/>) for this serialization.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
+        /// <param name="context">The destination (see <see cref="StreamingContext"/>) for this serialization.</param>        
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)

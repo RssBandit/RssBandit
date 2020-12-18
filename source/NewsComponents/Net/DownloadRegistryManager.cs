@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -298,7 +298,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="taskFilePath">The base path for the registry storage.</param>
         /// <returns>An DownloadTask instance.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times"), SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         private DownloadTask LoadTask(string taskFilePath)
         {
             DownloadTask task = null;
@@ -345,7 +344,6 @@ namespace NewsComponents.Net
         /// Stores a task in the registry storage.
         /// </summary>
         /// <param name="task">The DownloadTask instance.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         private void SaveTask(DownloadTask task)
         {
             string filename = Path.Combine(RootDir.FullName,

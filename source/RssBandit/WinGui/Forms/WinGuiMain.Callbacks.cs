@@ -1809,7 +1809,6 @@ namespace RssBandit.WinGui.Forms
         /// we are interested in an OnMinimized event
         /// </summary>
         /// <param name="m">Native window message</param>
-        [SecurityPermission(SecurityAction.LinkDemand)]
         protected override void WndProc(ref Message m)
         {
             try

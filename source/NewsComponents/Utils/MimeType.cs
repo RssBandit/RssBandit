@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -787,7 +787,7 @@ namespace NewsComponents.Utils
 			    int dwReserved);
 	    }
 
-	    #endregion
+        #endregion
 
         #endregion
 
@@ -808,9 +808,6 @@ namespace NewsComponents.Utils
             public static string GetMimeTypeString(string fileExtension)
             {
                 if (fileExtension == null)
-                    return null;
-
-                if (null == AquireReadAccess(@"HKEY_CLASSES_ROOT\MIME"))
                     return null;
 
                 RegistryKey typeKey = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type", false);
@@ -847,9 +844,6 @@ namespace NewsComponents.Utils
                 if (option == null || mimeType == null)
                     return null;
 
-                if (null == AquireReadAccess(@"HKEY_CLASSES_ROOT\MIME"))
-                    return null;
-
                 RegistryKey typeKey = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type\" + mimeType, false);
                 if (typeKey == null)
                     return null;
@@ -858,15 +852,7 @@ namespace NewsComponents.Utils
                 typeKey.Close();
                 return val;
             }
-
-            private static RegistryPermission AquireReadAccess(string hive)
-            {
-                RegistryPermission regPerm = new RegistryPermission(RegistryPermissionAccess.Read, hive);
-                regPerm.Demand();
-                return regPerm;
-            }
         }
-
         #endregion
     }
 }

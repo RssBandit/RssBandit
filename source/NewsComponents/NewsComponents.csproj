@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0-windows10.0.19041</TargetFramework>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <Title>News Components</Title>
         <Description>News Components</Description>
@@ -62,14 +62,19 @@
   </ItemGroup>
   <ItemGroup>
     <!-- workaround for https://github.com/dotnet/sdk/issues/3044 -->
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0-preview.4.20251.6" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" ExcludeAssets="all" PrivateAssets="all">
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Facebook" Version="7.0.6" />
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Lucene.Net" Version="2.9.4.1" />
     <PackageReference Include="Lucene.Net.Contrib" Version="2.9.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Windows.Extensions" Version="4.7.0" />
+    <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" /> 
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.3.37" />
   </ItemGroup>
 </Project>

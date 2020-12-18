@@ -27,7 +27,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>2c347273-6a74-43a2-a75a-fd4bc52f5938</ProjectGuid>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <DebuggerType>ManagedOnly</DebuggerType>
@@ -42,15 +42,12 @@
     <EntryPointExe Condition="'$(BuildingInsideVisualStudio)' != 'true' ">RssBandit\RssBandit.exe</EntryPointExe>
     <GetPackagingOutputsDependsOn Condition="'$(BuildingInsideVisualStudio)' != 'true' ">$(GetPackagingOutputsDependsOn);BuildRefsOutputGroup</GetPackagingOutputsDependsOn>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(ReleaseChannel)' == 'Nightly'">
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppInstallerUri>https://rssbandit.blob.core.windows.net/nightly</AppInstallerUri>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
-  
-
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" Condition="'$(ReleaseChannel)' == 'Store'">
       <SubType>Designer</SubType>
@@ -64,7 +61,6 @@
     <None Include="*.appxmanifest" />
     <None Include="*.appinstaller" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Assets\*.png" />
     <None Include="Package.xml" />
@@ -76,7 +72,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  
   <Target Name="BuildRef" Condition="'$(BuildingInsideVisualStudio)' != 'true' " BeforeTargets="BeforeBuild">
     <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
       <BuildExecCmd>dotnet publish -c $(Configuration) "$(MSBuildThisFileDirectory)..\RssBandit\RssBandit.csproj" /p:PublishProfile=Properties\PublishProfiles\Win$(Platform).pubxml</BuildExecCmd>
@@ -92,11 +87,9 @@
       </BuiltRef>
     </ItemGroup>
   </Target>
-
   <Target Name="BuildRefsOutputGroup" Returns="@(BuiltRefsOutput)">
     <ItemGroup>
-      <_PackagingOutputsUnexpanded Include="@(BuiltRef)" OutputGroup="BuildRefsOutputGroup"  ProjectName="$(ProjectName)"  />
+      <_PackagingOutputsUnexpanded Include="@(BuiltRef)" OutputGroup="BuildRefsOutputGroup" ProjectName="$(ProjectName)" />
     </ItemGroup>
   </Target>
-  
 </Project>

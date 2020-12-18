@@ -67,7 +67,6 @@ namespace RssBandit
 
 		#region ctor
 
-		[EnvironmentPermission(SecurityAction.Assert, Unrestricted = true)]
 		static Win32()
 		{
 			StringBuilder dispStr = new StringBuilder("Microsoft ");

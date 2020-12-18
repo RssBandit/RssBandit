@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
 Copyright (c) 2004-2006 by Torsten Rendelmann
 
@@ -44,7 +44,7 @@ namespace IEControl
 	/// as both this flag and the VER_SUITE_SMALLBUSINESS_RESTRICTED flag are set 
 	/// when this product suite is installed. If you upgrade this installation to 
 	/// Windows Server, Standard Edition, the VER_SUITE_SMALLBUSINESS_RESTRICTED flag 
-	/// will be unset � however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
+	/// will be unset — however, the VER_SUITE_SMALLBUSINESS flag will remain set. 
 	/// In this case, this indicates that Small Business Server was once installed on 
 	/// this system. If this installation is further upgraded to Windows Server, 
 	/// Enterprise Edition, the VER_SUITE_SMALLBUSINESS key will remain set.
@@ -119,8 +119,7 @@ namespace IEControl
 
 	/// <summary>
 	/// Operating System Helper routines
-	/// </summary>
-	[SuppressUnmanagedCodeSecurity]
+	/// </summary>	
 	internal static class OSHelper
 	{
 		
@@ -284,8 +283,7 @@ namespace IEControl
 		}
 		
 		#region ctor's
-
-		[EnvironmentPermission(SecurityAction.Assert, Unrestricted=true)]
+        		
 		static OSHelper() {
 			_os = Environment.OSVersion;
 			if (_os.Platform == PlatformID.Win32Windows) {

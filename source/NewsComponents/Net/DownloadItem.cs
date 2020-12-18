@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -176,7 +176,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         private DownloadItem(SerializationInfo info, StreamingContext context)
         {
             downloadItemId = (Guid) info.GetValue("_id", typeof (Guid));
@@ -193,7 +192,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
 		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_id", downloadItemId);

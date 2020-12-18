@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
 Copyright (c) 2004-2006 by Torsten Rendelmann
 
@@ -248,8 +248,7 @@ namespace IEControl.Impl
 				return Interop.E_NOTIMPL;
 			}
 		}
-
-		[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        		
 		public int TranslateUrl(int dwTranslate, string strURLIn, out IntPtr pstrURLOut)
 		{
 			pstrURLOut = IntPtr.Zero;

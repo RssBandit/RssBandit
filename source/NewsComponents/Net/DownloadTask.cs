@@ -306,7 +306,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.LinkDemand)]
         protected DownloadTask(SerializationInfo info, StreamingContext context)
         {
             var reader = new SerializationInfoReader(info, context);
@@ -334,7 +333,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_manifest", DownloadItem);

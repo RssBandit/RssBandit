@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -329,7 +329,6 @@ namespace RssBandit.WinGui.Tools
 		/// </summary>
 		/// <param name="info"></param>
 		/// <param name="context"></param>
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
 		protected override void GetObjectData(SerializationInfo info, StreamingContext context) {
 			// Call the base implementation
 			base.GetObjectData(info, context);
@@ -516,7 +515,6 @@ namespace RssBandit.WinGui.Tools
 		/// </summary>
 		/// <param name="info"></param>
 		/// <param name="context"></param>
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
 		protected override void GetObjectData(SerializationInfo info, StreamingContext context) {
 			// Call the base implementation
 			base.GetObjectData(info, context);
@@ -715,7 +713,6 @@ namespace RssBandit.WinGui.Tools
 		/// </summary>
 		/// <param name="info"></param>
 		/// <param name="context"></param>
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
 		protected override void GetObjectData(SerializationInfo info, StreamingContext context) {
 			// Call the base implementation
 			base.GetObjectData(info, context);

@@ -1344,8 +1344,6 @@ namespace RssBandit
 		/// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
 		/// <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
 		/// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission.</exception>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true),
-		 SecurityPermissionAttribute(SecurityAction.LinkDemand)]
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)	
 		{
 		

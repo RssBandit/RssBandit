@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -150,7 +150,6 @@ namespace RssBandit {
 		/// </summary>
 		/// <param name="info">Info Object</param>
 		/// <param name="context">Context Object</param>
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
 		public override void GetObjectData(SerializationInfo info ,StreamingContext context) {
 			info.AddValue("number",this.number);
 			info.AddValue("osNameVersion", osNameVersion, typeof(string));

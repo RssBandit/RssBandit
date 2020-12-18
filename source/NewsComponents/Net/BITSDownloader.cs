@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 
 /*
  * $Id$
@@ -154,7 +154,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="task">The DownloadTask to process.</param>
         /// <param name="maxWaitTime">The maximum wait time.</param>
-        [FileIOPermission(SecurityAction.Demand)]
         public void Download(DownloadTask task, TimeSpan maxWaitTime)
         {
             IBackgroundCopyManager backGroundCopyManager = null;
@@ -213,7 +212,6 @@ namespace NewsComponents.Net
         /// Asynchronous download method implementation.
         /// </summary>
         /// <param name="task">The DownloadTask to process.</param>
-        [FileIOPermission(SecurityAction.Demand)]
         public void BeginDownload(DownloadTask task)
         {
             IBackgroundCopyManager backGroundCopyManager = null;
@@ -1054,7 +1052,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information for the object.</param>
         /// <param name="context">The context for the serialization.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         protected BitsDownloadErrorException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
@@ -1128,7 +1125,6 @@ namespace NewsComponents.Net
         /// </summary>
         /// <param name="info">The serialization information.</param>
         /// <param name="context">The serialization context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);

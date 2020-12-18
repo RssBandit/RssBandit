@@ -1,13 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.19041</TargetFramework>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
     <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <OutputType>WinExe</OutputType>
     <StartAction>Program</StartAction>
     <StartProgram>c:\windows\system32\notepad.exe</StartProgram>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <ApplicationManifest>RssBandit.exe.manifest</ApplicationManifest>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
@@ -19,7 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" PrivateAssets="all" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
@@ -193,20 +190,20 @@
   </ItemGroup>
   <ItemGroup>    
     <PackageReference Include="CommonServiceLocator" Version="2.0.5" />        
-    <PackageReference Include="Divelements.WizardFramework" Version="1.2.10" />        
-    <PackageReference Include="Infragistics.WinForms.Editors" Version="20.1.22" />
-    <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="20.1.22" />
-    <PackageReference Include="Infragistics.WinForms.StatusBar" Version="20.1.22" />
-    <PackageReference Include="Infragistics.WinForms.TabControl" Version="20.1.22" />
-    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="20.1.22" />
-    <PackageReference Include="Infragistics.WinForms.Tree" Version="20.1.22" />   
+    <PackageReference Include="Divelements.WizardFramework" Version="1.2.20" />        
+    <PackageReference Include="Infragistics.WinForms.Editors" Version="20.2.14" />
+    <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="20.2.14" />
+    <PackageReference Include="Infragistics.WinForms.StatusBar" Version="20.2.14" />
+    <PackageReference Include="Infragistics.WinForms.TabControl" Version="20.2.14" />
+    <PackageReference Include="Infragistics.WinForms.Toolbars" Version="20.2.14" />
+    <PackageReference Include="Infragistics.WinForms.Tree" Version="20.2.14" />   
     
     <PackageReference Include="SingleInstanceHelper" Version="1.0.3" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
-    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.7.0" />
-    <PackageReference Include="Unity">
-      <Version>5.11.6</Version>
-    </PackageReference>
+    <PackageReference Include="Unity" Version="5.11.9" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.3.37" />
   </ItemGroup>
 
   <Target Name="ClearLicenseFiles" BeforeTargets="Compile">

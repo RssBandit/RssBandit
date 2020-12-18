@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -25,7 +25,6 @@ namespace NewsComponents.Net
 	[GuidAttribute("4991D34B-80A1-4291-83B6-3328366B9097")]
 	[ClassInterfaceAttribute(ClassInterfaceType.None)]
 	[ComImportAttribute()]
-	[SecurityPermission(SecurityAction.Demand, UnmanagedCode = true)]
 	internal class BackgroundCopyManager {
 	}
 

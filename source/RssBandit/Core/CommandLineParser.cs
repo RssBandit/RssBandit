@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -578,7 +578,6 @@ namespace RssBandit.Utility {
 		/// Add method is not supported.
 		/// </para>
 		/// </exception>
-		[ReflectionPermission(SecurityAction.Demand, Flags=ReflectionPermissionFlag.NoFlags)]
 		public void Finish(object destination) {
 			if (IsRequired && !SeenValue) {
 				throw new CommandLineArgumentException(string.Format(CultureInfo.InvariantCulture, "Missing required argument '-{0}'.", LongName));

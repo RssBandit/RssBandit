@@ -33,7 +33,6 @@ namespace AppInteropServices
     /// to find classes in assemblies that implements Syndication.Extensibility.IBlogExtension
     /// and RssBandit.UIServices.IAddInPackage.
     /// </summary>
-    [ReflectionPermission(SecurityAction.Demand, MemberAccess=true, Unrestricted=true)]
     [Serializable]
     public class ServiceManager : IAddInManager
     {
@@ -125,18 +124,6 @@ namespace AppInteropServices
         {
             Type blogExtensionType = typeof (IBlogExtension);
             List<Type> foundTypes = new List<Type>();
-
-            // check for permissions
-            IPermission rp = new ReflectionPermission(ReflectionPermissionFlag.MemberAccess);
-            try
-            {
-				rp.Demand();
-            }
-            catch (SecurityException se)
-            {
-                _log.Debug("ServiceManager.SearchForIBlogExtensionTypes()", se);
-                return foundTypes;
-            }
 
             if (path == null || ! Directory.Exists(path))
             {
@@ -268,18 +255,7 @@ namespace AppInteropServices
             Type packageType = typeof (IAddInPackage);
             Dictionary<string, IEnumerable<Type>> foundTypes = new Dictionary<string, IEnumerable<Type>>();
 
-            // check for permissions
-            IPermission rp = new ReflectionPermission(ReflectionPermissionFlag.MemberAccess);
-            try
-            {
-                rp.Demand();
-            }
-            catch (SecurityException se)
-            {
-                _log.Debug("ServiceManager.SearchForIAddInPackagesTypes()", se);
-                return foundTypes;
-            }
-
+            
             if (addIns == null)
             {
                 return foundTypes;
