@@ -38,9 +38,7 @@
     <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
     <UapAppxPackageBuildMode>SideLoadOnly</UapAppxPackageBuildMode>
     <UapAppxPackageBuildMode Condition="'$(ReleaseChannel)' == 'Store'">CI</UapAppxPackageBuildMode>
-    <EntryPointProjectUniqueName Condition="'$(BuildingInsideVisualStudio)' == 'true' ">..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>
-    <EntryPointExe Condition="'$(BuildingInsideVisualStudio)' != 'true' ">RssBandit\RssBandit.exe</EntryPointExe>
-    <GetPackagingOutputsDependsOn Condition="'$(BuildingInsideVisualStudio)' != 'true' ">$(GetPackagingOutputsDependsOn);BuildRefsOutputGroup</GetPackagingOutputsDependsOn>
+    <EntryPointProjectUniqueName Condition="'$(BuildingInsideVisualStudio)' == 'true' ">..\RssBandit\RssBandit.csproj</EntryPointProjectUniqueName>    
   </PropertyGroup>
   <PropertyGroup Condition="'$(ReleaseChannel)' == 'Nightly'">
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
@@ -65,31 +63,11 @@
     <Content Include="Assets\*.png" />
     <None Include="Package.xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <ItemGroup>
     <ProjectReference Include="..\RssBandit\RssBandit.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
       <PublishProfile>Properties\PublishProfiles\WinX86.pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  <Target Name="BuildRef" Condition="'$(BuildingInsideVisualStudio)' != 'true' " BeforeTargets="BeforeBuild">
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-      <BuildExecCmd>dotnet publish -c $(Configuration) "$(MSBuildThisFileDirectory)..\RssBandit\RssBandit.csproj" /p:PublishProfile=Properties\PublishProfiles\Win$(Platform).pubxml</BuildExecCmd>
-    </PropertyGroup>
-    <Message Text="Executing: $(BuildExecCmd)" Importance="High" />
-    <Exec Command="$(BuildExecCmd)" />
-    <Message Text="Built target project" />
-    <ItemGroup>
-      <TheFiles Include="..\RssBandit\bin\$(Configuration)\net5.0-windows10.0.19041\win-$(Platform)\publish\**\*.*" />
-      <TheFiles TargetPath="RssBandit\%(RecursiveDir)%(Filename)%(Extension)" />
-      <BuiltRef Include="@(TheFiles)">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </BuiltRef>
-    </ItemGroup>
-  </Target>
-  <Target Name="BuildRefsOutputGroup" Returns="@(BuiltRefsOutput)">
-    <ItemGroup>
-      <_PackagingOutputsUnexpanded Include="@(BuiltRef)" OutputGroup="BuildRefsOutputGroup" ProjectName="$(ProjectName)" />
-    </ItemGroup>
-  </Target>
 </Project>
