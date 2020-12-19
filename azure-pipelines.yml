@@ -72,7 +72,7 @@ stages:
       displayName: Build Package
       inputs:
         solution: source/RssBandit.Package/RssBandit.Package.wapproj
-        msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
+        msbuildArguments: /restore /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
         configuration: $(BuildConfiguration)
         maximumCpuCount: true
 
