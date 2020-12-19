@@ -71,8 +71,16 @@ stages:
     - task: MSBuild@1
       displayName: Build Package
       inputs:
+        solution: source/RssBandit/RssBandit.csproj
+        msbuildArguments: /t:restore
+        configuration: $(BuildConfiguration)
+        maximumCpuCount: true
+
+    - task: MSBuild@1
+      displayName: Build Package
+      inputs:
         solution: source/RssBandit.Package/RssBandit.Package.wapproj
-        msbuildArguments: /restore /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
+        msbuildArguments: /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
         configuration: $(BuildConfiguration)
         maximumCpuCount: true
 
