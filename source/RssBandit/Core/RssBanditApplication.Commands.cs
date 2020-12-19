@@ -311,7 +311,7 @@ namespace RssBandit
             MessageBox.Show(Caption + " written by\n\n" +
                             "  * Dare Obasanjo (DareObasanjo, www.25hoursaday.com/weblog/)\n" +
                             "  * Torsten Rendelmann (TorstenR, www.rendelmann.info/blog/)\n" +
-                            "  * Oren Novotny (@onovotny, oren.codes)\n" +
+                            "  * Claire Novotny (@clairernovotny, claires.site)\n" +
                             "  * Phil Haack (haacked.com)\n" +
                             "  * and all the active members of RSS Bandit community.\n" +
                             "\nCredits:\n\n" +

@@ -1168,7 +1168,7 @@ namespace RssBandit.WinGui.Forms
                 {
                     p.Text = p.ToolTipText = text;
                     if (text.Length == 0 && p.Image != null)
-                    {
+                    {                        
                         p.Image.Dispose();
                         p.Image = null;
                     }

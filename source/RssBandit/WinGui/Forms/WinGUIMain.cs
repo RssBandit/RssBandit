@@ -1229,33 +1229,52 @@ namespace RssBandit.WinGui.Forms
 			this._status.TabIndex = 1003;
 			// 
 			// statusBarBrowser
-			// 
-			this.statusBarBrowser.Name = "statusBarBrowser";
+			//
+            this.statusBarBrowser.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            this.statusBarBrowser.Name = "statusBarBrowser";
 			this.statusBarBrowser.Text = "Browser";
 			this.statusBarBrowser.ToolTipText = "Web Browser status...";
 			this.statusBarBrowser.Width = 256;
+            this.statusBarBrowser.Spring = true;
+            this.statusBarBrowser.Alignment = ToolStripItemAlignment.Left;
+            this.statusBarBrowser.TextAlign = ContentAlignment.MiddleLeft;
+            this.statusBarBrowser.BackColor = SystemColors.Control;
+            //this.statusBarBrowser.AutoSize = false;
 			// 
 			// statusBarBrowserProgress
 			// 
-			this.statusBarBrowserProgress.Name = "statusBarBrowserProgress";
+            this.statusBarBrowserProgress.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            this.statusBarBrowserProgress.Name = "statusBarBrowserProgress";
 			this.statusBarBrowserProgress.ToolTipText = "Request page progress...";
 			this.statusBarBrowserProgress.Width = 120;
-			// 
-			// statusBarConnectionState
-			// 
-			this.statusBarConnectionState.Name = "statusBarConnectionState";
+			this.statusBarBrowserProgress.Alignment = ToolStripItemAlignment.Right;
+			this.statusBarBrowserProgress.BackColor = SystemColors.Control;
+         //   this.statusBarBrowserProgress.AutoSize = false;
+
+            // 
+            // statusBarConnectionState
+            // 
+            this.statusBarConnectionState.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            this.statusBarConnectionState.Name = "statusBarConnectionState";
 			this.statusBarConnectionState.ToolTipText = "Network connection state...";
 			this.statusBarConnectionState.Width = 24;
-			// 
-			// statusBarRssParser
-			// 
-			this.statusBarRssParser.Name = "statusBarRssParser";
+			//this.statusBarConnectionState.AutoSize = false;
+            this.statusBarConnectionState.Alignment = ToolStripItemAlignment.Right;            
+            this.statusBarConnectionState.BackColor = SystemColors.Control;
+            // 
+            // statusBarRssParser
+            // 
+            this.statusBarRssParser.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            this.statusBarRssParser.Name = "statusBarRssParser";
 			this.statusBarRssParser.ToolTipText = "RSS Engine state...";
 			this.statusBarRssParser.Width = 250;
-			// 
-			// progressBrowser
-			// 
-			this.progressBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusBarRssParser.Alignment = ToolStripItemAlignment.Right;            
+            this.statusBarRssParser.BackColor = SystemColors.Control;
+          //  this.statusBarRssParser.AutoSize = false;
+            // 
+            // progressBrowser
+            // 
+            this.progressBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressBrowser.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.progressBrowser.Location = new System.Drawing.Point(110, 453);
 			this.progressBrowser.Name = "progressBrowser";
