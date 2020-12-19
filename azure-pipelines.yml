@@ -69,7 +69,7 @@ stages:
       displayName: Update manifest versions
 
     - task: MSBuild@1
-      displayName: Build Package
+      displayName: Run Restore
       inputs:
         solution: source/RssBandit/RssBandit.csproj
         msbuildArguments: /t:restore
