@@ -101,7 +101,7 @@ stages:
       vmImage: windows-latest
     environment: Code Sign - CI
     variables:
-    - group: NuGet Package Explorer Sign Client
+    - group: Sign Client Credentials
     strategy:
       runOnce:
         deploy:
