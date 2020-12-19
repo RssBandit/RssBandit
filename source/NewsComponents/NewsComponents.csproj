@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net5.0-windows10.0.19041</TargetFramework>
-        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
         <Title>News Components</Title>
         <Description>News Components</Description>
-        <Company>www.rssbandit.org</Company>
-        <Copyright>(C) 2003-2018 by www.rssbandit.org</Copyright>
     </PropertyGroup>
 
   <ItemGroup>
@@ -73,8 +70,5 @@
     <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
     <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" /> 
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.3.37" />
   </ItemGroup>
 </Project>

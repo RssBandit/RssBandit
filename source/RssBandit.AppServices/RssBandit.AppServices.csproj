@@ -3,11 +3,8 @@
     <TargetFramework>net5.0-windows10.0.19041</TargetFramework>
     <AssemblyOriginatorKeyFile>..\rssbandit.org.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Title>RSS Bandit Application Services</Title>
     <Description>Interfaces to be used by external components</Description>
-    <Company>www.rssbandit.org</Company>
-    <Copyright>(C) 2003-2018 by www.rssbandit.org</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
