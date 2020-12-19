@@ -1091,8 +1091,7 @@ namespace RssBandit.WinGui.Forms
 			this.panelWebDetail.TabIndex = 997;
 			// 
 			// htmlDetail
-			// 
-			this.htmlDetail.AllowDrop = true;
+			// 			
 			this.htmlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.htmlDetail.Enabled = true;
 			this.htmlDetail.Location = new System.Drawing.Point(0, 0);

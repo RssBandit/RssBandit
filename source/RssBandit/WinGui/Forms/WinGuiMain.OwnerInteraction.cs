@@ -764,14 +764,14 @@ namespace RssBandit.WinGui.Forms
 
             //hc.BeginInit();
             // we just take over some generic resource settings from htmlDetail:
-            hc.AllowDrop = true;
+            //hc.AllowDrop = true;            
             resources.ApplyResources(hc, "htmlDetail");
             hc.Name = tabName ?? String.Empty;
             // hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
             //  hc.ContainingControl = this;
             //hc.EndInit();
 
-            hc.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            hc.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;          
             
                        
             

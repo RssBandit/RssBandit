@@ -3194,6 +3194,7 @@ namespace RssBandit.WinGui.Forms
                     {
                         // not allowed: just display the Read On... 
                         stylesheet = (item.Feed != null && entry != null ? entry.Source.GetStyleSheet(item.Feed.link) : String.Empty);
+                        
                         htmlDetail.NavigateToString(owner.FormatNewsItem(stylesheet, item, searchCriterias));
                        // htmlDetail.Navigate(null);
                     }

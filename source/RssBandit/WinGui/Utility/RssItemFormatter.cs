@@ -102,11 +102,13 @@ namespace RssBandit.WinGui.Utility
 					
 				//FeedDemon styles use an $IMAGEDIR$ magic variable which we should account for
 				//stylesheet = stylesheet.Replace("$IMAGEDIR$", Path.Combine(Application.StartupPath,@"templates\images\")); 
-				Uri toImages;
-				Uri.TryCreate(Path.Combine(Application.StartupPath, @"templates\images\"), UriKind.Absolute, out toImages);
-				stylesheet = stylesheet.Replace("$IMAGEDIR$", toImages.AbsoluteUri); 
+				//Uri toImages;
+				//Uri.TryCreate(Path.Combine(Application.StartupPath, @"templates\images\"), UriKind.Absolute, out toImages);
+				//stylesheet = stylesheet.Replace("$IMAGEDIR$", toImages.AbsoluteUri); 
+				stylesheet = stylesheet.Replace("$IMAGEDIR$", "file:///templates/images/"); 
 
-				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
+
+                transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
 				
 				if(this.stylesheetTable.ContainsKey(name)){
 					this.stylesheetTable.Remove(name); 

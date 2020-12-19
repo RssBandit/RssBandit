@@ -17,8 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="0.9.515-prerelease" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.721-prerelease" />
     <Reference Include="blogExtension">
       <Name>blogExtension</Name>
       <HintPath>..\Common\Libraries\blogExtension.dll</HintPath>
