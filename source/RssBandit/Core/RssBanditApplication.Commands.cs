@@ -318,7 +318,7 @@ namespace RssBandit
                             "  * Mike Krueger (#ZipLib)\n" +
                             "  * Jack Palevich (NntpClient)\n" +
                             "  * Scott McMaster (WinInetAPI)\n" +
-                            "  * NetAdvantage for Windows Forms (c) 2017 by Infragistics, http://www.infragistics.com\n" +
+                            "  * NetAdvantage for Windows Forms (c) 2020 by Infragistics, http://www.infragistics.com\n" +
                             "  * SandBar, SandDock (c) 2005 by Divelements Limited, http://www.divil.co.uk/net/\n" +
                             "  * Portions Copyright ©2002-2004 The Genghis Group (www.genghisgroup.com)\n" +
                             "  * GitHub.com (Project hosting)", String.Format(SR.WindowAboutCaption,CaptionOnly),
