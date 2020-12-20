@@ -31,6 +31,7 @@ stages:
       displayName: 'Use .NET Core SDK 5.x'
       inputs:
         version: 5.x
+        includePreviewVersions: true
 
     - task: DotNetCoreCLI@2
       inputs:

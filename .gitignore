@@ -175,3 +175,4 @@ pip-log.txt
 
 # GhostDoc
 *.GhostDoc.xml
+*.binlog
