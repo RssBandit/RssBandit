@@ -45,6 +45,7 @@ stages:
 
         [xml]$nugetConfig = Get-Content $configFile
         $darcNodes = $nugetConfig.SelectNodes("/configuration/packageSources/add[starts-with(@key, 'darc-')]")
+        $dotnetNodes = $nugetConfig.SelectNodes("/configuration/packageSources/add[starts-with(@key, 'dotnet')]")
         
         $installationPath = Join-Path $env:AGENT_TOOLSDIRECTORY dotnet
 
@@ -65,7 +66,14 @@ stages:
           dotnet nuget add source $value -n $key
         }
 
-        dotnet nuget add source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json -n dotnet5        
+        # Add the dotnet nodes
+        foreach ($feed in $dotnetNodes) {
+          $key = $feed.attributes['key'].value
+          $value = $feed.attributes['value'].value
+
+          Write-Host "Adding dotnet feed '$key': $value"
+          dotnet nuget add source $value -n $key
+        }  
 
       displayName: Intall .NET 5.0.200-preview SDK
 
