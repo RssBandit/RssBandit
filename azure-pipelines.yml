@@ -86,7 +86,7 @@ stages:
 
     - publish: $(Build.ArtifactStagingDirectory)\logs
       displayName: Publish Binlogs
-      artifact: BuildLogs
+      artifact: BuildLogs-$(ReleaseChannel)
       condition: always()
     
     - publish: $(Build.ArtifactStagingDirectory)\$(ReleaseChannel)
