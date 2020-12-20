@@ -80,11 +80,11 @@ stages:
       displayName: Build Package
       inputs:
         solution: source/RssBandit.Package/RssBandit.Package.wapproj
-        msbuildArguments: /bl:logfile=$(Build.ArtifactStagingDirectory)\build.binlog /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
+        msbuildArguments: /bl:logfile=$(Build.ArtifactStagingDirectory)\logs\build-$(ReleaseChannel).binlog /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\$(ReleaseChannel)\\"
         configuration: $(BuildConfiguration)
         maximumCpuCount: true
 
-    - publish: $(Build.ArtifactStagingDirectory)\*.binlog
+    - publish: $(Build.ArtifactStagingDirectory)\logs
       displayName: Publish Binlogs
       artifact: BuildLogs
       condition: always()
