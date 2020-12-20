@@ -380,6 +380,9 @@ namespace RssBandit.WinGui.Forms
 			if (initializeControlUsage)
             {
 				AttachEvents(htmlDetail, false);
+                
+                // Add a virtual location we can load resources from
+                htmlDetail.CoreWebView2.SetVirtualHostNameToFolderMapping("templates.invalid", "templates", Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.DenyCors);
                 htmlDetail.NavigateToString("<html></html>");
             }
         }
