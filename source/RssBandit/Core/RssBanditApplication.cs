@@ -2079,23 +2079,12 @@ namespace RssBandit
 
             bool browserPrefsChanged = false;
 
-            if (Preferences.BrowserJavascriptAllowed != propertiesDialog.checkBrowserJavascriptAllowed.Checked ||
-                Preferences.BrowserJavaAllowed != propertiesDialog.checkBrowserJavaAllowed.Checked ||
-                Preferences.BrowserActiveXAllowed != propertiesDialog.checkBrowserActiveXAllowed.Checked ||
-                Preferences.BrowserBGSoundAllowed != propertiesDialog.checkBrowserBGSoundAllowed.Checked ||
-                Preferences.BrowserVideoAllowed != propertiesDialog.checkBrowserVideoAllowed.Checked ||
-                Preferences.BrowserImagesAllowed != propertiesDialog.checkBrowserImagesAllowed.Checked
-                )
+            if (Preferences.BrowserJavascriptAllowed != propertiesDialog.checkBrowserJavascriptAllowed.Checked)
             {
                 browserPrefsChanged = true;
             }
 
             Preferences.BrowserJavascriptAllowed = propertiesDialog.checkBrowserJavascriptAllowed.Checked;
-            Preferences.BrowserJavaAllowed = propertiesDialog.checkBrowserJavaAllowed.Checked;
-            Preferences.BrowserActiveXAllowed = propertiesDialog.checkBrowserActiveXAllowed.Checked;
-            Preferences.BrowserBGSoundAllowed = propertiesDialog.checkBrowserBGSoundAllowed.Checked;
-            Preferences.BrowserVideoAllowed = propertiesDialog.checkBrowserVideoAllowed.Checked;
-            Preferences.BrowserImagesAllowed = propertiesDialog.checkBrowserImagesAllowed.Checked;
 
             if (browserPrefsChanged)
             {
@@ -5068,6 +5057,9 @@ namespace RssBandit
         {
             if (!interceptUrlNavigation) return false;
 
+            if (string.IsNullOrWhiteSpace(webUrl) || webUrl.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+                return false;
+
             Uri url;
 
             try
@@ -5194,14 +5186,14 @@ namespace RssBandit
             return false;
         }
         
-		/// <summary>
-		/// Checks the and initialize IE browser emulation.
-		/// </summary>
-		internal static void CheckAndInitIEBrowserEmulation()
-		{
-			Win32.Registry.CheckAndInitInternetExplorerBrowserEmulation(
-				Path.GetFileName(Application.ExecutablePath), false);
-		}
+		///// <summary>
+		///// Checks the and initialize IE browser emulation.
+		///// </summary>
+		//internal static void CheckAndInitIEBrowserEmulation()
+		//{
+		//	Win32.Registry.CheckAndInitInternetExplorerBrowserEmulation(
+		//		Path.GetFileName(Application.ExecutablePath), false);
+		//}
 
         /// <summary>
         /// Checks and init sounds events.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -220,31 +220,6 @@ namespace RssBandit.AppServices
 		/// Sets/Get if Javascript should be allowed to execute
 		/// </summary>
 		bool BrowserJavascriptAllowed { get; }
-
-		/// <summary>
-		/// Sets/Get if Java should be allowed to execute
-		/// </summary>
-		bool BrowserJavaAllowed { get; }
-
-		/// <summary>
-		/// Sets/Get if ActiveX controls should be allowed to execute
-		/// </summary>
-		bool BrowserActiveXAllowed { get; }
-
-		/// <summary>
-		/// Sets/Get if background sounds are allowed to be played
-		/// </summary>
-		bool BrowserBGSoundAllowed { get; }
-
-		/// <summary>
-		/// Sets/Get if video can be played
-		/// </summary>
-		bool BrowserVideoAllowed { get; }
-
-		/// <summary>
-		/// Sets/Get if images should be loaded
-		/// </summary>
-		bool BrowserImagesAllowed { get; }
 
 		/// <summary>
 		/// Sets/Get the DisplayFeedAlertWindow enumeration value

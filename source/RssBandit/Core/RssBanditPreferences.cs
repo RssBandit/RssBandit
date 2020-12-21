@@ -970,72 +970,7 @@ namespace RssBandit
 				OnPropertyChanged();
 			}
 		}
-
-		/// <summary>
-		/// Sets/Get if Java should be allowed to execute
-		/// </summary>
-		public bool BrowserJavaAllowed { 
-			[DebuggerStepThrough]
-			get { return GetOption(OptionalFlags.AllowJavaInBrowser); }
-			set 
-			{
-				SetOption(OptionalFlags.AllowJavaInBrowser, value);
-				OnPropertyChanged();
-			}
-		}
-
-		/// <summary>
-		/// Sets/Get if ActiveX controls should be allowed to execute
-		/// </summary>
-		public bool BrowserActiveXAllowed { 
-			[DebuggerStepThrough]
-			get { return GetOption(OptionalFlags.AllowActiveXInBrowser); }
-			set 
-			{
-				SetOption(OptionalFlags.AllowActiveXInBrowser, value);
-				OnPropertyChanged();
-			}
-		}
-
-		/// <summary>
-		/// Sets/Get if background sounds are allowed to be played
-		/// </summary>
-		public bool BrowserBGSoundAllowed { 
-			[DebuggerStepThrough]
-			get { return GetOption(OptionalFlags.AllowBGSoundInBrowser); }
-			set 
-			{
-				SetOption(OptionalFlags.AllowBGSoundInBrowser, value);
-				OnPropertyChanged();
-			}
-		}
-
-		/// <summary>
-		/// Sets/Get if video can be played
-		/// </summary>
-		public bool BrowserVideoAllowed { 
-			[DebuggerStepThrough]
-			get { return GetOption(OptionalFlags.AllowVideoInBrowser); }
-			set 
-			{
-				SetOption(OptionalFlags.AllowVideoInBrowser, value);
-				OnPropertyChanged();
-			}
-		}
-
-		/// <summary>
-		/// Sets/Get if images should be loaded
-		/// </summary>
-		public bool BrowserImagesAllowed { 
-			[DebuggerStepThrough]
-			get { return GetOption(OptionalFlags.AllowImagesInBrowser); }
-			set 
-			{
-				SetOption(OptionalFlags.AllowImagesInBrowser, value);
-				OnPropertyChanged();
-			}
-		}
-
+        		
 		/// <summary>
 		/// Sets/Get the DisplayFeedAlertWindow enumeration value
 		/// </summary>
@@ -1269,23 +1204,8 @@ namespace RssBandit
 				FeedRefreshOnStartup = reader.Get(nameof(FeedRefreshOnStartup), true);
 			}
 			if (reader.Contains(nameof(BrowserJavascriptAllowed))) {
-				BrowserJavascriptAllowed = reader.Get(nameof(BrowserJavascriptAllowed), false);
-			}
-			if (reader.Contains(nameof(BrowserJavaAllowed))) {
-				BrowserJavaAllowed = reader.Get(nameof(BrowserJavaAllowed), false);
-			}
-			if (reader.Contains(nameof(BrowserActiveXAllowed))) {
-				BrowserActiveXAllowed = reader.Get(nameof(BrowserActiveXAllowed), false);
-			}
-			if (reader.Contains(nameof(BrowserBGSoundAllowed))) {
-				BrowserBGSoundAllowed = reader.Get(nameof(BrowserBGSoundAllowed), false);
-			}
-			if (reader.Contains(nameof(BrowserVideoAllowed))) {
-				BrowserVideoAllowed = reader.Get(nameof(BrowserVideoAllowed), false);
-			}
-			if (reader.Contains(nameof(BrowserImagesAllowed))) {
-				BrowserImagesAllowed = reader.Get(nameof(BrowserImagesAllowed), true);
-			}
+				BrowserJavascriptAllowed = reader.Get(nameof(BrowserJavascriptAllowed), true);
+			}		
 			
 			if (reader.Contains("ShowConfiguredAlertWindows")) {
 				bool showConfiguredAlertWindows = reader.Get("ShowConfiguredAlertWindows", false);

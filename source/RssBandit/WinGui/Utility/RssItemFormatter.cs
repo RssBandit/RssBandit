@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -100,13 +100,10 @@ namespace RssBandit.WinGui.Utility
 					stylesheet = DefaultNewsItemTemplate;
 				}	
 					
-				//FeedDemon styles use an $IMAGEDIR$ magic variable which we should account for
-				//stylesheet = stylesheet.Replace("$IMAGEDIR$", Path.Combine(Application.StartupPath,@"templates\images\")); 
-				Uri toImages;
-				Uri.TryCreate(Path.Combine(Application.StartupPath, @"templates\images\"), UriKind.Absolute, out toImages);
-				stylesheet = stylesheet.Replace("$IMAGEDIR$", toImages.AbsoluteUri); 
+				//FeedDemon styles use an $IMAGEDIR$ magic variable which we should account for				
+				stylesheet = stylesheet.Replace("$IMAGEDIR$", "https://templates.invalid/images/"); 
 
-				transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
+                transform.Load(new XmlTextReader(new StringReader(stylesheet))); 	
 				
 				if(this.stylesheetTable.ContainsKey(name)){
 					this.stylesheetTable.Remove(name); 

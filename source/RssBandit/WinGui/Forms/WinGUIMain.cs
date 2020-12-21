@@ -27,7 +27,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using IEControl;
 using Infragistics.Win;
 using Infragistics.Win.Misc;
 using Infragistics.Win.UltraWinExplorerBar;
@@ -59,6 +58,7 @@ using K = RssBandit.Utility.Keyboard;
 using RssBandit.WinGui.Controls.ThListView;
 using ToolTip=System.Windows.Forms.ToolTip;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -183,9 +183,9 @@ namespace RssBandit.WinGui.Forms
         private int _webTabCounter;
 
         // variables set in PreFilterMessage() to indicate the user clicked an url; reset also there on mouse-move, or within WebBeforeNavigate event
-        private bool _webUserNavigated;
-        private bool _webForceNewTab;
-        private Point _lastMousePosition = Point.Empty;
+        //private bool _webUserNavigated;
+        //private bool _webForceNewTab;
+        //private Point _lastMousePosition = Point.Empty;
 
         // GUI main components:
         private ImageList _allToolImages;
@@ -233,7 +233,7 @@ namespace RssBandit.WinGui.Forms
         private System.Timers.Timer _timerTreeNodeExpand;
         private System.Timers.Timer _timerRefreshFeeds;
         private System.Timers.Timer _timerRefreshCommentFeeds;
-        private HtmlControl htmlDetail;
+        private WebView2 htmlDetail;
         private StatusStrip _status;
         private ToolStripStatusLabel statusBarBrowser;
         private ToolStripStatusLabel statusBarBrowserProgress;
@@ -979,7 +979,7 @@ namespace RssBandit.WinGui.Forms
 			this.ultraToolTipManager = new Infragistics.Win.UltraWinToolTip.UltraToolTipManager(this.components);
 			this.panelFeedDetails = new System.Windows.Forms.Panel();
 			this.panelWebDetail = new System.Windows.Forms.Panel();
-			this.htmlDetail = new IEControl.HtmlControl();
+			this.htmlDetail = new WebView2();
 			this.detailsPaneSplitter = new RssBandit.WinGui.Controls.CollapsibleSplitter();
 			this.panelFeedItems = new System.Windows.Forms.Panel();
 			this.listFeedItemsO = new RssBandit.WinGui.Controls.UltraTreeExtended();
@@ -1091,14 +1091,11 @@ namespace RssBandit.WinGui.Forms
 			this.panelWebDetail.TabIndex = 997;
 			// 
 			// htmlDetail
-			// 
-			this.htmlDetail.AllowDrop = true;
+			// 			
 			this.htmlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.htmlDetail.Enabled = true;
 			this.htmlDetail.Location = new System.Drawing.Point(0, 0);
 			this.htmlDetail.Name = "htmlDetail";
-			this.htmlDetail.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("htmlDetail.OcxState")));
-			this.htmlDetail.RightToLeft = false;
 			this.helpProvider1.SetShowHelp(this.htmlDetail, false);
 			this.htmlDetail.Size = new System.Drawing.Size(402, 199);
 			this.htmlDetail.TabIndex = 170;
@@ -1701,7 +1698,7 @@ namespace RssBandit.WinGui.Forms
                 node.Finder.ShowFullItemContent);
         }
 
-        private void OnSearchPanelBeforeNewsItemSearch(object sender, NewsItemSearchCancelEventArgs e)
+        private async void OnSearchPanelBeforeNewsItemSearch(object sender, NewsItemSearchCancelEventArgs e)
         {
             // set status text
             SetSearchStatusText(SR.RssSearchStateMessage);
@@ -1783,7 +1780,10 @@ namespace RssBandit.WinGui.Forms
             resultContainer.Clear();
             UpdateTreeNodeUnreadStatus(resultContainer, 0);
             EmptyListView();
-            htmlDetail.Clear();
+
+            await htmlDetail.EnsureCoreWebView2Async();
+            htmlDetail.NavigateToString("<html></html>");
+
 
             e.ResultContainer = resultContainer;
             TreeSelectedFeedsNode = resultContainer;
@@ -1888,7 +1888,7 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
-        private void AsyncStartRssRemoteSearch(string searchPhrase, string searchUrl, bool mergeWithLocalResults,
+        private async void AsyncStartRssRemoteSearch(string searchPhrase, string searchUrl, bool mergeWithLocalResults,
                                                bool initialize)
         {
             AddTempResultNode();
@@ -1897,7 +1897,8 @@ namespace RssBandit.WinGui.Forms
             {
                 _searchResultNode.Clear();
                 EmptyListView();
-                htmlDetail.Clear();
+                await htmlDetail.EnsureCoreWebView2Async();
+                htmlDetail.NavigateToString("<html></html>");
                 TreeSelectedFeedsNode = _searchResultNode;
                 SetSearchStatusText(SR.RssSearchStateMessage);
             }
@@ -2324,7 +2325,7 @@ namespace RssBandit.WinGui.Forms
                             });
         }
 
-        private void OnFeedDeleted(object sender, FeedSourceFeedUrlTitleEventArgs e)
+        private async void OnFeedDeleted(object sender, FeedSourceFeedUrlTitleEventArgs e)
         {
             TreeFeedsNodeBase tn = CurrentSelectedFeedsNode;
 			
@@ -2353,7 +2354,8 @@ namespace RssBandit.WinGui.Forms
             {
                 // not just right-clicked elsewhere on a node:
                 EmptyListView();
-                htmlDetail.Clear();
+                await htmlDetail.EnsureCoreWebView2Async();
+                htmlDetail.NavigateToString("<html></html>");
 
                 TreeSelectedFeedsNode = TreeHelper.GetNewNodeToActivate(tn);
                 RefreshFeedDisplay(TreeSelectedFeedsNode, true);
