@@ -4146,7 +4146,7 @@ namespace RssBandit.WinGui.Forms
                     //framesAllowed = hc.FrameDownloadEnabled;
                 }
 
-                if (!isTab && userNavigates && UrlRequestHandledExternally(url, forceNewTab))
+                if (!tabCanClose && userNavigates && UrlRequestHandledExternally(url, forceNewTab))
                 {
                     e.Cancel = true;
                     return;
