@@ -28,6 +28,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 using Microsoft.WindowsAPICodePack.Shell;
 using TD.SandDock;
 using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Core;
 
 namespace RssBandit.WinGui.Forms
 {
@@ -340,40 +341,39 @@ namespace RssBandit.WinGui.Forms
         private void ResetHtmlDetail(bool initializeControlUsage)
         {
             // enable enhanced browser security available with XP SP2:
-          //  htmlDetail.EnhanceBrowserSecurityForProcess();
+            //  htmlDetail.EnhanceBrowserSecurityForProcess();
 
             // configurable settings:
-       //     htmlDetail.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
+            //     htmlDetail.ActiveXEnabled = owner.Preferences.BrowserActiveXAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ActiveXEnabled", typeof(bool), false);
             //HtmlControl.SetInternetFeatureEnabled(
             //    InternetFeatureList.FEATURE_RESTRICT_ACTIVEXINSTALL,
             //    SetFeatureFlag.SET_FEATURE_ON_PROCESS,
             //    htmlDetail.ActiveXEnabled);
-         //   htmlDetail.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
+            //   htmlDetail.ImagesDownloadEnabled = owner.Preferences.BrowserImagesAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ImagesDownloadEnabled", typeof(bool), true);
-         //   htmlDetail.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
+            //   htmlDetail.JavaEnabled = owner.Preferences.BrowserJavaAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.JavaEnabled", typeof(bool), false);
-       //     htmlDetail.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
+            //     htmlDetail.VideoEnabled = owner.Preferences.BrowserVideoAllowed;
             //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.VideoEnabled", typeof(bool), false);
-          //  htmlDetail.FrameDownloadEnabled =
-         //       RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", false);
+            //  htmlDetail.FrameDownloadEnabled =
+            //       RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.FrameDownloadEnabled", false);
             // hardcoded settings:
             //htmlDetail.Border3d = true;
             //htmlDetail.FlatScrollBars = true;
 
-            htmlDetail.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
-            //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ScriptEnabled", typeof(bool), true); //maybe this should be false by default?
-          //  htmlDetail.ScriptObject = null; // set this later to enable inner-HTML function calls
-         //   htmlDetail.ScrollBarsEnabled = true;
-         
-         //   htmlDetail.AllowInPlaceNavigation = false;
-#if DEBUG
-            // allow IEControl reporting of javascript errors while dev.:
-            //htmlDetail.SilentModeEnabled = false;
+            htmlDetail.CoreWebView2.Settings.AreHostObjectsAllowed = false;
+            htmlDetail.CoreWebView2.Settings.IsWebMessageEnabled = false;
 
-#else
-			this.htmlDetail.SilentModeEnabled = true;
-#endif
+            htmlDetail.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            
+            htmlDetail.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+            //(bool)RssBanditApplication.ReadAppSettingsEntry("FeedDetailPane.ScriptEnabled", typeof(bool), true); //maybe this should be false by default?
+            //  htmlDetail.ScriptObject = null; // set this later to enable inner-HTML function calls
+            //   htmlDetail.ScrollBarsEnabled = true;
+
+            //   htmlDetail.AllowInPlaceNavigation = false;
+
 
             htmlDetail.Tag = _docFeedDetails;
 
@@ -387,18 +387,20 @@ namespace RssBandit.WinGui.Forms
             }
         }
 
+        Dictionary<CoreWebView2, WebView2> webViewInstanceMap = new();
+
 		// MUST attach the same events that are detached in DetachEvents(...) !
-		private async void AttachEvents(WebView2 hc, bool isClosableWindow)
+		async void AttachEvents(WebView2 hc, bool isClosableWindow)
 		{
             await hc.EnsureCoreWebView2Async();
             var wv2 = hc.CoreWebView2;
 
-			//hc.StatusTextChanged += OnWebStatusTextChanged;
+            webViewInstanceMap[wv2] = hc;
 
-
+			//hc.StatusTextChanged += OnWebStatusTextChanged;            
             wv2.NavigationStarting += OnWebBeforeNavigate;
             wv2.NavigationCompleted += OnWebNavigateComplete;
-            
+                        
 			//hc.DocumentComplete += OnWebDocumentComplete;
 			
 			wv2.NewWindowRequested += OnWebNewWindow;
@@ -416,16 +418,13 @@ namespace RssBandit.WinGui.Forms
 			}
 		}
 
-        private void Hc_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         // MUST detach the same events that are attached in AttachEvents(...) !
         private void DetachEvents(WebView2 hc, bool isClosableWindow)
 		{
 
             var wv2 = hc.CoreWebView2;
+            webViewInstanceMap.Remove(wv2);
+
 
             wv2.NavigationStarting += OnWebBeforeNavigate;
             wv2.NavigationCompleted += OnWebNavigateComplete;

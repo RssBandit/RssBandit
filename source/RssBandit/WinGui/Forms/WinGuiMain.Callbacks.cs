@@ -4161,7 +4161,8 @@ namespace RssBandit.WinGui.Forms
             // so in general we do the same things here as in OnWebDocumentComplete()
             try
             {
-                var hc = (WebView2) sender;
+                var wv2 = (CoreWebView2) sender;
+                var hc = webViewInstanceMap[wv2];
 
                 //handle script errors on page
                 //var window = (HTMLWindowEvents2_Event) hc.Document2.GetParentWindow();
@@ -4169,7 +4170,7 @@ namespace RssBandit.WinGui.Forms
 
                 if(navigationMap.TryRemove(e.NavigationId, out var url))
                 {
-                    if (!string.IsNullOrEmpty(url) && !"about:blank".Equals(url, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(url) && !"about:blank".Equals(url, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(url) && !url.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
                     {
 
                         AddUrlToHistoryDropdown(url);
@@ -4279,7 +4280,16 @@ namespace RssBandit.WinGui.Forms
 
         private void OnWebNewWindow(object sender, CoreWebView2NewWindowRequestedEventArgs e)
         {
-			ConfiguredWebBrowserNewWindowAction(e.Uri, true);
+			if(e.IsUserInitiated)
+            {
+                owner.NavigateToUrlInExternalBrowser(e.Uri);
+            }
+            else
+            {
+                // Need to know if ctrl click....
+                ConfiguredWebBrowserNewWindowAction(e.Uri, true);
+            }            
+           
             e.Handled = true;
 			//e.Cancel = true;
         }

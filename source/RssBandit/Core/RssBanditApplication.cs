@@ -5068,6 +5068,9 @@ namespace RssBandit
         {
             if (!interceptUrlNavigation) return false;
 
+            if (string.IsNullOrWhiteSpace(webUrl) || webUrl.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+                return false;
+
             Uri url;
 
             try
