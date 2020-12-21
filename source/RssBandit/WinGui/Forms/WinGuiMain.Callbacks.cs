@@ -1094,12 +1094,12 @@ namespace RssBandit.WinGui.Forms
                     {
                         browser.Tag = null; // remove ref to containing doc
                     	DetachEvents(browser, true);
-                        browser.Source = new Uri("about:blank"); /* prevents media from continuing to play */ 
-						// browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
-                        System.Reflection.FieldInfo fi = typeof(System.Windows.Forms.AxHost).GetField("oleSite", 
-                            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-                        object o = fi.GetValue(browser);
-                        GC.SuppressFinalize(o);
+                        browser.Source = new Uri("about:blank"); /* prevents media from continuing to play */                        
+						//// browser.Dispose(); - see http://support.microsoft.com/kb/948838 for why we suprress finalization
+      //                  System.Reflection.FieldInfo fi = typeof(System.Windows.Forms.AxHost).GetField("oleSite", 
+      //                      System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+      //                  object o = fi.GetValue(browser);
+      //                  GC.SuppressFinalize(o);
                     }
                 }
                 catch (Exception ex)
@@ -1224,8 +1224,10 @@ namespace RssBandit.WinGui.Forms
             // about a still existing Offline Mode...
             Network.SetIEOffline(owner.InternetConnectionOffline);
 
-			RssBanditApplication.CheckAndInitIEBrowserEmulation();
+			//RssBanditApplication.CheckAndInitIEBrowserEmulation();
 			RssBanditApplication.CheckAndInitSoundEvents();
+
+            await htmlDetail.EnsureCoreWebView2Async();
 
 			Splash.Close();
 			
@@ -1764,37 +1766,37 @@ namespace RssBandit.WinGui.Forms
                             }
                         }
                 }
-                else if (m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONUP ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONUP ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONUP ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONDBLCLK ||
-                         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONUP)
-                {
-                    _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
+                //else if (m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONDBLCLK ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONDBLCLK ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONDBLCLK ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_LBUTTONUP ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_MBUTTONUP ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_RBUTTONUP ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONDBLCLK ||
+                //         m.Msg == (int) Win32.NativeMethods.Message.WM_XBUTTONUP)
+                //{
+                //    _lastMousePosition = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
 
-                    Control mouseControl = wheelSupport.GetTopmostVisibleChild(this, MousePosition);
-                    _webUserNavigated = (mouseControl is WebView2); // set
-                    _webForceNewTab = false;
-                    if (_webUserNavigated)
-                    {
-                        // CONTROL-Click opens a new Tab
-                        //_webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
-                    }
-                }
-                else if (m.Msg == (int) Win32.NativeMethods.Message.WM_MOUSEMOVE)
-                {
-                    var p = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
-                    if (Math.Abs(p.X - _lastMousePosition.X) > 5 ||
-                        Math.Abs(p.Y - _lastMousePosition.Y) > 5)
-                    {
-                        //Trace.WriteLine(String.Format("Reset mouse pos. Old: {0} New: {1}", _lastMousePosition, p));
-                        _webForceNewTab = _webUserNavigated = false; // reset
-                        _lastMousePosition = p;
-                    }
-                }
+                //    Control mouseControl = wheelSupport.GetTopmostVisibleChild(this, MousePosition);
+                //    _webUserNavigated = (mouseControl is WebView2); // set
+                //    _webForceNewTab = false;
+                //    if (_webUserNavigated)
+                //    {
+                //        // CONTROL-Click opens a new Tab
+                //        //_webForceNewTab = (IEControl.Interop.GetAsyncKeyState(IEControl.Interop.VK_CONTROL) < 0);
+                //    }
+                //}
+                //else if (m.Msg == (int) Win32.NativeMethods.Message.WM_MOUSEMOVE)
+                //{
+                //    var p = new Point(Win32.LOWORD(m.LParam), Win32.HIWORD(m.LParam));
+                //    if (Math.Abs(p.X - _lastMousePosition.X) > 5 ||
+                //        Math.Abs(p.Y - _lastMousePosition.Y) > 5)
+                //    {
+                //        //Trace.WriteLine(String.Format("Reset mouse pos. Old: {0} New: {1}", _lastMousePosition, p));
+                //        _webForceNewTab = _webUserNavigated = false; // reset
+                //        _lastMousePosition = p;
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -4090,18 +4092,19 @@ namespace RssBandit.WinGui.Forms
 
         private void OnWebBeforeNavigate(object sender, CoreWebView2NavigationStartingEventArgs e)
         {
-            bool userNavigates = _webUserNavigated;
-            bool forceNewTab = _webForceNewTab;
+            bool userNavigates = e.IsUserInitiated;
+            //bool forceNewTab = _webForceNewTab;
+            bool forceNewTab = (ModifierKeys & Keys.Control) == Keys.Control;
 
             string url = e.Uri;
             navigationMap.TryAdd(e.NavigationId, url);
 
-            if (!url.ToLower().StartsWith("javascript:"))
-            {
-                _webForceNewTab = _webUserNavigated = false; // reset, but keep it for the OnWebBeforeNewWindow event
-            }
+            //if (!url.ToLower().StartsWith("javascript:"))
+            //{
+            //    _webForceNewTab = _webUserNavigated = false; // reset, but keep it for the OnWebBeforeNewWindow event
+            //}
 
-            if (!url.Equals("about:blank"))
+            if (!url.Equals("about:blank") && !url.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
             {
                 if (owner.InterceptUrlNavigation(url))
                 {
@@ -4122,9 +4125,10 @@ namespace RssBandit.WinGui.Forms
                 if ((ModifierKeys & Keys.Control) == Keys.Control)
                     forceSetFocus = false;
 
-                var hc = sender as WebView2;
-                if (hc != null)
+                var wv2 = sender as CoreWebView2;
+                if (wv2 != null)
                 {
+                    var hc = webViewInstanceMap[wv2];
                     var dc = (DockControl) hc.Tag;
                     var ts = (ITabState) dc.Tag;
                     tabCanClose = ts.CanClose;
@@ -4240,14 +4244,15 @@ namespace RssBandit.WinGui.Forms
         {
             try
             {
-                var hc = (WebView2) sender;
+                var wv2 = (CoreWebView2) sender;
+                var hc = webViewInstanceMap[wv2];
                 if (hc == null) return;
                 var doc = (DockControl) hc.Tag;
                 if (doc == null) return;
                 var state = (ITabState) doc.Tag;
                 if (state == null) return;
 
-                state.Title = hc.CoreWebView2.DocumentTitle;
+                state.Title = wv2.DocumentTitle;
                 RefreshDocumentState(doc);
             }
             catch (Exception ex)
@@ -4287,7 +4292,8 @@ namespace RssBandit.WinGui.Forms
             else
             {
                 // Need to know if ctrl click....
-                ConfiguredWebBrowserNewWindowAction(e.Uri, true);
+                bool isCtrl = (ModifierKeys & Keys.Control) == Keys.Control;
+                ConfiguredWebBrowserNewWindowAction(e.Uri, true, false, isCtrl);
             }            
            
             e.Handled = true;
@@ -4317,14 +4323,14 @@ namespace RssBandit.WinGui.Forms
 		//	e.Cancel = true;
 		//}
 
-		private void ConfiguredWebBrowserNewWindowAction(string url, bool forceSetFocus)
+		private void ConfiguredWebBrowserNewWindowAction(string url, bool forceSetFocus, bool isUserInitiated, bool forceNewTab)
 		{
 			try
 			{
-				bool userNavigates = _webUserNavigated;
-				bool forceNewTab = _webForceNewTab;
+				bool userNavigates = isUserInitiated;
+				//bool forceNewTab = forceNewTab;
 
-				_webForceNewTab = _webUserNavigated = false; // reset
+				//_webForceNewTab = _webUserNavigated = false; // reset
 
 				//const bool forceSetFocus = true;
 				// Tab in background, but IEControl does NOT display/render!!!    !(Interop.GetAsyncKeyState(Interop.VK_MENU) < 0);

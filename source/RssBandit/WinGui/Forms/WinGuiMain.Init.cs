@@ -425,11 +425,10 @@ namespace RssBandit.WinGui.Forms
             var wv2 = hc.CoreWebView2;
             webViewInstanceMap.Remove(wv2);
 
+            wv2.NavigationStarting -= OnWebBeforeNavigate;
+            wv2.NavigationCompleted -= OnWebNavigateComplete;
 
-            wv2.NavigationStarting += OnWebBeforeNavigate;
-            wv2.NavigationCompleted += OnWebNavigateComplete;
-
-            wv2.NewWindowRequested += OnWebNewWindow;
+            wv2.NewWindowRequested -= OnWebNewWindow;
 
 
 			//hc.ProgressChanged -= OnWebProgressChanged;
@@ -437,8 +436,9 @@ namespace RssBandit.WinGui.Forms
 
 			if (isClosableWindow)
 			{
-                wv2.WindowCloseRequested += OnWebQuit;
-                wv2.DocumentTitleChanged += OnWebTitleChanged;
+
+                wv2.WindowCloseRequested -= OnWebQuit;
+                wv2.DocumentTitleChanged -= OnWebTitleChanged;
                 //hc.CommandStateChanged -= OnWebCommandStateChanged;
 			}
 		}

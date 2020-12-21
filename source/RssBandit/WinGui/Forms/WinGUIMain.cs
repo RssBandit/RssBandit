@@ -183,9 +183,9 @@ namespace RssBandit.WinGui.Forms
         private int _webTabCounter;
 
         // variables set in PreFilterMessage() to indicate the user clicked an url; reset also there on mouse-move, or within WebBeforeNavigate event
-        private bool _webUserNavigated;
-        private bool _webForceNewTab;
-        private Point _lastMousePosition = Point.Empty;
+        //private bool _webUserNavigated;
+        //private bool _webForceNewTab;
+        //private Point _lastMousePosition = Point.Empty;
 
         // GUI main components:
         private ImageList _allToolImages;
