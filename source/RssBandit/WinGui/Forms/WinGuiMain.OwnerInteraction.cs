@@ -752,7 +752,16 @@ namespace RssBandit.WinGui.Forms
             currentDoc.Activate();
             _docContainer.ActiveDocument = (setFocus ? currentDoc : previousDoc);
 
-            hc.Source = new Uri(url);
+            if(!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            {
+                // try to to prepend with https
+                if(!Uri.TryCreate($"https://{url}", UriKind.Absolute, out uri))
+                {
+                    return;
+                }
+            }
+
+            hc.Source = uri;
         }
 
         private async Task<WebView2> CreateAndInitIEControl(string tabName)
@@ -765,14 +774,16 @@ namespace RssBandit.WinGui.Forms
             //hc.BeginInit();
             // we just take over some generic resource settings from htmlDetail:
             //hc.AllowDrop = true;            
-            resources.ApplyResources(hc, "htmlDetail");
+        //    resources.ApplyResources(hc, "htmlDetail");
             hc.Name = tabName ?? String.Empty;
             // hc.OcxState = ((AxHost.State) (resources.GetObject("htmlDetail.OcxState")));
             //  hc.ContainingControl = this;
             //hc.EndInit();
 
-            hc.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;          
-            
+            hc.CoreWebView2.Settings.IsScriptEnabled = owner.Preferences.BrowserJavascriptAllowed;
+            hc.CoreWebView2.Settings.AreHostObjectsAllowed = false;
+            hc.CoreWebView2.Settings.IsWebMessageEnabled = false;
+
                        
             
             //hc.BackroundSoundEnabled = owner.Preferences.BrowserBGSoundAllowed;

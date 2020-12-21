@@ -4126,16 +4126,27 @@ namespace RssBandit.WinGui.Forms
                     forceSetFocus = false;
 
                 var wv2 = sender as CoreWebView2;
+
+                var isTab = false;
                 if (wv2 != null)
                 {
                     var hc = webViewInstanceMap[wv2];
                     var dc = (DockControl) hc.Tag;
-                    var ts = (ITabState) dc.Tag;
-                    tabCanClose = ts.CanClose;
+                    if (dc != null)
+                    {
+                        isTab = true;
+                        var ts = (ITabState)dc.Tag;
+                        tabCanClose = ts.CanClose;
+                    }
+                    else
+                    {
+                        tabCanClose = false; // not a tab
+                    }
+                    
                     //framesAllowed = hc.FrameDownloadEnabled;
                 }
 
-                if (userNavigates && UrlRequestHandledExternally(url, forceNewTab))
+                if (!isTab && userNavigates && UrlRequestHandledExternally(url, forceNewTab))
                 {
                     e.Cancel = true;
                     return;
