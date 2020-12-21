@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -326,7 +326,13 @@ namespace RssBandit.WinGui
 			if (uri == null)
 				return pageUrl;
 			string leftPart = uri.GetLeftPart(UriPartial.Path);
-			return leftPart.Substring(0, leftPart.LastIndexOf("/"));
+
+            if("http".Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase) || "https".Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase) && leftPart.Contains("/", StringComparison.Ordinal))
+            {
+                return leftPart.Substring(0, leftPart.LastIndexOf("/"));
+            }
+
+            return pageUrl;
 		}
 		
 		
