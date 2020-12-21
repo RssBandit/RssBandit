@@ -1269,7 +1269,7 @@ namespace RssBandit
 				FeedRefreshOnStartup = reader.Get(nameof(FeedRefreshOnStartup), true);
 			}
 			if (reader.Contains(nameof(BrowserJavascriptAllowed))) {
-				BrowserJavascriptAllowed = reader.Get(nameof(BrowserJavascriptAllowed), false);
+				BrowserJavascriptAllowed = reader.Get(nameof(BrowserJavascriptAllowed), true);
 			}
 			if (reader.Contains(nameof(BrowserJavaAllowed))) {
 				BrowserJavaAllowed = reader.Get(nameof(BrowserJavaAllowed), false);
