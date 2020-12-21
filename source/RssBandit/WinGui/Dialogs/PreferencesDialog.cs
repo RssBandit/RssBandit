@@ -1,4 +1,4 @@
-#region Version Info Header
+﻿#region Version Info Header
 /*
  * $Id$
  * $HeadURL$
@@ -247,14 +247,16 @@ namespace RssBandit.WinGui.Dialogs {
 			InitWebSearchEnginesTab();
             
 			checkBrowserJavascriptAllowed.Checked = prefs.BrowserJavascriptAllowed;
-			checkBrowserJavaAllowed.Checked = prefs.BrowserJavaAllowed;
-			checkBrowserActiveXAllowed.Checked = prefs.BrowserActiveXAllowed;
-			checkBrowserBGSoundAllowed.Checked = prefs.BrowserBGSoundAllowed;
-			checkBrowserVideoAllowed.Checked = prefs.BrowserVideoAllowed;
-			checkBrowserImagesAllowed.Checked = prefs.BrowserImagesAllowed;
-			
-			//set enclosure related settings 
-			ICoreApplication rssBanditApp = IoC.Resolve<ICoreApplication>();
+
+            // TODO: Remove 
+            checkBrowserJavaAllowed.Visible = false;
+			checkBrowserActiveXAllowed.Visible = false;
+            checkBrowserBGSoundAllowed.Visible = false;
+            checkBrowserVideoAllowed.Visible = false;
+            checkBrowserImagesAllowed.Visible = false;
+
+            //set enclosure related settings 
+            ICoreApplication rssBanditApp = IoC.Resolve<ICoreApplication>();
 			textEnclosureDirectory.Text = rssBanditApp.EnclosureFolder; 
 			checkDownloadCreateFolderPerFeed.Checked = rssBanditApp.DownloadCreateFolderPerFeed;			
 			checkEnableEnclosureAlerts.Checked = rssBanditApp.EnableEnclosureAlerts;
