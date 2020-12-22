@@ -1,4 +1,4 @@
-#region CVS Version Header
+﻿#region CVS Version Header
 /*
  * $Id$
  * Last modified by $Author$
@@ -126,7 +126,6 @@ namespace RssBandit.WinGui.Dialogs
 			InitializeComponent();
 			InitializeComponentTranslation();
 			
-			this.Load += this.OnForm_Load;
 			this.btnRemoveCertificate.Click += this.OnButtonRemoveCertificateClick;
 			this.btnSelectCertificate.Click += this.OnButtonSelectCertificateClick;
 			this.btnViewCertificate.Click += this.OnButtonViewCertificateClick;
@@ -229,16 +228,6 @@ namespace RssBandit.WinGui.Dialogs
 			}
 		}
 	
-		private void OnTabControl_Resize(object sender, EventArgs e) {
-		 	// fix the wide screen Tab Control issue by resize ourselfs the panels at the first Tab:
-			panelItemControl.SetBounds(0,0, tabControl.Width - 2*panelItemControl.Location.X, 0, BoundsSpecified.Width);
-		}
-
-		private void OnForm_Load(object sender, EventArgs e) {
-		 	// fix the wide screen Tab Control issue by resize ourselfs the panels at the first Tab:
-			OnTabControl_Resize(this, EventArgs.Empty);
-		}
-
 		private void OnButtonSelectCertificateClick(object sender, EventArgs e)
 		{
 			X509Certificate2 cert = CertificateHelper.SelectCertificate(

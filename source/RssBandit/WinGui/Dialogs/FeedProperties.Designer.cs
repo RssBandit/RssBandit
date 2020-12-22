@@ -181,13 +181,11 @@ namespace RssBandit.WinGui.Dialogs
 			this.tabControl.Controls.Add(this.tabDisplay);
 			this.tabControl.Controls.Add(this.tabAttachments);
 			this.tabControl.HotTrack = true;
-			this.tabControl.ItemSize = new System.Drawing.Size(72, 18);
 			this.tabControl.Location = new System.Drawing.Point(5, 150);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(425, 141);
 			this.tabControl.TabIndex = 8;
-			this.tabControl.Resize += new System.EventHandler(this.OnTabControl_Resize);
 			// 
 			// tabItemControl
 			// 
