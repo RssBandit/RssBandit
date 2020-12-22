@@ -655,6 +655,11 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   border-top: 1px dotted #CBCBCB;
   }
 
+  div.PostContent img {
+  max-width: 70%;
+  }
+
+
   div.PostItemContent {
   font-size: small;
   margin: 10px 0px 10px 0px;
