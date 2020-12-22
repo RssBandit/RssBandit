@@ -9,8 +9,6 @@ The latest version is available in the Microsoft Store:
 
 Binaries/installer supporting older windows releases is available at https://rssbandit.org/download/rss-bandit-download/
 
-Users are welcome to discuss at https://gitter.im/RSSBandit/
-
 ## Specifications
 - RSS 0.91: https://www.rssboard.org/rss-0-9-1-netscape
 - RSS 0.92: http://backend.userland.com/rss092, http://www.rssboard.org/rss-0-9-2
