@@ -106,9 +106,4 @@
       </FeedColumnLayout>
     </listview-layout>
   </listview-layouts>
-  <nntp-servers>
-    <server name='Microsoft'>
-      <server-address>news.microsoft.com</server-address>
-    </server>
-  </nntp-servers>
 </feeds>
