@@ -656,11 +656,20 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   max-width: 70%;
   }
 
+  div.PostContent img {
+  max-width: 70%;
+  }
+
+
   div.PostItemContent {
   font-size: small;
   margin: 10px 0px 10px 0px;
   padding: 10px 0px 10px 0px;
   border-bottom: 1px dotted #CBCBCB;
+  }
+
+  div.PostItemContent img {
+  max-width: 70%;
   }
 
   div.PostSignature {
