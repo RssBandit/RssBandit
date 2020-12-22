@@ -662,6 +662,10 @@ exclude-result-prefixes='wfw content slash dc fd bndt localized gr ng'>
   border-bottom: 1px dotted #CBCBCB;
   }
 
+  div.PostItemContent img {
+  max-width: 70%;
+  }
+
   div.PostSignature {
   text-align: right;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
