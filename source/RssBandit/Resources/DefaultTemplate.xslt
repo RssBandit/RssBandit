@@ -848,10 +848,10 @@ function getItemDivs(){
    currentIndex = 0; 
   }
   
-  if( previousItem == null || currentItem.id != previousItem.id){
-    highlightCurrentItem(StartFadeAt); 
-    deselect(previousItem); 
-  }
+  //if( previousItem == null || currentItem.id != previousItem.id){
+  //  highlightCurrentItem(StartFadeAt); 
+  //  deselect(previousItem); 
+  //}
   
   /* For each item between current and previous, If unread we mark it read then call out to RSS Bandit by calling click() */
   if(movedDown){
