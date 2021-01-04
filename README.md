@@ -3,8 +3,9 @@
 
 RSS Bandit is a Windows Application to consume and read NNTP, RSS and ATOM feeds. Supports **NNTP, RSS 0.91, 0.92, 1.0, 2.0 and ATOM**.
 
-The latest version is available in the Microsoft Store: 
-<a href='//www.microsoft.com/store/apps/9PKZQ89JRBCW?cid=storebadge&ocid=badge'><img src='https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png' alt='English badge' style='width: 284px; height: 104px;'/></a>
+The latest version is available in the Microsoft Store:
+
+<a href='//www.microsoft.com/store/apps/9PKZQ89JRBCW?cid=storebadge&ocid=badge'><img src='https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png' alt='English badge' width="284" height="104" /></a>
 
 Binaries/installer supporting older windows releases is available at https://rssbandit.org/download/rss-bandit-download/
 
