@@ -59,7 +59,7 @@
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" ExcludeAssets="all" PrivateAssets="all">
       <IncludeAssets>none</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" privateassets="all" />
