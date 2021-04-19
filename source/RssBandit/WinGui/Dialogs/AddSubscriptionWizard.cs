@@ -695,11 +695,11 @@ namespace RssBandit.WinGui.Dialogs
 				newUrl = reqUri.CanonicalizedUri();
 			else
 			{
-				if(!newUrl.ToLower().StartsWith("http://"))
+				if(!newUrl.ToLower().StartsWith("https://"))
 				{
 					try
 					{
-						reqUri = new Uri("http://" + newUrl);
+						reqUri = new Uri("https://" + newUrl);
 						newUrl = reqUri.CanonicalizedUri();
 					}
 					catch (UriFormatException ex)
