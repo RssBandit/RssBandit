@@ -177,7 +177,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>    
-    <PackageReference Include="CommonServiceLocator" Version="2.0.5" />        
+    <PackageReference Include="CommonServiceLocator" Version="2.0.6" />        
     <PackageReference Include="Divelements.WizardFramework" Version="1.2.22" />        
     <PackageReference Include="Infragistics.WinForms.Editors" Version="20.2.14" />
     <PackageReference Include="Infragistics.WinForms.ExplorerBar" Version="20.2.14" />
