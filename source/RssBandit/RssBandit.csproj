@@ -188,7 +188,7 @@
     
     <PackageReference Include="SingleInstanceHelper" Version="1.0.3" />
     <PackageReference Include="SoapFormatter" Version="1.0.11" />
-    <PackageReference Include="Unity" Version="5.11.9" />
+    <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <Target Name="ClearLicenseFiles" BeforeTargets="Compile">
